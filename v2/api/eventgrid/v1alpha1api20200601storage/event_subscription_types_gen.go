@@ -150,6 +150,14 @@ func (subscription *EventSubscription) AssignProperties_From_EventSubscription(s
 	}
 	subscription.Status = status
 
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription); ok {
+		err := augmentedSubscription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -176,6 +184,14 @@ func (subscription *EventSubscription) AssignProperties_To_EventSubscription(des
 	}
 	destination.Status = status
 
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription); ok {
+		err := augmentedSubscription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -196,6 +212,11 @@ type EventSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []EventSubscription `json:"items"`
+}
+
+type augmentConversionForEventSubscription interface {
+	AssignPropertiesFrom(src *v20200601s.EventSubscription) error
+	AssignPropertiesTo(dst *v20200601s.EventSubscription) error
 }
 
 // Storage version of v1alpha1api20200601.EventSubscription_Spec
@@ -353,6 +374,14 @@ func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscript
 		subscription.PropertyBag = nil
 	}
 
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription_Spec); ok {
+		err := augmentedSubscription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -438,6 +467,14 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription_Spec); ok {
+		err := augmentedSubscription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -613,6 +650,14 @@ func (subscription *EventSubscription_STATUS) AssignProperties_From_EventSubscri
 		subscription.PropertyBag = nil
 	}
 
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription_STATUS); ok {
+		err := augmentedSubscription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -716,8 +761,26 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 		destination.PropertyBag = nil
 	}
 
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription_STATUS); ok {
+		err := augmentedSubscription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForEventSubscription_Spec interface {
+	AssignPropertiesFrom(src *v20200601s.EventSubscription_Spec) error
+	AssignPropertiesTo(dst *v20200601s.EventSubscription_Spec) error
+}
+
+type augmentConversionForEventSubscription_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.EventSubscription_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.EventSubscription_STATUS) error
 }
 
 // Storage version of v1alpha1api20200601.DeadLetterDestination
@@ -751,6 +814,14 @@ func (destination *DeadLetterDestination) AssignProperties_From_DeadLetterDestin
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDeadLetterDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -777,6 +848,14 @@ func (destination *DeadLetterDestination) AssignProperties_To_DeadLetterDestinat
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDeadLetterDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -814,6 +893,14 @@ func (destination *DeadLetterDestination_STATUS) AssignProperties_From_DeadLette
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDeadLetterDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -840,6 +927,14 @@ func (destination *DeadLetterDestination_STATUS) AssignProperties_To_DeadLetterD
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDeadLetterDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -955,6 +1050,14 @@ func (destination *EventSubscriptionDestination) AssignProperties_From_EventSubs
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1053,6 +1156,14 @@ func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscr
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1168,6 +1279,14 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_From_Ev
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1268,6 +1387,14 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_Even
 		target.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1330,6 +1457,14 @@ func (filter *EventSubscriptionFilter) AssignProperties_From_EventSubscriptionFi
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForEventSubscriptionFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1379,6 +1514,14 @@ func (filter *EventSubscriptionFilter) AssignProperties_To_EventSubscriptionFilt
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForEventSubscriptionFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1443,6 +1586,14 @@ func (filter *EventSubscriptionFilter_STATUS) AssignProperties_From_EventSubscri
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForEventSubscriptionFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1494,6 +1645,14 @@ func (filter *EventSubscriptionFilter_STATUS) AssignProperties_To_EventSubscript
 		destination.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForEventSubscriptionFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1524,6 +1683,14 @@ func (policy *RetryPolicy) AssignProperties_From_RetryPolicy(source *v20200601s.
 		policy.PropertyBag = nil
 	}
 
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForRetryPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1544,6 +1711,14 @@ func (policy *RetryPolicy) AssignProperties_To_RetryPolicy(destination *v2020060
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForRetryPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1576,6 +1751,14 @@ func (policy *RetryPolicy_STATUS) AssignProperties_From_RetryPolicy_STATUS(sourc
 		policy.PropertyBag = nil
 	}
 
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForRetryPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1596,6 +1779,14 @@ func (policy *RetryPolicy_STATUS) AssignProperties_To_RetryPolicy_STATUS(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForRetryPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1776,6 +1967,14 @@ func (filter *AdvancedFilter) AssignProperties_From_AdvancedFilter(source *v2020
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1934,6 +2133,14 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2114,6 +2321,14 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_From_AdvancedFilter_STATUS
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2274,8 +2489,56 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 		destination.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDeadLetterDestination interface {
+	AssignPropertiesFrom(src *v20200601s.DeadLetterDestination) error
+	AssignPropertiesTo(dst *v20200601s.DeadLetterDestination) error
+}
+
+type augmentConversionForDeadLetterDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.DeadLetterDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.DeadLetterDestination_STATUS) error
+}
+
+type augmentConversionForEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v20200601s.EventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v20200601s.EventSubscriptionDestination) error
+}
+
+type augmentConversionForEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.EventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.EventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForEventSubscriptionFilter interface {
+	AssignPropertiesFrom(src *v20200601s.EventSubscriptionFilter) error
+	AssignPropertiesTo(dst *v20200601s.EventSubscriptionFilter) error
+}
+
+type augmentConversionForEventSubscriptionFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.EventSubscriptionFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.EventSubscriptionFilter_STATUS) error
+}
+
+type augmentConversionForRetryPolicy interface {
+	AssignPropertiesFrom(src *v20200601s.RetryPolicy) error
+	AssignPropertiesTo(dst *v20200601s.RetryPolicy) error
+}
+
+type augmentConversionForRetryPolicy_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.RetryPolicy_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.RetryPolicy_STATUS) error
 }
 
 // Storage version of v1alpha1api20200601.AzureFunctionEventSubscriptionDestination
@@ -2317,6 +2580,14 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_F
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForAzureFunctionEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2348,6 +2619,14 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_T
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForAzureFunctionEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2388,6 +2667,14 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignPrope
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForAzureFunctionEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2414,6 +2701,14 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignPrope
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForAzureFunctionEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2451,6 +2746,14 @@ func (destination *EventHubEventSubscriptionDestination) AssignProperties_From_E
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventHubEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2476,6 +2779,14 @@ func (destination *EventHubEventSubscriptionDestination) AssignProperties_To_Eve
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventHubEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2508,6 +2819,14 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventHubEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2528,6 +2847,14 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventHubEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2565,6 +2892,14 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForHybridConnectionEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2590,6 +2925,14 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForHybridConnectionEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2622,6 +2965,14 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignPr
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForHybridConnectionEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2642,6 +2993,14 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignPr
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForHybridConnectionEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2679,6 +3038,14 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusQueueEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2704,6 +3071,14 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusQueueEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2736,6 +3111,14 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignPro
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusQueueEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2756,6 +3139,14 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignPro
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusQueueEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2793,6 +3184,14 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusTopicEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2818,6 +3217,14 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusTopicEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2850,6 +3257,14 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignPro
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusTopicEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2870,6 +3285,14 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignPro
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusTopicEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2911,6 +3334,14 @@ func (destination *StorageBlobDeadLetterDestination) AssignProperties_From_Stora
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageBlobDeadLetterDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2939,6 +3370,14 @@ func (destination *StorageBlobDeadLetterDestination) AssignProperties_To_Storage
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageBlobDeadLetterDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2975,6 +3414,14 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_Fro
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageBlobDeadLetterDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2998,6 +3445,14 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_To_
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageBlobDeadLetterDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3039,6 +3494,14 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_Fr
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageQueueEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3067,6 +3530,14 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_To
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageQueueEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3103,6 +3574,14 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProper
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageQueueEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3126,6 +3605,14 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProper
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageQueueEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3179,6 +3666,14 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_From_We
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForWebHookEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3216,6 +3711,14 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_To_WebH
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForWebHookEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3264,6 +3767,14 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForWebHookEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3298,8 +3809,106 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_
 		target.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForWebHookEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.AdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.AdvancedFilter) error
+}
+
+type augmentConversionForAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.AdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.AdvancedFilter_STATUS) error
+}
+
+type augmentConversionForAzureFunctionEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v20200601s.AzureFunctionEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v20200601s.AzureFunctionEventSubscriptionDestination) error
+}
+
+type augmentConversionForAzureFunctionEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForEventHubEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v20200601s.EventHubEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v20200601s.EventHubEventSubscriptionDestination) error
+}
+
+type augmentConversionForEventHubEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.EventHubEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.EventHubEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForHybridConnectionEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v20200601s.HybridConnectionEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v20200601s.HybridConnectionEventSubscriptionDestination) error
+}
+
+type augmentConversionForHybridConnectionEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForServiceBusQueueEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v20200601s.ServiceBusQueueEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v20200601s.ServiceBusQueueEventSubscriptionDestination) error
+}
+
+type augmentConversionForServiceBusQueueEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForServiceBusTopicEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v20200601s.ServiceBusTopicEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v20200601s.ServiceBusTopicEventSubscriptionDestination) error
+}
+
+type augmentConversionForServiceBusTopicEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForStorageBlobDeadLetterDestination interface {
+	AssignPropertiesFrom(src *v20200601s.StorageBlobDeadLetterDestination) error
+	AssignPropertiesTo(dst *v20200601s.StorageBlobDeadLetterDestination) error
+}
+
+type augmentConversionForStorageBlobDeadLetterDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.StorageBlobDeadLetterDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.StorageBlobDeadLetterDestination_STATUS) error
+}
+
+type augmentConversionForStorageQueueEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v20200601s.StorageQueueEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v20200601s.StorageQueueEventSubscriptionDestination) error
+}
+
+type augmentConversionForStorageQueueEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.StorageQueueEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.StorageQueueEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForWebHookEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v20200601s.WebHookEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v20200601s.WebHookEventSubscriptionDestination) error
+}
+
+type augmentConversionForWebHookEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.WebHookEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.WebHookEventSubscriptionDestination_STATUS) error
 }
 
 // Storage version of v1alpha1api20200601.BoolEqualsAdvancedFilter
@@ -3337,6 +3946,14 @@ func (filter *BoolEqualsAdvancedFilter) AssignProperties_From_BoolEqualsAdvanced
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForBoolEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3365,6 +3982,14 @@ func (filter *BoolEqualsAdvancedFilter) AssignProperties_To_BoolEqualsAdvancedFi
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForBoolEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3406,6 +4031,14 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_From_BoolEqualsA
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForBoolEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3434,6 +4067,14 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_To_BoolEqualsAdv
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForBoolEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3475,6 +4116,14 @@ func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_From_NumberGreat
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3503,6 +4152,14 @@ func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_To_NumberGreater
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3544,6 +4201,14 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_From_Numb
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3572,6 +4237,14 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_To_Number
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3613,6 +4286,14 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_From_Num
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3641,6 +4322,14 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_To_Numbe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3682,6 +4371,14 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_F
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3710,6 +4407,14 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_T
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3756,6 +4461,14 @@ func (filter *NumberInAdvancedFilter) AssignProperties_From_NumberInAdvancedFilt
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3789,6 +4502,14 @@ func (filter *NumberInAdvancedFilter) AssignProperties_To_NumberInAdvancedFilter
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3835,6 +4556,14 @@ func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_From_NumberInAdvan
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3868,6 +4597,14 @@ func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_To_NumberInAdvance
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3909,6 +4646,14 @@ func (filter *NumberLessThanAdvancedFilter) AssignProperties_From_NumberLessThan
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3937,6 +4682,14 @@ func (filter *NumberLessThanAdvancedFilter) AssignProperties_To_NumberLessThanAd
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3978,6 +4731,14 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_From_NumberL
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4006,6 +4767,14 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_To_NumberLes
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4047,6 +4816,14 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_From_Number
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanOrEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4075,6 +4852,14 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_To_NumberLe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanOrEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4116,6 +4901,14 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanOrEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4144,6 +4937,14 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_To_N
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanOrEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4190,6 +4991,14 @@ func (filter *NumberNotInAdvancedFilter) AssignProperties_From_NumberNotInAdvanc
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberNotInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4223,6 +5032,14 @@ func (filter *NumberNotInAdvancedFilter) AssignProperties_To_NumberNotInAdvanced
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberNotInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4269,6 +5086,14 @@ func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_From_NumberNotI
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberNotInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4302,6 +5127,14 @@ func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_To_NumberNotInA
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberNotInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4338,6 +5171,14 @@ func (filter *StringBeginsWithAdvancedFilter) AssignProperties_From_StringBegins
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringBeginsWithAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4361,6 +5202,14 @@ func (filter *StringBeginsWithAdvancedFilter) AssignProperties_To_StringBeginsWi
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringBeginsWithAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4397,6 +5246,14 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_From_Strin
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringBeginsWithAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4420,6 +5277,14 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_To_StringB
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringBeginsWithAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4456,6 +5321,14 @@ func (filter *StringContainsAdvancedFilter) AssignProperties_From_StringContains
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringContainsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4479,6 +5352,14 @@ func (filter *StringContainsAdvancedFilter) AssignProperties_To_StringContainsAd
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringContainsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4515,6 +5396,14 @@ func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_From_StringC
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringContainsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4538,6 +5427,14 @@ func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_To_StringCon
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringContainsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4574,6 +5471,14 @@ func (filter *StringEndsWithAdvancedFilter) AssignProperties_From_StringEndsWith
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringEndsWithAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4597,6 +5502,14 @@ func (filter *StringEndsWithAdvancedFilter) AssignProperties_To_StringEndsWithAd
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringEndsWithAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4633,6 +5546,14 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_From_StringE
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringEndsWithAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4656,6 +5577,14 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_To_StringEnd
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringEndsWithAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4692,6 +5621,14 @@ func (filter *StringInAdvancedFilter) AssignProperties_From_StringInAdvancedFilt
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4715,6 +5652,14 @@ func (filter *StringInAdvancedFilter) AssignProperties_To_StringInAdvancedFilter
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4751,6 +5696,14 @@ func (filter *StringInAdvancedFilter_STATUS) AssignProperties_From_StringInAdvan
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4774,6 +5727,14 @@ func (filter *StringInAdvancedFilter_STATUS) AssignProperties_To_StringInAdvance
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4810,6 +5771,14 @@ func (filter *StringNotInAdvancedFilter) AssignProperties_From_StringNotInAdvanc
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringNotInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4833,6 +5802,14 @@ func (filter *StringNotInAdvancedFilter) AssignProperties_To_StringNotInAdvanced
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringNotInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4869,6 +5846,14 @@ func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_From_StringNotI
 		filter.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringNotInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4894,8 +5879,136 @@ func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_To_StringNotInA
 		destination.PropertyBag = nil
 	}
 
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringNotInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForBoolEqualsAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.BoolEqualsAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.BoolEqualsAdvancedFilter) error
+}
+
+type augmentConversionForBoolEqualsAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.BoolEqualsAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.BoolEqualsAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberGreaterThanAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.NumberGreaterThanAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.NumberGreaterThanAdvancedFilter) error
+}
+
+type augmentConversionForNumberGreaterThanAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.NumberGreaterThanAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.NumberGreaterThanAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error
+}
+
+type augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberInAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.NumberInAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.NumberInAdvancedFilter) error
+}
+
+type augmentConversionForNumberInAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.NumberInAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.NumberInAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberLessThanAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.NumberLessThanAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.NumberLessThanAdvancedFilter) error
+}
+
+type augmentConversionForNumberLessThanAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.NumberLessThanAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.NumberLessThanAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberLessThanOrEqualsAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.NumberLessThanOrEqualsAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.NumberLessThanOrEqualsAdvancedFilter) error
+}
+
+type augmentConversionForNumberLessThanOrEqualsAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberNotInAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.NumberNotInAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.NumberNotInAdvancedFilter) error
+}
+
+type augmentConversionForNumberNotInAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.NumberNotInAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.NumberNotInAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringBeginsWithAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.StringBeginsWithAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.StringBeginsWithAdvancedFilter) error
+}
+
+type augmentConversionForStringBeginsWithAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.StringBeginsWithAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.StringBeginsWithAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringContainsAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.StringContainsAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.StringContainsAdvancedFilter) error
+}
+
+type augmentConversionForStringContainsAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.StringContainsAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.StringContainsAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringEndsWithAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.StringEndsWithAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.StringEndsWithAdvancedFilter) error
+}
+
+type augmentConversionForStringEndsWithAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.StringEndsWithAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.StringEndsWithAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringInAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.StringInAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.StringInAdvancedFilter) error
+}
+
+type augmentConversionForStringInAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.StringInAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.StringInAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringNotInAdvancedFilter interface {
+	AssignPropertiesFrom(src *v20200601s.StringNotInAdvancedFilter) error
+	AssignPropertiesTo(dst *v20200601s.StringNotInAdvancedFilter) error
+}
+
+type augmentConversionForStringNotInAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.StringNotInAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.StringNotInAdvancedFilter_STATUS) error
 }
 
 func init() {

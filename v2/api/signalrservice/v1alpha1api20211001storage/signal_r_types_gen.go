@@ -151,6 +151,14 @@ func (signalR *SignalR) AssignProperties_From_SignalR(source *v20211001s.SignalR
 	}
 	signalR.Status = status
 
+	var signalRAsAny any = signalR
+	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR); ok {
+		err := augmentedSignalR.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -176,6 +184,14 @@ func (signalR *SignalR) AssignProperties_To_SignalR(destination *v20211001s.Sign
 		return errors.Wrap(err, "calling AssignProperties_To_SignalR_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	var signalRAsAny any = signalR
+	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR); ok {
+		err := augmentedSignalR.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -205,6 +221,11 @@ type SignalRList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
+
+type augmentConversionForSignalR interface {
+	AssignPropertiesFrom(src *v20211001s.SignalR) error
+	AssignPropertiesTo(dst *v20211001s.SignalR) error
+}
 
 // Storage version of v1alpha1api20211001.SignalR_Spec
 type SignalR_Spec struct {
@@ -441,6 +462,14 @@ func (signalR *SignalR_Spec) AssignProperties_From_SignalR_Spec(source *v2021100
 		signalR.PropertyBag = nil
 	}
 
+	var signalRAsAny any = signalR
+	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR_Spec); ok {
+		err := augmentedSignalR.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -599,6 +628,14 @@ func (signalR *SignalR_Spec) AssignProperties_To_SignalR_Spec(destination *v2021
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var signalRAsAny any = signalR
+	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR_Spec); ok {
+		err := augmentedSignalR.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -912,6 +949,14 @@ func (signalR *SignalR_STATUS) AssignProperties_From_SignalR_STATUS(source *v202
 		signalR.PropertyBag = nil
 	}
 
+	var signalRAsAny any = signalR
+	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR_STATUS); ok {
+		err := augmentedSignalR.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1139,8 +1184,26 @@ func (signalR *SignalR_STATUS) AssignProperties_To_SignalR_STATUS(destination *v
 		destination.PropertyBag = nil
 	}
 
+	var signalRAsAny any = signalR
+	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR_STATUS); ok {
+		err := augmentedSignalR.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForSignalR_Spec interface {
+	AssignPropertiesFrom(src *v20211001s.SignalR_Spec) error
+	AssignPropertiesTo(dst *v20211001s.SignalR_Spec) error
+}
+
+type augmentConversionForSignalR_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.SignalR_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.SignalR_STATUS) error
 }
 
 // Storage version of v1alpha1api20211001.ManagedIdentity
@@ -1165,6 +1228,14 @@ func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *v
 		identity.PropertyBag = nil
 	}
 
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1182,6 +1253,14 @@ func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1237,6 +1316,14 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_ST
 		identity.PropertyBag = nil
 	}
 
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1280,6 +1367,14 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STAT
 		destination.PropertyBag = nil
 	}
 
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1306,6 +1401,14 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) As
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1323,6 +1426,14 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) As
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1366,6 +1477,14 @@ func (configuration *ResourceLogConfiguration) AssignProperties_From_ResourceLog
 		configuration.PropertyBag = nil
 	}
 
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForResourceLogConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1398,6 +1517,14 @@ func (configuration *ResourceLogConfiguration) AssignProperties_To_ResourceLogCo
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForResourceLogConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1441,6 +1568,14 @@ func (configuration *ResourceLogConfiguration_STATUS) AssignProperties_From_Reso
 		configuration.PropertyBag = nil
 	}
 
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForResourceLogConfiguration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1473,6 +1608,14 @@ func (configuration *ResourceLogConfiguration_STATUS) AssignProperties_To_Resour
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForResourceLogConfiguration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1509,6 +1652,14 @@ func (resourceSku *ResourceSku) AssignProperties_From_ResourceSku(source *v20211
 		resourceSku.PropertyBag = nil
 	}
 
+	var resourceSkuAsAny any = resourceSku
+	if augmentedResourceSku, ok := resourceSkuAsAny.(augmentConversionForResourceSku); ok {
+		err := augmentedResourceSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1532,6 +1683,14 @@ func (resourceSku *ResourceSku) AssignProperties_To_ResourceSku(destination *v20
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var resourceSkuAsAny any = resourceSku
+	if augmentedResourceSku, ok := resourceSkuAsAny.(augmentConversionForResourceSku); ok {
+		err := augmentedResourceSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1576,6 +1735,14 @@ func (resourceSku *ResourceSku_STATUS) AssignProperties_From_ResourceSku_STATUS(
 		resourceSku.PropertyBag = nil
 	}
 
+	var resourceSkuAsAny any = resourceSku
+	if augmentedResourceSku, ok := resourceSkuAsAny.(augmentConversionForResourceSku_STATUS); ok {
+		err := augmentedResourceSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1605,6 +1772,14 @@ func (resourceSku *ResourceSku_STATUS) AssignProperties_To_ResourceSku_STATUS(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var resourceSkuAsAny any = resourceSku
+	if augmentedResourceSku, ok := resourceSkuAsAny.(augmentConversionForResourceSku_STATUS); ok {
+		err := augmentedResourceSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1648,6 +1823,14 @@ func (settings *ServerlessUpstreamSettings) AssignProperties_From_ServerlessUpst
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForServerlessUpstreamSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1680,6 +1863,14 @@ func (settings *ServerlessUpstreamSettings) AssignProperties_To_ServerlessUpstre
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForServerlessUpstreamSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1723,6 +1914,14 @@ func (settings *ServerlessUpstreamSettings_STATUS) AssignProperties_From_Serverl
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForServerlessUpstreamSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1757,6 +1956,14 @@ func (settings *ServerlessUpstreamSettings_STATUS) AssignProperties_To_Serverles
 		destination.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForServerlessUpstreamSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1783,6 +1990,14 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) As
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1800,6 +2015,14 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) As
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1828,6 +2051,14 @@ func (settings *SignalRCorsSettings) AssignProperties_From_SignalRCorsSettings(s
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRCorsSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1845,6 +2076,14 @@ func (settings *SignalRCorsSettings) AssignProperties_To_SignalRCorsSettings(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRCorsSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1873,6 +2112,14 @@ func (settings *SignalRCorsSettings_STATUS) AssignProperties_From_SignalRCorsSet
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRCorsSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1890,6 +2137,14 @@ func (settings *SignalRCorsSettings_STATUS) AssignProperties_To_SignalRCorsSetti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRCorsSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1926,6 +2181,14 @@ func (feature *SignalRFeature) AssignProperties_From_SignalRFeature(source *v202
 		feature.PropertyBag = nil
 	}
 
+	var featureAsAny any = feature
+	if augmentedFeature, ok := featureAsAny.(augmentConversionForSignalRFeature); ok {
+		err := augmentedFeature.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1949,6 +2212,14 @@ func (feature *SignalRFeature) AssignProperties_To_SignalRFeature(destination *v
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var featureAsAny any = feature
+	if augmentedFeature, ok := featureAsAny.(augmentConversionForSignalRFeature); ok {
+		err := augmentedFeature.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1985,6 +2256,14 @@ func (feature *SignalRFeature_STATUS) AssignProperties_From_SignalRFeature_STATU
 		feature.PropertyBag = nil
 	}
 
+	var featureAsAny any = feature
+	if augmentedFeature, ok := featureAsAny.(augmentConversionForSignalRFeature_STATUS); ok {
+		err := augmentedFeature.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2008,6 +2287,14 @@ func (feature *SignalRFeature_STATUS) AssignProperties_To_SignalRFeature_STATUS(
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var featureAsAny any = feature
+	if augmentedFeature, ok := featureAsAny.(augmentConversionForSignalRFeature_STATUS); ok {
+		err := augmentedFeature.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2068,6 +2355,14 @@ func (acLs *SignalRNetworkACLs) AssignProperties_From_SignalRNetworkACLs(source 
 		acLs.PropertyBag = nil
 	}
 
+	var acLsAsAny any = acLs
+	if augmentedAcLs, ok := acLsAsAny.(augmentConversionForSignalRNetworkACLs); ok {
+		err := augmentedAcLs.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2115,6 +2410,14 @@ func (acLs *SignalRNetworkACLs) AssignProperties_To_SignalRNetworkACLs(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var acLsAsAny any = acLs
+	if augmentedAcLs, ok := acLsAsAny.(augmentConversionForSignalRNetworkACLs); ok {
+		err := augmentedAcLs.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2175,6 +2478,14 @@ func (acLs *SignalRNetworkACLs_STATUS) AssignProperties_From_SignalRNetworkACLs_
 		acLs.PropertyBag = nil
 	}
 
+	var acLsAsAny any = acLs
+	if augmentedAcLs, ok := acLsAsAny.(augmentConversionForSignalRNetworkACLs_STATUS); ok {
+		err := augmentedAcLs.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2224,6 +2535,14 @@ func (acLs *SignalRNetworkACLs_STATUS) AssignProperties_To_SignalRNetworkACLs_ST
 		destination.PropertyBag = nil
 	}
 
+	var acLsAsAny any = acLs
+	if augmentedAcLs, ok := acLsAsAny.(augmentConversionForSignalRNetworkACLs_STATUS); ok {
+		err := augmentedAcLs.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2255,6 +2574,14 @@ func (settings *SignalRTlsSettings) AssignProperties_From_SignalRTlsSettings(sou
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRTlsSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2277,6 +2604,14 @@ func (settings *SignalRTlsSettings) AssignProperties_To_SignalRTlsSettings(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRTlsSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2310,6 +2645,14 @@ func (settings *SignalRTlsSettings_STATUS) AssignProperties_From_SignalRTlsSetti
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRTlsSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2332,6 +2675,14 @@ func (settings *SignalRTlsSettings_STATUS) AssignProperties_To_SignalRTlsSetting
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRTlsSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2380,6 +2731,14 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 		data.PropertyBag = nil
 	}
 
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2414,8 +2773,111 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForManagedIdentity interface {
+	AssignPropertiesFrom(src *v20211001s.ManagedIdentity) error
+	AssignPropertiesTo(dst *v20211001s.ManagedIdentity) error
+}
+
+type augmentConversionForManagedIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.ManagedIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.ManagedIdentity_STATUS) error
+}
+
+type augmentConversionForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20211001s.PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20211001s.PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) error
+}
+
+type augmentConversionForResourceLogConfiguration interface {
+	AssignPropertiesFrom(src *v20211001s.ResourceLogConfiguration) error
+	AssignPropertiesTo(dst *v20211001s.ResourceLogConfiguration) error
+}
+
+type augmentConversionForResourceLogConfiguration_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.ResourceLogConfiguration_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.ResourceLogConfiguration_STATUS) error
+}
+
+type augmentConversionForResourceSku interface {
+	AssignPropertiesFrom(src *v20211001s.ResourceSku) error
+	AssignPropertiesTo(dst *v20211001s.ResourceSku) error
+}
+
+type augmentConversionForResourceSku_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.ResourceSku_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.ResourceSku_STATUS) error
+}
+
+type augmentConversionForServerlessUpstreamSettings interface {
+	AssignPropertiesFrom(src *v20211001s.ServerlessUpstreamSettings) error
+	AssignPropertiesTo(dst *v20211001s.ServerlessUpstreamSettings) error
+}
+
+type augmentConversionForServerlessUpstreamSettings_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.ServerlessUpstreamSettings_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.ServerlessUpstreamSettings_STATUS) error
+}
+
+type augmentConversionForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20211001s.SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20211001s.SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) error
+}
+
+type augmentConversionForSignalRCorsSettings interface {
+	AssignPropertiesFrom(src *v20211001s.SignalRCorsSettings) error
+	AssignPropertiesTo(dst *v20211001s.SignalRCorsSettings) error
+}
+
+type augmentConversionForSignalRCorsSettings_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.SignalRCorsSettings_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.SignalRCorsSettings_STATUS) error
+}
+
+type augmentConversionForSignalRFeature interface {
+	AssignPropertiesFrom(src *v20211001s.SignalRFeature) error
+	AssignPropertiesTo(dst *v20211001s.SignalRFeature) error
+}
+
+type augmentConversionForSignalRFeature_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.SignalRFeature_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.SignalRFeature_STATUS) error
+}
+
+type augmentConversionForSignalRNetworkACLs interface {
+	AssignPropertiesFrom(src *v20211001s.SignalRNetworkACLs) error
+	AssignPropertiesTo(dst *v20211001s.SignalRNetworkACLs) error
+}
+
+type augmentConversionForSignalRNetworkACLs_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.SignalRNetworkACLs_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.SignalRNetworkACLs_STATUS) error
+}
+
+type augmentConversionForSignalRTlsSettings interface {
+	AssignPropertiesFrom(src *v20211001s.SignalRTlsSettings) error
+	AssignPropertiesTo(dst *v20211001s.SignalRTlsSettings) error
+}
+
+type augmentConversionForSignalRTlsSettings_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.SignalRTlsSettings_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.SignalRTlsSettings_STATUS) error
+}
+
+type augmentConversionForSystemData_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.SystemData_STATUS) error
 }
 
 // Storage version of v1alpha1api20211001.NetworkACL
@@ -2444,6 +2906,14 @@ func (networkACL *NetworkACL) AssignProperties_From_NetworkACL(source *v20211001
 		networkACL.PropertyBag = nil
 	}
 
+	var networkACLAsAny any = networkACL
+	if augmentedNetworkACL, ok := networkACLAsAny.(augmentConversionForNetworkACL); ok {
+		err := augmentedNetworkACL.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2464,6 +2934,14 @@ func (networkACL *NetworkACL) AssignProperties_To_NetworkACL(destination *v20211
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var networkACLAsAny any = networkACL
+	if augmentedNetworkACL, ok := networkACLAsAny.(augmentConversionForNetworkACL); ok {
+		err := augmentedNetworkACL.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2496,6 +2974,14 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_From_NetworkACL_STATUS(sou
 		networkACL.PropertyBag = nil
 	}
 
+	var networkACLAsAny any = networkACL
+	if augmentedNetworkACL, ok := networkACLAsAny.(augmentConversionForNetworkACL_STATUS); ok {
+		err := augmentedNetworkACL.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2516,6 +3002,14 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_To_NetworkACL_STATUS(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var networkACLAsAny any = networkACL
+	if augmentedNetworkACL, ok := networkACLAsAny.(augmentConversionForNetworkACL_STATUS); ok {
+		err := augmentedNetworkACL.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2552,6 +3046,14 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_From_PrivateEndpointACL(
 		endpointACL.PropertyBag = nil
 	}
 
+	var endpointACLAsAny any = endpointACL
+	if augmentedEndpointACL, ok := endpointACLAsAny.(augmentConversionForPrivateEndpointACL); ok {
+		err := augmentedEndpointACL.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2575,6 +3077,14 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_To_PrivateEndpointACL(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var endpointACLAsAny any = endpointACL
+	if augmentedEndpointACL, ok := endpointACLAsAny.(augmentConversionForPrivateEndpointACL); ok {
+		err := augmentedEndpointACL.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2611,6 +3121,14 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_From_PrivateEndpo
 		endpointACL.PropertyBag = nil
 	}
 
+	var endpointACLAsAny any = endpointACL
+	if augmentedEndpointACL, ok := endpointACLAsAny.(augmentConversionForPrivateEndpointACL_STATUS); ok {
+		err := augmentedEndpointACL.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2634,6 +3152,14 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_To_PrivateEndpoin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var endpointACLAsAny any = endpointACL
+	if augmentedEndpointACL, ok := endpointACLAsAny.(augmentConversionForPrivateEndpointACL_STATUS); ok {
+		err := augmentedEndpointACL.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2666,6 +3192,14 @@ func (category *ResourceLogCategory) AssignProperties_From_ResourceLogCategory(s
 		category.PropertyBag = nil
 	}
 
+	var categoryAsAny any = category
+	if augmentedCategory, ok := categoryAsAny.(augmentConversionForResourceLogCategory); ok {
+		err := augmentedCategory.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2686,6 +3220,14 @@ func (category *ResourceLogCategory) AssignProperties_To_ResourceLogCategory(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var categoryAsAny any = category
+	if augmentedCategory, ok := categoryAsAny.(augmentConversionForResourceLogCategory); ok {
+		err := augmentedCategory.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2718,6 +3260,14 @@ func (category *ResourceLogCategory_STATUS) AssignProperties_From_ResourceLogCat
 		category.PropertyBag = nil
 	}
 
+	var categoryAsAny any = category
+	if augmentedCategory, ok := categoryAsAny.(augmentConversionForResourceLogCategory_STATUS); ok {
+		err := augmentedCategory.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2738,6 +3288,14 @@ func (category *ResourceLogCategory_STATUS) AssignProperties_To_ResourceLogCateg
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var categoryAsAny any = category
+	if augmentedCategory, ok := categoryAsAny.(augmentConversionForResourceLogCategory_STATUS); ok {
+		err := augmentedCategory.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2791,6 +3349,14 @@ func (template *UpstreamTemplate) AssignProperties_From_UpstreamTemplate(source 
 		template.PropertyBag = nil
 	}
 
+	var templateAsAny any = template
+	if augmentedTemplate, ok := templateAsAny.(augmentConversionForUpstreamTemplate); ok {
+		err := augmentedTemplate.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2829,6 +3395,14 @@ func (template *UpstreamTemplate) AssignProperties_To_UpstreamTemplate(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var templateAsAny any = template
+	if augmentedTemplate, ok := templateAsAny.(augmentConversionForUpstreamTemplate); ok {
+		err := augmentedTemplate.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2882,6 +3456,14 @@ func (template *UpstreamTemplate_STATUS) AssignProperties_From_UpstreamTemplate_
 		template.PropertyBag = nil
 	}
 
+	var templateAsAny any = template
+	if augmentedTemplate, ok := templateAsAny.(augmentConversionForUpstreamTemplate_STATUS); ok {
+		err := augmentedTemplate.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2922,6 +3504,14 @@ func (template *UpstreamTemplate_STATUS) AssignProperties_To_UpstreamTemplate_ST
 		destination.PropertyBag = nil
 	}
 
+	var templateAsAny any = template
+	if augmentedTemplate, ok := templateAsAny.(augmentConversionForUpstreamTemplate_STATUS); ok {
+		err := augmentedTemplate.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2952,6 +3542,14 @@ func (property *UserAssignedIdentityProperty_STATUS) AssignProperties_From_UserA
 		property.PropertyBag = nil
 	}
 
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUserAssignedIdentityProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2974,8 +3572,61 @@ func (property *UserAssignedIdentityProperty_STATUS) AssignProperties_To_UserAss
 		destination.PropertyBag = nil
 	}
 
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUserAssignedIdentityProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForNetworkACL interface {
+	AssignPropertiesFrom(src *v20211001s.NetworkACL) error
+	AssignPropertiesTo(dst *v20211001s.NetworkACL) error
+}
+
+type augmentConversionForNetworkACL_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.NetworkACL_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.NetworkACL_STATUS) error
+}
+
+type augmentConversionForPrivateEndpointACL interface {
+	AssignPropertiesFrom(src *v20211001s.PrivateEndpointACL) error
+	AssignPropertiesTo(dst *v20211001s.PrivateEndpointACL) error
+}
+
+type augmentConversionForPrivateEndpointACL_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.PrivateEndpointACL_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.PrivateEndpointACL_STATUS) error
+}
+
+type augmentConversionForResourceLogCategory interface {
+	AssignPropertiesFrom(src *v20211001s.ResourceLogCategory) error
+	AssignPropertiesTo(dst *v20211001s.ResourceLogCategory) error
+}
+
+type augmentConversionForResourceLogCategory_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.ResourceLogCategory_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.ResourceLogCategory_STATUS) error
+}
+
+type augmentConversionForUpstreamTemplate interface {
+	AssignPropertiesFrom(src *v20211001s.UpstreamTemplate) error
+	AssignPropertiesTo(dst *v20211001s.UpstreamTemplate) error
+}
+
+type augmentConversionForUpstreamTemplate_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.UpstreamTemplate_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.UpstreamTemplate_STATUS) error
+}
+
+type augmentConversionForUserAssignedIdentityProperty_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.UserAssignedIdentityProperty_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.UserAssignedIdentityProperty_STATUS) error
 }
 
 // Storage version of v1alpha1api20211001.UpstreamAuthSettings
@@ -3013,6 +3664,14 @@ func (settings *UpstreamAuthSettings) AssignProperties_From_UpstreamAuthSettings
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpstreamAuthSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3042,6 +3701,14 @@ func (settings *UpstreamAuthSettings) AssignProperties_To_UpstreamAuthSettings(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpstreamAuthSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3083,6 +3750,14 @@ func (settings *UpstreamAuthSettings_STATUS) AssignProperties_From_UpstreamAuthS
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpstreamAuthSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3114,8 +3789,26 @@ func (settings *UpstreamAuthSettings_STATUS) AssignProperties_To_UpstreamAuthSet
 		destination.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpstreamAuthSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForUpstreamAuthSettings interface {
+	AssignPropertiesFrom(src *v20211001s.UpstreamAuthSettings) error
+	AssignPropertiesTo(dst *v20211001s.UpstreamAuthSettings) error
+}
+
+type augmentConversionForUpstreamAuthSettings_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.UpstreamAuthSettings_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.UpstreamAuthSettings_STATUS) error
 }
 
 // Storage version of v1alpha1api20211001.ManagedIdentitySettings
@@ -3140,6 +3833,14 @@ func (settings *ManagedIdentitySettings) AssignProperties_From_ManagedIdentitySe
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForManagedIdentitySettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3157,6 +3858,14 @@ func (settings *ManagedIdentitySettings) AssignProperties_To_ManagedIdentitySett
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForManagedIdentitySettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3185,6 +3894,14 @@ func (settings *ManagedIdentitySettings_STATUS) AssignProperties_From_ManagedIde
 		settings.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForManagedIdentitySettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3204,8 +3921,26 @@ func (settings *ManagedIdentitySettings_STATUS) AssignProperties_To_ManagedIdent
 		destination.PropertyBag = nil
 	}
 
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForManagedIdentitySettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForManagedIdentitySettings interface {
+	AssignPropertiesFrom(src *v20211001s.ManagedIdentitySettings) error
+	AssignPropertiesTo(dst *v20211001s.ManagedIdentitySettings) error
+}
+
+type augmentConversionForManagedIdentitySettings_STATUS interface {
+	AssignPropertiesFrom(src *v20211001s.ManagedIdentitySettings_STATUS) error
+	AssignPropertiesTo(dst *v20211001s.ManagedIdentitySettings_STATUS) error
 }
 
 func init() {

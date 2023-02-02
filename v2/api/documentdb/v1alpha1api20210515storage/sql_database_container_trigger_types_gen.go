@@ -151,6 +151,14 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_From_SqlDatabaseCon
 	}
 	trigger.Status = status
 
+	var triggerAsAny any = trigger
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForSqlDatabaseContainerTrigger); ok {
+		err := augmentedTrigger.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_To_SqlDatabaseConta
 	}
 	destination.Status = status
 
+	var triggerAsAny any = trigger
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForSqlDatabaseContainerTrigger); ok {
+		err := augmentedTrigger.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type SqlDatabaseContainerTriggerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
+}
+
+type augmentConversionForSqlDatabaseContainerTrigger interface {
+	AssignPropertiesFrom(src *v20210515s.SqlDatabaseContainerTrigger) error
+	AssignPropertiesTo(dst *v20210515s.SqlDatabaseContainerTrigger) error
 }
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec
@@ -324,6 +345,14 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProp
 		trigger.PropertyBag = nil
 	}
 
+	var triggerAsAny any = trigger
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec); ok {
+		err := augmentedTrigger.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -382,6 +411,14 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var triggerAsAny any = trigger
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec); ok {
+		err := augmentedTrigger.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -493,6 +530,14 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignPr
 		trigger.PropertyBag = nil
 	}
 
+	var triggerAsAny any = trigger
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
+		err := augmentedTrigger.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -539,8 +584,26 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignPr
 		destination.PropertyBag = nil
 	}
 
+	var triggerAsAny any = trigger
+	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
+		err := augmentedTrigger.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) error
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) error
 }
 
 // Storage version of v1alpha1api20210515.SqlTriggerGetProperties_Resource_STATUS
@@ -594,6 +657,14 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignProperties_From_S
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlTriggerGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -636,6 +707,14 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignProperties_To_Sql
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlTriggerGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -674,6 +753,14 @@ func (resource *SqlTriggerResource) AssignProperties_From_SqlTriggerResource(sou
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlTriggerResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -702,8 +789,26 @@ func (resource *SqlTriggerResource) AssignProperties_To_SqlTriggerResource(desti
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlTriggerResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForSqlTriggerGetProperties_Resource_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.SqlTriggerGetProperties_Resource_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.SqlTriggerGetProperties_Resource_STATUS) error
+}
+
+type augmentConversionForSqlTriggerResource interface {
+	AssignPropertiesFrom(src *v20210515s.SqlTriggerResource) error
+	AssignPropertiesTo(dst *v20210515s.SqlTriggerResource) error
 }
 
 func init() {

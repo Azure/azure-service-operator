@@ -153,6 +153,14 @@ func (snapshot *Snapshot) AssignProperties_From_Snapshot(source *v20200930s.Snap
 	}
 	snapshot.Status = status
 
+	var snapshotAsAny any = snapshot
+	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot); ok {
+		err := augmentedSnapshot.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -179,6 +187,14 @@ func (snapshot *Snapshot) AssignProperties_To_Snapshot(destination *v20200930s.S
 	}
 	destination.Status = status
 
+	var snapshotAsAny any = snapshot
+	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot); ok {
+		err := augmentedSnapshot.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -199,6 +215,11 @@ type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Snapshot `json:"items"`
+}
+
+type augmentConversionForSnapshot interface {
+	AssignPropertiesFrom(src *v20200930s.Snapshot) error
+	AssignPropertiesTo(dst *v20200930s.Snapshot) error
 }
 
 // Storage version of v1alpha1api20200930.Snapshot_Spec
@@ -426,6 +447,14 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2020
 		snapshot.PropertyBag = nil
 	}
 
+	var snapshotAsAny any = snapshot
+	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot_Spec); ok {
+		err := augmentedSnapshot.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -573,6 +602,14 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *v2
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var snapshotAsAny any = snapshot
+	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot_Spec); ok {
+		err := augmentedSnapshot.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -812,6 +849,14 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *v
 		snapshot.PropertyBag = nil
 	}
 
+	var snapshotAsAny any = snapshot
+	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot_STATUS); ok {
+		err := augmentedSnapshot.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -969,8 +1014,26 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	var snapshotAsAny any = snapshot
+	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot_STATUS); ok {
+		err := augmentedSnapshot.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForSnapshot_Spec interface {
+	AssignPropertiesFrom(src *v20200930s.Snapshot_Spec) error
+	AssignPropertiesTo(dst *v20200930s.Snapshot_Spec) error
+}
+
+type augmentConversionForSnapshot_STATUS interface {
+	AssignPropertiesFrom(src *v20200930s.Snapshot_STATUS) error
+	AssignPropertiesTo(dst *v20200930s.Snapshot_STATUS) error
 }
 
 // Storage version of v1alpha1api20200930.SnapshotSku
@@ -995,6 +1058,14 @@ func (snapshotSku *SnapshotSku) AssignProperties_From_SnapshotSku(source *v20200
 		snapshotSku.PropertyBag = nil
 	}
 
+	var snapshotSkuAsAny any = snapshotSku
+	if augmentedSnapshotSku, ok := snapshotSkuAsAny.(augmentConversionForSnapshotSku); ok {
+		err := augmentedSnapshotSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1012,6 +1083,14 @@ func (snapshotSku *SnapshotSku) AssignProperties_To_SnapshotSku(destination *v20
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var snapshotSkuAsAny any = snapshotSku
+	if augmentedSnapshotSku, ok := snapshotSkuAsAny.(augmentConversionForSnapshotSku); ok {
+		err := augmentedSnapshotSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1044,6 +1123,14 @@ func (snapshotSku *SnapshotSku_STATUS) AssignProperties_From_SnapshotSku_STATUS(
 		snapshotSku.PropertyBag = nil
 	}
 
+	var snapshotSkuAsAny any = snapshotSku
+	if augmentedSnapshotSku, ok := snapshotSkuAsAny.(augmentConversionForSnapshotSku_STATUS); ok {
+		err := augmentedSnapshotSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1066,8 +1153,26 @@ func (snapshotSku *SnapshotSku_STATUS) AssignProperties_To_SnapshotSku_STATUS(de
 		destination.PropertyBag = nil
 	}
 
+	var snapshotSkuAsAny any = snapshotSku
+	if augmentedSnapshotSku, ok := snapshotSkuAsAny.(augmentConversionForSnapshotSku_STATUS); ok {
+		err := augmentedSnapshotSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForSnapshotSku interface {
+	AssignPropertiesFrom(src *v20200930s.SnapshotSku) error
+	AssignPropertiesTo(dst *v20200930s.SnapshotSku) error
+}
+
+type augmentConversionForSnapshotSku_STATUS interface {
+	AssignPropertiesFrom(src *v20200930s.SnapshotSku_STATUS) error
+	AssignPropertiesTo(dst *v20200930s.SnapshotSku_STATUS) error
 }
 
 func init() {

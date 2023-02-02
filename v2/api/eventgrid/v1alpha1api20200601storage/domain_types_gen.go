@@ -151,6 +151,14 @@ func (domain *Domain) AssignProperties_From_Domain(source *v20200601s.Domain) er
 	}
 	domain.Status = status
 
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForDomain); ok {
+		err := augmentedDomain.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -176,6 +184,14 @@ func (domain *Domain) AssignProperties_To_Domain(destination *v20200601s.Domain)
 		return errors.Wrap(err, "calling AssignProperties_To_Domain_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForDomain); ok {
+		err := augmentedDomain.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -205,6 +221,11 @@ type DomainList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
+
+type augmentConversionForDomain interface {
+	AssignPropertiesFrom(src *v20200601s.Domain) error
+	AssignPropertiesTo(dst *v20200601s.Domain) error
+}
 
 // Storage version of v1alpha1api20200601.Domain_Spec
 type Domain_Spec struct {
@@ -345,6 +366,14 @@ func (domain *Domain_Spec) AssignProperties_From_Domain_Spec(source *v20200601s.
 		domain.PropertyBag = nil
 	}
 
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForDomain_Spec); ok {
+		err := augmentedDomain.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -415,6 +444,14 @@ func (domain *Domain_Spec) AssignProperties_To_Domain_Spec(destination *v2020060
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForDomain_Spec); ok {
+		err := augmentedDomain.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -597,6 +634,14 @@ func (domain *Domain_STATUS) AssignProperties_From_Domain_STATUS(source *v202006
 		domain.PropertyBag = nil
 	}
 
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForDomain_STATUS); ok {
+		err := augmentedDomain.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -706,8 +751,26 @@ func (domain *Domain_STATUS) AssignProperties_To_Domain_STATUS(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForDomain_STATUS); ok {
+		err := augmentedDomain.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDomain_Spec interface {
+	AssignPropertiesFrom(src *v20200601s.Domain_Spec) error
+	AssignPropertiesTo(dst *v20200601s.Domain_Spec) error
+}
+
+type augmentConversionForDomain_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.Domain_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.Domain_STATUS) error
 }
 
 // Storage version of v1alpha1api20200601.InboundIpRule
@@ -736,6 +799,14 @@ func (rule *InboundIpRule) AssignProperties_From_InboundIpRule(source *v20200601
 		rule.PropertyBag = nil
 	}
 
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForInboundIpRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -756,6 +827,14 @@ func (rule *InboundIpRule) AssignProperties_To_InboundIpRule(destination *v20200
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForInboundIpRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -788,6 +867,14 @@ func (rule *InboundIpRule_STATUS) AssignProperties_From_InboundIpRule_STATUS(sou
 		rule.PropertyBag = nil
 	}
 
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForInboundIpRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -808,6 +895,14 @@ func (rule *InboundIpRule_STATUS) AssignProperties_To_InboundIpRule_STATUS(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForInboundIpRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -845,6 +940,14 @@ func (mapping *InputSchemaMapping) AssignProperties_From_InputSchemaMapping(sour
 		mapping.PropertyBag = nil
 	}
 
+	var mappingAsAny any = mapping
+	if augmentedMapping, ok := mappingAsAny.(augmentConversionForInputSchemaMapping); ok {
+		err := augmentedMapping.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -871,6 +974,14 @@ func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var mappingAsAny any = mapping
+	if augmentedMapping, ok := mappingAsAny.(augmentConversionForInputSchemaMapping); ok {
+		err := augmentedMapping.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -908,6 +1019,14 @@ func (mapping *InputSchemaMapping_STATUS) AssignProperties_From_InputSchemaMappi
 		mapping.PropertyBag = nil
 	}
 
+	var mappingAsAny any = mapping
+	if augmentedMapping, ok := mappingAsAny.(augmentConversionForInputSchemaMapping_STATUS); ok {
+		err := augmentedMapping.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -936,6 +1055,14 @@ func (mapping *InputSchemaMapping_STATUS) AssignProperties_To_InputSchemaMapping
 		destination.PropertyBag = nil
 	}
 
+	var mappingAsAny any = mapping
+	if augmentedMapping, ok := mappingAsAny.(augmentConversionForInputSchemaMapping_STATUS); ok {
+		err := augmentedMapping.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -962,6 +1089,14 @@ func (embedded *PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) Ass
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -979,6 +1114,14 @@ func (embedded *PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) Ass
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1027,6 +1170,14 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 		data.PropertyBag = nil
 	}
 
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1061,8 +1212,46 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForInboundIpRule interface {
+	AssignPropertiesFrom(src *v20200601s.InboundIpRule) error
+	AssignPropertiesTo(dst *v20200601s.InboundIpRule) error
+}
+
+type augmentConversionForInboundIpRule_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.InboundIpRule_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.InboundIpRule_STATUS) error
+}
+
+type augmentConversionForInputSchemaMapping interface {
+	AssignPropertiesFrom(src *v20200601s.InputSchemaMapping) error
+	AssignPropertiesTo(dst *v20200601s.InputSchemaMapping) error
+}
+
+type augmentConversionForInputSchemaMapping_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.InputSchemaMapping_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.InputSchemaMapping_STATUS) error
+}
+
+type augmentConversionForPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20200601s.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20200601s.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) error
+}
+
+type augmentConversionForSystemData_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.SystemData_STATUS) error
 }
 
 // Storage version of v1alpha1api20200601.JsonInputSchemaMapping
@@ -1165,6 +1354,14 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_From_JsonInputSchemaMapp
 		mapping.PropertyBag = nil
 	}
 
+	var mappingAsAny any = mapping
+	if augmentedMapping, ok := mappingAsAny.(augmentConversionForJsonInputSchemaMapping); ok {
+		err := augmentedMapping.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1254,6 +1451,14 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_To_JsonInputSchemaMappin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var mappingAsAny any = mapping
+	if augmentedMapping, ok := mappingAsAny.(augmentConversionForJsonInputSchemaMapping); ok {
+		err := augmentedMapping.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1360,6 +1565,14 @@ func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_From_JsonInputSch
 		mapping.PropertyBag = nil
 	}
 
+	var mappingAsAny any = mapping
+	if augmentedMapping, ok := mappingAsAny.(augmentConversionForJsonInputSchemaMapping_STATUS); ok {
+		err := augmentedMapping.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1451,8 +1664,26 @@ func (mapping *JsonInputSchemaMapping_STATUS) AssignProperties_To_JsonInputSchem
 		destination.PropertyBag = nil
 	}
 
+	var mappingAsAny any = mapping
+	if augmentedMapping, ok := mappingAsAny.(augmentConversionForJsonInputSchemaMapping_STATUS); ok {
+		err := augmentedMapping.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForJsonInputSchemaMapping interface {
+	AssignPropertiesFrom(src *v20200601s.JsonInputSchemaMapping) error
+	AssignPropertiesTo(dst *v20200601s.JsonInputSchemaMapping) error
+}
+
+type augmentConversionForJsonInputSchemaMapping_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.JsonInputSchemaMapping_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.JsonInputSchemaMapping_STATUS) error
 }
 
 // Storage version of v1alpha1api20200601.JsonField
@@ -1477,6 +1708,14 @@ func (field *JsonField) AssignProperties_From_JsonField(source *v20200601s.JsonF
 		field.PropertyBag = nil
 	}
 
+	var fieldAsAny any = field
+	if augmentedField, ok := fieldAsAny.(augmentConversionForJsonField); ok {
+		err := augmentedField.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1494,6 +1733,14 @@ func (field *JsonField) AssignProperties_To_JsonField(destination *v20200601s.Js
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var fieldAsAny any = field
+	if augmentedField, ok := fieldAsAny.(augmentConversionForJsonField); ok {
+		err := augmentedField.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1522,6 +1769,14 @@ func (field *JsonField_STATUS) AssignProperties_From_JsonField_STATUS(source *v2
 		field.PropertyBag = nil
 	}
 
+	var fieldAsAny any = field
+	if augmentedField, ok := fieldAsAny.(augmentConversionForJsonField_STATUS); ok {
+		err := augmentedField.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1539,6 +1794,14 @@ func (field *JsonField_STATUS) AssignProperties_To_JsonField_STATUS(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var fieldAsAny any = field
+	if augmentedField, ok := fieldAsAny.(augmentConversionForJsonField_STATUS); ok {
+		err := augmentedField.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1571,6 +1834,14 @@ func (withDefault *JsonFieldWithDefault) AssignProperties_From_JsonFieldWithDefa
 		withDefault.PropertyBag = nil
 	}
 
+	var withDefaultAsAny any = withDefault
+	if augmentedWithDefault, ok := withDefaultAsAny.(augmentConversionForJsonFieldWithDefault); ok {
+		err := augmentedWithDefault.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1591,6 +1862,14 @@ func (withDefault *JsonFieldWithDefault) AssignProperties_To_JsonFieldWithDefaul
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var withDefaultAsAny any = withDefault
+	if augmentedWithDefault, ok := withDefaultAsAny.(augmentConversionForJsonFieldWithDefault); ok {
+		err := augmentedWithDefault.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1623,6 +1902,14 @@ func (withDefault *JsonFieldWithDefault_STATUS) AssignProperties_From_JsonFieldW
 		withDefault.PropertyBag = nil
 	}
 
+	var withDefaultAsAny any = withDefault
+	if augmentedWithDefault, ok := withDefaultAsAny.(augmentConversionForJsonFieldWithDefault_STATUS); ok {
+		err := augmentedWithDefault.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1645,8 +1932,36 @@ func (withDefault *JsonFieldWithDefault_STATUS) AssignProperties_To_JsonFieldWit
 		destination.PropertyBag = nil
 	}
 
+	var withDefaultAsAny any = withDefault
+	if augmentedWithDefault, ok := withDefaultAsAny.(augmentConversionForJsonFieldWithDefault_STATUS); ok {
+		err := augmentedWithDefault.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForJsonField interface {
+	AssignPropertiesFrom(src *v20200601s.JsonField) error
+	AssignPropertiesTo(dst *v20200601s.JsonField) error
+}
+
+type augmentConversionForJsonField_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.JsonField_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.JsonField_STATUS) error
+}
+
+type augmentConversionForJsonFieldWithDefault interface {
+	AssignPropertiesFrom(src *v20200601s.JsonFieldWithDefault) error
+	AssignPropertiesTo(dst *v20200601s.JsonFieldWithDefault) error
+}
+
+type augmentConversionForJsonFieldWithDefault_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.JsonFieldWithDefault_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.JsonFieldWithDefault_STATUS) error
 }
 
 func init() {

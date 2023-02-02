@@ -151,6 +151,14 @@ func (setting *SqlDatabaseThroughputSetting) AssignProperties_From_SqlDatabaseTh
 	}
 	setting.Status = status
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForSqlDatabaseThroughputSetting); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (setting *SqlDatabaseThroughputSetting) AssignProperties_To_SqlDatabaseThro
 	}
 	destination.Status = status
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForSqlDatabaseThroughputSetting); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type SqlDatabaseThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseThroughputSetting `json:"items"`
+}
+
+type augmentConversionForSqlDatabaseThroughputSetting interface {
+	AssignPropertiesFrom(src *v20210515s.SqlDatabaseThroughputSetting) error
+	AssignPropertiesTo(dst *v20210515s.SqlDatabaseThroughputSetting) error
 }
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec
@@ -305,6 +326,14 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) AssignPrope
 		setting.PropertyBag = nil
 	}
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -348,6 +377,14 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) AssignPrope
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -459,6 +496,14 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) AssignPro
 		setting.PropertyBag = nil
 	}
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -505,8 +550,26 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) AssignPro
 		destination.PropertyBag = nil
 	}
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) error
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) error
 }
 
 func init() {

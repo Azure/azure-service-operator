@@ -151,6 +151,14 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_From_S
 	}
 	function.Status = status
 
+	var functionAsAny any = function
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction); ok {
+		err := augmentedFunction.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_To_Sql
 	}
 	destination.Status = status
 
+	var functionAsAny any = function
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction); ok {
+		err := augmentedFunction.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type SqlDatabaseContainerUserDefinedFunctionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
+}
+
+type augmentConversionForSqlDatabaseContainerUserDefinedFunction interface {
+	AssignPropertiesFrom(src *v20210515s.SqlDatabaseContainerUserDefinedFunction) error
+	AssignPropertiesTo(dst *v20210515s.SqlDatabaseContainerUserDefinedFunction) error
 }
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec
@@ -324,6 +345,14 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		function.PropertyBag = nil
 	}
 
+	var functionAsAny any = function
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec); ok {
+		err := augmentedFunction.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -382,6 +411,14 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var functionAsAny any = function
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec); ok {
+		err := augmentedFunction.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -493,6 +530,14 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		function.PropertyBag = nil
 	}
 
+	var functionAsAny any = function
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
+		err := augmentedFunction.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -539,8 +584,26 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		destination.PropertyBag = nil
 	}
 
+	var functionAsAny any = function
+	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
+		err := augmentedFunction.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) error
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) error
 }
 
 // Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS
@@ -586,6 +649,14 @@ func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignPrope
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -622,6 +693,14 @@ func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignPrope
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -652,6 +731,14 @@ func (resource *SqlUserDefinedFunctionResource) AssignProperties_From_SqlUserDef
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -674,8 +761,26 @@ func (resource *SqlUserDefinedFunctionResource) AssignProperties_To_SqlUserDefin
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS) error
+}
+
+type augmentConversionForSqlUserDefinedFunctionResource interface {
+	AssignPropertiesFrom(src *v20210515s.SqlUserDefinedFunctionResource) error
+	AssignPropertiesTo(dst *v20210515s.SqlUserDefinedFunctionResource) error
 }
 
 func init() {

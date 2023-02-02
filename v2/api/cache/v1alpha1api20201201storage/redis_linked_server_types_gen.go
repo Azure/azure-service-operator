@@ -151,6 +151,14 @@ func (server *RedisLinkedServer) AssignProperties_From_RedisLinkedServer(source 
 	}
 	server.Status = status
 
+	var serverAsAny any = server
+	if augmentedServer, ok := serverAsAny.(augmentConversionForRedisLinkedServer); ok {
+		err := augmentedServer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (server *RedisLinkedServer) AssignProperties_To_RedisLinkedServer(destinati
 	}
 	destination.Status = status
 
+	var serverAsAny any = server
+	if augmentedServer, ok := serverAsAny.(augmentConversionForRedisLinkedServer); ok {
+		err := augmentedServer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type RedisLinkedServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisLinkedServer `json:"items"`
+}
+
+type augmentConversionForRedisLinkedServer interface {
+	AssignPropertiesFrom(src *v20201201s.RedisLinkedServer) error
+	AssignPropertiesTo(dst *v20201201s.RedisLinkedServer) error
 }
 
 // Storage version of v1alpha1api20201201.Redis_LinkedServer_Spec
@@ -309,6 +330,14 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_From_Redis_LinkedServer_
 		server.PropertyBag = nil
 	}
 
+	var serverAsAny any = server
+	if augmentedServer, ok := serverAsAny.(augmentConversionForRedis_LinkedServer_Spec); ok {
+		err := augmentedServer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -351,6 +380,14 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Sp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var serverAsAny any = server
+	if augmentedServer, ok := serverAsAny.(augmentConversionForRedis_LinkedServer_Spec); ok {
+		err := augmentedServer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -457,6 +494,14 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_From_Redis_LinkedServe
 		server.PropertyBag = nil
 	}
 
+	var serverAsAny any = server
+	if augmentedServer, ok := serverAsAny.(augmentConversionForRedis_LinkedServer_STATUS); ok {
+		err := augmentedServer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -497,8 +542,26 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_To_Redis_LinkedServer_
 		destination.PropertyBag = nil
 	}
 
+	var serverAsAny any = server
+	if augmentedServer, ok := serverAsAny.(augmentConversionForRedis_LinkedServer_STATUS); ok {
+		err := augmentedServer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForRedis_LinkedServer_Spec interface {
+	AssignPropertiesFrom(src *v20201201s.Redis_LinkedServer_Spec) error
+	AssignPropertiesTo(dst *v20201201s.Redis_LinkedServer_Spec) error
+}
+
+type augmentConversionForRedis_LinkedServer_STATUS interface {
+	AssignPropertiesFrom(src *v20201201s.Redis_LinkedServer_STATUS) error
+	AssignPropertiesTo(dst *v20201201s.Redis_LinkedServer_STATUS) error
 }
 
 func init() {

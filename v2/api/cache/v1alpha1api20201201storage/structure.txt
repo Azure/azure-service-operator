@@ -146,26 +146,49 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage
 │       ├── ProvisioningState: *string
 │       ├── ServerRole: *string
 │       └── Type: *string
-└── RedisPatchSchedule: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201.Redis
-    ├── Spec: Object (4 properties)
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── ScheduleEntries: Object (4 properties)[]
-    │       ├── DayOfWeek: *string
-    │       ├── MaintenanceWindow: *string
-    │       ├── PropertyBag: genruntime.PropertyBag
-    │       └── StartHourUtc: *int
-    └── Status: Object (7 properties)
-        ├── Conditions: conditions.Condition[]
-        ├── Id: *string
-        ├── Location: *string
-        ├── Name: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── ScheduleEntries: Object (4 properties)[]
-        │   ├── DayOfWeek: *string
-        │   ├── MaintenanceWindow: *string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── StartHourUtc: *int
-        └── Type: *string
+├── RedisPatchSchedule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201.Redis
+│   ├── Spec: Object (4 properties)
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── ScheduleEntries: Object (4 properties)[]
+│   │       ├── DayOfWeek: *string
+│   │       ├── MaintenanceWindow: *string
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── StartHourUtc: *int
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ScheduleEntries: Object (4 properties)[]
+│       │   ├── DayOfWeek: *string
+│       │   ├── MaintenanceWindow: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── StartHourUtc: *int
+│       └── Type: *string
+├── augmentConversionForPrivateEndpointConnection_STATUS: Interface
+├── augmentConversionForRedis: Interface
+├── augmentConversionForRedisCreateProperties_RedisConfiguration: Interface
+├── augmentConversionForRedisFirewallRule: Interface
+├── augmentConversionForRedisInstanceDetails_STATUS: Interface
+├── augmentConversionForRedisLinkedServer: Interface
+├── augmentConversionForRedisLinkedServer_STATUS: Interface
+├── augmentConversionForRedisOperatorSecrets: Interface
+├── augmentConversionForRedisOperatorSpec: Interface
+├── augmentConversionForRedisPatchSchedule: Interface
+├── augmentConversionForRedisProperties_RedisConfiguration_STATUS: Interface
+├── augmentConversionForRedis_FirewallRule_STATUS: Interface
+├── augmentConversionForRedis_FirewallRule_Spec: Interface
+├── augmentConversionForRedis_LinkedServer_STATUS: Interface
+├── augmentConversionForRedis_LinkedServer_Spec: Interface
+├── augmentConversionForRedis_PatchSchedule_STATUS: Interface
+├── augmentConversionForRedis_PatchSchedule_Spec: Interface
+├── augmentConversionForRedis_STATUS: Interface
+├── augmentConversionForRedis_Spec: Interface
+├── augmentConversionForScheduleEntry: Interface
+├── augmentConversionForScheduleEntry_STATUS: Interface
+├── augmentConversionForSku: Interface
+└── augmentConversionForSku_STATUS: Interface

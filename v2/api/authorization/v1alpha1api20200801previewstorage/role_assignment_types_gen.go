@@ -150,6 +150,14 @@ func (assignment *RoleAssignment) AssignProperties_From_RoleAssignment(source *v
 	}
 	assignment.Status = status
 
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment); ok {
+		err := augmentedAssignment.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -175,6 +183,14 @@ func (assignment *RoleAssignment) AssignProperties_To_RoleAssignment(destination
 		return errors.Wrap(err, "calling AssignProperties_To_RoleAssignment_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment); ok {
+		err := augmentedAssignment.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -204,6 +220,11 @@ type RoleAssignmentList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-08-01-preview")
+
+type augmentConversionForRoleAssignment interface {
+	AssignPropertiesFrom(src *v20200801ps.RoleAssignment) error
+	AssignPropertiesTo(dst *v20200801ps.RoleAssignment) error
+}
 
 // Storage version of v1alpha1api20200801preview.RoleAssignment_Spec
 type RoleAssignment_Spec struct {
@@ -340,6 +361,14 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 		assignment.PropertyBag = nil
 	}
 
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment_Spec); ok {
+		err := augmentedAssignment.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -402,6 +431,14 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment_Spec); ok {
+		err := augmentedAssignment.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -540,6 +577,14 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_From_RoleAssignment_ST
 		assignment.PropertyBag = nil
 	}
 
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment_STATUS); ok {
+		err := augmentedAssignment.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -604,8 +649,26 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_To_RoleAssignment_STAT
 		destination.PropertyBag = nil
 	}
 
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment_STATUS); ok {
+		err := augmentedAssignment.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForRoleAssignment_Spec interface {
+	AssignPropertiesFrom(src *v20200801ps.RoleAssignment_Spec) error
+	AssignPropertiesTo(dst *v20200801ps.RoleAssignment_Spec) error
+}
+
+type augmentConversionForRoleAssignment_STATUS interface {
+	AssignPropertiesFrom(src *v20200801ps.RoleAssignment_STATUS) error
+	AssignPropertiesTo(dst *v20200801ps.RoleAssignment_STATUS) error
 }
 
 func init() {

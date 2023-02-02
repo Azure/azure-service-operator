@@ -151,6 +151,14 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_From_NamespacesAuthori
 	}
 	rule.Status = status
 
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_To_NamespacesAuthoriza
 	}
 	destination.Status = status
 
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type NamespacesAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesAuthorizationRule `json:"items"`
+}
+
+type augmentConversionForNamespacesAuthorizationRule interface {
+	AssignPropertiesFrom(src *v20211101s.NamespacesAuthorizationRule) error
+	AssignPropertiesTo(dst *v20211101s.NamespacesAuthorizationRule) error
 }
 
 // Storage version of v1alpha1api20211101.Namespaces_AuthorizationRule_Spec
@@ -295,6 +316,14 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_From_Namespaces_
 		rule.PropertyBag = nil
 	}
 
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_AuthorizationRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -326,6 +355,14 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_To_Namespaces_Au
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_AuthorizationRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -437,6 +474,14 @@ func (rule *Namespaces_AuthorizationRule_STATUS) AssignProperties_From_Namespace
 		rule.PropertyBag = nil
 	}
 
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_AuthorizationRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -483,8 +528,26 @@ func (rule *Namespaces_AuthorizationRule_STATUS) AssignProperties_To_Namespaces_
 		destination.PropertyBag = nil
 	}
 
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_AuthorizationRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForNamespaces_AuthorizationRule_Spec interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_AuthorizationRule_Spec) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_AuthorizationRule_Spec) error
+}
+
+type augmentConversionForNamespaces_AuthorizationRule_STATUS interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_AuthorizationRule_STATUS) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_AuthorizationRule_STATUS) error
 }
 
 func init() {

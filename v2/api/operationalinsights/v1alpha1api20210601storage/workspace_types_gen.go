@@ -151,6 +151,14 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *v20210601s.W
 	}
 	workspace.Status = status
 
+	var workspaceAsAny any = workspace
+	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace); ok {
+		err := augmentedWorkspace.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -176,6 +184,14 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *v20210601
 		return errors.Wrap(err, "calling AssignProperties_To_Workspace_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	var workspaceAsAny any = workspace
+	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace); ok {
+		err := augmentedWorkspace.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -205,6 +221,11 @@ type WorkspaceList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-06-01")
+
+type augmentConversionForWorkspace interface {
+	AssignPropertiesFrom(src *v20210601s.Workspace) error
+	AssignPropertiesTo(dst *v20210601s.Workspace) error
+}
 
 // Storage version of v1alpha1api20210601.Workspace_Spec
 type Workspace_Spec struct {
@@ -376,6 +397,14 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 		workspace.PropertyBag = nil
 	}
 
+	var workspaceAsAny any = workspace
+	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace_Spec); ok {
+		err := augmentedWorkspace.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -469,6 +498,14 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var workspaceAsAny any = workspace
+	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace_Spec); ok {
+		err := augmentedWorkspace.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -666,6 +703,14 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		workspace.PropertyBag = nil
 	}
 
+	var workspaceAsAny any = workspace
+	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace_STATUS); ok {
+		err := augmentedWorkspace.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -786,8 +831,26 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		destination.PropertyBag = nil
 	}
 
+	var workspaceAsAny any = workspace
+	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace_STATUS); ok {
+		err := augmentedWorkspace.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForWorkspace_Spec interface {
+	AssignPropertiesFrom(src *v20210601s.Workspace_Spec) error
+	AssignPropertiesTo(dst *v20210601s.Workspace_Spec) error
+}
+
+type augmentConversionForWorkspace_STATUS interface {
+	AssignPropertiesFrom(src *v20210601s.Workspace_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.Workspace_STATUS) error
 }
 
 // Storage version of v1alpha1api20210601.PrivateLinkScopedResource_STATUS
@@ -816,6 +879,14 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateL
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkScopedResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -836,6 +907,14 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkScopedResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -869,6 +948,14 @@ func (capping *WorkspaceCapping) AssignProperties_From_WorkspaceCapping(source *
 		capping.PropertyBag = nil
 	}
 
+	var cappingAsAny any = capping
+	if augmentedCapping, ok := cappingAsAny.(augmentConversionForWorkspaceCapping); ok {
+		err := augmentedCapping.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -891,6 +978,14 @@ func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destinatio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var cappingAsAny any = capping
+	if augmentedCapping, ok := cappingAsAny.(augmentConversionForWorkspaceCapping); ok {
+		err := augmentedCapping.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -932,6 +1027,14 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_S
 		capping.PropertyBag = nil
 	}
 
+	var cappingAsAny any = capping
+	if augmentedCapping, ok := cappingAsAny.(augmentConversionForWorkspaceCapping_STATUS); ok {
+		err := augmentedCapping.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -960,6 +1063,14 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_To_WorkspaceCapping_STA
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var cappingAsAny any = capping
+	if augmentedCapping, ok := cappingAsAny.(augmentConversionForWorkspaceCapping_STATUS); ok {
+		err := augmentedCapping.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1029,6 +1140,14 @@ func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(sourc
 		features.PropertyBag = nil
 	}
 
+	var featuresAsAny any = features
+	if augmentedFeatures, ok := featuresAsAny.(augmentConversionForWorkspaceFeatures); ok {
+		err := augmentedFeatures.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1083,6 +1202,14 @@ func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var featuresAsAny any = features
+	if augmentedFeatures, ok := featuresAsAny.(augmentConversionForWorkspaceFeatures); ok {
+		err := augmentedFeatures.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1147,6 +1274,14 @@ func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeature
 		features.PropertyBag = nil
 	}
 
+	var featuresAsAny any = features
+	if augmentedFeatures, ok := featuresAsAny.(augmentConversionForWorkspaceFeatures_STATUS); ok {
+		err := augmentedFeatures.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1198,6 +1333,14 @@ func (features *WorkspaceFeatures_STATUS) AssignProperties_To_WorkspaceFeatures_
 		destination.PropertyBag = nil
 	}
 
+	var featuresAsAny any = features
+	if augmentedFeatures, ok := featuresAsAny.(augmentConversionForWorkspaceFeatures_STATUS); ok {
+		err := augmentedFeatures.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1228,6 +1371,14 @@ func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *v20
 		workspaceSku.PropertyBag = nil
 	}
 
+	var workspaceSkuAsAny any = workspaceSku
+	if augmentedWorkspaceSku, ok := workspaceSkuAsAny.(augmentConversionForWorkspaceSku); ok {
+		err := augmentedWorkspaceSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1248,6 +1399,14 @@ func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var workspaceSkuAsAny any = workspaceSku
+	if augmentedWorkspaceSku, ok := workspaceSkuAsAny.(augmentConversionForWorkspaceSku); ok {
+		err := augmentedWorkspaceSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1284,6 +1443,14 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STAT
 		workspaceSku.PropertyBag = nil
 	}
 
+	var workspaceSkuAsAny any = workspaceSku
+	if augmentedWorkspaceSku, ok := workspaceSkuAsAny.(augmentConversionForWorkspaceSku_STATUS); ok {
+		err := augmentedWorkspaceSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1309,8 +1476,51 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_To_WorkspaceSku_STATUS
 		destination.PropertyBag = nil
 	}
 
+	var workspaceSkuAsAny any = workspaceSku
+	if augmentedWorkspaceSku, ok := workspaceSkuAsAny.(augmentConversionForWorkspaceSku_STATUS); ok {
+		err := augmentedWorkspaceSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForPrivateLinkScopedResource_STATUS interface {
+	AssignPropertiesFrom(src *v20210601s.PrivateLinkScopedResource_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.PrivateLinkScopedResource_STATUS) error
+}
+
+type augmentConversionForWorkspaceCapping interface {
+	AssignPropertiesFrom(src *v20210601s.WorkspaceCapping) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceCapping) error
+}
+
+type augmentConversionForWorkspaceCapping_STATUS interface {
+	AssignPropertiesFrom(src *v20210601s.WorkspaceCapping_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceCapping_STATUS) error
+}
+
+type augmentConversionForWorkspaceFeatures interface {
+	AssignPropertiesFrom(src *v20210601s.WorkspaceFeatures) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceFeatures) error
+}
+
+type augmentConversionForWorkspaceFeatures_STATUS interface {
+	AssignPropertiesFrom(src *v20210601s.WorkspaceFeatures_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceFeatures_STATUS) error
+}
+
+type augmentConversionForWorkspaceSku interface {
+	AssignPropertiesFrom(src *v20210601s.WorkspaceSku) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceSku) error
+}
+
+type augmentConversionForWorkspaceSku_STATUS interface {
+	AssignPropertiesFrom(src *v20210601s.WorkspaceSku_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.WorkspaceSku_STATUS) error
 }
 
 func init() {

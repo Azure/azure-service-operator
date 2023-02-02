@@ -151,6 +151,14 @@ func (eventhub *NamespacesEventhub) AssignProperties_From_NamespacesEventhub(sou
 	}
 	eventhub.Status = status
 
+	var eventhubAsAny any = eventhub
+	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespacesEventhub); ok {
+		err := augmentedEventhub.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (eventhub *NamespacesEventhub) AssignProperties_To_NamespacesEventhub(desti
 	}
 	destination.Status = status
 
+	var eventhubAsAny any = eventhub
+	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespacesEventhub); ok {
+		err := augmentedEventhub.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type NamespacesEventhubList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhub `json:"items"`
+}
+
+type augmentConversionForNamespacesEventhub interface {
+	AssignPropertiesFrom(src *v20211101s.NamespacesEventhub) error
+	AssignPropertiesTo(dst *v20211101s.NamespacesEventhub) error
 }
 
 // Storage version of v1alpha1api20211101.Namespaces_Eventhub_Spec
@@ -313,6 +334,14 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_From_Namespaces_Event
 		eventhub.PropertyBag = nil
 	}
 
+	var eventhubAsAny any = eventhub
+	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespaces_Eventhub_Spec); ok {
+		err := augmentedEventhub.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -359,6 +388,14 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_To_Namespaces_Eventhu
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var eventhubAsAny any = eventhub
+	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespaces_Eventhub_Spec); ok {
+		err := augmentedEventhub.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -503,6 +540,14 @@ func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_From_Namespaces_Eve
 		eventhub.PropertyBag = nil
 	}
 
+	var eventhubAsAny any = eventhub
+	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespaces_Eventhub_STATUS); ok {
+		err := augmentedEventhub.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -576,8 +621,26 @@ func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_To_Namespaces_Event
 		destination.PropertyBag = nil
 	}
 
+	var eventhubAsAny any = eventhub
+	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespaces_Eventhub_STATUS); ok {
+		err := augmentedEventhub.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForNamespaces_Eventhub_Spec interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_Eventhub_Spec) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_Eventhub_Spec) error
+}
+
+type augmentConversionForNamespaces_Eventhub_STATUS interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_Eventhub_STATUS) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_Eventhub_STATUS) error
 }
 
 // Storage version of v1alpha1api20211101.CaptureDescription
@@ -641,6 +704,14 @@ func (description *CaptureDescription) AssignProperties_From_CaptureDescription(
 		description.PropertyBag = nil
 	}
 
+	var descriptionAsAny any = description
+	if augmentedDescription, ok := descriptionAsAny.(augmentConversionForCaptureDescription); ok {
+		err := augmentedDescription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -692,6 +763,14 @@ func (description *CaptureDescription) AssignProperties_To_CaptureDescription(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var descriptionAsAny any = description
+	if augmentedDescription, ok := descriptionAsAny.(augmentConversionForCaptureDescription); ok {
+		err := augmentedDescription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -759,6 +838,14 @@ func (description *CaptureDescription_STATUS) AssignProperties_From_CaptureDescr
 		description.PropertyBag = nil
 	}
 
+	var descriptionAsAny any = description
+	if augmentedDescription, ok := descriptionAsAny.(augmentConversionForCaptureDescription_STATUS); ok {
+		err := augmentedDescription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -812,8 +899,26 @@ func (description *CaptureDescription_STATUS) AssignProperties_To_CaptureDescrip
 		destination.PropertyBag = nil
 	}
 
+	var descriptionAsAny any = description
+	if augmentedDescription, ok := descriptionAsAny.(augmentConversionForCaptureDescription_STATUS); ok {
+		err := augmentedDescription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForCaptureDescription interface {
+	AssignPropertiesFrom(src *v20211101s.CaptureDescription) error
+	AssignPropertiesTo(dst *v20211101s.CaptureDescription) error
+}
+
+type augmentConversionForCaptureDescription_STATUS interface {
+	AssignPropertiesFrom(src *v20211101s.CaptureDescription_STATUS) error
+	AssignPropertiesTo(dst *v20211101s.CaptureDescription_STATUS) error
 }
 
 // Storage version of v1alpha1api20211101.Destination
@@ -867,6 +972,14 @@ func (destination *Destination) AssignProperties_From_Destination(source *v20211
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -907,6 +1020,14 @@ func (destination *Destination) AssignProperties_To_Destination(target *v2021110
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
+	}
+
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -959,6 +1080,14 @@ func (destination *Destination_STATUS) AssignProperties_From_Destination_STATUS(
 		destination.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -996,8 +1125,26 @@ func (destination *Destination_STATUS) AssignProperties_To_Destination_STATUS(ta
 		target.PropertyBag = nil
 	}
 
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDestination interface {
+	AssignPropertiesFrom(src *v20211101s.Destination) error
+	AssignPropertiesTo(dst *v20211101s.Destination) error
+}
+
+type augmentConversionForDestination_STATUS interface {
+	AssignPropertiesFrom(src *v20211101s.Destination_STATUS) error
+	AssignPropertiesTo(dst *v20211101s.Destination_STATUS) error
 }
 
 func init() {

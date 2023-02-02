@@ -153,6 +153,14 @@ func (image *Image) AssignProperties_From_Image(source *v20220301s.Image) error 
 	}
 	image.Status = status
 
+	var imageAsAny any = image
+	if augmentedImage, ok := imageAsAny.(augmentConversionForImage); ok {
+		err := augmentedImage.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -178,6 +186,14 @@ func (image *Image) AssignProperties_To_Image(destination *v20220301s.Image) err
 		return errors.Wrap(err, "calling AssignProperties_To_Image_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	var imageAsAny any = image
+	if augmentedImage, ok := imageAsAny.(augmentConversionForImage); ok {
+		err := augmentedImage.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -208,6 +224,11 @@ type ImageList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-07-01")
+
+type augmentConversionForImage interface {
+	AssignPropertiesFrom(src *v20220301s.Image) error
+	AssignPropertiesTo(dst *v20220301s.Image) error
+}
 
 // Storage version of v1beta20210701.Image_Spec
 type Image_Spec struct {
@@ -351,6 +372,14 @@ func (image *Image_Spec) AssignProperties_From_Image_Spec(source *v20220301s.Ima
 		image.PropertyBag = nil
 	}
 
+	var imageAsAny any = image
+	if augmentedImage, ok := imageAsAny.(augmentConversionForImage_Spec); ok {
+		err := augmentedImage.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -424,6 +453,14 @@ func (image *Image_Spec) AssignProperties_To_Image_Spec(destination *v20220301s.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var imageAsAny any = image
+	if augmentedImage, ok := imageAsAny.(augmentConversionForImage_Spec); ok {
+		err := augmentedImage.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -570,6 +607,14 @@ func (image *Image_STATUS) AssignProperties_From_Image_STATUS(source *v20220301s
 		image.PropertyBag = nil
 	}
 
+	var imageAsAny any = image
+	if augmentedImage, ok := imageAsAny.(augmentConversionForImage_STATUS); ok {
+		err := augmentedImage.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -646,8 +691,26 @@ func (image *Image_STATUS) AssignProperties_To_Image_STATUS(destination *v202203
 		destination.PropertyBag = nil
 	}
 
+	var imageAsAny any = image
+	if augmentedImage, ok := imageAsAny.(augmentConversionForImage_STATUS); ok {
+		err := augmentedImage.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForImage_Spec interface {
+	AssignPropertiesFrom(src *v20220301s.Image_Spec) error
+	AssignPropertiesTo(dst *v20220301s.Image_Spec) error
+}
+
+type augmentConversionForImage_STATUS interface {
+	AssignPropertiesFrom(src *v20220301s.Image_STATUS) error
+	AssignPropertiesTo(dst *v20220301s.Image_STATUS) error
 }
 
 // Storage version of v1beta20210701.ExtendedLocation
@@ -676,6 +739,14 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 		location.PropertyBag = nil
 	}
 
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
+		err := augmentedLocation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -696,6 +767,14 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
+		err := augmentedLocation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -728,6 +807,14 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 		location.PropertyBag = nil
 	}
 
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
+		err := augmentedLocation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -748,6 +835,14 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
+		err := augmentedLocation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -813,6 +908,14 @@ func (profile *ImageStorageProfile) AssignProperties_From_ImageStorageProfile(so
 		profile.PropertyBag = nil
 	}
 
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForImageStorageProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -865,6 +968,14 @@ func (profile *ImageStorageProfile) AssignProperties_To_ImageStorageProfile(dest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForImageStorageProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -930,6 +1041,14 @@ func (profile *ImageStorageProfile_STATUS) AssignProperties_From_ImageStoragePro
 		profile.PropertyBag = nil
 	}
 
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForImageStorageProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -984,6 +1103,14 @@ func (profile *ImageStorageProfile_STATUS) AssignProperties_To_ImageStorageProfi
 		destination.PropertyBag = nil
 	}
 
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForImageStorageProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1016,6 +1143,14 @@ func (resource *SubResource) AssignProperties_From_SubResource(source *v20220301
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1038,6 +1173,14 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *v20220
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1065,6 +1208,14 @@ func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(sou
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1084,8 +1235,46 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForExtendedLocation interface {
+	AssignPropertiesFrom(src *v20220301s.ExtendedLocation) error
+	AssignPropertiesTo(dst *v20220301s.ExtendedLocation) error
+}
+
+type augmentConversionForExtendedLocation_STATUS interface {
+	AssignPropertiesFrom(src *v20220301s.ExtendedLocation_STATUS) error
+	AssignPropertiesTo(dst *v20220301s.ExtendedLocation_STATUS) error
+}
+
+type augmentConversionForImageStorageProfile interface {
+	AssignPropertiesFrom(src *v20220301s.ImageStorageProfile) error
+	AssignPropertiesTo(dst *v20220301s.ImageStorageProfile) error
+}
+
+type augmentConversionForImageStorageProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20220301s.ImageStorageProfile_STATUS) error
+	AssignPropertiesTo(dst *v20220301s.ImageStorageProfile_STATUS) error
+}
+
+type augmentConversionForSubResource interface {
+	AssignPropertiesFrom(src *v20220301s.SubResource) error
+	AssignPropertiesTo(dst *v20220301s.SubResource) error
+}
+
+type augmentConversionForSubResource_STATUS interface {
+	AssignPropertiesFrom(src *v20220301s.SubResource_STATUS) error
+	AssignPropertiesTo(dst *v20220301s.SubResource_STATUS) error
 }
 
 // Storage version of v1beta20210701.ImageDataDisk
@@ -1165,6 +1354,14 @@ func (disk *ImageDataDisk) AssignProperties_From_ImageDataDisk(source *v20220301
 		disk.PropertyBag = nil
 	}
 
+	var diskAsAny any = disk
+	if augmentedDisk, ok := diskAsAny.(augmentConversionForImageDataDisk); ok {
+		err := augmentedDisk.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1230,6 +1427,14 @@ func (disk *ImageDataDisk) AssignProperties_To_ImageDataDisk(destination *v20220
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var diskAsAny any = disk
+	if augmentedDisk, ok := diskAsAny.(augmentConversionForImageDataDisk); ok {
+		err := augmentedDisk.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1313,6 +1518,14 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_From_ImageDataDisk_STATUS(sou
 		disk.PropertyBag = nil
 	}
 
+	var diskAsAny any = disk
+	if augmentedDisk, ok := diskAsAny.(augmentConversionForImageDataDisk_STATUS); ok {
+		err := augmentedDisk.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1378,6 +1591,14 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var diskAsAny any = disk
+	if augmentedDisk, ok := diskAsAny.(augmentConversionForImageDataDisk_STATUS); ok {
+		err := augmentedDisk.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1465,6 +1686,14 @@ func (disk *ImageOSDisk) AssignProperties_From_ImageOSDisk(source *v20220301s.Im
 		disk.PropertyBag = nil
 	}
 
+	var diskAsAny any = disk
+	if augmentedDisk, ok := diskAsAny.(augmentConversionForImageOSDisk); ok {
+		err := augmentedDisk.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1533,6 +1762,14 @@ func (disk *ImageOSDisk) AssignProperties_To_ImageOSDisk(destination *v20220301s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var diskAsAny any = disk
+	if augmentedDisk, ok := diskAsAny.(augmentConversionForImageOSDisk); ok {
+		err := augmentedDisk.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1620,6 +1857,14 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_From_ImageOSDisk_STATUS(source 
 		disk.PropertyBag = nil
 	}
 
+	var diskAsAny any = disk
+	if augmentedDisk, ok := diskAsAny.(augmentConversionForImageOSDisk_STATUS); ok {
+		err := augmentedDisk.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1690,8 +1935,36 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_To_ImageOSDisk_STATUS(destinati
 		destination.PropertyBag = nil
 	}
 
+	var diskAsAny any = disk
+	if augmentedDisk, ok := diskAsAny.(augmentConversionForImageOSDisk_STATUS); ok {
+		err := augmentedDisk.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForImageDataDisk interface {
+	AssignPropertiesFrom(src *v20220301s.ImageDataDisk) error
+	AssignPropertiesTo(dst *v20220301s.ImageDataDisk) error
+}
+
+type augmentConversionForImageDataDisk_STATUS interface {
+	AssignPropertiesFrom(src *v20220301s.ImageDataDisk_STATUS) error
+	AssignPropertiesTo(dst *v20220301s.ImageDataDisk_STATUS) error
+}
+
+type augmentConversionForImageOSDisk interface {
+	AssignPropertiesFrom(src *v20220301s.ImageOSDisk) error
+	AssignPropertiesTo(dst *v20220301s.ImageOSDisk) error
+}
+
+type augmentConversionForImageOSDisk_STATUS interface {
+	AssignPropertiesFrom(src *v20220301s.ImageOSDisk_STATUS) error
+	AssignPropertiesTo(dst *v20220301s.ImageOSDisk_STATUS) error
 }
 
 func init() {

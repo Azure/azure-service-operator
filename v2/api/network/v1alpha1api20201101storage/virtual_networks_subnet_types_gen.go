@@ -151,6 +151,14 @@ func (subnet *VirtualNetworksSubnet) AssignProperties_From_VirtualNetworksSubnet
 	}
 	subnet.Status = status
 
+	var subnetAsAny any = subnet
+	if augmentedSubnet, ok := subnetAsAny.(augmentConversionForVirtualNetworksSubnet); ok {
+		err := augmentedSubnet.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (subnet *VirtualNetworksSubnet) AssignProperties_To_VirtualNetworksSubnet(d
 	}
 	destination.Status = status
 
+	var subnetAsAny any = subnet
+	if augmentedSubnet, ok := subnetAsAny.(augmentConversionForVirtualNetworksSubnet); ok {
+		err := augmentedSubnet.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type VirtualNetworksSubnetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetworksSubnet `json:"items"`
+}
+
+type augmentConversionForVirtualNetworksSubnet interface {
+	AssignPropertiesFrom(src *v20201101s.VirtualNetworksSubnet) error
+	AssignPropertiesTo(dst *v20201101s.VirtualNetworksSubnet) error
 }
 
 // Storage version of v1alpha1api20201101.VirtualNetworks_Subnet_Spec
@@ -441,6 +462,14 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks
 		subnet.PropertyBag = nil
 	}
 
+	var subnetAsAny any = subnet
+	if augmentedSubnet, ok := subnetAsAny.(augmentConversionForVirtualNetworks_Subnet_Spec); ok {
+		err := augmentedSubnet.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -607,6 +636,14 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_S
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var subnetAsAny any = subnet
+	if augmentedSubnet, ok := subnetAsAny.(augmentConversionForVirtualNetworks_Subnet_Spec); ok {
+		err := augmentedSubnet.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -954,6 +991,14 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_From_VirtualNetwor
 		subnet.PropertyBag = nil
 	}
 
+	var subnetAsAny any = subnet
+	if augmentedSubnet, ok := subnetAsAny.(augmentConversionForVirtualNetworks_Subnet_STATUS); ok {
+		err := augmentedSubnet.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1219,6 +1264,14 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_To_VirtualNetworks
 		destination.PropertyBag = nil
 	}
 
+	var subnetAsAny any = subnet
+	if augmentedSubnet, ok := subnetAsAny.(augmentConversionForVirtualNetworks_Subnet_STATUS); ok {
+		err := augmentedSubnet.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1245,6 +1298,14 @@ func (embedded *ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1262,6 +1323,14 @@ func (embedded *ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1295,6 +1364,14 @@ func (embedded *ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubReso
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1319,8 +1396,26 @@ func (embedded *ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubReso
 		destination.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForVirtualNetworks_Subnet_Spec interface {
+	AssignPropertiesFrom(src *v20201101s.VirtualNetworks_Subnet_Spec) error
+	AssignPropertiesTo(dst *v20201101s.VirtualNetworks_Subnet_Spec) error
+}
+
+type augmentConversionForVirtualNetworks_Subnet_STATUS interface {
+	AssignPropertiesFrom(src *v20201101s.VirtualNetworks_Subnet_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.VirtualNetworks_Subnet_STATUS) error
 }
 
 // Storage version of v1alpha1api20201101.Delegation
@@ -1349,6 +1444,14 @@ func (delegation *Delegation) AssignProperties_From_Delegation(source *v20201101
 		delegation.PropertyBag = nil
 	}
 
+	var delegationAsAny any = delegation
+	if augmentedDelegation, ok := delegationAsAny.(augmentConversionForDelegation); ok {
+		err := augmentedDelegation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1369,6 +1472,14 @@ func (delegation *Delegation) AssignProperties_To_Delegation(destination *v20201
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var delegationAsAny any = delegation
+	if augmentedDelegation, ok := delegationAsAny.(augmentConversionForDelegation); ok {
+		err := augmentedDelegation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1421,6 +1532,14 @@ func (delegation *Delegation_STATUS) AssignProperties_From_Delegation_STATUS(sou
 		delegation.PropertyBag = nil
 	}
 
+	var delegationAsAny any = delegation
+	if augmentedDelegation, ok := delegationAsAny.(augmentConversionForDelegation_STATUS); ok {
+		err := augmentedDelegation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1458,6 +1577,14 @@ func (delegation *Delegation_STATUS) AssignProperties_To_Delegation_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	var delegationAsAny any = delegation
+	if augmentedDelegation, ok := delegationAsAny.(augmentConversionForDelegation_STATUS); ok {
+		err := augmentedDelegation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1484,6 +1611,14 @@ func (embedded *IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedde
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1501,6 +1636,14 @@ func (embedded *IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedde
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1529,6 +1672,14 @@ func (profile *IPConfigurationProfile_STATUS) AssignProperties_From_IPConfigurat
 		profile.PropertyBag = nil
 	}
 
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForIPConfigurationProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1546,6 +1697,14 @@ func (profile *IPConfigurationProfile_STATUS) AssignProperties_To_IPConfiguratio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForIPConfigurationProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1574,6 +1733,14 @@ func (embedded *NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEm
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1591,6 +1758,14 @@ func (embedded *NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEm
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1624,6 +1799,14 @@ func (embedded *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbed
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1646,6 +1829,14 @@ func (embedded *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbed
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1674,6 +1865,14 @@ func (embedded *PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedde
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1691,6 +1890,14 @@ func (embedded *PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedde
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1719,6 +1926,14 @@ func (link *ResourceNavigationLink_STATUS) AssignProperties_From_ResourceNavigat
 		link.PropertyBag = nil
 	}
 
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForResourceNavigationLink_STATUS); ok {
+		err := augmentedLink.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1736,6 +1951,14 @@ func (link *ResourceNavigationLink_STATUS) AssignProperties_To_ResourceNavigatio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForResourceNavigationLink_STATUS); ok {
+		err := augmentedLink.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1764,6 +1987,14 @@ func (embedded *RouteTable_STATUS_SubResourceEmbedded) AssignProperties_From_Rou
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForRouteTable_STATUS_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1781,6 +2012,14 @@ func (embedded *RouteTable_STATUS_SubResourceEmbedded) AssignProperties_To_Route
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForRouteTable_STATUS_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1814,6 +2053,14 @@ func (embedded *RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) Assig
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForRouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1836,6 +2083,14 @@ func (embedded *RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) Assig
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForRouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1864,6 +2119,14 @@ func (link *ServiceAssociationLink_STATUS) AssignProperties_From_ServiceAssociat
 		link.PropertyBag = nil
 	}
 
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForServiceAssociationLink_STATUS); ok {
+		err := augmentedLink.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1881,6 +2144,14 @@ func (link *ServiceAssociationLink_STATUS) AssignProperties_To_ServiceAssociatio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForServiceAssociationLink_STATUS); ok {
+		err := augmentedLink.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1909,6 +2180,14 @@ func (embedded *ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceE
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1926,6 +2205,14 @@ func (embedded *ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceE
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1959,6 +2246,14 @@ func (embedded *ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbe
 		embedded.PropertyBag = nil
 	}
 
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1981,6 +2276,14 @@ func (embedded *ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2013,6 +2316,14 @@ func (format *ServiceEndpointPropertiesFormat) AssignProperties_From_ServiceEndp
 		format.PropertyBag = nil
 	}
 
+	var formatAsAny any = format
+	if augmentedFormat, ok := formatAsAny.(augmentConversionForServiceEndpointPropertiesFormat); ok {
+		err := augmentedFormat.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2033,6 +2344,14 @@ func (format *ServiceEndpointPropertiesFormat) AssignProperties_To_ServiceEndpoi
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var formatAsAny any = format
+	if augmentedFormat, ok := formatAsAny.(augmentConversionForServiceEndpointPropertiesFormat); ok {
+		err := augmentedFormat.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2069,6 +2388,14 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) AssignProperties_From_Serv
 		format.PropertyBag = nil
 	}
 
+	var formatAsAny any = format
+	if augmentedFormat, ok := formatAsAny.(augmentConversionForServiceEndpointPropertiesFormat_STATUS); ok {
+		err := augmentedFormat.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2094,8 +2421,101 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) AssignProperties_To_Servic
 		destination.PropertyBag = nil
 	}
 
+	var formatAsAny any = format
+	if augmentedFormat, ok := formatAsAny.(augmentConversionForServiceEndpointPropertiesFormat_STATUS); ok {
+		err := augmentedFormat.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+}
+
+type augmentConversionForApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded) error
+}
+
+type augmentConversionForDelegation interface {
+	AssignPropertiesFrom(src *v20201101s.Delegation) error
+	AssignPropertiesTo(dst *v20201101s.Delegation) error
+}
+
+type augmentConversionForDelegation_STATUS interface {
+	AssignPropertiesFrom(src *v20201101s.Delegation_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.Delegation_STATUS) error
+}
+
+type augmentConversionForIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+}
+
+type augmentConversionForIPConfigurationProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20201101s.IPConfigurationProfile_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.IPConfigurationProfile_STATUS) error
+}
+
+type augmentConversionForNetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+}
+
+type augmentConversionForNetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded) error
+}
+
+type augmentConversionForPrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+}
+
+type augmentConversionForResourceNavigationLink_STATUS interface {
+	AssignPropertiesFrom(src *v20201101s.ResourceNavigationLink_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.ResourceNavigationLink_STATUS) error
+}
+
+type augmentConversionForRouteTable_STATUS_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.RouteTable_STATUS_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.RouteTable_STATUS_SubResourceEmbedded) error
+}
+
+type augmentConversionForRouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) error
+}
+
+type augmentConversionForServiceAssociationLink_STATUS interface {
+	AssignPropertiesFrom(src *v20201101s.ServiceAssociationLink_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.ServiceAssociationLink_STATUS) error
+}
+
+type augmentConversionForServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error
+}
+
+type augmentConversionForServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded) error
+}
+
+type augmentConversionForServiceEndpointPropertiesFormat interface {
+	AssignPropertiesFrom(src *v20201101s.ServiceEndpointPropertiesFormat) error
+	AssignPropertiesTo(dst *v20201101s.ServiceEndpointPropertiesFormat) error
+}
+
+type augmentConversionForServiceEndpointPropertiesFormat_STATUS interface {
+	AssignPropertiesFrom(src *v20201101s.ServiceEndpointPropertiesFormat_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.ServiceEndpointPropertiesFormat_STATUS) error
 }
 
 func init() {

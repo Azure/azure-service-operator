@@ -151,6 +151,14 @@ func (schedule *RedisPatchSchedule) AssignProperties_From_RedisPatchSchedule(sou
 	}
 	schedule.Status = status
 
+	var scheduleAsAny any = schedule
+	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule); ok {
+		err := augmentedSchedule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (schedule *RedisPatchSchedule) AssignProperties_To_RedisPatchSchedule(desti
 	}
 	destination.Status = status
 
+	var scheduleAsAny any = schedule
+	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule); ok {
+		err := augmentedSchedule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisPatchSchedule `json:"items"`
+}
+
+type augmentConversionForRedisPatchSchedule interface {
+	AssignPropertiesFrom(src *v20201201s.RedisPatchSchedule) error
+	AssignPropertiesTo(dst *v20201201s.RedisPatchSchedule) error
 }
 
 // Storage version of v1alpha1api20201201.Redis_PatchSchedule_Spec
@@ -303,6 +324,14 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_From_Redis_PatchSched
 		schedule.PropertyBag = nil
 	}
 
+	var scheduleAsAny any = schedule
+	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedis_PatchSchedule_Spec); ok {
+		err := augmentedSchedule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -346,6 +375,14 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_To_Redis_PatchSchedul
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var scheduleAsAny any = schedule
+	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedis_PatchSchedule_Spec); ok {
+		err := augmentedSchedule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -459,6 +496,14 @@ func (schedule *Redis_PatchSchedule_STATUS) AssignProperties_From_Redis_PatchSch
 		schedule.PropertyBag = nil
 	}
 
+	var scheduleAsAny any = schedule
+	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedis_PatchSchedule_STATUS); ok {
+		err := augmentedSchedule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -508,8 +553,26 @@ func (schedule *Redis_PatchSchedule_STATUS) AssignProperties_To_Redis_PatchSched
 		destination.PropertyBag = nil
 	}
 
+	var scheduleAsAny any = schedule
+	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedis_PatchSchedule_STATUS); ok {
+		err := augmentedSchedule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForRedis_PatchSchedule_Spec interface {
+	AssignPropertiesFrom(src *v20201201s.Redis_PatchSchedule_Spec) error
+	AssignPropertiesTo(dst *v20201201s.Redis_PatchSchedule_Spec) error
+}
+
+type augmentConversionForRedis_PatchSchedule_STATUS interface {
+	AssignPropertiesFrom(src *v20201201s.Redis_PatchSchedule_STATUS) error
+	AssignPropertiesTo(dst *v20201201s.Redis_PatchSchedule_STATUS) error
 }
 
 // Storage version of v1alpha1api20201201.ScheduleEntry
@@ -542,6 +605,14 @@ func (entry *ScheduleEntry) AssignProperties_From_ScheduleEntry(source *v2020120
 		entry.PropertyBag = nil
 	}
 
+	var entryAsAny any = entry
+	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry); ok {
+		err := augmentedEntry.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -565,6 +636,14 @@ func (entry *ScheduleEntry) AssignProperties_To_ScheduleEntry(destination *v2020
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var entryAsAny any = entry
+	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry); ok {
+		err := augmentedEntry.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -601,6 +680,14 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_From_ScheduleEntry_STATUS(so
 		entry.PropertyBag = nil
 	}
 
+	var entryAsAny any = entry
+	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry_STATUS); ok {
+		err := augmentedEntry.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -626,8 +713,26 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_To_ScheduleEntry_STATUS(dest
 		destination.PropertyBag = nil
 	}
 
+	var entryAsAny any = entry
+	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry_STATUS); ok {
+		err := augmentedEntry.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForScheduleEntry interface {
+	AssignPropertiesFrom(src *v20201201s.ScheduleEntry) error
+	AssignPropertiesTo(dst *v20201201s.ScheduleEntry) error
+}
+
+type augmentConversionForScheduleEntry_STATUS interface {
+	AssignPropertiesFrom(src *v20201201s.ScheduleEntry_STATUS) error
+	AssignPropertiesTo(dst *v20201201s.ScheduleEntry_STATUS) error
 }
 
 func init() {

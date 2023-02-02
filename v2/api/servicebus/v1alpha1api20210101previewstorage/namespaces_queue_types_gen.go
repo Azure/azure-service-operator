@@ -151,6 +151,14 @@ func (queue *NamespacesQueue) AssignProperties_From_NamespacesQueue(source *v202
 	}
 	queue.Status = status
 
+	var queueAsAny any = queue
+	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespacesQueue); ok {
+		err := augmentedQueue.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (queue *NamespacesQueue) AssignProperties_To_NamespacesQueue(destination *v
 	}
 	destination.Status = status
 
+	var queueAsAny any = queue
+	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespacesQueue); ok {
+		err := augmentedQueue.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type NamespacesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesQueue `json:"items"`
+}
+
+type augmentConversionForNamespacesQueue interface {
+	AssignPropertiesFrom(src *v20210101ps.NamespacesQueue) error
+	AssignPropertiesTo(dst *v20210101ps.NamespacesQueue) error
 }
 
 // Storage version of v1alpha1api20210101preview.Namespaces_Queue_Spec
@@ -378,6 +399,14 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(
 		queue.PropertyBag = nil
 	}
 
+	var queueAsAny any = queue
+	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespaces_Queue_Spec); ok {
+		err := augmentedQueue.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -478,6 +507,14 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var queueAsAny any = queue
+	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespaces_Queue_Spec); ok {
+		err := augmentedQueue.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -704,6 +741,14 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_From_Namespaces_Queue_STA
 		queue.PropertyBag = nil
 	}
 
+	var queueAsAny any = queue
+	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespaces_Queue_STATUS); ok {
+		err := augmentedQueue.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -846,8 +891,26 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATU
 		destination.PropertyBag = nil
 	}
 
+	var queueAsAny any = queue
+	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespaces_Queue_STATUS); ok {
+		err := augmentedQueue.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForNamespaces_Queue_Spec interface {
+	AssignPropertiesFrom(src *v20210101ps.Namespaces_Queue_Spec) error
+	AssignPropertiesTo(dst *v20210101ps.Namespaces_Queue_Spec) error
+}
+
+type augmentConversionForNamespaces_Queue_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.Namespaces_Queue_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.Namespaces_Queue_STATUS) error
 }
 
 // Storage version of v1alpha1api20210101preview.MessageCountDetails_STATUS
@@ -888,6 +951,14 @@ func (details *MessageCountDetails_STATUS) AssignProperties_From_MessageCountDet
 		details.PropertyBag = nil
 	}
 
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForMessageCountDetails_STATUS); ok {
+		err := augmentedDetails.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -919,8 +990,21 @@ func (details *MessageCountDetails_STATUS) AssignProperties_To_MessageCountDetai
 		destination.PropertyBag = nil
 	}
 
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForMessageCountDetails_STATUS); ok {
+		err := augmentedDetails.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForMessageCountDetails_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.MessageCountDetails_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.MessageCountDetails_STATUS) error
 }
 
 func init() {

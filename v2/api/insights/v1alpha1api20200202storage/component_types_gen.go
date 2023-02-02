@@ -151,6 +151,14 @@ func (component *Component) AssignProperties_From_Component(source *v20200202s.C
 	}
 	component.Status = status
 
+	var componentAsAny any = component
+	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent); ok {
+		err := augmentedComponent.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -176,6 +184,14 @@ func (component *Component) AssignProperties_To_Component(destination *v20200202
 		return errors.Wrap(err, "calling AssignProperties_To_Component_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	var componentAsAny any = component
+	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent); ok {
+		err := augmentedComponent.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -205,6 +221,11 @@ type ComponentList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-02-02")
+
+type augmentConversionForComponent interface {
+	AssignPropertiesFrom(src *v20200202s.Component) error
+	AssignPropertiesTo(dst *v20200202s.Component) error
+}
 
 // Storage version of v1alpha1api20200202.Component_Spec
 type Component_Spec struct {
@@ -400,6 +421,14 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 		component.PropertyBag = nil
 	}
 
+	var componentAsAny any = component
+	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent_Spec); ok {
+		err := augmentedComponent.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -512,6 +541,14 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var componentAsAny any = component
+	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent_Spec); ok {
+		err := augmentedComponent.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -758,6 +795,14 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 		component.PropertyBag = nil
 	}
 
+	var componentAsAny any = component
+	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent_STATUS); ok {
+		err := augmentedComponent.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -913,8 +958,26 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 		destination.PropertyBag = nil
 	}
 
+	var componentAsAny any = component
+	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent_STATUS); ok {
+		err := augmentedComponent.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForComponent_Spec interface {
+	AssignPropertiesFrom(src *v20200202s.Component_Spec) error
+	AssignPropertiesTo(dst *v20200202s.Component_Spec) error
+}
+
+type augmentConversionForComponent_STATUS interface {
+	AssignPropertiesFrom(src *v20200202s.Component_STATUS) error
+	AssignPropertiesTo(dst *v20200202s.Component_STATUS) error
 }
 
 // Storage version of v1alpha1api20200202.PrivateLinkScopedResource_STATUS
@@ -943,6 +1006,14 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateL
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkScopedResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -965,8 +1036,21 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLin
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkScopedResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForPrivateLinkScopedResource_STATUS interface {
+	AssignPropertiesFrom(src *v20200202s.PrivateLinkScopedResource_STATUS) error
+	AssignPropertiesTo(dst *v20200202s.PrivateLinkScopedResource_STATUS) error
 }
 
 func init() {

@@ -151,6 +151,14 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AssignProperties_From
 	}
 	setting.Status = status
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseCollectionThroughputSetting); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AssignProperties_To_M
 	}
 	destination.Status = status
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseCollectionThroughputSetting); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
+}
+
+type augmentConversionForMongodbDatabaseCollectionThroughputSetting interface {
+	AssignPropertiesFrom(src *v20210515s.MongodbDatabaseCollectionThroughputSetting) error
+	AssignPropertiesTo(dst *v20210515s.MongodbDatabaseCollectionThroughputSetting) error
 }
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec
@@ -305,6 +326,14 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		setting.PropertyBag = nil
 	}
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -348,6 +377,14 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -459,6 +496,14 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		setting.PropertyBag = nil
 	}
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -505,8 +550,26 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		destination.PropertyBag = nil
 	}
 
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) error
+}
+
+type augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) error
 }
 
 // Storage version of v1alpha1api20210515.ThroughputSettingsGetProperties_Resource_STATUS
@@ -569,6 +632,14 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertie
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputSettingsGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -620,6 +691,14 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertie
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputSettingsGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -659,6 +738,14 @@ func (resource *ThroughputSettingsResource) AssignProperties_From_ThroughputSett
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputSettingsResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -690,8 +777,26 @@ func (resource *ThroughputSettingsResource) AssignProperties_To_ThroughputSettin
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputSettingsResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForThroughputSettingsGetProperties_Resource_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.ThroughputSettingsGetProperties_Resource_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.ThroughputSettingsGetProperties_Resource_STATUS) error
+}
+
+type augmentConversionForThroughputSettingsResource interface {
+	AssignPropertiesFrom(src *v20210515s.ThroughputSettingsResource) error
+	AssignPropertiesTo(dst *v20210515s.ThroughputSettingsResource) error
 }
 
 // Storage version of v1alpha1api20210515.AutoscaleSettingsResource
@@ -729,6 +834,14 @@ func (resource *AutoscaleSettingsResource) AssignProperties_From_AutoscaleSettin
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoscaleSettingsResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -758,6 +871,14 @@ func (resource *AutoscaleSettingsResource) AssignProperties_To_AutoscaleSettings
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoscaleSettingsResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -803,6 +924,14 @@ func (resource *AutoscaleSettingsResource_STATUS) AssignProperties_From_Autoscal
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoscaleSettingsResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -837,8 +966,26 @@ func (resource *AutoscaleSettingsResource_STATUS) AssignProperties_To_AutoscaleS
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoscaleSettingsResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForAutoscaleSettingsResource interface {
+	AssignPropertiesFrom(src *v20210515s.AutoscaleSettingsResource) error
+	AssignPropertiesTo(dst *v20210515s.AutoscaleSettingsResource) error
+}
+
+type augmentConversionForAutoscaleSettingsResource_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.AutoscaleSettingsResource_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.AutoscaleSettingsResource_STATUS) error
 }
 
 // Storage version of v1alpha1api20210515.AutoUpgradePolicyResource
@@ -872,6 +1019,14 @@ func (resource *AutoUpgradePolicyResource) AssignProperties_From_AutoUpgradePoli
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoUpgradePolicyResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -898,6 +1053,14 @@ func (resource *AutoUpgradePolicyResource) AssignProperties_To_AutoUpgradePolicy
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoUpgradePolicyResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -935,6 +1098,14 @@ func (resource *AutoUpgradePolicyResource_STATUS) AssignProperties_From_AutoUpgr
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoUpgradePolicyResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -963,8 +1134,26 @@ func (resource *AutoUpgradePolicyResource_STATUS) AssignProperties_To_AutoUpgrad
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoUpgradePolicyResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForAutoUpgradePolicyResource interface {
+	AssignPropertiesFrom(src *v20210515s.AutoUpgradePolicyResource) error
+	AssignPropertiesTo(dst *v20210515s.AutoUpgradePolicyResource) error
+}
+
+type augmentConversionForAutoUpgradePolicyResource_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.AutoUpgradePolicyResource_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.AutoUpgradePolicyResource_STATUS) error
 }
 
 // Storage version of v1alpha1api20210515.ThroughputPolicyResource
@@ -998,6 +1187,14 @@ func (resource *ThroughputPolicyResource) AssignProperties_From_ThroughputPolicy
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputPolicyResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1023,6 +1220,14 @@ func (resource *ThroughputPolicyResource) AssignProperties_To_ThroughputPolicyRe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputPolicyResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1060,6 +1265,14 @@ func (resource *ThroughputPolicyResource_STATUS) AssignProperties_From_Throughpu
 		resource.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputPolicyResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1087,8 +1300,26 @@ func (resource *ThroughputPolicyResource_STATUS) AssignProperties_To_ThroughputP
 		destination.PropertyBag = nil
 	}
 
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputPolicyResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForThroughputPolicyResource interface {
+	AssignPropertiesFrom(src *v20210515s.ThroughputPolicyResource) error
+	AssignPropertiesTo(dst *v20210515s.ThroughputPolicyResource) error
+}
+
+type augmentConversionForThroughputPolicyResource_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.ThroughputPolicyResource_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.ThroughputPolicyResource_STATUS) error
 }
 
 func init() {

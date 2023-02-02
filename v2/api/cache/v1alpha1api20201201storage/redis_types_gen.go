@@ -152,6 +152,14 @@ func (redis *Redis) AssignProperties_From_Redis(source *v20201201s.Redis) error 
 	}
 	redis.Status = status
 
+	var redisAsAny any = redis
+	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis); ok {
+		err := augmentedRedis.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (redis *Redis) AssignProperties_To_Redis(destination *v20201201s.Redis) err
 		return errors.Wrap(err, "calling AssignProperties_To_Redis_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	var redisAsAny any = redis
+	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis); ok {
+		err := augmentedRedis.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -206,6 +222,11 @@ type RedisList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-12-01")
+
+type augmentConversionForRedis interface {
+	AssignPropertiesFrom(src *v20201201s.Redis) error
+	AssignPropertiesTo(dst *v20201201s.Redis) error
+}
 
 // Storage version of v1alpha1api20201201.Redis_Spec
 type Redis_Spec struct {
@@ -404,6 +425,14 @@ func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *v20201201s.Red
 		redis.PropertyBag = nil
 	}
 
+	var redisAsAny any = redis
+	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis_Spec); ok {
+		err := augmentedRedis.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -522,6 +551,14 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var redisAsAny any = redis
+	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis_Spec); ok {
+		err := augmentedRedis.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -778,6 +815,14 @@ func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *v20201201s
 		redis.PropertyBag = nil
 	}
 
+	var redisAsAny any = redis
+	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis_STATUS); ok {
+		err := augmentedRedis.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -950,8 +995,26 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v202012
 		destination.PropertyBag = nil
 	}
 
+	var redisAsAny any = redis
+	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis_STATUS); ok {
+		err := augmentedRedis.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForRedis_Spec interface {
+	AssignPropertiesFrom(src *v20201201s.Redis_Spec) error
+	AssignPropertiesTo(dst *v20201201s.Redis_Spec) error
+}
+
+type augmentConversionForRedis_STATUS interface {
+	AssignPropertiesFrom(src *v20201201s.Redis_STATUS) error
+	AssignPropertiesTo(dst *v20201201s.Redis_STATUS) error
 }
 
 // Storage version of v1alpha1api20201201.PrivateEndpointConnection_STATUS
@@ -976,6 +1039,14 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 		connection.PropertyBag = nil
 	}
 
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
+		err := augmentedConnection.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -993,6 +1064,14 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
+		err := augmentedConnection.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1069,6 +1148,14 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 		configuration.PropertyBag = nil
 	}
 
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForRedisCreateProperties_RedisConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1122,6 +1209,14 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForRedisCreateProperties_RedisConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1180,6 +1275,14 @@ func (details *RedisInstanceDetails_STATUS) AssignProperties_From_RedisInstanceD
 		details.PropertyBag = nil
 	}
 
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForRedisInstanceDetails_STATUS); ok {
+		err := augmentedDetails.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1224,6 +1327,14 @@ func (details *RedisInstanceDetails_STATUS) AssignProperties_To_RedisInstanceDet
 		destination.PropertyBag = nil
 	}
 
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForRedisInstanceDetails_STATUS); ok {
+		err := augmentedDetails.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1250,6 +1361,14 @@ func (server *RedisLinkedServer_STATUS) AssignProperties_From_RedisLinkedServer_
 		server.PropertyBag = nil
 	}
 
+	var serverAsAny any = server
+	if augmentedServer, ok := serverAsAny.(augmentConversionForRedisLinkedServer_STATUS); ok {
+		err := augmentedServer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1267,6 +1386,14 @@ func (server *RedisLinkedServer_STATUS) AssignProperties_To_RedisLinkedServer_ST
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var serverAsAny any = server
+	if augmentedServer, ok := serverAsAny.(augmentConversionForRedisLinkedServer_STATUS); ok {
+		err := augmentedServer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1304,6 +1431,14 @@ func (operator *RedisOperatorSpec) AssignProperties_From_RedisOperatorSpec(sourc
 		operator.PropertyBag = nil
 	}
 
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1330,6 +1465,14 @@ func (operator *RedisOperatorSpec) AssignProperties_To_RedisOperatorSpec(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1414,6 +1557,14 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 		configuration.PropertyBag = nil
 	}
 
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForRedisProperties_RedisConfiguration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1475,6 +1626,14 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForRedisProperties_RedisConfiguration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1519,6 +1678,14 @@ func (sku *Sku) AssignProperties_From_Sku(source *alpha20210301s.Sku) error {
 		sku.PropertyBag = nil
 	}
 
+	var skuAsAny any = sku
+	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
+		err := augmentedSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1546,6 +1713,14 @@ func (sku *Sku) AssignProperties_To_Sku(destination *alpha20210301s.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var skuAsAny any = sku
+	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
+		err := augmentedSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1592,6 +1767,14 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *alpha20210301s.S
 		sku.PropertyBag = nil
 	}
 
+	var skuAsAny any = sku
+	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
+		err := augmentedSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1621,8 +1804,56 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *alpha20210301
 		destination.PropertyBag = nil
 	}
 
+	var skuAsAny any = sku
+	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
+		err := augmentedSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForPrivateEndpointConnection_STATUS interface {
+	AssignPropertiesFrom(src *alpha20210301s.PrivateEndpointConnection_STATUS) error
+	AssignPropertiesTo(dst *alpha20210301s.PrivateEndpointConnection_STATUS) error
+}
+
+type augmentConversionForRedisCreateProperties_RedisConfiguration interface {
+	AssignPropertiesFrom(src *v20201201s.RedisCreateProperties_RedisConfiguration) error
+	AssignPropertiesTo(dst *v20201201s.RedisCreateProperties_RedisConfiguration) error
+}
+
+type augmentConversionForRedisInstanceDetails_STATUS interface {
+	AssignPropertiesFrom(src *v20201201s.RedisInstanceDetails_STATUS) error
+	AssignPropertiesTo(dst *v20201201s.RedisInstanceDetails_STATUS) error
+}
+
+type augmentConversionForRedisLinkedServer_STATUS interface {
+	AssignPropertiesFrom(src *v20201201s.RedisLinkedServer_STATUS) error
+	AssignPropertiesTo(dst *v20201201s.RedisLinkedServer_STATUS) error
+}
+
+type augmentConversionForRedisOperatorSpec interface {
+	AssignPropertiesFrom(src *v20201201s.RedisOperatorSpec) error
+	AssignPropertiesTo(dst *v20201201s.RedisOperatorSpec) error
+}
+
+type augmentConversionForRedisProperties_RedisConfiguration_STATUS interface {
+	AssignPropertiesFrom(src *v20201201s.RedisProperties_RedisConfiguration_STATUS) error
+	AssignPropertiesTo(dst *v20201201s.RedisProperties_RedisConfiguration_STATUS) error
+}
+
+type augmentConversionForSku interface {
+	AssignPropertiesFrom(src *alpha20210301s.Sku) error
+	AssignPropertiesTo(dst *alpha20210301s.Sku) error
+}
+
+type augmentConversionForSku_STATUS interface {
+	AssignPropertiesFrom(src *alpha20210301s.Sku_STATUS) error
+	AssignPropertiesTo(dst *alpha20210301s.Sku_STATUS) error
 }
 
 // Storage version of v1alpha1api20201201.RedisOperatorSecrets
@@ -1687,6 +1918,14 @@ func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(
 		secrets.PropertyBag = nil
 	}
 
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForRedisOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1743,8 +1982,21 @@ func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(de
 		destination.PropertyBag = nil
 	}
 
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForRedisOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForRedisOperatorSecrets interface {
+	AssignPropertiesFrom(src *v20201201s.RedisOperatorSecrets) error
+	AssignPropertiesTo(dst *v20201201s.RedisOperatorSecrets) error
 }
 
 func init() {

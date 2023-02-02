@@ -151,6 +151,14 @@ func (webtest *Webtest) AssignProperties_From_Webtest(source *v20180501ps.Webtes
 	}
 	webtest.Status = status
 
+	var webtestAsAny any = webtest
+	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest); ok {
+		err := augmentedWebtest.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -176,6 +184,14 @@ func (webtest *Webtest) AssignProperties_To_Webtest(destination *v20180501ps.Web
 		return errors.Wrap(err, "calling AssignProperties_To_Webtest_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	var webtestAsAny any = webtest
+	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest); ok {
+		err := augmentedWebtest.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -205,6 +221,11 @@ type WebtestList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-05-01-preview")
+
+type augmentConversionForWebtest interface {
+	AssignPropertiesFrom(src *v20180501ps.Webtest) error
+	AssignPropertiesTo(dst *v20180501ps.Webtest) error
+}
 
 // Storage version of v1alpha1api20180501preview.Webtest_Spec
 type Webtest_Spec struct {
@@ -405,6 +426,14 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *v2018050
 		webtest.PropertyBag = nil
 	}
 
+	var webtestAsAny any = webtest
+	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest_Spec); ok {
+		err := augmentedWebtest.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -527,6 +556,14 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *v2018
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var webtestAsAny any = webtest
+	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest_Spec); ok {
+		err := augmentedWebtest.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -729,6 +766,14 @@ func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *v201
 		webtest.PropertyBag = nil
 	}
 
+	var webtestAsAny any = webtest
+	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest_STATUS); ok {
+		err := augmentedWebtest.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -854,8 +899,26 @@ func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *v
 		destination.PropertyBag = nil
 	}
 
+	var webtestAsAny any = webtest
+	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest_STATUS); ok {
+		err := augmentedWebtest.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForWebtest_Spec interface {
+	AssignPropertiesFrom(src *v20180501ps.Webtest_Spec) error
+	AssignPropertiesTo(dst *v20180501ps.Webtest_Spec) error
+}
+
+type augmentConversionForWebtest_STATUS interface {
+	AssignPropertiesFrom(src *v20180501ps.Webtest_STATUS) error
+	AssignPropertiesTo(dst *v20180501ps.Webtest_STATUS) error
 }
 
 // Storage version of v1alpha1api20180501preview.WebTestGeolocation
@@ -880,6 +943,14 @@ func (geolocation *WebTestGeolocation) AssignProperties_From_WebTestGeolocation(
 		geolocation.PropertyBag = nil
 	}
 
+	var geolocationAsAny any = geolocation
+	if augmentedGeolocation, ok := geolocationAsAny.(augmentConversionForWebTestGeolocation); ok {
+		err := augmentedGeolocation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -897,6 +968,14 @@ func (geolocation *WebTestGeolocation) AssignProperties_To_WebTestGeolocation(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var geolocationAsAny any = geolocation
+	if augmentedGeolocation, ok := geolocationAsAny.(augmentConversionForWebTestGeolocation); ok {
+		err := augmentedGeolocation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -925,6 +1004,14 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_From_WebTestGeolo
 		geolocation.PropertyBag = nil
 	}
 
+	var geolocationAsAny any = geolocation
+	if augmentedGeolocation, ok := geolocationAsAny.(augmentConversionForWebTestGeolocation_STATUS); ok {
+		err := augmentedGeolocation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -942,6 +1029,14 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_To_WebTestGeoloca
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var geolocationAsAny any = geolocation
+	if augmentedGeolocation, ok := geolocationAsAny.(augmentConversionForWebTestGeolocation_STATUS); ok {
+		err := augmentedGeolocation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -970,6 +1065,14 @@ func (configuration *WebTestProperties_Configuration) AssignProperties_From_WebT
 		configuration.PropertyBag = nil
 	}
 
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForWebTestProperties_Configuration); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -987,6 +1090,14 @@ func (configuration *WebTestProperties_Configuration) AssignProperties_To_WebTes
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForWebTestProperties_Configuration); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1015,6 +1126,14 @@ func (configuration *WebTestProperties_Configuration_STATUS) AssignProperties_Fr
 		configuration.PropertyBag = nil
 	}
 
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForWebTestProperties_Configuration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1032,6 +1151,14 @@ func (configuration *WebTestProperties_Configuration_STATUS) AssignProperties_To
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForWebTestProperties_Configuration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1105,6 +1232,14 @@ func (request *WebTestProperties_Request) AssignProperties_From_WebTestPropertie
 		request.PropertyBag = nil
 	}
 
+	var requestAsAny any = request
+	if augmentedRequest, ok := requestAsAny.(augmentConversionForWebTestProperties_Request); ok {
+		err := augmentedRequest.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1162,6 +1297,14 @@ func (request *WebTestProperties_Request) AssignProperties_To_WebTestProperties_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var requestAsAny any = request
+	if augmentedRequest, ok := requestAsAny.(augmentConversionForWebTestProperties_Request); ok {
+		err := augmentedRequest.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1235,6 +1378,14 @@ func (request *WebTestProperties_Request_STATUS) AssignProperties_From_WebTestPr
 		request.PropertyBag = nil
 	}
 
+	var requestAsAny any = request
+	if augmentedRequest, ok := requestAsAny.(augmentConversionForWebTestProperties_Request_STATUS); ok {
+		err := augmentedRequest.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1292,6 +1443,14 @@ func (request *WebTestProperties_Request_STATUS) AssignProperties_To_WebTestProp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var requestAsAny any = request
+	if augmentedRequest, ok := requestAsAny.(augmentConversionForWebTestProperties_Request_STATUS); ok {
+		err := augmentedRequest.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1355,6 +1514,14 @@ func (rules *WebTestProperties_ValidationRules) AssignProperties_From_WebTestPro
 		rules.PropertyBag = nil
 	}
 
+	var rulesAsAny any = rules
+	if augmentedRules, ok := rulesAsAny.(augmentConversionForWebTestProperties_ValidationRules); ok {
+		err := augmentedRules.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1403,6 +1570,14 @@ func (rules *WebTestProperties_ValidationRules) AssignProperties_To_WebTestPrope
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var rulesAsAny any = rules
+	if augmentedRules, ok := rulesAsAny.(augmentConversionForWebTestProperties_ValidationRules); ok {
+		err := augmentedRules.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1466,6 +1641,14 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_From_Web
 		rules.PropertyBag = nil
 	}
 
+	var rulesAsAny any = rules
+	if augmentedRules, ok := rulesAsAny.(augmentConversionForWebTestProperties_ValidationRules_STATUS); ok {
+		err := augmentedRules.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1516,8 +1699,56 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_To_WebTe
 		destination.PropertyBag = nil
 	}
 
+	var rulesAsAny any = rules
+	if augmentedRules, ok := rulesAsAny.(augmentConversionForWebTestProperties_ValidationRules_STATUS); ok {
+		err := augmentedRules.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForWebTestGeolocation interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestGeolocation) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestGeolocation) error
+}
+
+type augmentConversionForWebTestGeolocation_STATUS interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestGeolocation_STATUS) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestGeolocation_STATUS) error
+}
+
+type augmentConversionForWebTestProperties_Configuration interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestProperties_Configuration) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestProperties_Configuration) error
+}
+
+type augmentConversionForWebTestProperties_Configuration_STATUS interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestProperties_Configuration_STATUS) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestProperties_Configuration_STATUS) error
+}
+
+type augmentConversionForWebTestProperties_Request interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestProperties_Request) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestProperties_Request) error
+}
+
+type augmentConversionForWebTestProperties_Request_STATUS interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestProperties_Request_STATUS) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestProperties_Request_STATUS) error
+}
+
+type augmentConversionForWebTestProperties_ValidationRules interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestProperties_ValidationRules) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestProperties_ValidationRules) error
+}
+
+type augmentConversionForWebTestProperties_ValidationRules_STATUS interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestProperties_ValidationRules_STATUS) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestProperties_ValidationRules_STATUS) error
 }
 
 // Storage version of v1alpha1api20180501preview.HeaderField
@@ -1546,6 +1777,14 @@ func (field *HeaderField) AssignProperties_From_HeaderField(source *v20180501ps.
 		field.PropertyBag = nil
 	}
 
+	var fieldAsAny any = field
+	if augmentedField, ok := fieldAsAny.(augmentConversionForHeaderField); ok {
+		err := augmentedField.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1566,6 +1805,14 @@ func (field *HeaderField) AssignProperties_To_HeaderField(destination *v20180501
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var fieldAsAny any = field
+	if augmentedField, ok := fieldAsAny.(augmentConversionForHeaderField); ok {
+		err := augmentedField.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1598,6 +1845,14 @@ func (field *HeaderField_STATUS) AssignProperties_From_HeaderField_STATUS(source
 		field.PropertyBag = nil
 	}
 
+	var fieldAsAny any = field
+	if augmentedField, ok := fieldAsAny.(augmentConversionForHeaderField_STATUS); ok {
+		err := augmentedField.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1618,6 +1873,14 @@ func (field *HeaderField_STATUS) AssignProperties_To_HeaderField_STATUS(destinat
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var fieldAsAny any = field
+	if augmentedField, ok := fieldAsAny.(augmentConversionForHeaderField_STATUS); ok {
+		err := augmentedField.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1664,6 +1927,14 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignPro
 		validation.PropertyBag = nil
 	}
 
+	var validationAsAny any = validation
+	if augmentedValidation, ok := validationAsAny.(augmentConversionForWebTestProperties_ValidationRules_ContentValidation); ok {
+		err := augmentedValidation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1697,6 +1968,14 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignPro
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var validationAsAny any = validation
+	if augmentedValidation, ok := validationAsAny.(augmentConversionForWebTestProperties_ValidationRules_ContentValidation); ok {
+		err := augmentedValidation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1743,6 +2022,14 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) As
 		validation.PropertyBag = nil
 	}
 
+	var validationAsAny any = validation
+	if augmentedValidation, ok := validationAsAny.(augmentConversionForWebTestProperties_ValidationRules_ContentValidation_STATUS); ok {
+		err := augmentedValidation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1778,8 +2065,36 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) As
 		destination.PropertyBag = nil
 	}
 
+	var validationAsAny any = validation
+	if augmentedValidation, ok := validationAsAny.(augmentConversionForWebTestProperties_ValidationRules_ContentValidation_STATUS); ok {
+		err := augmentedValidation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForHeaderField interface {
+	AssignPropertiesFrom(src *v20180501ps.HeaderField) error
+	AssignPropertiesTo(dst *v20180501ps.HeaderField) error
+}
+
+type augmentConversionForHeaderField_STATUS interface {
+	AssignPropertiesFrom(src *v20180501ps.HeaderField_STATUS) error
+	AssignPropertiesTo(dst *v20180501ps.HeaderField_STATUS) error
+}
+
+type augmentConversionForWebTestProperties_ValidationRules_ContentValidation interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestProperties_ValidationRules_ContentValidation) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestProperties_ValidationRules_ContentValidation) error
+}
+
+type augmentConversionForWebTestProperties_ValidationRules_ContentValidation_STATUS interface {
+	AssignPropertiesFrom(src *v20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS) error
+	AssignPropertiesTo(dst *v20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS) error
 }
 
 func init() {

@@ -183,6 +183,14 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	}
 	identity.Status = status
 
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -208,6 +216,14 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -237,6 +253,11 @@ type UserAssignedIdentityList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-11-30")
+
+type augmentConversionForUserAssignedIdentity interface {
+	AssignPropertiesFrom(src *v20181130s.UserAssignedIdentity) error
+	AssignPropertiesTo(dst *v20181130s.UserAssignedIdentity) error
+}
 
 // Storage version of v1alpha1api20181130.UserAssignedIdentity_Spec
 type UserAssignedIdentity_Spec struct {
@@ -350,6 +371,14 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_From_UserAssignedIde
 		identity.PropertyBag = nil
 	}
 
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_Spec); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -396,6 +425,14 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdent
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_Spec); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -506,6 +543,14 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 		identity.PropertyBag = nil
 	}
 
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -549,8 +594,26 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 		destination.PropertyBag = nil
 	}
 
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForUserAssignedIdentity_Spec interface {
+	AssignPropertiesFrom(src *v20181130s.UserAssignedIdentity_Spec) error
+	AssignPropertiesTo(dst *v20181130s.UserAssignedIdentity_Spec) error
+}
+
+type augmentConversionForUserAssignedIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v20181130s.UserAssignedIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20181130s.UserAssignedIdentity_STATUS) error
 }
 
 // Storage version of v1alpha1api20181130.UserAssignedIdentityOperatorSpec
@@ -584,6 +647,14 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssi
 		operator.PropertyBag = nil
 	}
 
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForUserAssignedIdentityOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -612,8 +683,21 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssign
 		destination.PropertyBag = nil
 	}
 
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForUserAssignedIdentityOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForUserAssignedIdentityOperatorSpec interface {
+	AssignPropertiesFrom(src *v20181130s.UserAssignedIdentityOperatorSpec) error
+	AssignPropertiesTo(dst *v20181130s.UserAssignedIdentityOperatorSpec) error
 }
 
 // Storage version of v1alpha1api20181130.UserAssignedIdentityOperatorConfigMaps
@@ -660,6 +744,14 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAs
 		maps.PropertyBag = nil
 	}
 
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForUserAssignedIdentityOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -700,8 +792,21 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssi
 		destination.PropertyBag = nil
 	}
 
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForUserAssignedIdentityOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForUserAssignedIdentityOperatorConfigMaps interface {
+	AssignPropertiesFrom(src *v20181130s.UserAssignedIdentityOperatorConfigMaps) error
+	AssignPropertiesTo(dst *v20181130s.UserAssignedIdentityOperatorConfigMaps) error
 }
 
 func init() {

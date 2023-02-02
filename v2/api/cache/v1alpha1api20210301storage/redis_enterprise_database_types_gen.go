@@ -151,6 +151,14 @@ func (database *RedisEnterpriseDatabase) AssignProperties_From_RedisEnterpriseDa
 	}
 	database.Status = status
 
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterpriseDatabase); ok {
+		err := augmentedDatabase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +185,14 @@ func (database *RedisEnterpriseDatabase) AssignProperties_To_RedisEnterpriseData
 	}
 	destination.Status = status
 
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterpriseDatabase); ok {
+		err := augmentedDatabase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +213,11 @@ type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterpriseDatabase `json:"items"`
+}
+
+type augmentConversionForRedisEnterpriseDatabase interface {
+	AssignPropertiesFrom(src *v20210301s.RedisEnterpriseDatabase) error
+	AssignPropertiesTo(dst *v20210301s.RedisEnterpriseDatabase) error
 }
 
 // Storage version of v1alpha1api20210301.RedisEnterprise_Database_Spec
@@ -338,6 +359,14 @@ func (database *RedisEnterprise_Database_Spec) AssignProperties_From_RedisEnterp
 		database.PropertyBag = nil
 	}
 
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterprise_Database_Spec); ok {
+		err := augmentedDatabase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -408,6 +437,14 @@ func (database *RedisEnterprise_Database_Spec) AssignProperties_To_RedisEnterpri
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterprise_Database_Spec); ok {
+		err := augmentedDatabase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -554,6 +591,14 @@ func (database *RedisEnterprise_Database_STATUS) AssignProperties_From_RedisEnte
 		database.PropertyBag = nil
 	}
 
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterprise_Database_STATUS); ok {
+		err := augmentedDatabase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -630,8 +675,26 @@ func (database *RedisEnterprise_Database_STATUS) AssignProperties_To_RedisEnterp
 		destination.PropertyBag = nil
 	}
 
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterprise_Database_STATUS); ok {
+		err := augmentedDatabase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForRedisEnterprise_Database_Spec interface {
+	AssignPropertiesFrom(src *v20210301s.RedisEnterprise_Database_Spec) error
+	AssignPropertiesTo(dst *v20210301s.RedisEnterprise_Database_Spec) error
+}
+
+type augmentConversionForRedisEnterprise_Database_STATUS interface {
+	AssignPropertiesFrom(src *v20210301s.RedisEnterprise_Database_STATUS) error
+	AssignPropertiesTo(dst *v20210301s.RedisEnterprise_Database_STATUS) error
 }
 
 // Storage version of v1alpha1api20210301.Module
@@ -660,6 +723,14 @@ func (module *Module) AssignProperties_From_Module(source *v20210301s.Module) er
 		module.PropertyBag = nil
 	}
 
+	var moduleAsAny any = module
+	if augmentedModule, ok := moduleAsAny.(augmentConversionForModule); ok {
+		err := augmentedModule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -680,6 +751,14 @@ func (module *Module) AssignProperties_To_Module(destination *v20210301s.Module)
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var moduleAsAny any = module
+	if augmentedModule, ok := moduleAsAny.(augmentConversionForModule); ok {
+		err := augmentedModule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -716,6 +795,14 @@ func (module *Module_STATUS) AssignProperties_From_Module_STATUS(source *v202103
 		module.PropertyBag = nil
 	}
 
+	var moduleAsAny any = module
+	if augmentedModule, ok := moduleAsAny.(augmentConversionForModule_STATUS); ok {
+		err := augmentedModule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -739,6 +826,14 @@ func (module *Module_STATUS) AssignProperties_To_Module_STATUS(destination *v202
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var moduleAsAny any = module
+	if augmentedModule, ok := moduleAsAny.(augmentConversionForModule_STATUS); ok {
+		err := augmentedModule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -789,6 +884,14 @@ func (persistence *Persistence) AssignProperties_From_Persistence(source *v20210
 		persistence.PropertyBag = nil
 	}
 
+	var persistenceAsAny any = persistence
+	if augmentedPersistence, ok := persistenceAsAny.(augmentConversionForPersistence); ok {
+		err := augmentedPersistence.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -825,6 +928,14 @@ func (persistence *Persistence) AssignProperties_To_Persistence(destination *v20
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	var persistenceAsAny any = persistence
+	if augmentedPersistence, ok := persistenceAsAny.(augmentConversionForPersistence); ok {
+		err := augmentedPersistence.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -875,6 +986,14 @@ func (persistence *Persistence_STATUS) AssignProperties_From_Persistence_STATUS(
 		persistence.PropertyBag = nil
 	}
 
+	var persistenceAsAny any = persistence
+	if augmentedPersistence, ok := persistenceAsAny.(augmentConversionForPersistence_STATUS); ok {
+		err := augmentedPersistence.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -913,8 +1032,36 @@ func (persistence *Persistence_STATUS) AssignProperties_To_Persistence_STATUS(de
 		destination.PropertyBag = nil
 	}
 
+	var persistenceAsAny any = persistence
+	if augmentedPersistence, ok := persistenceAsAny.(augmentConversionForPersistence_STATUS); ok {
+		err := augmentedPersistence.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForModule interface {
+	AssignPropertiesFrom(src *v20210301s.Module) error
+	AssignPropertiesTo(dst *v20210301s.Module) error
+}
+
+type augmentConversionForModule_STATUS interface {
+	AssignPropertiesFrom(src *v20210301s.Module_STATUS) error
+	AssignPropertiesTo(dst *v20210301s.Module_STATUS) error
+}
+
+type augmentConversionForPersistence interface {
+	AssignPropertiesFrom(src *v20210301s.Persistence) error
+	AssignPropertiesTo(dst *v20210301s.Persistence) error
+}
+
+type augmentConversionForPersistence_STATUS interface {
+	AssignPropertiesFrom(src *v20210301s.Persistence_STATUS) error
+	AssignPropertiesTo(dst *v20210301s.Persistence_STATUS) error
 }
 
 func init() {
