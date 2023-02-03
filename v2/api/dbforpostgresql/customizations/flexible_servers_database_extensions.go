@@ -32,11 +32,12 @@ func (ext *FlexibleServersDatabaseExtension) PreReconcileCheck(
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if our owning server is ready for the database to be reconciled
 	if server, ok := owner.(*postgresql.FlexibleServer); ok {
-		if flexibleServerStateBlocksReconciliation(server) {
+		serverState := server.Status.State
+		if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {
 			return extensions.BlockReconcile(
 				fmt.Sprintf(
 					"Owning FlexibleServer is in provisioning state %q",
-					*server.Status.State)), nil
+					*serverState)), nil
 		}
 	}
 
