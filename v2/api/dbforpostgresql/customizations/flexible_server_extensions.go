@@ -96,6 +96,7 @@ var nonBlockingFlexibleServerStates = set.Make(
 	"succeeded",
 	"failed",
 	"canceled",
+	"ready",
 )
 
 func (ext *FlexibleServerExtension) PreReconcileCheck(
@@ -124,7 +125,7 @@ func (ext *FlexibleServerExtension) PreReconcileCheck(
 		return extensions.BlockReconcile(
 			fmt.Sprintf(
 				"Flexible Server is in provisioning state %q",
-				state)), nil
+				*state)), nil
 	}
 
 	return extensions.ProceedWithReconcile(), nil
