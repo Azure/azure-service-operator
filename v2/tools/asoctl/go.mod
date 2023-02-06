@@ -7,6 +7,7 @@ replace github.com/Azure/azure-service-operator/v2 => ../../
 require (
 	github.com/Azure/azure-service-operator/v2 v2.0.0-00010101000000-000000000000
 	github.com/Azure/go-autorest/autorest/to v0.4.0
+	github.com/devigned/pub v0.3.3
 	github.com/onsi/gomega v1.24.1
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/cobra v1.6.1
@@ -37,6 +38,7 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/devigned/tab v0.0.1 // indirect
 	github.com/emicklei/go-restful/v3 v3.9.0 // indirect
 	github.com/evanphx/json-patch v5.6.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.6.0 // indirect

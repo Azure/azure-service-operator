@@ -12,6 +12,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/pkg/errors"
+
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -65,11 +66,12 @@ func (c *Cleaner) Run(ctx context.Context) error {
 			continue
 		}
 
-		newStoredVersions := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
+		newStoredVersions, matchedStoredVersion := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
 
+		// In the check below, where CRD only has an only matched version, then the newStoredVersions == 0
 		if len(newStoredVersions) > 0 && len(newStoredVersions) != len(crd.Status.StoredVersions) {
-			klog.Infof("starting cleanup for '%s'", crd.Name)
-			objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, deprecatedVersionRegexp)
+			klog.Infof("starting cleanup for %q", crd.Name)
+			objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, matchedStoredVersion)
 			if err != nil {
 				return err
 			}
@@ -86,7 +88,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 			updated++
 		} else {
-			klog.Infof("nothing to update for '%s'\n", crd.Name)
+			klog.Infof("nothing to update for %q\n", crd.Name)
 		}
 	}
 
@@ -104,7 +106,7 @@ func (c *Cleaner) updateStorageVersions(
 	newStoredVersions []string) error {
 
 	if c.dryRun {
-		klog.Infof("new storeVersions for '%s' CRD status storedVersions: %s\n", crd.Name, newStoredVersions)
+		klog.Infof("would update storedVersions for %q CRD to: %s\n", crd.Name, newStoredVersions)
 		return nil
 	}
 
@@ -113,7 +115,7 @@ func (c *Cleaner) updateStorageVersions(
 	if err != nil {
 		return err
 	}
-	klog.Infof("updated '%s' CRD status storedVersions to : %s\n", crd.Name, updatedCrd.Status.StoredVersions)
+	klog.Infof("updated %q CRD status storedVersions to : %s\n", crd.Name, updatedCrd.Status.StoredVersions)
 
 	return nil
 }
@@ -122,8 +124,7 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 	for _, obj := range objectsToMigrate.Items {
 		obj := obj
 		if c.dryRun {
-			// TODO: verbose
-			klog.V(logging.Verbose).Infof("resource '%s' to migrate for kind '%s'", obj.GetName(), obj.GroupVersionKind().Kind)
+			klog.V(logging.Verbose).Infof("resource %q to migrate for kind %q", obj.GetName(), obj.GroupVersionKind().Kind)
 			continue
 		}
 
@@ -131,9 +132,11 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 		if isErrorFatal(err) {
 			return err
 		}
-		klog.V(logging.Verbose).Infof("migrated '%s' for %s\n", obj.GetName(), obj.GroupVersionKind().Kind)
+
+		klog.V(logging.Verbose).Infof("migrated %q for %s\n", obj.GetName(), obj.GroupVersionKind().Kind)
 	}
 
+	klog.V(logging.Verbose).Infof("migrated %d resources\n", len(objectsToMigrate.Items))
 	return nil
 }
 
@@ -144,51 +147,47 @@ func isErrorFatal(err error) bool {
 
 	if apierrors.IsGone(err) { // If resource no longer exists, we don't want to retry
 		return false
-	} else if apierrors.IsConflict(err) { // If resource is already in the state of update, we don't want to retry either
+	} else if apierrors.IsConflict(err) {
+		// If resource is already in the state of update, we don't want to retry either.
+		// Since, we're also updating resources to achieve version migration, and if we see a conflict in update,
+		// that means the resource is already updated and we don't have to do anything more.
 		return false
 	} else {
 		return true
 	}
 }
 
-func (c *Cleaner) getObjectsForMigration(ctx context.Context, crd apiextensions.CustomResourceDefinition, versionRegexp *regexp.Regexp) (*unstructured.UnstructuredList, error) {
+func (c *Cleaner) getObjectsForMigration(ctx context.Context, crd apiextensions.CustomResourceDefinition, versionToMigrate string) (*unstructured.UnstructuredList, error) {
 	list := &unstructured.UnstructuredList{}
+	if versionToMigrate == "" {
+		return list, nil
+	}
 
-	if ok, version := requireMigrate(crd, versionRegexp); ok {
-		list.SetGroupVersionKind(schema.GroupVersionKind{
-			Group:   crd.Spec.Group,
-			Version: version,
-			Kind:    crd.Spec.Names.ListKind,
-		})
+	list.SetGroupVersionKind(schema.GroupVersionKind{
+		Group:   crd.Spec.Group,
+		Version: versionToMigrate,
+		Kind:    crd.Spec.Names.ListKind,
+	})
 
-		if err := c.client.List(ctx, list); err != nil {
-			return nil, err
-		}
+	if err := c.client.List(ctx, list); err != nil {
+		return nil, err
 	}
 
 	return list, nil
 }
 
-// requireMigrate checks if resources under CRD need migration. Requirement for migration would depend on if the deprecated version is the storage version.
-func requireMigrate(crd apiextensions.CustomResourceDefinition, versionRegexp *regexp.Regexp) (bool, string) {
-	for _, version := range crd.Spec.Versions {
-		if version.Storage && versionRegexp.MatchString(version.Name) {
-			return true, version.Name
-		}
-	}
-	return false, ""
-}
-
-func removeMatchingStoredVersions(oldStoredVersions []string, versionRegexp *regexp.Regexp) []string {
-	newStoredVersions := make([]string, 0, len(oldStoredVersions))
-
-	for _, version := range oldStoredVersions {
+// removeMatchingStoredVersions returns a new list of storedVersions by removing the non-storage matched version
+func removeMatchingStoredVersions(oldVersions []string, versionRegexp *regexp.Regexp) ([]string, string) {
+	newStoredVersions := make([]string, 0, len(oldVersions))
+	var matchedStoredVersion string
+	for _, version := range oldVersions {
 		if versionRegexp.MatchString(version) {
+			matchedStoredVersion = version
 			continue
 		}
 
 		newStoredVersions = append(newStoredVersions, version)
 	}
 
-	return newStoredVersions
+	return newStoredVersions, matchedStoredVersion
 }

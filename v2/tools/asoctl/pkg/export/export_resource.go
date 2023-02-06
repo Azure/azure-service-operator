@@ -6,6 +6,9 @@
 package export
 
 import (
+	"context"
+
+	"github.com/devigned/pub/pkg/xcobra"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 )
@@ -17,10 +20,10 @@ func newExportResourceCommand() *cobra.Command {
 		Use:   "resource <ARM/ID/of/resource>",
 		Short: "exports an ARM resource CRD",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error { // TODO: Should consider xcobra.RunWithCtx here
+		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			armID := args[0]
 			return exportResource(armID, output)
-		},
+		}),
 	}
 
 	output = cmd.Flags().StringP(

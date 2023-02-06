@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/devigned/pub/pkg/xcobra"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	v1 "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
@@ -24,7 +25,7 @@ func newCRDCleanCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "clean",
 		Short: "clean deprecated CRD storedVersions",
-		RunE: func(cmd *cobra.Command, args []string) error { // TODO: Should consider xcobra.RunWithCtx here
+		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			cfg := config.GetConfigOrDie()
 
 			apiExtClient, err := v1.NewForConfig(cfg)
@@ -45,8 +46,8 @@ func newCRDCleanCommand() *cobra.Command {
 			return crd.NewCleaner(
 				apiExtClient.CustomResourceDefinitions(),
 				cl,
-				dryRun).Run(context.TODO())
-		},
+				dryRun).Run(ctx)
+		}),
 	}
 
 	cmd.PersistentFlags().Bool(dryRunFlagName, false, "")
