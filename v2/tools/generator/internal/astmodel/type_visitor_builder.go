@@ -42,6 +42,7 @@ type TypeVisitorBuilder struct {
 	VisitFlaggedType   interface{}
 	VisitValidatedType interface{}
 	VisitErroredType   interface{}
+	VisitInterfaceType interface{}
 }
 
 func (b TypeVisitorBuilder) Build() TypeVisitor {
@@ -62,6 +63,7 @@ func (b TypeVisitorBuilder) Build() TypeVisitor {
 		visitFlaggedType:   b.buildVisitFlaggedType(),
 		visitValidatedType: b.buildVisitValidatedType(),
 		visitErroredType:   b.buildVisitErroredType(),
+		visitInterfaceType: b.buildVisitInterfaceType(),
 	}
 }
 
@@ -379,4 +381,28 @@ func (b *TypeVisitorBuilder) buildVisitErroredType() func(*TypeVisitor, *Errored
 	}
 
 	panic(fmt.Sprintf("unexpected ErroredType func %#v", b.VisitErroredType))
+}
+
+// buildVisitInterfaceType returns a function to use in the TypeVisitor
+// If the field VisitInterfaceType is nil, we return an identity visitor. Otherwise we attempt to
+// convert the func found in the field, triggering a panic if no suitable func is found.
+func (b *TypeVisitorBuilder) buildVisitInterfaceType() func(*TypeVisitor, *InterfaceType, interface{}) (Type, error) {
+	if b.VisitInterfaceType == nil {
+		return IdentityVisitOfInterfaceType
+	}
+
+	switch v := b.VisitInterfaceType.(type) {
+	case func(*TypeVisitor, *InterfaceType, interface{}) (Type, error):
+		return v
+	case func(*InterfaceType) (Type, error):
+		return func(_ *TypeVisitor, it *InterfaceType, _ interface{}) (Type, error) {
+			return v(it)
+		}
+	case func(*InterfaceType) Type:
+		return func(_ *TypeVisitor, it *InterfaceType, _ interface{}) (Type, error) {
+			return v(it), nil
+		}
+	}
+
+	panic(fmt.Sprintf("unexpected InterfaceType func %#v", b.VisitInterfaceType))
 }
