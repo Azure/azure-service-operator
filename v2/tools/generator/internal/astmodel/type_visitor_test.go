@@ -146,6 +146,8 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 
 	resource := NewResourceType(person, individual)
 
+	iface := NewInterfaceType(transform)
+
 	cases := []struct {
 		name    string
 		subject Type
@@ -158,6 +160,7 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 		{"Object type with properties", person},
 		{"Object type with functions", individual},
 		{"Resource type", resource},
+		{"Interface type", iface},
 	}
 
 	for _, c := range cases {

@@ -1,0 +1,4 @@
+github.com/Azure/azure-service-operator/testing/person/v20200101
+└── Person: Interface
+    ├── Goodbye()
+    └── Hello()

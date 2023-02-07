@@ -240,6 +240,37 @@ func Test_TypeCatalogReport_GivenValidatedAndOptionalTypes_ShowsExpectedDetails(
 	golden.Assert(t, t.Name(), content.Bytes())
 }
 
+func Test_TypeCatalogReport_GivenInterface_ShowsExpectedDetails(t *testing.T) {
+	t.Parallel()
+
+	golden := goldie.New(t)
+	g := gomega.NewWithT(t)
+
+	personName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+
+	idFactory := astmodel.NewIdentifierFactory()
+	f1 := test.NewFakeFunction("Hello", idFactory)
+	f1.TypeReturned = astmodel.StringType
+
+	f2 := test.NewFakeFunction("Goodbye", idFactory)
+	f2.TypeReturned = astmodel.BoolType
+
+	person := astmodel.MakeTypeDefinition(
+		personName,
+		astmodel.NewInterfaceType(f1, f2))
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.Add(person)
+
+	var content bytes.Buffer
+	rpt := reporting.NewTypeCatalogReport(defs)
+	rpt.InlineTypes()
+	rpt.IncludeFunctions()
+
+	g.Expect(rpt.WriteTo(&content)).To(gomega.Succeed())
+	golden.Assert(t, t.Name(), content.Bytes())
+}
+
 func createDefinitionSet() astmodel.TypeDefinitionSet {
 	testSpec := test.CreateSpec(
 		test.Pkg2020,
