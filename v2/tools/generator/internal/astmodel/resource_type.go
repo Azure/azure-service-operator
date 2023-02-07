@@ -489,6 +489,10 @@ func (resource *ResourceType) References() TypeNameSet {
 		result.Add(resource.APIVersionTypeName())
 	}
 
+	for _, f := range resource.functions {
+		result.AddAll(f.References())
+	}
+
 	return result
 }
 
