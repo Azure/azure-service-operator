@@ -38,6 +38,7 @@ func NewCleaner(apiExtensionsClient apiextensionsclient.CustomResourceDefinition
 		Duration: 2 * time.Second, // wait 2s between attempts, this will help us in a state of conflict.
 		Steps:    3,               // 3 retry on error attempts per object
 	}
+
 	return &Cleaner{
 		apiExtensionsClient: apiExtensionsClient,
 		client:              client,
@@ -76,7 +77,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 		// If we found an updated slice, which implies, we have found a version to deprecate. Then only continue with the cleaning process
 		if len(newStoredVersions) != len(crd.Status.StoredVersions) {
-			klog.Infof("starting cleanup for %q", crd.Name)
+			klog.Infof("Starting cleanup for %q", crd.Name)
 			objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, matchedStoredVersion)
 			if err != nil {
 				return err
@@ -94,12 +95,12 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 			updated++
 		} else {
-			klog.Infof("nothing to update for %q\n", crd.Name)
+			klog.Infof("Nothing to update for %q\n", crd.Name)
 		}
 	}
 
 	if !c.dryRun {
-		klog.Infof("updated %d CRD(s)\n", updated)
+		klog.Infof("Updated %d CRD(s)\n", updated)
 
 	}
 
@@ -112,7 +113,7 @@ func (c *Cleaner) updateStorageVersions(
 	newStoredVersions []string) error {
 
 	if c.dryRun {
-		klog.Infof("would update storedVersions for %q CRD to: %s\n", crd.Name, newStoredVersions)
+		klog.Infof("Would update storedVersions for %q CRD to: %s\n", crd.Name, newStoredVersions)
 		return nil
 	}
 
@@ -121,7 +122,7 @@ func (c *Cleaner) updateStorageVersions(
 	if err != nil {
 		return err
 	}
-	klog.Infof("updated %q CRD status storedVersions to : %s\n", crd.Name, updatedCrd.Status.StoredVersions)
+	klog.Infof("Updated %q CRD status storedVersions to : %s\n", crd.Name, updatedCrd.Status.StoredVersions)
 
 	return nil
 }
@@ -130,7 +131,7 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 	for _, obj := range objectsToMigrate.Items {
 		obj := obj
 		if c.dryRun {
-			klog.V(logging.Verbose).Infof("resource %q to migrate for kind %q", obj.GetName(), obj.GroupVersionKind().Kind)
+			klog.V(logging.Verbose).Infof("Would migrate resource %q of kind %q", obj.GetName(), obj.GroupVersionKind().Kind)
 			continue
 		}
 
@@ -139,10 +140,10 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			return err
 		}
 
-		klog.V(logging.Verbose).Infof("migrated %q for %s\n", obj.GetName(), obj.GroupVersionKind().Kind)
+		klog.V(logging.Verbose).Infof("Migrated %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind)
 	}
 
-	klog.V(logging.Info).Infof("migrated %d resources\n", len(objectsToMigrate.Items))
+	klog.V(logging.Info).Infof("Migrated %d resources\n", len(objectsToMigrate.Items))
 	return nil
 }
 
