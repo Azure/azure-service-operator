@@ -837,12 +837,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 	}
 
 	// PointInTimeUTC
-	if source.PointInTimeUTC != nil {
-		pointInTimeUTC := *source.PointInTimeUTC
-		server.PointInTimeUTC = &pointInTimeUTC
-	} else {
-		server.PointInTimeUTC = nil
-	}
+	server.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
 
 	// Sku
 	if source.Sku != nil {
@@ -996,12 +991,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 	}
 
 	// PointInTimeUTC
-	if server.PointInTimeUTC != nil {
-		pointInTimeUTC := *server.PointInTimeUTC
-		destination.PointInTimeUTC = &pointInTimeUTC
-	} else {
-		destination.PointInTimeUTC = nil
-	}
+	destination.PointInTimeUTC = genruntime.ClonePointerToString(server.PointInTimeUTC)
 
 	// Sku
 	if server.Sku != nil {

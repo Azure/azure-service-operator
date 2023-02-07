@@ -103,7 +103,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   │   ├── "Linux"
 │   │   │   │   └── "Windows"
 │   │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
-│   │   │   ├── ProximityPlacementGroupID: *Validated<string> (0 rules)
+│   │   │   ├── ProximityPlacementGroupID: *string
 │   │   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
@@ -972,7 +972,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   │   ├── "Linux"
 │   │   │   │   └── "Windows"
 │   │   │   ├── PodSubnetID: *string
-│   │   │   ├── ProximityPlacementGroupID: *Validated<string> (0 rules)
+│   │   │   ├── ProximityPlacementGroupID: *string
 │   │   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   │   ├── "Deallocate"
 │   │   │   │   └── "Delete"
@@ -1205,7 +1205,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │   │   │   └── "Windows"
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
-│   │   ├── ProximityPlacementGroupID: *Validated<string> (0 rules)
+│   │   ├── ProximityPlacementGroupID: *string
 │   │   ├── ScaleSetEvictionPolicy: *Enum (2 values)
 │   │   │   ├── "Deallocate"
 │   │   │   └── "Delete"
@@ -1526,7 +1526,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
         │   ├── "Linux"
         │   └── "Windows"
         ├── PodSubnetID: *string
-        ├── ProximityPlacementGroupID: *Validated<string> (0 rules)
+        ├── ProximityPlacementGroupID: *string
         ├── ScaleSetEvictionPolicy: *Enum (2 values)
         │   ├── "Deallocate"
         │   └── "Delete"

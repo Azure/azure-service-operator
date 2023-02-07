@@ -43,10 +43,7 @@ type FakeResourceParameters struct {
 	APIVersion FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Name string `json:"name,omitempty"`
-
-	// Properties: Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
-	Properties                *Properties         `json:"properties,omitempty"`
+	Name                      string              `json:"name,omitempty"`
 	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
 	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
 	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
@@ -64,10 +61,6 @@ const FakeResource_APIVersion_Spec_20200601 = FakeResource_APIVersion_Spec("2020
 type FakeResource_Type_Spec string
 
 const FakeResource_Type_Spec_MicrosoftAzureFakeResource = FakeResource_Type_Spec("Microsoft.Azure/FakeResource")
-
-// Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
-type Properties struct {
-}
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

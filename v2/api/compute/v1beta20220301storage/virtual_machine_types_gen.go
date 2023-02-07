@@ -489,7 +489,7 @@ type VirtualMachineExtension_STATUS struct {
 	PropertiesType                *string                                     `json:"properties_type,omitempty"`
 	PropertyBag                   genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
 	ProtectedSettings             map[string]v1.JSON                          `json:"protectedSettings,omitempty"`
-	ProtectedSettingsFromKeyVault map[string]v1.JSON                          `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProtectedSettingsFromKeyVault *KeyVaultSecretReference_STATUS             `json:"protectedSettingsFromKeyVault,omitempty"`
 	ProvisioningState             *string                                     `json:"provisioningState,omitempty"`
 	Publisher                     *string                                     `json:"publisher,omitempty"`
 	Settings                      map[string]v1.JSON                          `json:"settings,omitempty"`
@@ -659,6 +659,14 @@ type InstanceViewStatus_STATUS struct {
 	Message       *string                `json:"message,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Time          *string                `json:"time,omitempty"`
+}
+
+// Storage version of v1beta20220301.KeyVaultSecretReference_STATUS
+// Describes a reference to Key Vault Secret
+type KeyVaultSecretReference_STATUS struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SecretUrl   *string                `json:"secretUrl,omitempty"`
+	SourceVault *SubResource_STATUS    `json:"sourceVault,omitempty"`
 }
 
 // Storage version of v1beta20220301.LinuxConfiguration
@@ -1241,14 +1249,6 @@ type KeyVaultSecretReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
 	SourceVault *SubResource           `json:"sourceVault,omitempty"`
-}
-
-// Storage version of v1beta20220301.KeyVaultSecretReference_STATUS
-// Describes a reference to Key Vault Secret
-type KeyVaultSecretReference_STATUS struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SecretUrl   *string                `json:"secretUrl,omitempty"`
-	SourceVault *SubResource_STATUS    `json:"sourceVault,omitempty"`
 }
 
 // Storage version of v1beta20220301.LinuxVMGuestPatchAutomaticByPlatformSettings

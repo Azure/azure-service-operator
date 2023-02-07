@@ -92,7 +92,12 @@ func (r *AzureDeploymentReconciler) asARMObj(obj genruntime.MetaObject) (genrunt
 	return typedObj, nil
 }
 
-func (r *AzureDeploymentReconciler) makeInstance(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (*azureDeploymentReconcilerInstance, error) {
+func (r *AzureDeploymentReconciler) makeInstance(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject,
+) (*azureDeploymentReconcilerInstance, error) {
 	typedObj, err := r.asARMObj(obj)
 	if err != nil {
 		return nil, err
@@ -111,7 +116,12 @@ func (r *AzureDeploymentReconciler) makeInstance(ctx context.Context, log logr.L
 	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, armClient, *r), nil
 }
 
-func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
+func (r *AzureDeploymentReconciler) CreateOrUpdate(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject,
+) (ctrl.Result, error) {
 	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -119,7 +129,12 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context, log logr
 	return instance.CreateOrUpdate(ctx)
 }
 
-func (r *AzureDeploymentReconciler) Delete(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
+func (r *AzureDeploymentReconciler) Delete(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject,
+) (ctrl.Result, error) {
 	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -127,7 +142,12 @@ func (r *AzureDeploymentReconciler) Delete(ctx context.Context, log logr.Logger,
 	return instance.Delete(ctx)
 }
 
-func (r *AzureDeploymentReconciler) Claim(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
+func (r *AzureDeploymentReconciler) Claim(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject,
+) error {
 	typedObj, err := r.asARMObj(obj)
 	if err != nil {
 		return err
@@ -152,7 +172,12 @@ func (r *AzureDeploymentReconciler) Claim(ctx context.Context, log logr.Logger, 
 	return nil
 }
 
-func (r *AzureDeploymentReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
+func (r *AzureDeploymentReconciler) UpdateStatus(
+	ctx context.Context,
+	log logr.Logger,
+	eventRecorder record.EventRecorder,
+	obj genruntime.MetaObject,
+) error {
 	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
 		return err

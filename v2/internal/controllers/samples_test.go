@@ -17,6 +17,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -96,8 +97,11 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 
 	tc.CreateResourceAndWait(rg)
 
-	refsSlice := processSamples(tc, samples.RefsMap)
-	samplesSlice := processSamples(tc, samples.SamplesMap)
+	// For secrets we need to look across refs and samples:
+	findRefsAndCreateSecrets(tc, samples.SamplesMap, samples.RefsMap)
+
+	refsSlice := processSamples(samples.RefsMap)
+	samplesSlice := processSamples(samples.SamplesMap)
 
 	// Check if we have any references for the samples beforehand and Create them
 	tc.CreateResourcesAndWait(refsSlice...)
@@ -106,23 +110,58 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 	tc.DeleteResourceAndWait(rg)
 }
 
-func processSamples(tc *testcommon.KubePerTestContext, samples map[string]genruntime.ARMMetaObject) []client.Object {
+func processSamples(samples map[string]genruntime.ARMMetaObject) []client.Object {
 	samplesSlice := make([]client.Object, 0, len(samples))
 
 	for _, resourceObj := range samples {
 		obj := resourceObj.(client.Object)
-
-		findRefsAndCreateSecrets(tc, resourceObj)
 		samplesSlice = append(samplesSlice, obj)
 	}
 
 	return samplesSlice
 }
 
-func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resourceObj genruntime.ARMMetaObject) {
-	refs, err := reflecthelpers.FindSecretReferences(resourceObj)
-	tc.Expect(err).To(BeNil())
-	for ref := range refs {
+// findRefsAndCreateSecrets finds all references not matched by a corresponding genruntime.SecretDestination and generates
+// secrets which correspond to those references
+func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, samples map[string]genruntime.ARMMetaObject, refs map[string]genruntime.ARMMetaObject) {
+	allDestinations := set.Make[genruntime.SecretDestination]()
+	allReferences := set.Make[genruntime.SecretReference]()
+
+	// Join samples and refs
+	resources := make([]genruntime.ARMMetaObject, 0, len(samples)+len(refs))
+	for _, v := range samples {
+		resources = append(resources, v)
+	}
+	for _, v := range refs {
+		resources = append(resources, v)
+	}
+
+	for _, resourceObj := range resources {
+		destinations, err := reflecthelpers.Find[genruntime.SecretDestination](resourceObj)
+		tc.Expect(err).To(BeNil())
+
+		references, err := reflecthelpers.FindSecretReferences(resourceObj)
+		tc.Expect(err).To(BeNil())
+
+		allDestinations.AddAll(destinations)
+		allReferences.AddAll(references)
+	}
+
+	// Find orphaned references
+	orphanRefs := set.Make[genruntime.SecretReference]()
+	for _, ref := range allReferences.Values() {
+		matchingDestination := genruntime.SecretDestination{
+			Name: ref.Name,
+			Key:  ref.Key,
+		}
+		if allDestinations.Contains(matchingDestination) {
+			continue
+		}
+
+		orphanRefs.Add(ref)
+	}
+
+	for ref := range orphanRefs {
 		password := tc.Namer.GeneratePasswordOfLength(40)
 
 		secret := &v1.Secret{
@@ -135,7 +174,6 @@ func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resourceObj gen
 		err := tc.CheckIfResourceExists(secret)
 		if err != nil {
 			tc.CreateResource(secret)
-
 		}
 	}
 }

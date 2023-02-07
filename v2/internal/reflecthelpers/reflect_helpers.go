@@ -112,44 +112,30 @@ func FindPropertiesWithTag(obj interface{}, tag string) (map[string][]interface{
 
 // FindResourceReferences finds all the genruntime.ResourceReference's on the provided object
 func FindResourceReferences(obj interface{}) (set.Set[genruntime.ResourceReference], error) {
-	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.ResourceReference{}))
-	if err != nil {
-		return nil, err
-	}
-
-	result := set.Make[genruntime.ResourceReference]()
-	for k := range untypedResult {
-		result.Add(k.(genruntime.ResourceReference))
-	}
-
-	return result, nil
+	return Find[genruntime.ResourceReference](obj)
 }
 
-// FindSecretReferences finds all of the genruntime.SecretReference's on the provided object
+// FindSecretReferences finds all the genruntime.SecretReference's on the provided object
 func FindSecretReferences(obj interface{}) (set.Set[genruntime.SecretReference], error) {
-	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.SecretReference{}))
-	if err != nil {
-		return nil, err
-	}
-
-	result := set.Make[genruntime.SecretReference]()
-	for k := range untypedResult {
-		result.Add(k.(genruntime.SecretReference))
-	}
-
-	return result, nil
+	return Find[genruntime.SecretReference](obj)
 }
 
 // FindConfigMapReferences finds all the genruntime.ConfigMapReference's on the provided object
 func FindConfigMapReferences(obj interface{}) (set.Set[genruntime.ConfigMapReference], error) {
-	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.ConfigMapReference{}))
+	return Find[genruntime.ConfigMapReference](obj)
+}
+
+// Find finds all the references of the given type on the provided object
+func Find[T comparable](obj interface{}) (set.Set[T], error) {
+	var t T
+	untypedResult, err := FindReferences(obj, reflect.TypeOf(t))
 	if err != nil {
 		return nil, err
 	}
 
-	result := set.Make[genruntime.ConfigMapReference]()
+	result := set.Make[T]()
 	for k := range untypedResult {
-		result.Add(k.(genruntime.ConfigMapReference))
+		result.Add(k.(T))
 	}
 
 	return result, nil

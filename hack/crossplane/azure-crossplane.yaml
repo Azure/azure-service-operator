@@ -6,9 +6,8 @@ typesOutputPath: apis
 supportedResourcesReport:
   # Path is relative to the module path, above
   outputPath: apis/resources.md
-  introduction: |
-    These are the Crossplane resources committed to our **main** branch, grouped by the originating ARM service.
-    (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+  # Path to documentation fragments to inject into the report
+  fragmentPath: ../../docs/v2/crossplane/supported-resources
 
 pipeline: crossplane
 typeFilters:
@@ -149,6 +148,10 @@ typeFilters:
   - action: prune
     group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
+
+  - action: prune
+    group: azurestackhci
+    because: There are some types in here (Step) that are defined recursively.
 
   - action: prune
     group: securityinsights

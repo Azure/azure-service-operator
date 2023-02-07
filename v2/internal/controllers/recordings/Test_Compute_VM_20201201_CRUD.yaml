@@ -950,7 +950,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ibybct/providers/Microsoft.Compute/virtualMachines/asotest-vm-guihjc?api-version=2020-12-01
     method: DELETE
   response:
     body: ""
@@ -958,7 +958,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2022-03-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -966,7 +966,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&monitor=true&api-version=2022-03-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&monitor=true&api-version=2020-12-01
       Pragma:
       - no-cache
       Retry-After:
@@ -989,7 +989,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
     method: GET
   response:
     body: "{\r\n  \"startTime\": \"2022-10-17T16:30:57.8078212+00:00\",\r\n  \"status\":
@@ -1025,7 +1025,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2022-03-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westeurope/operations/98b63719-c1e2-4fc7-885d-73288855479e?p=2071f890-ee58-407a-90bb-f38303a9ce4c&api-version=2020-12-01
     method: GET
   response:
     body: "{\r\n  \"startTime\": \"2022-10-17T16:30:57.8078212+00:00\",\r\n  \"endTime\":

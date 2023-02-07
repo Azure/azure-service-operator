@@ -147,7 +147,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
     │       ├── ResourceGroupNameRef: *v1alpha1.Reference
     │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
     │       ├── RestorableDroppedDatabaseId: *string
-    │       ├── RestorePointInTime: Validated<*string> (0 rules)
+    │       ├── RestorePointInTime: *string
     │       ├── SampleName: *Enum (3 values)
     │       │   ├── "AdventureWorksLT"
     │       │   ├── "WideWorldImportersFull"
@@ -164,7 +164,7 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
     │       │   ├── Name: *string
     │       │   ├── Size: *string
     │       │   └── Tier: *string
-    │       ├── SourceDatabaseDeletionDate: Validated<*string> (0 rules)
+    │       ├── SourceDatabaseDeletionDate: *string
     │       ├── SourceDatabaseId: *string
     │       ├── Tags: map[string]string
     │       └── ZoneRedundant: *bool

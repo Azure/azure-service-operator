@@ -23,10 +23,8 @@ pipeline: azure
 supportedResourcesReport:
   # Path is relative to the module path, above
   outputPath: ../docs/hugo/content/reference/_index.md
-  introduction: |
-    These are the resources with Azure Service Operator support committed to our **main** branch
-    grouped by the originating ARM service.
-    (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+  # Path to documentation fragments to inject into the report
+  fragmentPath: ../docs/v2/azure/supported-resources
   # resourceUrlTemplate is the template for generating URLs to the API docs for our resources
   # the placeholders {group} {version} and {kind} are supported.
   resourceUrlTemplate: "https://azure.github.io/azure-service-operator/reference/{group}/{version}/#{group}.azure.com/{version}.{kind}"
@@ -106,6 +104,10 @@ typeFilters:
     because: There are some types in here (ManagementGroupChildInfo_Status) that are defined recursively.
 
   - action: prune
+    group: azurestackhci
+    because: There are some types in here (Step) that are defined recursively.
+
+  - action: prune
     group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 
@@ -138,63 +140,55 @@ typeTransformers:
     remove: true
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
 
-  # Deal with readonly properties that were not properly pruned in the JSON schema
+  # Deal with UserAssignedIdentities, which we don't currently handle correctly
+  # TODO: For now we prune these, see https://github.com/Azure/azure-service-operator/issues/2528 for supporting them better
   - name: BatchAccountIdentity
     group: batch
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: We don't handle UserAssignedIdentities properly currently. See https://github.com/Azure/azure-service-operator/issues/2528
   - name: Identity
     group: servicebus
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: We don't handle UserAssignedIdentities properly currently. See https://github.com/Azure/azure-service-operator/issues/2528
   - name: Identity
     group: storage
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-
+    because: We don't handle UserAssignedIdentities properly currently. See https://github.com/Azure/azure-service-operator/issues/2528
   - name: ManagedServiceIdentity
     group: documentdb
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-
-  - name: PrivateEndpointConnectionProperties
-    group: storage
-    property: PrivateEndpoint
-    remove: true
-    because: The PrivateEndpoint property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-
+    because: We don't handle UserAssignedIdentities properly currently. See https://github.com/Azure/azure-service-operator/issues/2528
   - group: compute
     name: VirtualMachineScaleSetIdentity;VirtualMachineScaleSetIdentity_Status;VirtualMachineIdentity;VirtualMachineIdentity_Status
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-
+    because: We don't handle UserAssignedIdentities properly currently. See https://github.com/Azure/azure-service-operator/issues/2528
   - group: eventhub
     name: Identity
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-
+    because: We don't handle UserAssignedIdentities properly currently. See https://github.com/Azure/azure-service-operator/issues/2528
   - group: dbformysql
     name: Identity
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-
+    because: We don't handle UserAssignedIdentities properly currently. See https://github.com/Azure/azure-service-operator/issues/2528
   - group: containerinstance
     name: ContainerGroupIdentity
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: We don't handle UserAssignedIdentities properly currently. See https://github.com/Azure/azure-service-operator/issues/2528
   - group: appconfiguration
     name: ResourceIdentity
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: We don't handle UserAssignedIdentities properly currently. See https://github.com/Azure/azure-service-operator/issues/2528
+
+  # Properties that should have been marked as ReadOnly in the Swagger
   - name: Namespace_Properties_Spec
     group: eventhub
     property: PrivateEndpointConnections

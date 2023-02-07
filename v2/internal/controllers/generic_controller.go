@@ -332,7 +332,7 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 		return ctrl.Result{}, err
 	}
 
-	// Check the reconcile policy to ensure we're allowed to issue a CreateOrUpdate
+	// Check the reconcile-policy to ensure we're allowed to issue a CreateOrUpdate
 	reconcilePolicy := reconcilers.GetReconcilePolicy(metaObj, log)
 	if !reconcilePolicy.AllowsModify() {
 		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj)

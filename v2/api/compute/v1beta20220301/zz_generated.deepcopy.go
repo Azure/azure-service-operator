@@ -7887,10 +7887,8 @@ func (in *VirtualMachineExtensionProperties_STATUS_ARM) DeepCopyInto(out *Virtua
 	}
 	if in.ProtectedSettingsFromKeyVault != nil {
 		in, out := &in.ProtectedSettingsFromKeyVault, &out.ProtectedSettingsFromKeyVault
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
+		*out = new(KeyVaultSecretReference_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
@@ -7988,10 +7986,8 @@ func (in *VirtualMachineExtension_STATUS) DeepCopyInto(out *VirtualMachineExtens
 	}
 	if in.ProtectedSettingsFromKeyVault != nil {
 		in, out := &in.ProtectedSettingsFromKeyVault, &out.ProtectedSettingsFromKeyVault
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
+		*out = new(KeyVaultSecretReference_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
@@ -10258,10 +10254,8 @@ func (in *VirtualMachineScaleSetExtension) DeepCopyInto(out *VirtualMachineScale
 	}
 	if in.ProtectedSettingsFromKeyVault != nil {
 		in, out := &in.ProtectedSettingsFromKeyVault, &out.ProtectedSettingsFromKeyVault
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
+		*out = new(KeyVaultSecretReference)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProvisionAfterExtensions != nil {
 		in, out := &in.ProvisionAfterExtensions, &out.ProvisionAfterExtensions
@@ -10442,10 +10436,8 @@ func (in *VirtualMachineScaleSetExtensionProperties_ARM) DeepCopyInto(out *Virtu
 	}
 	if in.ProtectedSettingsFromKeyVault != nil {
 		in, out := &in.ProtectedSettingsFromKeyVault, &out.ProtectedSettingsFromKeyVault
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
+		*out = new(KeyVaultSecretReference_ARM)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProvisionAfterExtensions != nil {
 		in, out := &in.ProvisionAfterExtensions, &out.ProvisionAfterExtensions
@@ -10518,10 +10510,8 @@ func (in *VirtualMachineScaleSetExtensionProperties_STATUS_ARM) DeepCopyInto(out
 	}
 	if in.ProtectedSettingsFromKeyVault != nil {
 		in, out := &in.ProtectedSettingsFromKeyVault, &out.ProtectedSettingsFromKeyVault
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
+		*out = new(KeyVaultSecretReference_STATUS_ARM)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProvisionAfterExtensions != nil {
 		in, out := &in.ProvisionAfterExtensions, &out.ProvisionAfterExtensions
@@ -10639,10 +10629,8 @@ func (in *VirtualMachineScaleSetExtension_STATUS) DeepCopyInto(out *VirtualMachi
 	}
 	if in.ProtectedSettingsFromKeyVault != nil {
 		in, out := &in.ProtectedSettingsFromKeyVault, &out.ProtectedSettingsFromKeyVault
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
+		*out = new(KeyVaultSecretReference_STATUS)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ProvisionAfterExtensions != nil {
 		in, out := &in.ProvisionAfterExtensions, &out.ProvisionAfterExtensions

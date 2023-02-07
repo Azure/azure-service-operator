@@ -23,7 +23,7 @@ func ARMReconcilerAnnotationChangedPredicate(log logr.Logger) predicate.Predicat
 		})
 }
 
-// GetReconcilePolicy gets the reconcile policy from the ReconcilePolicyAnnotation
+// GetReconcilePolicy gets the reconcile-policy from the ReconcilePolicyAnnotation
 func GetReconcilePolicy(obj genruntime.MetaObject, log logr.Logger) ReconcilePolicy {
 	policyStr := obj.GetAnnotations()[ReconcilePolicyAnnotation]
 	policy, err := ParseReconcilePolicy(policyStr)

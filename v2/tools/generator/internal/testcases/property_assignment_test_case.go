@@ -229,6 +229,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	)
 
 	cmpPackage := codegenContext.MustGetImportedPackageName(astmodel.CmpReference)
+	cmpoptsPackage := codegenContext.MustGetImportedPackageName(astmodel.CmpOptsReference)
 	prettyPackage := codegenContext.MustGetImportedPackageName(astmodel.PrettyReference)
 	diffPackage := codegenContext.MustGetImportedPackageName(astmodel.DiffReference)
 
@@ -279,11 +280,15 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 		dst.NewIdent(errId),
 		astbuilder.CallQualifiedFunc("err", "Error"))
 
+	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	// We include cmpopts.EquateEmpty() to allow empty slices and maps to match nil values
+	equateEmpty := astbuilder.CallQualifiedFunc(cmpoptsPackage, "EquateEmpty")
 	compare := astbuilder.ShortDeclaration(
 		matchId,
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectId),
-			dst.NewIdent(actualId)))
+			dst.NewIdent(actualId),
+			equateEmpty))
 	compare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&compare.Decorations().Start, "Check for a match")
 

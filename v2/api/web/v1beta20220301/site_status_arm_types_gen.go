@@ -766,7 +766,7 @@ type PushSettings_Properties_STATUS_ARM struct {
 	// IsPushEnabled: Gets or sets a flag indicating whether the Push endpoint is enabled.
 	IsPushEnabled *bool `json:"isPushEnabled,omitempty"`
 
-	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are whitelisted for use by the push
+	// TagWhitelistJson: Gets or sets a JSON string containing a list of tags that are in the allowed list for use by the push
 	// registration endpoint.
 	TagWhitelistJson *string `json:"tagWhitelistJson,omitempty"`
 
