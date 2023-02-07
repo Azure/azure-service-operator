@@ -7,6 +7,7 @@ package crd
 
 import (
 	"context"
+	"fmt"
 	"regexp"
 	"time"
 
@@ -68,8 +69,13 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 		newStoredVersions, matchedStoredVersion := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
 
-		// In the check below, where CRD only has an only matched version, then the newStoredVersions == 0
-		if len(newStoredVersions) > 0 && len(newStoredVersions) != len(crd.Status.StoredVersions) {
+		// If there is no new version found other than the matched version, we short circuit here, as there is no updated version found in the CRDs
+		if len(newStoredVersions) <= 0 {
+			return errors.New(fmt.Sprintf("it doesn't look like your version of ASO is one that supports deprecating version %q. Have you upgraded ASO yet?", matchedStoredVersion))
+		}
+
+		// If we found an updated slice, which implies, we have found a version to deprecate. Then only continue with the cleaning process
+		if len(newStoredVersions) != len(crd.Status.StoredVersions) {
 			klog.Infof("starting cleanup for %q", crd.Name)
 			objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, matchedStoredVersion)
 			if err != nil {
@@ -136,7 +142,7 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 		klog.V(logging.Verbose).Infof("migrated %q for %s\n", obj.GetName(), obj.GroupVersionKind().Kind)
 	}
 
-	klog.V(logging.Verbose).Infof("migrated %d resources\n", len(objectsToMigrate.Items))
+	klog.V(logging.Info).Infof("migrated %d resources\n", len(objectsToMigrate.Items))
 	return nil
 }
 

@@ -103,7 +103,7 @@ func Test_MigrateDeprecatedCRDResources_DoesNotMigrateAlphaVersion_IfStorage(t *
 	g.Expect(err).To(BeNil())
 
 	err = c.cleaner.Run(context.TODO())
-	g.Expect(err).To(BeNil())
+	g.Expect(err).ToNot(BeNil())
 
 	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
@@ -195,7 +195,7 @@ func Test_CleanDeprecatedCRDVersions_DoesNothing_IfAlphaVersionDoesNotExist(t *t
 	g.Expect(crd.Status.StoredVersions).To(ContainElement(betaVersion))
 }
 
-func Test_CleanDeprecatedCRDVersions_DoesNothing_IfBetaVersionDoesNotExist(t *testing.T) {
+func Test_CleanDeprecatedCRDVersions_ReturnsError_IfBetaVersionDoesNotExist(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -211,7 +211,7 @@ func Test_CleanDeprecatedCRDVersions_DoesNothing_IfBetaVersionDoesNotExist(t *te
 	}
 
 	err = c.cleaner.Run(context.TODO())
-	g.Expect(err).To(BeNil())
+	g.Expect(err).ToNot(BeNil())
 
 	crd, err := c.fakeApiExtClient.CustomResourceDefinitions().Get(context.TODO(), definition.Name, metav1.GetOptions{})
 	g.Expect(err).To(BeNil())
