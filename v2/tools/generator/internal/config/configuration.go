@@ -59,7 +59,7 @@ type Configuration struct {
 	// Additional information about our object model
 	ObjectModelConfiguration *ObjectModelConfiguration `yaml:"objectModelConfiguration"`
 
-	GoModulePath string // TODO: Since this isn't yaml annotated it can't be set, right?
+	goModulePath string
 
 	// after init TypeTransformers is split into property and non-property transformers
 	typeTransformers     []*TypeTransformer
@@ -72,7 +72,7 @@ type RewriteRule struct {
 }
 
 func (config *Configuration) LocalPathPrefix() string {
-	return path.Join(config.GoModulePath, config.TypesOutputPath)
+	return path.Join(config.goModulePath, config.TypesOutputPath)
 }
 
 func (config *Configuration) FullTypesOutputPath() string {
@@ -127,6 +127,10 @@ func (config *Configuration) GetPropertyTransformersError() error {
 	return errors.Wrap(
 		kerrors.NewAggregate(errs),
 		"type transformer target")
+}
+
+func (config *Configuration) SetGoModulePath(path string) {
+	config.goModulePath = path
 }
 
 // NewConfiguration returns a new empty Configuration
@@ -282,7 +286,7 @@ func (config *Configuration) initialize(configPath string) error {
 	if err != nil {
 		errs = append(errs, err)
 	} else {
-		config.GoModulePath = modPath
+		config.goModulePath = modPath
 	}
 
 	for _, filter := range config.TypeFilters {

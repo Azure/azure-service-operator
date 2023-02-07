@@ -18,11 +18,11 @@ import (
 )
 
 type JSONFormat struct {
-	Time    time.Time
-	Action  string
-	Package string
-	Test    string
-	Output  string
+	Time    time.Time `json:"Time"`
+	Action  string    `json:"Action"`
+	Package string    `json:"Package"`
+	Test    string    `json:"Test"`
+	Output  string    `json:"Output"`
 }
 
 type TestRun struct {

@@ -221,6 +221,9 @@ func (client *GenericClient) GetByID(ctx context.Context, resourceID string, api
 	if err != nil {
 		return zeroDuration, err
 	}
+	// The linter doesn't realize that the response is closed in the course of
+	// the getByIDHandleResponse call below. Suppressing it as it is a false positive.
+	// nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	retryAfter := GetRetryAfter(resp)
 	if err != nil {
