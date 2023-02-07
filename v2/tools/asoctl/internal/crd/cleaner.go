@@ -34,9 +34,10 @@ type Cleaner struct {
 }
 
 func NewCleaner(apiExtensionsClient apiextensionsclient.CustomResourceDefinitionInterface, client client.Client, dryRun bool) *Cleaner {
-	migrationBackoff := wait.Backoff{ // TODO: Still need to see if we want exponential backoff or linear is fine
+	migrationBackoff := wait.Backoff{
 		Duration: 2 * time.Second, // wait 2s between attempts, this will help us in a state of conflict.
 		Steps:    3,               // 3 retry on error attempts per object
+		Jitter:   0.1,             // Jitter 0.1*duration
 	}
 
 	return &Cleaner{
