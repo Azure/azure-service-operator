@@ -8,13 +8,14 @@ package crd
 import (
 	"context"
 
-	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/devigned/pub/pkg/xcobra"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	v1 "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
+
+	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 
 	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/crd"
 )

@@ -11,8 +11,9 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/logging"
 
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"

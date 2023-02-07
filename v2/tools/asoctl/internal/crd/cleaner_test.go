@@ -9,8 +9,6 @@ import (
 	"context"
 	"testing"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	corev1 "k8s.io/api/core/v1"
@@ -22,6 +20,9 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	fake2 "sigs.k8s.io/controller-runtime/pkg/client/fake"
+
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 )
 
 type clientSet struct {
