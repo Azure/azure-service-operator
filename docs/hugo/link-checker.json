@@ -2,6 +2,10 @@
   "ignorePatterns": [
     {
       "pattern": "^(?!http).*"
+    },
+    {
+      "pattern": "https://github.com/Azure/azure-resource-manager-rpc.*",
+      "reason" : "The above repository is private to only Azure Members. Leaving it in the docs for internal use only."
     }
   ],
   "timeout": "10s",
