@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 )
 
-// CreateScheme is a helper method to export 'internal/controllers/controller_resources.go/CreateScheme()' method outside internal package.
+// CreateScheme is a helper method to export 'internal/controllers/controller_resources.go/CreateScheme()' method outside internal package for external use.
 func CreateScheme() *runtime.Scheme {
 	return controllers.CreateScheme()
 }
