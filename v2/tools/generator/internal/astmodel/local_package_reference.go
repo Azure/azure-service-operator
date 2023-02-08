@@ -92,7 +92,7 @@ func (pr LocalPackageReference) String() string {
 // We don't check the version prefix (which contains the version of the generator) as that may contain alpha or beta
 // even if the ARM version is not preview.
 func (pr LocalPackageReference) IsPreview() bool {
-	return containsPreviewVersionLabel(strings.ToLower(pr.apiVersion))
+	return ContainsPreviewVersionLabel(strings.ToLower(pr.apiVersion))
 }
 
 // WithVersionPrefix returns a new LocalPackageReference with a different version prefix

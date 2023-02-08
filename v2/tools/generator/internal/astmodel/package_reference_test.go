@@ -130,7 +130,7 @@ func TestContainsPreviewVersionLabel(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			isPreview := containsPreviewVersionLabel(c.version)
+			isPreview := ContainsPreviewVersionLabel(c.version)
 			g.Expect(isPreview).To(Equal(c.expected))
 		})
 	}
