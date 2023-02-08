@@ -136,6 +136,9 @@ func (client *providersOperations) Register(ctx context.Context, resourceProvide
 	if err != nil {
 		return providerResponse{}, err
 	}
+	// The linter doesn't realize that the response is closed in the course of
+	// the registerHandleResponse call below. Suppressing it as it is a false positive.
+	// nolint:bodyclose
 	resp, err := client.p.Do(req)
 	if err != nil {
 		return providerResponse{}, err
