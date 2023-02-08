@@ -31,7 +31,6 @@ var nonBlockingManagedClustersAgentPoolProvisioningStates = set.Make(
 	"succeeded",
 	"failed",
 	"canceled",
-	"ready",
 )
 
 func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(

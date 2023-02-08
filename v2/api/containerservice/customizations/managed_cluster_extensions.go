@@ -8,16 +8,17 @@ package customizations
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
-	"strings"
 
 	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -135,7 +136,6 @@ var nonBlockingManagedClusterProvisioningStates = set.Make(
 	"succeeded",
 	"failed",
 	"canceled",
-	"ready",
 )
 
 func (ext *ManagedClusterExtension) PreReconcileCheck(
