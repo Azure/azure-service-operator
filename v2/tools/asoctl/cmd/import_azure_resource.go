@@ -3,25 +3,24 @@
  * Licensed under the MIT license.
  */
 
-package cmd
+package importing
 
 import (
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 )
 
-// newImportAzureResourceCommand creates a new cobra command for importing a resource as an ASO custom resource
 func newImportAzureResourceCommand() *cobra.Command {
 	var output *string
 
 	cmd := &cobra.Command{
 		Use:   "azure-resource <ARM/ID/of/resource>",
-		Short: "Imports Azure resources as ASO custom resources",
+		Short: "imports an ARM resource as a CR",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			armID := args[0]
-			return exportResource(armID, output)
-		},
+			return importAzureResource(armID, output)
+		}),
 	}
 
 	output = cmd.Flags().StringP(
@@ -33,12 +32,14 @@ func newImportAzureResourceCommand() *cobra.Command {
 	return cmd
 }
 
-// TODO: export resource logic goes here
-func exportResource(armID string, output *string) error {
-	klog.Infof("armID : %s", armID)
-
-	if output != nil && *output != "" {
-		klog.Infof("output : %s", *output)
+// TODO: importing azure resource logic goes here
+func importAzureResource(armID string, output *string) error {
+	klog.Info("importing azure resource")
+	importer := azureresource.NewImporter()
+	err := importer.Import(armID)
+	if err != nil {
+		klog.Errorf("failed to import resource %s", armID)
+		return errors.Wrapf(err, "failed to import resource %s:", armID)
 	}
 
 	return nil

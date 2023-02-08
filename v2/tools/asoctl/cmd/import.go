@@ -3,15 +3,15 @@
  * Licensed under the MIT license.
  */
 
-package cmd
+package importing
 
 import "github.com/spf13/cobra"
 
-// newImportCommand creates a new cobra command for importing other resources as ASO custom resources
-func newImportCommand() (*cobra.Command, error) {
+// NewCommand creates a new cobra Command when invoked from the command line
+func NewCommand() (*cobra.Command, error) {
 	cmd := &cobra.Command{
 		Use:   "import",
-		Short: "Import related actions",
+		Short: "imports ARM resources as YAML resource definitions",
 		Args:  cobra.ExactArgs(1),
 	}
 
