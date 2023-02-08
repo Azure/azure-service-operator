@@ -382,6 +382,9 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 	case *astmodel.OptionalType:
 		return s.getOneOfName(concreteType.Element(), propIndex)
 
+	case *astmodel.InterfaceType:
+		return propertyNames{}, errors.Errorf("Cannot merge oneOf containing interface (there should be no interfaces contained in a oneOf so this is likely a bug)")
+
 	default:
 		return propertyNames{}, errors.Errorf("unexpected oneOf member, type: %T", t)
 	}

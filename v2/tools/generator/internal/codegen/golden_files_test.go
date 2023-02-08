@@ -140,7 +140,7 @@ func NewTestCodeGenerator(
 ) (*CodeGenerator, error) {
 	idFactory := astmodel.NewIdentifierFactory()
 	cfg := config.NewConfiguration()
-	cfg.GoModulePath = test.GoModulePrefix
+	cfg.SetGoModulePath(test.GoModulePrefix)
 
 	pipelineTarget, err := pipeline.TranslatePipelineToTarget(genPipeline)
 	if err != nil {
