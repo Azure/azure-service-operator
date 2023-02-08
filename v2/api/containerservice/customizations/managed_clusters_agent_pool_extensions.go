@@ -23,20 +23,15 @@ import (
 
 var _ extensions.PreReconciliationChecker = &ManagedClustersAgentPoolExtension{}
 
-// If an agent pool has a provisioningState in this set, it will reject any attempt to PUT a new state out of hand;
-// so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state of the
-// cluster.
+// If an agent pool has a provisioningState not in this set, it will reject any attempt to PUT a new state out of
+// hand; so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state
+// of the agent pool.
 // These are all listed lowercase, so we can do a case-insensitive match.
-var blockingManagedClustersAgentPoolProvisioningStates = set.Make(
-	"creating",
-	"updating",
-	"scaling",
-	"deleting",
-	"migrating",
-	"upgrading",
-	"stopping",
-	"starting",
-	"canceling",
+var nonBlockingManagedClustersAgentPoolProvisioningStates = set.Make(
+	"succeeded",
+	"failed",
+	"canceled",
+	"ready",
 )
 
 func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
@@ -63,9 +58,10 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	// Check to see if the owning cluster is in a state that will block us from reconciling
 	if owner != nil {
 		if managedCluster, ok := owner.(*containerservice.ManagedCluster); ok {
-			if provisioningState := managedCluster.Status.ProvisioningState; clusterProvisioningStateBlocksReconciliation(provisioningState) {
+			state := managedCluster.Status.ProvisioningState
+			if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
 				return extensions.BlockReconcile(
-						fmt.Sprintf("Managed cluster %q is in provisioning state %q", owner.GetName(), *provisioningState)),
+						fmt.Sprintf("Managed cluster %q is in provisioning state %q", owner.GetName(), *state)),
 					nil
 			}
 
@@ -76,9 +72,10 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	// as there's no point in even trying.
 	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
 	// already know those attempts will fail.
-	if provisioningState := agentPool.Status.ProvisioningState; agentPoolProvisioningStateBlocksReconciliation(provisioningState) {
+	state := agentPool.Status.ProvisioningState
+	if state != nil && agentPoolProvisioningStateBlocksReconciliation(state) {
 		return extensions.BlockReconcile(
-				fmt.Sprintf("Managed cluster agent pool is in provisioning state %q", *provisioningState)),
+				fmt.Sprintf("Managed cluster agent pool is in provisioning state %q", *state)),
 			nil
 	}
 
@@ -90,5 +87,5 @@ func agentPoolProvisioningStateBlocksReconciliation(provisioningState *string) b
 		return false
 	}
 
-	return blockingManagedClustersAgentPoolProvisioningStates.Contains(strings.ToLower(*provisioningState))
+	return !nonBlockingManagedClustersAgentPoolProvisioningStates.Contains(strings.ToLower(*provisioningState))
 }

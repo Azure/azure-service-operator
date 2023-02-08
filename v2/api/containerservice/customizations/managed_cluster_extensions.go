@@ -127,26 +127,15 @@ func secretsToWrite(obj *containerservice.ManagedCluster, adminCreds string, use
 
 var _ extensions.PreReconciliationChecker = &ManagedClusterExtension{}
 
-// If a managed cluster has a provisioningState in this set, it will reject any attempt to PUT a new state out of hand;
-// so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state of the
-// cluster.
+// If a managed cluster has a provisioningState not in this set, it will reject any attempt to PUT a new state out of
+// hand; so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state
+// of the cluster.
 // These are all listed lowercase, so we can do a case-insensitive match.
-var blockingManagedClusterProvisioningStates = set.Make(
-	"creating",
-	"updating",
-	"scaling",
-	"deleting",
-	"migrating",
-	"upgrading",
-	"stopping",
-	"starting",
-	"rotatingclustercertificates",
-	"reconcilingclustercertificates",
-	"rotatingclusterstatictokens",
-	"reconcilingclusteretcdcertificates",
-	"rotatingserviceaccountsigningkeysinternal",
-	"rotatingserviceaccountsigningkeysexternal",
-	"canceling",
+var nonBlockingManagedClusterProvisioningStates = set.Make(
+	"succeeded",
+	"failed",
+	"canceled",
+	"ready",
 )
 
 func (ext *ManagedClusterExtension) PreReconcileCheck(
@@ -174,9 +163,10 @@ func (ext *ManagedClusterExtension) PreReconcileCheck(
 	// as there's no point in even trying.
 	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
 	// already know those attempts will fail.
-	if provisioningState := managedCluster.Status.ProvisioningState; clusterProvisioningStateBlocksReconciliation(provisioningState) {
+	state := managedCluster.Status.ProvisioningState
+	if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
 		return extensions.BlockReconcile(
-				fmt.Sprintf("Managed cluster is in provisioning state %q", *provisioningState)),
+				fmt.Sprintf("Managed cluster is in provisioning state %q", *state)),
 			nil
 	}
 
@@ -188,5 +178,5 @@ func clusterProvisioningStateBlocksReconciliation(provisioningState *string) boo
 		return false
 	}
 
-	return blockingManagedClusterProvisioningStates.Contains(strings.ToLower(*provisioningState))
+	return !nonBlockingManagedClusterProvisioningStates.Contains(strings.ToLower(*provisioningState))
 }
