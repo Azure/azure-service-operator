@@ -37,6 +37,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
@@ -168,7 +169,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			return result.armClientCache.GetClient(ctx, mo)
 		}
 
-		options := controllers.Options{
+		options := generic.Options{
 			LoggerFactory: loggerFactory,
 			Config:        cfg.Values,
 			Options: controller.Options{
@@ -176,7 +177,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 				MaxConcurrentReconciles: 5,
 
 				// Use appropriate backoff for mode.
-				RateLimiter: controllers.NewRateLimiter(minBackoff, maxBackoff),
+				RateLimiter: generic.NewRateLimiter(minBackoff, maxBackoff),
 
 				LogConstructor: func(request *reconcile.Request) logr.Logger {
 					return ctrl.Log
@@ -205,7 +206,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 			return nil, err
 		}
 
-		err = controllers.RegisterAll(
+		err = generic.RegisterAll(
 			mgr,
 			indexer,
 			kubeClient,
@@ -219,7 +220,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	}
 
 	if cfg.OperatorMode.IncludesWebhooks() {
-		err = controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes())
+		err = generic.RegisterWebhooks(mgr, controllers.GetKnownTypes())
 		if err != nil {
 			stopEnvironment()
 			return nil, errors.Wrapf(err, "registering webhooks")
