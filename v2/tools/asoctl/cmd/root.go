@@ -31,7 +31,7 @@ func Execute() {
 func newRootCommand() (*cobra.Command, error) {
 	rootCmd := &cobra.Command{
 		Use:              "asoctl",
-		Short:            "asoctl provides a cmdline interface for exporting existing resources into ASOv2 from ARM",
+		Short:            "asoctl provides a cmdline interface for working with Azure Service Operator",
 		TraverseChildren: true,
 	}
 
