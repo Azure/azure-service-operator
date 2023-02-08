@@ -20,6 +20,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -80,14 +81,14 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	acct := newStorageAccount(tc, rg)
-	acct.Annotations = map[string]string{arm.PerResourceSecretAnnotation: nsName.String()}
+	acct.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: nsName.String()}
 
 	// Creating new storage account in with restricted permissions per resource secret should fail.
 	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
 
 	// Deleting the per-resource credential annotation would default to applying the global credential with all permissions
 	old := acct.DeepCopy()
-	delete(acct.Annotations, arm.PerResourceSecretAnnotation)
+	delete(acct.Annotations, reconcilers.PerResourceSecretAnnotation)
 	tc.Patch(old, acct)
 
 	tc.Eventually(acct).Should(tc.Match.BeProvisioned(0))

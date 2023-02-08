@@ -132,9 +132,11 @@ func register(
 
 	// Note: These predicates prevent status updates from triggering a reconcile.
 	// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
+	predicateLog := options.LogConstructor(nil).WithName(info.Name)
 	filter := predicate.Or(
 		predicate.GenerationChangedPredicate{},
-		reconcilers.ARMReconcilerAnnotationChangedPredicate(options.LogConstructor(nil).WithName(info.Name)))
+		reconcilers.ARMReconcilerAnnotationChangedPredicate(predicateLog),
+		reconcilers.ARMPerResourceSecretAnnotationChangedPredicate(predicateLog))
 
 	builder := ctrl.NewControllerManagedBy(mgr).
 		// Note: These predicates prevent status updates from triggering a reconcile.
