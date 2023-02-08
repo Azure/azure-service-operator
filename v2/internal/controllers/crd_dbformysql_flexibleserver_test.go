@@ -12,6 +12,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	mysqlpreview "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20211201preview"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -21,6 +23,8 @@ import (
 func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
+
+	tc.AzureRegion = to.Ptr("eastus")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 	secretName := "mysqlsecret"
@@ -50,6 +54,15 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.T.Log(pretty.Sprint(flexibleServer.Status.Backup))
 	tc.Expect(flexibleServer.Status.Backup.BackupRetentionDays).To(Equal(to.Ptr(5)))
 
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "MySQL Flexible servers AAD Administrators CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				MySQLFlexibleServer_AADAdmin_CRUD(tc, rg, flexibleServer)
+			},
+		},
+	)
+
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers database CRUD",
@@ -75,15 +88,13 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 }
 
 func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
-	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
-	location := "eastus"
 	version := mysql.ServerVersion_8021
 	tier := mysql.Sku_Tier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServer_Spec{
-			Location: &location,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.Sku{
@@ -144,4 +155,71 @@ func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, fl
 	// this seems invalid per the ARM spec.
 	// https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md#get-resource
 	// tc.Expect(rule.Status.Id).ToNot(BeNil())
+}
+
+func MySQLFlexibleServer_AADAdmin_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, server *mysql.FlexibleServer) {
+	// Create a managed identity to serve as aad admin
+	configMapName := "my-configmap"
+	clientIDKey := "clientId"
+	tenantIDKey := "tenantId"
+
+	// Create a managed identity to use as the AAD administrator
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
+					ClientId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  clientIDKey,
+					},
+					TenantId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  tenantIDKey,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(mi)
+
+	// Update the server to use the managed identity as its UMI
+	old := server.DeepCopy()
+	server.Spec.Identity = &mysql.Identity{
+		Type: to.Ptr(mysql.Identity_Type_UserAssigned),
+		UserAssignedIdentities: []mysql.UserAssignedIdentityDetails{
+			{
+				Reference: *tc.MakeReferenceFromResource(mi),
+			},
+		},
+	}
+
+	tc.PatchResourceAndWait(old, server)
+
+	aadAdmin := mysqlpreview.AdministratorProperties_AdministratorType_ActiveDirectory
+	admin := &mysqlpreview.FlexibleServersAdministrator{
+		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
+		Spec: mysqlpreview.FlexibleServers_Administrator_Spec{
+			Owner:             testcommon.AsOwner(server),
+			AdministratorType: &aadAdmin,
+			Login:             &mi.Name,
+			TenantIdFromConfig: &genruntime.ConfigMapReference{
+				Name: configMapName,
+				Key:  tenantIDKey,
+			},
+			SidFromConfig: &genruntime.ConfigMapReference{
+				Name: configMapName,
+				Key:  clientIDKey,
+			},
+			IdentityResourceReference: tc.MakeReferenceFromResource(mi),
+		},
+	}
+
+	tc.CreateResourceAndWait(admin)
+	defer tc.DeleteResourceAndWait(admin)
+
+	tc.Expect(admin.Status.Id).ToNot(BeNil())
 }
