@@ -32,6 +32,7 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
@@ -134,7 +135,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		err = controllers.RegisterAll(
+		err = generic.RegisterAll(
 			mgr,
 			mgr.GetFieldIndexer(),
 			kubeClient,
@@ -148,7 +149,7 @@ func main() {
 	}
 
 	if cfg.OperatorMode.IncludesWebhooks() {
-		if errs := controllers.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
+		if errs := generic.RegisterWebhooks(mgr, controllers.GetKnownTypes()); errs != nil {
 			setupLog.Error(err, "failed to register webhook for gvks")
 			os.Exit(1)
 		}
@@ -168,8 +169,8 @@ func main() {
 	}
 }
 
-func makeControllerOptions(log logr.Logger, cfg config.Values) controllers.Options {
-	return controllers.Options{
+func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
+	return generic.Options{
 		Config: cfg,
 		Options: controller.Options{
 			MaxConcurrentReconciles: 1,
@@ -182,7 +183,7 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) controllers.Optio
 				return log.WithValues("namespace", req.Namespace, "name", req.Name)
 			},
 			// These rate limits are used for happy-path backoffs (for example polling async operation IDs for PUT/DELETE)
-			RateLimiter: controllers.NewRateLimiter(1*time.Second, 1*time.Minute),
+			RateLimiter: generic.NewRateLimiter(1*time.Second, 1*time.Minute),
 		},
 		RequeueIntervalCalculator: interval.NewCalculator(
 			// These rate limits are primarily for ReadyConditionImpactingError's
