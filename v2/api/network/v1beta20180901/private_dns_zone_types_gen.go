@@ -75,7 +75,7 @@ var _ admission.Defaulter = &PrivateDnsZone{}
 // Default applies defaults to the PrivateDnsZone resource
 func (zone *PrivateDnsZone) Default() {
 	zone.defaultImpl()
-	var temp interface{} = zone
+	var temp any = zone
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &PrivateDnsZone{}
 // ValidateCreate validates the creation of the resource
 func (zone *PrivateDnsZone) ValidateCreate() error {
 	validations := zone.createValidations()
-	var temp interface{} = zone
+	var temp any = zone
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (zone *PrivateDnsZone) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (zone *PrivateDnsZone) ValidateDelete() error {
 	validations := zone.deleteValidations()
-	var temp interface{} = zone
+	var temp any = zone
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (zone *PrivateDnsZone) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (zone *PrivateDnsZone) ValidateUpdate(old runtime.Object) error {
 	validations := zone.updateValidations()
-	var temp interface{} = zone
+	var temp any = zone
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

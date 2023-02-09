@@ -75,7 +75,7 @@ var _ admission.Defaulter = &StorageAccount{}
 // Default applies defaults to the StorageAccount resource
 func (account *StorageAccount) Default() {
 	account.defaultImpl()
-	var temp interface{} = account
+	var temp any = account
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &StorageAccount{}
 // ValidateCreate validates the creation of the resource
 func (account *StorageAccount) ValidateCreate() error {
 	validations := account.createValidations()
-	var temp interface{} = account
+	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (account *StorageAccount) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (account *StorageAccount) ValidateDelete() error {
 	validations := account.deleteValidations()
-	var temp interface{} = account
+	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (account *StorageAccount) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (account *StorageAccount) ValidateUpdate(old runtime.Object) error {
 	validations := account.updateValidations()
-	var temp interface{} = account
+	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

@@ -87,7 +87,7 @@ var _ admission.Defaulter = &VirtualNetworksVirtualNetworkPeering{}
 // Default applies defaults to the VirtualNetworksVirtualNetworkPeering resource
 func (peering *VirtualNetworksVirtualNetworkPeering) Default() {
 	peering.defaultImpl()
-	var temp interface{} = peering
+	var temp any = peering
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &VirtualNetworksVirtualNetworkPeering{}
 // ValidateCreate validates the creation of the resource
 func (peering *VirtualNetworksVirtualNetworkPeering) ValidateCreate() error {
 	validations := peering.createValidations()
-	var temp interface{} = peering
+	var temp any = peering
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (peering *VirtualNetworksVirtualNetworkPeering) ValidateDelete() error {
 	validations := peering.deleteValidations()
-	var temp interface{} = peering
+	var temp any = peering
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (peering *VirtualNetworksVirtualNetworkPeering) ValidateUpdate(old runtime.Object) error {
 	validations := peering.updateValidations()
-	var temp interface{} = peering
+	var temp any = peering
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Webtest{}
 // Default applies defaults to the Webtest resource
 func (webtest *Webtest) Default() {
 	webtest.defaultImpl()
-	var temp interface{} = webtest
+	var temp any = webtest
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &Webtest{}
 // ValidateCreate validates the creation of the resource
 func (webtest *Webtest) ValidateCreate() error {
 	validations := webtest.createValidations()
-	var temp interface{} = webtest
+	var temp any = webtest
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (webtest *Webtest) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (webtest *Webtest) ValidateDelete() error {
 	validations := webtest.deleteValidations()
-	var temp interface{} = webtest
+	var temp any = webtest
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (webtest *Webtest) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (webtest *Webtest) ValidateUpdate(old runtime.Object) error {
 	validations := webtest.updateValidations()
-	var temp interface{} = webtest
+	var temp any = webtest
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

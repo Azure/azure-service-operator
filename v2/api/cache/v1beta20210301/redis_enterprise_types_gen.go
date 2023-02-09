@@ -75,7 +75,7 @@ var _ admission.Defaulter = &RedisEnterprise{}
 // Default applies defaults to the RedisEnterprise resource
 func (enterprise *RedisEnterprise) Default() {
 	enterprise.defaultImpl()
-	var temp interface{} = enterprise
+	var temp any = enterprise
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &RedisEnterprise{}
 // ValidateCreate validates the creation of the resource
 func (enterprise *RedisEnterprise) ValidateCreate() error {
 	validations := enterprise.createValidations()
-	var temp interface{} = enterprise
+	var temp any = enterprise
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (enterprise *RedisEnterprise) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (enterprise *RedisEnterprise) ValidateDelete() error {
 	validations := enterprise.deleteValidations()
-	var temp interface{} = enterprise
+	var temp any = enterprise
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (enterprise *RedisEnterprise) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (enterprise *RedisEnterprise) ValidateUpdate(old runtime.Object) error {
 	validations := enterprise.updateValidations()
-	var temp interface{} = enterprise
+	var temp any = enterprise
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

@@ -136,25 +136,6 @@ func NewVariableWithType(varName string, varType dst.Expr) dst.Stmt {
 	}
 }
 
-// NewVariableAssignmentWithType creates a new statement with a variable is declared:
-// var <varName> <varType> = <varValue>
-func NewVariableAssignmentWithType(varName string, varType dst.Expr, value dst.Expr) dst.Stmt {
-	return &dst.DeclStmt{
-		Decl: &dst.GenDecl{
-			Tok: token.VAR,
-			Specs: []dst.Spec{
-				&dst.ValueSpec{
-					Names: []*dst.Ident{dst.NewIdent(varName)},
-					Type:  varType,
-					Values: []dst.Expr{
-						value,
-					},
-				},
-			},
-		},
-	}
-}
-
 // LocalVariableDeclaration performs a local variable declaration for use within a method
 //
 //	var <ident> <typ>

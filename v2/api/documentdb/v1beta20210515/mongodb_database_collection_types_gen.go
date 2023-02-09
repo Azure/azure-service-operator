@@ -75,7 +75,7 @@ var _ admission.Defaulter = &MongodbDatabaseCollection{}
 // Default applies defaults to the MongodbDatabaseCollection resource
 func (collection *MongodbDatabaseCollection) Default() {
 	collection.defaultImpl()
-	var temp interface{} = collection
+	var temp any = collection
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &MongodbDatabaseCollection{}
 // ValidateCreate validates the creation of the resource
 func (collection *MongodbDatabaseCollection) ValidateCreate() error {
 	validations := collection.createValidations()
-	var temp interface{} = collection
+	var temp any = collection
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (collection *MongodbDatabaseCollection) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (collection *MongodbDatabaseCollection) ValidateDelete() error {
 	validations := collection.deleteValidations()
-	var temp interface{} = collection
+	var temp any = collection
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (collection *MongodbDatabaseCollection) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (collection *MongodbDatabaseCollection) ValidateUpdate(old runtime.Object) error {
 	validations := collection.updateValidations()
-	var temp interface{} = collection
+	var temp any = collection
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

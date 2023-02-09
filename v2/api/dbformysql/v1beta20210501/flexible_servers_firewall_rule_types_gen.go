@@ -75,7 +75,7 @@ var _ admission.Defaulter = &FlexibleServersFirewallRule{}
 // Default applies defaults to the FlexibleServersFirewallRule resource
 func (rule *FlexibleServersFirewallRule) Default() {
 	rule.defaultImpl()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &FlexibleServersFirewallRule{}
 // ValidateCreate validates the creation of the resource
 func (rule *FlexibleServersFirewallRule) ValidateCreate() error {
 	validations := rule.createValidations()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (rule *FlexibleServersFirewallRule) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (rule *FlexibleServersFirewallRule) ValidateDelete() error {
 	validations := rule.deleteValidations()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (rule *FlexibleServersFirewallRule) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (rule *FlexibleServersFirewallRule) ValidateUpdate(old runtime.Object) error {
 	validations := rule.updateValidations()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

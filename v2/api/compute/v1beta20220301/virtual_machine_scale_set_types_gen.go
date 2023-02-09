@@ -76,7 +76,7 @@ var _ admission.Defaulter = &VirtualMachineScaleSet{}
 // Default applies defaults to the VirtualMachineScaleSet resource
 func (scaleSet *VirtualMachineScaleSet) Default() {
 	scaleSet.defaultImpl()
-	var temp interface{} = scaleSet
+	var temp any = scaleSet
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -165,7 +165,7 @@ var _ admission.Validator = &VirtualMachineScaleSet{}
 // ValidateCreate validates the creation of the resource
 func (scaleSet *VirtualMachineScaleSet) ValidateCreate() error {
 	validations := scaleSet.createValidations()
-	var temp interface{} = scaleSet
+	var temp any = scaleSet
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -182,7 +182,7 @@ func (scaleSet *VirtualMachineScaleSet) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (scaleSet *VirtualMachineScaleSet) ValidateDelete() error {
 	validations := scaleSet.deleteValidations()
-	var temp interface{} = scaleSet
+	var temp any = scaleSet
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -199,7 +199,7 @@ func (scaleSet *VirtualMachineScaleSet) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (scaleSet *VirtualMachineScaleSet) ValidateUpdate(old runtime.Object) error {
 	validations := scaleSet.updateValidations()
-	var temp interface{} = scaleSet
+	var temp any = scaleSet
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

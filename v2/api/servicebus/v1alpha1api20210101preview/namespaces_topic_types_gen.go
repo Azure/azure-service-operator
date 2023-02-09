@@ -87,7 +87,7 @@ var _ admission.Defaulter = &NamespacesTopic{}
 // Default applies defaults to the NamespacesTopic resource
 func (topic *NamespacesTopic) Default() {
 	topic.defaultImpl()
-	var temp interface{} = topic
+	var temp any = topic
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &NamespacesTopic{}
 // ValidateCreate validates the creation of the resource
 func (topic *NamespacesTopic) ValidateCreate() error {
 	validations := topic.createValidations()
-	var temp interface{} = topic
+	var temp any = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (topic *NamespacesTopic) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (topic *NamespacesTopic) ValidateDelete() error {
 	validations := topic.deleteValidations()
-	var temp interface{} = topic
+	var temp any = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (topic *NamespacesTopic) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (topic *NamespacesTopic) ValidateUpdate(old runtime.Object) error {
 	validations := topic.updateValidations()
-	var temp interface{} = topic
+	var temp any = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

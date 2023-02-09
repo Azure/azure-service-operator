@@ -72,7 +72,7 @@ var _ admission.Defaulter = &FakeResource{}
 // Default applies defaults to the FakeResource resource
 func (resource *FakeResource) Default() {
 	resource.defaultImpl()
-	var temp interface{} = resource
+	var temp any = resource
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -132,7 +132,7 @@ var _ admission.Validator = &FakeResource{}
 // ValidateCreate validates the creation of the resource
 func (resource *FakeResource) ValidateCreate() error {
 	validations := resource.createValidations()
-	var temp interface{} = resource
+	var temp any = resource
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -149,7 +149,7 @@ func (resource *FakeResource) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (resource *FakeResource) ValidateDelete() error {
 	validations := resource.deleteValidations()
-	var temp interface{} = resource
+	var temp any = resource
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -166,7 +166,7 @@ func (resource *FakeResource) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (resource *FakeResource) ValidateUpdate(old runtime.Object) error {
 	validations := resource.updateValidations()
-	var temp interface{} = resource
+	var temp any = resource
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

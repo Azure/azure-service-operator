@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Redis{}
 // Default applies defaults to the Redis resource
 func (redis *Redis) Default() {
 	redis.defaultImpl()
-	var temp interface{} = redis
+	var temp any = redis
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &Redis{}
 // ValidateCreate validates the creation of the resource
 func (redis *Redis) ValidateCreate() error {
 	validations := redis.createValidations()
-	var temp interface{} = redis
+	var temp any = redis
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (redis *Redis) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (redis *Redis) ValidateDelete() error {
 	validations := redis.deleteValidations()
-	var temp interface{} = redis
+	var temp any = redis
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (redis *Redis) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (redis *Redis) ValidateUpdate(old runtime.Object) error {
 	validations := redis.updateValidations()
-	var temp interface{} = redis
+	var temp any = redis
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

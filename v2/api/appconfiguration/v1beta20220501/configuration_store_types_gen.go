@@ -75,7 +75,7 @@ var _ admission.Defaulter = &ConfigurationStore{}
 // Default applies defaults to the ConfigurationStore resource
 func (store *ConfigurationStore) Default() {
 	store.defaultImpl()
-	var temp interface{} = store
+	var temp any = store
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &ConfigurationStore{}
 // ValidateCreate validates the creation of the resource
 func (store *ConfigurationStore) ValidateCreate() error {
 	validations := store.createValidations()
-	var temp interface{} = store
+	var temp any = store
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (store *ConfigurationStore) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (store *ConfigurationStore) ValidateDelete() error {
 	validations := store.deleteValidations()
-	var temp interface{} = store
+	var temp any = store
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (store *ConfigurationStore) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (store *ConfigurationStore) ValidateUpdate(old runtime.Object) error {
 	validations := store.updateValidations()
-	var temp interface{} = store
+	var temp any = store
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

@@ -75,7 +75,7 @@ var _ admission.Defaulter = &FlexibleServersDatabase{}
 // Default applies defaults to the FlexibleServersDatabase resource
 func (database *FlexibleServersDatabase) Default() {
 	database.defaultImpl()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &FlexibleServersDatabase{}
 // ValidateCreate validates the creation of the resource
 func (database *FlexibleServersDatabase) ValidateCreate() error {
 	validations := database.createValidations()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (database *FlexibleServersDatabase) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (database *FlexibleServersDatabase) ValidateDelete() error {
 	validations := database.deleteValidations()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (database *FlexibleServersDatabase) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (database *FlexibleServersDatabase) ValidateUpdate(old runtime.Object) error {
 	validations := database.updateValidations()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

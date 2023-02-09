@@ -87,7 +87,7 @@ var _ admission.Defaulter = &VirtualNetworkGateway{}
 // Default applies defaults to the VirtualNetworkGateway resource
 func (gateway *VirtualNetworkGateway) Default() {
 	gateway.defaultImpl()
-	var temp interface{} = gateway
+	var temp any = gateway
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &VirtualNetworkGateway{}
 // ValidateCreate validates the creation of the resource
 func (gateway *VirtualNetworkGateway) ValidateCreate() error {
 	validations := gateway.createValidations()
-	var temp interface{} = gateway
+	var temp any = gateway
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (gateway *VirtualNetworkGateway) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (gateway *VirtualNetworkGateway) ValidateDelete() error {
 	validations := gateway.deleteValidations()
-	var temp interface{} = gateway
+	var temp any = gateway
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (gateway *VirtualNetworkGateway) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (gateway *VirtualNetworkGateway) ValidateUpdate(old runtime.Object) error {
 	validations := gateway.updateValidations()
-	var temp interface{} = gateway
+	var temp any = gateway
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

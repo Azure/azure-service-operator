@@ -75,7 +75,7 @@ var _ admission.Defaulter = &LoadBalancer{}
 // Default applies defaults to the LoadBalancer resource
 func (balancer *LoadBalancer) Default() {
 	balancer.defaultImpl()
-	var temp interface{} = balancer
+	var temp any = balancer
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &LoadBalancer{}
 // ValidateCreate validates the creation of the resource
 func (balancer *LoadBalancer) ValidateCreate() error {
 	validations := balancer.createValidations()
-	var temp interface{} = balancer
+	var temp any = balancer
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (balancer *LoadBalancer) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (balancer *LoadBalancer) ValidateDelete() error {
 	validations := balancer.deleteValidations()
-	var temp interface{} = balancer
+	var temp any = balancer
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (balancer *LoadBalancer) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (balancer *LoadBalancer) ValidateUpdate(old runtime.Object) error {
 	validations := balancer.updateValidations()
-	var temp interface{} = balancer
+	var temp any = balancer
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
