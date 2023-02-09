@@ -21,8 +21,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	fake2 "sigs.k8s.io/controller-runtime/pkg/client/fake"
 
+	"github.com/Azure/azure-service-operator/v2/api"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 )
 
 type clientSet struct {
@@ -35,7 +35,7 @@ type clientSet struct {
 // TODO: We may require a testing suite re-use the clientsets efficiently.
 func makeClientSets() *clientSet {
 	fakeApiExtClient := fake.NewSimpleClientset().ApiextensionsV1()
-	fakeClient := fake2.NewClientBuilder().WithScheme(controllers.CreateScheme()).Build()
+	fakeClient := fake2.NewClientBuilder().WithScheme(api.CreateScheme()).Build()
 	cleaner := NewCleaner(fakeApiExtClient.CustomResourceDefinitions(), fakeClient, false)
 	return &clientSet{
 		fakeApiExtClient: fakeApiExtClient,
@@ -227,7 +227,7 @@ func Test_MigrateAndCleanDeprecatedCRDResources_DryRun_NoAction(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	fakeApiExtClient := fake.NewSimpleClientset().ApiextensionsV1()
-	fakeClient := fake2.NewClientBuilder().WithScheme(controllers.CreateScheme()).Build()
+	fakeClient := fake2.NewClientBuilder().WithScheme(api.CreateScheme()).Build()
 	cleanerDryRun := NewCleaner(fakeApiExtClient.CustomResourceDefinitions(), fakeClient, true)
 
 	alphaVersion := "v1alpha1api20200601"

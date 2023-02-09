@@ -15,7 +15,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 
-	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/Azure/azure-service-operator/v2/api"
 
 	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/crd"
 )
@@ -34,7 +34,7 @@ func newCRDCleanCommand() *cobra.Command {
 				return errors.Wrap(err, "unable to create kubernetes client")
 			}
 
-			cl, err := client.New(cfg, client.Options{Scheme: controllers.CreateScheme()})
+			cl, err := client.New(cfg, client.Options{Scheme: api.CreateScheme()})
 			if err != nil {
 				return errors.Wrap(err, "unable to create kubernetes client")
 			}
