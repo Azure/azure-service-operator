@@ -7,7 +7,12 @@ package kubeclient
 
 import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
+
+func IgnoreNotFound(err error) error {
+	return client.IgnoreNotFound(err)
+}
 
 func IgnoreNotFoundAndConflict(err error) error {
 	if IsNotFoundOrConflict(err) {

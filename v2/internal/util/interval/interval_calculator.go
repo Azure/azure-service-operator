@@ -107,12 +107,18 @@ func (i *calculator) failureResult(req ctrl.Request, err error) (ctrl.Result, er
 	if !ok {
 		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
 		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		// We must also ignore conflict here because updating a resource that
-		// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985. This is OK
-		// to ignore because a conflict means either the resource has been deleted (in which case there's nothing to do) or
-		// it has been updated, in which case there's going to be a new event triggered for it and we can count this
-		// round of reconciliation as a success and wait for the next event.
-		return ctrl.Result{}, kubeclient.IgnoreNotFoundAndConflict(err)
+		// We do NOT ignore conflict here because it's hard to tell if it's coming from an attempt to update a non-existing resource
+		// (see https://github.com/kubernetes/kubernetes/issues/89985), or if it's from an attempt to update a resource which
+		// was updated by a user. If we ignore the user-update case, we MIGHT get another event since they changed the resource,
+		// but since we don't trigger updates on all changes (some annotations are ignored) we also MIGHT NOT get a fresh event
+		// and get stuck. The solution is to let the GET at the top of the controller check for the not-found case and requeue
+		// on everything else.
+		err = kubeclient.IgnoreNotFound(err)
+		if err == nil {
+			// Since we're ignoring this error and counting it as a success, stop tracking the req
+			delete(i.failures, req)
+		}
+		return ctrl.Result{}, err
 	}
 
 	// Now we have a readyErr
