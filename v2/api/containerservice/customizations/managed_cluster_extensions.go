@@ -7,11 +7,16 @@ package customizations
 
 import (
 	"context"
+	"fmt"
+	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -119,4 +124,59 @@ func secretsToWrite(obj *containerservice.ManagedCluster, adminCreds string, use
 	collector.AddValue(operatorSpecSecrets.UserCredentials, userCreds)
 
 	return collector.Values()
+}
+
+var _ extensions.PreReconciliationChecker = &ManagedClusterExtension{}
+
+// If a managed cluster has a provisioningState not in this set, it will reject any attempt to PUT a new state out of
+// hand; so there's no point in even trying. This is true even if the PUT we're doing will have no effect on the state
+// of the cluster.
+// These are all listed lowercase, so we can do a case-insensitive match.
+var nonBlockingManagedClusterProvisioningStates = set.Make(
+	"succeeded",
+	"failed",
+	"canceled",
+)
+
+func (ext *ManagedClusterExtension) PreReconcileCheck(
+	_ context.Context,
+	obj genruntime.MetaObject,
+	_ genruntime.MetaObject,
+	_ kubeclient.Client,
+	_ *genericarmclient.GenericClient,
+	_ logr.Logger,
+	_ extensions.PreReconcileCheckFunc,
+) (extensions.PreReconcileCheckResult, error) {
+	// This has to be the current hub storage version. It will need to be updated
+	// if the hub storage version changes.
+	managedCluster, ok := obj.(*containerservice.ManagedCluster)
+	if !ok {
+		return extensions.PreReconcileCheckResult{},
+			errors.Errorf("cannot run on unknown resource type %T, expected *containerservice.ManagedCluster", obj)
+	}
+
+	// Type assert that we are the hub type. This will fail to compile if
+	// the hub type has been changed but this extension has not
+	var _ conversion.Hub = managedCluster
+
+	// If the cluster is in a state that will reject any PUT, then we should skip reconciliation
+	// as there's no point in even trying.
+	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
+	// already know those attempts will fail.
+	state := managedCluster.Status.ProvisioningState
+	if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
+		return extensions.BlockReconcile(
+				fmt.Sprintf("Managed cluster is in provisioning state %q", *state)),
+			nil
+	}
+
+	return extensions.ProceedWithReconcile(), nil
+}
+
+func clusterProvisioningStateBlocksReconciliation(provisioningState *string) bool {
+	if provisioningState == nil {
+		return false
+	}
+
+	return !nonBlockingManagedClusterProvisioningStates.Contains(strings.ToLower(*provisioningState))
 }
