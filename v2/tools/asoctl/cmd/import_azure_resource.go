@@ -8,6 +8,7 @@ package importing
 import (
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
+	"os"
 )
 
 func newImportAzureResourceCommand() *cobra.Command {
@@ -40,6 +41,20 @@ func importAzureResource(armID string, output *string) error {
 	if err != nil {
 		klog.Errorf("failed to import resource %s", armID)
 		return errors.Wrapf(err, "failed to import resource %s:", armID)
+	}
+
+	if output == nil || *output == "" {
+		err := importer.SaveToWriter(os.Stdout)
+		if err != nil {
+			klog.Errorf("failed to write to stdout")
+			return errors.Wrapf(err, "failed to write to stdout")
+		}
+	} else {
+		err := importer.SaveToFile(*output)
+		if err != nil {
+			klog.Errorf("failed to write to file %s", *output)
+			return errors.Wrapf(err, "failed to write to file %s", *output)
+		}
 	}
 
 	return nil

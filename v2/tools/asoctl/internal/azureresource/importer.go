@@ -6,21 +6,27 @@
 package azureresource
 
 import (
+	"bufio"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-service-operator/v2/api"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/naming"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/versions"
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
+	"io"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/klog/v2"
 	"net/url"
+	"os"
+	"sigs.k8s.io/yaml"
 	"strings"
 )
 
 type Importer struct {
-	scheme *runtime.Scheme
+	scheme            *runtime.Scheme
+	importedResources []genruntime.KubernetesResource
 }
 
 func NewImporter() *Importer {
@@ -45,7 +51,68 @@ func (i *Importer) Import(resource string) error {
 
 	klog.Infof("Importing %s/%s/%s", gvk.Group, gvk.Version, gvk.Kind)
 
+	obj, err := i.scheme.New(gvk)
+	if err != nil {
+		return errors.Wrap(err, "unable to import resource")
+	}
+
+	obj.GetObjectKind().SetGroupVersionKind(gvk)
+
+	kr, ok := obj.(genruntime.KubernetesResource)
+	if !ok {
+		return errors.Errorf("unable to import resource %s/%s/%s", gvk.Group, gvk.Version, gvk.Kind)
+	}
+
+	i.importedResources = append(i.importedResources, kr)
+
 	return nil
+}
+
+func (i *Importer) SaveToWriter(destination io.Writer) error {
+	buf := bufio.NewWriter(destination)
+	defer func(buf *bufio.Writer) {
+		_ = buf.Flush()
+	}(buf)
+
+	buf.WriteString("---\n")
+	for _, resource := range i.importedResources {
+		data, err := yaml.Marshal(resource)
+		if err != nil {
+			return errors.Wrap(err, "unable to save to writer")
+		}
+
+		buf.Write(data)
+		buf.WriteString("---\n")
+	}
+
+	return nil
+}
+
+func (i *Importer) SaveToFile(filepath string) error {
+	file, err := os.Create(filepath)
+	if err != nil {
+		return errors.Wrapf(err, "unable to create file %s", filepath)
+	}
+
+	defer func() {
+		file.Close()
+
+		// if we are panicking, the file will be in a broken
+		// state, so remove it
+		if r := recover(); r != nil {
+			os.Remove(filepath)
+			panic(r)
+		}
+	}()
+
+	err = i.SaveToWriter(file)
+	if err != nil {
+		// cleanup in case of errors
+		file.Close()
+		os.Remove(filepath)
+	}
+
+	return errors.Wrapf(err, "unable to save to file %s", filepath)
 }
 
 // parseGroupKind parses a GroupKind from the resource URL, allowing us to look up the actual resource
