@@ -2,6 +2,8 @@ module github.com/Azure/azure-service-operator/v2/tools/asoctl
 
 go 1.18
 
+replace github.com/Azure/azure-service-operator/v2 => ../../
+
 require (
 	github.com/Azure/azure-service-operator/v2 v2.0.0-00010101000000-000000000000
 	github.com/Azure/go-autorest/autorest/to v0.4.0
