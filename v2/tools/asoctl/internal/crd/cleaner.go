@@ -13,8 +13,6 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/logging"
-
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -133,7 +131,7 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 	for _, obj := range objectsToMigrate.Items {
 		obj := obj
 		if c.dryRun {
-			klog.V(logging.Verbose).Infof("Would migrate resource %q of kind %q", obj.GetName(), obj.GroupVersionKind().Kind)
+			klog.V(2).Infof("Would migrate resource %q of kind %q", obj.GetName(), obj.GroupVersionKind().Kind)
 			continue
 		}
 
@@ -142,10 +140,10 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			return err
 		}
 
-		klog.V(logging.Verbose).Infof("Migrated %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind)
+		klog.V(2).Infof("Migrated %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind)
 	}
 
-	klog.V(logging.Info).Infof("Migrated %d resources\n", len(objectsToMigrate.Items))
+	klog.Infof("Migrated %d resources\n", len(objectsToMigrate.Items))
 	return nil
 }
 
