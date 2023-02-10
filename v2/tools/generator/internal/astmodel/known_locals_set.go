@@ -28,15 +28,44 @@ func NewKnownLocalsSet(idFactory IdentifierFactory) *KnownLocalsSet {
 	}
 }
 
+// flectOverrides is an ordered list of overrides for flect pluralization
+// Earlier overrides take precedence over later ones
+var flectOverrides = []struct {
+	single string
+	plural string
+}{
+	{"FIPS", "FIPS"},
+	{"Id", "Ids"},
+	{"Ip", "Ips"},
+	{"knownAs", "knownAs"},
+	{"ssh", "ssh"}, // workaround flect bug - see https://github.com/gobuffalo/flect/pull/65
+}
+
 // CreateSingularLocal creates a new unique Go local variable for a single value with one of the specified suffixes.
 func (locals *KnownLocalsSet) CreateSingularLocal(nameHint string, suffixes ...string) string {
 	hint := flect.Singularize(nameHint)
+	lowerHint := strings.ToLower(nameHint)
+	for _, o := range flectOverrides {
+		if strings.HasSuffix(lowerHint, strings.ToLower(o.plural)) {
+			hint = nameHint[:len(nameHint)-len(o.plural)] + o.single
+			break
+		}
+	}
+
 	return locals.CreateLocal(hint, suffixes...)
 }
 
 // CreatePluralLocal creates a new unique Go local variable for multiple values with one of the specified suffixes.
 func (locals *KnownLocalsSet) CreatePluralLocal(nameHint string, suffixes ...string) string {
 	hint := flect.Pluralize(nameHint)
+	lowerHint := strings.ToLower(nameHint)
+	for _, o := range flectOverrides {
+		if strings.HasSuffix(lowerHint, strings.ToLower(o.single)) {
+			hint = nameHint[:len(nameHint)-len(o.single)] + o.plural
+			break
+		}
+	}
+
 	return locals.CreateLocal(hint, suffixes...)
 }
 
