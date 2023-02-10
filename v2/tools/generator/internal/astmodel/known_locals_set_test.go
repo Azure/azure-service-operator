@@ -33,6 +33,8 @@ func Test_KnownLocalsSet_CreatesLocalCaseInsensitive(t *testing.T) {
 	g.Expect(locals.CreateLocal("Student")).To(Equal("student1"))
 	g.Expect(locals.CreateLocal("student")).To(Equal("student2"))
 	g.Expect(locals.CreateLocal("student")).To(Equal("student3"))
+
+	g.Expect(locals.CreateLocal("KnownAs")).To(Equal("knownAs"))
 }
 
 func Test_KnownLocalsSet_CreatesLocalWithSuffix(t *testing.T) {
@@ -77,4 +79,28 @@ func Test_KnownLocalsSet_CreatesLocalWithMultipleSuffixesAlreadyHasSuffix(t *tes
 	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItemElement"))
 	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItem1"))
 	g.Expect(locals.CreateLocal(ident, suffixes...)).To(Equal("theItemElement1"))
+}
+
+func Test_KnownLocalsSet_CreateSingularLocal_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	locals := NewKnownLocalsSet(NewIdentifierFactory())
+
+	g.Expect(locals.CreateSingularLocal("people")).To(Equal("person"))
+	g.Expect(locals.CreateSingularLocal("people")).To(Equal("person1"))
+
+	g.Expect(locals.CreateSingularLocal("knownAs")).To(Equal("knownAs"))
+	g.Expect(locals.CreateSingularLocal("knownAs")).To(Equal("knownAs1"))
+}
+
+func Test_KnownLocalsSet_CreatePluralLocal_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	locals := NewKnownLocalsSet(NewIdentifierFactory())
+
+	g.Expect(locals.CreatePluralLocal("person")).To(Equal("people"))
+	g.Expect(locals.CreatePluralLocal("person")).To(Equal("people1"))
+
+	g.Expect(locals.CreatePluralLocal("knownAs")).To(Equal("knownAs"))
+	g.Expect(locals.CreatePluralLocal("knownAs")).To(Equal("knownAs1"))
 }
