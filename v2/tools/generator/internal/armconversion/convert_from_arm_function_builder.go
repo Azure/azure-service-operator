@@ -67,6 +67,7 @@ func newConvertFromARMFunctionBuilder(
 		result.ownerPropertyHandler,
 		result.conditionsPropertyHandler,
 		result.operatorSpecPropertyHandler,
+		result.userAssignedIdentitiesPropertyHandler,
 		// Generic handlers come second
 		result.referencePropertyHandler,
 		result.secretPropertyHandler,
@@ -175,6 +176,18 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 
 	return astbuilder.Statements(
 		setAzureName), true
+}
+
+func (builder *convertFromARMBuilder) userAssignedIdentitiesPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType,
+) ([]dst.Stmt, bool) {
+	if _, ok := astmodel.IsUserAssignedIdentityProperty(toProp); !ok {
+		return nil, false
+	}
+
+	// TODO: For now we are not assigning these, as we don't know how to rebuild the reference
+	return nil, true
 }
 
 func (builder *convertFromARMBuilder) referencePropertyHandler(

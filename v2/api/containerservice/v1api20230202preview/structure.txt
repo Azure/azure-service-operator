@@ -233,11 +233,13 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │   │   │   ├── HttpsProxy: *string
 │   │   │   ├── NoProxy: string[]
 │   │   │   └── TrustedCa: *string
-│   │   ├── Identity: *Object (1 property)
-│   │   │   └── Type: *Enum (3 values)
-│   │   │       ├── "None"
-│   │   │       ├── "SystemAssigned"
-│   │   │       └── "UserAssigned"
+│   │   ├── Identity: *Object (2 properties)
+│   │   │   ├── Type: *Enum (3 values)
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── IdentityProfile: map[string]Object (3 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── ObjectId: *string
@@ -1436,11 +1438,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │   │   ├── Name: *string
 │   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
-│   ├── Identity: *Object (1 property)
-│   │   └── Type: *Enum (3 values)
-│   │       ├── "None"
-│   │       ├── "SystemAssigned"
-│   │       └── "UserAssigned"
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (3 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: map[string]Object (0 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: *Object (35 properties)

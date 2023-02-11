@@ -55,7 +55,8 @@ type Sku_ARM struct {
 
 // Deprecated version of VirtualMachineScaleSetIdentity. Use v1api20220301.VirtualMachineScaleSetIdentity instead
 type VirtualMachineScaleSetIdentity_ARM struct {
-	Type *VirtualMachineScaleSetIdentity_Type `json:"type,omitempty"`
+	Type                   *VirtualMachineScaleSetIdentity_Type       `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetProperties. Use v1api20220301.VirtualMachineScaleSetProperties instead
@@ -106,6 +107,10 @@ type UpgradePolicy_ARM struct {
 	AutomaticOSUpgradePolicy *AutomaticOSUpgradePolicy_ARM `json:"automaticOSUpgradePolicy,omitempty"`
 	Mode                     *UpgradePolicy_Mode           `json:"mode,omitempty"`
 	RollingUpgradePolicy     *RollingUpgradePolicy_ARM     `json:"rollingUpgradePolicy,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Deprecated version of VirtualMachineScaleSetIdentity_Type. Use v1api20220301.VirtualMachineScaleSetIdentity_Type instead

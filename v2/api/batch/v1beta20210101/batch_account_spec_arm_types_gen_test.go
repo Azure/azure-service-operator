@@ -217,6 +217,9 @@ func RunJSONSerializationTestForBatchAccountIdentity_ARM(subject BatchAccountIde
 var batchAccountIdentity_ARMGenerator gopter.Gen
 
 // BatchAccountIdentity_ARMGenerator returns a generator of BatchAccountIdentity_ARM instances for property testing.
+// We first initialize batchAccountIdentity_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func BatchAccountIdentity_ARMGenerator() gopter.Gen {
 	if batchAccountIdentity_ARMGenerator != nil {
 		return batchAccountIdentity_ARMGenerator
@@ -226,12 +229,23 @@ func BatchAccountIdentity_ARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForBatchAccountIdentity_ARM(generators)
 	batchAccountIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(BatchAccountIdentity_ARM{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForBatchAccountIdentity_ARM(generators)
+	AddRelatedPropertyGeneratorsForBatchAccountIdentity_ARM(generators)
+	batchAccountIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(BatchAccountIdentity_ARM{}), generators)
+
 	return batchAccountIdentity_ARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForBatchAccountIdentity_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountIdentity_ARM(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_None, BatchAccountIdentity_Type_SystemAssigned, BatchAccountIdentity_Type_UserAssigned))
+}
+
+// AddRelatedPropertyGeneratorsForBatchAccountIdentity_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBatchAccountIdentity_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_AutoStorageBaseProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -430,6 +444,61 @@ func KeyVaultReference_ARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForKeyVaultReference_ARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_UserAssignedIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UserAssignedIdentityDetails_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityDetails_ARM, UserAssignedIdentityDetails_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUserAssignedIdentityDetails_ARM runs a test to see if a specific instance of UserAssignedIdentityDetails_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityDetails_ARM(subject UserAssignedIdentityDetails_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UserAssignedIdentityDetails_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UserAssignedIdentityDetails_ARM instances for property testing - lazily instantiated by
+// UserAssignedIdentityDetails_ARMGenerator()
+var userAssignedIdentityDetails_ARMGenerator gopter.Gen
+
+// UserAssignedIdentityDetails_ARMGenerator returns a generator of UserAssignedIdentityDetails_ARM instances for property testing.
+func UserAssignedIdentityDetails_ARMGenerator() gopter.Gen {
+	if userAssignedIdentityDetails_ARMGenerator != nil {
+		return userAssignedIdentityDetails_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	userAssignedIdentityDetails_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails_ARM{}), generators)
+
+	return userAssignedIdentityDetails_ARMGenerator
 }
 
 func Test_KeyVaultProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

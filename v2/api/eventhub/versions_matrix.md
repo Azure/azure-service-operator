@@ -59,6 +59,7 @@
 | SystemData_CreatedByType_STATUS                                 | v1api20211101 | v1beta20211101 |
 | SystemData_LastModifiedByType_STATUS                            | v1api20211101 | v1beta20211101 |
 | SystemData_STATUS                                               | v1api20211101 | v1beta20211101 |
+| UserAssignedIdentityDetails                                     | v1api20211101 | v1beta20211101 |
 | UserAssignedIdentityProperties                                  | v1api20211101 | v1beta20211101 |
 | UserAssignedIdentityProperties_STATUS                           | v1api20211101 | v1beta20211101 |
 | UserAssignedIdentity_STATUS                                     | v1api20211101 | v1beta20211101 |

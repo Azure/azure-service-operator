@@ -41,7 +41,8 @@ type ExtendedLocation_ARM struct {
 
 // Deprecated version of ManagedClusterIdentity. Use v1api20210501.ManagedClusterIdentity instead
 type ManagedClusterIdentity_ARM struct {
-	Type *ManagedClusterIdentity_Type `json:"type,omitempty"`
+	Type                   *ManagedClusterIdentity_Type               `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of ManagedClusterProperties. Use v1api20210501.ManagedClusterProperties instead
@@ -260,6 +261,10 @@ type UserAssignedIdentity_ARM struct {
 	ClientId   *string `json:"clientId,omitempty"`
 	ObjectId   *string `json:"objectId,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Deprecated version of ContainerServiceSshConfiguration. Use v1api20210501.ContainerServiceSshConfiguration instead

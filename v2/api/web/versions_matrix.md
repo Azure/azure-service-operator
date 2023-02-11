@@ -110,6 +110,7 @@
 | StatusCodesBasedTrigger_STATUS                 | v1api20220301 | v1beta20220301 |
 | StatusCodesRangeBasedTrigger                   | v1api20220301 | v1beta20220301 |
 | StatusCodesRangeBasedTrigger_STATUS            | v1api20220301 | v1beta20220301 |
+| UserAssignedIdentityDetails                    | v1api20220301 | v1beta20220301 |
 | UserAssignedIdentity_STATUS                    | v1api20220301 | v1beta20220301 |
 | VirtualApplication                             | v1api20220301 | v1beta20220301 |
 | VirtualApplication_STATUS                      | v1api20220301 | v1beta20220301 |

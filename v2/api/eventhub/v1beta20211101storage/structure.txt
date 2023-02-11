@@ -22,9 +22,12 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── RequireInfrastructureEncryption: *bool
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── IsAutoInflateEnabled: *bool
 │   │   ├── KafkaEnabled: *bool
 │   │   ├── Location: *string
@@ -268,6 +271,7 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage
 ├── augmentConversionForSku: Interface
 ├── augmentConversionForSku_STATUS: Interface
 ├── augmentConversionForSystemData_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
 ├── augmentConversionForUserAssignedIdentityProperties: Interface
 ├── augmentConversionForUserAssignedIdentityProperties_STATUS: Interface
 └── augmentConversionForUserAssignedIdentity_STATUS: Interface

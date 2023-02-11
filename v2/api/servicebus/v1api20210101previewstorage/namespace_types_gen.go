@@ -245,8 +245,9 @@ type Encryption_STATUS struct {
 // Storage version of v1api20210101preview.Identity
 // Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20210101preview.Identity_STATUS
@@ -335,6 +336,13 @@ type KeyVaultProperties_STATUS struct {
 type NamespaceOperatorSecrets struct {
 	Endpoint    *genruntime.SecretDestination `json:"endpoint,omitempty"`
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20210101preview.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20210101preview.UserAssignedIdentityProperties

@@ -43,7 +43,8 @@ func (namespace *Namespace_Spec_ARM) GetType() string {
 // Properties to configure User Assigned Identities for Bring your Own Keys
 type Identity_ARM struct {
 	// Type: Type of managed service identity.
-	Type *Identity_Type `json:"type,omitempty"`
+	Type                   *Identity_Type                             `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Properties of the namespace.
@@ -106,6 +107,10 @@ const (
 	SBSku_Tier_Premium  = SBSku_Tier("Premium")
 	SBSku_Tier_Standard = SBSku_Tier("Standard")
 )
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
+}
 
 // Properties to configure keyVault Properties
 type KeyVaultProperties_ARM struct {

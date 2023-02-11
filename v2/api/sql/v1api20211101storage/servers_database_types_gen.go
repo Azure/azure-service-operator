@@ -306,8 +306,9 @@ func (database *Servers_Database_STATUS) ConvertStatusTo(destination genruntime.
 // Storage version of v1api20211101.DatabaseIdentity
 // Azure Active Directory identity configuration for a resource.
 type DatabaseIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20211101.DatabaseIdentity_STATUS

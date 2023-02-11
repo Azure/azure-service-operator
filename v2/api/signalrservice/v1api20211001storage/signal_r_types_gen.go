@@ -244,8 +244,9 @@ func (signalR *SignalR_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 // Storage version of v1api20211001.ManagedIdentity
 // A class represent managed identities used for request and response
 type ManagedIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20211001.ManagedIdentity_STATUS
@@ -470,6 +471,13 @@ type UpstreamTemplate_STATUS struct {
 	HubPattern      *string                      `json:"hubPattern,omitempty"`
 	PropertyBag     genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	UrlTemplate     *string                      `json:"urlTemplate,omitempty"`
+}
+
+// Storage version of v1api20211001.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20211001.UserAssignedIdentityProperty_STATUS

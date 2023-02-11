@@ -7,11 +7,12 @@ package pipeline
 
 import (
 	"context"
+
+	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/testcases"
-	"github.com/pkg/errors"
-
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
 // InjectJsonSerializationTestsID is the unique identifier for this pipeline stage
@@ -66,16 +67,14 @@ func makeObjectSerializationTestCaseFactory(idFactory astmodel.IdentifierFactory
 
 // NeedsTest returns true if we should generate a testcase for the specified definition
 func (s *objectSerializationTestCaseFactory) NeedsTest(def astmodel.TypeDefinition) bool {
-	pc, ok := astmodel.AsPropertyContainer(def.Type())
+	_, ok := astmodel.AsPropertyContainer(def.Type())
 	if !ok {
 		// Can only generate tests for property containers
 		return false
 	}
 
-	// No test needed for types with no properties
-	if len(pc.Properties().AsSlice()) == 0 {
-		return false
-	}
+	// Note that if the property container has no properties we still generate a test case for it because we need
+	// the Generator for the empty type to build up tests for types containing the empty type.
 
 	// Check for types that we need to suppress - these are ARM types that don't currently round trip because they're
 	// OneOf implementations that are only used in one direction.

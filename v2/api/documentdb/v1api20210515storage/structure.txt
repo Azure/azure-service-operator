@@ -50,9 +50,12 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage
 │   │   ├── EnableCassandraConnector: *bool
 │   │   ├── EnableFreeTier: *bool
 │   │   ├── EnableMultipleWriteLocations: *bool
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── IpRules: Object (2 properties)[]
 │   │   │   ├── IpAddressOrRange: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
