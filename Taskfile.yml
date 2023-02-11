@@ -144,13 +144,13 @@ tasks:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
     dir: '{{.ASOCTL_ROOT}}'
     cmds:
-      - golangci-lint run --verbose --fast=false
+      - golangci-lint run --verbose --fast=false --timeout 5m ./...
 
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
     dir: '{{.ASOCTL_ROOT}}'
     cmds:
-      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} .
+      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} ./cmd/
 
   ############### Generator targets ###############
 
