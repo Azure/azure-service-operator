@@ -47,8 +47,11 @@ func (e *ReadyConditionImpactingError) WithRetryClassification(classification Re
 }
 
 func (e *ReadyConditionImpactingError) Error() string {
-	// Defered to cause
-	return e.cause.Error()
+	return fmt.Sprintf("Reason: %s, Severity: %s, RetryClassification: %s, Cause: %s",
+		e.Reason,
+		e.Severity,
+		e.RetryClassification,
+		e.cause.Error())
 }
 
 func (e *ReadyConditionImpactingError) Is(err error) bool {

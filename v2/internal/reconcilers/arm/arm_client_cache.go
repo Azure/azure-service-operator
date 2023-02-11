@@ -25,6 +25,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
@@ -34,9 +35,8 @@ const (
 	// #nosec
 	globalCredentialSecretName = "aso-controller-settings"
 	// #nosec
-	NamespacedSecretName        = "aso-credential"
-	PerResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
-	namespacedNameSeparator     = "/"
+	NamespacedSecretName    = "aso-credential"
+	namespacedNameSeparator = "/"
 )
 
 // ARMClientCache is a cache for armClients to hold multiple credential clients and global credential client.
@@ -115,7 +115,7 @@ func (c *ARMClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 }
 
 func (c *ARMClientCache) getPerResourceCredential(ctx context.Context, obj genruntime.ARMMetaObject) (*armClient, error) {
-	return c.getCredentialFromAnnotation(ctx, obj, PerResourceSecretAnnotation)
+	return c.getCredentialFromAnnotation(ctx, obj, reconcilers.PerResourceSecretAnnotation)
 }
 
 func (c *ARMClientCache) getNamespacedCredential(ctx context.Context, namespace string) (*armClient, error) {
