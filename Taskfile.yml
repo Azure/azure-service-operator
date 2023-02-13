@@ -144,7 +144,7 @@ tasks:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
     dir: '{{.ASOCTL_ROOT}}'
     cmds:
-      - golangci-lint run --verbose --fast=false --timeout 5m ./...
+      - golangci-lint run --verbose --fast=false --timeout 5m --skip-dirs="(^|/)vendor($|/)" ./...
 
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
@@ -193,7 +193,7 @@ tasks:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - golangci-lint run --verbose --fast=false
+    - golangci-lint run --verbose --fast=false --skip-dirs="(^|/)vendor($|/)"
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
@@ -247,7 +247,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       # Setting GOGC to increase how much debris is tolerated before running GC
-      - GOGC=200 golangci-lint run --verbose --fast=false --timeout 10m ./...
+      - GOGC=200 golangci-lint run --verbose --fast=false --timeout 10m --skip-dirs="(^|/)vendor($|/)" ./...
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource
