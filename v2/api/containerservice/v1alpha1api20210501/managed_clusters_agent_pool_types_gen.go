@@ -2802,8 +2802,8 @@ func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *alpha20
 
 	// CpuCfsQuota
 	if source.CpuCfsQuota != nil {
-		cpuCfsQuotum := *source.CpuCfsQuota
-		config.CpuCfsQuota = &cpuCfsQuotum
+		cpuCfsQuota := *source.CpuCfsQuota
+		config.CpuCfsQuota = &cpuCfsQuota
 	} else {
 		config.CpuCfsQuota = nil
 	}
@@ -2859,8 +2859,8 @@ func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *alph
 
 	// CpuCfsQuota
 	if config.CpuCfsQuota != nil {
-		cpuCfsQuotum := *config.CpuCfsQuota
-		destination.CpuCfsQuota = &cpuCfsQuotum
+		cpuCfsQuota := *config.CpuCfsQuota
+		destination.CpuCfsQuota = &cpuCfsQuota
 	} else {
 		destination.CpuCfsQuota = nil
 	}
@@ -3014,8 +3014,8 @@ func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(s
 
 	// CpuCfsQuota
 	if source.CpuCfsQuota != nil {
-		cpuCfsQuotum := *source.CpuCfsQuota
-		config.CpuCfsQuota = &cpuCfsQuotum
+		cpuCfsQuota := *source.CpuCfsQuota
+		config.CpuCfsQuota = &cpuCfsQuota
 	} else {
 		config.CpuCfsQuota = nil
 	}
@@ -3066,8 +3066,8 @@ func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(des
 
 	// CpuCfsQuota
 	if config.CpuCfsQuota != nil {
-		cpuCfsQuotum := *config.CpuCfsQuota
-		destination.CpuCfsQuota = &cpuCfsQuotum
+		cpuCfsQuota := *config.CpuCfsQuota
+		destination.CpuCfsQuota = &cpuCfsQuota
 	} else {
 		destination.CpuCfsQuota = nil
 	}
