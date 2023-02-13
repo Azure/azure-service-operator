@@ -151,6 +151,7 @@ func (topic *DomainsTopic) AssignProperties_From_DomainsTopic(source *v20200601s
 	}
 	topic.Status = status
 
+	// Invoke the augmentConversionForDomainsTopic interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomainsTopic); ok {
 		err := augmentedTopic.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (topic *DomainsTopic) AssignProperties_To_DomainsTopic(destination *v202006
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForDomainsTopic interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomainsTopic); ok {
 		err := augmentedTopic.AssignPropertiesTo(destination)
@@ -311,6 +313,7 @@ func (topic *Domains_Topic_Spec) AssignProperties_From_Domains_Topic_Spec(source
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDomains_Topic_Spec interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomains_Topic_Spec); ok {
 		err := augmentedTopic.AssignPropertiesFrom(source)
@@ -349,6 +352,7 @@ func (topic *Domains_Topic_Spec) AssignProperties_To_Domains_Topic_Spec(destinat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDomains_Topic_Spec interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomains_Topic_Spec); ok {
 		err := augmentedTopic.AssignPropertiesTo(destination)
@@ -462,6 +466,7 @@ func (topic *Domains_Topic_STATUS) AssignProperties_From_Domains_Topic_STATUS(so
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDomains_Topic_STATUS interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomains_Topic_STATUS); ok {
 		err := augmentedTopic.AssignPropertiesFrom(source)
@@ -513,6 +518,7 @@ func (topic *Domains_Topic_STATUS) AssignProperties_To_Domains_Topic_STATUS(dest
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDomains_Topic_STATUS interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomains_Topic_STATUS); ok {
 		err := augmentedTopic.AssignPropertiesTo(destination)

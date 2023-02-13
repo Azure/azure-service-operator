@@ -151,6 +151,7 @@ func (eventhub *NamespacesEventhub) AssignProperties_From_NamespacesEventhub(sou
 	}
 	eventhub.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhub interface (if implemented) to customize the conversion
 	var eventhubAsAny any = eventhub
 	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespacesEventhub); ok {
 		err := augmentedEventhub.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (eventhub *NamespacesEventhub) AssignProperties_To_NamespacesEventhub(desti
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhub interface (if implemented) to customize the conversion
 	var eventhubAsAny any = eventhub
 	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespacesEventhub); ok {
 		err := augmentedEventhub.AssignPropertiesTo(destination)
@@ -334,6 +336,7 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_From_Namespaces_Event
 		eventhub.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhub_Spec interface (if implemented) to customize the conversion
 	var eventhubAsAny any = eventhub
 	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespaces_Eventhub_Spec); ok {
 		err := augmentedEventhub.AssignPropertiesFrom(source)
@@ -390,6 +393,7 @@ func (eventhub *Namespaces_Eventhub_Spec) AssignProperties_To_Namespaces_Eventhu
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhub_Spec interface (if implemented) to customize the conversion
 	var eventhubAsAny any = eventhub
 	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespaces_Eventhub_Spec); ok {
 		err := augmentedEventhub.AssignPropertiesTo(destination)
@@ -540,6 +544,7 @@ func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_From_Namespaces_Eve
 		eventhub.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhub_STATUS interface (if implemented) to customize the conversion
 	var eventhubAsAny any = eventhub
 	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespaces_Eventhub_STATUS); ok {
 		err := augmentedEventhub.AssignPropertiesFrom(source)
@@ -621,6 +626,7 @@ func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_To_Namespaces_Event
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhub_STATUS interface (if implemented) to customize the conversion
 	var eventhubAsAny any = eventhub
 	if augmentedEventhub, ok := eventhubAsAny.(augmentConversionForNamespaces_Eventhub_STATUS); ok {
 		err := augmentedEventhub.AssignPropertiesTo(destination)
@@ -704,6 +710,7 @@ func (description *CaptureDescription) AssignProperties_From_CaptureDescription(
 		description.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCaptureDescription interface (if implemented) to customize the conversion
 	var descriptionAsAny any = description
 	if augmentedDescription, ok := descriptionAsAny.(augmentConversionForCaptureDescription); ok {
 		err := augmentedDescription.AssignPropertiesFrom(source)
@@ -765,6 +772,7 @@ func (description *CaptureDescription) AssignProperties_To_CaptureDescription(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCaptureDescription interface (if implemented) to customize the conversion
 	var descriptionAsAny any = description
 	if augmentedDescription, ok := descriptionAsAny.(augmentConversionForCaptureDescription); ok {
 		err := augmentedDescription.AssignPropertiesTo(destination)
@@ -838,6 +846,7 @@ func (description *CaptureDescription_STATUS) AssignProperties_From_CaptureDescr
 		description.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCaptureDescription_STATUS interface (if implemented) to customize the conversion
 	var descriptionAsAny any = description
 	if augmentedDescription, ok := descriptionAsAny.(augmentConversionForCaptureDescription_STATUS); ok {
 		err := augmentedDescription.AssignPropertiesFrom(source)
@@ -899,6 +908,7 @@ func (description *CaptureDescription_STATUS) AssignProperties_To_CaptureDescrip
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCaptureDescription_STATUS interface (if implemented) to customize the conversion
 	var descriptionAsAny any = description
 	if augmentedDescription, ok := descriptionAsAny.(augmentConversionForCaptureDescription_STATUS); ok {
 		err := augmentedDescription.AssignPropertiesTo(destination)
@@ -972,6 +982,7 @@ func (destination *Destination) AssignProperties_From_Destination(source *v20211
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDestination interface (if implemented) to customize the conversion
 	var destinationAsAny any = destination
 	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDestination); ok {
 		err := augmentedDestination.AssignPropertiesFrom(source)
@@ -1022,6 +1033,7 @@ func (destination *Destination) AssignProperties_To_Destination(target *v2021110
 		target.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDestination interface (if implemented) to customize the conversion
 	var destinationAsAny any = destination
 	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDestination); ok {
 		err := augmentedDestination.AssignPropertiesTo(target)
@@ -1080,6 +1092,7 @@ func (destination *Destination_STATUS) AssignProperties_From_Destination_STATUS(
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDestination_STATUS interface (if implemented) to customize the conversion
 	var destinationAsAny any = destination
 	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDestination_STATUS); ok {
 		err := augmentedDestination.AssignPropertiesFrom(source)
@@ -1125,6 +1138,7 @@ func (destination *Destination_STATUS) AssignProperties_To_Destination_STATUS(ta
 		target.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDestination_STATUS interface (if implemented) to customize the conversion
 	var destinationAsAny any = destination
 	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDestination_STATUS); ok {
 		err := augmentedDestination.AssignPropertiesTo(target)

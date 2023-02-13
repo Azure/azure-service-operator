@@ -151,6 +151,7 @@ func (schedule *RedisPatchSchedule) AssignProperties_From_RedisPatchSchedule(sou
 	}
 	schedule.Status = status
 
+	// Invoke the augmentConversionForRedisPatchSchedule interface (if implemented) to customize the conversion
 	var scheduleAsAny any = schedule
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule); ok {
 		err := augmentedSchedule.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (schedule *RedisPatchSchedule) AssignProperties_To_RedisPatchSchedule(desti
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForRedisPatchSchedule interface (if implemented) to customize the conversion
 	var scheduleAsAny any = schedule
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedisPatchSchedule); ok {
 		err := augmentedSchedule.AssignPropertiesTo(destination)
@@ -324,6 +326,7 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_From_Redis_PatchSched
 		schedule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_PatchSchedule_Spec interface (if implemented) to customize the conversion
 	var scheduleAsAny any = schedule
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedis_PatchSchedule_Spec); ok {
 		err := augmentedSchedule.AssignPropertiesFrom(source)
@@ -377,6 +380,7 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_To_Redis_PatchSchedul
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_PatchSchedule_Spec interface (if implemented) to customize the conversion
 	var scheduleAsAny any = schedule
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedis_PatchSchedule_Spec); ok {
 		err := augmentedSchedule.AssignPropertiesTo(destination)
@@ -496,6 +500,7 @@ func (schedule *Redis_PatchSchedule_STATUS) AssignProperties_From_Redis_PatchSch
 		schedule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_PatchSchedule_STATUS interface (if implemented) to customize the conversion
 	var scheduleAsAny any = schedule
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedis_PatchSchedule_STATUS); ok {
 		err := augmentedSchedule.AssignPropertiesFrom(source)
@@ -553,6 +558,7 @@ func (schedule *Redis_PatchSchedule_STATUS) AssignProperties_To_Redis_PatchSched
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_PatchSchedule_STATUS interface (if implemented) to customize the conversion
 	var scheduleAsAny any = schedule
 	if augmentedSchedule, ok := scheduleAsAny.(augmentConversionForRedis_PatchSchedule_STATUS); ok {
 		err := augmentedSchedule.AssignPropertiesTo(destination)
@@ -605,6 +611,7 @@ func (entry *ScheduleEntry) AssignProperties_From_ScheduleEntry(source *v2020120
 		entry.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForScheduleEntry interface (if implemented) to customize the conversion
 	var entryAsAny any = entry
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry); ok {
 		err := augmentedEntry.AssignPropertiesFrom(source)
@@ -638,6 +645,7 @@ func (entry *ScheduleEntry) AssignProperties_To_ScheduleEntry(destination *v2020
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForScheduleEntry interface (if implemented) to customize the conversion
 	var entryAsAny any = entry
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry); ok {
 		err := augmentedEntry.AssignPropertiesTo(destination)
@@ -680,6 +688,7 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_From_ScheduleEntry_STATUS(so
 		entry.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForScheduleEntry_STATUS interface (if implemented) to customize the conversion
 	var entryAsAny any = entry
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry_STATUS); ok {
 		err := augmentedEntry.AssignPropertiesFrom(source)
@@ -713,6 +722,7 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_To_ScheduleEntry_STATUS(dest
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForScheduleEntry_STATUS interface (if implemented) to customize the conversion
 	var entryAsAny any = entry
 	if augmentedEntry, ok := entryAsAny.(augmentConversionForScheduleEntry_STATUS); ok {
 		err := augmentedEntry.AssignPropertiesTo(destination)

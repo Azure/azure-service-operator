@@ -151,6 +151,7 @@ func (signalR *SignalR) AssignProperties_From_SignalR(source *v20211001s.SignalR
 	}
 	signalR.Status = status
 
+	// Invoke the augmentConversionForSignalR interface (if implemented) to customize the conversion
 	var signalRAsAny any = signalR
 	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR); ok {
 		err := augmentedSignalR.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (signalR *SignalR) AssignProperties_To_SignalR(destination *v20211001s.Sign
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSignalR interface (if implemented) to customize the conversion
 	var signalRAsAny any = signalR
 	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR); ok {
 		err := augmentedSignalR.AssignPropertiesTo(destination)
@@ -462,6 +464,7 @@ func (signalR *SignalR_Spec) AssignProperties_From_SignalR_Spec(source *v2021100
 		signalR.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalR_Spec interface (if implemented) to customize the conversion
 	var signalRAsAny any = signalR
 	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR_Spec); ok {
 		err := augmentedSignalR.AssignPropertiesFrom(source)
@@ -630,6 +633,7 @@ func (signalR *SignalR_Spec) AssignProperties_To_SignalR_Spec(destination *v2021
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalR_Spec interface (if implemented) to customize the conversion
 	var signalRAsAny any = signalR
 	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR_Spec); ok {
 		err := augmentedSignalR.AssignPropertiesTo(destination)
@@ -949,6 +953,7 @@ func (signalR *SignalR_STATUS) AssignProperties_From_SignalR_STATUS(source *v202
 		signalR.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalR_STATUS interface (if implemented) to customize the conversion
 	var signalRAsAny any = signalR
 	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR_STATUS); ok {
 		err := augmentedSignalR.AssignPropertiesFrom(source)
@@ -1184,6 +1189,7 @@ func (signalR *SignalR_STATUS) AssignProperties_To_SignalR_STATUS(destination *v
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalR_STATUS interface (if implemented) to customize the conversion
 	var signalRAsAny any = signalR
 	if augmentedSignalR, ok := signalRAsAny.(augmentConversionForSignalR_STATUS); ok {
 		err := augmentedSignalR.AssignPropertiesTo(destination)
@@ -1228,6 +1234,7 @@ func (identity *ManagedIdentity) AssignProperties_From_ManagedIdentity(source *v
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedIdentity interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedIdentity); ok {
 		err := augmentedIdentity.AssignPropertiesFrom(source)
@@ -1255,6 +1262,7 @@ func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedIdentity interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedIdentity); ok {
 		err := augmentedIdentity.AssignPropertiesTo(destination)
@@ -1316,6 +1324,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_From_ManagedIdentity_ST
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedIdentity_STATUS interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedIdentity_STATUS); ok {
 		err := augmentedIdentity.AssignPropertiesFrom(source)
@@ -1367,6 +1376,7 @@ func (identity *ManagedIdentity_STATUS) AssignProperties_To_ManagedIdentity_STAT
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedIdentity_STATUS interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedIdentity_STATUS); ok {
 		err := augmentedIdentity.AssignPropertiesTo(destination)
@@ -1401,6 +1411,7 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) As
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1428,6 +1439,7 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) As
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1477,6 +1489,7 @@ func (configuration *ResourceLogConfiguration) AssignProperties_From_ResourceLog
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceLogConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForResourceLogConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -1519,6 +1532,7 @@ func (configuration *ResourceLogConfiguration) AssignProperties_To_ResourceLogCo
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceLogConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForResourceLogConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -1568,6 +1582,7 @@ func (configuration *ResourceLogConfiguration_STATUS) AssignProperties_From_Reso
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceLogConfiguration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForResourceLogConfiguration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -1610,6 +1625,7 @@ func (configuration *ResourceLogConfiguration_STATUS) AssignProperties_To_Resour
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceLogConfiguration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForResourceLogConfiguration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -1652,6 +1668,7 @@ func (resourceSku *ResourceSku) AssignProperties_From_ResourceSku(source *v20211
 		resourceSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceSku interface (if implemented) to customize the conversion
 	var resourceSkuAsAny any = resourceSku
 	if augmentedResourceSku, ok := resourceSkuAsAny.(augmentConversionForResourceSku); ok {
 		err := augmentedResourceSku.AssignPropertiesFrom(source)
@@ -1685,6 +1702,7 @@ func (resourceSku *ResourceSku) AssignProperties_To_ResourceSku(destination *v20
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceSku interface (if implemented) to customize the conversion
 	var resourceSkuAsAny any = resourceSku
 	if augmentedResourceSku, ok := resourceSkuAsAny.(augmentConversionForResourceSku); ok {
 		err := augmentedResourceSku.AssignPropertiesTo(destination)
@@ -1735,6 +1753,7 @@ func (resourceSku *ResourceSku_STATUS) AssignProperties_From_ResourceSku_STATUS(
 		resourceSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceSku_STATUS interface (if implemented) to customize the conversion
 	var resourceSkuAsAny any = resourceSku
 	if augmentedResourceSku, ok := resourceSkuAsAny.(augmentConversionForResourceSku_STATUS); ok {
 		err := augmentedResourceSku.AssignPropertiesFrom(source)
@@ -1774,6 +1793,7 @@ func (resourceSku *ResourceSku_STATUS) AssignProperties_To_ResourceSku_STATUS(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceSku_STATUS interface (if implemented) to customize the conversion
 	var resourceSkuAsAny any = resourceSku
 	if augmentedResourceSku, ok := resourceSkuAsAny.(augmentConversionForResourceSku_STATUS); ok {
 		err := augmentedResourceSku.AssignPropertiesTo(destination)
@@ -1823,6 +1843,7 @@ func (settings *ServerlessUpstreamSettings) AssignProperties_From_ServerlessUpst
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForServerlessUpstreamSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForServerlessUpstreamSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1865,6 +1886,7 @@ func (settings *ServerlessUpstreamSettings) AssignProperties_To_ServerlessUpstre
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForServerlessUpstreamSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForServerlessUpstreamSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1914,6 +1936,7 @@ func (settings *ServerlessUpstreamSettings_STATUS) AssignProperties_From_Serverl
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForServerlessUpstreamSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForServerlessUpstreamSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1956,6 +1979,7 @@ func (settings *ServerlessUpstreamSettings_STATUS) AssignProperties_To_Serverles
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForServerlessUpstreamSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForServerlessUpstreamSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1990,6 +2014,7 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) As
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2017,6 +2042,7 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) As
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2051,6 +2077,7 @@ func (settings *SignalRCorsSettings) AssignProperties_From_SignalRCorsSettings(s
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRCorsSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRCorsSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -2078,6 +2105,7 @@ func (settings *SignalRCorsSettings) AssignProperties_To_SignalRCorsSettings(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRCorsSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRCorsSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -2112,6 +2140,7 @@ func (settings *SignalRCorsSettings_STATUS) AssignProperties_From_SignalRCorsSet
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRCorsSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRCorsSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -2139,6 +2168,7 @@ func (settings *SignalRCorsSettings_STATUS) AssignProperties_To_SignalRCorsSetti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRCorsSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRCorsSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -2181,6 +2211,7 @@ func (feature *SignalRFeature) AssignProperties_From_SignalRFeature(source *v202
 		feature.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRFeature interface (if implemented) to customize the conversion
 	var featureAsAny any = feature
 	if augmentedFeature, ok := featureAsAny.(augmentConversionForSignalRFeature); ok {
 		err := augmentedFeature.AssignPropertiesFrom(source)
@@ -2214,6 +2245,7 @@ func (feature *SignalRFeature) AssignProperties_To_SignalRFeature(destination *v
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRFeature interface (if implemented) to customize the conversion
 	var featureAsAny any = feature
 	if augmentedFeature, ok := featureAsAny.(augmentConversionForSignalRFeature); ok {
 		err := augmentedFeature.AssignPropertiesTo(destination)
@@ -2256,6 +2288,7 @@ func (feature *SignalRFeature_STATUS) AssignProperties_From_SignalRFeature_STATU
 		feature.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRFeature_STATUS interface (if implemented) to customize the conversion
 	var featureAsAny any = feature
 	if augmentedFeature, ok := featureAsAny.(augmentConversionForSignalRFeature_STATUS); ok {
 		err := augmentedFeature.AssignPropertiesFrom(source)
@@ -2289,6 +2322,7 @@ func (feature *SignalRFeature_STATUS) AssignProperties_To_SignalRFeature_STATUS(
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRFeature_STATUS interface (if implemented) to customize the conversion
 	var featureAsAny any = feature
 	if augmentedFeature, ok := featureAsAny.(augmentConversionForSignalRFeature_STATUS); ok {
 		err := augmentedFeature.AssignPropertiesTo(destination)
@@ -2355,6 +2389,7 @@ func (acLs *SignalRNetworkACLs) AssignProperties_From_SignalRNetworkACLs(source 
 		acLs.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRNetworkACLs interface (if implemented) to customize the conversion
 	var acLsAsAny any = acLs
 	if augmentedAcLs, ok := acLsAsAny.(augmentConversionForSignalRNetworkACLs); ok {
 		err := augmentedAcLs.AssignPropertiesFrom(source)
@@ -2412,6 +2447,7 @@ func (acLs *SignalRNetworkACLs) AssignProperties_To_SignalRNetworkACLs(destinati
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRNetworkACLs interface (if implemented) to customize the conversion
 	var acLsAsAny any = acLs
 	if augmentedAcLs, ok := acLsAsAny.(augmentConversionForSignalRNetworkACLs); ok {
 		err := augmentedAcLs.AssignPropertiesTo(destination)
@@ -2478,6 +2514,7 @@ func (acLs *SignalRNetworkACLs_STATUS) AssignProperties_From_SignalRNetworkACLs_
 		acLs.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRNetworkACLs_STATUS interface (if implemented) to customize the conversion
 	var acLsAsAny any = acLs
 	if augmentedAcLs, ok := acLsAsAny.(augmentConversionForSignalRNetworkACLs_STATUS); ok {
 		err := augmentedAcLs.AssignPropertiesFrom(source)
@@ -2535,6 +2572,7 @@ func (acLs *SignalRNetworkACLs_STATUS) AssignProperties_To_SignalRNetworkACLs_ST
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRNetworkACLs_STATUS interface (if implemented) to customize the conversion
 	var acLsAsAny any = acLs
 	if augmentedAcLs, ok := acLsAsAny.(augmentConversionForSignalRNetworkACLs_STATUS); ok {
 		err := augmentedAcLs.AssignPropertiesTo(destination)
@@ -2574,6 +2612,7 @@ func (settings *SignalRTlsSettings) AssignProperties_From_SignalRTlsSettings(sou
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRTlsSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRTlsSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -2606,6 +2645,7 @@ func (settings *SignalRTlsSettings) AssignProperties_To_SignalRTlsSettings(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRTlsSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRTlsSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -2645,6 +2685,7 @@ func (settings *SignalRTlsSettings_STATUS) AssignProperties_From_SignalRTlsSetti
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRTlsSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRTlsSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -2677,6 +2718,7 @@ func (settings *SignalRTlsSettings_STATUS) AssignProperties_To_SignalRTlsSetting
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSignalRTlsSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForSignalRTlsSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -2731,6 +2773,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 		data.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
 	var dataAsAny any = data
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesFrom(source)
@@ -2773,6 +2816,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
 	var dataAsAny any = data
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesTo(destination)
@@ -2906,6 +2950,7 @@ func (networkACL *NetworkACL) AssignProperties_From_NetworkACL(source *v20211001
 		networkACL.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkACL interface (if implemented) to customize the conversion
 	var networkACLAsAny any = networkACL
 	if augmentedNetworkACL, ok := networkACLAsAny.(augmentConversionForNetworkACL); ok {
 		err := augmentedNetworkACL.AssignPropertiesFrom(source)
@@ -2936,6 +2981,7 @@ func (networkACL *NetworkACL) AssignProperties_To_NetworkACL(destination *v20211
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkACL interface (if implemented) to customize the conversion
 	var networkACLAsAny any = networkACL
 	if augmentedNetworkACL, ok := networkACLAsAny.(augmentConversionForNetworkACL); ok {
 		err := augmentedNetworkACL.AssignPropertiesTo(destination)
@@ -2974,6 +3020,7 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_From_NetworkACL_STATUS(sou
 		networkACL.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkACL_STATUS interface (if implemented) to customize the conversion
 	var networkACLAsAny any = networkACL
 	if augmentedNetworkACL, ok := networkACLAsAny.(augmentConversionForNetworkACL_STATUS); ok {
 		err := augmentedNetworkACL.AssignPropertiesFrom(source)
@@ -3004,6 +3051,7 @@ func (networkACL *NetworkACL_STATUS) AssignProperties_To_NetworkACL_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkACL_STATUS interface (if implemented) to customize the conversion
 	var networkACLAsAny any = networkACL
 	if augmentedNetworkACL, ok := networkACLAsAny.(augmentConversionForNetworkACL_STATUS); ok {
 		err := augmentedNetworkACL.AssignPropertiesTo(destination)
@@ -3046,6 +3094,7 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_From_PrivateEndpointACL(
 		endpointACL.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointACL interface (if implemented) to customize the conversion
 	var endpointACLAsAny any = endpointACL
 	if augmentedEndpointACL, ok := endpointACLAsAny.(augmentConversionForPrivateEndpointACL); ok {
 		err := augmentedEndpointACL.AssignPropertiesFrom(source)
@@ -3079,6 +3128,7 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_To_PrivateEndpointACL(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointACL interface (if implemented) to customize the conversion
 	var endpointACLAsAny any = endpointACL
 	if augmentedEndpointACL, ok := endpointACLAsAny.(augmentConversionForPrivateEndpointACL); ok {
 		err := augmentedEndpointACL.AssignPropertiesTo(destination)
@@ -3121,6 +3171,7 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_From_PrivateEndpo
 		endpointACL.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointACL_STATUS interface (if implemented) to customize the conversion
 	var endpointACLAsAny any = endpointACL
 	if augmentedEndpointACL, ok := endpointACLAsAny.(augmentConversionForPrivateEndpointACL_STATUS); ok {
 		err := augmentedEndpointACL.AssignPropertiesFrom(source)
@@ -3154,6 +3205,7 @@ func (endpointACL *PrivateEndpointACL_STATUS) AssignProperties_To_PrivateEndpoin
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointACL_STATUS interface (if implemented) to customize the conversion
 	var endpointACLAsAny any = endpointACL
 	if augmentedEndpointACL, ok := endpointACLAsAny.(augmentConversionForPrivateEndpointACL_STATUS); ok {
 		err := augmentedEndpointACL.AssignPropertiesTo(destination)
@@ -3192,6 +3244,7 @@ func (category *ResourceLogCategory) AssignProperties_From_ResourceLogCategory(s
 		category.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceLogCategory interface (if implemented) to customize the conversion
 	var categoryAsAny any = category
 	if augmentedCategory, ok := categoryAsAny.(augmentConversionForResourceLogCategory); ok {
 		err := augmentedCategory.AssignPropertiesFrom(source)
@@ -3222,6 +3275,7 @@ func (category *ResourceLogCategory) AssignProperties_To_ResourceLogCategory(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceLogCategory interface (if implemented) to customize the conversion
 	var categoryAsAny any = category
 	if augmentedCategory, ok := categoryAsAny.(augmentConversionForResourceLogCategory); ok {
 		err := augmentedCategory.AssignPropertiesTo(destination)
@@ -3260,6 +3314,7 @@ func (category *ResourceLogCategory_STATUS) AssignProperties_From_ResourceLogCat
 		category.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceLogCategory_STATUS interface (if implemented) to customize the conversion
 	var categoryAsAny any = category
 	if augmentedCategory, ok := categoryAsAny.(augmentConversionForResourceLogCategory_STATUS); ok {
 		err := augmentedCategory.AssignPropertiesFrom(source)
@@ -3290,6 +3345,7 @@ func (category *ResourceLogCategory_STATUS) AssignProperties_To_ResourceLogCateg
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceLogCategory_STATUS interface (if implemented) to customize the conversion
 	var categoryAsAny any = category
 	if augmentedCategory, ok := categoryAsAny.(augmentConversionForResourceLogCategory_STATUS); ok {
 		err := augmentedCategory.AssignPropertiesTo(destination)
@@ -3349,6 +3405,7 @@ func (template *UpstreamTemplate) AssignProperties_From_UpstreamTemplate(source 
 		template.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpstreamTemplate interface (if implemented) to customize the conversion
 	var templateAsAny any = template
 	if augmentedTemplate, ok := templateAsAny.(augmentConversionForUpstreamTemplate); ok {
 		err := augmentedTemplate.AssignPropertiesFrom(source)
@@ -3397,6 +3454,7 @@ func (template *UpstreamTemplate) AssignProperties_To_UpstreamTemplate(destinati
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpstreamTemplate interface (if implemented) to customize the conversion
 	var templateAsAny any = template
 	if augmentedTemplate, ok := templateAsAny.(augmentConversionForUpstreamTemplate); ok {
 		err := augmentedTemplate.AssignPropertiesTo(destination)
@@ -3456,6 +3514,7 @@ func (template *UpstreamTemplate_STATUS) AssignProperties_From_UpstreamTemplate_
 		template.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpstreamTemplate_STATUS interface (if implemented) to customize the conversion
 	var templateAsAny any = template
 	if augmentedTemplate, ok := templateAsAny.(augmentConversionForUpstreamTemplate_STATUS); ok {
 		err := augmentedTemplate.AssignPropertiesFrom(source)
@@ -3504,6 +3563,7 @@ func (template *UpstreamTemplate_STATUS) AssignProperties_To_UpstreamTemplate_ST
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpstreamTemplate_STATUS interface (if implemented) to customize the conversion
 	var templateAsAny any = template
 	if augmentedTemplate, ok := templateAsAny.(augmentConversionForUpstreamTemplate_STATUS); ok {
 		err := augmentedTemplate.AssignPropertiesTo(destination)
@@ -3542,6 +3602,7 @@ func (property *UserAssignedIdentityProperty_STATUS) AssignProperties_From_UserA
 		property.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentityProperty_STATUS interface (if implemented) to customize the conversion
 	var propertyAsAny any = property
 	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUserAssignedIdentityProperty_STATUS); ok {
 		err := augmentedProperty.AssignPropertiesFrom(source)
@@ -3572,6 +3633,7 @@ func (property *UserAssignedIdentityProperty_STATUS) AssignProperties_To_UserAss
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentityProperty_STATUS interface (if implemented) to customize the conversion
 	var propertyAsAny any = property
 	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUserAssignedIdentityProperty_STATUS); ok {
 		err := augmentedProperty.AssignPropertiesTo(destination)
@@ -3664,6 +3726,7 @@ func (settings *UpstreamAuthSettings) AssignProperties_From_UpstreamAuthSettings
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpstreamAuthSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpstreamAuthSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -3703,6 +3766,7 @@ func (settings *UpstreamAuthSettings) AssignProperties_To_UpstreamAuthSettings(d
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpstreamAuthSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpstreamAuthSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -3750,6 +3814,7 @@ func (settings *UpstreamAuthSettings_STATUS) AssignProperties_From_UpstreamAuthS
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpstreamAuthSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpstreamAuthSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -3789,6 +3854,7 @@ func (settings *UpstreamAuthSettings_STATUS) AssignProperties_To_UpstreamAuthSet
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpstreamAuthSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForUpstreamAuthSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -3833,6 +3899,7 @@ func (settings *ManagedIdentitySettings) AssignProperties_From_ManagedIdentitySe
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedIdentitySettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForManagedIdentitySettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -3860,6 +3927,7 @@ func (settings *ManagedIdentitySettings) AssignProperties_To_ManagedIdentitySett
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedIdentitySettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForManagedIdentitySettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -3894,6 +3962,7 @@ func (settings *ManagedIdentitySettings_STATUS) AssignProperties_From_ManagedIde
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedIdentitySettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForManagedIdentitySettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -3921,6 +3990,7 @@ func (settings *ManagedIdentitySettings_STATUS) AssignProperties_To_ManagedIdent
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedIdentitySettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForManagedIdentitySettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)

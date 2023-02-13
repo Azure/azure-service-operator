@@ -54,6 +54,7 @@ func (person *Person) AssignProperties_From_Person(source *v20211231.Person) err
 		person.KnownAs = ""
 	}
 
+	// Invoke the personAssignable interface (if implemented) to customize the conversion
 	var personAsAny any = person
 	if augmentedPerson, ok := personAsAny.(personAssignable); ok {
 		err := augmentedPerson.AssignPropertiesFrom(source)
@@ -87,6 +88,7 @@ func (person *Person) AssignProperties_To_Person(destination *v20211231.Person) 
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the personAssignable interface (if implemented) to customize the conversion
 	var personAsAny any = person
 	if augmentedPerson, ok := personAsAny.(personAssignable); ok {
 		err := augmentedPerson.AssignPropertiesTo(destination)

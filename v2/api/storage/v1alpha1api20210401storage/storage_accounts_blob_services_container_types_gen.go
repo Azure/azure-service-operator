@@ -151,6 +151,7 @@ func (container *StorageAccountsBlobServicesContainer) AssignProperties_From_Sto
 	}
 	container.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsBlobServicesContainer interface (if implemented) to customize the conversion
 	var containerAsAny any = container
 	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccountsBlobServicesContainer); ok {
 		err := augmentedContainer.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (container *StorageAccountsBlobServicesContainer) AssignProperties_To_Stora
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsBlobServicesContainer interface (if implemented) to customize the conversion
 	var containerAsAny any = container
 	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccountsBlobServicesContainer); ok {
 		err := augmentedContainer.AssignPropertiesTo(destination)
@@ -347,6 +349,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_F
 		container.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_Spec interface (if implemented) to customize the conversion
 	var containerAsAny any = container
 	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_Spec); ok {
 		err := augmentedContainer.AssignPropertiesFrom(source)
@@ -414,6 +417,7 @@ func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_T
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_Spec interface (if implemented) to customize the conversion
 	var containerAsAny any = container
 	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_Spec); ok {
 		err := augmentedContainer.AssignPropertiesTo(destination)
@@ -629,6 +633,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties
 		container.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_STATUS interface (if implemented) to customize the conversion
 	var containerAsAny any = container
 	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_STATUS); ok {
 		err := augmentedContainer.AssignPropertiesFrom(source)
@@ -766,6 +771,7 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_STATUS interface (if implemented) to customize the conversion
 	var containerAsAny any = container
 	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_STATUS); ok {
 		err := augmentedContainer.AssignPropertiesTo(destination)
@@ -846,6 +852,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_From_Imm
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutabilityPolicyProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForImmutabilityPolicyProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -905,6 +912,7 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_To_Immut
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutabilityPolicyProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForImmutabilityPolicyProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -944,6 +952,7 @@ func (versioning *ImmutableStorageWithVersioning) AssignProperties_From_Immutabl
 		versioning.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutableStorageWithVersioning interface (if implemented) to customize the conversion
 	var versioningAsAny any = versioning
 	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning); ok {
 		err := augmentedVersioning.AssignPropertiesFrom(source)
@@ -976,6 +985,7 @@ func (versioning *ImmutableStorageWithVersioning) AssignProperties_To_ImmutableS
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutableStorageWithVersioning interface (if implemented) to customize the conversion
 	var versioningAsAny any = versioning
 	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning); ok {
 		err := augmentedVersioning.AssignPropertiesTo(destination)
@@ -1023,6 +1033,7 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_From_I
 		versioning.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutableStorageWithVersioning_STATUS interface (if implemented) to customize the conversion
 	var versioningAsAny any = versioning
 	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning_STATUS); ok {
 		err := augmentedVersioning.AssignPropertiesFrom(source)
@@ -1061,6 +1072,7 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_To_Imm
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutableStorageWithVersioning_STATUS interface (if implemented) to customize the conversion
 	var versioningAsAny any = versioning
 	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning_STATUS); ok {
 		err := augmentedVersioning.AssignPropertiesTo(destination)
@@ -1119,6 +1131,7 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_From_LegalHoldPro
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLegalHoldProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForLegalHoldProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -1169,6 +1182,7 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_To_LegalHoldPrope
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLegalHoldProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForLegalHoldProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -1239,6 +1253,7 @@ func (property *TagProperty_STATUS) AssignProperties_From_TagProperty_STATUS(sou
 		property.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTagProperty_STATUS interface (if implemented) to customize the conversion
 	var propertyAsAny any = property
 	if augmentedProperty, ok := propertyAsAny.(augmentConversionForTagProperty_STATUS); ok {
 		err := augmentedProperty.AssignPropertiesFrom(source)
@@ -1278,6 +1293,7 @@ func (property *TagProperty_STATUS) AssignProperties_To_TagProperty_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTagProperty_STATUS interface (if implemented) to customize the conversion
 	var propertyAsAny any = property
 	if augmentedProperty, ok := propertyAsAny.(augmentConversionForTagProperty_STATUS); ok {
 		err := augmentedProperty.AssignPropertiesTo(destination)
@@ -1332,6 +1348,7 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_From_UpdateHistor
 		property.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpdateHistoryProperty_STATUS interface (if implemented) to customize the conversion
 	var propertyAsAny any = property
 	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUpdateHistoryProperty_STATUS); ok {
 		err := augmentedProperty.AssignPropertiesFrom(source)
@@ -1374,6 +1391,7 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_To_UpdateHistoryP
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpdateHistoryProperty_STATUS interface (if implemented) to customize the conversion
 	var propertyAsAny any = property
 	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUpdateHistoryProperty_STATUS); ok {
 		err := augmentedProperty.AssignPropertiesTo(destination)

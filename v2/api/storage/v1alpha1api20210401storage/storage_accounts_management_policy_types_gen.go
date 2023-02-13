@@ -151,6 +151,7 @@ func (policy *StorageAccountsManagementPolicy) AssignProperties_From_StorageAcco
 	}
 	policy.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsManagementPolicy interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccountsManagementPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (policy *StorageAccountsManagementPolicy) AssignProperties_To_StorageAccoun
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsManagementPolicy interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccountsManagementPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
@@ -318,6 +320,7 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_From_Stora
 		policy.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_Spec interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_Spec); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
@@ -365,6 +368,7 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_Storage
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_Spec interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_Spec); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
@@ -478,6 +482,7 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_From_Sto
 		policy.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
@@ -529,6 +534,7 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_To_Stora
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_ManagementPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForStorageAccounts_ManagementPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
@@ -588,6 +594,7 @@ func (schema *ManagementPolicySchema) AssignProperties_From_ManagementPolicySche
 		schema.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicySchema interface (if implemented) to customize the conversion
 	var schemaAsAny any = schema
 	if augmentedSchema, ok := schemaAsAny.(augmentConversionForManagementPolicySchema); ok {
 		err := augmentedSchema.AssignPropertiesFrom(source)
@@ -630,6 +637,7 @@ func (schema *ManagementPolicySchema) AssignProperties_To_ManagementPolicySchema
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicySchema interface (if implemented) to customize the conversion
 	var schemaAsAny any = schema
 	if augmentedSchema, ok := schemaAsAny.(augmentConversionForManagementPolicySchema); ok {
 		err := augmentedSchema.AssignPropertiesTo(destination)
@@ -679,6 +687,7 @@ func (schema *ManagementPolicySchema_STATUS) AssignProperties_From_ManagementPol
 		schema.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicySchema_STATUS interface (if implemented) to customize the conversion
 	var schemaAsAny any = schema
 	if augmentedSchema, ok := schemaAsAny.(augmentConversionForManagementPolicySchema_STATUS); ok {
 		err := augmentedSchema.AssignPropertiesFrom(source)
@@ -721,6 +730,7 @@ func (schema *ManagementPolicySchema_STATUS) AssignProperties_To_ManagementPolic
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicySchema_STATUS interface (if implemented) to customize the conversion
 	var schemaAsAny any = schema
 	if augmentedSchema, ok := schemaAsAny.(augmentConversionForManagementPolicySchema_STATUS); ok {
 		err := augmentedSchema.AssignPropertiesTo(destination)
@@ -791,6 +801,7 @@ func (rule *ManagementPolicyRule) AssignProperties_From_ManagementPolicyRule(sou
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForManagementPolicyRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -841,6 +852,7 @@ func (rule *ManagementPolicyRule) AssignProperties_To_ManagementPolicyRule(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForManagementPolicyRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -901,6 +913,7 @@ func (rule *ManagementPolicyRule_STATUS) AssignProperties_From_ManagementPolicyR
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForManagementPolicyRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -951,6 +964,7 @@ func (rule *ManagementPolicyRule_STATUS) AssignProperties_To_ManagementPolicyRul
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForManagementPolicyRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -1017,6 +1031,7 @@ func (definition *ManagementPolicyDefinition) AssignProperties_From_ManagementPo
 		definition.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyDefinition interface (if implemented) to customize the conversion
 	var definitionAsAny any = definition
 	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForManagementPolicyDefinition); ok {
 		err := augmentedDefinition.AssignPropertiesFrom(source)
@@ -1065,6 +1080,7 @@ func (definition *ManagementPolicyDefinition) AssignProperties_To_ManagementPoli
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyDefinition interface (if implemented) to customize the conversion
 	var definitionAsAny any = definition
 	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForManagementPolicyDefinition); ok {
 		err := augmentedDefinition.AssignPropertiesTo(destination)
@@ -1121,6 +1137,7 @@ func (definition *ManagementPolicyDefinition_STATUS) AssignProperties_From_Manag
 		definition.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyDefinition_STATUS interface (if implemented) to customize the conversion
 	var definitionAsAny any = definition
 	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForManagementPolicyDefinition_STATUS); ok {
 		err := augmentedDefinition.AssignPropertiesFrom(source)
@@ -1169,6 +1186,7 @@ func (definition *ManagementPolicyDefinition_STATUS) AssignProperties_To_Managem
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyDefinition_STATUS interface (if implemented) to customize the conversion
 	var definitionAsAny any = definition
 	if augmentedDefinition, ok := definitionAsAny.(augmentConversionForManagementPolicyDefinition_STATUS); ok {
 		err := augmentedDefinition.AssignPropertiesTo(destination)
@@ -1248,6 +1266,7 @@ func (action *ManagementPolicyAction) AssignProperties_From_ManagementPolicyActi
 		action.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyAction interface (if implemented) to customize the conversion
 	var actionAsAny any = action
 	if augmentedAction, ok := actionAsAny.(augmentConversionForManagementPolicyAction); ok {
 		err := augmentedAction.AssignPropertiesFrom(source)
@@ -1308,6 +1327,7 @@ func (action *ManagementPolicyAction) AssignProperties_To_ManagementPolicyAction
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyAction interface (if implemented) to customize the conversion
 	var actionAsAny any = action
 	if augmentedAction, ok := actionAsAny.(augmentConversionForManagementPolicyAction); ok {
 		err := augmentedAction.AssignPropertiesTo(destination)
@@ -1377,6 +1397,7 @@ func (action *ManagementPolicyAction_STATUS) AssignProperties_From_ManagementPol
 		action.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyAction_STATUS interface (if implemented) to customize the conversion
 	var actionAsAny any = action
 	if augmentedAction, ok := actionAsAny.(augmentConversionForManagementPolicyAction_STATUS); ok {
 		err := augmentedAction.AssignPropertiesFrom(source)
@@ -1437,6 +1458,7 @@ func (action *ManagementPolicyAction_STATUS) AssignProperties_To_ManagementPolic
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyAction_STATUS interface (if implemented) to customize the conversion
 	var actionAsAny any = action
 	if augmentedAction, ok := actionAsAny.(augmentConversionForManagementPolicyAction_STATUS); ok {
 		err := augmentedAction.AssignPropertiesTo(destination)
@@ -1494,6 +1516,7 @@ func (filter *ManagementPolicyFilter) AssignProperties_From_ManagementPolicyFilt
 		filter.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyFilter interface (if implemented) to customize the conversion
 	var filterAsAny any = filter
 	if augmentedFilter, ok := filterAsAny.(augmentConversionForManagementPolicyFilter); ok {
 		err := augmentedFilter.AssignPropertiesFrom(source)
@@ -1542,6 +1565,7 @@ func (filter *ManagementPolicyFilter) AssignProperties_To_ManagementPolicyFilter
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyFilter interface (if implemented) to customize the conversion
 	var filterAsAny any = filter
 	if augmentedFilter, ok := filterAsAny.(augmentConversionForManagementPolicyFilter); ok {
 		err := augmentedFilter.AssignPropertiesTo(destination)
@@ -1599,6 +1623,7 @@ func (filter *ManagementPolicyFilter_STATUS) AssignProperties_From_ManagementPol
 		filter.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyFilter_STATUS interface (if implemented) to customize the conversion
 	var filterAsAny any = filter
 	if augmentedFilter, ok := filterAsAny.(augmentConversionForManagementPolicyFilter_STATUS); ok {
 		err := augmentedFilter.AssignPropertiesFrom(source)
@@ -1647,6 +1672,7 @@ func (filter *ManagementPolicyFilter_STATUS) AssignProperties_To_ManagementPolic
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyFilter_STATUS interface (if implemented) to customize the conversion
 	var filterAsAny any = filter
 	if augmentedFilter, ok := filterAsAny.(augmentConversionForManagementPolicyFilter_STATUS); ok {
 		err := augmentedFilter.AssignPropertiesTo(destination)
@@ -1745,6 +1771,7 @@ func (blob *ManagementPolicyBaseBlob) AssignProperties_From_ManagementPolicyBase
 		blob.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyBaseBlob interface (if implemented) to customize the conversion
 	var blobAsAny any = blob
 	if augmentedBlob, ok := blobAsAny.(augmentConversionForManagementPolicyBaseBlob); ok {
 		err := augmentedBlob.AssignPropertiesFrom(source)
@@ -1813,6 +1840,7 @@ func (blob *ManagementPolicyBaseBlob) AssignProperties_To_ManagementPolicyBaseBl
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyBaseBlob interface (if implemented) to customize the conversion
 	var blobAsAny any = blob
 	if augmentedBlob, ok := blobAsAny.(augmentConversionForManagementPolicyBaseBlob); ok {
 		err := augmentedBlob.AssignPropertiesTo(destination)
@@ -1891,6 +1919,7 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_From_ManagementPol
 		blob.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyBaseBlob_STATUS interface (if implemented) to customize the conversion
 	var blobAsAny any = blob
 	if augmentedBlob, ok := blobAsAny.(augmentConversionForManagementPolicyBaseBlob_STATUS); ok {
 		err := augmentedBlob.AssignPropertiesFrom(source)
@@ -1959,6 +1988,7 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_To_ManagementPolic
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyBaseBlob_STATUS interface (if implemented) to customize the conversion
 	var blobAsAny any = blob
 	if augmentedBlob, ok := blobAsAny.(augmentConversionForManagementPolicyBaseBlob_STATUS); ok {
 		err := augmentedBlob.AssignPropertiesTo(destination)
@@ -2028,6 +2058,7 @@ func (shot *ManagementPolicySnapShot) AssignProperties_From_ManagementPolicySnap
 		shot.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicySnapShot interface (if implemented) to customize the conversion
 	var shotAsAny any = shot
 	if augmentedShot, ok := shotAsAny.(augmentConversionForManagementPolicySnapShot); ok {
 		err := augmentedShot.AssignPropertiesFrom(source)
@@ -2088,6 +2119,7 @@ func (shot *ManagementPolicySnapShot) AssignProperties_To_ManagementPolicySnapSh
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicySnapShot interface (if implemented) to customize the conversion
 	var shotAsAny any = shot
 	if augmentedShot, ok := shotAsAny.(augmentConversionForManagementPolicySnapShot); ok {
 		err := augmentedShot.AssignPropertiesTo(destination)
@@ -2157,6 +2189,7 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_From_ManagementPol
 		shot.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicySnapShot_STATUS interface (if implemented) to customize the conversion
 	var shotAsAny any = shot
 	if augmentedShot, ok := shotAsAny.(augmentConversionForManagementPolicySnapShot_STATUS); ok {
 		err := augmentedShot.AssignPropertiesFrom(source)
@@ -2217,6 +2250,7 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_To_ManagementPolic
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicySnapShot_STATUS interface (if implemented) to customize the conversion
 	var shotAsAny any = shot
 	if augmentedShot, ok := shotAsAny.(augmentConversionForManagementPolicySnapShot_STATUS); ok {
 		err := augmentedShot.AssignPropertiesTo(destination)
@@ -2286,6 +2320,7 @@ func (version *ManagementPolicyVersion) AssignProperties_From_ManagementPolicyVe
 		version.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyVersion interface (if implemented) to customize the conversion
 	var versionAsAny any = version
 	if augmentedVersion, ok := versionAsAny.(augmentConversionForManagementPolicyVersion); ok {
 		err := augmentedVersion.AssignPropertiesFrom(source)
@@ -2346,6 +2381,7 @@ func (version *ManagementPolicyVersion) AssignProperties_To_ManagementPolicyVers
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyVersion interface (if implemented) to customize the conversion
 	var versionAsAny any = version
 	if augmentedVersion, ok := versionAsAny.(augmentConversionForManagementPolicyVersion); ok {
 		err := augmentedVersion.AssignPropertiesTo(destination)
@@ -2415,6 +2451,7 @@ func (version *ManagementPolicyVersion_STATUS) AssignProperties_From_ManagementP
 		version.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyVersion_STATUS interface (if implemented) to customize the conversion
 	var versionAsAny any = version
 	if augmentedVersion, ok := versionAsAny.(augmentConversionForManagementPolicyVersion_STATUS); ok {
 		err := augmentedVersion.AssignPropertiesFrom(source)
@@ -2475,6 +2512,7 @@ func (version *ManagementPolicyVersion_STATUS) AssignProperties_To_ManagementPol
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagementPolicyVersion_STATUS interface (if implemented) to customize the conversion
 	var versionAsAny any = version
 	if augmentedVersion, ok := versionAsAny.(augmentConversionForManagementPolicyVersion_STATUS); ok {
 		err := augmentedVersion.AssignPropertiesTo(destination)
@@ -2517,6 +2555,7 @@ func (filter *TagFilter) AssignProperties_From_TagFilter(source *v20210401s.TagF
 		filter.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTagFilter interface (if implemented) to customize the conversion
 	var filterAsAny any = filter
 	if augmentedFilter, ok := filterAsAny.(augmentConversionForTagFilter); ok {
 		err := augmentedFilter.AssignPropertiesFrom(source)
@@ -2550,6 +2589,7 @@ func (filter *TagFilter) AssignProperties_To_TagFilter(destination *v20210401s.T
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTagFilter interface (if implemented) to customize the conversion
 	var filterAsAny any = filter
 	if augmentedFilter, ok := filterAsAny.(augmentConversionForTagFilter); ok {
 		err := augmentedFilter.AssignPropertiesTo(destination)
@@ -2592,6 +2632,7 @@ func (filter *TagFilter_STATUS) AssignProperties_From_TagFilter_STATUS(source *v
 		filter.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTagFilter_STATUS interface (if implemented) to customize the conversion
 	var filterAsAny any = filter
 	if augmentedFilter, ok := filterAsAny.(augmentConversionForTagFilter_STATUS); ok {
 		err := augmentedFilter.AssignPropertiesFrom(source)
@@ -2625,6 +2666,7 @@ func (filter *TagFilter_STATUS) AssignProperties_To_TagFilter_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTagFilter_STATUS interface (if implemented) to customize the conversion
 	var filterAsAny any = filter
 	if augmentedFilter, ok := filterAsAny.(augmentConversionForTagFilter_STATUS); ok {
 		err := augmentedFilter.AssignPropertiesTo(destination)
@@ -2699,6 +2741,7 @@ func (creation *DateAfterCreation) AssignProperties_From_DateAfterCreation(sourc
 		creation.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDateAfterCreation interface (if implemented) to customize the conversion
 	var creationAsAny any = creation
 	if augmentedCreation, ok := creationAsAny.(augmentConversionForDateAfterCreation); ok {
 		err := augmentedCreation.AssignPropertiesFrom(source)
@@ -2726,6 +2769,7 @@ func (creation *DateAfterCreation) AssignProperties_To_DateAfterCreation(destina
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDateAfterCreation interface (if implemented) to customize the conversion
 	var creationAsAny any = creation
 	if augmentedCreation, ok := creationAsAny.(augmentConversionForDateAfterCreation); ok {
 		err := augmentedCreation.AssignPropertiesTo(destination)
@@ -2765,6 +2809,7 @@ func (creation *DateAfterCreation_STATUS) AssignProperties_From_DateAfterCreatio
 		creation.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDateAfterCreation_STATUS interface (if implemented) to customize the conversion
 	var creationAsAny any = creation
 	if augmentedCreation, ok := creationAsAny.(augmentConversionForDateAfterCreation_STATUS); ok {
 		err := augmentedCreation.AssignPropertiesFrom(source)
@@ -2797,6 +2842,7 @@ func (creation *DateAfterCreation_STATUS) AssignProperties_To_DateAfterCreation_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDateAfterCreation_STATUS interface (if implemented) to customize the conversion
 	var creationAsAny any = creation
 	if augmentedCreation, ok := creationAsAny.(augmentConversionForDateAfterCreation_STATUS); ok {
 		err := augmentedCreation.AssignPropertiesTo(destination)
@@ -2835,6 +2881,7 @@ func (modification *DateAfterModification) AssignProperties_From_DateAfterModifi
 		modification.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDateAfterModification interface (if implemented) to customize the conversion
 	var modificationAsAny any = modification
 	if augmentedModification, ok := modificationAsAny.(augmentConversionForDateAfterModification); ok {
 		err := augmentedModification.AssignPropertiesFrom(source)
@@ -2865,6 +2912,7 @@ func (modification *DateAfterModification) AssignProperties_To_DateAfterModifica
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDateAfterModification interface (if implemented) to customize the conversion
 	var modificationAsAny any = modification
 	if augmentedModification, ok := modificationAsAny.(augmentConversionForDateAfterModification); ok {
 		err := augmentedModification.AssignPropertiesTo(destination)
@@ -2913,6 +2961,7 @@ func (modification *DateAfterModification_STATUS) AssignProperties_From_DateAfte
 		modification.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDateAfterModification_STATUS interface (if implemented) to customize the conversion
 	var modificationAsAny any = modification
 	if augmentedModification, ok := modificationAsAny.(augmentConversionForDateAfterModification_STATUS); ok {
 		err := augmentedModification.AssignPropertiesFrom(source)
@@ -2953,6 +3002,7 @@ func (modification *DateAfterModification_STATUS) AssignProperties_To_DateAfterM
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDateAfterModification_STATUS interface (if implemented) to customize the conversion
 	var modificationAsAny any = modification
 	if augmentedModification, ok := modificationAsAny.(augmentConversionForDateAfterModification_STATUS); ok {
 		err := augmentedModification.AssignPropertiesTo(destination)

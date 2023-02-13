@@ -151,6 +151,7 @@ func (component *Component) AssignProperties_From_Component(source *v20200202s.C
 	}
 	component.Status = status
 
+	// Invoke the augmentConversionForComponent interface (if implemented) to customize the conversion
 	var componentAsAny any = component
 	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent); ok {
 		err := augmentedComponent.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (component *Component) AssignProperties_To_Component(destination *v20200202
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForComponent interface (if implemented) to customize the conversion
 	var componentAsAny any = component
 	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent); ok {
 		err := augmentedComponent.AssignPropertiesTo(destination)
@@ -421,6 +423,7 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v2
 		component.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForComponent_Spec interface (if implemented) to customize the conversion
 	var componentAsAny any = component
 	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent_Spec); ok {
 		err := augmentedComponent.AssignPropertiesFrom(source)
@@ -543,6 +546,7 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForComponent_Spec interface (if implemented) to customize the conversion
 	var componentAsAny any = component
 	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent_Spec); ok {
 		err := augmentedComponent.AssignPropertiesTo(destination)
@@ -795,6 +799,7 @@ func (component *Component_STATUS) AssignProperties_From_Component_STATUS(source
 		component.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForComponent_STATUS interface (if implemented) to customize the conversion
 	var componentAsAny any = component
 	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent_STATUS); ok {
 		err := augmentedComponent.AssignPropertiesFrom(source)
@@ -958,6 +963,7 @@ func (component *Component_STATUS) AssignProperties_To_Component_STATUS(destinat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForComponent_STATUS interface (if implemented) to customize the conversion
 	var componentAsAny any = component
 	if augmentedComponent, ok := componentAsAny.(augmentConversionForComponent_STATUS); ok {
 		err := augmentedComponent.AssignPropertiesTo(destination)
@@ -1006,6 +1012,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateL
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkScopedResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkScopedResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -1036,6 +1043,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLin
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkScopedResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkScopedResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)

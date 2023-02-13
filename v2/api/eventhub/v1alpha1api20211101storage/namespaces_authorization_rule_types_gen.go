@@ -151,6 +151,7 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_From_NamespacesAuthori
 	}
 	rule.Status = status
 
+	// Invoke the augmentConversionForNamespacesAuthorizationRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_To_NamespacesAuthoriza
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNamespacesAuthorizationRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesAuthorizationRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -316,6 +318,7 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_From_Namespaces_
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_AuthorizationRule_Spec interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_AuthorizationRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -357,6 +360,7 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_To_Namespaces_Au
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_AuthorizationRule_Spec interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_AuthorizationRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -474,6 +478,7 @@ func (rule *Namespaces_AuthorizationRule_STATUS) AssignProperties_From_Namespace
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_AuthorizationRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_AuthorizationRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -528,6 +533,7 @@ func (rule *Namespaces_AuthorizationRule_STATUS) AssignProperties_To_Namespaces_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_AuthorizationRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_AuthorizationRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)

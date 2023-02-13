@@ -151,6 +151,7 @@ func (rule *RedisFirewallRule) AssignProperties_From_RedisFirewallRule(source *v
 	}
 	rule.Status = status
 
+	// Invoke the augmentConversionForRedisFirewallRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (rule *RedisFirewallRule) AssignProperties_To_RedisFirewallRule(destination
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForRedisFirewallRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -319,6 +321,7 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_From_Redis_FirewallRule_Sp
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_FirewallRule_Spec interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedis_FirewallRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -363,6 +366,7 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_To_Redis_FirewallRule_Spec
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_FirewallRule_Spec interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedis_FirewallRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -467,6 +471,7 @@ func (rule *Redis_FirewallRule_STATUS) AssignProperties_From_Redis_FirewallRule_
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_FirewallRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedis_FirewallRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -509,6 +514,7 @@ func (rule *Redis_FirewallRule_STATUS) AssignProperties_To_Redis_FirewallRule_ST
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_FirewallRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedis_FirewallRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)

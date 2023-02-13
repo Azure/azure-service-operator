@@ -151,6 +151,7 @@ func (group *NetworkSecurityGroup) AssignProperties_From_NetworkSecurityGroup(so
 	}
 	group.Status = status
 
+	// Invoke the augmentConversionForNetworkSecurityGroup interface (if implemented) to customize the conversion
 	var groupAsAny any = group
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForNetworkSecurityGroup); ok {
 		err := augmentedGroup.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (group *NetworkSecurityGroup) AssignProperties_To_NetworkSecurityGroup(dest
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNetworkSecurityGroup interface (if implemented) to customize the conversion
 	var groupAsAny any = group
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForNetworkSecurityGroup); ok {
 		err := augmentedGroup.AssignPropertiesTo(destination)
@@ -319,6 +321,7 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_From_NetworkSecurityGro
 		group.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroup_Spec interface (if implemented) to customize the conversion
 	var groupAsAny any = group
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForNetworkSecurityGroup_Spec); ok {
 		err := augmentedGroup.AssignPropertiesFrom(source)
@@ -363,6 +366,7 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroup_Spec interface (if implemented) to customize the conversion
 	var groupAsAny any = group
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForNetworkSecurityGroup_Spec); ok {
 		err := augmentedGroup.AssignPropertiesTo(destination)
@@ -574,6 +578,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -715,6 +720,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -759,6 +765,7 @@ func (flowLog *FlowLog_STATUS) AssignProperties_From_FlowLog_STATUS(source *v202
 		flowLog.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlowLog_STATUS interface (if implemented) to customize the conversion
 	var flowLogAsAny any = flowLog
 	if augmentedFlowLog, ok := flowLogAsAny.(augmentConversionForFlowLog_STATUS); ok {
 		err := augmentedFlowLog.AssignPropertiesFrom(source)
@@ -786,6 +793,7 @@ func (flowLog *FlowLog_STATUS) AssignProperties_To_FlowLog_STATUS(destination *v
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlowLog_STATUS interface (if implemented) to customize the conversion
 	var flowLogAsAny any = flowLog
 	if augmentedFlowLog, ok := flowLogAsAny.(augmentConversionForFlowLog_STATUS); ok {
 		err := augmentedFlowLog.AssignPropertiesTo(destination)
@@ -820,6 +828,7 @@ func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -847,6 +856,7 @@ func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -881,6 +891,7 @@ func (rule *SecurityRule_STATUS) AssignProperties_From_SecurityRule_STATUS(sourc
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSecurityRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForSecurityRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -908,6 +919,7 @@ func (rule *SecurityRule_STATUS) AssignProperties_To_SecurityRule_STATUS(destina
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSecurityRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForSecurityRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -942,6 +954,7 @@ func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPr
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -969,6 +982,7 @@ func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPr
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)

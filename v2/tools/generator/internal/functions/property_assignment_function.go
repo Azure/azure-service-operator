@@ -388,6 +388,7 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 		callAssignOverride,
 		returnIfNotNil)
 	sourceAsAny.Decorations().Before = dst.EmptyLine
+	sourceAsAny.Decorations().Start.Prepend(fmt.Sprintf("// Invoke the %s interface (if implemented) to customize the conversion", fn.augmentationInterface.Name()))
 
 	return astbuilder.Statements(
 		sourceAsAny,

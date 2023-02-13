@@ -66,6 +66,7 @@ func (person *Person) AssignProperties_From_Person(source *v20211231s.Person) er
 	}
 	person.Status = status
 
+	// Invoke the augmentConversionForPerson interface (if implemented) to customize the conversion
 	var personAsAny any = person
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson); ok {
 		err := augmentedPerson.AssignPropertiesFrom(source)
@@ -100,6 +101,7 @@ func (person *Person) AssignProperties_To_Person(destination *v20211231s.Person)
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForPerson interface (if implemented) to customize the conversion
 	var personAsAny any = person
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson); ok {
 		err := augmentedPerson.AssignPropertiesTo(destination)
@@ -168,6 +170,7 @@ func (person *Person_Spec) AssignProperties_From_Person_Spec(source *v20211231s.
 		person.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPerson_Spec interface (if implemented) to customize the conversion
 	var personAsAny any = person
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
 		err := augmentedPerson.AssignPropertiesFrom(source)
@@ -227,6 +230,7 @@ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v2021123
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPerson_Spec interface (if implemented) to customize the conversion
 	var personAsAny any = person
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
 		err := augmentedPerson.AssignPropertiesTo(destination)
@@ -260,6 +264,7 @@ func (person *Person_STATUS) AssignProperties_From_Person_STATUS(source *v202112
 		person.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPerson_STATUS interface (if implemented) to customize the conversion
 	var personAsAny any = person
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_STATUS); ok {
 		err := augmentedPerson.AssignPropertiesFrom(source)
@@ -287,6 +292,7 @@ func (person *Person_STATUS) AssignProperties_To_Person_STATUS(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPerson_STATUS interface (if implemented) to customize the conversion
 	var personAsAny any = person
 	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_STATUS); ok {
 		err := augmentedPerson.AssignPropertiesTo(destination)

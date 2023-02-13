@@ -152,6 +152,7 @@ func (enterprise *RedisEnterprise) AssignProperties_From_RedisEnterprise(source 
 	}
 	enterprise.Status = status
 
+	// Invoke the augmentConversionForRedisEnterprise interface (if implemented) to customize the conversion
 	var enterpriseAsAny any = enterprise
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise); ok {
 		err := augmentedEnterprise.AssignPropertiesFrom(source)
@@ -186,6 +187,7 @@ func (enterprise *RedisEnterprise) AssignProperties_To_RedisEnterprise(destinati
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForRedisEnterprise interface (if implemented) to customize the conversion
 	var enterpriseAsAny any = enterprise
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise); ok {
 		err := augmentedEnterprise.AssignPropertiesTo(destination)
@@ -353,6 +355,7 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 		enterprise.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisEnterprise_Spec interface (if implemented) to customize the conversion
 	var enterpriseAsAny any = enterprise
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise_Spec); ok {
 		err := augmentedEnterprise.AssignPropertiesFrom(source)
@@ -420,6 +423,7 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisEnterprise_Spec interface (if implemented) to customize the conversion
 	var enterpriseAsAny any = enterprise
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise_Spec); ok {
 		err := augmentedEnterprise.AssignPropertiesTo(destination)
@@ -590,6 +594,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 		enterprise.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisEnterprise_STATUS interface (if implemented) to customize the conversion
 	var enterpriseAsAny any = enterprise
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise_STATUS); ok {
 		err := augmentedEnterprise.AssignPropertiesFrom(source)
@@ -690,6 +695,7 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisEnterprise_STATUS interface (if implemented) to customize the conversion
 	var enterpriseAsAny any = enterprise
 	if augmentedEnterprise, ok := enterpriseAsAny.(augmentConversionForRedisEnterprise_STATUS); ok {
 		err := augmentedEnterprise.AssignPropertiesTo(destination)
@@ -734,6 +740,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 		connection.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
 	var connectionAsAny any = connection
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesFrom(source)
@@ -761,6 +768,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
 	var connectionAsAny any = connection
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesTo(destination)
@@ -806,6 +814,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20201201s.Sku) error {
 		sku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
@@ -849,6 +858,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20201201s.Sku) error {
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
@@ -894,6 +904,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20201201s.Sku_S
 		sku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku_STATUS interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
@@ -937,6 +948,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20201201s.Sk
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku_STATUS interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)

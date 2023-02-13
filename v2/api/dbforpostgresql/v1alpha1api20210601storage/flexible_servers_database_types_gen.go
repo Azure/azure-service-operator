@@ -151,6 +151,7 @@ func (database *FlexibleServersDatabase) AssignProperties_From_FlexibleServersDa
 	}
 	database.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersDatabase interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServersDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (database *FlexibleServersDatabase) AssignProperties_To_FlexibleServersData
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersDatabase interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServersDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -319,6 +321,7 @@ func (database *FlexibleServers_Database_Spec) AssignProperties_From_FlexibleSer
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Database_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServers_Database_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -363,6 +366,7 @@ func (database *FlexibleServers_Database_Spec) AssignProperties_To_FlexibleServe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Database_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServers_Database_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -480,6 +484,7 @@ func (database *FlexibleServers_Database_STATUS) AssignProperties_From_FlexibleS
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Database_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServers_Database_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -534,6 +539,7 @@ func (database *FlexibleServers_Database_STATUS) AssignProperties_To_FlexibleSer
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Database_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServers_Database_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)

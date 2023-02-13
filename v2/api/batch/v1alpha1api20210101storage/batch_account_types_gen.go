@@ -151,6 +151,7 @@ func (account *BatchAccount) AssignProperties_From_BatchAccount(source *v2021010
 	}
 	account.Status = status
 
+	// Invoke the augmentConversionForBatchAccount interface (if implemented) to customize the conversion
 	var accountAsAny any = account
 	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount); ok {
 		err := augmentedAccount.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (account *BatchAccount) AssignProperties_To_BatchAccount(destination *v2021
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForBatchAccount interface (if implemented) to customize the conversion
 	var accountAsAny any = account
 	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount); ok {
 		err := augmentedAccount.AssignPropertiesTo(destination)
@@ -390,6 +392,7 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 		account.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccount_Spec interface (if implemented) to customize the conversion
 	var accountAsAny any = account
 	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount_Spec); ok {
 		err := augmentedAccount.AssignPropertiesFrom(source)
@@ -488,6 +491,7 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccount_Spec interface (if implemented) to customize the conversion
 	var accountAsAny any = account
 	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount_Spec); ok {
 		err := augmentedAccount.AssignPropertiesTo(destination)
@@ -723,6 +727,7 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 		account.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccount_STATUS interface (if implemented) to customize the conversion
 	var accountAsAny any = account
 	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount_STATUS); ok {
 		err := augmentedAccount.AssignPropertiesFrom(source)
@@ -881,6 +886,7 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccount_STATUS interface (if implemented) to customize the conversion
 	var accountAsAny any = account
 	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount_STATUS); ok {
 		err := augmentedAccount.AssignPropertiesTo(destination)
@@ -932,6 +938,7 @@ func (properties *AutoStorageBaseProperties) AssignProperties_From_AutoStorageBa
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoStorageBaseProperties interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForAutoStorageBaseProperties); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -964,6 +971,7 @@ func (properties *AutoStorageBaseProperties) AssignProperties_To_AutoStorageBase
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoStorageBaseProperties interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForAutoStorageBaseProperties); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -1002,6 +1010,7 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_From_AutoStorag
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoStorageProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForAutoStorageProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -1032,6 +1041,7 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_To_AutoStorageP
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoStorageProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForAutoStorageProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -1066,6 +1076,7 @@ func (identity *BatchAccountIdentity) AssignProperties_From_BatchAccountIdentity
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForBatchAccountIdentity); ok {
 		err := augmentedIdentity.AssignPropertiesFrom(source)
@@ -1093,6 +1104,7 @@ func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(d
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForBatchAccountIdentity); ok {
 		err := augmentedIdentity.AssignPropertiesTo(destination)
@@ -1154,6 +1166,7 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountI
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity_STATUS interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForBatchAccountIdentity_STATUS); ok {
 		err := augmentedIdentity.AssignPropertiesFrom(source)
@@ -1205,6 +1218,7 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_To_BatchAccountIde
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity_STATUS interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForBatchAccountIdentity_STATUS); ok {
 		err := augmentedIdentity.AssignPropertiesTo(destination)
@@ -1252,6 +1266,7 @@ func (properties *EncryptionProperties) AssignProperties_From_EncryptionProperti
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForEncryptionProperties interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForEncryptionProperties); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -1291,6 +1306,7 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForEncryptionProperties interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForEncryptionProperties); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -1338,6 +1354,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_From_EncryptionP
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForEncryptionProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForEncryptionProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -1377,6 +1394,7 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForEncryptionProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForEncryptionProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -1422,6 +1440,7 @@ func (reference *KeyVaultReference) AssignProperties_From_KeyVaultReference(sour
 		reference.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultReference interface (if implemented) to customize the conversion
 	var referenceAsAny any = reference
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultReference); ok {
 		err := augmentedReference.AssignPropertiesFrom(source)
@@ -1457,6 +1476,7 @@ func (reference *KeyVaultReference) AssignProperties_To_KeyVaultReference(destin
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultReference interface (if implemented) to customize the conversion
 	var referenceAsAny any = reference
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultReference); ok {
 		err := augmentedReference.AssignPropertiesTo(destination)
@@ -1495,6 +1515,7 @@ func (reference *KeyVaultReference_STATUS) AssignProperties_From_KeyVaultReferen
 		reference.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultReference_STATUS interface (if implemented) to customize the conversion
 	var referenceAsAny any = reference
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultReference_STATUS); ok {
 		err := augmentedReference.AssignPropertiesFrom(source)
@@ -1525,6 +1546,7 @@ func (reference *KeyVaultReference_STATUS) AssignProperties_To_KeyVaultReference
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultReference_STATUS interface (if implemented) to customize the conversion
 	var referenceAsAny any = reference
 	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultReference_STATUS); ok {
 		err := augmentedReference.AssignPropertiesTo(destination)
@@ -1559,6 +1581,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 		connection.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
 	var connectionAsAny any = connection
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesFrom(source)
@@ -1586,6 +1609,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
 	var connectionAsAny any = connection
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesTo(destination)
@@ -1624,6 +1648,7 @@ func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_From_Virtual
 		quota.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualMachineFamilyCoreQuota_STATUS interface (if implemented) to customize the conversion
 	var quotaAsAny any = quota
 	if augmentedQuota, ok := quotaAsAny.(augmentConversionForVirtualMachineFamilyCoreQuota_STATUS); ok {
 		err := augmentedQuota.AssignPropertiesFrom(source)
@@ -1654,6 +1679,7 @@ func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_To_VirtualMa
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualMachineFamilyCoreQuota_STATUS interface (if implemented) to customize the conversion
 	var quotaAsAny any = quota
 	if augmentedQuota, ok := quotaAsAny.(augmentConversionForVirtualMachineFamilyCoreQuota_STATUS); ok {
 		err := augmentedQuota.AssignPropertiesTo(destination)
@@ -1742,6 +1768,7 @@ func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProp
 		identities.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS interface (if implemented) to customize the conversion
 	var identitiesAsAny any = identities
 	if augmentedIdentities, ok := identitiesAsAny.(augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS); ok {
 		err := augmentedIdentities.AssignPropertiesFrom(source)
@@ -1772,6 +1799,7 @@ func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS interface (if implemented) to customize the conversion
 	var identitiesAsAny any = identities
 	if augmentedIdentities, ok := identitiesAsAny.(augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS); ok {
 		err := augmentedIdentities.AssignPropertiesTo(destination)
@@ -1806,6 +1834,7 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -1833,6 +1862,7 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -1867,6 +1897,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultPrope
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -1894,6 +1925,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)

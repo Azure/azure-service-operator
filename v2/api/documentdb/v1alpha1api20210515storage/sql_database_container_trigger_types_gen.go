@@ -151,6 +151,7 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_From_SqlDatabaseCon
 	}
 	trigger.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerTrigger interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
 	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForSqlDatabaseContainerTrigger); ok {
 		err := augmentedTrigger.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (trigger *SqlDatabaseContainerTrigger) AssignProperties_To_SqlDatabaseConta
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerTrigger interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
 	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForSqlDatabaseContainerTrigger); ok {
 		err := augmentedTrigger.AssignPropertiesTo(destination)
@@ -345,6 +347,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProp
 		trigger.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
 	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec); ok {
 		err := augmentedTrigger.AssignPropertiesFrom(source)
@@ -413,6 +416,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) AssignProp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
 	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec); ok {
 		err := augmentedTrigger.AssignPropertiesTo(destination)
@@ -530,6 +534,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignPr
 		trigger.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
 	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
 		err := augmentedTrigger.AssignPropertiesFrom(source)
@@ -584,6 +589,7 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignPr
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS interface (if implemented) to customize the conversion
 	var triggerAsAny any = trigger
 	if augmentedTrigger, ok := triggerAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS); ok {
 		err := augmentedTrigger.AssignPropertiesTo(destination)
@@ -657,6 +663,7 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignProperties_From_S
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlTriggerGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlTriggerGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -707,6 +714,7 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignProperties_To_Sql
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlTriggerGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlTriggerGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -753,6 +761,7 @@ func (resource *SqlTriggerResource) AssignProperties_From_SqlTriggerResource(sou
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlTriggerResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlTriggerResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -789,6 +798,7 @@ func (resource *SqlTriggerResource) AssignProperties_To_SqlTriggerResource(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlTriggerResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlTriggerResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)

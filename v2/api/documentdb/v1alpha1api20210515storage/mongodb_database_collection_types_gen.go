@@ -151,6 +151,7 @@ func (collection *MongodbDatabaseCollection) AssignProperties_From_MongodbDataba
 	}
 	collection.Status = status
 
+	// Invoke the augmentConversionForMongodbDatabaseCollection interface (if implemented) to customize the conversion
 	var collectionAsAny any = collection
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForMongodbDatabaseCollection); ok {
 		err := augmentedCollection.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (collection *MongodbDatabaseCollection) AssignProperties_To_MongodbDatabase
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForMongodbDatabaseCollection interface (if implemented) to customize the conversion
 	var collectionAsAny any = collection
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForMongodbDatabaseCollection); ok {
 		err := augmentedCollection.AssignPropertiesTo(destination)
@@ -345,6 +347,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) AssignPrope
 		collection.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_Spec interface (if implemented) to customize the conversion
 	var collectionAsAny any = collection
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_Spec); ok {
 		err := augmentedCollection.AssignPropertiesFrom(source)
@@ -413,6 +416,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) AssignPrope
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_Spec interface (if implemented) to customize the conversion
 	var collectionAsAny any = collection
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_Spec); ok {
 		err := augmentedCollection.AssignPropertiesTo(destination)
@@ -543,6 +547,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) AssignPro
 		collection.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_STATUS interface (if implemented) to customize the conversion
 	var collectionAsAny any = collection
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_STATUS); ok {
 		err := augmentedCollection.AssignPropertiesFrom(source)
@@ -609,6 +614,7 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) AssignPro
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_STATUS interface (if implemented) to customize the conversion
 	var collectionAsAny any = collection
 	if augmentedCollection, ok := collectionAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_STATUS); ok {
 		err := augmentedCollection.AssignPropertiesTo(destination)
@@ -697,6 +703,7 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) AssignProperties
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoDBCollectionGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForMongoDBCollectionGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -762,6 +769,7 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoDBCollectionGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForMongoDBCollectionGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -823,6 +831,7 @@ func (resource *MongoDBCollectionResource) AssignProperties_From_MongoDBCollecti
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoDBCollectionResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForMongoDBCollectionResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -874,6 +883,7 @@ func (resource *MongoDBCollectionResource) AssignProperties_To_MongoDBCollection
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoDBCollectionResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForMongoDBCollectionResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -940,6 +950,7 @@ func (index *MongoIndex) AssignProperties_From_MongoIndex(source *v20210515s.Mon
 		index.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndex interface (if implemented) to customize the conversion
 	var indexAsAny any = index
 	if augmentedIndex, ok := indexAsAny.(augmentConversionForMongoIndex); ok {
 		err := augmentedIndex.AssignPropertiesFrom(source)
@@ -988,6 +999,7 @@ func (index *MongoIndex) AssignProperties_To_MongoIndex(destination *v20210515s.
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndex interface (if implemented) to customize the conversion
 	var indexAsAny any = index
 	if augmentedIndex, ok := indexAsAny.(augmentConversionForMongoIndex); ok {
 		err := augmentedIndex.AssignPropertiesTo(destination)
@@ -1044,6 +1056,7 @@ func (index *MongoIndex_STATUS) AssignProperties_From_MongoIndex_STATUS(source *
 		index.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndex_STATUS interface (if implemented) to customize the conversion
 	var indexAsAny any = index
 	if augmentedIndex, ok := indexAsAny.(augmentConversionForMongoIndex_STATUS); ok {
 		err := augmentedIndex.AssignPropertiesFrom(source)
@@ -1092,6 +1105,7 @@ func (index *MongoIndex_STATUS) AssignProperties_To_MongoIndex_STATUS(destinatio
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndex_STATUS interface (if implemented) to customize the conversion
 	var indexAsAny any = index
 	if augmentedIndex, ok := indexAsAny.(augmentConversionForMongoIndex_STATUS); ok {
 		err := augmentedIndex.AssignPropertiesTo(destination)
@@ -1136,6 +1150,7 @@ func (keys *MongoIndexKeys) AssignProperties_From_MongoIndexKeys(source *v202105
 		keys.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndexKeys interface (if implemented) to customize the conversion
 	var keysAsAny any = keys
 	if augmentedKeys, ok := keysAsAny.(augmentConversionForMongoIndexKeys); ok {
 		err := augmentedKeys.AssignPropertiesFrom(source)
@@ -1163,6 +1178,7 @@ func (keys *MongoIndexKeys) AssignProperties_To_MongoIndexKeys(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndexKeys interface (if implemented) to customize the conversion
 	var keysAsAny any = keys
 	if augmentedKeys, ok := keysAsAny.(augmentConversionForMongoIndexKeys); ok {
 		err := augmentedKeys.AssignPropertiesTo(destination)
@@ -1197,6 +1213,7 @@ func (keys *MongoIndexKeys_STATUS) AssignProperties_From_MongoIndexKeys_STATUS(s
 		keys.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndexKeys_STATUS interface (if implemented) to customize the conversion
 	var keysAsAny any = keys
 	if augmentedKeys, ok := keysAsAny.(augmentConversionForMongoIndexKeys_STATUS); ok {
 		err := augmentedKeys.AssignPropertiesFrom(source)
@@ -1224,6 +1241,7 @@ func (keys *MongoIndexKeys_STATUS) AssignProperties_To_MongoIndexKeys_STATUS(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndexKeys_STATUS interface (if implemented) to customize the conversion
 	var keysAsAny any = keys
 	if augmentedKeys, ok := keysAsAny.(augmentConversionForMongoIndexKeys_STATUS); ok {
 		err := augmentedKeys.AssignPropertiesTo(destination)
@@ -1267,6 +1285,7 @@ func (options *MongoIndexOptions) AssignProperties_From_MongoIndexOptions(source
 		options.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndexOptions interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForMongoIndexOptions); ok {
 		err := augmentedOptions.AssignPropertiesFrom(source)
@@ -1302,6 +1321,7 @@ func (options *MongoIndexOptions) AssignProperties_To_MongoIndexOptions(destinat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndexOptions interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForMongoIndexOptions); ok {
 		err := augmentedOptions.AssignPropertiesTo(destination)
@@ -1345,6 +1365,7 @@ func (options *MongoIndexOptions_STATUS) AssignProperties_From_MongoIndexOptions
 		options.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndexOptions_STATUS interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForMongoIndexOptions_STATUS); ok {
 		err := augmentedOptions.AssignPropertiesFrom(source)
@@ -1380,6 +1401,7 @@ func (options *MongoIndexOptions_STATUS) AssignProperties_To_MongoIndexOptions_S
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoIndexOptions_STATUS interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForMongoIndexOptions_STATUS); ok {
 		err := augmentedOptions.AssignPropertiesTo(destination)

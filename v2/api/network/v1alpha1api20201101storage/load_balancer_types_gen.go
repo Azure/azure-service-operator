@@ -151,6 +151,7 @@ func (balancer *LoadBalancer) AssignProperties_From_LoadBalancer(source *v202011
 	}
 	balancer.Status = status
 
+	// Invoke the augmentConversionForLoadBalancer interface (if implemented) to customize the conversion
 	var balancerAsAny any = balancer
 	if augmentedBalancer, ok := balancerAsAny.(augmentConversionForLoadBalancer); ok {
 		err := augmentedBalancer.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (balancer *LoadBalancer) AssignProperties_To_LoadBalancer(destination *v202
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForLoadBalancer interface (if implemented) to customize the conversion
 	var balancerAsAny any = balancer
 	if augmentedBalancer, ok := balancerAsAny.(augmentConversionForLoadBalancer); ok {
 		err := augmentedBalancer.AssignPropertiesTo(destination)
@@ -485,6 +487,7 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 		balancer.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancer_Spec interface (if implemented) to customize the conversion
 	var balancerAsAny any = balancer
 	if augmentedBalancer, ok := balancerAsAny.(augmentConversionForLoadBalancer_Spec); ok {
 		err := augmentedBalancer.AssignPropertiesFrom(source)
@@ -679,6 +682,7 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancer_Spec interface (if implemented) to customize the conversion
 	var balancerAsAny any = balancer
 	if augmentedBalancer, ok := balancerAsAny.(augmentConversionForLoadBalancer_Spec); ok {
 		err := augmentedBalancer.AssignPropertiesTo(destination)
@@ -954,6 +958,7 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_From_LoadBalancer_STATUS(s
 		balancer.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancer_STATUS interface (if implemented) to customize the conversion
 	var balancerAsAny any = balancer
 	if augmentedBalancer, ok := balancerAsAny.(augmentConversionForLoadBalancer_STATUS); ok {
 		err := augmentedBalancer.AssignPropertiesFrom(source)
@@ -1155,6 +1160,7 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancer_STATUS interface (if implemented) to customize the conversion
 	var balancerAsAny any = balancer
 	if augmentedBalancer, ok := balancerAsAny.(augmentConversionForLoadBalancer_STATUS); ok {
 		err := augmentedBalancer.AssignPropertiesTo(destination)
@@ -1218,6 +1224,7 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignPrope
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackendAddressPool_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForBackendAddressPool_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1263,6 +1270,7 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignPrope
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackendAddressPool_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForBackendAddressPool_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1402,6 +1410,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1525,6 +1534,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForBackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1563,6 +1573,7 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 		location.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForExtendedLocation interface (if implemented) to customize the conversion
 	var locationAsAny any = location
 	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
 		err := augmentedLocation.AssignPropertiesFrom(source)
@@ -1593,6 +1604,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForExtendedLocation interface (if implemented) to customize the conversion
 	var locationAsAny any = location
 	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
 		err := augmentedLocation.AssignPropertiesTo(destination)
@@ -1631,6 +1643,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 		location.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForExtendedLocation_STATUS interface (if implemented) to customize the conversion
 	var locationAsAny any = location
 	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
 		err := augmentedLocation.AssignPropertiesFrom(source)
@@ -1661,6 +1674,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForExtendedLocation_STATUS interface (if implemented) to customize the conversion
 	var locationAsAny any = location
 	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
 		err := augmentedLocation.AssignPropertiesTo(destination)
@@ -1750,6 +1764,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Assign
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFrontendIPConfiguration_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForFrontendIPConfiguration_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1825,6 +1840,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Assign
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFrontendIPConfiguration_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForFrontendIPConfiguration_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2006,6 +2022,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2165,6 +2182,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForFrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2250,6 +2268,7 @@ func (pool *InboundNatPool) AssignProperties_From_InboundNatPool(source *v202011
 		pool.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatPool interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForInboundNatPool); ok {
 		err := augmentedPool.AssignPropertiesFrom(source)
@@ -2320,6 +2339,7 @@ func (pool *InboundNatPool) AssignProperties_To_InboundNatPool(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatPool interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForInboundNatPool); ok {
 		err := augmentedPool.AssignPropertiesTo(destination)
@@ -2421,6 +2441,7 @@ func (pool *InboundNatPool_STATUS) AssignProperties_From_InboundNatPool_STATUS(s
 		pool.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatPool_STATUS interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForInboundNatPool_STATUS); ok {
 		err := augmentedPool.AssignPropertiesFrom(source)
@@ -2503,6 +2524,7 @@ func (pool *InboundNatPool_STATUS) AssignProperties_To_InboundNatPool_STATUS(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatPool_STATUS interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForInboundNatPool_STATUS); ok {
 		err := augmentedPool.AssignPropertiesTo(destination)
@@ -2584,6 +2606,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignPropertie
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatRule_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2651,6 +2674,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignPropertie
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatRule_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2761,6 +2785,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2852,6 +2877,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2890,6 +2916,7 @@ func (balancerSku *LoadBalancerSku) AssignProperties_From_LoadBalancerSku(source
 		balancerSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancerSku interface (if implemented) to customize the conversion
 	var balancerSkuAsAny any = balancerSku
 	if augmentedBalancerSku, ok := balancerSkuAsAny.(augmentConversionForLoadBalancerSku); ok {
 		err := augmentedBalancerSku.AssignPropertiesFrom(source)
@@ -2920,6 +2947,7 @@ func (balancerSku *LoadBalancerSku) AssignProperties_To_LoadBalancerSku(destinat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancerSku interface (if implemented) to customize the conversion
 	var balancerSkuAsAny any = balancerSku
 	if augmentedBalancerSku, ok := balancerSkuAsAny.(augmentConversionForLoadBalancerSku); ok {
 		err := augmentedBalancerSku.AssignPropertiesTo(destination)
@@ -2958,6 +2986,7 @@ func (balancerSku *LoadBalancerSku_STATUS) AssignProperties_From_LoadBalancerSku
 		balancerSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancerSku_STATUS interface (if implemented) to customize the conversion
 	var balancerSkuAsAny any = balancerSku
 	if augmentedBalancerSku, ok := balancerSkuAsAny.(augmentConversionForLoadBalancerSku_STATUS); ok {
 		err := augmentedBalancerSku.AssignPropertiesFrom(source)
@@ -2988,6 +3017,7 @@ func (balancerSku *LoadBalancerSku_STATUS) AssignProperties_To_LoadBalancerSku_S
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancerSku_STATUS interface (if implemented) to customize the conversion
 	var balancerSkuAsAny any = balancerSku
 	if augmentedBalancerSku, ok := balancerSkuAsAny.(augmentConversionForLoadBalancerSku_STATUS); ok {
 		err := augmentedBalancerSku.AssignPropertiesTo(destination)
@@ -3108,6 +3138,7 @@ func (rule *LoadBalancingRule) AssignProperties_From_LoadBalancingRule(source *v
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancingRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForLoadBalancingRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -3210,6 +3241,7 @@ func (rule *LoadBalancingRule) AssignProperties_To_LoadBalancingRule(destination
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancingRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForLoadBalancingRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -3346,6 +3378,7 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_From_LoadBalancingRule_ST
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancingRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForLoadBalancingRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -3460,6 +3493,7 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_To_LoadBalancingRule_STAT
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancingRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForLoadBalancingRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -3547,6 +3581,7 @@ func (rule *OutboundRule) AssignProperties_From_OutboundRule(source *v20201101s.
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForOutboundRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForOutboundRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -3621,6 +3656,7 @@ func (rule *OutboundRule) AssignProperties_To_OutboundRule(destination *v2020110
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForOutboundRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForOutboundRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -3724,6 +3760,7 @@ func (rule *OutboundRule_STATUS) AssignProperties_From_OutboundRule_STATUS(sourc
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForOutboundRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForOutboundRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -3810,6 +3847,7 @@ func (rule *OutboundRule_STATUS) AssignProperties_To_OutboundRule_STATUS(destina
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForOutboundRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForOutboundRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -3864,6 +3902,7 @@ func (probe *Probe) AssignProperties_From_Probe(source *v20201101s.Probe) error 
 		probe.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForProbe interface (if implemented) to customize the conversion
 	var probeAsAny any = probe
 	if augmentedProbe, ok := probeAsAny.(augmentConversionForProbe); ok {
 		err := augmentedProbe.AssignPropertiesFrom(source)
@@ -3906,6 +3945,7 @@ func (probe *Probe) AssignProperties_To_Probe(destination *v20201101s.Probe) err
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForProbe interface (if implemented) to customize the conversion
 	var probeAsAny any = probe
 	if augmentedProbe, ok := probeAsAny.(augmentConversionForProbe); ok {
 		err := augmentedProbe.AssignPropertiesTo(destination)
@@ -3995,6 +4035,7 @@ func (probe *Probe_STATUS) AssignProperties_From_Probe_STATUS(source *v20201101s
 		probe.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForProbe_STATUS interface (if implemented) to customize the conversion
 	var probeAsAny any = probe
 	if augmentedProbe, ok := probeAsAny.(augmentConversionForProbe_STATUS); ok {
 		err := augmentedProbe.AssignPropertiesFrom(source)
@@ -4067,6 +4108,7 @@ func (probe *Probe_STATUS) AssignProperties_To_Probe_STATUS(destination *v202011
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForProbe_STATUS interface (if implemented) to customize the conversion
 	var probeAsAny any = probe
 	if augmentedProbe, ok := probeAsAny.(augmentConversionForProbe_STATUS); ok {
 		err := augmentedProbe.AssignPropertiesTo(destination)
@@ -4234,6 +4276,7 @@ func (address *LoadBalancerBackendAddress) AssignProperties_From_LoadBalancerBac
 		address.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancerBackendAddress interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForLoadBalancerBackendAddress); ok {
 		err := augmentedAddress.AssignPropertiesFrom(source)
@@ -4300,6 +4343,7 @@ func (address *LoadBalancerBackendAddress) AssignProperties_To_LoadBalancerBacke
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancerBackendAddress interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForLoadBalancerBackendAddress); ok {
 		err := augmentedAddress.AssignPropertiesTo(destination)
@@ -4390,6 +4434,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_From_LoadBala
 		address.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancerBackendAddress_STATUS interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForLoadBalancerBackendAddress_STATUS); ok {
 		err := augmentedAddress.AssignPropertiesFrom(source)
@@ -4468,6 +4513,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_To_LoadBalanc
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLoadBalancerBackendAddress_STATUS interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForLoadBalancerBackendAddress_STATUS); ok {
 		err := augmentedAddress.AssignPropertiesTo(destination)
@@ -4502,6 +4548,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceE
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -4529,6 +4576,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceE
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -4563,6 +4611,7 @@ func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignP
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -4590,6 +4639,7 @@ func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignP
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -4629,6 +4679,7 @@ func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) AssignProp
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSpec_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddressSpec_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -4661,6 +4712,7 @@ func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) AssignProp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSpec_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddressSpec_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -4700,6 +4752,7 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) AssignProperties_From_S
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -4732,6 +4785,7 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) AssignProperties_To_Sub
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -4766,6 +4820,7 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -4793,6 +4848,7 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_STATUS_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_STATUS_LoadBalancer_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)

@@ -151,6 +151,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignProperties_From_SqlD
 	}
 	procedure.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerStoredProcedure interface (if implemented) to customize the conversion
 	var procedureAsAny any = procedure
 	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForSqlDatabaseContainerStoredProcedure); ok {
 		err := augmentedProcedure.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignProperties_To_SqlDat
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerStoredProcedure interface (if implemented) to customize the conversion
 	var procedureAsAny any = procedure
 	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForSqlDatabaseContainerStoredProcedure); ok {
 		err := augmentedProcedure.AssignPropertiesTo(destination)
@@ -345,6 +347,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 		procedure.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec interface (if implemented) to customize the conversion
 	var procedureAsAny any = procedure
 	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec); ok {
 		err := augmentedProcedure.AssignPropertiesFrom(source)
@@ -413,6 +416,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec interface (if implemented) to customize the conversion
 	var procedureAsAny any = procedure
 	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec); ok {
 		err := augmentedProcedure.AssignPropertiesTo(destination)
@@ -530,6 +534,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
 		procedure.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS interface (if implemented) to customize the conversion
 	var procedureAsAny any = procedure
 	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS); ok {
 		err := augmentedProcedure.AssignPropertiesFrom(source)
@@ -584,6 +589,7 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS interface (if implemented) to customize the conversion
 	var procedureAsAny any = procedure
 	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS); ok {
 		err := augmentedProcedure.AssignPropertiesTo(destination)
@@ -649,6 +655,7 @@ func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertie
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -693,6 +700,7 @@ func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertie
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -731,6 +739,7 @@ func (resource *SqlStoredProcedureResource) AssignProperties_From_SqlStoredProce
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlStoredProcedureResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlStoredProcedureResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -761,6 +770,7 @@ func (resource *SqlStoredProcedureResource) AssignProperties_To_SqlStoredProcedu
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlStoredProcedureResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlStoredProcedureResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)

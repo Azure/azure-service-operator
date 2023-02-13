@@ -175,6 +175,7 @@ func (server *FlexibleServer) AssignProperties_From_FlexibleServer(source *v2021
 	}
 	server.Status = status
 
+	// Invoke the augmentConversionForFlexibleServer interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForFlexibleServer); ok {
 		err := augmentedServer.AssignPropertiesFrom(source)
@@ -209,6 +210,7 @@ func (server *FlexibleServer) AssignProperties_To_FlexibleServer(destination *v2
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForFlexibleServer interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForFlexibleServer); ok {
 		err := augmentedServer.AssignPropertiesTo(destination)
@@ -484,6 +486,7 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 		server.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServer_Spec interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForFlexibleServer_Spec); ok {
 		err := augmentedServer.AssignPropertiesFrom(source)
@@ -643,6 +646,7 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServer_Spec interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForFlexibleServer_Spec); ok {
 		err := augmentedServer.AssignPropertiesTo(destination)
@@ -873,6 +877,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 		server.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServer_STATUS interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForFlexibleServer_STATUS); ok {
 		err := augmentedServer.AssignPropertiesFrom(source)
@@ -1026,6 +1031,7 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServer_STATUS interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForFlexibleServer_STATUS); ok {
 		err := augmentedServer.AssignPropertiesTo(destination)
@@ -1074,6 +1080,7 @@ func (backup *Backup) AssignProperties_From_Backup(source *v20210601s.Backup) er
 		backup.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackup interface (if implemented) to customize the conversion
 	var backupAsAny any = backup
 	if augmentedBackup, ok := backupAsAny.(augmentConversionForBackup); ok {
 		err := augmentedBackup.AssignPropertiesFrom(source)
@@ -1104,6 +1111,7 @@ func (backup *Backup) AssignProperties_To_Backup(destination *v20210601s.Backup)
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackup interface (if implemented) to customize the conversion
 	var backupAsAny any = backup
 	if augmentedBackup, ok := backupAsAny.(augmentConversionForBackup); ok {
 		err := augmentedBackup.AssignPropertiesTo(destination)
@@ -1146,6 +1154,7 @@ func (backup *Backup_STATUS) AssignProperties_From_Backup_STATUS(source *v202106
 		backup.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackup_STATUS interface (if implemented) to customize the conversion
 	var backupAsAny any = backup
 	if augmentedBackup, ok := backupAsAny.(augmentConversionForBackup_STATUS); ok {
 		err := augmentedBackup.AssignPropertiesFrom(source)
@@ -1179,6 +1188,7 @@ func (backup *Backup_STATUS) AssignProperties_To_Backup_STATUS(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackup_STATUS interface (if implemented) to customize the conversion
 	var backupAsAny any = backup
 	if augmentedBackup, ok := backupAsAny.(augmentConversionForBackup_STATUS); ok {
 		err := augmentedBackup.AssignPropertiesTo(destination)
@@ -1230,6 +1240,7 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_From_FlexibleServer
 		operator.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServerOperatorSpec interface (if implemented) to customize the conversion
 	var operatorAsAny any = operator
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFlexibleServerOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
@@ -1274,6 +1285,7 @@ func (operator *FlexibleServerOperatorSpec) AssignProperties_To_FlexibleServerOp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServerOperatorSpec interface (if implemented) to customize the conversion
 	var operatorAsAny any = operator
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForFlexibleServerOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
@@ -1312,6 +1324,7 @@ func (availability *HighAvailability) AssignProperties_From_HighAvailability(sou
 		availability.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForHighAvailability interface (if implemented) to customize the conversion
 	var availabilityAsAny any = availability
 	if augmentedAvailability, ok := availabilityAsAny.(augmentConversionForHighAvailability); ok {
 		err := augmentedAvailability.AssignPropertiesFrom(source)
@@ -1342,6 +1355,7 @@ func (availability *HighAvailability) AssignProperties_To_HighAvailability(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForHighAvailability interface (if implemented) to customize the conversion
 	var availabilityAsAny any = availability
 	if augmentedAvailability, ok := availabilityAsAny.(augmentConversionForHighAvailability); ok {
 		err := augmentedAvailability.AssignPropertiesTo(destination)
@@ -1384,6 +1398,7 @@ func (availability *HighAvailability_STATUS) AssignProperties_From_HighAvailabil
 		availability.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForHighAvailability_STATUS interface (if implemented) to customize the conversion
 	var availabilityAsAny any = availability
 	if augmentedAvailability, ok := availabilityAsAny.(augmentConversionForHighAvailability_STATUS); ok {
 		err := augmentedAvailability.AssignPropertiesFrom(source)
@@ -1417,6 +1432,7 @@ func (availability *HighAvailability_STATUS) AssignProperties_To_HighAvailabilit
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForHighAvailability_STATUS interface (if implemented) to customize the conversion
 	var availabilityAsAny any = availability
 	if augmentedAvailability, ok := availabilityAsAny.(augmentConversionForHighAvailability_STATUS); ok {
 		err := augmentedAvailability.AssignPropertiesTo(destination)
@@ -1463,6 +1479,7 @@ func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source 
 		window.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMaintenanceWindow interface (if implemented) to customize the conversion
 	var windowAsAny any = window
 	if augmentedWindow, ok := windowAsAny.(augmentConversionForMaintenanceWindow); ok {
 		err := augmentedWindow.AssignPropertiesFrom(source)
@@ -1499,6 +1516,7 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMaintenanceWindow interface (if implemented) to customize the conversion
 	var windowAsAny any = window
 	if augmentedWindow, ok := windowAsAny.(augmentConversionForMaintenanceWindow); ok {
 		err := augmentedWindow.AssignPropertiesTo(destination)
@@ -1545,6 +1563,7 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_
 		window.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMaintenanceWindow_STATUS interface (if implemented) to customize the conversion
 	var windowAsAny any = window
 	if augmentedWindow, ok := windowAsAny.(augmentConversionForMaintenanceWindow_STATUS); ok {
 		err := augmentedWindow.AssignPropertiesFrom(source)
@@ -1581,6 +1600,7 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_ST
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMaintenanceWindow_STATUS interface (if implemented) to customize the conversion
 	var windowAsAny any = window
 	if augmentedWindow, ok := windowAsAny.(augmentConversionForMaintenanceWindow_STATUS); ok {
 		err := augmentedWindow.AssignPropertiesTo(destination)
@@ -1632,6 +1652,7 @@ func (network *Network) AssignProperties_From_Network(source *v20210601s.Network
 		network.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetwork interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForNetwork); ok {
 		err := augmentedNetwork.AssignPropertiesFrom(source)
@@ -1672,6 +1693,7 @@ func (network *Network) AssignProperties_To_Network(destination *v20210601s.Netw
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetwork interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForNetwork); ok {
 		err := augmentedNetwork.AssignPropertiesTo(destination)
@@ -1714,6 +1736,7 @@ func (network *Network_STATUS) AssignProperties_From_Network_STATUS(source *v202
 		network.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetwork_STATUS interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForNetwork_STATUS); ok {
 		err := augmentedNetwork.AssignPropertiesFrom(source)
@@ -1747,6 +1770,7 @@ func (network *Network_STATUS) AssignProperties_To_Network_STATUS(destination *v
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetwork_STATUS interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForNetwork_STATUS); ok {
 		err := augmentedNetwork.AssignPropertiesTo(destination)
@@ -1785,6 +1809,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *v20210601s.Sku) error {
 		sku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
@@ -1815,6 +1840,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210601s.Sku) error {
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
@@ -1853,6 +1879,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *v20210601s.Sku_S
 		sku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku_STATUS interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
@@ -1883,6 +1910,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210601s.Sk
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku_STATUS interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
@@ -1917,6 +1945,7 @@ func (storage *Storage) AssignProperties_From_Storage(source *v20210601s.Storage
 		storage.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorage interface (if implemented) to customize the conversion
 	var storageAsAny any = storage
 	if augmentedStorage, ok := storageAsAny.(augmentConversionForStorage); ok {
 		err := augmentedStorage.AssignPropertiesFrom(source)
@@ -1944,6 +1973,7 @@ func (storage *Storage) AssignProperties_To_Storage(destination *v20210601s.Stor
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorage interface (if implemented) to customize the conversion
 	var storageAsAny any = storage
 	if augmentedStorage, ok := storageAsAny.(augmentConversionForStorage); ok {
 		err := augmentedStorage.AssignPropertiesTo(destination)
@@ -1978,6 +2008,7 @@ func (storage *Storage_STATUS) AssignProperties_From_Storage_STATUS(source *v202
 		storage.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorage_STATUS interface (if implemented) to customize the conversion
 	var storageAsAny any = storage
 	if augmentedStorage, ok := storageAsAny.(augmentConversionForStorage_STATUS); ok {
 		err := augmentedStorage.AssignPropertiesFrom(source)
@@ -2005,6 +2036,7 @@ func (storage *Storage_STATUS) AssignProperties_To_Storage_STATUS(destination *v
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorage_STATUS interface (if implemented) to customize the conversion
 	var storageAsAny any = storage
 	if augmentedStorage, ok := storageAsAny.(augmentConversionForStorage_STATUS); ok {
 		err := augmentedStorage.AssignPropertiesTo(destination)
@@ -2059,6 +2091,7 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 		data.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
 	var dataAsAny any = data
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesFrom(source)
@@ -2101,6 +2134,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
 	var dataAsAny any = data
 	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
 		err := augmentedData.AssignPropertiesTo(destination)

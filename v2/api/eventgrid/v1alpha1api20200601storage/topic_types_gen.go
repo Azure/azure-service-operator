@@ -151,6 +151,7 @@ func (topic *Topic) AssignProperties_From_Topic(source *v20200601s.Topic) error 
 	}
 	topic.Status = status
 
+	// Invoke the augmentConversionForTopic interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic); ok {
 		err := augmentedTopic.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (topic *Topic) AssignProperties_To_Topic(destination *v20200601s.Topic) err
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForTopic interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic); ok {
 		err := augmentedTopic.AssignPropertiesTo(destination)
@@ -359,6 +361,7 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *v20200601s.Top
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTopic_Spec interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_Spec); ok {
 		err := augmentedTopic.AssignPropertiesFrom(source)
@@ -439,6 +442,7 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *v20200601s.
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTopic_Spec interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_Spec); ok {
 		err := augmentedTopic.AssignPropertiesTo(destination)
@@ -627,6 +631,7 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *v20200601s
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTopic_STATUS interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_STATUS); ok {
 		err := augmentedTopic.AssignPropertiesFrom(source)
@@ -744,6 +749,7 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *v202006
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTopic_STATUS interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_STATUS); ok {
 		err := augmentedTopic.AssignPropertiesTo(destination)
@@ -788,6 +794,7 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -815,6 +822,7 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)

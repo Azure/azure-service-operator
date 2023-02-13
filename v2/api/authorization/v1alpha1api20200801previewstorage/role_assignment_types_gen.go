@@ -150,6 +150,7 @@ func (assignment *RoleAssignment) AssignProperties_From_RoleAssignment(source *v
 	}
 	assignment.Status = status
 
+	// Invoke the augmentConversionForRoleAssignment interface (if implemented) to customize the conversion
 	var assignmentAsAny any = assignment
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment); ok {
 		err := augmentedAssignment.AssignPropertiesFrom(source)
@@ -184,6 +185,7 @@ func (assignment *RoleAssignment) AssignProperties_To_RoleAssignment(destination
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForRoleAssignment interface (if implemented) to customize the conversion
 	var assignmentAsAny any = assignment
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment); ok {
 		err := augmentedAssignment.AssignPropertiesTo(destination)
@@ -361,6 +363,7 @@ func (assignment *RoleAssignment_Spec) AssignProperties_From_RoleAssignment_Spec
 		assignment.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRoleAssignment_Spec interface (if implemented) to customize the conversion
 	var assignmentAsAny any = assignment
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment_Spec); ok {
 		err := augmentedAssignment.AssignPropertiesFrom(source)
@@ -433,6 +436,7 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRoleAssignment_Spec interface (if implemented) to customize the conversion
 	var assignmentAsAny any = assignment
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment_Spec); ok {
 		err := augmentedAssignment.AssignPropertiesTo(destination)
@@ -577,6 +581,7 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_From_RoleAssignment_ST
 		assignment.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRoleAssignment_STATUS interface (if implemented) to customize the conversion
 	var assignmentAsAny any = assignment
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment_STATUS); ok {
 		err := augmentedAssignment.AssignPropertiesFrom(source)
@@ -649,6 +654,7 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_To_RoleAssignment_STAT
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRoleAssignment_STATUS interface (if implemented) to customize the conversion
 	var assignmentAsAny any = assignment
 	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRoleAssignment_STATUS); ok {
 		err := augmentedAssignment.AssignPropertiesTo(destination)

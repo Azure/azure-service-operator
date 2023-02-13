@@ -151,6 +151,7 @@ func (webtest *Webtest) AssignProperties_From_Webtest(source *v20180501ps.Webtes
 	}
 	webtest.Status = status
 
+	// Invoke the augmentConversionForWebtest interface (if implemented) to customize the conversion
 	var webtestAsAny any = webtest
 	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest); ok {
 		err := augmentedWebtest.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (webtest *Webtest) AssignProperties_To_Webtest(destination *v20180501ps.Web
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForWebtest interface (if implemented) to customize the conversion
 	var webtestAsAny any = webtest
 	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest); ok {
 		err := augmentedWebtest.AssignPropertiesTo(destination)
@@ -426,6 +428,7 @@ func (webtest *Webtest_Spec) AssignProperties_From_Webtest_Spec(source *v2018050
 		webtest.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebtest_Spec interface (if implemented) to customize the conversion
 	var webtestAsAny any = webtest
 	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest_Spec); ok {
 		err := augmentedWebtest.AssignPropertiesFrom(source)
@@ -558,6 +561,7 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *v2018
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebtest_Spec interface (if implemented) to customize the conversion
 	var webtestAsAny any = webtest
 	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest_Spec); ok {
 		err := augmentedWebtest.AssignPropertiesTo(destination)
@@ -766,6 +770,7 @@ func (webtest *Webtest_STATUS) AssignProperties_From_Webtest_STATUS(source *v201
 		webtest.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebtest_STATUS interface (if implemented) to customize the conversion
 	var webtestAsAny any = webtest
 	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest_STATUS); ok {
 		err := augmentedWebtest.AssignPropertiesFrom(source)
@@ -899,6 +904,7 @@ func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *v
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebtest_STATUS interface (if implemented) to customize the conversion
 	var webtestAsAny any = webtest
 	if augmentedWebtest, ok := webtestAsAny.(augmentConversionForWebtest_STATUS); ok {
 		err := augmentedWebtest.AssignPropertiesTo(destination)
@@ -943,6 +949,7 @@ func (geolocation *WebTestGeolocation) AssignProperties_From_WebTestGeolocation(
 		geolocation.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestGeolocation interface (if implemented) to customize the conversion
 	var geolocationAsAny any = geolocation
 	if augmentedGeolocation, ok := geolocationAsAny.(augmentConversionForWebTestGeolocation); ok {
 		err := augmentedGeolocation.AssignPropertiesFrom(source)
@@ -970,6 +977,7 @@ func (geolocation *WebTestGeolocation) AssignProperties_To_WebTestGeolocation(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestGeolocation interface (if implemented) to customize the conversion
 	var geolocationAsAny any = geolocation
 	if augmentedGeolocation, ok := geolocationAsAny.(augmentConversionForWebTestGeolocation); ok {
 		err := augmentedGeolocation.AssignPropertiesTo(destination)
@@ -1004,6 +1012,7 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_From_WebTestGeolo
 		geolocation.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestGeolocation_STATUS interface (if implemented) to customize the conversion
 	var geolocationAsAny any = geolocation
 	if augmentedGeolocation, ok := geolocationAsAny.(augmentConversionForWebTestGeolocation_STATUS); ok {
 		err := augmentedGeolocation.AssignPropertiesFrom(source)
@@ -1031,6 +1040,7 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_To_WebTestGeoloca
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestGeolocation_STATUS interface (if implemented) to customize the conversion
 	var geolocationAsAny any = geolocation
 	if augmentedGeolocation, ok := geolocationAsAny.(augmentConversionForWebTestGeolocation_STATUS); ok {
 		err := augmentedGeolocation.AssignPropertiesTo(destination)
@@ -1065,6 +1075,7 @@ func (configuration *WebTestProperties_Configuration) AssignProperties_From_WebT
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_Configuration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForWebTestProperties_Configuration); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -1092,6 +1103,7 @@ func (configuration *WebTestProperties_Configuration) AssignProperties_To_WebTes
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_Configuration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForWebTestProperties_Configuration); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -1126,6 +1138,7 @@ func (configuration *WebTestProperties_Configuration_STATUS) AssignProperties_Fr
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_Configuration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForWebTestProperties_Configuration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -1153,6 +1166,7 @@ func (configuration *WebTestProperties_Configuration_STATUS) AssignProperties_To
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_Configuration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForWebTestProperties_Configuration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -1232,6 +1246,7 @@ func (request *WebTestProperties_Request) AssignProperties_From_WebTestPropertie
 		request.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_Request interface (if implemented) to customize the conversion
 	var requestAsAny any = request
 	if augmentedRequest, ok := requestAsAny.(augmentConversionForWebTestProperties_Request); ok {
 		err := augmentedRequest.AssignPropertiesFrom(source)
@@ -1299,6 +1314,7 @@ func (request *WebTestProperties_Request) AssignProperties_To_WebTestProperties_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_Request interface (if implemented) to customize the conversion
 	var requestAsAny any = request
 	if augmentedRequest, ok := requestAsAny.(augmentConversionForWebTestProperties_Request); ok {
 		err := augmentedRequest.AssignPropertiesTo(destination)
@@ -1378,6 +1394,7 @@ func (request *WebTestProperties_Request_STATUS) AssignProperties_From_WebTestPr
 		request.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_Request_STATUS interface (if implemented) to customize the conversion
 	var requestAsAny any = request
 	if augmentedRequest, ok := requestAsAny.(augmentConversionForWebTestProperties_Request_STATUS); ok {
 		err := augmentedRequest.AssignPropertiesFrom(source)
@@ -1445,6 +1462,7 @@ func (request *WebTestProperties_Request_STATUS) AssignProperties_To_WebTestProp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_Request_STATUS interface (if implemented) to customize the conversion
 	var requestAsAny any = request
 	if augmentedRequest, ok := requestAsAny.(augmentConversionForWebTestProperties_Request_STATUS); ok {
 		err := augmentedRequest.AssignPropertiesTo(destination)
@@ -1514,6 +1532,7 @@ func (rules *WebTestProperties_ValidationRules) AssignProperties_From_WebTestPro
 		rules.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_ValidationRules interface (if implemented) to customize the conversion
 	var rulesAsAny any = rules
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForWebTestProperties_ValidationRules); ok {
 		err := augmentedRules.AssignPropertiesFrom(source)
@@ -1572,6 +1591,7 @@ func (rules *WebTestProperties_ValidationRules) AssignProperties_To_WebTestPrope
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_ValidationRules interface (if implemented) to customize the conversion
 	var rulesAsAny any = rules
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForWebTestProperties_ValidationRules); ok {
 		err := augmentedRules.AssignPropertiesTo(destination)
@@ -1641,6 +1661,7 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_From_Web
 		rules.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_ValidationRules_STATUS interface (if implemented) to customize the conversion
 	var rulesAsAny any = rules
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForWebTestProperties_ValidationRules_STATUS); ok {
 		err := augmentedRules.AssignPropertiesFrom(source)
@@ -1699,6 +1720,7 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_To_WebTe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_ValidationRules_STATUS interface (if implemented) to customize the conversion
 	var rulesAsAny any = rules
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForWebTestProperties_ValidationRules_STATUS); ok {
 		err := augmentedRules.AssignPropertiesTo(destination)
@@ -1777,6 +1799,7 @@ func (field *HeaderField) AssignProperties_From_HeaderField(source *v20180501ps.
 		field.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForHeaderField interface (if implemented) to customize the conversion
 	var fieldAsAny any = field
 	if augmentedField, ok := fieldAsAny.(augmentConversionForHeaderField); ok {
 		err := augmentedField.AssignPropertiesFrom(source)
@@ -1807,6 +1830,7 @@ func (field *HeaderField) AssignProperties_To_HeaderField(destination *v20180501
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForHeaderField interface (if implemented) to customize the conversion
 	var fieldAsAny any = field
 	if augmentedField, ok := fieldAsAny.(augmentConversionForHeaderField); ok {
 		err := augmentedField.AssignPropertiesTo(destination)
@@ -1845,6 +1869,7 @@ func (field *HeaderField_STATUS) AssignProperties_From_HeaderField_STATUS(source
 		field.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForHeaderField_STATUS interface (if implemented) to customize the conversion
 	var fieldAsAny any = field
 	if augmentedField, ok := fieldAsAny.(augmentConversionForHeaderField_STATUS); ok {
 		err := augmentedField.AssignPropertiesFrom(source)
@@ -1875,6 +1900,7 @@ func (field *HeaderField_STATUS) AssignProperties_To_HeaderField_STATUS(destinat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForHeaderField_STATUS interface (if implemented) to customize the conversion
 	var fieldAsAny any = field
 	if augmentedField, ok := fieldAsAny.(augmentConversionForHeaderField_STATUS); ok {
 		err := augmentedField.AssignPropertiesTo(destination)
@@ -1927,6 +1953,7 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignPro
 		validation.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_ValidationRules_ContentValidation interface (if implemented) to customize the conversion
 	var validationAsAny any = validation
 	if augmentedValidation, ok := validationAsAny.(augmentConversionForWebTestProperties_ValidationRules_ContentValidation); ok {
 		err := augmentedValidation.AssignPropertiesFrom(source)
@@ -1970,6 +1997,7 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignPro
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_ValidationRules_ContentValidation interface (if implemented) to customize the conversion
 	var validationAsAny any = validation
 	if augmentedValidation, ok := validationAsAny.(augmentConversionForWebTestProperties_ValidationRules_ContentValidation); ok {
 		err := augmentedValidation.AssignPropertiesTo(destination)
@@ -2022,6 +2050,7 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) As
 		validation.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_ValidationRules_ContentValidation_STATUS interface (if implemented) to customize the conversion
 	var validationAsAny any = validation
 	if augmentedValidation, ok := validationAsAny.(augmentConversionForWebTestProperties_ValidationRules_ContentValidation_STATUS); ok {
 		err := augmentedValidation.AssignPropertiesFrom(source)
@@ -2065,6 +2094,7 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation_STATUS) As
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWebTestProperties_ValidationRules_ContentValidation_STATUS interface (if implemented) to customize the conversion
 	var validationAsAny any = validation
 	if augmentedValidation, ok := validationAsAny.(augmentConversionForWebTestProperties_ValidationRules_ContentValidation_STATUS); ok {
 		err := augmentedValidation.AssignPropertiesTo(destination)

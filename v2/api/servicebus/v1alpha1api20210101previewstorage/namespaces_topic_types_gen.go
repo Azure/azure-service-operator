@@ -151,6 +151,7 @@ func (topic *NamespacesTopic) AssignProperties_From_NamespacesTopic(source *v202
 	}
 	topic.Status = status
 
+	// Invoke the augmentConversionForNamespacesTopic interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespacesTopic); ok {
 		err := augmentedTopic.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (topic *NamespacesTopic) AssignProperties_To_NamespacesTopic(destination *v
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNamespacesTopic interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespacesTopic); ok {
 		err := augmentedTopic.AssignPropertiesTo(destination)
@@ -374,6 +376,7 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Topic_Spec interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespaces_Topic_Spec); ok {
 		err := augmentedTopic.AssignPropertiesFrom(source)
@@ -464,6 +467,7 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Topic_Spec interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespaces_Topic_Spec); ok {
 		err := augmentedTopic.AssignPropertiesTo(destination)
@@ -671,6 +675,7 @@ func (topic *Namespaces_Topic_STATUS) AssignProperties_From_Namespaces_Topic_STA
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Topic_STATUS interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespaces_Topic_STATUS); ok {
 		err := augmentedTopic.AssignPropertiesFrom(source)
@@ -801,6 +806,7 @@ func (topic *Namespaces_Topic_STATUS) AssignProperties_To_Namespaces_Topic_STATU
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Topic_STATUS interface (if implemented) to customize the conversion
 	var topicAsAny any = topic
 	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespaces_Topic_STATUS); ok {
 		err := augmentedTopic.AssignPropertiesTo(destination)

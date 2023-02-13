@@ -151,6 +151,7 @@ func (service *StorageAccountsBlobService) AssignProperties_From_StorageAccounts
 	}
 	service.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsBlobService interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsBlobService); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (service *StorageAccountsBlobService) AssignProperties_To_StorageAccountsBl
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsBlobService interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsBlobService); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
@@ -405,6 +407,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_From_StorageAc
 		service.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobService_Spec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_BlobService_Spec); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
@@ -531,6 +534,7 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobService_Spec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_BlobService_Spec); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
@@ -740,6 +744,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_From_Storage
 		service.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobService_STATUS interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_BlobService_STATUS); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
@@ -879,6 +884,7 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobService_STATUS interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_BlobService_STATUS); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
@@ -932,6 +938,7 @@ func (feed *ChangeFeed) AssignProperties_From_ChangeFeed(source *v20210401s.Chan
 		feed.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForChangeFeed interface (if implemented) to customize the conversion
 	var feedAsAny any = feed
 	if augmentedFeed, ok := feedAsAny.(augmentConversionForChangeFeed); ok {
 		err := augmentedFeed.AssignPropertiesFrom(source)
@@ -967,6 +974,7 @@ func (feed *ChangeFeed) AssignProperties_To_ChangeFeed(destination *v20210401s.C
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForChangeFeed interface (if implemented) to customize the conversion
 	var feedAsAny any = feed
 	if augmentedFeed, ok := feedAsAny.(augmentConversionForChangeFeed); ok {
 		err := augmentedFeed.AssignPropertiesTo(destination)
@@ -1010,6 +1018,7 @@ func (feed *ChangeFeed_STATUS) AssignProperties_From_ChangeFeed_STATUS(source *v
 		feed.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForChangeFeed_STATUS interface (if implemented) to customize the conversion
 	var feedAsAny any = feed
 	if augmentedFeed, ok := feedAsAny.(augmentConversionForChangeFeed_STATUS); ok {
 		err := augmentedFeed.AssignPropertiesFrom(source)
@@ -1045,6 +1054,7 @@ func (feed *ChangeFeed_STATUS) AssignProperties_To_ChangeFeed_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForChangeFeed_STATUS interface (if implemented) to customize the conversion
 	var feedAsAny any = feed
 	if augmentedFeed, ok := feedAsAny.(augmentConversionForChangeFeed_STATUS); ok {
 		err := augmentedFeed.AssignPropertiesTo(destination)
@@ -1094,6 +1104,7 @@ func (rules *CorsRules) AssignProperties_From_CorsRules(source *v20210401s.CorsR
 		rules.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCorsRules interface (if implemented) to customize the conversion
 	var rulesAsAny any = rules
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules); ok {
 		err := augmentedRules.AssignPropertiesFrom(source)
@@ -1136,6 +1147,7 @@ func (rules *CorsRules) AssignProperties_To_CorsRules(destination *v20210401s.Co
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCorsRules interface (if implemented) to customize the conversion
 	var rulesAsAny any = rules
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules); ok {
 		err := augmentedRules.AssignPropertiesTo(destination)
@@ -1185,6 +1197,7 @@ func (rules *CorsRules_STATUS) AssignProperties_From_CorsRules_STATUS(source *v2
 		rules.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCorsRules_STATUS interface (if implemented) to customize the conversion
 	var rulesAsAny any = rules
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules_STATUS); ok {
 		err := augmentedRules.AssignPropertiesFrom(source)
@@ -1227,6 +1240,7 @@ func (rules *CorsRules_STATUS) AssignProperties_To_CorsRules_STATUS(destination 
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCorsRules_STATUS interface (if implemented) to customize the conversion
 	var rulesAsAny any = rules
 	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules_STATUS); ok {
 		err := augmentedRules.AssignPropertiesTo(destination)
@@ -1270,6 +1284,7 @@ func (policy *DeleteRetentionPolicy) AssignProperties_From_DeleteRetentionPolicy
 		policy.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDeleteRetentionPolicy interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
@@ -1305,6 +1320,7 @@ func (policy *DeleteRetentionPolicy) AssignProperties_To_DeleteRetentionPolicy(d
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDeleteRetentionPolicy interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
@@ -1348,6 +1364,7 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_From_DeleteRetentio
 		policy.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDeleteRetentionPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
@@ -1383,6 +1400,7 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_To_DeleteRetentionP
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDeleteRetentionPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
@@ -1434,6 +1452,7 @@ func (policy *LastAccessTimeTrackingPolicy) AssignProperties_From_LastAccessTime
 		policy.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLastAccessTimeTrackingPolicy interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForLastAccessTimeTrackingPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
@@ -1475,6 +1494,7 @@ func (policy *LastAccessTimeTrackingPolicy) AssignProperties_To_LastAccessTimeTr
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLastAccessTimeTrackingPolicy interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForLastAccessTimeTrackingPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
@@ -1526,6 +1546,7 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) AssignProperties_From_LastAcc
 		policy.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLastAccessTimeTrackingPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForLastAccessTimeTrackingPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
@@ -1567,6 +1588,7 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) AssignProperties_To_LastAcces
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLastAccessTimeTrackingPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForLastAccessTimeTrackingPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
@@ -1610,6 +1632,7 @@ func (properties *RestorePolicyProperties) AssignProperties_From_RestorePolicyPr
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRestorePolicyProperties interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForRestorePolicyProperties); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -1645,6 +1668,7 @@ func (properties *RestorePolicyProperties) AssignProperties_To_RestorePolicyProp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRestorePolicyProperties interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForRestorePolicyProperties); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -1696,6 +1720,7 @@ func (properties *RestorePolicyProperties_STATUS) AssignProperties_From_RestoreP
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRestorePolicyProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForRestorePolicyProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -1737,6 +1762,7 @@ func (properties *RestorePolicyProperties_STATUS) AssignProperties_To_RestorePol
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRestorePolicyProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForRestorePolicyProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -1837,6 +1863,7 @@ func (rule *CorsRule) AssignProperties_From_CorsRule(source *v20210401s.CorsRule
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCorsRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -1876,6 +1903,7 @@ func (rule *CorsRule) AssignProperties_To_CorsRule(destination *v20210401s.CorsR
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCorsRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -1926,6 +1954,7 @@ func (rule *CorsRule_STATUS) AssignProperties_From_CorsRule_STATUS(source *v2021
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCorsRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -1965,6 +1994,7 @@ func (rule *CorsRule_STATUS) AssignProperties_To_CorsRule_STATUS(destination *v2
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCorsRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)

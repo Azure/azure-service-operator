@@ -149,6 +149,7 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
+
 	if augmentationInterface != nil {
 		assignFromFn = assignFromFn.WithAugmentationInterface(*augmentationInterface)
 	}

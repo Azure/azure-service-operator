@@ -151,6 +151,7 @@ func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgent
 	}
 	pool.Status = status
 
+	// Invoke the augmentConversionForManagedClustersAgentPool interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool); ok {
 		err := augmentedPool.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPo
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForManagedClustersAgentPool interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool); ok {
 		err := augmentedPool.AssignPropertiesTo(destination)
@@ -516,6 +518,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		pool.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusters_AgentPool_Spec interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_Spec); ok {
 		err := augmentedPool.AssignPropertiesFrom(source)
@@ -725,6 +728,7 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusters_AgentPool_Spec interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_Spec); ok {
 		err := augmentedPool.AssignPropertiesTo(destination)
@@ -1031,6 +1035,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		pool.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusters_AgentPool_STATUS interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_STATUS); ok {
 		err := augmentedPool.AssignPropertiesFrom(source)
@@ -1241,6 +1246,7 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusters_AgentPool_STATUS interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
 	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_STATUS); ok {
 		err := augmentedPool.AssignPropertiesTo(destination)
@@ -1275,6 +1281,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgrade
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAgentPoolUpgradeSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1302,6 +1309,7 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAgentPoolUpgradeSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1336,6 +1344,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPool
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAgentPoolUpgradeSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1363,6 +1372,7 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAgentPoolUpgradeSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1457,6 +1467,7 @@ func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *v202105
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKubeletConfig interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
@@ -1524,6 +1535,7 @@ func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKubeletConfig interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
@@ -1608,6 +1620,7 @@ func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(s
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKubeletConfig_STATUS interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
@@ -1675,6 +1688,7 @@ func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKubeletConfig_STATUS interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
@@ -1730,6 +1744,7 @@ func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *v202105
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLinuxOSConfig interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
@@ -1775,6 +1790,7 @@ func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLinuxOSConfig interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
@@ -1830,6 +1846,7 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(s
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLinuxOSConfig_STATUS interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
@@ -1875,6 +1892,7 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLinuxOSConfig_STATUS interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
@@ -2052,6 +2070,7 @@ func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *v20210501
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSysctlConfig interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
@@ -2165,6 +2184,7 @@ func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *v20210
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSysctlConfig interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)
@@ -2312,6 +2332,7 @@ func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(sou
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSysctlConfig_STATUS interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesFrom(source)
@@ -2425,6 +2446,7 @@ func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSysctlConfig_STATUS interface (if implemented) to customize the conversion
 	var configAsAny any = config
 	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig_STATUS); ok {
 		err := augmentedConfig.AssignPropertiesTo(destination)

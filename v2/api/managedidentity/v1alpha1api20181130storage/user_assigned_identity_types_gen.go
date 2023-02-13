@@ -183,6 +183,7 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 	}
 	identity.Status = status
 
+	// Invoke the augmentConversionForUserAssignedIdentity interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity); ok {
 		err := augmentedIdentity.AssignPropertiesFrom(source)
@@ -217,6 +218,7 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForUserAssignedIdentity interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity); ok {
 		err := augmentedIdentity.AssignPropertiesTo(destination)
@@ -371,6 +373,7 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_From_UserAssignedIde
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentity_Spec interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_Spec); ok {
 		err := augmentedIdentity.AssignPropertiesFrom(source)
@@ -427,6 +430,7 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdent
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentity_Spec interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_Spec); ok {
 		err := augmentedIdentity.AssignPropertiesTo(destination)
@@ -543,6 +547,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentity_STATUS interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
 		err := augmentedIdentity.AssignPropertiesFrom(source)
@@ -594,6 +599,7 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentity_STATUS interface (if implemented) to customize the conversion
 	var identityAsAny any = identity
 	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
 		err := augmentedIdentity.AssignPropertiesTo(destination)
@@ -647,6 +653,7 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssi
 		operator.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentityOperatorSpec interface (if implemented) to customize the conversion
 	var operatorAsAny any = operator
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForUserAssignedIdentityOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
@@ -683,6 +690,7 @@ func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssign
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentityOperatorSpec interface (if implemented) to customize the conversion
 	var operatorAsAny any = operator
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForUserAssignedIdentityOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
@@ -744,6 +752,7 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAs
 		maps.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentityOperatorConfigMaps interface (if implemented) to customize the conversion
 	var mapsAsAny any = maps
 	if augmentedMaps, ok := mapsAsAny.(augmentConversionForUserAssignedIdentityOperatorConfigMaps); ok {
 		err := augmentedMaps.AssignPropertiesFrom(source)
@@ -792,6 +801,7 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssi
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentityOperatorConfigMaps interface (if implemented) to customize the conversion
 	var mapsAsAny any = maps
 	if augmentedMaps, ok := mapsAsAny.(augmentConversionForUserAssignedIdentityOperatorConfigMaps); ok {
 		err := augmentedMaps.AssignPropertiesTo(destination)

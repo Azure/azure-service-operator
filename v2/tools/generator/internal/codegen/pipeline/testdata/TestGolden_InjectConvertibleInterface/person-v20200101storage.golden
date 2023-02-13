@@ -66,6 +66,7 @@
  	}
  	person.Status = status
  
+ 	// Invoke the augmentConversionForPerson interface (if implemented) to customize the conversion
  	var personAsAny any = person
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson); ok {
  		err := augmentedPerson.AssignPropertiesFrom(source)
@@ -100,6 +101,7 @@
  	}
  	destination.Status = status
  
+ 	// Invoke the augmentConversionForPerson interface (if implemented) to customize the conversion
  	var personAsAny any = person
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson); ok {
  		err := augmentedPerson.AssignPropertiesTo(destination)
@@ -146,6 +148,7 @@
  		person.PropertyBag = nil
  	}
  
+ 	// Invoke the augmentConversionForPerson_Spec interface (if implemented) to customize the conversion
  	var personAsAny any = person
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
  		err := augmentedPerson.AssignPropertiesFrom(source)
@@ -173,6 +176,7 @@
  		destination.PropertyBag = nil
  	}
  
+ 	// Invoke the augmentConversionForPerson_Spec interface (if implemented) to customize the conversion
  	var personAsAny any = person
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_Spec); ok {
  		err := augmentedPerson.AssignPropertiesTo(destination)
@@ -206,6 +210,7 @@
  		person.PropertyBag = nil
  	}
  
+ 	// Invoke the augmentConversionForPerson_STATUS interface (if implemented) to customize the conversion
  	var personAsAny any = person
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_STATUS); ok {
  		err := augmentedPerson.AssignPropertiesFrom(source)
@@ -233,6 +238,7 @@
  		destination.PropertyBag = nil
  	}
  
+ 	// Invoke the augmentConversionForPerson_STATUS interface (if implemented) to customize the conversion
  	var personAsAny any = person
  	if augmentedPerson, ok := personAsAny.(augmentConversionForPerson_STATUS); ok {
  		err := augmentedPerson.AssignPropertiesTo(destination)

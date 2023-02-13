@@ -151,6 +151,7 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_From_NamespacesE
 	}
 	group.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhubsConsumerGroup interface (if implemented) to customize the conversion
 	var groupAsAny any = group
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForNamespacesEventhubsConsumerGroup); ok {
 		err := augmentedGroup.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_To_NamespacesEve
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhubsConsumerGroup interface (if implemented) to customize the conversion
 	var groupAsAny any = group
 	if augmentedGroup, ok := groupAsAny.(augmentConversionForNamespacesEventhubsConsumerGroup); ok {
 		err := augmentedGroup.AssignPropertiesTo(destination)
@@ -317,6 +319,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_F
 		consumergroup.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec interface (if implemented) to customize the conversion
 	var consumergroupAsAny any = consumergroup
 	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec); ok {
 		err := augmentedConsumergroup.AssignPropertiesFrom(source)
@@ -358,6 +361,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_T
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec interface (if implemented) to customize the conversion
 	var consumergroupAsAny any = consumergroup
 	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec); ok {
 		err := augmentedConsumergroup.AssignPropertiesTo(destination)
@@ -483,6 +487,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) AssignProperties
 		consumergroup.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS interface (if implemented) to customize the conversion
 	var consumergroupAsAny any = consumergroup
 	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS); ok {
 		err := augmentedConsumergroup.AssignPropertiesFrom(source)
@@ -543,6 +548,7 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS interface (if implemented) to customize the conversion
 	var consumergroupAsAny any = consumergroup
 	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS); ok {
 		err := augmentedConsumergroup.AssignPropertiesTo(destination)

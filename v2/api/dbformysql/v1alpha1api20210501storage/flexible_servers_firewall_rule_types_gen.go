@@ -151,6 +151,7 @@ func (rule *FlexibleServersFirewallRule) AssignProperties_From_FlexibleServersFi
 	}
 	rule.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersFirewallRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServersFirewallRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (rule *FlexibleServersFirewallRule) AssignProperties_To_FlexibleServersFire
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersFirewallRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServersFirewallRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -319,6 +321,7 @@ func (rule *FlexibleServers_FirewallRule_Spec) AssignProperties_From_FlexibleSer
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_FirewallRule_Spec interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServers_FirewallRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -363,6 +366,7 @@ func (rule *FlexibleServers_FirewallRule_Spec) AssignProperties_To_FlexibleServe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_FirewallRule_Spec interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServers_FirewallRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -480,6 +484,7 @@ func (rule *FlexibleServers_FirewallRule_STATUS) AssignProperties_From_FlexibleS
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_FirewallRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServers_FirewallRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -534,6 +539,7 @@ func (rule *FlexibleServers_FirewallRule_STATUS) AssignProperties_To_FlexibleSer
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_FirewallRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServers_FirewallRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)

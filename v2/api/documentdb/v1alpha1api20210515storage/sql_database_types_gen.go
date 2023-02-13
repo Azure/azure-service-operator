@@ -151,6 +151,7 @@ func (database *SqlDatabase) AssignProperties_From_SqlDatabase(source *v20210515
 	}
 	database.Status = status
 
+	// Invoke the augmentConversionForSqlDatabase interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (database *SqlDatabase) AssignProperties_To_SqlDatabase(destination *v20210
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSqlDatabase interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -345,6 +347,7 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_From_Databas
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -413,6 +416,7 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_To_DatabaseA
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -543,6 +547,7 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_From_Datab
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -609,6 +614,7 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_To_Databas
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -678,6 +684,7 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_From_
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlDatabaseGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -725,6 +732,7 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_To_Sq
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlDatabaseGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -759,6 +767,7 @@ func (resource *SqlDatabaseResource) AssignProperties_From_SqlDatabaseResource(s
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlDatabaseResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -786,6 +795,7 @@ func (resource *SqlDatabaseResource) AssignProperties_To_SqlDatabaseResource(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlDatabaseResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)

@@ -151,6 +151,7 @@ func (setting *SqlDatabaseThroughputSetting) AssignProperties_From_SqlDatabaseTh
 	}
 	setting.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseThroughputSetting interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForSqlDatabaseThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (setting *SqlDatabaseThroughputSetting) AssignProperties_To_SqlDatabaseThro
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseThroughputSetting interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForSqlDatabaseThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
@@ -326,6 +328,7 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) AssignPrope
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -379,6 +382,7 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) AssignPrope
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
@@ -496,6 +500,7 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) AssignPro
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -550,6 +555,7 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) AssignPro
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)

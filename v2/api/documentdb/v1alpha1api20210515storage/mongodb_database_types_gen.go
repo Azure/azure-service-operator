@@ -151,6 +151,7 @@ func (database *MongodbDatabase) AssignProperties_From_MongodbDatabase(source *v
 	}
 	database.Status = status
 
+	// Invoke the augmentConversionForMongodbDatabase interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForMongodbDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (database *MongodbDatabase) AssignProperties_To_MongodbDatabase(destination
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForMongodbDatabase interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForMongodbDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -345,6 +347,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_From_Dat
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabase_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabase_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -413,6 +416,7 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_To_Datab
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabase_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabase_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -543,6 +547,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_From_D
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabase_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabase_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -609,6 +614,7 @@ func (database *DatabaseAccounts_MongodbDatabase_STATUS) AssignProperties_To_Dat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabase_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabase_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -666,6 +672,7 @@ func (options *CreateUpdateOptions) AssignProperties_From_CreateUpdateOptions(so
 		options.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCreateUpdateOptions interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForCreateUpdateOptions); ok {
 		err := augmentedOptions.AssignPropertiesFrom(source)
@@ -705,6 +712,7 @@ func (options *CreateUpdateOptions) AssignProperties_To_CreateUpdateOptions(dest
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForCreateUpdateOptions interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForCreateUpdateOptions); ok {
 		err := augmentedOptions.AssignPropertiesTo(destination)
@@ -756,6 +764,7 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_F
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoDBDatabaseGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForMongoDBDatabaseGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -797,6 +806,7 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignProperties_T
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoDBDatabaseGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForMongoDBDatabaseGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -831,6 +841,7 @@ func (resource *MongoDBDatabaseResource) AssignProperties_From_MongoDBDatabaseRe
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoDBDatabaseResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForMongoDBDatabaseResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -858,6 +869,7 @@ func (resource *MongoDBDatabaseResource) AssignProperties_To_MongoDBDatabaseReso
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMongoDBDatabaseResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForMongoDBDatabaseResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -905,6 +917,7 @@ func (resource *OptionsResource_STATUS) AssignProperties_From_OptionsResource_ST
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForOptionsResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForOptionsResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -944,6 +957,7 @@ func (resource *OptionsResource_STATUS) AssignProperties_To_OptionsResource_STAT
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForOptionsResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForOptionsResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -998,6 +1012,7 @@ func (settings *AutoscaleSettings) AssignProperties_From_AutoscaleSettings(sourc
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoscaleSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAutoscaleSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1025,6 +1040,7 @@ func (settings *AutoscaleSettings) AssignProperties_To_AutoscaleSettings(destina
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoscaleSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAutoscaleSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1059,6 +1075,7 @@ func (settings *AutoscaleSettings_STATUS) AssignProperties_From_AutoscaleSetting
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoscaleSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAutoscaleSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1086,6 +1103,7 @@ func (settings *AutoscaleSettings_STATUS) AssignProperties_To_AutoscaleSettings_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoscaleSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAutoscaleSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)

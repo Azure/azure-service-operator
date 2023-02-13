@@ -151,6 +151,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_From_S
 	}
 	function.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunction interface (if implemented) to customize the conversion
 	var functionAsAny any = function
 	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction); ok {
 		err := augmentedFunction.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignProperties_To_Sql
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerUserDefinedFunction interface (if implemented) to customize the conversion
 	var functionAsAny any = function
 	if augmentedFunction, ok := functionAsAny.(augmentConversionForSqlDatabaseContainerUserDefinedFunction); ok {
 		err := augmentedFunction.AssignPropertiesTo(destination)
@@ -345,6 +347,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		function.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec interface (if implemented) to customize the conversion
 	var functionAsAny any = function
 	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec); ok {
 		err := augmentedFunction.AssignPropertiesFrom(source)
@@ -413,6 +416,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec interface (if implemented) to customize the conversion
 	var functionAsAny any = function
 	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec); ok {
 		err := augmentedFunction.AssignPropertiesTo(destination)
@@ -530,6 +534,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		function.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS interface (if implemented) to customize the conversion
 	var functionAsAny any = function
 	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
 		err := augmentedFunction.AssignPropertiesFrom(source)
@@ -584,6 +589,7 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STA
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS interface (if implemented) to customize the conversion
 	var functionAsAny any = function
 	if augmentedFunction, ok := functionAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
 		err := augmentedFunction.AssignPropertiesTo(destination)
@@ -649,6 +655,7 @@ func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignPrope
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -693,6 +700,7 @@ func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignPrope
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -731,6 +739,7 @@ func (resource *SqlUserDefinedFunctionResource) AssignProperties_From_SqlUserDef
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlUserDefinedFunctionResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -761,6 +770,7 @@ func (resource *SqlUserDefinedFunctionResource) AssignProperties_To_SqlUserDefin
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlUserDefinedFunctionResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlUserDefinedFunctionResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)

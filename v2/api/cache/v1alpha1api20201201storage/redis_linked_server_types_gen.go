@@ -151,6 +151,7 @@ func (server *RedisLinkedServer) AssignProperties_From_RedisLinkedServer(source 
 	}
 	server.Status = status
 
+	// Invoke the augmentConversionForRedisLinkedServer interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRedisLinkedServer); ok {
 		err := augmentedServer.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (server *RedisLinkedServer) AssignProperties_To_RedisLinkedServer(destinati
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForRedisLinkedServer interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRedisLinkedServer); ok {
 		err := augmentedServer.AssignPropertiesTo(destination)
@@ -330,6 +332,7 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_From_Redis_LinkedServer_
 		server.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_LinkedServer_Spec interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRedis_LinkedServer_Spec); ok {
 		err := augmentedServer.AssignPropertiesFrom(source)
@@ -382,6 +385,7 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Sp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_LinkedServer_Spec interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRedis_LinkedServer_Spec); ok {
 		err := augmentedServer.AssignPropertiesTo(destination)
@@ -494,6 +498,7 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_From_Redis_LinkedServe
 		server.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_LinkedServer_STATUS interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRedis_LinkedServer_STATUS); ok {
 		err := augmentedServer.AssignPropertiesFrom(source)
@@ -542,6 +547,7 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_To_Redis_LinkedServer_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_LinkedServer_STATUS interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRedis_LinkedServer_STATUS); ok {
 		err := augmentedServer.AssignPropertiesTo(destination)

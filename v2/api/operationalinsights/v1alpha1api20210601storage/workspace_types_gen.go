@@ -151,6 +151,7 @@ func (workspace *Workspace) AssignProperties_From_Workspace(source *v20210601s.W
 	}
 	workspace.Status = status
 
+	// Invoke the augmentConversionForWorkspace interface (if implemented) to customize the conversion
 	var workspaceAsAny any = workspace
 	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace); ok {
 		err := augmentedWorkspace.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (workspace *Workspace) AssignProperties_To_Workspace(destination *v20210601
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForWorkspace interface (if implemented) to customize the conversion
 	var workspaceAsAny any = workspace
 	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace); ok {
 		err := augmentedWorkspace.AssignPropertiesTo(destination)
@@ -397,6 +399,7 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v2
 		workspace.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspace_Spec interface (if implemented) to customize the conversion
 	var workspaceAsAny any = workspace
 	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace_Spec); ok {
 		err := augmentedWorkspace.AssignPropertiesFrom(source)
@@ -500,6 +503,7 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspace_Spec interface (if implemented) to customize the conversion
 	var workspaceAsAny any = workspace
 	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace_Spec); ok {
 		err := augmentedWorkspace.AssignPropertiesTo(destination)
@@ -703,6 +707,7 @@ func (workspace *Workspace_STATUS) AssignProperties_From_Workspace_STATUS(source
 		workspace.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspace_STATUS interface (if implemented) to customize the conversion
 	var workspaceAsAny any = workspace
 	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace_STATUS); ok {
 		err := augmentedWorkspace.AssignPropertiesFrom(source)
@@ -831,6 +836,7 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspace_STATUS interface (if implemented) to customize the conversion
 	var workspaceAsAny any = workspace
 	if augmentedWorkspace, ok := workspaceAsAny.(augmentConversionForWorkspace_STATUS); ok {
 		err := augmentedWorkspace.AssignPropertiesTo(destination)
@@ -879,6 +885,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_From_PrivateL
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkScopedResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkScopedResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -909,6 +916,7 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLin
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkScopedResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkScopedResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -948,6 +956,7 @@ func (capping *WorkspaceCapping) AssignProperties_From_WorkspaceCapping(source *
 		capping.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceCapping interface (if implemented) to customize the conversion
 	var cappingAsAny any = capping
 	if augmentedCapping, ok := cappingAsAny.(augmentConversionForWorkspaceCapping); ok {
 		err := augmentedCapping.AssignPropertiesFrom(source)
@@ -980,6 +989,7 @@ func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destinatio
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceCapping interface (if implemented) to customize the conversion
 	var cappingAsAny any = capping
 	if augmentedCapping, ok := cappingAsAny.(augmentConversionForWorkspaceCapping); ok {
 		err := augmentedCapping.AssignPropertiesTo(destination)
@@ -1027,6 +1037,7 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_From_WorkspaceCapping_S
 		capping.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceCapping_STATUS interface (if implemented) to customize the conversion
 	var cappingAsAny any = capping
 	if augmentedCapping, ok := cappingAsAny.(augmentConversionForWorkspaceCapping_STATUS); ok {
 		err := augmentedCapping.AssignPropertiesFrom(source)
@@ -1065,6 +1076,7 @@ func (capping *WorkspaceCapping_STATUS) AssignProperties_To_WorkspaceCapping_STA
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceCapping_STATUS interface (if implemented) to customize the conversion
 	var cappingAsAny any = capping
 	if augmentedCapping, ok := cappingAsAny.(augmentConversionForWorkspaceCapping_STATUS); ok {
 		err := augmentedCapping.AssignPropertiesTo(destination)
@@ -1140,6 +1152,7 @@ func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(sourc
 		features.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceFeatures interface (if implemented) to customize the conversion
 	var featuresAsAny any = features
 	if augmentedFeatures, ok := featuresAsAny.(augmentConversionForWorkspaceFeatures); ok {
 		err := augmentedFeatures.AssignPropertiesFrom(source)
@@ -1204,6 +1217,7 @@ func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destina
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceFeatures interface (if implemented) to customize the conversion
 	var featuresAsAny any = features
 	if augmentedFeatures, ok := featuresAsAny.(augmentConversionForWorkspaceFeatures); ok {
 		err := augmentedFeatures.AssignPropertiesTo(destination)
@@ -1274,6 +1288,7 @@ func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeature
 		features.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceFeatures_STATUS interface (if implemented) to customize the conversion
 	var featuresAsAny any = features
 	if augmentedFeatures, ok := featuresAsAny.(augmentConversionForWorkspaceFeatures_STATUS); ok {
 		err := augmentedFeatures.AssignPropertiesFrom(source)
@@ -1333,6 +1348,7 @@ func (features *WorkspaceFeatures_STATUS) AssignProperties_To_WorkspaceFeatures_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceFeatures_STATUS interface (if implemented) to customize the conversion
 	var featuresAsAny any = features
 	if augmentedFeatures, ok := featuresAsAny.(augmentConversionForWorkspaceFeatures_STATUS); ok {
 		err := augmentedFeatures.AssignPropertiesTo(destination)
@@ -1371,6 +1387,7 @@ func (workspaceSku *WorkspaceSku) AssignProperties_From_WorkspaceSku(source *v20
 		workspaceSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceSku interface (if implemented) to customize the conversion
 	var workspaceSkuAsAny any = workspaceSku
 	if augmentedWorkspaceSku, ok := workspaceSkuAsAny.(augmentConversionForWorkspaceSku); ok {
 		err := augmentedWorkspaceSku.AssignPropertiesFrom(source)
@@ -1401,6 +1418,7 @@ func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceSku interface (if implemented) to customize the conversion
 	var workspaceSkuAsAny any = workspaceSku
 	if augmentedWorkspaceSku, ok := workspaceSkuAsAny.(augmentConversionForWorkspaceSku); ok {
 		err := augmentedWorkspaceSku.AssignPropertiesTo(destination)
@@ -1443,6 +1461,7 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_From_WorkspaceSku_STAT
 		workspaceSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceSku_STATUS interface (if implemented) to customize the conversion
 	var workspaceSkuAsAny any = workspaceSku
 	if augmentedWorkspaceSku, ok := workspaceSkuAsAny.(augmentConversionForWorkspaceSku_STATUS); ok {
 		err := augmentedWorkspaceSku.AssignPropertiesFrom(source)
@@ -1476,6 +1495,7 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignProperties_To_WorkspaceSku_STATUS
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForWorkspaceSku_STATUS interface (if implemented) to customize the conversion
 	var workspaceSkuAsAny any = workspaceSku
 	if augmentedWorkspaceSku, ok := workspaceSkuAsAny.(augmentConversionForWorkspaceSku_STATUS); ok {
 		err := augmentedWorkspaceSku.AssignPropertiesTo(destination)

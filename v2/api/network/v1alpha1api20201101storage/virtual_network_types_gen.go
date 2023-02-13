@@ -151,6 +151,7 @@ func (network *VirtualNetwork) AssignProperties_From_VirtualNetwork(source *v202
 	}
 	network.Status = status
 
+	// Invoke the augmentConversionForVirtualNetwork interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForVirtualNetwork); ok {
 		err := augmentedNetwork.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (network *VirtualNetwork) AssignProperties_To_VirtualNetwork(destination *v
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForVirtualNetwork interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForVirtualNetwork); ok {
 		err := augmentedNetwork.AssignPropertiesTo(destination)
@@ -422,6 +424,7 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 		network.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetwork_Spec interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForVirtualNetwork_Spec); ok {
 		err := augmentedNetwork.AssignPropertiesFrom(source)
@@ -560,6 +563,7 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetwork_Spec interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForVirtualNetwork_Spec); ok {
 		err := augmentedNetwork.AssignPropertiesTo(destination)
@@ -778,6 +782,7 @@ func (network *VirtualNetwork_STATUS) AssignProperties_From_VirtualNetwork_STATU
 		network.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetwork_STATUS interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForVirtualNetwork_STATUS); ok {
 		err := augmentedNetwork.AssignPropertiesFrom(source)
@@ -923,6 +928,7 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetwork_STATUS interface (if implemented) to customize the conversion
 	var networkAsAny any = network
 	if augmentedNetwork, ok := networkAsAny.(augmentConversionForVirtualNetwork_STATUS); ok {
 		err := augmentedNetwork.AssignPropertiesTo(destination)
@@ -957,6 +963,7 @@ func (space *AddressSpace) AssignProperties_From_AddressSpace(source *v20201101s
 		space.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAddressSpace interface (if implemented) to customize the conversion
 	var spaceAsAny any = space
 	if augmentedSpace, ok := spaceAsAny.(augmentConversionForAddressSpace); ok {
 		err := augmentedSpace.AssignPropertiesFrom(source)
@@ -984,6 +991,7 @@ func (space *AddressSpace) AssignProperties_To_AddressSpace(destination *v202011
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAddressSpace interface (if implemented) to customize the conversion
 	var spaceAsAny any = space
 	if augmentedSpace, ok := spaceAsAny.(augmentConversionForAddressSpace); ok {
 		err := augmentedSpace.AssignPropertiesTo(destination)
@@ -1018,6 +1026,7 @@ func (space *AddressSpace_STATUS) AssignProperties_From_AddressSpace_STATUS(sour
 		space.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAddressSpace_STATUS interface (if implemented) to customize the conversion
 	var spaceAsAny any = space
 	if augmentedSpace, ok := spaceAsAny.(augmentConversionForAddressSpace_STATUS); ok {
 		err := augmentedSpace.AssignPropertiesFrom(source)
@@ -1045,6 +1054,7 @@ func (space *AddressSpace_STATUS) AssignProperties_To_AddressSpace_STATUS(destin
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAddressSpace_STATUS interface (if implemented) to customize the conversion
 	var spaceAsAny any = space
 	if augmentedSpace, ok := spaceAsAny.(augmentConversionForAddressSpace_STATUS); ok {
 		err := augmentedSpace.AssignPropertiesTo(destination)
@@ -1089,6 +1099,7 @@ func (options *DhcpOptions) AssignProperties_From_DhcpOptions(source *v20201101s
 		options.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDhcpOptions interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForDhcpOptions); ok {
 		err := augmentedOptions.AssignPropertiesFrom(source)
@@ -1116,6 +1127,7 @@ func (options *DhcpOptions) AssignProperties_To_DhcpOptions(destination *v202011
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDhcpOptions interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForDhcpOptions); ok {
 		err := augmentedOptions.AssignPropertiesTo(destination)
@@ -1150,6 +1162,7 @@ func (options *DhcpOptions_STATUS) AssignProperties_From_DhcpOptions_STATUS(sour
 		options.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDhcpOptions_STATUS interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForDhcpOptions_STATUS); ok {
 		err := augmentedOptions.AssignPropertiesFrom(source)
@@ -1177,6 +1190,7 @@ func (options *DhcpOptions_STATUS) AssignProperties_To_DhcpOptions_STATUS(destin
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDhcpOptions_STATUS interface (if implemented) to customize the conversion
 	var optionsAsAny any = options
 	if augmentedOptions, ok := optionsAsAny.(augmentConversionForDhcpOptions_STATUS); ok {
 		err := augmentedOptions.AssignPropertiesTo(destination)
@@ -1211,6 +1225,7 @@ func (communities *VirtualNetworkBgpCommunities) AssignProperties_From_VirtualNe
 		communities.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkBgpCommunities interface (if implemented) to customize the conversion
 	var communitiesAsAny any = communities
 	if augmentedCommunities, ok := communitiesAsAny.(augmentConversionForVirtualNetworkBgpCommunities); ok {
 		err := augmentedCommunities.AssignPropertiesFrom(source)
@@ -1238,6 +1253,7 @@ func (communities *VirtualNetworkBgpCommunities) AssignProperties_To_VirtualNetw
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkBgpCommunities interface (if implemented) to customize the conversion
 	var communitiesAsAny any = communities
 	if augmentedCommunities, ok := communitiesAsAny.(augmentConversionForVirtualNetworkBgpCommunities); ok {
 		err := augmentedCommunities.AssignPropertiesTo(destination)
@@ -1276,6 +1292,7 @@ func (communities *VirtualNetworkBgpCommunities_STATUS) AssignProperties_From_Vi
 		communities.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkBgpCommunities_STATUS interface (if implemented) to customize the conversion
 	var communitiesAsAny any = communities
 	if augmentedCommunities, ok := communitiesAsAny.(augmentConversionForVirtualNetworkBgpCommunities_STATUS); ok {
 		err := augmentedCommunities.AssignPropertiesFrom(source)
@@ -1306,6 +1323,7 @@ func (communities *VirtualNetworkBgpCommunities_STATUS) AssignProperties_To_Virt
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkBgpCommunities_STATUS interface (if implemented) to customize the conversion
 	var communitiesAsAny any = communities
 	if augmentedCommunities, ok := communitiesAsAny.(augmentConversionForVirtualNetworkBgpCommunities_STATUS); ok {
 		err := augmentedCommunities.AssignPropertiesTo(destination)

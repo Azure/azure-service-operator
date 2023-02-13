@@ -151,6 +151,7 @@ func (setting *MongodbDatabaseThroughputSetting) AssignProperties_From_MongodbDa
 	}
 	setting.Status = status
 
+	// Invoke the augmentConversionForMongodbDatabaseThroughputSetting interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (setting *MongodbDatabaseThroughputSetting) AssignProperties_To_MongodbData
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForMongodbDatabaseThroughputSetting interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
@@ -326,6 +328,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -379,6 +382,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) AssignP
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
@@ -496,6 +500,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Assig
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -550,6 +555,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS) Assig
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)

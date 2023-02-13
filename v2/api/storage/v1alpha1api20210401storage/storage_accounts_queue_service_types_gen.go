@@ -151,6 +151,7 @@ func (service *StorageAccountsQueueService) AssignProperties_From_StorageAccount
 	}
 	service.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsQueueService interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsQueueService); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (service *StorageAccountsQueueService) AssignProperties_To_StorageAccountsQ
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsQueueService interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsQueueService); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
@@ -318,6 +320,7 @@ func (service *StorageAccounts_QueueService_Spec) AssignProperties_From_StorageA
 		service.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_QueueService_Spec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_QueueService_Spec); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
@@ -365,6 +368,7 @@ func (service *StorageAccounts_QueueService_Spec) AssignProperties_To_StorageAcc
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_QueueService_Spec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_QueueService_Spec); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
@@ -474,6 +478,7 @@ func (service *StorageAccounts_QueueService_STATUS) AssignProperties_From_Storag
 		service.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_QueueService_STATUS interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_QueueService_STATUS); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
@@ -522,6 +527,7 @@ func (service *StorageAccounts_QueueService_STATUS) AssignProperties_To_StorageA
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_QueueService_STATUS interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_QueueService_STATUS); ok {
 		err := augmentedService.AssignPropertiesTo(destination)

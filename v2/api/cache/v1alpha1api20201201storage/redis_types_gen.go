@@ -152,6 +152,7 @@ func (redis *Redis) AssignProperties_From_Redis(source *v20201201s.Redis) error 
 	}
 	redis.Status = status
 
+	// Invoke the augmentConversionForRedis interface (if implemented) to customize the conversion
 	var redisAsAny any = redis
 	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis); ok {
 		err := augmentedRedis.AssignPropertiesFrom(source)
@@ -186,6 +187,7 @@ func (redis *Redis) AssignProperties_To_Redis(destination *v20201201s.Redis) err
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForRedis interface (if implemented) to customize the conversion
 	var redisAsAny any = redis
 	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis); ok {
 		err := augmentedRedis.AssignPropertiesTo(destination)
@@ -425,6 +427,7 @@ func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *v20201201s.Red
 		redis.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_Spec interface (if implemented) to customize the conversion
 	var redisAsAny any = redis
 	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis_Spec); ok {
 		err := augmentedRedis.AssignPropertiesFrom(source)
@@ -553,6 +556,7 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_Spec interface (if implemented) to customize the conversion
 	var redisAsAny any = redis
 	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis_Spec); ok {
 		err := augmentedRedis.AssignPropertiesTo(destination)
@@ -815,6 +819,7 @@ func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *v20201201s
 		redis.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_STATUS interface (if implemented) to customize the conversion
 	var redisAsAny any = redis
 	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis_STATUS); ok {
 		err := augmentedRedis.AssignPropertiesFrom(source)
@@ -995,6 +1000,7 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v202012
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_STATUS interface (if implemented) to customize the conversion
 	var redisAsAny any = redis
 	if augmentedRedis, ok := redisAsAny.(augmentConversionForRedis_STATUS); ok {
 		err := augmentedRedis.AssignPropertiesTo(destination)
@@ -1039,6 +1045,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 		connection.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
 	var connectionAsAny any = connection
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesFrom(source)
@@ -1066,6 +1073,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
 	var connectionAsAny any = connection
 	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
 		err := augmentedConnection.AssignPropertiesTo(destination)
@@ -1148,6 +1156,7 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisCreateProperties_RedisConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForRedisCreateProperties_RedisConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -1211,6 +1220,7 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisCreateProperties_RedisConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForRedisCreateProperties_RedisConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -1275,6 +1285,7 @@ func (details *RedisInstanceDetails_STATUS) AssignProperties_From_RedisInstanceD
 		details.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisInstanceDetails_STATUS interface (if implemented) to customize the conversion
 	var detailsAsAny any = details
 	if augmentedDetails, ok := detailsAsAny.(augmentConversionForRedisInstanceDetails_STATUS); ok {
 		err := augmentedDetails.AssignPropertiesFrom(source)
@@ -1327,6 +1338,7 @@ func (details *RedisInstanceDetails_STATUS) AssignProperties_To_RedisInstanceDet
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisInstanceDetails_STATUS interface (if implemented) to customize the conversion
 	var detailsAsAny any = details
 	if augmentedDetails, ok := detailsAsAny.(augmentConversionForRedisInstanceDetails_STATUS); ok {
 		err := augmentedDetails.AssignPropertiesTo(destination)
@@ -1361,6 +1373,7 @@ func (server *RedisLinkedServer_STATUS) AssignProperties_From_RedisLinkedServer_
 		server.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisLinkedServer_STATUS interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRedisLinkedServer_STATUS); ok {
 		err := augmentedServer.AssignPropertiesFrom(source)
@@ -1388,6 +1401,7 @@ func (server *RedisLinkedServer_STATUS) AssignProperties_To_RedisLinkedServer_ST
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisLinkedServer_STATUS interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRedisLinkedServer_STATUS); ok {
 		err := augmentedServer.AssignPropertiesTo(destination)
@@ -1431,6 +1445,7 @@ func (operator *RedisOperatorSpec) AssignProperties_From_RedisOperatorSpec(sourc
 		operator.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisOperatorSpec interface (if implemented) to customize the conversion
 	var operatorAsAny any = operator
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesFrom(source)
@@ -1467,6 +1482,7 @@ func (operator *RedisOperatorSpec) AssignProperties_To_RedisOperatorSpec(destina
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisOperatorSpec interface (if implemented) to customize the conversion
 	var operatorAsAny any = operator
 	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisOperatorSpec); ok {
 		err := augmentedOperator.AssignPropertiesTo(destination)
@@ -1557,6 +1573,7 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisProperties_RedisConfiguration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForRedisProperties_RedisConfiguration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -1626,6 +1643,7 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisProperties_RedisConfiguration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForRedisProperties_RedisConfiguration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -1678,6 +1696,7 @@ func (sku *Sku) AssignProperties_From_Sku(source *alpha20210301s.Sku) error {
 		sku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
@@ -1715,6 +1734,7 @@ func (sku *Sku) AssignProperties_To_Sku(destination *alpha20210301s.Sku) error {
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
@@ -1767,6 +1787,7 @@ func (sku *Sku_STATUS) AssignProperties_From_Sku_STATUS(source *alpha20210301s.S
 		sku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku_STATUS interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesFrom(source)
@@ -1804,6 +1825,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *alpha20210301
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSku_STATUS interface (if implemented) to customize the conversion
 	var skuAsAny any = sku
 	if augmentedSku, ok := skuAsAny.(augmentConversionForSku_STATUS); ok {
 		err := augmentedSku.AssignPropertiesTo(destination)
@@ -1918,6 +1940,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(
 		secrets.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisOperatorSecrets interface (if implemented) to customize the conversion
 	var secretsAsAny any = secrets
 	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForRedisOperatorSecrets); ok {
 		err := augmentedSecrets.AssignPropertiesFrom(source)
@@ -1982,6 +2005,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisOperatorSecrets interface (if implemented) to customize the conversion
 	var secretsAsAny any = secrets
 	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForRedisOperatorSecrets); ok {
 		err := augmentedSecrets.AssignPropertiesTo(destination)

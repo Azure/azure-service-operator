@@ -151,6 +151,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AssignProperties_From
 	}
 	setting.Status = status
 
+	// Invoke the augmentConversionForMongodbDatabaseCollectionThroughputSetting interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseCollectionThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AssignProperties_To_M
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForMongodbDatabaseCollectionThroughputSetting interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForMongodbDatabaseCollectionThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
@@ -326,6 +328,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -379,6 +382,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
@@ -496,6 +500,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -550,6 +555,7 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
@@ -632,6 +638,7 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertie
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForThroughputSettingsGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputSettingsGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -691,6 +698,7 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertie
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForThroughputSettingsGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputSettingsGetProperties_Resource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -738,6 +746,7 @@ func (resource *ThroughputSettingsResource) AssignProperties_From_ThroughputSett
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForThroughputSettingsResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputSettingsResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -777,6 +786,7 @@ func (resource *ThroughputSettingsResource) AssignProperties_To_ThroughputSettin
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForThroughputSettingsResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputSettingsResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -834,6 +844,7 @@ func (resource *AutoscaleSettingsResource) AssignProperties_From_AutoscaleSettin
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoscaleSettingsResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoscaleSettingsResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -873,6 +884,7 @@ func (resource *AutoscaleSettingsResource) AssignProperties_To_AutoscaleSettings
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoscaleSettingsResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoscaleSettingsResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -924,6 +936,7 @@ func (resource *AutoscaleSettingsResource_STATUS) AssignProperties_From_Autoscal
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoscaleSettingsResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoscaleSettingsResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -966,6 +979,7 @@ func (resource *AutoscaleSettingsResource_STATUS) AssignProperties_To_AutoscaleS
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoscaleSettingsResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoscaleSettingsResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -1019,6 +1033,7 @@ func (resource *AutoUpgradePolicyResource) AssignProperties_From_AutoUpgradePoli
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoUpgradePolicyResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoUpgradePolicyResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -1055,6 +1070,7 @@ func (resource *AutoUpgradePolicyResource) AssignProperties_To_AutoUpgradePolicy
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoUpgradePolicyResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoUpgradePolicyResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -1098,6 +1114,7 @@ func (resource *AutoUpgradePolicyResource_STATUS) AssignProperties_From_AutoUpgr
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoUpgradePolicyResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoUpgradePolicyResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -1134,6 +1151,7 @@ func (resource *AutoUpgradePolicyResource_STATUS) AssignProperties_To_AutoUpgrad
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoUpgradePolicyResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForAutoUpgradePolicyResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -1187,6 +1205,7 @@ func (resource *ThroughputPolicyResource) AssignProperties_From_ThroughputPolicy
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForThroughputPolicyResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputPolicyResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -1222,6 +1241,7 @@ func (resource *ThroughputPolicyResource) AssignProperties_To_ThroughputPolicyRe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForThroughputPolicyResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputPolicyResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -1265,6 +1285,7 @@ func (resource *ThroughputPolicyResource_STATUS) AssignProperties_From_Throughpu
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForThroughputPolicyResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputPolicyResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -1300,6 +1321,7 @@ func (resource *ThroughputPolicyResource_STATUS) AssignProperties_To_ThroughputP
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForThroughputPolicyResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForThroughputPolicyResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)

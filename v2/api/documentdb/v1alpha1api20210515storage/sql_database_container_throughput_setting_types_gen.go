@@ -151,6 +151,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignProperties_From_SqlD
 	}
 	setting.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerThroughputSetting interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForSqlDatabaseContainerThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignProperties_To_SqlDat
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerThroughputSetting interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForSqlDatabaseContainerThroughputSetting); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
@@ -326,6 +328,7 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -379,6 +382,7 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)
@@ -496,6 +500,7 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesFrom(source)
@@ -550,6 +555,7 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
 	var settingAsAny any = setting
 	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS); ok {
 		err := augmentedSetting.AssignPropertiesTo(destination)

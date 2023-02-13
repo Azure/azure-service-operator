@@ -151,6 +151,7 @@ func (address *PublicIPAddress) AssignProperties_From_PublicIPAddress(source *v2
 	}
 	address.Status = status
 
+	// Invoke the augmentConversionForPublicIPAddress interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForPublicIPAddress); ok {
 		err := augmentedAddress.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (address *PublicIPAddress) AssignProperties_To_PublicIPAddress(destination 
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForPublicIPAddress interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForPublicIPAddress); ok {
 		err := augmentedAddress.AssignPropertiesTo(destination)
@@ -462,6 +464,7 @@ func (address *PublicIPAddress_Spec) AssignProperties_From_PublicIPAddress_Spec(
 		address.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddress_Spec interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForPublicIPAddress_Spec); ok {
 		err := augmentedAddress.AssignPropertiesFrom(source)
@@ -635,6 +638,7 @@ func (address *PublicIPAddress_Spec) AssignProperties_To_PublicIPAddress_Spec(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddress_Spec interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForPublicIPAddress_Spec); ok {
 		err := augmentedAddress.AssignPropertiesTo(destination)
@@ -885,6 +889,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1056,6 +1061,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1122,6 +1128,7 @@ func (settings *DdosSettings) AssignProperties_From_DdosSettings(source *v202011
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDdosSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDdosSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1169,6 +1176,7 @@ func (settings *DdosSettings) AssignProperties_To_DdosSettings(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDdosSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDdosSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1225,6 +1233,7 @@ func (settings *DdosSettings_STATUS) AssignProperties_From_DdosSettings_STATUS(s
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDdosSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDdosSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1272,6 +1281,7 @@ func (settings *DdosSettings_STATUS) AssignProperties_To_DdosSettings_STATUS(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDdosSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDdosSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1306,6 +1316,7 @@ func (embedded *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForIPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1333,6 +1344,7 @@ func (embedded *IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForIPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1371,6 +1383,7 @@ func (ipTag *IpTag) AssignProperties_From_IpTag(source *v20201101s.IpTag) error 
 		ipTag.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIpTag interface (if implemented) to customize the conversion
 	var ipTagAsAny any = ipTag
 	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIpTag); ok {
 		err := augmentedIpTag.AssignPropertiesFrom(source)
@@ -1401,6 +1414,7 @@ func (ipTag *IpTag) AssignProperties_To_IpTag(destination *v20201101s.IpTag) err
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIpTag interface (if implemented) to customize the conversion
 	var ipTagAsAny any = ipTag
 	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIpTag); ok {
 		err := augmentedIpTag.AssignPropertiesTo(destination)
@@ -1439,6 +1453,7 @@ func (ipTag *IpTag_STATUS) AssignProperties_From_IpTag_STATUS(source *v20201101s
 		ipTag.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIpTag_STATUS interface (if implemented) to customize the conversion
 	var ipTagAsAny any = ipTag
 	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIpTag_STATUS); ok {
 		err := augmentedIpTag.AssignPropertiesFrom(source)
@@ -1469,6 +1484,7 @@ func (ipTag *IpTag_STATUS) AssignProperties_To_IpTag_STATUS(destination *v202011
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIpTag_STATUS interface (if implemented) to customize the conversion
 	var ipTagAsAny any = ipTag
 	if augmentedIpTag, ok := ipTagAsAny.(augmentConversionForIpTag_STATUS); ok {
 		err := augmentedIpTag.AssignPropertiesTo(destination)
@@ -1503,6 +1519,7 @@ func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) AssignPro
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNatGateway_STATUS_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNatGateway_STATUS_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1530,6 +1547,7 @@ func (embedded *NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded) AssignPro
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNatGateway_STATUS_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNatGateway_STATUS_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1569,6 +1587,7 @@ func (embedded *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) AssignProper
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNatGatewaySpec_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNatGatewaySpec_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1601,6 +1620,7 @@ func (embedded *NatGatewaySpec_PublicIPAddress_SubResourceEmbedded) AssignProper
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNatGatewaySpec_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNatGatewaySpec_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1643,6 +1663,7 @@ func (settings *PublicIPAddressDnsSettings) AssignProperties_From_PublicIPAddres
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressDnsSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForPublicIPAddressDnsSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1676,6 +1697,7 @@ func (settings *PublicIPAddressDnsSettings) AssignProperties_To_PublicIPAddressD
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressDnsSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForPublicIPAddressDnsSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1718,6 +1740,7 @@ func (settings *PublicIPAddressDnsSettings_STATUS) AssignProperties_From_PublicI
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressDnsSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForPublicIPAddressDnsSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1751,6 +1774,7 @@ func (settings *PublicIPAddressDnsSettings_STATUS) AssignProperties_To_PublicIPA
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressDnsSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForPublicIPAddressDnsSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1789,6 +1813,7 @@ func (addressSku *PublicIPAddressSku) AssignProperties_From_PublicIPAddressSku(s
 		addressSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSku interface (if implemented) to customize the conversion
 	var addressSkuAsAny any = addressSku
 	if augmentedAddressSku, ok := addressSkuAsAny.(augmentConversionForPublicIPAddressSku); ok {
 		err := augmentedAddressSku.AssignPropertiesFrom(source)
@@ -1819,6 +1844,7 @@ func (addressSku *PublicIPAddressSku) AssignProperties_To_PublicIPAddressSku(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSku interface (if implemented) to customize the conversion
 	var addressSkuAsAny any = addressSku
 	if augmentedAddressSku, ok := addressSkuAsAny.(augmentConversionForPublicIPAddressSku); ok {
 		err := augmentedAddressSku.AssignPropertiesTo(destination)
@@ -1857,6 +1883,7 @@ func (addressSku *PublicIPAddressSku_STATUS) AssignProperties_From_PublicIPAddre
 		addressSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSku_STATUS interface (if implemented) to customize the conversion
 	var addressSkuAsAny any = addressSku
 	if augmentedAddressSku, ok := addressSkuAsAny.(augmentConversionForPublicIPAddressSku_STATUS); ok {
 		err := augmentedAddressSku.AssignPropertiesFrom(source)
@@ -1887,6 +1914,7 @@ func (addressSku *PublicIPAddressSku_STATUS) AssignProperties_To_PublicIPAddress
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSku_STATUS interface (if implemented) to customize the conversion
 	var addressSkuAsAny any = addressSku
 	if augmentedAddressSku, ok := addressSkuAsAny.(augmentConversionForPublicIPAddressSku_STATUS); ok {
 		err := augmentedAddressSku.AssignPropertiesTo(destination)
@@ -1926,6 +1954,7 @@ func (embedded *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) AssignP
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1958,6 +1987,7 @@ func (embedded *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded) AssignP
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1997,6 +2027,7 @@ func (resource *SubResource) AssignProperties_From_SubResource(source *v20201101
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -2029,6 +2060,7 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *v20201
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubResource interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)

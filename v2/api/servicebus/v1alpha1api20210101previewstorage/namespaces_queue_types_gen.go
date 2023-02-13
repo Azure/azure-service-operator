@@ -151,6 +151,7 @@ func (queue *NamespacesQueue) AssignProperties_From_NamespacesQueue(source *v202
 	}
 	queue.Status = status
 
+	// Invoke the augmentConversionForNamespacesQueue interface (if implemented) to customize the conversion
 	var queueAsAny any = queue
 	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespacesQueue); ok {
 		err := augmentedQueue.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (queue *NamespacesQueue) AssignProperties_To_NamespacesQueue(destination *v
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNamespacesQueue interface (if implemented) to customize the conversion
 	var queueAsAny any = queue
 	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespacesQueue); ok {
 		err := augmentedQueue.AssignPropertiesTo(destination)
@@ -399,6 +401,7 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_From_Namespaces_Queue_Spec(
 		queue.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Queue_Spec interface (if implemented) to customize the conversion
 	var queueAsAny any = queue
 	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespaces_Queue_Spec); ok {
 		err := augmentedQueue.AssignPropertiesFrom(source)
@@ -509,6 +512,7 @@ func (queue *Namespaces_Queue_Spec) AssignProperties_To_Namespaces_Queue_Spec(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Queue_Spec interface (if implemented) to customize the conversion
 	var queueAsAny any = queue
 	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespaces_Queue_Spec); ok {
 		err := augmentedQueue.AssignPropertiesTo(destination)
@@ -741,6 +745,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_From_Namespaces_Queue_STA
 		queue.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Queue_STATUS interface (if implemented) to customize the conversion
 	var queueAsAny any = queue
 	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespaces_Queue_STATUS); ok {
 		err := augmentedQueue.AssignPropertiesFrom(source)
@@ -891,6 +896,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATU
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Queue_STATUS interface (if implemented) to customize the conversion
 	var queueAsAny any = queue
 	if augmentedQueue, ok := queueAsAny.(augmentConversionForNamespaces_Queue_STATUS); ok {
 		err := augmentedQueue.AssignPropertiesTo(destination)
@@ -951,6 +957,7 @@ func (details *MessageCountDetails_STATUS) AssignProperties_From_MessageCountDet
 		details.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMessageCountDetails_STATUS interface (if implemented) to customize the conversion
 	var detailsAsAny any = details
 	if augmentedDetails, ok := detailsAsAny.(augmentConversionForMessageCountDetails_STATUS); ok {
 		err := augmentedDetails.AssignPropertiesFrom(source)
@@ -990,6 +997,7 @@ func (details *MessageCountDetails_STATUS) AssignProperties_To_MessageCountDetai
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForMessageCountDetails_STATUS interface (if implemented) to customize the conversion
 	var detailsAsAny any = details
 	if augmentedDetails, ok := detailsAsAny.(augmentConversionForMessageCountDetails_STATUS); ok {
 		err := augmentedDetails.AssignPropertiesTo(destination)

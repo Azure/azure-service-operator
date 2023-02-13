@@ -151,6 +151,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignProperties_From_Namespac
 	}
 	rule.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRule); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignProperties_To_Namespaces
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRule interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRule); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -316,6 +318,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_From_N
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -357,6 +360,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_To_Nam
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)
@@ -474,6 +478,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) AssignProperties_From
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesFrom(source)
@@ -528,6 +533,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) AssignProperties_To_N
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS interface (if implemented) to customize the conversion
 	var ruleAsAny any = rule
 	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS); ok {
 		err := augmentedRule.AssignPropertiesTo(destination)

@@ -151,6 +151,7 @@ func (database *RedisEnterpriseDatabase) AssignProperties_From_RedisEnterpriseDa
 	}
 	database.Status = status
 
+	// Invoke the augmentConversionForRedisEnterpriseDatabase interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterpriseDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (database *RedisEnterpriseDatabase) AssignProperties_To_RedisEnterpriseData
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForRedisEnterpriseDatabase interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterpriseDatabase); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -359,6 +361,7 @@ func (database *RedisEnterprise_Database_Spec) AssignProperties_From_RedisEnterp
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisEnterprise_Database_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterprise_Database_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -439,6 +442,7 @@ func (database *RedisEnterprise_Database_Spec) AssignProperties_To_RedisEnterpri
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisEnterprise_Database_Spec interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterprise_Database_Spec); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -591,6 +595,7 @@ func (database *RedisEnterprise_Database_STATUS) AssignProperties_From_RedisEnte
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisEnterprise_Database_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterprise_Database_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesFrom(source)
@@ -675,6 +680,7 @@ func (database *RedisEnterprise_Database_STATUS) AssignProperties_To_RedisEnterp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedisEnterprise_Database_STATUS interface (if implemented) to customize the conversion
 	var databaseAsAny any = database
 	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForRedisEnterprise_Database_STATUS); ok {
 		err := augmentedDatabase.AssignPropertiesTo(destination)
@@ -723,6 +729,7 @@ func (module *Module) AssignProperties_From_Module(source *v20210301s.Module) er
 		module.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForModule interface (if implemented) to customize the conversion
 	var moduleAsAny any = module
 	if augmentedModule, ok := moduleAsAny.(augmentConversionForModule); ok {
 		err := augmentedModule.AssignPropertiesFrom(source)
@@ -753,6 +760,7 @@ func (module *Module) AssignProperties_To_Module(destination *v20210301s.Module)
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForModule interface (if implemented) to customize the conversion
 	var moduleAsAny any = module
 	if augmentedModule, ok := moduleAsAny.(augmentConversionForModule); ok {
 		err := augmentedModule.AssignPropertiesTo(destination)
@@ -795,6 +803,7 @@ func (module *Module_STATUS) AssignProperties_From_Module_STATUS(source *v202103
 		module.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForModule_STATUS interface (if implemented) to customize the conversion
 	var moduleAsAny any = module
 	if augmentedModule, ok := moduleAsAny.(augmentConversionForModule_STATUS); ok {
 		err := augmentedModule.AssignPropertiesFrom(source)
@@ -828,6 +837,7 @@ func (module *Module_STATUS) AssignProperties_To_Module_STATUS(destination *v202
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForModule_STATUS interface (if implemented) to customize the conversion
 	var moduleAsAny any = module
 	if augmentedModule, ok := moduleAsAny.(augmentConversionForModule_STATUS); ok {
 		err := augmentedModule.AssignPropertiesTo(destination)
@@ -884,6 +894,7 @@ func (persistence *Persistence) AssignProperties_From_Persistence(source *v20210
 		persistence.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPersistence interface (if implemented) to customize the conversion
 	var persistenceAsAny any = persistence
 	if augmentedPersistence, ok := persistenceAsAny.(augmentConversionForPersistence); ok {
 		err := augmentedPersistence.AssignPropertiesFrom(source)
@@ -930,6 +941,7 @@ func (persistence *Persistence) AssignProperties_To_Persistence(destination *v20
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPersistence interface (if implemented) to customize the conversion
 	var persistenceAsAny any = persistence
 	if augmentedPersistence, ok := persistenceAsAny.(augmentConversionForPersistence); ok {
 		err := augmentedPersistence.AssignPropertiesTo(destination)
@@ -986,6 +998,7 @@ func (persistence *Persistence_STATUS) AssignProperties_From_Persistence_STATUS(
 		persistence.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPersistence_STATUS interface (if implemented) to customize the conversion
 	var persistenceAsAny any = persistence
 	if augmentedPersistence, ok := persistenceAsAny.(augmentConversionForPersistence_STATUS); ok {
 		err := augmentedPersistence.AssignPropertiesFrom(source)
@@ -1032,6 +1045,7 @@ func (persistence *Persistence_STATUS) AssignProperties_To_Persistence_STATUS(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPersistence_STATUS interface (if implemented) to customize the conversion
 	var persistenceAsAny any = persistence
 	if augmentedPersistence, ok := persistenceAsAny.(augmentConversionForPersistence_STATUS); ok {
 		err := augmentedPersistence.AssignPropertiesTo(destination)

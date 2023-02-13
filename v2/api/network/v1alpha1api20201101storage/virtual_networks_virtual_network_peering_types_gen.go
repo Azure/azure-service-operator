@@ -151,6 +151,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AssignProperties_From_Virtu
 	}
 	peering.Status = status
 
+	// Invoke the augmentConversionForVirtualNetworksVirtualNetworkPeering interface (if implemented) to customize the conversion
 	var peeringAsAny any = peering
 	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworksVirtualNetworkPeering); ok {
 		err := augmentedPeering.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AssignProperties_To_Virtual
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForVirtualNetworksVirtualNetworkPeering interface (if implemented) to customize the conversion
 	var peeringAsAny any = peering
 	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworksVirtualNetworkPeering); ok {
 		err := augmentedPeering.AssignPropertiesTo(destination)
@@ -400,6 +402,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_From
 		peering.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworks_VirtualNetworkPeering_Spec interface (if implemented) to customize the conversion
 	var peeringAsAny any = peering
 	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworks_VirtualNetworkPeering_Spec); ok {
 		err := augmentedPeering.AssignPropertiesFrom(source)
@@ -517,6 +520,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_To_V
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworks_VirtualNetworkPeering_Spec interface (if implemented) to customize the conversion
 	var peeringAsAny any = peering
 	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworks_VirtualNetworkPeering_Spec); ok {
 		err := augmentedPeering.AssignPropertiesTo(destination)
@@ -713,6 +717,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_Fr
 		peering.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworks_VirtualNetworkPeering_STATUS interface (if implemented) to customize the conversion
 	var peeringAsAny any = peering
 	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworks_VirtualNetworkPeering_STATUS); ok {
 		err := augmentedPeering.AssignPropertiesFrom(source)
@@ -837,6 +842,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_To
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworks_VirtualNetworkPeering_STATUS interface (if implemented) to customize the conversion
 	var peeringAsAny any = peering
 	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworks_VirtualNetworkPeering_STATUS); ok {
 		err := augmentedPeering.AssignPropertiesTo(destination)

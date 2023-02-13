@@ -153,6 +153,7 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_From_Flexibl
 	}
 	configuration.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServersConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -187,6 +188,7 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_To_FlexibleS
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServersConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -323,6 +325,7 @@ func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_From_F
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Configuration_Spec interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServers_Configuration_Spec); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -367,6 +370,7 @@ func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_To_Fle
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Configuration_Spec interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServers_Configuration_Spec); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -534,6 +538,7 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Configuration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServers_Configuration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -630,6 +635,7 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_To_F
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Configuration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServers_Configuration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)

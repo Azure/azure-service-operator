@@ -151,6 +151,7 @@ func (networkInterface *NetworkInterface) AssignProperties_From_NetworkInterface
 	}
 	networkInterface.Status = status
 
+	// Invoke the augmentConversionForNetworkInterface interface (if implemented) to customize the conversion
 	var networkInterfaceAsAny any = networkInterface
 	if augmentedNetworkInterface, ok := networkInterfaceAsAny.(augmentConversionForNetworkInterface); ok {
 		err := augmentedNetworkInterface.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (networkInterface *NetworkInterface) AssignProperties_To_NetworkInterface(d
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNetworkInterface interface (if implemented) to customize the conversion
 	var networkInterfaceAsAny any = networkInterface
 	if augmentedNetworkInterface, ok := networkInterfaceAsAny.(augmentConversionForNetworkInterface); ok {
 		err := augmentedNetworkInterface.AssignPropertiesTo(destination)
@@ -412,6 +414,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_From_NetworkInte
 		networkInterface.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterface_Spec interface (if implemented) to customize the conversion
 	var networkInterfaceAsAny any = networkInterface
 	if augmentedNetworkInterface, ok := networkInterfaceAsAny.(augmentConversionForNetworkInterface_Spec); ok {
 		err := augmentedNetworkInterface.AssignPropertiesFrom(source)
@@ -541,6 +544,7 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterface_Spec interface (if implemented) to customize the conversion
 	var networkInterfaceAsAny any = networkInterface
 	if augmentedNetworkInterface, ok := networkInterfaceAsAny.(augmentConversionForNetworkInterface_Spec); ok {
 		err := augmentedNetworkInterface.AssignPropertiesTo(destination)
@@ -829,6 +833,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1036,6 +1041,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1084,6 +1090,7 @@ func (settings *NetworkInterfaceDnsSettings) AssignProperties_From_NetworkInterf
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceDnsSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForNetworkInterfaceDnsSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1114,6 +1121,7 @@ func (settings *NetworkInterfaceDnsSettings) AssignProperties_To_NetworkInterfac
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceDnsSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForNetworkInterfaceDnsSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1164,6 +1172,7 @@ func (settings *NetworkInterfaceDnsSettings_STATUS) AssignProperties_From_Networ
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceDnsSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForNetworkInterfaceDnsSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1203,6 +1212,7 @@ func (settings *NetworkInterfaceDnsSettings_STATUS) AssignProperties_To_NetworkI
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceDnsSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForNetworkInterfaceDnsSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1379,6 +1389,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1537,6 +1548,7 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1742,6 +1754,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1924,6 +1937,7 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -1958,6 +1972,7 @@ func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubReso
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -1985,6 +2000,7 @@ func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubReso
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2019,6 +2035,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2046,6 +2063,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2085,6 +2103,7 @@ func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) A
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2117,6 +2136,7 @@ func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) A
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2151,6 +2171,7 @@ func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2178,6 +2199,7 @@ func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2212,6 +2234,7 @@ func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) 
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2239,6 +2262,7 @@ func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) 
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2278,6 +2302,7 @@ func (service *PrivateLinkServiceSpec) AssignProperties_From_PrivateLinkServiceS
 		service.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkServiceSpec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForPrivateLinkServiceSpec); ok {
 		err := augmentedService.AssignPropertiesFrom(source)
@@ -2310,6 +2335,7 @@ func (service *PrivateLinkServiceSpec) AssignProperties_To_PrivateLinkServiceSpe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkServiceSpec interface (if implemented) to customize the conversion
 	var serviceAsAny any = service
 	if augmentedService, ok := serviceAsAny.(augmentConversionForPrivateLinkServiceSpec); ok {
 		err := augmentedService.AssignPropertiesTo(destination)
@@ -2344,6 +2370,7 @@ func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(sou
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesFrom(source)
@@ -2371,6 +2398,7 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubResource_STATUS interface (if implemented) to customize the conversion
 	var resourceAsAny any = resource
 	if augmentedResource, ok := resourceAsAny.(augmentConversionForSubResource_STATUS); ok {
 		err := augmentedResource.AssignPropertiesTo(destination)
@@ -2410,6 +2438,7 @@ func (embedded *ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourc
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2442,6 +2471,7 @@ func (embedded *ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourc
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2476,6 +2506,7 @@ func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_Sub
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2503,6 +2534,7 @@ func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_Sub
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2537,6 +2569,7 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbe
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2564,6 +2597,7 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2603,6 +2637,7 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedde
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2635,6 +2670,7 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedde
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2729,6 +2765,7 @@ func (embedded *BackendAddressPool_NetworkInterface_SubResourceEmbedded) AssignP
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackendAddressPool_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForBackendAddressPool_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2761,6 +2798,7 @@ func (embedded *BackendAddressPool_NetworkInterface_SubResourceEmbedded) AssignP
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackendAddressPool_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForBackendAddressPool_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2795,6 +2833,7 @@ func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) 
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2822,6 +2861,7 @@ func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) 
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2861,6 +2901,7 @@ func (embedded *InboundNatRule_NetworkInterface_SubResourceEmbedded) AssignPrope
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatRule_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2893,6 +2934,7 @@ func (embedded *InboundNatRule_NetworkInterface_SubResourceEmbedded) AssignPrope
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatRule_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2927,6 +2969,7 @@ func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) Assi
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -2954,6 +2997,7 @@ func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) Assi
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -2996,6 +3040,7 @@ func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesFrom(source)
@@ -3029,6 +3074,7 @@ func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS interface (if implemented) to customize the conversion
 	var propertiesAsAny any = properties
 	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForNetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS); ok {
 		err := augmentedProperties.AssignPropertiesTo(destination)
@@ -3063,6 +3109,7 @@ func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -3090,6 +3137,7 @@ func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -3129,6 +3177,7 @@ func (embedded *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) Assign
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSpec_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddressSpec_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -3161,6 +3210,7 @@ func (embedded *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) Assign
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPublicIPAddressSpec_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPublicIPAddressSpec_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -3200,6 +3250,7 @@ func (embedded *Subnet_NetworkInterface_SubResourceEmbedded) AssignProperties_Fr
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -3232,6 +3283,7 @@ func (embedded *Subnet_NetworkInterface_SubResourceEmbedded) AssignProperties_To
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -3266,6 +3318,7 @@ func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignProper
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -3293,6 +3346,7 @@ func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignProper
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -3327,6 +3381,7 @@ func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) A
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -3354,6 +3409,7 @@ func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) A
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForVirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)
@@ -3393,6 +3449,7 @@ func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) Assi
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForVirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesFrom(source)
@@ -3425,6 +3482,7 @@ func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) Assi
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded interface (if implemented) to customize the conversion
 	var embeddedAsAny any = embedded
 	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForVirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded); ok {
 		err := augmentedEmbedded.AssignPropertiesTo(destination)

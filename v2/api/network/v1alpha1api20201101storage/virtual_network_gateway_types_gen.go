@@ -151,6 +151,7 @@ func (gateway *VirtualNetworkGateway) AssignProperties_From_VirtualNetworkGatewa
 	}
 	gateway.Status = status
 
+	// Invoke the augmentConversionForVirtualNetworkGateway interface (if implemented) to customize the conversion
 	var gatewayAsAny any = gateway
 	if augmentedGateway, ok := gatewayAsAny.(augmentConversionForVirtualNetworkGateway); ok {
 		err := augmentedGateway.AssignPropertiesFrom(source)
@@ -185,6 +186,7 @@ func (gateway *VirtualNetworkGateway) AssignProperties_To_VirtualNetworkGateway(
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForVirtualNetworkGateway interface (if implemented) to customize the conversion
 	var gatewayAsAny any = gateway
 	if augmentedGateway, ok := gatewayAsAny.(augmentConversionForVirtualNetworkGateway); ok {
 		err := augmentedGateway.AssignPropertiesTo(destination)
@@ -474,6 +476,7 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_From_VirtualNetworkG
 		gateway.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGateway_Spec interface (if implemented) to customize the conversion
 	var gatewayAsAny any = gateway
 	if augmentedGateway, ok := gatewayAsAny.(augmentConversionForVirtualNetworkGateway_Spec); ok {
 		err := augmentedGateway.AssignPropertiesFrom(source)
@@ -657,6 +660,7 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_To_VirtualNetworkGat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGateway_Spec interface (if implemented) to customize the conversion
 	var gatewayAsAny any = gateway
 	if augmentedGateway, ok := gatewayAsAny.(augmentConversionForVirtualNetworkGateway_Spec); ok {
 		err := augmentedGateway.AssignPropertiesTo(destination)
@@ -926,6 +930,7 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetwor
 		gateway.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGateway_STATUS interface (if implemented) to customize the conversion
 	var gatewayAsAny any = gateway
 	if augmentedGateway, ok := gatewayAsAny.(augmentConversionForVirtualNetworkGateway_STATUS); ok {
 		err := augmentedGateway.AssignPropertiesFrom(source)
@@ -1114,6 +1119,7 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkG
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGateway_STATUS interface (if implemented) to customize the conversion
 	var gatewayAsAny any = gateway
 	if augmentedGateway, ok := gatewayAsAny.(augmentConversionForVirtualNetworkGateway_STATUS); ok {
 		err := augmentedGateway.AssignPropertiesTo(destination)
@@ -1190,6 +1196,7 @@ func (settings *BgpSettings) AssignProperties_From_BgpSettings(source *v20201101
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBgpSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForBgpSettings); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1246,6 +1253,7 @@ func (settings *BgpSettings) AssignProperties_To_BgpSettings(destination *v20201
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBgpSettings interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForBgpSettings); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1312,6 +1320,7 @@ func (settings *BgpSettings_STATUS) AssignProperties_From_BgpSettings_STATUS(sou
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBgpSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForBgpSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesFrom(source)
@@ -1368,6 +1377,7 @@ func (settings *BgpSettings_STATUS) AssignProperties_To_BgpSettings_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBgpSettings_STATUS interface (if implemented) to customize the conversion
 	var settingsAsAny any = settings
 	if augmentedSettings, ok := settingsAsAny.(augmentConversionForBgpSettings_STATUS); ok {
 		err := augmentedSettings.AssignPropertiesTo(destination)
@@ -1432,6 +1442,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_From
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGatewayIPConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForVirtualNetworkGatewayIPConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -1486,6 +1497,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_To_V
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGatewayIPConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForVirtualNetworkGatewayIPConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -1566,6 +1578,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGatewayIPConfiguration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForVirtualNetworkGatewayIPConfiguration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -1632,6 +1645,7 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGatewayIPConfiguration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForVirtualNetworkGatewayIPConfiguration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -1670,6 +1684,7 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignProperties_From_VirtualNetwork
 		gatewaySku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGatewaySku interface (if implemented) to customize the conversion
 	var gatewaySkuAsAny any = gatewaySku
 	if augmentedGatewaySku, ok := gatewaySkuAsAny.(augmentConversionForVirtualNetworkGatewaySku); ok {
 		err := augmentedGatewaySku.AssignPropertiesFrom(source)
@@ -1700,6 +1715,7 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignProperties_To_VirtualNetworkGa
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGatewaySku interface (if implemented) to customize the conversion
 	var gatewaySkuAsAny any = gatewaySku
 	if augmentedGatewaySku, ok := gatewaySkuAsAny.(augmentConversionForVirtualNetworkGatewaySku); ok {
 		err := augmentedGatewaySku.AssignPropertiesTo(destination)
@@ -1742,6 +1758,7 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignProperties_From_Virtual
 		gatewaySku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGatewaySku_STATUS interface (if implemented) to customize the conversion
 	var gatewaySkuAsAny any = gatewaySku
 	if augmentedGatewaySku, ok := gatewaySkuAsAny.(augmentConversionForVirtualNetworkGatewaySku_STATUS); ok {
 		err := augmentedGatewaySku.AssignPropertiesFrom(source)
@@ -1775,6 +1792,7 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignProperties_To_VirtualNe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworkGatewaySku_STATUS interface (if implemented) to customize the conversion
 	var gatewaySkuAsAny any = gatewaySku
 	if augmentedGatewaySku, ok := gatewaySkuAsAny.(augmentConversionForVirtualNetworkGatewaySku_STATUS); ok {
 		err := augmentedGatewaySku.AssignPropertiesTo(destination)
@@ -1922,6 +1940,7 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForVpnClientConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -2051,6 +2070,7 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientConfiguration interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForVpnClientConfiguration); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -2198,6 +2218,7 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientConfiguration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForVpnClientConfiguration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesFrom(source)
@@ -2327,6 +2348,7 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientConfiguration_STATUS interface (if implemented) to customize the conversion
 	var configurationAsAny any = configuration
 	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForVpnClientConfiguration_STATUS); ok {
 		err := augmentedConfiguration.AssignPropertiesTo(destination)
@@ -2405,6 +2427,7 @@ func (address *IPConfigurationBgpPeeringAddress) AssignProperties_From_IPConfigu
 		address.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIPConfigurationBgpPeeringAddress interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForIPConfigurationBgpPeeringAddress); ok {
 		err := augmentedAddress.AssignPropertiesFrom(source)
@@ -2435,6 +2458,7 @@ func (address *IPConfigurationBgpPeeringAddress) AssignProperties_To_IPConfigura
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIPConfigurationBgpPeeringAddress interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForIPConfigurationBgpPeeringAddress); ok {
 		err := augmentedAddress.AssignPropertiesTo(destination)
@@ -2481,6 +2505,7 @@ func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignProperties_From_IP
 		address.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIPConfigurationBgpPeeringAddress_STATUS interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForIPConfigurationBgpPeeringAddress_STATUS); ok {
 		err := augmentedAddress.AssignPropertiesFrom(source)
@@ -2517,6 +2542,7 @@ func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignProperties_To_IPCo
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIPConfigurationBgpPeeringAddress_STATUS interface (if implemented) to customize the conversion
 	var addressAsAny any = address
 	if augmentedAddress, ok := addressAsAny.(augmentConversionForIPConfigurationBgpPeeringAddress_STATUS); ok {
 		err := augmentedAddress.AssignPropertiesTo(destination)
@@ -2579,6 +2605,7 @@ func (policy *IpsecPolicy) AssignProperties_From_IpsecPolicy(source *v20201101s.
 		policy.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIpsecPolicy interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForIpsecPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
@@ -2627,6 +2654,7 @@ func (policy *IpsecPolicy) AssignProperties_To_IpsecPolicy(destination *v2020110
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIpsecPolicy interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForIpsecPolicy); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
@@ -2689,6 +2717,7 @@ func (policy *IpsecPolicy_STATUS) AssignProperties_From_IpsecPolicy_STATUS(sourc
 		policy.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIpsecPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForIpsecPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesFrom(source)
@@ -2737,6 +2766,7 @@ func (policy *IpsecPolicy_STATUS) AssignProperties_To_IpsecPolicy_STATUS(destina
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIpsecPolicy_STATUS interface (if implemented) to customize the conversion
 	var policyAsAny any = policy
 	if augmentedPolicy, ok := policyAsAny.(augmentConversionForIpsecPolicy_STATUS); ok {
 		err := augmentedPolicy.AssignPropertiesTo(destination)
@@ -2779,6 +2809,7 @@ func (server *RadiusServer) AssignProperties_From_RadiusServer(source *v20201101
 		server.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRadiusServer interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRadiusServer); ok {
 		err := augmentedServer.AssignPropertiesFrom(source)
@@ -2812,6 +2843,7 @@ func (server *RadiusServer) AssignProperties_To_RadiusServer(destination *v20201
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRadiusServer interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRadiusServer); ok {
 		err := augmentedServer.AssignPropertiesTo(destination)
@@ -2854,6 +2886,7 @@ func (server *RadiusServer_STATUS) AssignProperties_From_RadiusServer_STATUS(sou
 		server.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRadiusServer_STATUS interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRadiusServer_STATUS); ok {
 		err := augmentedServer.AssignPropertiesFrom(source)
@@ -2887,6 +2920,7 @@ func (server *RadiusServer_STATUS) AssignProperties_To_RadiusServer_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRadiusServer_STATUS interface (if implemented) to customize the conversion
 	var serverAsAny any = server
 	if augmentedServer, ok := serverAsAny.(augmentConversionForRadiusServer_STATUS); ok {
 		err := augmentedServer.AssignPropertiesTo(destination)
@@ -2925,6 +2959,7 @@ func (certificate *VpnClientRevokedCertificate) AssignProperties_From_VpnClientR
 		certificate.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientRevokedCertificate interface (if implemented) to customize the conversion
 	var certificateAsAny any = certificate
 	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForVpnClientRevokedCertificate); ok {
 		err := augmentedCertificate.AssignPropertiesFrom(source)
@@ -2955,6 +2990,7 @@ func (certificate *VpnClientRevokedCertificate) AssignProperties_To_VpnClientRev
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientRevokedCertificate interface (if implemented) to customize the conversion
 	var certificateAsAny any = certificate
 	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForVpnClientRevokedCertificate); ok {
 		err := augmentedCertificate.AssignPropertiesTo(destination)
@@ -3005,6 +3041,7 @@ func (certificate *VpnClientRevokedCertificate_STATUS) AssignProperties_From_Vpn
 		certificate.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientRevokedCertificate_STATUS interface (if implemented) to customize the conversion
 	var certificateAsAny any = certificate
 	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForVpnClientRevokedCertificate_STATUS); ok {
 		err := augmentedCertificate.AssignPropertiesFrom(source)
@@ -3044,6 +3081,7 @@ func (certificate *VpnClientRevokedCertificate_STATUS) AssignProperties_To_VpnCl
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientRevokedCertificate_STATUS interface (if implemented) to customize the conversion
 	var certificateAsAny any = certificate
 	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForVpnClientRevokedCertificate_STATUS); ok {
 		err := augmentedCertificate.AssignPropertiesTo(destination)
@@ -3082,6 +3120,7 @@ func (certificate *VpnClientRootCertificate) AssignProperties_From_VpnClientRoot
 		certificate.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientRootCertificate interface (if implemented) to customize the conversion
 	var certificateAsAny any = certificate
 	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForVpnClientRootCertificate); ok {
 		err := augmentedCertificate.AssignPropertiesFrom(source)
@@ -3112,6 +3151,7 @@ func (certificate *VpnClientRootCertificate) AssignProperties_To_VpnClientRootCe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientRootCertificate interface (if implemented) to customize the conversion
 	var certificateAsAny any = certificate
 	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForVpnClientRootCertificate); ok {
 		err := augmentedCertificate.AssignPropertiesTo(destination)
@@ -3162,6 +3202,7 @@ func (certificate *VpnClientRootCertificate_STATUS) AssignProperties_From_VpnCli
 		certificate.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientRootCertificate_STATUS interface (if implemented) to customize the conversion
 	var certificateAsAny any = certificate
 	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForVpnClientRootCertificate_STATUS); ok {
 		err := augmentedCertificate.AssignPropertiesFrom(source)
@@ -3201,6 +3242,7 @@ func (certificate *VpnClientRootCertificate_STATUS) AssignProperties_To_VpnClien
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVpnClientRootCertificate_STATUS interface (if implemented) to customize the conversion
 	var certificateAsAny any = certificate
 	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForVpnClientRootCertificate_STATUS); ok {
 		err := augmentedCertificate.AssignPropertiesTo(destination)

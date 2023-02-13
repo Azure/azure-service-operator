@@ -153,6 +153,7 @@ func (snapshot *Snapshot) AssignProperties_From_Snapshot(source *v20200930s.Snap
 	}
 	snapshot.Status = status
 
+	// Invoke the augmentConversionForSnapshot interface (if implemented) to customize the conversion
 	var snapshotAsAny any = snapshot
 	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot); ok {
 		err := augmentedSnapshot.AssignPropertiesFrom(source)
@@ -187,6 +188,7 @@ func (snapshot *Snapshot) AssignProperties_To_Snapshot(destination *v20200930s.S
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSnapshot interface (if implemented) to customize the conversion
 	var snapshotAsAny any = snapshot
 	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot); ok {
 		err := augmentedSnapshot.AssignPropertiesTo(destination)
@@ -447,6 +449,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_From_Snapshot_Spec(source *v2020
 		snapshot.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSnapshot_Spec interface (if implemented) to customize the conversion
 	var snapshotAsAny any = snapshot
 	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot_Spec); ok {
 		err := augmentedSnapshot.AssignPropertiesFrom(source)
@@ -604,6 +607,7 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *v2
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSnapshot_Spec interface (if implemented) to customize the conversion
 	var snapshotAsAny any = snapshot
 	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot_Spec); ok {
 		err := augmentedSnapshot.AssignPropertiesTo(destination)
@@ -849,6 +853,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_From_Snapshot_STATUS(source *v
 		snapshot.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSnapshot_STATUS interface (if implemented) to customize the conversion
 	var snapshotAsAny any = snapshot
 	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot_STATUS); ok {
 		err := augmentedSnapshot.AssignPropertiesFrom(source)
@@ -1014,6 +1019,7 @@ func (snapshot *Snapshot_STATUS) AssignProperties_To_Snapshot_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSnapshot_STATUS interface (if implemented) to customize the conversion
 	var snapshotAsAny any = snapshot
 	if augmentedSnapshot, ok := snapshotAsAny.(augmentConversionForSnapshot_STATUS); ok {
 		err := augmentedSnapshot.AssignPropertiesTo(destination)
@@ -1058,6 +1064,7 @@ func (snapshotSku *SnapshotSku) AssignProperties_From_SnapshotSku(source *v20200
 		snapshotSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSnapshotSku interface (if implemented) to customize the conversion
 	var snapshotSkuAsAny any = snapshotSku
 	if augmentedSnapshotSku, ok := snapshotSkuAsAny.(augmentConversionForSnapshotSku); ok {
 		err := augmentedSnapshotSku.AssignPropertiesFrom(source)
@@ -1085,6 +1092,7 @@ func (snapshotSku *SnapshotSku) AssignProperties_To_SnapshotSku(destination *v20
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSnapshotSku interface (if implemented) to customize the conversion
 	var snapshotSkuAsAny any = snapshotSku
 	if augmentedSnapshotSku, ok := snapshotSkuAsAny.(augmentConversionForSnapshotSku); ok {
 		err := augmentedSnapshotSku.AssignPropertiesTo(destination)
@@ -1123,6 +1131,7 @@ func (snapshotSku *SnapshotSku_STATUS) AssignProperties_From_SnapshotSku_STATUS(
 		snapshotSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSnapshotSku_STATUS interface (if implemented) to customize the conversion
 	var snapshotSkuAsAny any = snapshotSku
 	if augmentedSnapshotSku, ok := snapshotSkuAsAny.(augmentConversionForSnapshotSku_STATUS); ok {
 		err := augmentedSnapshotSku.AssignPropertiesFrom(source)
@@ -1153,6 +1162,7 @@ func (snapshotSku *SnapshotSku_STATUS) AssignProperties_To_SnapshotSku_STATUS(de
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSnapshotSku_STATUS interface (if implemented) to customize the conversion
 	var snapshotSkuAsAny any = snapshotSku
 	if augmentedSnapshotSku, ok := snapshotSkuAsAny.(augmentConversionForSnapshotSku_STATUS); ok {
 		err := augmentedSnapshotSku.AssignPropertiesTo(destination)
