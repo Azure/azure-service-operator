@@ -151,6 +151,15 @@ func (cluster *ManagedCluster) AssignProperties_From_ManagedCluster(source *v202
 	}
 	cluster.Status = status
 
+	// Invoke the augmentConversionForManagedCluster interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForManagedCluster); ok {
+		err := augmentedCluster.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -176,6 +185,15 @@ func (cluster *ManagedCluster) AssignProperties_To_ManagedCluster(destination *v
 		return errors.Wrap(err, "calling AssignProperties_To_ManagedCluster_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	// Invoke the augmentConversionForManagedCluster interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForManagedCluster); ok {
+		err := augmentedCluster.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -205,6 +223,11 @@ type ManagedClusterList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-05-01")
+
+type augmentConversionForManagedCluster interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedCluster) error
+	AssignPropertiesTo(dst *v20210501s.ManagedCluster) error
+}
 
 // Storage version of v1alpha1api20210501.ManagedCluster_Spec
 type ManagedCluster_Spec struct {
@@ -619,6 +642,15 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 		cluster.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedCluster_Spec interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForManagedCluster_Spec); ok {
+		err := augmentedCluster.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -937,6 +969,15 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedCluster_Spec interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForManagedCluster_Spec); ok {
+		err := augmentedCluster.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1360,6 +1401,15 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 		cluster.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedCluster_STATUS interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForManagedCluster_STATUS); ok {
+		err := augmentedCluster.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1688,8 +1738,27 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedCluster_STATUS interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForManagedCluster_STATUS); ok {
+		err := augmentedCluster.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForManagedCluster_Spec interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedCluster_Spec) error
+	AssignPropertiesTo(dst *v20210501s.ManagedCluster_Spec) error
+}
+
+type augmentConversionForManagedCluster_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedCluster_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedCluster_STATUS) error
 }
 
 // Storage version of v1alpha1api20210501.ContainerServiceLinuxProfile
@@ -1727,6 +1796,15 @@ func (profile *ContainerServiceLinuxProfile) AssignProperties_From_ContainerServ
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceLinuxProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForContainerServiceLinuxProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1756,6 +1834,15 @@ func (profile *ContainerServiceLinuxProfile) AssignProperties_To_ContainerServic
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForContainerServiceLinuxProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForContainerServiceLinuxProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1797,6 +1884,15 @@ func (profile *ContainerServiceLinuxProfile_STATUS) AssignProperties_From_Contai
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceLinuxProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForContainerServiceLinuxProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1826,6 +1922,15 @@ func (profile *ContainerServiceLinuxProfile_STATUS) AssignProperties_To_Containe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForContainerServiceLinuxProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForContainerServiceLinuxProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1899,6 +2004,15 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_From_ContainerSe
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceNetworkProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForContainerServiceNetworkProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1952,6 +2066,15 @@ func (profile *ContainerServiceNetworkProfile) AssignProperties_To_ContainerServ
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForContainerServiceNetworkProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForContainerServiceNetworkProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2025,6 +2148,15 @@ func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_From_Cont
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceNetworkProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForContainerServiceNetworkProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2080,6 +2212,15 @@ func (profile *ContainerServiceNetworkProfile_STATUS) AssignProperties_To_Contai
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceNetworkProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForContainerServiceNetworkProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2110,6 +2251,15 @@ func (location *ExtendedLocation) AssignProperties_From_ExtendedLocation(source 
 		location.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForExtendedLocation interface (if implemented) to customize the conversion
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
+		err := augmentedLocation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2130,6 +2280,15 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExtendedLocation interface (if implemented) to customize the conversion
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation); ok {
+		err := augmentedLocation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2162,6 +2321,15 @@ func (location *ExtendedLocation_STATUS) AssignProperties_From_ExtendedLocation_
 		location.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForExtendedLocation_STATUS interface (if implemented) to customize the conversion
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
+		err := augmentedLocation.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2182,6 +2350,15 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExtendedLocation_STATUS interface (if implemented) to customize the conversion
+	var locationAsAny any = location
+	if augmentedLocation, ok := locationAsAny.(augmentConversionForExtendedLocation_STATUS); ok {
+		err := augmentedLocation.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2244,6 +2421,15 @@ func (profile *ManagedClusterAADProfile) AssignProperties_From_ManagedClusterAAD
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAADProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAADProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2289,6 +2475,15 @@ func (profile *ManagedClusterAADProfile) AssignProperties_To_ManagedClusterAADPr
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterAADProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAADProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2351,6 +2546,15 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_From_ManagedClu
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAADProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAADProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2398,6 +2602,15 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClust
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAADProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAADProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2433,6 +2646,15 @@ func (profile *ManagedClusterAddonProfile) AssignProperties_From_ManagedClusterA
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAddonProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAddonProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2458,6 +2680,15 @@ func (profile *ManagedClusterAddonProfile) AssignProperties_To_ManagedClusterAdd
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterAddonProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAddonProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2508,6 +2739,15 @@ func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_From_ManagedC
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAddonProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAddonProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2545,6 +2785,15 @@ func (profile *ManagedClusterAddonProfile_STATUS) AssignProperties_To_ManagedClu
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterAddonProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAddonProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2777,6 +3026,15 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAgentPoolProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAgentPoolProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2965,6 +3223,15 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterAgentPoolProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAgentPoolProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3203,6 +3470,15 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAgentPoolProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAgentPoolProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3396,6 +3672,15 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAgentPoolProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAgentPoolProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3444,6 +3729,15 @@ func (profile *ManagedClusterAPIServerAccessProfile) AssignProperties_From_Manag
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAPIServerAccessProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAPIServerAccessProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3480,6 +3774,15 @@ func (profile *ManagedClusterAPIServerAccessProfile) AssignProperties_To_Managed
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterAPIServerAccessProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAPIServerAccessProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3530,6 +3833,15 @@ func (profile *ManagedClusterAPIServerAccessProfile_STATUS) AssignProperties_Fro
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAPIServerAccessProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAPIServerAccessProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3568,6 +3880,15 @@ func (profile *ManagedClusterAPIServerAccessProfile_STATUS) AssignProperties_To_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAPIServerAccessProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAPIServerAccessProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3594,6 +3915,15 @@ func (profile *ManagedClusterAutoUpgradeProfile) AssignProperties_From_ManagedCl
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAutoUpgradeProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAutoUpgradeProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3611,6 +3941,15 @@ func (profile *ManagedClusterAutoUpgradeProfile) AssignProperties_To_ManagedClus
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterAutoUpgradeProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAutoUpgradeProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3639,6 +3978,15 @@ func (profile *ManagedClusterAutoUpgradeProfile_STATUS) AssignProperties_From_Ma
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterAutoUpgradeProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAutoUpgradeProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3656,6 +4004,15 @@ func (profile *ManagedClusterAutoUpgradeProfile_STATUS) AssignProperties_To_Mana
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterAutoUpgradeProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterAutoUpgradeProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3696,6 +4053,15 @@ func (config *ManagedClusterHTTPProxyConfig) AssignProperties_From_ManagedCluste
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterHTTPProxyConfig interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForManagedClusterHTTPProxyConfig); ok {
+		err := augmentedConfig.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3722,6 +4088,15 @@ func (config *ManagedClusterHTTPProxyConfig) AssignProperties_To_ManagedClusterH
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterHTTPProxyConfig interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForManagedClusterHTTPProxyConfig); ok {
+		err := augmentedConfig.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3762,6 +4137,15 @@ func (config *ManagedClusterHTTPProxyConfig_STATUS) AssignProperties_From_Manage
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterHTTPProxyConfig_STATUS interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForManagedClusterHTTPProxyConfig_STATUS); ok {
+		err := augmentedConfig.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3790,6 +4174,15 @@ func (config *ManagedClusterHTTPProxyConfig_STATUS) AssignProperties_To_ManagedC
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterHTTPProxyConfig_STATUS interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForManagedClusterHTTPProxyConfig_STATUS); ok {
+		err := augmentedConfig.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3816,6 +4209,15 @@ func (identity *ManagedClusterIdentity) AssignProperties_From_ManagedClusterIden
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedClusterIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3833,6 +4235,15 @@ func (identity *ManagedClusterIdentity) AssignProperties_To_ManagedClusterIdenti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedClusterIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -3888,6 +4299,15 @@ func (identity *ManagedClusterIdentity_STATUS) AssignProperties_From_ManagedClus
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedClusterIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3931,6 +4351,15 @@ func (identity *ManagedClusterIdentity_STATUS) AssignProperties_To_ManagedCluste
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedClusterIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3966,6 +4395,15 @@ func (operator *ManagedClusterOperatorSpec) AssignProperties_From_ManagedCluster
 		operator.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForManagedClusterOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -3992,6 +4430,15 @@ func (operator *ManagedClusterOperatorSpec) AssignProperties_To_ManagedClusterOp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForManagedClusterOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4072,6 +4519,15 @@ func (profile *ManagedClusterPodIdentityProfile) AssignProperties_From_ManagedCl
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterPodIdentityProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4138,6 +4594,15 @@ func (profile *ManagedClusterPodIdentityProfile) AssignProperties_To_ManagedClus
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterPodIdentityProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterPodIdentityProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4218,6 +4683,15 @@ func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_From_Ma
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterPodIdentityProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4284,6 +4758,15 @@ func (profile *ManagedClusterPodIdentityProfile_STATUS) AssignProperties_To_Mana
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterPodIdentityProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterPodIdentityProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4376,6 +4859,15 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_From
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterProperties_AutoScalerProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterProperties_AutoScalerProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4441,6 +4933,15 @@ func (profile *ManagedClusterProperties_AutoScalerProfile) AssignProperties_To_M
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterProperties_AutoScalerProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterProperties_AutoScalerProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4533,6 +5034,15 @@ func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperti
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterProperties_AutoScalerProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterProperties_AutoScalerProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4600,6 +5110,15 @@ func (profile *ManagedClusterProperties_AutoScalerProfile_STATUS) AssignProperti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterProperties_AutoScalerProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterProperties_AutoScalerProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4630,6 +5149,15 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_From_Mana
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterServicePrincipalProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterServicePrincipalProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4650,6 +5178,15 @@ func (profile *ManagedClusterServicePrincipalProfile) AssignProperties_To_Manage
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterServicePrincipalProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterServicePrincipalProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4682,6 +5219,15 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_Fr
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterServicePrincipalProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterServicePrincipalProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4702,6 +5248,15 @@ func (profile *ManagedClusterServicePrincipalProfile_STATUS) AssignProperties_To
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterServicePrincipalProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterServicePrincipalProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4734,6 +5289,15 @@ func (clusterSKU *ManagedClusterSKU) AssignProperties_From_ManagedClusterSKU(sou
 		clusterSKU.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterSKU interface (if implemented) to customize the conversion
+	var clusterSKUAsAny any = clusterSKU
+	if augmentedClusterSKU, ok := clusterSKUAsAny.(augmentConversionForManagedClusterSKU); ok {
+		err := augmentedClusterSKU.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4754,6 +5318,15 @@ func (clusterSKU *ManagedClusterSKU) AssignProperties_To_ManagedClusterSKU(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterSKU interface (if implemented) to customize the conversion
+	var clusterSKUAsAny any = clusterSKU
+	if augmentedClusterSKU, ok := clusterSKUAsAny.(augmentConversionForManagedClusterSKU); ok {
+		err := augmentedClusterSKU.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4786,6 +5359,15 @@ func (clusterSKU *ManagedClusterSKU_STATUS) AssignProperties_From_ManagedCluster
 		clusterSKU.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterSKU_STATUS interface (if implemented) to customize the conversion
+	var clusterSKUAsAny any = clusterSKU
+	if augmentedClusterSKU, ok := clusterSKUAsAny.(augmentConversionForManagedClusterSKU_STATUS); ok {
+		err := augmentedClusterSKU.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4806,6 +5388,15 @@ func (clusterSKU *ManagedClusterSKU_STATUS) AssignProperties_To_ManagedClusterSK
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterSKU_STATUS interface (if implemented) to customize the conversion
+	var clusterSKUAsAny any = clusterSKU
+	if augmentedClusterSKU, ok := clusterSKUAsAny.(augmentConversionForManagedClusterSKU_STATUS); ok {
+		err := augmentedClusterSKU.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4851,6 +5442,15 @@ func (profile *ManagedClusterWindowsProfile) AssignProperties_From_ManagedCluste
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterWindowsProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterWindowsProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4882,6 +5482,15 @@ func (profile *ManagedClusterWindowsProfile) AssignProperties_To_ManagedClusterW
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterWindowsProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterWindowsProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -4927,6 +5536,15 @@ func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_From_Manage
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterWindowsProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterWindowsProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4960,6 +5578,15 @@ func (profile *ManagedClusterWindowsProfile_STATUS) AssignProperties_To_ManagedC
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterWindowsProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterWindowsProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -4986,6 +5613,15 @@ func (state *PowerState_STATUS) AssignProperties_From_PowerState_STATUS(source *
 		state.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPowerState_STATUS interface (if implemented) to customize the conversion
+	var stateAsAny any = state
+	if augmentedState, ok := stateAsAny.(augmentConversionForPowerState_STATUS); ok {
+		err := augmentedState.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5003,6 +5639,15 @@ func (state *PowerState_STATUS) AssignProperties_To_PowerState_STATUS(destinatio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPowerState_STATUS interface (if implemented) to customize the conversion
+	var stateAsAny any = state
+	if augmentedState, ok := stateAsAny.(augmentConversionForPowerState_STATUS); ok {
+		err := augmentedState.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -5052,6 +5697,15 @@ func (resource *PrivateLinkResource) AssignProperties_From_PrivateLinkResource(s
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkResource interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5086,6 +5740,15 @@ func (resource *PrivateLinkResource) AssignProperties_To_PrivateLinkResource(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateLinkResource interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -5134,6 +5797,15 @@ func (resource *PrivateLinkResource_STATUS) AssignProperties_From_PrivateLinkRes
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateLinkResource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5166,6 +5838,15 @@ func (resource *PrivateLinkResource_STATUS) AssignProperties_To_PrivateLinkResou
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateLinkResource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForPrivateLinkResource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -5207,6 +5888,15 @@ func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5235,6 +5925,15 @@ func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -5271,6 +5970,15 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedI
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5296,8 +6004,197 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForContainerServiceLinuxProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ContainerServiceLinuxProfile) error
+	AssignPropertiesTo(dst *v20210501s.ContainerServiceLinuxProfile) error
+}
+
+type augmentConversionForContainerServiceLinuxProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ContainerServiceLinuxProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ContainerServiceLinuxProfile_STATUS) error
+}
+
+type augmentConversionForContainerServiceNetworkProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ContainerServiceNetworkProfile) error
+	AssignPropertiesTo(dst *v20210501s.ContainerServiceNetworkProfile) error
+}
+
+type augmentConversionForContainerServiceNetworkProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ContainerServiceNetworkProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ContainerServiceNetworkProfile_STATUS) error
+}
+
+type augmentConversionForExtendedLocation interface {
+	AssignPropertiesFrom(src *v20210501s.ExtendedLocation) error
+	AssignPropertiesTo(dst *v20210501s.ExtendedLocation) error
+}
+
+type augmentConversionForExtendedLocation_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ExtendedLocation_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ExtendedLocation_STATUS) error
+}
+
+type augmentConversionForManagedClusterAADProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAADProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAADProfile) error
+}
+
+type augmentConversionForManagedClusterAADProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAADProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAADProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterAddonProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAddonProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAddonProfile) error
+}
+
+type augmentConversionForManagedClusterAddonProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAddonProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAddonProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterAgentPoolProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAgentPoolProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAgentPoolProfile) error
+}
+
+type augmentConversionForManagedClusterAgentPoolProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAgentPoolProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAgentPoolProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterAPIServerAccessProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAPIServerAccessProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAPIServerAccessProfile) error
+}
+
+type augmentConversionForManagedClusterAPIServerAccessProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAPIServerAccessProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAPIServerAccessProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterAutoUpgradeProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAutoUpgradeProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAutoUpgradeProfile) error
+}
+
+type augmentConversionForManagedClusterAutoUpgradeProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterAutoUpgradeProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterAutoUpgradeProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterHTTPProxyConfig interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterHTTPProxyConfig) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterHTTPProxyConfig) error
+}
+
+type augmentConversionForManagedClusterHTTPProxyConfig_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterHTTPProxyConfig_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterHTTPProxyConfig_STATUS) error
+}
+
+type augmentConversionForManagedClusterIdentity interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterIdentity) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterIdentity) error
+}
+
+type augmentConversionForManagedClusterIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterIdentity_STATUS) error
+}
+
+type augmentConversionForManagedClusterOperatorSpec interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterOperatorSpec) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterOperatorSpec) error
+}
+
+type augmentConversionForManagedClusterPodIdentityProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentityProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentityProfile) error
+}
+
+type augmentConversionForManagedClusterPodIdentityProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentityProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentityProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterProperties_AutoScalerProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterProperties_AutoScalerProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterProperties_AutoScalerProfile) error
+}
+
+type augmentConversionForManagedClusterProperties_AutoScalerProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterProperties_AutoScalerProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterProperties_AutoScalerProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterServicePrincipalProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterServicePrincipalProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterServicePrincipalProfile) error
+}
+
+type augmentConversionForManagedClusterServicePrincipalProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterServicePrincipalProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterServicePrincipalProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterSKU interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterSKU) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterSKU) error
+}
+
+type augmentConversionForManagedClusterSKU_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterSKU_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterSKU_STATUS) error
+}
+
+type augmentConversionForManagedClusterWindowsProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterWindowsProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterWindowsProfile) error
+}
+
+type augmentConversionForManagedClusterWindowsProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterWindowsProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterWindowsProfile_STATUS) error
+}
+
+type augmentConversionForPowerState_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.PowerState_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.PowerState_STATUS) error
+}
+
+type augmentConversionForPrivateLinkResource interface {
+	AssignPropertiesFrom(src *v20210501s.PrivateLinkResource) error
+	AssignPropertiesTo(dst *v20210501s.PrivateLinkResource) error
+}
+
+type augmentConversionForPrivateLinkResource_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.PrivateLinkResource_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.PrivateLinkResource_STATUS) error
+}
+
+type augmentConversionForUserAssignedIdentity interface {
+	AssignPropertiesFrom(src *v20210501s.UserAssignedIdentity) error
+	AssignPropertiesTo(dst *v20210501s.UserAssignedIdentity) error
+}
+
+type augmentConversionForUserAssignedIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.UserAssignedIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.UserAssignedIdentity_STATUS) error
 }
 
 // Storage version of v1alpha1api20210501.ContainerServiceSshConfiguration
@@ -5337,6 +6234,15 @@ func (configuration *ContainerServiceSshConfiguration) AssignProperties_From_Con
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceSshConfiguration interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForContainerServiceSshConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5369,6 +6275,15 @@ func (configuration *ContainerServiceSshConfiguration) AssignProperties_To_Conta
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForContainerServiceSshConfiguration interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForContainerServiceSshConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -5412,6 +6327,15 @@ func (configuration *ContainerServiceSshConfiguration_STATUS) AssignProperties_F
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceSshConfiguration_STATUS interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForContainerServiceSshConfiguration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5446,6 +6370,15 @@ func (configuration *ContainerServiceSshConfiguration_STATUS) AssignProperties_T
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceSshConfiguration_STATUS interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForContainerServiceSshConfiguration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5476,6 +6409,15 @@ func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignPr
 		identities.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterIdentity_UserAssignedIdentities_STATUS interface (if implemented) to customize the conversion
+	var identitiesAsAny any = identities
+	if augmentedIdentities, ok := identitiesAsAny.(augmentConversionForManagedClusterIdentity_UserAssignedIdentities_STATUS); ok {
+		err := augmentedIdentities.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5496,6 +6438,15 @@ func (identities *ManagedClusterIdentity_UserAssignedIdentities_STATUS) AssignPr
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterIdentity_UserAssignedIdentities_STATUS interface (if implemented) to customize the conversion
+	var identitiesAsAny any = identities
+	if augmentedIdentities, ok := identitiesAsAny.(augmentConversionForManagedClusterIdentity_UserAssignedIdentities_STATUS); ok {
+		err := augmentedIdentities.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -5586,6 +6537,15 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedC
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterLoadBalancerProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5660,6 +6620,15 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterLoadBalancerProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -5750,6 +6719,15 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_M
 		profile.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5826,6 +6804,15 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5865,6 +6852,15 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClust
 		secrets.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForManagedClusterOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5895,6 +6891,15 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedCluster
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForManagedClusterOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -5944,6 +6949,15 @@ func (identity *ManagedClusterPodIdentity) AssignProperties_From_ManagedClusterP
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedClusterPodIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -5979,6 +6993,15 @@ func (identity *ManagedClusterPodIdentity) AssignProperties_To_ManagedClusterPod
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterPodIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedClusterPodIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6045,6 +7068,15 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_From_ManagedC
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedClusterPodIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6097,6 +7129,15 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignProperties_To_ManagedClu
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedClusterPodIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6131,6 +7172,15 @@ func (exception *ManagedClusterPodIdentityException) AssignProperties_From_Manag
 		exception.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityException interface (if implemented) to customize the conversion
+	var exceptionAsAny any = exception
+	if augmentedException, ok := exceptionAsAny.(augmentConversionForManagedClusterPodIdentityException); ok {
+		err := augmentedException.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6154,6 +7204,15 @@ func (exception *ManagedClusterPodIdentityException) AssignProperties_To_Managed
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterPodIdentityException interface (if implemented) to customize the conversion
+	var exceptionAsAny any = exception
+	if augmentedException, ok := exceptionAsAny.(augmentConversionForManagedClusterPodIdentityException); ok {
+		err := augmentedException.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6190,6 +7249,15 @@ func (exception *ManagedClusterPodIdentityException_STATUS) AssignProperties_Fro
 		exception.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityException_STATUS interface (if implemented) to customize the conversion
+	var exceptionAsAny any = exception
+	if augmentedException, ok := exceptionAsAny.(augmentConversionForManagedClusterPodIdentityException_STATUS); ok {
+		err := augmentedException.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6215,8 +7283,67 @@ func (exception *ManagedClusterPodIdentityException_STATUS) AssignProperties_To_
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityException_STATUS interface (if implemented) to customize the conversion
+	var exceptionAsAny any = exception
+	if augmentedException, ok := exceptionAsAny.(augmentConversionForManagedClusterPodIdentityException_STATUS); ok {
+		err := augmentedException.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForContainerServiceSshConfiguration interface {
+	AssignPropertiesFrom(src *v20210501s.ContainerServiceSshConfiguration) error
+	AssignPropertiesTo(dst *v20210501s.ContainerServiceSshConfiguration) error
+}
+
+type augmentConversionForContainerServiceSshConfiguration_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ContainerServiceSshConfiguration_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ContainerServiceSshConfiguration_STATUS) error
+}
+
+type augmentConversionForManagedClusterIdentity_UserAssignedIdentities_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterIdentity_UserAssignedIdentities_STATUS) error
+}
+
+type augmentConversionForManagedClusterLoadBalancerProfile interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterLoadBalancerProfile) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterLoadBalancerProfile) error
+}
+
+type augmentConversionForManagedClusterLoadBalancerProfile_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterLoadBalancerProfile_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterLoadBalancerProfile_STATUS) error
+}
+
+type augmentConversionForManagedClusterOperatorSecrets interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterOperatorSecrets) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterOperatorSecrets) error
+}
+
+type augmentConversionForManagedClusterPodIdentity interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentity) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentity) error
+}
+
+type augmentConversionForManagedClusterPodIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentity_STATUS) error
+}
+
+type augmentConversionForManagedClusterPodIdentityException interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentityException) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentityException) error
+}
+
+type augmentConversionForManagedClusterPodIdentityException_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentityException_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentityException_STATUS) error
 }
 
 // Storage version of v1alpha1api20210501.ContainerServiceSshPublicKey
@@ -6241,6 +7368,15 @@ func (publicKey *ContainerServiceSshPublicKey) AssignProperties_From_ContainerSe
 		publicKey.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceSshPublicKey interface (if implemented) to customize the conversion
+	var publicKeyAsAny any = publicKey
+	if augmentedPublicKey, ok := publicKeyAsAny.(augmentConversionForContainerServiceSshPublicKey); ok {
+		err := augmentedPublicKey.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6258,6 +7394,15 @@ func (publicKey *ContainerServiceSshPublicKey) AssignProperties_To_ContainerServ
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForContainerServiceSshPublicKey interface (if implemented) to customize the conversion
+	var publicKeyAsAny any = publicKey
+	if augmentedPublicKey, ok := publicKeyAsAny.(augmentConversionForContainerServiceSshPublicKey); ok {
+		err := augmentedPublicKey.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6286,6 +7431,15 @@ func (publicKey *ContainerServiceSshPublicKey_STATUS) AssignProperties_From_Cont
 		publicKey.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForContainerServiceSshPublicKey_STATUS interface (if implemented) to customize the conversion
+	var publicKeyAsAny any = publicKey
+	if augmentedPublicKey, ok := publicKeyAsAny.(augmentConversionForContainerServiceSshPublicKey_STATUS); ok {
+		err := augmentedPublicKey.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6303,6 +7457,15 @@ func (publicKey *ContainerServiceSshPublicKey_STATUS) AssignProperties_To_Contai
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForContainerServiceSshPublicKey_STATUS interface (if implemented) to customize the conversion
+	var publicKeyAsAny any = publicKey
+	if augmentedPublicKey, ok := publicKeyAsAny.(augmentConversionForContainerServiceSshPublicKey_STATUS); ok {
+		err := augmentedPublicKey.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6331,6 +7494,15 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignPropertie
 		iPs.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs interface (if implemented) to customize the conversion
+	var iPsAsAny any = iPs
+	if augmentedIPs, ok := iPsAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs); ok {
+		err := augmentedIPs.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6348,6 +7520,15 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) AssignPropertie
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs interface (if implemented) to customize the conversion
+	var iPsAsAny any = iPs
+	if augmentedIPs, ok := iPsAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs); ok {
+		err := augmentedIPs.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6376,6 +7557,15 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignPr
 		iPs.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS interface (if implemented) to customize the conversion
+	var iPsAsAny any = iPs
+	if augmentedIPs, ok := iPsAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS); ok {
+		err := augmentedIPs.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6393,6 +7583,15 @@ func (iPs *ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) AssignPr
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS interface (if implemented) to customize the conversion
+	var iPsAsAny any = iPs
+	if augmentedIPs, ok := iPsAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS); ok {
+		err := augmentedIPs.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6436,6 +7635,15 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProp
 		prefixes.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes interface (if implemented) to customize the conversion
+	var prefixesAsAny any = prefixes
+	if augmentedPrefixes, ok := prefixesAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes); ok {
+		err := augmentedPrefixes.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6468,6 +7676,15 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) AssignProp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes interface (if implemented) to customize the conversion
+	var prefixesAsAny any = prefixes
+	if augmentedPrefixes, ok := prefixesAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes); ok {
+		err := augmentedPrefixes.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6511,6 +7728,15 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) Ass
 		prefixes.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS interface (if implemented) to customize the conversion
+	var prefixesAsAny any = prefixes
+	if augmentedPrefixes, ok := prefixesAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS); ok {
+		err := augmentedPrefixes.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6543,6 +7769,15 @@ func (prefixes *ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) Ass
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS interface (if implemented) to customize the conversion
+	var prefixesAsAny any = prefixes
+	if augmentedPrefixes, ok := prefixesAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS); ok {
+		err := augmentedPrefixes.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6586,6 +7821,15 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_From_
 		iPs.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs interface (if implemented) to customize the conversion
+	var iPsAsAny any = iPs
+	if augmentedIPs, ok := iPsAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs); ok {
+		err := augmentedIPs.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6618,6 +7862,15 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_To_Ma
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs interface (if implemented) to customize the conversion
+	var iPsAsAny any = iPs
+	if augmentedIPs, ok := iPsAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs); ok {
+		err := augmentedIPs.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6661,6 +7914,15 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignPropertie
 		iPs.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS interface (if implemented) to customize the conversion
+	var iPsAsAny any = iPs
+	if augmentedIPs, ok := iPsAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS); ok {
+		err := augmentedIPs.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6693,6 +7955,15 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignPropertie
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS interface (if implemented) to customize the conversion
+	var iPsAsAny any = iPs
+	if augmentedIPs, ok := iPsAsAny.(augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS); ok {
+		err := augmentedIPs.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6730,6 +8001,15 @@ func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignProperties_
 		info.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentity_ProvisioningInfo_STATUS interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForManagedClusterPodIdentity_ProvisioningInfo_STATUS); ok {
+		err := augmentedInfo.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6756,6 +8036,15 @@ func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignProperties_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusterPodIdentity_ProvisioningInfo_STATUS interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForManagedClusterPodIdentity_ProvisioningInfo_STATUS); ok {
+		err := augmentedInfo.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6789,6 +8078,15 @@ func (reference *ResourceReference) AssignProperties_From_ResourceReference(sour
 		reference.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceReference interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForResourceReference); ok {
+		err := augmentedReference.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6811,6 +8109,15 @@ func (reference *ResourceReference) AssignProperties_To_ResourceReference(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceReference interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForResourceReference); ok {
+		err := augmentedReference.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -6839,6 +8146,15 @@ func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReferen
 		reference.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceReference_STATUS interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForResourceReference_STATUS); ok {
+		err := augmentedReference.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6858,8 +8174,72 @@ func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForResourceReference_STATUS interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForResourceReference_STATUS); ok {
+		err := augmentedReference.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForContainerServiceSshPublicKey interface {
+	AssignPropertiesFrom(src *v20210501s.ContainerServiceSshPublicKey) error
+	AssignPropertiesTo(dst *v20210501s.ContainerServiceSshPublicKey) error
+}
+
+type augmentConversionForContainerServiceSshPublicKey_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ContainerServiceSshPublicKey_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ContainerServiceSshPublicKey_STATUS) error
+}
+
+type augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) error
+}
+
+type augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) error
+}
+
+type augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) error
+}
+
+type augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) error
+}
+
+type augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs) error
+}
+
+type augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) error
+}
+
+type augmentConversionForManagedClusterPodIdentity_ProvisioningInfo_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentity_ProvisioningInfo_STATUS) error
+}
+
+type augmentConversionForResourceReference interface {
+	AssignPropertiesFrom(src *v20210501s.ResourceReference) error
+	AssignPropertiesTo(dst *v20210501s.ResourceReference) error
+}
+
+type augmentConversionForResourceReference_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ResourceReference_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ResourceReference_STATUS) error
 }
 
 // Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningError_STATUS
@@ -6893,6 +8273,15 @@ func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties
 		error.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityProvisioningError_STATUS interface (if implemented) to customize the conversion
+	var errorAsAny any = error
+	if augmentedError, ok := errorAsAny.(augmentConversionForManagedClusterPodIdentityProvisioningError_STATUS); ok {
+		err := augmentedError.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -6921,8 +8310,22 @@ func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityProvisioningError_STATUS interface (if implemented) to customize the conversion
+	var errorAsAny any = error
+	if augmentedError, ok := errorAsAny.(augmentConversionForManagedClusterPodIdentityProvisioningError_STATUS); ok {
+		err := augmentedError.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForManagedClusterPodIdentityProvisioningError_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentityProvisioningError_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentityProvisioningError_STATUS) error
 }
 
 // Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_STATUS
@@ -6974,6 +8377,15 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) AssignPropert
 		body.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS interface (if implemented) to customize the conversion
+	var bodyAsAny any = body
+	if augmentedBody, ok := bodyAsAny.(augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS); ok {
+		err := augmentedBody.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -7017,8 +8429,22 @@ func (body *ManagedClusterPodIdentityProvisioningErrorBody_STATUS) AssignPropert
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS interface (if implemented) to customize the conversion
+	var bodyAsAny any = body
+	if augmentedBody, ok := bodyAsAny.(augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS); ok {
+		err := augmentedBody.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_STATUS) error
 }
 
 // Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
@@ -7051,6 +8477,15 @@ func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) 
 		unrolled.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled interface (if implemented) to customize the conversion
+	var unrolledAsAny any = unrolled
+	if augmentedUnrolled, ok := unrolledAsAny.(augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled); ok {
+		err := augmentedUnrolled.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -7076,8 +8511,22 @@ func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) 
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled interface (if implemented) to customize the conversion
+	var unrolledAsAny any = unrolled
+	if augmentedUnrolled, ok := unrolledAsAny.(augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled); ok {
+		err := augmentedUnrolled.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error
 }
 
 func init() {

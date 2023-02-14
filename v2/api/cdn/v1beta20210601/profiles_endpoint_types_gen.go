@@ -75,7 +75,7 @@ var _ admission.Defaulter = &ProfilesEndpoint{}
 // Default applies defaults to the ProfilesEndpoint resource
 func (endpoint *ProfilesEndpoint) Default() {
 	endpoint.defaultImpl()
-	var temp interface{} = endpoint
+	var temp any = endpoint
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &ProfilesEndpoint{}
 // ValidateCreate validates the creation of the resource
 func (endpoint *ProfilesEndpoint) ValidateCreate() error {
 	validations := endpoint.createValidations()
-	var temp interface{} = endpoint
+	var temp any = endpoint
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (endpoint *ProfilesEndpoint) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (endpoint *ProfilesEndpoint) ValidateDelete() error {
 	validations := endpoint.deleteValidations()
-	var temp interface{} = endpoint
+	var temp any = endpoint
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (endpoint *ProfilesEndpoint) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (endpoint *ProfilesEndpoint) ValidateUpdate(old runtime.Object) error {
 	validations := endpoint.updateValidations()
-	var temp interface{} = endpoint
+	var temp any = endpoint
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

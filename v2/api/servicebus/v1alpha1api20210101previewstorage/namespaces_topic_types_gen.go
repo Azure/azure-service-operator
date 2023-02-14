@@ -151,6 +151,15 @@ func (topic *NamespacesTopic) AssignProperties_From_NamespacesTopic(source *v202
 	}
 	topic.Status = status
 
+	// Invoke the augmentConversionForNamespacesTopic interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespacesTopic); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (topic *NamespacesTopic) AssignProperties_To_NamespacesTopic(destination *v
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNamespacesTopic interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespacesTopic); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type NamespacesTopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesTopic `json:"items"`
+}
+
+type augmentConversionForNamespacesTopic interface {
+	AssignPropertiesFrom(src *v20210101ps.NamespacesTopic) error
+	AssignPropertiesTo(dst *v20210101ps.NamespacesTopic) error
 }
 
 // Storage version of v1alpha1api20210101preview.Namespaces_Topic_Spec
@@ -353,6 +376,15 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_From_Namespaces_Topic_Spec(
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Topic_Spec interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespaces_Topic_Spec); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -433,6 +465,15 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespaces_Topic_Spec interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespaces_Topic_Spec); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -634,6 +675,15 @@ func (topic *Namespaces_Topic_STATUS) AssignProperties_From_Namespaces_Topic_STA
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Topic_STATUS interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespaces_Topic_STATUS); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -756,8 +806,27 @@ func (topic *Namespaces_Topic_STATUS) AssignProperties_To_Namespaces_Topic_STATU
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Topic_STATUS interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForNamespaces_Topic_STATUS); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForNamespaces_Topic_Spec interface {
+	AssignPropertiesFrom(src *v20210101ps.Namespaces_Topic_Spec) error
+	AssignPropertiesTo(dst *v20210101ps.Namespaces_Topic_Spec) error
+}
+
+type augmentConversionForNamespaces_Topic_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.Namespaces_Topic_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.Namespaces_Topic_STATUS) error
 }
 
 func init() {

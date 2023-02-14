@@ -75,7 +75,7 @@ var _ admission.Defaulter = &DatabaseAccount{}
 // Default applies defaults to the DatabaseAccount resource
 func (account *DatabaseAccount) Default() {
 	account.defaultImpl()
-	var temp interface{} = account
+	var temp any = account
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &DatabaseAccount{}
 // ValidateCreate validates the creation of the resource
 func (account *DatabaseAccount) ValidateCreate() error {
 	validations := account.createValidations()
-	var temp interface{} = account
+	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (account *DatabaseAccount) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (account *DatabaseAccount) ValidateDelete() error {
 	validations := account.deleteValidations()
-	var temp interface{} = account
+	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (account *DatabaseAccount) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (account *DatabaseAccount) ValidateUpdate(old runtime.Object) error {
 	validations := account.updateValidations()
-	var temp interface{} = account
+	var temp any = account
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

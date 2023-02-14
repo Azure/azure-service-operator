@@ -87,7 +87,7 @@ var _ admission.Defaulter = &RedisFirewallRule{}
 // Default applies defaults to the RedisFirewallRule resource
 func (rule *RedisFirewallRule) Default() {
 	rule.defaultImpl()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &RedisFirewallRule{}
 // ValidateCreate validates the creation of the resource
 func (rule *RedisFirewallRule) ValidateCreate() error {
 	validations := rule.createValidations()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (rule *RedisFirewallRule) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (rule *RedisFirewallRule) ValidateDelete() error {
 	validations := rule.deleteValidations()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (rule *RedisFirewallRule) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (rule *RedisFirewallRule) ValidateUpdate(old runtime.Object) error {
 	validations := rule.updateValidations()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

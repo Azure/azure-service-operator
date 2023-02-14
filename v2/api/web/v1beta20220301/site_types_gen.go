@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Site{}
 // Default applies defaults to the Site resource
 func (site *Site) Default() {
 	site.defaultImpl()
-	var temp interface{} = site
+	var temp any = site
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &Site{}
 // ValidateCreate validates the creation of the resource
 func (site *Site) ValidateCreate() error {
 	validations := site.createValidations()
-	var temp interface{} = site
+	var temp any = site
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (site *Site) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (site *Site) ValidateDelete() error {
 	validations := site.deleteValidations()
-	var temp interface{} = site
+	var temp any = site
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (site *Site) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (site *Site) ValidateUpdate(old runtime.Object) error {
 	validations := site.updateValidations()
-	var temp interface{} = site
+	var temp any = site
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

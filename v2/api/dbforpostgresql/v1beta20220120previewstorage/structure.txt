@@ -159,28 +159,54 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120pre
 │       │   ├── LastModifiedByType: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
-└── FlexibleServersFirewallRule: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview.FlexibleServer
-    ├── Spec: Object (6 properties)
-    │   ├── AzureName: string
-    │   ├── EndIpAddress: *string
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── StartIpAddress: *string
-    └── Status: Object (8 properties)
-        ├── Conditions: conditions.Condition[]
-        ├── EndIpAddress: *string
-        ├── Id: *string
-        ├── Name: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── StartIpAddress: *string
-        ├── SystemData: *Object (7 properties)
-        │   ├── CreatedAt: *string
-        │   ├── CreatedBy: *string
-        │   ├── CreatedByType: *string
-        │   ├── LastModifiedAt: *string
-        │   ├── LastModifiedBy: *string
-        │   ├── LastModifiedByType: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        └── Type: *string
+├── FlexibleServersFirewallRule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview.FlexibleServer
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: string
+│   │   ├── EndIpAddress: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── StartIpAddress: *string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── EndIpAddress: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── StartIpAddress: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── augmentConversionForBackup: Interface
+├── augmentConversionForBackup_STATUS: Interface
+├── augmentConversionForFlexibleServer: Interface
+├── augmentConversionForFlexibleServerOperatorSpec: Interface
+├── augmentConversionForFlexibleServer_STATUS: Interface
+├── augmentConversionForFlexibleServer_Spec: Interface
+├── augmentConversionForFlexibleServersConfiguration: Interface
+├── augmentConversionForFlexibleServersDatabase: Interface
+├── augmentConversionForFlexibleServersFirewallRule: Interface
+├── augmentConversionForFlexibleServers_Configuration_STATUS: Interface
+├── augmentConversionForFlexibleServers_Configuration_Spec: Interface
+├── augmentConversionForFlexibleServers_Database_STATUS: Interface
+├── augmentConversionForFlexibleServers_Database_Spec: Interface
+├── augmentConversionForFlexibleServers_FirewallRule_STATUS: Interface
+├── augmentConversionForFlexibleServers_FirewallRule_Spec: Interface
+├── augmentConversionForHighAvailability: Interface
+├── augmentConversionForHighAvailability_STATUS: Interface
+├── augmentConversionForMaintenanceWindow: Interface
+├── augmentConversionForMaintenanceWindow_STATUS: Interface
+├── augmentConversionForNetwork: Interface
+├── augmentConversionForNetwork_STATUS: Interface
+├── augmentConversionForSku: Interface
+├── augmentConversionForSku_STATUS: Interface
+├── augmentConversionForStorage: Interface
+├── augmentConversionForStorage_STATUS: Interface
+└── augmentConversionForSystemData_STATUS: Interface

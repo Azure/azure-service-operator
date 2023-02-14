@@ -151,6 +151,15 @@ func (database *FlexibleServersDatabase) AssignProperties_From_FlexibleServersDa
 	}
 	database.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersDatabase interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServersDatabase); ok {
+		err := augmentedDatabase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (database *FlexibleServersDatabase) AssignProperties_To_FlexibleServersData
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersDatabase interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServersDatabase); ok {
+		err := augmentedDatabase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type FlexibleServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersDatabase `json:"items"`
+}
+
+type augmentConversionForFlexibleServersDatabase interface {
+	AssignPropertiesFrom(src *v20210501s.FlexibleServersDatabase) error
+	AssignPropertiesTo(dst *v20210501s.FlexibleServersDatabase) error
 }
 
 // Storage version of v1alpha1api20210501.FlexibleServers_Database_Spec
@@ -298,6 +321,15 @@ func (database *FlexibleServers_Database_Spec) AssignProperties_From_FlexibleSer
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Database_Spec interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServers_Database_Spec); ok {
+		err := augmentedDatabase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -332,6 +364,15 @@ func (database *FlexibleServers_Database_Spec) AssignProperties_To_FlexibleServe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServers_Database_Spec interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServers_Database_Spec); ok {
+		err := augmentedDatabase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -443,6 +484,15 @@ func (database *FlexibleServers_Database_STATUS) AssignProperties_From_FlexibleS
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Database_STATUS interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServers_Database_STATUS); ok {
+		err := augmentedDatabase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -489,8 +539,27 @@ func (database *FlexibleServers_Database_STATUS) AssignProperties_To_FlexibleSer
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Database_STATUS interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForFlexibleServers_Database_STATUS); ok {
+		err := augmentedDatabase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForFlexibleServers_Database_Spec interface {
+	AssignPropertiesFrom(src *v20210501s.FlexibleServers_Database_Spec) error
+	AssignPropertiesTo(dst *v20210501s.FlexibleServers_Database_Spec) error
+}
+
+type augmentConversionForFlexibleServers_Database_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.FlexibleServers_Database_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.FlexibleServers_Database_STATUS) error
 }
 
 func init() {

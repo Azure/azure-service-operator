@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Configuration{}
 // Default applies defaults to the Configuration resource
 func (configuration *Configuration) Default() {
 	configuration.defaultImpl()
-	var temp interface{} = configuration
+	var temp any = configuration
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &Configuration{}
 // ValidateCreate validates the creation of the resource
 func (configuration *Configuration) ValidateCreate() error {
 	validations := configuration.createValidations()
-	var temp interface{} = configuration
+	var temp any = configuration
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (configuration *Configuration) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (configuration *Configuration) ValidateDelete() error {
 	validations := configuration.deleteValidations()
-	var temp interface{} = configuration
+	var temp any = configuration
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (configuration *Configuration) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (configuration *Configuration) ValidateUpdate(old runtime.Object) error {
 	validations := configuration.updateValidations()
-	var temp interface{} = configuration
+	var temp any = configuration
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

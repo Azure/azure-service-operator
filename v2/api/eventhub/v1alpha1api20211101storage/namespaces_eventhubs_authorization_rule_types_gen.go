@@ -151,6 +151,15 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignProperties_From_Namespac
 	}
 	rule.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignProperties_To_Namespaces
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhubsAuthorizationRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespacesEventhubsAuthorizationRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type NamespacesEventhubsAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsAuthorizationRule `json:"items"`
+}
+
+type augmentConversionForNamespacesEventhubsAuthorizationRule interface {
+	AssignPropertiesFrom(src *v20211101s.NamespacesEventhubsAuthorizationRule) error
+	AssignPropertiesTo(dst *v20211101s.NamespacesEventhubsAuthorizationRule) error
 }
 
 // Storage version of v1alpha1api20211101.Namespaces_Eventhubs_AuthorizationRule_Spec
@@ -295,6 +318,15 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_From_N
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -326,6 +358,15 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_To_Nam
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -437,6 +478,15 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) AssignProperties_From
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -483,8 +533,27 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_STATUS) AssignProperties_To_N
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForNamespaces_Eventhubs_AuthorizationRule_Spec interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_Eventhubs_AuthorizationRule_Spec) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_Eventhubs_AuthorizationRule_Spec) error
+}
+
+type augmentConversionForNamespaces_Eventhubs_AuthorizationRule_STATUS interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_Eventhubs_AuthorizationRule_STATUS) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_Eventhubs_AuthorizationRule_STATUS) error
 }
 
 func init() {

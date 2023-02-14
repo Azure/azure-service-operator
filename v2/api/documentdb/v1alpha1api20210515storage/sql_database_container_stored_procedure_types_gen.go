@@ -151,6 +151,15 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignProperties_From_SqlD
 	}
 	procedure.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerStoredProcedure interface (if implemented) to customize the conversion
+	var procedureAsAny any = procedure
+	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForSqlDatabaseContainerStoredProcedure); ok {
+		err := augmentedProcedure.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignProperties_To_SqlDat
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerStoredProcedure interface (if implemented) to customize the conversion
+	var procedureAsAny any = procedure
+	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForSqlDatabaseContainerStoredProcedure); ok {
+		err := augmentedProcedure.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type SqlDatabaseContainerStoredProcedureList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerStoredProcedure `json:"items"`
+}
+
+type augmentConversionForSqlDatabaseContainerStoredProcedure interface {
+	AssignPropertiesFrom(src *v20210515s.SqlDatabaseContainerStoredProcedure) error
+	AssignPropertiesTo(dst *v20210515s.SqlDatabaseContainerStoredProcedure) error
 }
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec
@@ -324,6 +347,15 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 		procedure.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec interface (if implemented) to customize the conversion
+	var procedureAsAny any = procedure
+	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec); ok {
+		err := augmentedProcedure.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -382,6 +414,15 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec interface (if implemented) to customize the conversion
+	var procedureAsAny any = procedure
+	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec); ok {
+		err := augmentedProcedure.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -493,6 +534,15 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
 		procedure.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS interface (if implemented) to customize the conversion
+	var procedureAsAny any = procedure
+	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS); ok {
+		err := augmentedProcedure.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -539,8 +589,27 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS interface (if implemented) to customize the conversion
+	var procedureAsAny any = procedure
+	if augmentedProcedure, ok := procedureAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS); ok {
+		err := augmentedProcedure.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) error
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS) error
 }
 
 // Storage version of v1alpha1api20210515.SqlStoredProcedureGetProperties_Resource_STATUS
@@ -586,6 +655,15 @@ func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertie
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -622,6 +700,15 @@ func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertie
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -652,6 +739,15 @@ func (resource *SqlStoredProcedureResource) AssignProperties_From_SqlStoredProce
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlStoredProcedureResource interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlStoredProcedureResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -674,8 +770,27 @@ func (resource *SqlStoredProcedureResource) AssignProperties_To_SqlStoredProcedu
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlStoredProcedureResource interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlStoredProcedureResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.SqlStoredProcedureGetProperties_Resource_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.SqlStoredProcedureGetProperties_Resource_STATUS) error
+}
+
+type augmentConversionForSqlStoredProcedureResource interface {
+	AssignPropertiesFrom(src *v20210515s.SqlStoredProcedureResource) error
+	AssignPropertiesTo(dst *v20210515s.SqlStoredProcedureResource) error
 }
 
 func init() {

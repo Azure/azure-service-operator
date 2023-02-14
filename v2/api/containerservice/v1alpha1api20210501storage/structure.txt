@@ -527,183 +527,257 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210
 │           ├── EnableCSIProxy: *bool
 │           ├── LicenseType: *string
 │           └── PropertyBag: genruntime.PropertyBag
-└── ManagedClustersAgentPool: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501.ManagedCluster
-    ├── Spec: Object (37 properties)
-    │   ├── AvailabilityZones: string[]
-    │   ├── AzureName: string
-    │   ├── Count: *int
-    │   ├── EnableAutoScaling: *bool
-    │   ├── EnableEncryptionAtHost: *bool
-    │   ├── EnableFIPS: *bool
-    │   ├── EnableNodePublicIP: *bool
-    │   ├── EnableUltraSSD: *bool
-    │   ├── GpuInstanceProfile: *string
-    │   ├── KubeletConfig: *Object (12 properties)
-    │   │   ├── AllowedUnsafeSysctls: string[]
-    │   │   ├── ContainerLogMaxFiles: *int
-    │   │   ├── ContainerLogMaxSizeMB: *int
-    │   │   ├── CpuCfsQuota: *bool
-    │   │   ├── CpuCfsQuotaPeriod: *string
-    │   │   ├── CpuManagerPolicy: *string
-    │   │   ├── FailSwapOn: *bool
-    │   │   ├── ImageGcHighThreshold: *int
-    │   │   ├── ImageGcLowThreshold: *int
-    │   │   ├── PodMaxPids: *int
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── TopologyManagerPolicy: *string
-    │   ├── KubeletDiskType: *string
-    │   ├── LinuxOSConfig: *Object (5 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── SwapFileSizeMB: *int
-    │   │   ├── Sysctls: *Object (29 properties)
-    │   │   │   ├── FsAioMaxNr: *int
-    │   │   │   ├── FsFileMax: *int
-    │   │   │   ├── FsInotifyMaxUserWatches: *int
-    │   │   │   ├── FsNrOpen: *int
-    │   │   │   ├── KernelThreadsMax: *int
-    │   │   │   ├── NetCoreNetdevMaxBacklog: *int
-    │   │   │   ├── NetCoreOptmemMax: *int
-    │   │   │   ├── NetCoreRmemDefault: *int
-    │   │   │   ├── NetCoreRmemMax: *int
-    │   │   │   ├── NetCoreSomaxconn: *int
-    │   │   │   ├── NetCoreWmemDefault: *int
-    │   │   │   ├── NetCoreWmemMax: *int
-    │   │   │   ├── NetIpv4IpLocalPortRange: *string
-    │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
-    │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
-    │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
-    │   │   │   ├── NetIpv4TcpFinTimeout: *int
-    │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
-    │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
-    │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
-    │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
-    │   │   │   ├── NetIpv4TcpTwReuse: *bool
-    │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
-    │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
-    │   │   │   ├── NetNetfilterNfConntrackMax: *int
-    │   │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   │   ├── VmMaxMapCount: *int
-    │   │   │   ├── VmSwappiness: *int
-    │   │   │   └── VmVfsCachePressure: *int
-    │   │   ├── TransparentHugePageDefrag: *string
-    │   │   └── TransparentHugePageEnabled: *string
-    │   ├── MaxCount: *int
-    │   ├── MaxPods: *int
-    │   ├── MinCount: *int
-    │   ├── Mode: *string
-    │   ├── NodeLabels: map[string]string
-    │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
-    │   ├── NodeTaints: string[]
-    │   ├── OrchestratorVersion: *string
-    │   ├── OriginalVersion: string
-    │   ├── OsDiskSizeGB: *int
-    │   ├── OsDiskType: *string
-    │   ├── OsSKU: *string
-    │   ├── OsType: *string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PodSubnetIDReference: *genruntime.ResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── ProximityPlacementGroupID: *string
-    │   ├── ScaleSetEvictionPolicy: *string
-    │   ├── ScaleSetPriority: *string
-    │   ├── SpotMaxPrice: *float64
-    │   ├── Tags: map[string]string
-    │   ├── Type: *string
-    │   ├── UpgradeSettings: *Object (2 properties)
-    │   │   ├── MaxSurge: *string
-    │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── VmSize: *string
-    │   └── VnetSubnetIDReference: *genruntime.ResourceReference
-    └── Status: Object (41 properties)
-        ├── AvailabilityZones: string[]
-        ├── Conditions: conditions.Condition[]
-        ├── Count: *int
-        ├── EnableAutoScaling: *bool
-        ├── EnableEncryptionAtHost: *bool
-        ├── EnableFIPS: *bool
-        ├── EnableNodePublicIP: *bool
-        ├── EnableUltraSSD: *bool
-        ├── GpuInstanceProfile: *string
-        ├── Id: *string
-        ├── KubeletConfig: *Object (12 properties)
-        │   ├── AllowedUnsafeSysctls: string[]
-        │   ├── ContainerLogMaxFiles: *int
-        │   ├── ContainerLogMaxSizeMB: *int
-        │   ├── CpuCfsQuota: *bool
-        │   ├── CpuCfsQuotaPeriod: *string
-        │   ├── CpuManagerPolicy: *string
-        │   ├── FailSwapOn: *bool
-        │   ├── ImageGcHighThreshold: *int
-        │   ├── ImageGcLowThreshold: *int
-        │   ├── PodMaxPids: *int
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── TopologyManagerPolicy: *string
-        ├── KubeletDiskType: *string
-        ├── LinuxOSConfig: *Object (5 properties)
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── SwapFileSizeMB: *int
-        │   ├── Sysctls: *Object (29 properties)
-        │   │   ├── FsAioMaxNr: *int
-        │   │   ├── FsFileMax: *int
-        │   │   ├── FsInotifyMaxUserWatches: *int
-        │   │   ├── FsNrOpen: *int
-        │   │   ├── KernelThreadsMax: *int
-        │   │   ├── NetCoreNetdevMaxBacklog: *int
-        │   │   ├── NetCoreOptmemMax: *int
-        │   │   ├── NetCoreRmemDefault: *int
-        │   │   ├── NetCoreRmemMax: *int
-        │   │   ├── NetCoreSomaxconn: *int
-        │   │   ├── NetCoreWmemDefault: *int
-        │   │   ├── NetCoreWmemMax: *int
-        │   │   ├── NetIpv4IpLocalPortRange: *string
-        │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
-        │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
-        │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
-        │   │   ├── NetIpv4TcpFinTimeout: *int
-        │   │   ├── NetIpv4TcpKeepaliveProbes: *int
-        │   │   ├── NetIpv4TcpKeepaliveTime: *int
-        │   │   ├── NetIpv4TcpMaxSynBacklog: *int
-        │   │   ├── NetIpv4TcpMaxTwBuckets: *int
-        │   │   ├── NetIpv4TcpTwReuse: *bool
-        │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
-        │   │   ├── NetNetfilterNfConntrackBuckets: *int
-        │   │   ├── NetNetfilterNfConntrackMax: *int
-        │   │   ├── PropertyBag: genruntime.PropertyBag
-        │   │   ├── VmMaxMapCount: *int
-        │   │   ├── VmSwappiness: *int
-        │   │   └── VmVfsCachePressure: *int
-        │   ├── TransparentHugePageDefrag: *string
-        │   └── TransparentHugePageEnabled: *string
-        ├── MaxCount: *int
-        ├── MaxPods: *int
-        ├── MinCount: *int
-        ├── Mode: *string
-        ├── Name: *string
-        ├── NodeImageVersion: *string
-        ├── NodeLabels: map[string]string
-        ├── NodePublicIPPrefixID: *string
-        ├── NodeTaints: string[]
-        ├── OrchestratorVersion: *string
-        ├── OsDiskSizeGB: *int
-        ├── OsDiskType: *string
-        ├── OsSKU: *string
-        ├── OsType: *string
-        ├── PodSubnetID: *string
-        ├── PowerState: *Object (2 properties)
-        │   ├── Code: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── PropertiesType: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── ProvisioningState: *string
-        ├── ProximityPlacementGroupID: *string
-        ├── ScaleSetEvictionPolicy: *string
-        ├── ScaleSetPriority: *string
-        ├── SpotMaxPrice: *float64
-        ├── Tags: map[string]string
-        ├── Type: *string
-        ├── UpgradeSettings: *Object (2 properties)
-        │   ├── MaxSurge: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── VmSize: *string
-        └── VnetSubnetID: *string
+├── ManagedClustersAgentPool: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501.ManagedCluster
+│   ├── Spec: Object (37 properties)
+│   │   ├── AvailabilityZones: string[]
+│   │   ├── AzureName: string
+│   │   ├── Count: *int
+│   │   ├── EnableAutoScaling: *bool
+│   │   ├── EnableEncryptionAtHost: *bool
+│   │   ├── EnableFIPS: *bool
+│   │   ├── EnableNodePublicIP: *bool
+│   │   ├── EnableUltraSSD: *bool
+│   │   ├── GpuInstanceProfile: *string
+│   │   ├── KubeletConfig: *Object (12 properties)
+│   │   │   ├── AllowedUnsafeSysctls: string[]
+│   │   │   ├── ContainerLogMaxFiles: *int
+│   │   │   ├── ContainerLogMaxSizeMB: *int
+│   │   │   ├── CpuCfsQuota: *bool
+│   │   │   ├── CpuCfsQuotaPeriod: *string
+│   │   │   ├── CpuManagerPolicy: *string
+│   │   │   ├── FailSwapOn: *bool
+│   │   │   ├── ImageGcHighThreshold: *int
+│   │   │   ├── ImageGcLowThreshold: *int
+│   │   │   ├── PodMaxPids: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── TopologyManagerPolicy: *string
+│   │   ├── KubeletDiskType: *string
+│   │   ├── LinuxOSConfig: *Object (5 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── SwapFileSizeMB: *int
+│   │   │   ├── Sysctls: *Object (29 properties)
+│   │   │   │   ├── FsAioMaxNr: *int
+│   │   │   │   ├── FsFileMax: *int
+│   │   │   │   ├── FsInotifyMaxUserWatches: *int
+│   │   │   │   ├── FsNrOpen: *int
+│   │   │   │   ├── KernelThreadsMax: *int
+│   │   │   │   ├── NetCoreNetdevMaxBacklog: *int
+│   │   │   │   ├── NetCoreOptmemMax: *int
+│   │   │   │   ├── NetCoreRmemDefault: *int
+│   │   │   │   ├── NetCoreRmemMax: *int
+│   │   │   │   ├── NetCoreSomaxconn: *int
+│   │   │   │   ├── NetCoreWmemDefault: *int
+│   │   │   │   ├── NetCoreWmemMax: *int
+│   │   │   │   ├── NetIpv4IpLocalPortRange: *string
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│   │   │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│   │   │   │   ├── NetIpv4TcpFinTimeout: *int
+│   │   │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│   │   │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│   │   │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│   │   │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│   │   │   │   ├── NetIpv4TcpTwReuse: *bool
+│   │   │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│   │   │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│   │   │   │   ├── NetNetfilterNfConntrackMax: *int
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── VmMaxMapCount: *int
+│   │   │   │   ├── VmSwappiness: *int
+│   │   │   │   └── VmVfsCachePressure: *int
+│   │   │   ├── TransparentHugePageDefrag: *string
+│   │   │   └── TransparentHugePageEnabled: *string
+│   │   ├── MaxCount: *int
+│   │   ├── MaxPods: *int
+│   │   ├── MinCount: *int
+│   │   ├── Mode: *string
+│   │   ├── NodeLabels: map[string]string
+│   │   ├── NodePublicIPPrefixIDReference: *genruntime.ResourceReference
+│   │   ├── NodeTaints: string[]
+│   │   ├── OrchestratorVersion: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── OsDiskSizeGB: *int
+│   │   ├── OsDiskType: *string
+│   │   ├── OsSKU: *string
+│   │   ├── OsType: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PodSubnetIDReference: *genruntime.ResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── ProximityPlacementGroupID: *string
+│   │   ├── ScaleSetEvictionPolicy: *string
+│   │   ├── ScaleSetPriority: *string
+│   │   ├── SpotMaxPrice: *float64
+│   │   ├── Tags: map[string]string
+│   │   ├── Type: *string
+│   │   ├── UpgradeSettings: *Object (2 properties)
+│   │   │   ├── MaxSurge: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── VmSize: *string
+│   │   └── VnetSubnetIDReference: *genruntime.ResourceReference
+│   └── Status: Object (41 properties)
+│       ├── AvailabilityZones: string[]
+│       ├── Conditions: conditions.Condition[]
+│       ├── Count: *int
+│       ├── EnableAutoScaling: *bool
+│       ├── EnableEncryptionAtHost: *bool
+│       ├── EnableFIPS: *bool
+│       ├── EnableNodePublicIP: *bool
+│       ├── EnableUltraSSD: *bool
+│       ├── GpuInstanceProfile: *string
+│       ├── Id: *string
+│       ├── KubeletConfig: *Object (12 properties)
+│       │   ├── AllowedUnsafeSysctls: string[]
+│       │   ├── ContainerLogMaxFiles: *int
+│       │   ├── ContainerLogMaxSizeMB: *int
+│       │   ├── CpuCfsQuota: *bool
+│       │   ├── CpuCfsQuotaPeriod: *string
+│       │   ├── CpuManagerPolicy: *string
+│       │   ├── FailSwapOn: *bool
+│       │   ├── ImageGcHighThreshold: *int
+│       │   ├── ImageGcLowThreshold: *int
+│       │   ├── PodMaxPids: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── TopologyManagerPolicy: *string
+│       ├── KubeletDiskType: *string
+│       ├── LinuxOSConfig: *Object (5 properties)
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── SwapFileSizeMB: *int
+│       │   ├── Sysctls: *Object (29 properties)
+│       │   │   ├── FsAioMaxNr: *int
+│       │   │   ├── FsFileMax: *int
+│       │   │   ├── FsInotifyMaxUserWatches: *int
+│       │   │   ├── FsNrOpen: *int
+│       │   │   ├── KernelThreadsMax: *int
+│       │   │   ├── NetCoreNetdevMaxBacklog: *int
+│       │   │   ├── NetCoreOptmemMax: *int
+│       │   │   ├── NetCoreRmemDefault: *int
+│       │   │   ├── NetCoreRmemMax: *int
+│       │   │   ├── NetCoreSomaxconn: *int
+│       │   │   ├── NetCoreWmemDefault: *int
+│       │   │   ├── NetCoreWmemMax: *int
+│       │   │   ├── NetIpv4IpLocalPortRange: *string
+│       │   │   ├── NetIpv4NeighDefaultGcThresh1: *int
+│       │   │   ├── NetIpv4NeighDefaultGcThresh2: *int
+│       │   │   ├── NetIpv4NeighDefaultGcThresh3: *int
+│       │   │   ├── NetIpv4TcpFinTimeout: *int
+│       │   │   ├── NetIpv4TcpKeepaliveProbes: *int
+│       │   │   ├── NetIpv4TcpKeepaliveTime: *int
+│       │   │   ├── NetIpv4TcpMaxSynBacklog: *int
+│       │   │   ├── NetIpv4TcpMaxTwBuckets: *int
+│       │   │   ├── NetIpv4TcpTwReuse: *bool
+│       │   │   ├── NetIpv4TcpkeepaliveIntvl: *int
+│       │   │   ├── NetNetfilterNfConntrackBuckets: *int
+│       │   │   ├── NetNetfilterNfConntrackMax: *int
+│       │   │   ├── PropertyBag: genruntime.PropertyBag
+│       │   │   ├── VmMaxMapCount: *int
+│       │   │   ├── VmSwappiness: *int
+│       │   │   └── VmVfsCachePressure: *int
+│       │   ├── TransparentHugePageDefrag: *string
+│       │   └── TransparentHugePageEnabled: *string
+│       ├── MaxCount: *int
+│       ├── MaxPods: *int
+│       ├── MinCount: *int
+│       ├── Mode: *string
+│       ├── Name: *string
+│       ├── NodeImageVersion: *string
+│       ├── NodeLabels: map[string]string
+│       ├── NodePublicIPPrefixID: *string
+│       ├── NodeTaints: string[]
+│       ├── OrchestratorVersion: *string
+│       ├── OsDiskSizeGB: *int
+│       ├── OsDiskType: *string
+│       ├── OsSKU: *string
+│       ├── OsType: *string
+│       ├── PodSubnetID: *string
+│       ├── PowerState: *Object (2 properties)
+│       │   ├── Code: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertiesType: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── ProximityPlacementGroupID: *string
+│       ├── ScaleSetEvictionPolicy: *string
+│       ├── ScaleSetPriority: *string
+│       ├── SpotMaxPrice: *float64
+│       ├── Tags: map[string]string
+│       ├── Type: *string
+│       ├── UpgradeSettings: *Object (2 properties)
+│       │   ├── MaxSurge: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── VmSize: *string
+│       └── VnetSubnetID: *string
+├── augmentConversionForAgentPoolUpgradeSettings: Interface
+├── augmentConversionForAgentPoolUpgradeSettings_STATUS: Interface
+├── augmentConversionForContainerServiceLinuxProfile: Interface
+├── augmentConversionForContainerServiceLinuxProfile_STATUS: Interface
+├── augmentConversionForContainerServiceNetworkProfile: Interface
+├── augmentConversionForContainerServiceNetworkProfile_STATUS: Interface
+├── augmentConversionForContainerServiceSshConfiguration: Interface
+├── augmentConversionForContainerServiceSshConfiguration_STATUS: Interface
+├── augmentConversionForContainerServiceSshPublicKey: Interface
+├── augmentConversionForContainerServiceSshPublicKey_STATUS: Interface
+├── augmentConversionForExtendedLocation: Interface
+├── augmentConversionForExtendedLocation_STATUS: Interface
+├── augmentConversionForKubeletConfig: Interface
+├── augmentConversionForKubeletConfig_STATUS: Interface
+├── augmentConversionForLinuxOSConfig: Interface
+├── augmentConversionForLinuxOSConfig_STATUS: Interface
+├── augmentConversionForManagedCluster: Interface
+├── augmentConversionForManagedClusterAADProfile: Interface
+├── augmentConversionForManagedClusterAADProfile_STATUS: Interface
+├── augmentConversionForManagedClusterAPIServerAccessProfile: Interface
+├── augmentConversionForManagedClusterAPIServerAccessProfile_STATUS: Interface
+├── augmentConversionForManagedClusterAddonProfile: Interface
+├── augmentConversionForManagedClusterAddonProfile_STATUS: Interface
+├── augmentConversionForManagedClusterAgentPoolProfile: Interface
+├── augmentConversionForManagedClusterAgentPoolProfile_STATUS: Interface
+├── augmentConversionForManagedClusterAutoUpgradeProfile: Interface
+├── augmentConversionForManagedClusterAutoUpgradeProfile_STATUS: Interface
+├── augmentConversionForManagedClusterHTTPProxyConfig: Interface
+├── augmentConversionForManagedClusterHTTPProxyConfig_STATUS: Interface
+├── augmentConversionForManagedClusterIdentity: Interface
+├── augmentConversionForManagedClusterIdentity_STATUS: Interface
+├── augmentConversionForManagedClusterIdentity_UserAssignedIdentities_STATUS: Interface
+├── augmentConversionForManagedClusterLoadBalancerProfile: Interface
+├── augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs: Interface
+├── augmentConversionForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS: Interface
+├── augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes: Interface
+├── augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS: Interface
+├── augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs: Interface
+├── augmentConversionForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS: Interface
+├── augmentConversionForManagedClusterLoadBalancerProfile_STATUS: Interface
+├── augmentConversionForManagedClusterOperatorSecrets: Interface
+├── augmentConversionForManagedClusterOperatorSpec: Interface
+├── augmentConversionForManagedClusterPodIdentity: Interface
+├── augmentConversionForManagedClusterPodIdentityException: Interface
+├── augmentConversionForManagedClusterPodIdentityException_STATUS: Interface
+├── augmentConversionForManagedClusterPodIdentityProfile: Interface
+├── augmentConversionForManagedClusterPodIdentityProfile_STATUS: Interface
+├── augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS: Interface
+├── augmentConversionForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled: Interface
+├── augmentConversionForManagedClusterPodIdentityProvisioningError_STATUS: Interface
+├── augmentConversionForManagedClusterPodIdentity_ProvisioningInfo_STATUS: Interface
+├── augmentConversionForManagedClusterPodIdentity_STATUS: Interface
+├── augmentConversionForManagedClusterProperties_AutoScalerProfile: Interface
+├── augmentConversionForManagedClusterProperties_AutoScalerProfile_STATUS: Interface
+├── augmentConversionForManagedClusterSKU: Interface
+├── augmentConversionForManagedClusterSKU_STATUS: Interface
+├── augmentConversionForManagedClusterServicePrincipalProfile: Interface
+├── augmentConversionForManagedClusterServicePrincipalProfile_STATUS: Interface
+├── augmentConversionForManagedClusterWindowsProfile: Interface
+├── augmentConversionForManagedClusterWindowsProfile_STATUS: Interface
+├── augmentConversionForManagedCluster_STATUS: Interface
+├── augmentConversionForManagedCluster_Spec: Interface
+├── augmentConversionForManagedClustersAgentPool: Interface
+├── augmentConversionForManagedClusters_AgentPool_STATUS: Interface
+├── augmentConversionForManagedClusters_AgentPool_Spec: Interface
+├── augmentConversionForPowerState_STATUS: Interface
+├── augmentConversionForPrivateLinkResource: Interface
+├── augmentConversionForPrivateLinkResource_STATUS: Interface
+├── augmentConversionForResourceReference: Interface
+├── augmentConversionForResourceReference_STATUS: Interface
+├── augmentConversionForSysctlConfig: Interface
+├── augmentConversionForSysctlConfig_STATUS: Interface
+├── augmentConversionForUserAssignedIdentity: Interface
+└── augmentConversionForUserAssignedIdentity_STATUS: Interface

@@ -75,7 +75,7 @@ var _ admission.Defaulter = &SqlDatabaseContainerStoredProcedure{}
 // Default applies defaults to the SqlDatabaseContainerStoredProcedure resource
 func (procedure *SqlDatabaseContainerStoredProcedure) Default() {
 	procedure.defaultImpl()
-	var temp interface{} = procedure
+	var temp any = procedure
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &SqlDatabaseContainerStoredProcedure{}
 // ValidateCreate validates the creation of the resource
 func (procedure *SqlDatabaseContainerStoredProcedure) ValidateCreate() error {
 	validations := procedure.createValidations()
-	var temp interface{} = procedure
+	var temp any = procedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (procedure *SqlDatabaseContainerStoredProcedure) ValidateDelete() error {
 	validations := procedure.deleteValidations()
-	var temp interface{} = procedure
+	var temp any = procedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (procedure *SqlDatabaseContainerStoredProcedure) ValidateUpdate(old runtime.Object) error {
 	validations := procedure.updateValidations()
-	var temp interface{} = procedure
+	var temp any = procedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

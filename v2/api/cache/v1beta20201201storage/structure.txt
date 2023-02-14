@@ -146,26 +146,29 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage
 │       ├── ProvisioningState: *string
 │       ├── ServerRole: *string
 │       └── Type: *string
-└── RedisPatchSchedule: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201.Redis
-    ├── Spec: Object (4 properties)
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── ScheduleEntries: Object (4 properties)[]
-    │       ├── DayOfWeek: *string
-    │       ├── MaintenanceWindow: *string
-    │       ├── PropertyBag: genruntime.PropertyBag
-    │       └── StartHourUtc: *int
-    └── Status: Object (7 properties)
-        ├── Conditions: conditions.Condition[]
-        ├── Id: *string
-        ├── Location: *string
-        ├── Name: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── ScheduleEntries: Object (4 properties)[]
-        │   ├── DayOfWeek: *string
-        │   ├── MaintenanceWindow: *string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── StartHourUtc: *int
-        └── Type: *string
+├── RedisPatchSchedule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201.Redis
+│   ├── Spec: Object (4 properties)
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── ScheduleEntries: Object (4 properties)[]
+│   │       ├── DayOfWeek: *string
+│   │       ├── MaintenanceWindow: *string
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── StartHourUtc: *int
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ScheduleEntries: Object (4 properties)[]
+│       │   ├── DayOfWeek: *string
+│       │   ├── MaintenanceWindow: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── StartHourUtc: *int
+│       └── Type: *string
+├── augmentConversionForPrivateEndpointConnection_STATUS: Interface
+├── augmentConversionForSku: Interface
+└── augmentConversionForSku_STATUS: Interface

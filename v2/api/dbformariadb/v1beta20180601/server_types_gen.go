@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Server{}
 // Default applies defaults to the Server resource
 func (server *Server) Default() {
 	server.defaultImpl()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &Server{}
 // ValidateCreate validates the creation of the resource
 func (server *Server) ValidateCreate() error {
 	validations := server.createValidations()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (server *Server) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (server *Server) ValidateDelete() error {
 	validations := server.deleteValidations()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (server *Server) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (server *Server) ValidateUpdate(old runtime.Object) error {
 	validations := server.updateValidations()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

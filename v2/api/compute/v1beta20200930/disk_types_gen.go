@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Disk{}
 // Default applies defaults to the Disk resource
 func (disk *Disk) Default() {
 	disk.defaultImpl()
-	var temp interface{} = disk
+	var temp any = disk
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &Disk{}
 // ValidateCreate validates the creation of the resource
 func (disk *Disk) ValidateCreate() error {
 	validations := disk.createValidations()
-	var temp interface{} = disk
+	var temp any = disk
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (disk *Disk) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (disk *Disk) ValidateDelete() error {
 	validations := disk.deleteValidations()
-	var temp interface{} = disk
+	var temp any = disk
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (disk *Disk) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (disk *Disk) ValidateUpdate(old runtime.Object) error {
 	validations := disk.updateValidations()
-	var temp interface{} = disk
+	var temp any = disk
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

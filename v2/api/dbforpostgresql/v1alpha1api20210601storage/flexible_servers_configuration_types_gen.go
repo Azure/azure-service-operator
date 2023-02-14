@@ -151,6 +151,15 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_From_Flexibl
 	}
 	configuration.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersConfiguration interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServersConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (configuration *FlexibleServersConfiguration) AssignProperties_To_FlexibleS
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersConfiguration interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServersConfiguration); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type FlexibleServersConfigurationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersConfiguration `json:"items"`
+}
+
+type augmentConversionForFlexibleServersConfiguration interface {
+	AssignPropertiesFrom(src *v20210601s.FlexibleServersConfiguration) error
+	AssignPropertiesTo(dst *v20210601s.FlexibleServersConfiguration) error
 }
 
 // Storage version of v1alpha1api20210601.FlexibleServers_Configuration_Spec
@@ -298,6 +321,15 @@ func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_From_F
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Configuration_Spec interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServers_Configuration_Spec); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -332,6 +364,15 @@ func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_To_Fle
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServers_Configuration_Spec interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServers_Configuration_Spec); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -494,6 +535,15 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_From
 		configuration.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Configuration_STATUS interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServers_Configuration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -582,8 +632,27 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_To_F
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_Configuration_STATUS interface (if implemented) to customize the conversion
+	var configurationAsAny any = configuration
+	if augmentedConfiguration, ok := configurationAsAny.(augmentConversionForFlexibleServers_Configuration_STATUS); ok {
+		err := augmentedConfiguration.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForFlexibleServers_Configuration_Spec interface {
+	AssignPropertiesFrom(src *v20210601s.FlexibleServers_Configuration_Spec) error
+	AssignPropertiesTo(dst *v20210601s.FlexibleServers_Configuration_Spec) error
+}
+
+type augmentConversionForFlexibleServers_Configuration_STATUS interface {
+	AssignPropertiesFrom(src *v20210601s.FlexibleServers_Configuration_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.FlexibleServers_Configuration_STATUS) error
 }
 
 func init() {

@@ -75,7 +75,7 @@ var _ admission.Defaulter = &WorkspacesConnection{}
 // Default applies defaults to the WorkspacesConnection resource
 func (connection *WorkspacesConnection) Default() {
 	connection.defaultImpl()
-	var temp interface{} = connection
+	var temp any = connection
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &WorkspacesConnection{}
 // ValidateCreate validates the creation of the resource
 func (connection *WorkspacesConnection) ValidateCreate() error {
 	validations := connection.createValidations()
-	var temp interface{} = connection
+	var temp any = connection
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (connection *WorkspacesConnection) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (connection *WorkspacesConnection) ValidateDelete() error {
 	validations := connection.deleteValidations()
-	var temp interface{} = connection
+	var temp any = connection
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (connection *WorkspacesConnection) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (connection *WorkspacesConnection) ValidateUpdate(old runtime.Object) error {
 	validations := connection.updateValidations()
-	var temp interface{} = connection
+	var temp any = connection
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

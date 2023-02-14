@@ -532,3 +532,39 @@ func TestGolden_PropertyAssignmentFunction_WhenMultipleIntermediateSharedObjectV
 
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "SharedObjectMultiple", receiverDefinition)
 }
+
+func TestGolden_PropertyAssignmentFunction_WhenOverrideInterfacePresent(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	idFactory := astmodel.NewIdentifierFactory()
+	injector := astmodel.NewFunctionInjector()
+
+	person2020 := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Person",
+		test.FullNameProperty,
+		test.KnownAsProperty,
+		test.FamilyNameProperty)
+
+	person2021 := test.CreateObjectDefinition(
+		test.Pkg2021,
+		"Person",
+		test.FullNameProperty,
+		test.PropertyBagProperty)
+
+	overrideInterfaceName := astmodel.MakeTypeName(test.Pkg2020, "personAssignable")
+
+	conversionContext := conversions.NewPropertyConversionContext(make(astmodel.TypeDefinitionSet), idFactory)
+	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
+	g.Expect(err).To(Succeed())
+	assignFrom = assignFrom.WithAugmentationInterface(overrideInterfaceName)
+
+	assignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
+	g.Expect(err).To(Succeed())
+	assignTo = assignTo.WithAugmentationInterface(overrideInterfaceName)
+
+	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
+	g.Expect(err).To(Succeed())
+
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "OverrideInterface", receiverDefinition)
+}
