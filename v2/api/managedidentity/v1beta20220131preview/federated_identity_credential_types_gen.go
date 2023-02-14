@@ -75,7 +75,7 @@ var _ admission.Defaulter = &FederatedIdentityCredential{}
 // Default applies defaults to the FederatedIdentityCredential resource
 func (credential *FederatedIdentityCredential) Default() {
 	credential.defaultImpl()
-	var temp interface{} = credential
+	var temp any = credential
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &FederatedIdentityCredential{}
 // ValidateCreate validates the creation of the resource
 func (credential *FederatedIdentityCredential) ValidateCreate() error {
 	validations := credential.createValidations()
-	var temp interface{} = credential
+	var temp any = credential
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (credential *FederatedIdentityCredential) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (credential *FederatedIdentityCredential) ValidateDelete() error {
 	validations := credential.deleteValidations()
-	var temp interface{} = credential
+	var temp any = credential
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (credential *FederatedIdentityCredential) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (credential *FederatedIdentityCredential) ValidateUpdate(old runtime.Object) error {
 	validations := credential.updateValidations()
-	var temp interface{} = credential
+	var temp any = credential
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

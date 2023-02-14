@@ -87,7 +87,7 @@ var _ admission.Defaulter = &RoleAssignment{}
 // Default applies defaults to the RoleAssignment resource
 func (assignment *RoleAssignment) Default() {
 	assignment.defaultImpl()
-	var temp interface{} = assignment
+	var temp any = assignment
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -175,7 +175,7 @@ var _ admission.Validator = &RoleAssignment{}
 // ValidateCreate validates the creation of the resource
 func (assignment *RoleAssignment) ValidateCreate() error {
 	validations := assignment.createValidations()
-	var temp interface{} = assignment
+	var temp any = assignment
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -192,7 +192,7 @@ func (assignment *RoleAssignment) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (assignment *RoleAssignment) ValidateDelete() error {
 	validations := assignment.deleteValidations()
-	var temp interface{} = assignment
+	var temp any = assignment
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -209,7 +209,7 @@ func (assignment *RoleAssignment) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (assignment *RoleAssignment) ValidateUpdate(old runtime.Object) error {
 	validations := assignment.updateValidations()
-	var temp interface{} = assignment
+	var temp any = assignment
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

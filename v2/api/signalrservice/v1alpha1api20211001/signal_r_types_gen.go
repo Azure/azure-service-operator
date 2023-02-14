@@ -87,7 +87,7 @@ var _ admission.Defaulter = &SignalR{}
 // Default applies defaults to the SignalR resource
 func (signalR *SignalR) Default() {
 	signalR.defaultImpl()
-	var temp interface{} = signalR
+	var temp any = signalR
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &SignalR{}
 // ValidateCreate validates the creation of the resource
 func (signalR *SignalR) ValidateCreate() error {
 	validations := signalR.createValidations()
-	var temp interface{} = signalR
+	var temp any = signalR
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (signalR *SignalR) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (signalR *SignalR) ValidateDelete() error {
 	validations := signalR.deleteValidations()
-	var temp interface{} = signalR
+	var temp any = signalR
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (signalR *SignalR) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (signalR *SignalR) ValidateUpdate(old runtime.Object) error {
 	validations := signalR.updateValidations()
-	var temp interface{} = signalR
+	var temp any = signalR
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

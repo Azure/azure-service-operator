@@ -151,6 +151,15 @@ func (namespace *Namespace) AssignProperties_From_Namespace(source *v20210101ps.
 	}
 	namespace.Status = status
 
+	// Invoke the augmentConversionForNamespace interface (if implemented) to customize the conversion
+	var namespaceAsAny any = namespace
+	if augmentedNamespace, ok := namespaceAsAny.(augmentConversionForNamespace); ok {
+		err := augmentedNamespace.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -176,6 +185,15 @@ func (namespace *Namespace) AssignProperties_To_Namespace(destination *v20210101
 		return errors.Wrap(err, "calling AssignProperties_To_Namespace_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	// Invoke the augmentConversionForNamespace interface (if implemented) to customize the conversion
+	var namespaceAsAny any = namespace
+	if augmentedNamespace, ok := namespaceAsAny.(augmentConversionForNamespace); ok {
+		err := augmentedNamespace.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -205,6 +223,11 @@ type NamespaceList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-01-01-preview")
+
+type augmentConversionForNamespace interface {
+	AssignPropertiesFrom(src *v20210101ps.Namespace) error
+	AssignPropertiesTo(dst *v20210101ps.Namespace) error
+}
 
 // Storage version of v1alpha1api20210101preview.Namespace_Spec
 type Namespace_Spec struct {
@@ -366,6 +389,15 @@ func (namespace *Namespace_Spec) AssignProperties_From_Namespace_Spec(source *v2
 		namespace.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespace_Spec interface (if implemented) to customize the conversion
+	var namespaceAsAny any = namespace
+	if augmentedNamespace, ok := namespaceAsAny.(augmentConversionForNamespace_Spec); ok {
+		err := augmentedNamespace.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -456,6 +488,15 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespace_Spec interface (if implemented) to customize the conversion
+	var namespaceAsAny any = namespace
+	if augmentedNamespace, ok := namespaceAsAny.(augmentConversionForNamespace_Spec); ok {
+		err := augmentedNamespace.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -658,6 +699,15 @@ func (namespace *Namespace_STATUS) AssignProperties_From_Namespace_STATUS(source
 		namespace.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespace_STATUS interface (if implemented) to customize the conversion
+	var namespaceAsAny any = namespace
+	if augmentedNamespace, ok := namespaceAsAny.(augmentConversionForNamespace_STATUS); ok {
+		err := augmentedNamespace.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -784,8 +834,27 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespace_STATUS interface (if implemented) to customize the conversion
+	var namespaceAsAny any = namespace
+	if augmentedNamespace, ok := namespaceAsAny.(augmentConversionForNamespace_STATUS); ok {
+		err := augmentedNamespace.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForNamespace_Spec interface {
+	AssignPropertiesFrom(src *v20210101ps.Namespace_Spec) error
+	AssignPropertiesTo(dst *v20210101ps.Namespace_Spec) error
+}
+
+type augmentConversionForNamespace_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.Namespace_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.Namespace_STATUS) error
 }
 
 // Storage version of v1alpha1api20210101preview.Encryption
@@ -838,6 +907,15 @@ func (encryption *Encryption) AssignProperties_From_Encryption(source *v20210101
 		encryption.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForEncryption interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForEncryption); ok {
+		err := augmentedEncryption.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -881,6 +959,15 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *v20210
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEncryption interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForEncryption); ok {
+		err := augmentedEncryption.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -937,6 +1024,15 @@ func (encryption *Encryption_STATUS) AssignProperties_From_Encryption_STATUS(sou
 		encryption.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForEncryption_STATUS interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForEncryption_STATUS); ok {
+		err := augmentedEncryption.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -982,6 +1078,15 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForEncryption_STATUS interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForEncryption_STATUS); ok {
+		err := augmentedEncryption.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1008,6 +1113,15 @@ func (identity *Identity) AssignProperties_From_Identity(source *v20210101ps.Ide
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1025,6 +1139,15 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210101ps.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1080,6 +1203,15 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *v
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1123,6 +1255,15 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1158,6 +1299,15 @@ func (operator *NamespaceOperatorSpec) AssignProperties_From_NamespaceOperatorSp
 		operator.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaceOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespaceOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1186,6 +1336,15 @@ func (operator *NamespaceOperatorSpec) AssignProperties_To_NamespaceOperatorSpec
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaceOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForNamespaceOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1212,6 +1371,15 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 		connection.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
+		err := augmentedConnection.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1229,6 +1397,15 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
+		err := augmentedConnection.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1265,6 +1442,15 @@ func (sbSku *SBSku) AssignProperties_From_SBSku(source *v20210101ps.SBSku) error
 		sbSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSBSku interface (if implemented) to customize the conversion
+	var sbSkuAsAny any = sbSku
+	if augmentedSbSku, ok := sbSkuAsAny.(augmentConversionForSBSku); ok {
+		err := augmentedSbSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1288,6 +1474,15 @@ func (sbSku *SBSku) AssignProperties_To_SBSku(destination *v20210101ps.SBSku) er
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSBSku interface (if implemented) to customize the conversion
+	var sbSkuAsAny any = sbSku
+	if augmentedSbSku, ok := sbSkuAsAny.(augmentConversionForSBSku); ok {
+		err := augmentedSbSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1324,6 +1519,15 @@ func (sbSku *SBSku_STATUS) AssignProperties_From_SBSku_STATUS(source *v20210101p
 		sbSku.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSBSku_STATUS interface (if implemented) to customize the conversion
+	var sbSkuAsAny any = sbSku
+	if augmentedSbSku, ok := sbSkuAsAny.(augmentConversionForSBSku_STATUS); ok {
+		err := augmentedSbSku.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1347,6 +1551,15 @@ func (sbSku *SBSku_STATUS) AssignProperties_To_SBSku_STATUS(destination *v202101
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSBSku_STATUS interface (if implemented) to customize the conversion
+	var sbSkuAsAny any = sbSku
+	if augmentedSbSku, ok := sbSkuAsAny.(augmentConversionForSBSku_STATUS); ok {
+		err := augmentedSbSku.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1395,6 +1608,15 @@ func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v
 		data.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1429,8 +1651,62 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForEncryption interface {
+	AssignPropertiesFrom(src *v20210101ps.Encryption) error
+	AssignPropertiesTo(dst *v20210101ps.Encryption) error
+}
+
+type augmentConversionForEncryption_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.Encryption_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.Encryption_STATUS) error
+}
+
+type augmentConversionForIdentity interface {
+	AssignPropertiesFrom(src *v20210101ps.Identity) error
+	AssignPropertiesTo(dst *v20210101ps.Identity) error
+}
+
+type augmentConversionForIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.Identity_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.Identity_STATUS) error
+}
+
+type augmentConversionForNamespaceOperatorSpec interface {
+	AssignPropertiesFrom(src *v20210101ps.NamespaceOperatorSpec) error
+	AssignPropertiesTo(dst *v20210101ps.NamespaceOperatorSpec) error
+}
+
+type augmentConversionForPrivateEndpointConnection_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.PrivateEndpointConnection_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.PrivateEndpointConnection_STATUS) error
+}
+
+type augmentConversionForSBSku interface {
+	AssignPropertiesFrom(src *v20210101ps.SBSku) error
+	AssignPropertiesTo(dst *v20210101ps.SBSku) error
+}
+
+type augmentConversionForSBSku_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.SBSku_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.SBSku_STATUS) error
+}
+
+type augmentConversionForSystemData_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.SystemData_STATUS) error
 }
 
 // Storage version of v1alpha1api20210101preview.DictionaryValue_STATUS
@@ -1459,6 +1735,15 @@ func (value *DictionaryValue_STATUS) AssignProperties_From_DictionaryValue_STATU
 		value.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDictionaryValue_STATUS interface (if implemented) to customize the conversion
+	var valueAsAny any = value
+	if augmentedValue, ok := valueAsAny.(augmentConversionForDictionaryValue_STATUS); ok {
+		err := augmentedValue.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1479,6 +1764,15 @@ func (value *DictionaryValue_STATUS) AssignProperties_To_DictionaryValue_STATUS(
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDictionaryValue_STATUS interface (if implemented) to customize the conversion
+	var valueAsAny any = value
+	if augmentedValue, ok := valueAsAny.(augmentConversionForDictionaryValue_STATUS); ok {
+		err := augmentedValue.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1528,6 +1822,15 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1563,6 +1866,15 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKeyVaultProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1612,6 +1924,15 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultPrope
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1649,6 +1970,15 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1679,6 +2009,15 @@ func (secrets *NamespaceOperatorSecrets) AssignProperties_From_NamespaceOperator
 		secrets.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaceOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForNamespaceOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1703,8 +2042,37 @@ func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaceOperatorSecrets interface (if implemented) to customize the conversion
+	var secretsAsAny any = secrets
+	if augmentedSecrets, ok := secretsAsAny.(augmentConversionForNamespaceOperatorSecrets); ok {
+		err := augmentedSecrets.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDictionaryValue_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.DictionaryValue_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.DictionaryValue_STATUS) error
+}
+
+type augmentConversionForKeyVaultProperties interface {
+	AssignPropertiesFrom(src *v20210101ps.KeyVaultProperties) error
+	AssignPropertiesTo(dst *v20210101ps.KeyVaultProperties) error
+}
+
+type augmentConversionForKeyVaultProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.KeyVaultProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.KeyVaultProperties_STATUS) error
+}
+
+type augmentConversionForNamespaceOperatorSecrets interface {
+	AssignPropertiesFrom(src *v20210101ps.NamespaceOperatorSecrets) error
+	AssignPropertiesTo(dst *v20210101ps.NamespaceOperatorSecrets) error
 }
 
 // Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties
@@ -1734,6 +2102,15 @@ func (properties *UserAssignedIdentityProperties) AssignProperties_From_UserAssi
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentityProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForUserAssignedIdentityProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1756,6 +2133,15 @@ func (properties *UserAssignedIdentityProperties) AssignProperties_To_UserAssign
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForUserAssignedIdentityProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1784,6 +2170,15 @@ func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_From_U
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentityProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForUserAssignedIdentityProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1803,8 +2198,27 @@ func (properties *UserAssignedIdentityProperties_STATUS) AssignProperties_To_Use
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUserAssignedIdentityProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForUserAssignedIdentityProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForUserAssignedIdentityProperties interface {
+	AssignPropertiesFrom(src *v20210101ps.UserAssignedIdentityProperties) error
+	AssignPropertiesTo(dst *v20210101ps.UserAssignedIdentityProperties) error
+}
+
+type augmentConversionForUserAssignedIdentityProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20210101ps.UserAssignedIdentityProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101ps.UserAssignedIdentityProperties_STATUS) error
 }
 
 func init() {

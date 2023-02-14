@@ -151,6 +151,15 @@ func (topic *DomainsTopic) AssignProperties_From_DomainsTopic(source *v20200601s
 	}
 	topic.Status = status
 
+	// Invoke the augmentConversionForDomainsTopic interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomainsTopic); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (topic *DomainsTopic) AssignProperties_To_DomainsTopic(destination *v202006
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForDomainsTopic interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomainsTopic); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type DomainsTopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DomainsTopic `json:"items"`
+}
+
+type augmentConversionForDomainsTopic interface {
+	AssignPropertiesFrom(src *v20200601s.DomainsTopic) error
+	AssignPropertiesTo(dst *v20200601s.DomainsTopic) error
 }
 
 // Storage version of v1alpha1api20200601.Domains_Topic_Spec
@@ -290,6 +313,15 @@ func (topic *Domains_Topic_Spec) AssignProperties_From_Domains_Topic_Spec(source
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDomains_Topic_Spec interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomains_Topic_Spec); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -318,6 +350,15 @@ func (topic *Domains_Topic_Spec) AssignProperties_To_Domains_Topic_Spec(destinat
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDomains_Topic_Spec interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomains_Topic_Spec); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -425,6 +466,15 @@ func (topic *Domains_Topic_STATUS) AssignProperties_From_Domains_Topic_STATUS(so
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDomains_Topic_STATUS interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomains_Topic_STATUS); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -468,8 +518,27 @@ func (topic *Domains_Topic_STATUS) AssignProperties_To_Domains_Topic_STATUS(dest
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDomains_Topic_STATUS interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForDomains_Topic_STATUS); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDomains_Topic_Spec interface {
+	AssignPropertiesFrom(src *v20200601s.Domains_Topic_Spec) error
+	AssignPropertiesTo(dst *v20200601s.Domains_Topic_Spec) error
+}
+
+type augmentConversionForDomains_Topic_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.Domains_Topic_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.Domains_Topic_STATUS) error
 }
 
 func init() {

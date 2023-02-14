@@ -76,7 +76,7 @@ var _ admission.Defaulter = &WorkspacesCompute{}
 // Default applies defaults to the WorkspacesCompute resource
 func (compute *WorkspacesCompute) Default() {
 	compute.defaultImpl()
-	var temp interface{} = compute
+	var temp any = compute
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -165,7 +165,7 @@ var _ admission.Validator = &WorkspacesCompute{}
 // ValidateCreate validates the creation of the resource
 func (compute *WorkspacesCompute) ValidateCreate() error {
 	validations := compute.createValidations()
-	var temp interface{} = compute
+	var temp any = compute
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -182,7 +182,7 @@ func (compute *WorkspacesCompute) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (compute *WorkspacesCompute) ValidateDelete() error {
 	validations := compute.deleteValidations()
-	var temp interface{} = compute
+	var temp any = compute
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -199,7 +199,7 @@ func (compute *WorkspacesCompute) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (compute *WorkspacesCompute) ValidateUpdate(old runtime.Object) error {
 	validations := compute.updateValidations()
-	var temp interface{} = compute
+	var temp any = compute
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

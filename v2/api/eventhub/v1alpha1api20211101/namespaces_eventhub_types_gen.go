@@ -87,7 +87,7 @@ var _ admission.Defaulter = &NamespacesEventhub{}
 // Default applies defaults to the NamespacesEventhub resource
 func (eventhub *NamespacesEventhub) Default() {
 	eventhub.defaultImpl()
-	var temp interface{} = eventhub
+	var temp any = eventhub
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &NamespacesEventhub{}
 // ValidateCreate validates the creation of the resource
 func (eventhub *NamespacesEventhub) ValidateCreate() error {
 	validations := eventhub.createValidations()
-	var temp interface{} = eventhub
+	var temp any = eventhub
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (eventhub *NamespacesEventhub) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (eventhub *NamespacesEventhub) ValidateDelete() error {
 	validations := eventhub.deleteValidations()
-	var temp interface{} = eventhub
+	var temp any = eventhub
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (eventhub *NamespacesEventhub) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (eventhub *NamespacesEventhub) ValidateUpdate(old runtime.Object) error {
 	validations := eventhub.updateValidations()
-	var temp interface{} = eventhub
+	var temp any = eventhub
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

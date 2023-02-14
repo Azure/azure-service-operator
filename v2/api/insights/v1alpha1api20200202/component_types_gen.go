@@ -87,7 +87,7 @@ var _ admission.Defaulter = &Component{}
 // Default applies defaults to the Component resource
 func (component *Component) Default() {
 	component.defaultImpl()
-	var temp interface{} = component
+	var temp any = component
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &Component{}
 // ValidateCreate validates the creation of the resource
 func (component *Component) ValidateCreate() error {
 	validations := component.createValidations()
-	var temp interface{} = component
+	var temp any = component
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (component *Component) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (component *Component) ValidateDelete() error {
 	validations := component.deleteValidations()
-	var temp interface{} = component
+	var temp any = component
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (component *Component) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (component *Component) ValidateUpdate(old runtime.Object) error {
 	validations := component.updateValidations()
-	var temp interface{} = component
+	var temp any = component
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

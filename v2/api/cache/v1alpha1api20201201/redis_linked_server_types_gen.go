@@ -87,7 +87,7 @@ var _ admission.Defaulter = &RedisLinkedServer{}
 // Default applies defaults to the RedisLinkedServer resource
 func (server *RedisLinkedServer) Default() {
 	server.defaultImpl()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &RedisLinkedServer{}
 // ValidateCreate validates the creation of the resource
 func (server *RedisLinkedServer) ValidateCreate() error {
 	validations := server.createValidations()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (server *RedisLinkedServer) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (server *RedisLinkedServer) ValidateDelete() error {
 	validations := server.deleteValidations()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (server *RedisLinkedServer) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (server *RedisLinkedServer) ValidateUpdate(old runtime.Object) error {
 	validations := server.updateValidations()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

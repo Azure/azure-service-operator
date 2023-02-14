@@ -87,7 +87,7 @@ var _ admission.Defaulter = &MongodbDatabaseThroughputSetting{}
 // Default applies defaults to the MongodbDatabaseThroughputSetting resource
 func (setting *MongodbDatabaseThroughputSetting) Default() {
 	setting.defaultImpl()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -169,7 +169,7 @@ var _ admission.Validator = &MongodbDatabaseThroughputSetting{}
 // ValidateCreate validates the creation of the resource
 func (setting *MongodbDatabaseThroughputSetting) ValidateCreate() error {
 	validations := setting.createValidations()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -186,7 +186,7 @@ func (setting *MongodbDatabaseThroughputSetting) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (setting *MongodbDatabaseThroughputSetting) ValidateDelete() error {
 	validations := setting.deleteValidations()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -203,7 +203,7 @@ func (setting *MongodbDatabaseThroughputSetting) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (setting *MongodbDatabaseThroughputSetting) ValidateUpdate(old runtime.Object) error {
 	validations := setting.updateValidations()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

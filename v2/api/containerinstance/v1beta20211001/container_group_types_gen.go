@@ -76,7 +76,7 @@ var _ admission.Defaulter = &ContainerGroup{}
 // Default applies defaults to the ContainerGroup resource
 func (group *ContainerGroup) Default() {
 	group.defaultImpl()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -165,7 +165,7 @@ var _ admission.Validator = &ContainerGroup{}
 // ValidateCreate validates the creation of the resource
 func (group *ContainerGroup) ValidateCreate() error {
 	validations := group.createValidations()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -182,7 +182,7 @@ func (group *ContainerGroup) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (group *ContainerGroup) ValidateDelete() error {
 	validations := group.deleteValidations()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -199,7 +199,7 @@ func (group *ContainerGroup) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (group *ContainerGroup) ValidateUpdate(old runtime.Object) error {
 	validations := group.updateValidations()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

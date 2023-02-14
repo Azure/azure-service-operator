@@ -151,6 +151,15 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_From_NamespacesE
 	}
 	group.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhubsConsumerGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForNamespacesEventhubsConsumerGroup); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (group *NamespacesEventhubsConsumerGroup) AssignProperties_To_NamespacesEve
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNamespacesEventhubsConsumerGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForNamespacesEventhubsConsumerGroup); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type NamespacesEventhubsConsumerGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsConsumerGroup `json:"items"`
+}
+
+type augmentConversionForNamespacesEventhubsConsumerGroup interface {
+	AssignPropertiesFrom(src *v20211101s.NamespacesEventhubsConsumerGroup) error
+	AssignPropertiesTo(dst *v20211101s.NamespacesEventhubsConsumerGroup) error
 }
 
 // Storage version of v1alpha1api20211101.Namespaces_Eventhubs_Consumergroup_Spec
@@ -296,6 +319,15 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_F
 		consumergroup.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec interface (if implemented) to customize the conversion
+	var consumergroupAsAny any = consumergroup
+	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec); ok {
+		err := augmentedConsumergroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -327,6 +359,15 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_T
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec interface (if implemented) to customize the conversion
+	var consumergroupAsAny any = consumergroup
+	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec); ok {
+		err := augmentedConsumergroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -446,6 +487,15 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) AssignProperties
 		consumergroup.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS interface (if implemented) to customize the conversion
+	var consumergroupAsAny any = consumergroup
+	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS); ok {
+		err := augmentedConsumergroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -498,8 +548,27 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_STATUS) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS interface (if implemented) to customize the conversion
+	var consumergroupAsAny any = consumergroup
+	if augmentedConsumergroup, ok := consumergroupAsAny.(augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS); ok {
+		err := augmentedConsumergroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForNamespaces_Eventhubs_Consumergroup_Spec interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_Eventhubs_Consumergroup_Spec) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_Eventhubs_Consumergroup_Spec) error
+}
+
+type augmentConversionForNamespaces_Eventhubs_Consumergroup_STATUS interface {
+	AssignPropertiesFrom(src *v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS) error
+	AssignPropertiesTo(dst *v20211101s.Namespaces_Eventhubs_Consumergroup_STATUS) error
 }
 
 func init() {

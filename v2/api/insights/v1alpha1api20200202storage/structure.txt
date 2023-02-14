@@ -1,66 +1,70 @@
 github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202storage
 ├── APIVersion: Enum (1 value)
 │   └── "2020-02-02"
-└── Component: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
-    ├── Spec: Object (22 properties)
-    │   ├── Application_Type: *string
-    │   ├── AzureName: string
-    │   ├── DisableIpMasking: *bool
-    │   ├── DisableLocalAuth: *bool
-    │   ├── Etag: *string
-    │   ├── Flow_Type: *string
-    │   ├── ForceCustomerStorageForProfiler: *bool
-    │   ├── HockeyAppId: *string
-    │   ├── ImmediatePurgeDataOn30Days: *bool
-    │   ├── IngestionMode: *string
-    │   ├── Kind: *string
-    │   ├── Location: *string
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── PublicNetworkAccessForIngestion: *string
-    │   ├── PublicNetworkAccessForQuery: *string
-    │   ├── Request_Source: *string
-    │   ├── RetentionInDays: *int
-    │   ├── SamplingPercentage: *float64
-    │   ├── Tags: map[string]string
-    │   └── WorkspaceResourceReference: *genruntime.ResourceReference
-    └── Status: Object (34 properties)
-        ├── AppId: *string
-        ├── ApplicationId: *string
-        ├── Application_Type: *string
-        ├── Conditions: conditions.Condition[]
-        ├── ConnectionString: *string
-        ├── CreationDate: *string
-        ├── DisableIpMasking: *bool
-        ├── DisableLocalAuth: *bool
-        ├── Etag: *string
-        ├── Flow_Type: *string
-        ├── ForceCustomerStorageForProfiler: *bool
-        ├── HockeyAppId: *string
-        ├── HockeyAppToken: *string
-        ├── Id: *string
-        ├── ImmediatePurgeDataOn30Days: *bool
-        ├── IngestionMode: *string
-        ├── InstrumentationKey: *string
-        ├── Kind: *string
-        ├── LaMigrationDate: *string
-        ├── Location: *string
-        ├── Name: *string
-        ├── PrivateLinkScopedResources: Object (3 properties)[]
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── ResourceId: *string
-        │   └── ScopeId: *string
-        ├── PropertiesName: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── ProvisioningState: *string
-        ├── PublicNetworkAccessForIngestion: *string
-        ├── PublicNetworkAccessForQuery: *string
-        ├── Request_Source: *string
-        ├── RetentionInDays: *int
-        ├── SamplingPercentage: *float64
-        ├── Tags: map[string]string
-        ├── TenantId: *string
-        ├── Type: *string
-        └── WorkspaceResourceId: *string
+├── Component: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Spec: Object (22 properties)
+│   │   ├── Application_Type: *string
+│   │   ├── AzureName: string
+│   │   ├── DisableIpMasking: *bool
+│   │   ├── DisableLocalAuth: *bool
+│   │   ├── Etag: *string
+│   │   ├── Flow_Type: *string
+│   │   ├── ForceCustomerStorageForProfiler: *bool
+│   │   ├── HockeyAppId: *string
+│   │   ├── ImmediatePurgeDataOn30Days: *bool
+│   │   ├── IngestionMode: *string
+│   │   ├── Kind: *string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicNetworkAccessForIngestion: *string
+│   │   ├── PublicNetworkAccessForQuery: *string
+│   │   ├── Request_Source: *string
+│   │   ├── RetentionInDays: *int
+│   │   ├── SamplingPercentage: *float64
+│   │   ├── Tags: map[string]string
+│   │   └── WorkspaceResourceReference: *genruntime.ResourceReference
+│   └── Status: Object (34 properties)
+│       ├── AppId: *string
+│       ├── ApplicationId: *string
+│       ├── Application_Type: *string
+│       ├── Conditions: conditions.Condition[]
+│       ├── ConnectionString: *string
+│       ├── CreationDate: *string
+│       ├── DisableIpMasking: *bool
+│       ├── DisableLocalAuth: *bool
+│       ├── Etag: *string
+│       ├── Flow_Type: *string
+│       ├── ForceCustomerStorageForProfiler: *bool
+│       ├── HockeyAppId: *string
+│       ├── HockeyAppToken: *string
+│       ├── Id: *string
+│       ├── ImmediatePurgeDataOn30Days: *bool
+│       ├── IngestionMode: *string
+│       ├── InstrumentationKey: *string
+│       ├── Kind: *string
+│       ├── LaMigrationDate: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PrivateLinkScopedResources: Object (3 properties)[]
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ResourceId: *string
+│       │   └── ScopeId: *string
+│       ├── PropertiesName: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PublicNetworkAccessForIngestion: *string
+│       ├── PublicNetworkAccessForQuery: *string
+│       ├── Request_Source: *string
+│       ├── RetentionInDays: *int
+│       ├── SamplingPercentage: *float64
+│       ├── Tags: map[string]string
+│       ├── TenantId: *string
+│       ├── Type: *string
+│       └── WorkspaceResourceId: *string
+├── augmentConversionForComponent: Interface
+├── augmentConversionForComponent_STATUS: Interface
+├── augmentConversionForComponent_Spec: Interface
+└── augmentConversionForPrivateLinkScopedResource_STATUS: Interface

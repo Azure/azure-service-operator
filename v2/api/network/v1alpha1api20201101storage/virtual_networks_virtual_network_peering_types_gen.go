@@ -151,6 +151,15 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AssignProperties_From_Virtu
 	}
 	peering.Status = status
 
+	// Invoke the augmentConversionForVirtualNetworksVirtualNetworkPeering interface (if implemented) to customize the conversion
+	var peeringAsAny any = peering
+	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworksVirtualNetworkPeering); ok {
+		err := augmentedPeering.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AssignProperties_To_Virtual
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForVirtualNetworksVirtualNetworkPeering interface (if implemented) to customize the conversion
+	var peeringAsAny any = peering
+	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworksVirtualNetworkPeering); ok {
+		err := augmentedPeering.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type VirtualNetworksVirtualNetworkPeeringList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetworksVirtualNetworkPeering `json:"items"`
+}
+
+type augmentConversionForVirtualNetworksVirtualNetworkPeering interface {
+	AssignPropertiesFrom(src *v20201101s.VirtualNetworksVirtualNetworkPeering) error
+	AssignPropertiesTo(dst *v20201101s.VirtualNetworksVirtualNetworkPeering) error
 }
 
 // Storage version of v1alpha1api20201101.VirtualNetworks_VirtualNetworkPeering_Spec
@@ -379,6 +402,15 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_From
 		peering.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworks_VirtualNetworkPeering_Spec interface (if implemented) to customize the conversion
+	var peeringAsAny any = peering
+	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworks_VirtualNetworkPeering_Spec); ok {
+		err := augmentedPeering.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -486,6 +518,15 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_To_V
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVirtualNetworks_VirtualNetworkPeering_Spec interface (if implemented) to customize the conversion
+	var peeringAsAny any = peering
+	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworks_VirtualNetworkPeering_Spec); ok {
+		err := augmentedPeering.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -676,6 +717,15 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_Fr
 		peering.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworks_VirtualNetworkPeering_STATUS interface (if implemented) to customize the conversion
+	var peeringAsAny any = peering
+	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworks_VirtualNetworkPeering_STATUS); ok {
+		err := augmentedPeering.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -792,8 +842,27 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_To
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualNetworks_VirtualNetworkPeering_STATUS interface (if implemented) to customize the conversion
+	var peeringAsAny any = peering
+	if augmentedPeering, ok := peeringAsAny.(augmentConversionForVirtualNetworks_VirtualNetworkPeering_STATUS); ok {
+		err := augmentedPeering.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForVirtualNetworks_VirtualNetworkPeering_Spec interface {
+	AssignPropertiesFrom(src *v20201101s.VirtualNetworks_VirtualNetworkPeering_Spec) error
+	AssignPropertiesTo(dst *v20201101s.VirtualNetworks_VirtualNetworkPeering_Spec) error
+}
+
+type augmentConversionForVirtualNetworks_VirtualNetworkPeering_STATUS interface {
+	AssignPropertiesFrom(src *v20201101s.VirtualNetworks_VirtualNetworkPeering_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.VirtualNetworks_VirtualNetworkPeering_STATUS) error
 }
 
 func init() {

@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Snapshot{}
 // Default applies defaults to the Snapshot resource
 func (snapshot *Snapshot) Default() {
 	snapshot.defaultImpl()
-	var temp interface{} = snapshot
+	var temp any = snapshot
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &Snapshot{}
 // ValidateCreate validates the creation of the resource
 func (snapshot *Snapshot) ValidateCreate() error {
 	validations := snapshot.createValidations()
-	var temp interface{} = snapshot
+	var temp any = snapshot
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (snapshot *Snapshot) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (snapshot *Snapshot) ValidateDelete() error {
 	validations := snapshot.deleteValidations()
-	var temp interface{} = snapshot
+	var temp any = snapshot
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (snapshot *Snapshot) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (snapshot *Snapshot) ValidateUpdate(old runtime.Object) error {
 	validations := snapshot.updateValidations()
-	var temp interface{} = snapshot
+	var temp any = snapshot
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Workspace{}
 // Default applies defaults to the Workspace resource
 func (workspace *Workspace) Default() {
 	workspace.defaultImpl()
-	var temp interface{} = workspace
+	var temp any = workspace
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &Workspace{}
 // ValidateCreate validates the creation of the resource
 func (workspace *Workspace) ValidateCreate() error {
 	validations := workspace.createValidations()
-	var temp interface{} = workspace
+	var temp any = workspace
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (workspace *Workspace) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (workspace *Workspace) ValidateDelete() error {
 	validations := workspace.deleteValidations()
-	var temp interface{} = workspace
+	var temp any = workspace
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (workspace *Workspace) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (workspace *Workspace) ValidateUpdate(old runtime.Object) error {
 	validations := workspace.updateValidations()
-	var temp interface{} = workspace
+	var temp any = workspace
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

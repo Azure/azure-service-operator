@@ -151,6 +151,15 @@ func (service *StorageAccountsQueueService) AssignProperties_From_StorageAccount
 	}
 	service.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsQueueService interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsQueueService); ok {
+		err := augmentedService.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (service *StorageAccountsQueueService) AssignProperties_To_StorageAccountsQ
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsQueueService interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccountsQueueService); ok {
+		err := augmentedService.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type StorageAccountsQueueServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsQueueService `json:"items"`
+}
+
+type augmentConversionForStorageAccountsQueueService interface {
+	AssignPropertiesFrom(src *v20210401s.StorageAccountsQueueService) error
+	AssignPropertiesTo(dst *v20210401s.StorageAccountsQueueService) error
 }
 
 // Storage version of v1alpha1api20210401.StorageAccounts_QueueService_Spec
@@ -297,6 +320,15 @@ func (service *StorageAccounts_QueueService_Spec) AssignProperties_From_StorageA
 		service.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_QueueService_Spec interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_QueueService_Spec); ok {
+		err := augmentedService.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -334,6 +366,15 @@ func (service *StorageAccounts_QueueService_Spec) AssignProperties_To_StorageAcc
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_QueueService_Spec interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_QueueService_Spec); ok {
+		err := augmentedService.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -437,6 +478,15 @@ func (service *StorageAccounts_QueueService_STATUS) AssignProperties_From_Storag
 		service.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_QueueService_STATUS interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_QueueService_STATUS); ok {
+		err := augmentedService.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -477,8 +527,27 @@ func (service *StorageAccounts_QueueService_STATUS) AssignProperties_To_StorageA
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_QueueService_STATUS interface (if implemented) to customize the conversion
+	var serviceAsAny any = service
+	if augmentedService, ok := serviceAsAny.(augmentConversionForStorageAccounts_QueueService_STATUS); ok {
+		err := augmentedService.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForStorageAccounts_QueueService_Spec interface {
+	AssignPropertiesFrom(src *v20210401s.StorageAccounts_QueueService_Spec) error
+	AssignPropertiesTo(dst *v20210401s.StorageAccounts_QueueService_Spec) error
+}
+
+type augmentConversionForStorageAccounts_QueueService_STATUS interface {
+	AssignPropertiesFrom(src *v20210401s.StorageAccounts_QueueService_STATUS) error
+	AssignPropertiesTo(dst *v20210401s.StorageAccounts_QueueService_STATUS) error
 }
 
 func init() {

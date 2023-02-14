@@ -87,7 +87,7 @@ var _ admission.Defaulter = &SqlDatabaseContainerUserDefinedFunction{}
 // Default applies defaults to the SqlDatabaseContainerUserDefinedFunction resource
 func (function *SqlDatabaseContainerUserDefinedFunction) Default() {
 	function.defaultImpl()
-	var temp interface{} = function
+	var temp any = function
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &SqlDatabaseContainerUserDefinedFunction{}
 // ValidateCreate validates the creation of the resource
 func (function *SqlDatabaseContainerUserDefinedFunction) ValidateCreate() error {
 	validations := function.createValidations()
-	var temp interface{} = function
+	var temp any = function
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) ValidateCreate() error 
 // ValidateDelete validates the deletion of the resource
 func (function *SqlDatabaseContainerUserDefinedFunction) ValidateDelete() error {
 	validations := function.deleteValidations()
-	var temp interface{} = function
+	var temp any = function
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) ValidateDelete() error 
 // ValidateUpdate validates an update of the resource
 func (function *SqlDatabaseContainerUserDefinedFunction) ValidateUpdate(old runtime.Object) error {
 	validations := function.updateValidations()
-	var temp interface{} = function
+	var temp any = function
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

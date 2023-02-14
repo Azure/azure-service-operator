@@ -75,7 +75,7 @@ var _ admission.Defaulter = &DomainsTopic{}
 // Default applies defaults to the DomainsTopic resource
 func (topic *DomainsTopic) Default() {
 	topic.defaultImpl()
-	var temp interface{} = topic
+	var temp any = topic
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -164,7 +164,7 @@ var _ admission.Validator = &DomainsTopic{}
 // ValidateCreate validates the creation of the resource
 func (topic *DomainsTopic) ValidateCreate() error {
 	validations := topic.createValidations()
-	var temp interface{} = topic
+	var temp any = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (topic *DomainsTopic) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (topic *DomainsTopic) ValidateDelete() error {
 	validations := topic.deleteValidations()
-	var temp interface{} = topic
+	var temp any = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (topic *DomainsTopic) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (topic *DomainsTopic) ValidateUpdate(old runtime.Object) error {
 	validations := topic.updateValidations()
-	var temp interface{} = topic
+	var temp any = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

@@ -87,7 +87,7 @@ var _ admission.Defaulter = &StorageAccountsQueueService{}
 // Default applies defaults to the StorageAccountsQueueService resource
 func (service *StorageAccountsQueueService) Default() {
 	service.defaultImpl()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -169,7 +169,7 @@ var _ admission.Validator = &StorageAccountsQueueService{}
 // ValidateCreate validates the creation of the resource
 func (service *StorageAccountsQueueService) ValidateCreate() error {
 	validations := service.createValidations()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -186,7 +186,7 @@ func (service *StorageAccountsQueueService) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (service *StorageAccountsQueueService) ValidateDelete() error {
 	validations := service.deleteValidations()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -203,7 +203,7 @@ func (service *StorageAccountsQueueService) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (service *StorageAccountsQueueService) ValidateUpdate(old runtime.Object) error {
 	validations := service.updateValidations()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

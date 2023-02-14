@@ -87,7 +87,7 @@ var _ admission.Defaulter = &StorageAccountsQueueServicesQueue{}
 // Default applies defaults to the StorageAccountsQueueServicesQueue resource
 func (queue *StorageAccountsQueueServicesQueue) Default() {
 	queue.defaultImpl()
-	var temp interface{} = queue
+	var temp any = queue
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -176,7 +176,7 @@ var _ admission.Validator = &StorageAccountsQueueServicesQueue{}
 // ValidateCreate validates the creation of the resource
 func (queue *StorageAccountsQueueServicesQueue) ValidateCreate() error {
 	validations := queue.createValidations()
-	var temp interface{} = queue
+	var temp any = queue
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (queue *StorageAccountsQueueServicesQueue) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (queue *StorageAccountsQueueServicesQueue) ValidateDelete() error {
 	validations := queue.deleteValidations()
-	var temp interface{} = queue
+	var temp any = queue
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (queue *StorageAccountsQueueServicesQueue) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (queue *StorageAccountsQueueServicesQueue) ValidateUpdate(old runtime.Object) error {
 	validations := queue.updateValidations()
-	var temp interface{} = queue
+	var temp any = queue
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

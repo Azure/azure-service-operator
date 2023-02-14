@@ -151,6 +151,15 @@ func (account *BatchAccount) AssignProperties_From_BatchAccount(source *v2021010
 	}
 	account.Status = status
 
+	// Invoke the augmentConversionForBatchAccount interface (if implemented) to customize the conversion
+	var accountAsAny any = account
+	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount); ok {
+		err := augmentedAccount.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -176,6 +185,15 @@ func (account *BatchAccount) AssignProperties_To_BatchAccount(destination *v2021
 		return errors.Wrap(err, "calling AssignProperties_To_BatchAccount_STATUS() to populate field Status")
 	}
 	destination.Status = status
+
+	// Invoke the augmentConversionForBatchAccount interface (if implemented) to customize the conversion
+	var accountAsAny any = account
+	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount); ok {
+		err := augmentedAccount.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
 
 	// No error
 	return nil
@@ -205,6 +223,11 @@ type BatchAccountList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-01-01")
+
+type augmentConversionForBatchAccount interface {
+	AssignPropertiesFrom(src *v20210101s.BatchAccount) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccount) error
+}
 
 // Storage version of v1alpha1api20210101.BatchAccount_Spec
 type BatchAccount_Spec struct {
@@ -369,6 +392,15 @@ func (account *BatchAccount_Spec) AssignProperties_From_BatchAccount_Spec(source
 		account.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccount_Spec interface (if implemented) to customize the conversion
+	var accountAsAny any = account
+	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount_Spec); ok {
+		err := augmentedAccount.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -457,6 +489,15 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBatchAccount_Spec interface (if implemented) to customize the conversion
+	var accountAsAny any = account
+	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount_Spec); ok {
+		err := augmentedAccount.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -686,6 +727,15 @@ func (account *BatchAccount_STATUS) AssignProperties_From_BatchAccount_STATUS(so
 		account.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccount_STATUS interface (if implemented) to customize the conversion
+	var accountAsAny any = account
+	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount_STATUS); ok {
+		err := augmentedAccount.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -836,8 +886,27 @@ func (account *BatchAccount_STATUS) AssignProperties_To_BatchAccount_STATUS(dest
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccount_STATUS interface (if implemented) to customize the conversion
+	var accountAsAny any = account
+	if augmentedAccount, ok := accountAsAny.(augmentConversionForBatchAccount_STATUS); ok {
+		err := augmentedAccount.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForBatchAccount_Spec interface {
+	AssignPropertiesFrom(src *v20210101s.BatchAccount_Spec) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccount_Spec) error
+}
+
+type augmentConversionForBatchAccount_STATUS interface {
+	AssignPropertiesFrom(src *v20210101s.BatchAccount_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccount_STATUS) error
 }
 
 // Storage version of v1alpha1api20210101.AutoStorageBaseProperties
@@ -869,6 +938,15 @@ func (properties *AutoStorageBaseProperties) AssignProperties_From_AutoStorageBa
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoStorageBaseProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForAutoStorageBaseProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -891,6 +969,15 @@ func (properties *AutoStorageBaseProperties) AssignProperties_To_AutoStorageBase
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAutoStorageBaseProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForAutoStorageBaseProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -923,6 +1010,15 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_From_AutoStorag
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAutoStorageProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForAutoStorageProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -943,6 +1039,15 @@ func (properties *AutoStorageProperties_STATUS) AssignProperties_To_AutoStorageP
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAutoStorageProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForAutoStorageProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -971,6 +1076,15 @@ func (identity *BatchAccountIdentity) AssignProperties_From_BatchAccountIdentity
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForBatchAccountIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -988,6 +1102,15 @@ func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBatchAccountIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForBatchAccountIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1043,6 +1166,15 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_From_BatchAccountI
 		identity.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForBatchAccountIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1086,6 +1218,15 @@ func (identity *BatchAccountIdentity_STATUS) AssignProperties_To_BatchAccountIde
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForBatchAccountIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1125,6 +1266,15 @@ func (properties *EncryptionProperties) AssignProperties_From_EncryptionProperti
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForEncryptionProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForEncryptionProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1154,6 +1304,15 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEncryptionProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForEncryptionProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1195,6 +1354,15 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_From_EncryptionP
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForEncryptionProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForEncryptionProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1224,6 +1392,15 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEncryptionProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForEncryptionProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1263,6 +1440,15 @@ func (reference *KeyVaultReference) AssignProperties_From_KeyVaultReference(sour
 		reference.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultReference interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultReference); ok {
+		err := augmentedReference.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1288,6 +1474,15 @@ func (reference *KeyVaultReference) AssignProperties_To_KeyVaultReference(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKeyVaultReference interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultReference); ok {
+		err := augmentedReference.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1320,6 +1515,15 @@ func (reference *KeyVaultReference_STATUS) AssignProperties_From_KeyVaultReferen
 		reference.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultReference_STATUS interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultReference_STATUS); ok {
+		err := augmentedReference.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1340,6 +1544,15 @@ func (reference *KeyVaultReference_STATUS) AssignProperties_To_KeyVaultReference
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKeyVaultReference_STATUS interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForKeyVaultReference_STATUS); ok {
+		err := augmentedReference.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1368,6 +1581,15 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_From_Privat
 		connection.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
+		err := augmentedConnection.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1385,6 +1607,15 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS interface (if implemented) to customize the conversion
+	var connectionAsAny any = connection
+	if augmentedConnection, ok := connectionAsAny.(augmentConversionForPrivateEndpointConnection_STATUS); ok {
+		err := augmentedConnection.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1417,6 +1648,15 @@ func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_From_Virtual
 		quota.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualMachineFamilyCoreQuota_STATUS interface (if implemented) to customize the conversion
+	var quotaAsAny any = quota
+	if augmentedQuota, ok := quotaAsAny.(augmentConversionForVirtualMachineFamilyCoreQuota_STATUS); ok {
+		err := augmentedQuota.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1439,8 +1679,67 @@ func (quota *VirtualMachineFamilyCoreQuota_STATUS) AssignProperties_To_VirtualMa
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForVirtualMachineFamilyCoreQuota_STATUS interface (if implemented) to customize the conversion
+	var quotaAsAny any = quota
+	if augmentedQuota, ok := quotaAsAny.(augmentConversionForVirtualMachineFamilyCoreQuota_STATUS); ok {
+		err := augmentedQuota.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForAutoStorageBaseProperties interface {
+	AssignPropertiesFrom(src *v20210101s.AutoStorageBaseProperties) error
+	AssignPropertiesTo(dst *v20210101s.AutoStorageBaseProperties) error
+}
+
+type augmentConversionForAutoStorageProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20210101s.AutoStorageProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.AutoStorageProperties_STATUS) error
+}
+
+type augmentConversionForBatchAccountIdentity interface {
+	AssignPropertiesFrom(src *v20210101s.BatchAccountIdentity) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccountIdentity) error
+}
+
+type augmentConversionForBatchAccountIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v20210101s.BatchAccountIdentity_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccountIdentity_STATUS) error
+}
+
+type augmentConversionForEncryptionProperties interface {
+	AssignPropertiesFrom(src *v20210101s.EncryptionProperties) error
+	AssignPropertiesTo(dst *v20210101s.EncryptionProperties) error
+}
+
+type augmentConversionForEncryptionProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20210101s.EncryptionProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.EncryptionProperties_STATUS) error
+}
+
+type augmentConversionForKeyVaultReference interface {
+	AssignPropertiesFrom(src *v20210101s.KeyVaultReference) error
+	AssignPropertiesTo(dst *v20210101s.KeyVaultReference) error
+}
+
+type augmentConversionForKeyVaultReference_STATUS interface {
+	AssignPropertiesFrom(src *v20210101s.KeyVaultReference_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.KeyVaultReference_STATUS) error
+}
+
+type augmentConversionForPrivateEndpointConnection_STATUS interface {
+	AssignPropertiesFrom(src *v20210101s.PrivateEndpointConnection_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.PrivateEndpointConnection_STATUS) error
+}
+
+type augmentConversionForVirtualMachineFamilyCoreQuota_STATUS interface {
+	AssignPropertiesFrom(src *v20210101s.VirtualMachineFamilyCoreQuota_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.VirtualMachineFamilyCoreQuota_STATUS) error
 }
 
 // Storage version of v1alpha1api20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS
@@ -1469,6 +1768,15 @@ func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProp
 		identities.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS interface (if implemented) to customize the conversion
+	var identitiesAsAny any = identities
+	if augmentedIdentities, ok := identitiesAsAny.(augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS); ok {
+		err := augmentedIdentities.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1489,6 +1797,15 @@ func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS interface (if implemented) to customize the conversion
+	var identitiesAsAny any = identities
+	if augmentedIdentities, ok := identitiesAsAny.(augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS); ok {
+		err := augmentedIdentities.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1517,6 +1834,15 @@ func (properties *KeyVaultProperties) AssignProperties_From_KeyVaultProperties(s
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1534,6 +1860,15 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKeyVaultProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1562,6 +1897,15 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_From_KeyVaultPrope
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1581,8 +1925,32 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKeyVaultProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForKeyVaultProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForBatchAccountIdentity_UserAssignedIdentities_STATUS interface {
+	AssignPropertiesFrom(src *v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.BatchAccountIdentity_UserAssignedIdentities_STATUS) error
+}
+
+type augmentConversionForKeyVaultProperties interface {
+	AssignPropertiesFrom(src *v20210101s.KeyVaultProperties) error
+	AssignPropertiesTo(dst *v20210101s.KeyVaultProperties) error
+}
+
+type augmentConversionForKeyVaultProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20210101s.KeyVaultProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210101s.KeyVaultProperties_STATUS) error
 }
 
 func init() {
