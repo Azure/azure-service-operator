@@ -126,12 +126,14 @@ tasks:
   asoctl:unit-tests:
     desc: Run {{.ASOCTL_APP}} unit tests.
     dir: '{{.ASOCTL_ROOT}}'
+    deps: [controller:generate-crds]
     cmds:
       - go test ./... -tags=noexit -run '{{default ".*" .TEST_FILTER}}'
 
   asoctl:unit-tests-cover:
     desc: Run {{.ASOCTL_APP}} unit tests and output coverage.
     dir: '{{.ASOCTL_ROOT}}'
+    deps: [controller:generate-crds]
     cmds:
       - defer: # want to run even on failure
           task: produce-markdown-summary
@@ -143,12 +145,14 @@ tasks:
   asoctl:lint:
     desc: Run {{.ASOCTL_APP}} fast lint checks.
     dir: '{{.ASOCTL_ROOT}}'
+    deps: [controller:generate-crds]
     cmds:
       - golangci-lint run --verbose --fast=false --timeout 5m --skip-dirs="(^|/)vendor($|/)" ./...
 
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
     dir: '{{.ASOCTL_ROOT}}'
+    deps: [controller:generate-crds]
     cmds:
       - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} ./cmd/
 
