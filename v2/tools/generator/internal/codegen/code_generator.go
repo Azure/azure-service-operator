@@ -111,35 +111,33 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ApplyIsResourceOverrides(configuration),
 		pipeline.FixIDFields(),
 
-		pipeline.AddAPIVersionEnums(),
-		pipeline.RemoveTypeAliases(),
-
-		pipeline.MakeStatusPropertiesOptional(),
-		pipeline.RemoveStatusValidations(),
-		pipeline.TransformValidatedFloats(),
 		pipeline.UnrollRecursiveTypes(),
+		pipeline.RemoveStatusValidations(),
 
 		// Figure out resource owners:
 		pipeline.DetermineResourceOwnership(configuration, idFactory),
 
 		// Strip out redundant type aliases
 		pipeline.RemoveTypeAliases(),
-
 		pipeline.CollapseCrossGroupReferences(),
-
 		pipeline.StripUnreferencedTypeDefinitions(),
-
 		pipeline.AssertTypesCollectionValid(),
 
 		pipeline.RemoveEmbeddedResources(configuration).UsedFor(pipeline.ARMTarget),
 
-		// This is currently also run as part of RemoveEmbeddedResources and so is technically not needed here,
-		// but we include it to hedge against future changes
-		pipeline.RemoveEmptyObjects(),
-
 		// Apply export filters before generating
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration),
+
+		pipeline.AddAPIVersionEnums(),
+		pipeline.RemoveTypeAliases(),
+
+		pipeline.MakeStatusPropertiesOptional(),
+		pipeline.TransformValidatedFloats(),
+
+		// This is currently also run as part of RemoveEmbeddedResources and so is technically not needed here,
+		// but we include it to hedge against future changes
+		pipeline.RemoveEmptyObjects(),
 
 		pipeline.VerifyNoErroredTypes(),
 
