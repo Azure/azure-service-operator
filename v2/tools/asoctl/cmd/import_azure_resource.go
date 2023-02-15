@@ -20,7 +20,7 @@ func newImportAzureResourceCommand() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			armID := args[0]
-			return importAzureResource(armID, output)
+			return importAzureResource(ctx, armID, output)
 		}),
 	}
 
@@ -34,10 +34,15 @@ func newImportAzureResourceCommand() *cobra.Command {
 }
 
 // TODO: importing azure resource logic goes here
-func importAzureResource(armID string, output *string) error {
+func importAzureResource(ctx context.Context, armID string, output *string) error {
 	klog.Info("importing azure resource")
-	importer := azureresource.NewImporter()
-	err := importer.Import(armID)
+	importer, err := importing.NewImporter(cloud.AzurePublic)
+	if err != nil {
+		klog.Errorf("failed to create importer")
+		return errors.Wrapf(err, "failed to create importer")
+	}
+
+	err = importer.ImportFromARMID(ctx, armID)
 	if err != nil {
 		klog.Errorf("failed to import resource %s", armID)
 		return errors.Wrapf(err, "failed to import resource %s:", armID)
