@@ -12,6 +12,7 @@ import (
 	"golang.org/x/exp/slices"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/klog/v2"
 	"strings"
 
 	azruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
@@ -110,9 +111,15 @@ func (*resourceImporterFactory) selectLatestVersion(
 		}
 	}
 
+	var result schema.GroupVersionKind
 	if !stableVersion.Empty() {
-		return stableVersion.WithKind(gk.Kind)
+		result = stableVersion.WithKind(gk.Kind)
+	} else {
+		result = previewVersion.WithKind(gk.Kind)
 	}
 
-	return previewVersion.WithKind(gk.Kind)
+	// Only need to log version as Group and Kind will have been logged elsewhere
+	klog.V(3).Infof("Version: %s", result.Version)
+
+	return result
 }

@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 	"net/http"
 )
 
@@ -54,8 +55,11 @@ func (ari *armResourceImporter) Import(ctx context.Context) (*resourceImportResu
 	}
 
 	if !runtime.HasStatusCode(resp, http.StatusOK) {
+		klog.Warningf("Request failed with status code %d", resp.StatusCode)
 		return nil, runtime.NewResponseError(resp)
 	}
+
+	klog.V(3).Infof("Request succeeded")
 
 	armStatus, err := genruntime.NewEmptyARMStatus(ari.resource, ari.factory.Scheme())
 	if err != nil {
@@ -112,5 +116,7 @@ func (ari *armResourceImporter) createRequest(ctx context.Context) (*policy.Requ
 	req.Raw().URL.RawQuery = requestQueryPart.Encode()
 
 	req.Raw().Header.Set("Accept", "application/json")
+
+	klog.V(3).Infof("Created request to GET %s", req.Raw().URL.String())
 	return req, nil
 }

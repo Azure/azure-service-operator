@@ -14,6 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/klog/v2"
 	"strings"
 )
 
@@ -103,15 +104,6 @@ func (f *armResourceImporterFactory) groupKindFromARMId(armID string) (schema.Gr
 	}, nil
 }
 
-func (f *armResourceImporterFactory) nameFromARMId(armID string) (string, error) {
-	id, err := f.resourceIdFromArmId(armID)
-	if err != nil {
-		return "", errors.Wrap(err, "unable to parse name")
-	}
-
-	return id.Name, nil
-}
-
 // resourceIdFromArmId parses an ARM ID from the supplied resource path
 func (f *armResourceImporterFactory) resourceIdFromArmId(armID string) (*arm.ResourceID, error) {
 	id, err := arm.ParseResourceID(armID)
@@ -126,7 +118,9 @@ func (f *armResourceImporterFactory) resourceIdFromArmId(armID string) (*arm.Res
 func (*armResourceImporterFactory) groupFromId(id *arm.ResourceID) string {
 	parts := strings.Split(id.ResourceType.Namespace, ".")
 	last := len(parts) - 1
-	return strings.ToLower(parts[last]) + ".azure.com"
+	group := strings.ToLower(parts[last]) + ".azure.com"
+	klog.V(3).Infof("Group: %s", group)
+	return group
 }
 
 // kindFromId extracts an ASO kind from the ARM ID
@@ -135,5 +129,17 @@ func (*armResourceImporterFactory) kindFromId(id *arm.ResourceID) string {
 		panic("Don't currently know how to handle nested resources")
 	}
 
-	return naming.Singularize(id.ResourceType.Types[0])
+	kind := naming.Singularize(id.ResourceType.Types[0])
+	klog.V(3).Infof("Kind: %s", kind)
+	return kind
+}
+
+func (f *armResourceImporterFactory) nameFromARMId(armID string) (string, error) {
+	id, err := f.resourceIdFromArmId(armID)
+	if err != nil {
+		return "", errors.Wrap(err, "unable to parse name")
+	}
+
+	klog.V(3).Infof("Name: %s", id.Name)
+	return id.Name, nil
 }
