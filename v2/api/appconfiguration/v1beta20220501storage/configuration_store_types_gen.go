@@ -81,7 +81,7 @@ func (store *ConfigurationStore) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &ConfigurationStore_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (store *ConfigurationStore) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(store.Spec)
 	return &genruntime.ResourceReference{

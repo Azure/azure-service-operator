@@ -140,7 +140,7 @@ func (rule *RedisFirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Redis_FirewallRule_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (rule *RedisFirewallRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return &genruntime.ResourceReference{

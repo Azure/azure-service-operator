@@ -128,7 +128,7 @@ func (webtest *Webtest) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Webtest_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (webtest *Webtest) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(webtest.Spec)
 	return &genruntime.ResourceReference{
