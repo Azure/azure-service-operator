@@ -116,6 +116,8 @@ import (
 	network_v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
 	network_v20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	network_v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	network_v20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701"
+	network_v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701storage"
 	operationalinsights_customizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
 	operationalinsights_alpha20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601"
 	operationalinsights_alpha20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601storage"
@@ -420,6 +422,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworkGateway)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksVirtualNetworkPeering)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.PrivateLinkService)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.NamespacesQueue)})
@@ -780,6 +784,8 @@ func getKnownTypes() []client.Object {
 		new(network_v20201101s.VirtualNetworkGateway),
 		new(network_v20201101s.VirtualNetworksSubnet),
 		new(network_v20201101s.VirtualNetworksVirtualNetworkPeering))
+	result = append(result, new(network_v20220701.PrivateEndpoint), new(network_v20220701.PrivateLinkService))
+	result = append(result, new(network_v20220701s.PrivateEndpoint), new(network_v20220701s.PrivateLinkService))
 	result = append(result, new(operationalinsights_alpha20210601.Workspace))
 	result = append(result, new(operationalinsights_alpha20210601s.Workspace))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
@@ -947,6 +953,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20180901s.AddToScheme(scheme)
 	_ = network_v20201101.AddToScheme(scheme)
 	_ = network_v20201101s.AddToScheme(scheme)
+	_ = network_v20220701.AddToScheme(scheme)
+	_ = network_v20220701s.AddToScheme(scheme)
 	_ = operationalinsights_alpha20210601.AddToScheme(scheme)
 	_ = operationalinsights_alpha20210601s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
@@ -1038,6 +1046,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupsSecurityRuleExtension{})
 	result = append(result, &network_customizations.PrivateDnsZoneExtension{})
+	result = append(result, &network_customizations.PrivateEndpointExtension{})
+	result = append(result, &network_customizations.PrivateLinkServiceExtension{})
 	result = append(result, &network_customizations.PublicIPAddressExtension{})
 	result = append(result, &network_customizations.RouteTableExtension{})
 	result = append(result, &network_customizations.RouteTablesRouteExtension{})

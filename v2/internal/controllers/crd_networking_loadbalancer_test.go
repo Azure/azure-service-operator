@@ -15,6 +15,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -55,18 +56,8 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	lbFrontendName := "LoadBalancerFrontend"
 	protocol := network.TransportProtocol_Tcp
 
-	// TODO: This is still really awkward
-	frontendIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
-		tc.AzureSubscription,
-		rg.Name,
-		"Microsoft.Network",
-		"loadBalancers",
-		lbName,
-		"frontendIPConfigurations",
-		lbFrontendName)
-	if err != nil {
-		panic(err)
-	}
+	frontendIPConfigurationARMID, err := getFrontendIPConfigurationARMID(tc, rg, lbName, lbFrontendName)
+	tc.Expect(err).To(BeNil())
 
 	loadBalancer := &network.LoadBalancer{
 		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
@@ -115,4 +106,20 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())
+}
+
+// TODO: This is still really awkward
+func getFrontendIPConfigurationARMID(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, lbName string, lbFrontendName string) (string, error) {
+	frontendIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
+		tc.AzureSubscription,
+		rg.Name,
+		"Microsoft.Network",
+		"loadBalancers",
+		lbName,
+		"frontendIPConfigurations",
+		lbFrontendName)
+	if err != nil {
+		panic(err)
+	}
+	return frontendIPConfigurationARMID, err
 }

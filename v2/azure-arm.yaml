@@ -1274,6 +1274,27 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
+    2022-07-01:
+      PrivateEndpoint:
+        $export: true
+        $supportedFrom: v2.0.0
+      PrivateEndpointConnection_STATUS:
+        $isResource: true
+      PrivateLinkService:
+        $export: true
+        $supportedFrom: v2.0.0
+      PrivateLinkServiceConnection:
+        $resourceEmbeddedInParent: PrivateEndpoint
+      PrivateLinkServiceConnection_STATUS:
+        $resourceEmbeddedInParent: PrivateEndpoint
+      PrivateLinkServiceConnectionProperties:
+        PrivateLinkServiceId:
+          $armReference: true
+      PrivateLinkServiceIpConfiguration:
+        $resourceEmbeddedInParent: PrivateLinkService
+      PrivateLinkServiceIpConfiguration_STATUS:
+        $resourceEmbeddedInParent: PrivateLinkService
+
   operationalinsights:
     2021-06-01:
       Workspace:
