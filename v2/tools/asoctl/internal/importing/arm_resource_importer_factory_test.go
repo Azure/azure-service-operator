@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func Test_ARMResourceImporterFactory_GroupKindFromArmId(t *testing.T) {
+func Test_ARMResourceImporterFactory_GroupKindFromARMID(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
@@ -39,7 +39,7 @@ func Test_ARMResourceImporterFactory_GroupKindFromArmId(t *testing.T) {
 			expectedKind:  "DatabaseAccount",
 		},
 		{
-			name:          "VMSS Scale Set	",
+			name: "VMSS Scale Set	",
 			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Compute/virtualMachineScaleSets/aso-scaleset",
 			expectedGroup: "compute.azure.com",
 			expectedKind:  "VirtualMachineScaleSet",
@@ -68,7 +68,7 @@ func Test_ARMResourceImporterFactory_GroupKindFromArmId(t *testing.T) {
 
 			factory := armResourceImporterFactory{}
 
-			gk, err := factory.groupKindFromARMId(c.armId)
+			gk, err := factory.groupKindFromARMID(c.armId)
 			g.Expect(err).To(BeNil())
 			g.Expect(gk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gk.Kind).To(Equal(c.expectedKind))
@@ -76,7 +76,7 @@ func Test_ARMResourceImporterFactory_GroupKindFromArmId(t *testing.T) {
 	}
 }
 
-func Test_ResourceImporterFactory_GroupVersionKindFromArmId(t *testing.T) {
+func Test_ResourceImporterFactory_GroupVersionKindFromARMID(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
@@ -122,7 +122,7 @@ func Test_ResourceImporterFactory_GroupVersionKindFromArmId(t *testing.T) {
 
 			g := NewGomegaWithT(t)
 
-			gvk, err := factory.groupVersionKindFromARMId(c.armId)
+			gvk, err := factory.groupVersionKindFromARMID(c.armId)
 			g.Expect(err).To(BeNil())
 			g.Expect(gvk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gvk.Kind).To(Equal(c.expectedKind))
@@ -131,7 +131,7 @@ func Test_ResourceImporterFactory_GroupVersionKindFromArmId(t *testing.T) {
 	}
 }
 
-func Test_ResourceImporterFactory_CreateForArmId(t *testing.T) {
+func Test_ResourceImporterFactory_CreateForARMID(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
@@ -174,7 +174,7 @@ func Test_ResourceImporterFactory_CreateForArmId(t *testing.T) {
 
 			g := NewGomegaWithT(t)
 
-			_, err := factory.CreateForArmId(c.armId)
+			_, err := factory.CreateForARMID(c.armId)
 			if c.expectedError == "" {
 				g.Expect(err).To(BeNil())
 			} else {

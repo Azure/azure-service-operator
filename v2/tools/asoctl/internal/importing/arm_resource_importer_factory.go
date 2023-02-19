@@ -19,7 +19,7 @@ import (
 )
 
 type ARMResourceImporterFactory interface {
-	CreateForArmId(armID string) (resourceImporter, error)
+	CreateForARMID(armID string) (resourceImporter, error)
 	Client() *azruntime.Pipeline
 	Config() cloud.ServiceConfiguration
 }
@@ -33,8 +33,8 @@ type armResourceImporterFactory struct {
 var _ ARMResourceImporterFactory = &armResourceImporterFactory{}
 
 // CreateForArmId creates a resourceImporter for the specified ARM ID
-func (f *armResourceImporterFactory) CreateForArmId(armID string) (resourceImporter, error) {
-	obj, err := f.createBlankObjectFromArmId(armID)
+func (f *armResourceImporterFactory) CreateForARMID(armID string) (resourceImporter, error) {
+	obj, err := f.createBlankObjectFromARMID(armID)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (f *armResourceImporterFactory) CreateForArmId(armID string) (resourceImpor
 			"unable to create blank resource, expected %s to identify an ARM object", armID)
 	}
 
-	return newArmResourceImporter(armID, armMeta, f, f.armClient, f.armConfig), nil
+	return newARMResourceImporter(armID, armMeta, f, f.armClient, f.armConfig), nil
 }
 
 func (f *armResourceImporterFactory) Client() *azruntime.Pipeline {
@@ -56,8 +56,8 @@ func (f *armResourceImporterFactory) Config() cloud.ServiceConfiguration {
 	return f.armConfig
 }
 
-func (f *armResourceImporterFactory) createBlankObjectFromArmId(armID string) (runtime.Object, error) {
-	gvk, err := f.groupVersionKindFromARMId(armID)
+func (f *armResourceImporterFactory) createBlankObjectFromARMID(armID string) (runtime.Object, error) {
+	gvk, err := f.groupVersionKindFromARMID(armID)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get GVK for blank resource")
 	}
@@ -68,7 +68,7 @@ func (f *armResourceImporterFactory) createBlankObjectFromArmId(armID string) (r
 	}
 
 	if mo, ok := obj.(genruntime.ARMMetaObject); ok {
-		name, err := f.nameFromARMId(armID)
+		name, err := f.nameFromARMID(armID)
 		if err != nil {
 			return nil, errors.Wrap(err, "unable to get name for blank resource")
 		}
@@ -79,9 +79,9 @@ func (f *armResourceImporterFactory) createBlankObjectFromArmId(armID string) (r
 	return obj, nil
 }
 
-// groupVersionKindFromARMId returns the GroupVersionKind for the resource we're importing
-func (f *armResourceImporterFactory) groupVersionKindFromARMId(armID string) (schema.GroupVersionKind, error) {
-	gk, err := f.groupKindFromARMId(armID)
+// groupVersionKindFromARMID returns the GroupVersionKind for the resource we're importing
+func (f *armResourceImporterFactory) groupVersionKindFromARMID(armID string) (schema.GroupVersionKind, error) {
+	gk, err := f.groupKindFromARMID(armID)
 	if err != nil {
 		return schema.GroupVersionKind{},
 			errors.Wrap(err, "unable to determine GroupVersionKind for the resource")
@@ -90,22 +90,22 @@ func (f *armResourceImporterFactory) groupVersionKindFromARMId(armID string) (sc
 	return f.selectVersionFromGK(gk)
 }
 
-// groupKindFromARMId parses a GroupKind from the resource URL, allowing us to look up the actual resource
-func (f *armResourceImporterFactory) groupKindFromARMId(armID string) (schema.GroupKind, error) {
-	id, err := f.resourceIdFromArmId(armID)
+// groupKindFromARMID parses a GroupKind from the resource URL, allowing us to look up the actual resource
+func (f *armResourceImporterFactory) groupKindFromARMID(armID string) (schema.GroupKind, error) {
+	id, err := f.resourceIdFromARMID(armID)
 	if err != nil {
 		return schema.GroupKind{},
 			errors.Wrap(err, "unable to parse GroupKind")
 	}
 
 	return schema.GroupKind{
-		Group: f.groupFromId(id),
-		Kind:  f.kindFromId(id),
+		Group: f.groupFromID(id),
+		Kind:  f.kindFromID(id),
 	}, nil
 }
 
-// resourceIdFromArmId parses an ARM ID from the supplied resource path
-func (f *armResourceImporterFactory) resourceIdFromArmId(armID string) (*arm.ResourceID, error) {
+// resourceIdFromARMID parses an ARM ID from the supplied resource path
+func (f *armResourceImporterFactory) resourceIdFromARMID(armID string) (*arm.ResourceID, error) {
 	id, err := arm.ParseResourceID(armID)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to parse ARM ID from path %s", armID)
@@ -114,8 +114,8 @@ func (f *armResourceImporterFactory) resourceIdFromArmId(armID string) (*arm.Res
 	return id, nil
 }
 
-// groupFromId extracts an ASO group name from the ARM ID
-func (*armResourceImporterFactory) groupFromId(id *arm.ResourceID) string {
+// groupFromID extracts an ASO group name from the ARM ID
+func (*armResourceImporterFactory) groupFromID(id *arm.ResourceID) string {
 	parts := strings.Split(id.ResourceType.Namespace, ".")
 	last := len(parts) - 1
 	group := strings.ToLower(parts[last]) + ".azure.com"
@@ -123,8 +123,8 @@ func (*armResourceImporterFactory) groupFromId(id *arm.ResourceID) string {
 	return group
 }
 
-// kindFromId extracts an ASO kind from the ARM ID
-func (*armResourceImporterFactory) kindFromId(id *arm.ResourceID) string {
+// kindFromID extracts an ASO kind from the ARM ID
+func (*armResourceImporterFactory) kindFromID(id *arm.ResourceID) string {
 	if len(id.ResourceType.Types) != 1 {
 		panic("Don't currently know how to handle nested resources")
 	}
@@ -134,8 +134,8 @@ func (*armResourceImporterFactory) kindFromId(id *arm.ResourceID) string {
 	return kind
 }
 
-func (f *armResourceImporterFactory) nameFromARMId(armID string) (string, error) {
-	id, err := f.resourceIdFromArmId(armID)
+func (f *armResourceImporterFactory) nameFromARMID(armID string) (string, error) {
+	id, err := f.resourceIdFromARMID(armID)
 	if err != nil {
 		return "", errors.Wrap(err, "unable to parse name")
 	}

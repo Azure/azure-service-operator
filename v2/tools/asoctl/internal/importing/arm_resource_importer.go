@@ -25,7 +25,7 @@ type armResourceImporter struct {
 	serviceConfig cloud.ServiceConfiguration
 }
 
-func newArmResourceImporter(
+func newARMResourceImporter(
 	armID string,
 	armResource genruntime.ARMMetaObject,
 	factory ResourceImporterFactory,

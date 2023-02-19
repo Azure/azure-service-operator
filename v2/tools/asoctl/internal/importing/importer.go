@@ -67,7 +67,7 @@ func NewImporter(
 // Import downloads the specified resource and adds it to our list for export
 func (i *Importer) ImportFromARMID(ctx context.Context, armID string) error {
 
-	importer, err := i.armFactory.CreateForArmId(armID)
+	importer, err := i.armFactory.CreateForARMID(armID)
 	if err != nil {
 		return errors.Wrap(err, "unable to import resource")
 	}
@@ -86,7 +86,7 @@ func (i *Importer) ImportFromARMID(ctx context.Context, armID string) error {
 	//f := newResourceImporterFactory(api.CreateScheme())
 	//f.configureARM(client, armConfig)
 	//
-	//importer, err := f.CreateForArmId(resource)
+	//importer, err := f.CreateForARMID(resource)
 	//if err != nil {
 	//	return errors.Wrap(err, "unable to import resource")
 	//}
