@@ -6,7 +6,7 @@ metadata:
 spec:
   autoApproval:
     subscriptions:
-    - 82acd5bb-4206-47d4-9c12-a65db028483d
+    - 00000000-0000-0000-0000-000000000000
   ipConfigurations:
   - name: config
     privateIPAddressVersion: IPv4
@@ -24,4 +24,4 @@ spec:
     name: aso-sample-rg
   visibility:
     subscriptions:
-    - 82acd5bb-4206-47d4-9c12-a65db028483d
+    - 00000000-0000-0000-0000-000000000000
