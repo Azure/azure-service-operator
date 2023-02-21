@@ -28,8 +28,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
+	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
-	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"

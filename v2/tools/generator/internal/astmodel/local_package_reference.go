@@ -17,18 +17,18 @@ type LocalPackageReference struct {
 	group            string
 	apiVersion       string
 	generatorVersion string
-
 	// version == apiVersion + generatorVersion
 	// cached to save on allocations
 	version string
 }
 
 var (
-	_ PackageReference = LocalPackageReference{}
-	_ fmt.Stringer     = LocalPackageReference{}
+	_ PackageReference          = LocalPackageReference{}
+	_ fmt.Stringer              = LocalPackageReference{}
+	_ LocalLikePackageReference = LocalPackageReference{}
 )
 
-const GeneratorVersion string = "v1beta"
+const GeneratorVersion string = "v1api"
 
 // MakeLocalPackageReference Creates a new local package reference from a group and version
 func MakeLocalPackageReference(prefix string, group string, versionPrefix string, version string) LocalPackageReference {

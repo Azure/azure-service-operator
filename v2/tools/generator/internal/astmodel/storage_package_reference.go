@@ -18,6 +18,7 @@ type StoragePackageReference struct {
 }
 
 var _ PackageReference = StoragePackageReference{}
+var _ LocalLikePackageReference = StoragePackageReference{}
 
 // MakeStoragePackageReference creates a new storage package reference from a local package reference
 func MakeStoragePackageReference(local LocalPackageReference) StoragePackageReference {
@@ -39,6 +40,14 @@ func (s StoragePackageReference) PackagePath() string {
 
 func (s StoragePackageReference) Version() string {
 	return s.inner.Version() + StoragePackageSuffix
+}
+
+func (s StoragePackageReference) Group() string {
+	return s.inner.Group()
+}
+
+func (s StoragePackageReference) LocalPathPrefix() string {
+	return s.inner.LocalPathPrefix()
 }
 
 // Equals returns true if the passed package reference is a storage package reference wrapping an identical local package reference

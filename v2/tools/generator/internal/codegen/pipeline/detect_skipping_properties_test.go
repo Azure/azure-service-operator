@@ -136,18 +136,40 @@ func Test_DetectSkippingProperties_WhenPropertyTypesIdentical_ReturnsNoError(t *
 	defs.AddAll(personV1, personV2, personV3)
 
 	cfg := config.NewConfiguration()
-	initialState, err := RunTestPipeline(
+	_, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
 		CreateStorageTypes(),            // First create the storage types
 		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		DetectSkippingProperties(),      // and then we get to run the stage we're testing
 	)
 	g.Expect(err).To(Succeed())
+}
 
-	_, err = RunTestPipeline(
-		initialState,
-		DetectSkippingProperties(), // and then we get to run the stage we're testing
+func Test_DetectSkippingProperties_WhenPropertyStructureIdentical_ReturnsNoError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	residenceV1 := test.CreateObjectDefinition(test.Pkg2020, "Residence", test.FullAddressProperty, test.CityProperty)
+	residenceV3 := test.CreateObjectDefinition(test.Pkg2022, "Residence", test.FullAddressProperty, test.CityProperty)
+
+	residenceV1Prop := astmodel.NewPropertyDefinition("Residence", "residence", residenceV1.Name())
+	residenceV3Prop := astmodel.NewPropertyDefinition("Residence", "residence", residenceV3.Name())
+
+	// Create multiple versions of person, with KnownAs missing
+	personV1 := test.CreateSpec(test.Pkg2020, "Person", test.FullNameProperty, test.FamilyNameProperty, residenceV1Prop)
+	personV2 := test.CreateSpec(test.Pkg2021, "Person", test.FullNameProperty, test.FamilyNameProperty)
+	personV3 := test.CreateSpec(test.Pkg2022, "Person", test.FullNameProperty, test.FamilyNameProperty, residenceV3Prop)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(personV1, personV2, personV3, residenceV1, residenceV3)
+
+	cfg := config.NewConfiguration()
+	_, err := RunTestPipeline(
+		NewState().WithDefinitions(defs),
+		CreateStorageTypes(),            // First create the storage types
+		CreateConversionGraph(cfg, "v"), // Then, create the conversion graph showing relationships
+		DetectSkippingProperties(),      // and then we get to run the stage we're testing
 	)
-
 	g.Expect(err).To(Succeed())
 }
 
