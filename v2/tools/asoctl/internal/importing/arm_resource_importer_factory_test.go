@@ -6,9 +6,10 @@
 package importing
 
 import (
+	"testing"
+
 	"github.com/Azure/azure-service-operator/v2/api"
 	. "github.com/onsi/gomega"
-	"testing"
 )
 
 func Test_ARMResourceImporterFactory_GroupKindFromARMID(t *testing.T) {
@@ -68,7 +69,7 @@ func Test_ARMResourceImporterFactory_GroupKindFromARMID(t *testing.T) {
 
 			factory := armResourceImporterFactory{}
 
-			gk, err := factory.groupKindFromARMID(c.armId)
+			gk, err := factory.groupKindFromID(c.armId)
 			g.Expect(err).To(BeNil())
 			g.Expect(gk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gk.Kind).To(Equal(c.expectedKind))
@@ -122,7 +123,7 @@ func Test_ResourceImporterFactory_GroupVersionKindFromARMID(t *testing.T) {
 
 			g := NewGomegaWithT(t)
 
-			gvk, err := factory.groupVersionKindFromARMID(c.armId)
+			gvk, err := factory.groupVersionKindFromID(c.armId)
 			g.Expect(err).To(BeNil())
 			g.Expect(gvk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gvk.Kind).To(Equal(c.expectedKind))
