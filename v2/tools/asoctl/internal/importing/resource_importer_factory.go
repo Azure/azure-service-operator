@@ -6,6 +6,8 @@
 package importing
 
 import (
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/versions"
 	"github.com/pkg/errors"
@@ -13,14 +15,13 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/klog/v2"
-	"strings"
 
 	azruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 )
 
 type ResourceImporterFactory interface {
 	// CreateARMFactory creates a new factory specifically for ARM resources
-	CreateARMFactory(client *azruntime.Pipeline, serviceConfig cloud.ServiceConfiguration) ARMResourceImporterFactory
+	CreateARMFactory(client *azruntime.Pipeline, serviceConfig cloud.ServiceConfiguration) ARMResourceImporter
 	// Scheme returns the scheme used by the factory
 	Scheme() *runtime.Scheme
 }
@@ -43,8 +44,8 @@ func newResourceImporterFactory(scheme *runtime.Scheme) ResourceImporterFactory 
 func (f *resourceImporterFactory) CreateARMFactory(
 	client *azruntime.Pipeline,
 	serviceConfig cloud.ServiceConfiguration,
-) ARMResourceImporterFactory {
-	return &armResourceImporterFactory{
+) ARMResourceImporter {
+	return &armResourceImporter{
 		resourceImporterFactory: *f,
 		armClient:               client,
 		armConfig:               serviceConfig,

@@ -23,21 +23,19 @@ import (
 	"k8s.io/klog/v2"
 )
 
-type ARMResourceImporterFactory interface {
-	CreateForARMID(armID string) (resourceImporter, error)
-	Client() *azruntime.Pipeline
-	Config() cloud.ServiceConfiguration
+type ARMResourceImporter interface {
+	Import(ctx context.Context, armID string) (*resourceImportResult, error)
 }
 
-type armResourceImporterFactory struct {
+type armResourceImporter struct {
 	resourceImporterFactory
 	armClient *azruntime.Pipeline
 	armConfig cloud.ServiceConfiguration
 }
 
-//!!var _ ARMResourceImporterFactory = &armResourceImporterFactory{}
+var _ ARMResourceImporter = &armResourceImporter{}
 
-func (f *armResourceImporterFactory) Import(ctx context.Context, armID string) (*resourceImportResult, error) {
+func (ri *armResourceImporter) Import(ctx context.Context, armID string) (*resourceImportResult, error) {
 	// Parse armID into a more useful form
 	id, err := arm.ParseResourceID(armID)
 	if err != nil {
@@ -45,7 +43,7 @@ func (f *armResourceImporterFactory) Import(ctx context.Context, armID string) (
 	}
 
 	// Create a blank object into which we capture the current state of the resource
-	obj, err := f.createBlankObjectFromID(id)
+	obj, err := ri.createBlankObjectFromID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -57,13 +55,13 @@ func (f *armResourceImporterFactory) Import(ctx context.Context, armID string) (
 	}
 
 	// Create a request to get the current state of the resource
-	req, err := f.createRequest(ctx, armID, armMeta.GetAPIVersion())
+	req, err := ri.createRequest(ctx, armID, armMeta.GetAPIVersion())
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to create request to import ARM resource %s", armID)
 	}
 
 	// Execute the request
-	resp, err := f.armClient.Do(req)
+	resp, err := ri.armClient.Do(req)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to execute request to import ARM resource %s", armID)
 	}
@@ -75,7 +73,7 @@ func (f *armResourceImporterFactory) Import(ctx context.Context, armID string) (
 
 	klog.V(3).Infof("Request succeeded")
 
-	armStatus, err := genruntime.NewEmptyARMStatus(armMeta, f.Scheme())
+	armStatus, err := genruntime.NewEmptyARMStatus(armMeta, ri.Scheme())
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to create empty ARM status for importing ARM resource %s", armID)
 	}
@@ -96,7 +94,7 @@ func (f *armResourceImporterFactory) Import(ctx context.Context, armID string) (
 	}
 
 	// Convert the ARM shape to the Kube shape
-	status, err := genruntime.NewEmptyVersionedStatus(armMeta, f.Scheme())
+	status, err := genruntime.NewEmptyVersionedStatus(armMeta, ri.Scheme())
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to construct status object for resource: %s", armID)
 	}
@@ -120,10 +118,10 @@ func (f *armResourceImporterFactory) Import(ctx context.Context, armID string) (
 }
 
 // createRequest constructs the request to GET the ARM resource
-func (f *armResourceImporterFactory) createRequest(ctx context.Context, armID string, apiVersion string) (*policy.Request, error) {
+func (ri *armResourceImporter) createRequest(ctx context.Context, armID string, apiVersion string) (*policy.Request, error) {
 	//urlPath = strings.ReplaceAll(urlPath, "{resourceId}", ari.armID)
 	//req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(rmConfig.Endpoint, urlPath))
-	req, err := azruntime.NewRequest(ctx, http.MethodGet, azruntime.JoinPaths(f.armConfig.Endpoint, armID))
+	req, err := azruntime.NewRequest(ctx, http.MethodGet, azruntime.JoinPaths(ri.armConfig.Endpoint, armID))
 	if err != nil {
 		return nil, err
 	}
@@ -138,27 +136,27 @@ func (f *armResourceImporterFactory) createRequest(ctx context.Context, armID st
 	return req, nil
 }
 
-func (f *armResourceImporterFactory) Client() *azruntime.Pipeline {
-	return f.armClient
+func (ri *armResourceImporter) Client() *azruntime.Pipeline {
+	return ri.armClient
 }
 
-func (f *armResourceImporterFactory) Config() cloud.ServiceConfiguration {
-	return f.armConfig
+func (ri *armResourceImporter) Config() cloud.ServiceConfiguration {
+	return ri.armConfig
 }
 
-func (f *armResourceImporterFactory) createBlankObjectFromID(armID *arm.ResourceID) (runtime.Object, error) {
-	gvk, err := f.groupVersionKindFromID(armID)
+func (ri *armResourceImporter) createBlankObjectFromID(armID *arm.ResourceID) (runtime.Object, error) {
+	gvk, err := ri.groupVersionKindFromID(armID)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to get GVK for blank resource")
 	}
 
-	obj, err := f.createBlankObjectFromGVK(gvk)
+	obj, err := ri.createBlankObjectFromGVK(gvk)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to create blank resource")
 	}
 
 	if mo, ok := obj.(genruntime.ARMMetaObject); ok {
-		name, err := f.nameFromID(armID)
+		name, err := ri.nameFromID(armID)
 		if err != nil {
 			return nil, errors.Wrap(err, "unable to get name for blank resource")
 		}
@@ -170,26 +168,26 @@ func (f *armResourceImporterFactory) createBlankObjectFromID(armID *arm.Resource
 }
 
 // groupVersionKindFromID returns the GroupVersionKind for the resource we're importing
-func (f *armResourceImporterFactory) groupVersionKindFromID(id *arm.ResourceID) (schema.GroupVersionKind, error) {
-	gk, err := f.groupKindFromID(id)
+func (ri *armResourceImporter) groupVersionKindFromID(id *arm.ResourceID) (schema.GroupVersionKind, error) {
+	gk, err := ri.groupKindFromID(id)
 	if err != nil {
 		return schema.GroupVersionKind{},
 			errors.Wrap(err, "unable to determine GroupVersionKind for the resource")
 	}
 
-	return f.selectVersionFromGK(gk)
+	return ri.selectVersionFromGK(gk)
 }
 
 // groupKindFromID parses a GroupKind from the resource URL, allowing us to look up the actual resource
-func (f *armResourceImporterFactory) groupKindFromID(id *arm.ResourceID) (schema.GroupKind, error) {
+func (ri *armResourceImporter) groupKindFromID(id *arm.ResourceID) (schema.GroupKind, error) {
 	return schema.GroupKind{
-		Group: f.groupFromID(id),
-		Kind:  f.kindFromID(id),
+		Group: ri.groupFromID(id),
+		Kind:  ri.kindFromID(id),
 	}, nil
 }
 
 // groupFromID extracts an ASO group name from the ARM ID
-func (*armResourceImporterFactory) groupFromID(id *arm.ResourceID) string {
+func (*armResourceImporter) groupFromID(id *arm.ResourceID) string {
 	parts := strings.Split(id.ResourceType.Namespace, ".")
 	last := len(parts) - 1
 	group := strings.ToLower(parts[last]) + ".azure.com"
@@ -198,7 +196,7 @@ func (*armResourceImporterFactory) groupFromID(id *arm.ResourceID) string {
 }
 
 // kindFromID extracts an ASO kind from the ARM ID
-func (*armResourceImporterFactory) kindFromID(id *arm.ResourceID) string {
+func (*armResourceImporter) kindFromID(id *arm.ResourceID) string {
 	if len(id.ResourceType.Types) != 1 {
 		panic("Don't currently know how to handle nested resources")
 	}
@@ -208,7 +206,7 @@ func (*armResourceImporterFactory) kindFromID(id *arm.ResourceID) string {
 	return kind
 }
 
-func (f *armResourceImporterFactory) nameFromID(id *arm.ResourceID) (string, error) {
+func (ri *armResourceImporter) nameFromID(id *arm.ResourceID) (string, error) {
 	klog.V(3).Infof("Name: %s", id.Name)
 	return id.Name, nil
 }

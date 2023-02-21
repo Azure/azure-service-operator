@@ -8,6 +8,11 @@ package importing
 import (
 	"bufio"
 	"context"
+	"io"
+	"net/url"
+	"os"
+	"strings"
+
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	armruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm/runtime"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
@@ -22,14 +27,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/versions"
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
-	"io"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/klog/v2"
-	"net/url"
-	"os"
 	"sigs.k8s.io/yaml"
-	"strings"
 )
 
 type Importer struct {
@@ -37,7 +38,7 @@ type Importer struct {
 	importedResources []genruntime.MetaObject
 	cloudConfig       cloud.Configuration
 	factory           ResourceImporterFactory
-	armFactory        ARMResourceImporterFactory
+	armFactory        ARMResourceImporter
 }
 
 var userAgent = "asoctl/" + version.BuildVersion
@@ -67,12 +68,7 @@ func NewImporter(
 // Import downloads the specified resource and adds it to our list for export
 func (i *Importer) ImportFromARMID(ctx context.Context, armID string) error {
 
-	importer, err := i.armFactory.CreateForARMID(armID)
-	if err != nil {
-		return errors.Wrap(err, "unable to import resource")
-	}
-
-	result, err := importer.Import(ctx)
+	result, err := i.armFactory.Import(ctx, armID)
 	if err != nil {
 		return errors.Wrap(err, "unable to import resource")
 	}
