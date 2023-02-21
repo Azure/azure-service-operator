@@ -5,6 +5,7 @@ package v1beta20210515storage
 
 import (
 	"encoding/json"
+	v1api20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_MongodbDatabase_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongodbDatabase to hub returns original",
+		prop.ForAll(RunResourceConversionTestForMongodbDatabase, MongodbDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForMongodbDatabase tests if a specific instance of MongodbDatabase round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForMongodbDatabase(subject MongodbDatabase) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20210515s.MongodbDatabase
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual MongodbDatabase
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MongodbDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongodbDatabase to MongodbDatabase via AssignProperties_To_MongodbDatabase & AssignProperties_From_MongodbDatabase returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongodbDatabase, MongodbDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMongodbDatabase tests if a specific instance of MongodbDatabase can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongodbDatabase(subject MongodbDatabase) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.MongodbDatabase
+	err := copied.AssignProperties_To_MongodbDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MongodbDatabase
+	err = actual.AssignProperties_From_MongodbDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_MongodbDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +162,48 @@ func MongodbDatabaseGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForMongodbDatabase(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_MongodbDatabase_SpecGenerator()
 	gens["Status"] = DatabaseAccounts_MongodbDatabase_STATUSGenerator()
+}
+
+func Test_DatabaseAccounts_MongodbDatabase_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccounts_MongodbDatabase_Spec to DatabaseAccounts_MongodbDatabase_Spec via AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec & AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_Spec, DatabaseAccounts_MongodbDatabase_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_Spec tests if a specific instance of DatabaseAccounts_MongodbDatabase_Spec can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_Spec(subject DatabaseAccounts_MongodbDatabase_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.DatabaseAccounts_MongodbDatabase_Spec
+	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabase_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccounts_MongodbDatabase_Spec
+	err = actual.AssignProperties_From_DatabaseAccounts_MongodbDatabase_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccounts_MongodbDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -155,6 +283,48 @@ func AddIndependentPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_Spec(ge
 func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_Spec(gens map[string]gopter.Gen) {
 	gens["Options"] = gen.PtrOf(CreateUpdateOptionsGenerator())
 	gens["Resource"] = gen.PtrOf(MongoDBDatabaseResourceGenerator())
+}
+
+func Test_DatabaseAccounts_MongodbDatabase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccounts_MongodbDatabase_STATUS to DatabaseAccounts_MongodbDatabase_STATUS via AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS & AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_STATUS, DatabaseAccounts_MongodbDatabase_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_STATUS tests if a specific instance of DatabaseAccounts_MongodbDatabase_STATUS can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccounts_MongodbDatabase_STATUS(subject DatabaseAccounts_MongodbDatabase_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.DatabaseAccounts_MongodbDatabase_STATUS
+	err := copied.AssignProperties_To_DatabaseAccounts_MongodbDatabase_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccounts_MongodbDatabase_STATUS
+	err = actual.AssignProperties_From_DatabaseAccounts_MongodbDatabase_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccounts_MongodbDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -237,6 +407,48 @@ func AddRelatedPropertyGeneratorsForDatabaseAccounts_MongodbDatabase_STATUS(gens
 	gens["Resource"] = gen.PtrOf(MongoDBDatabaseGetProperties_Resource_STATUSGenerator())
 }
 
+func Test_CreateUpdateOptions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CreateUpdateOptions to CreateUpdateOptions via AssignProperties_To_CreateUpdateOptions & AssignProperties_From_CreateUpdateOptions returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCreateUpdateOptions, CreateUpdateOptionsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCreateUpdateOptions tests if a specific instance of CreateUpdateOptions can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForCreateUpdateOptions(subject CreateUpdateOptions) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.CreateUpdateOptions
+	err := copied.AssignProperties_To_CreateUpdateOptions(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CreateUpdateOptions
+	err = actual.AssignProperties_From_CreateUpdateOptions(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CreateUpdateOptions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -312,6 +524,48 @@ func AddRelatedPropertyGeneratorsForCreateUpdateOptions(gens map[string]gopter.G
 	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettingsGenerator())
 }
 
+func Test_MongoDBDatabaseGetProperties_Resource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongoDBDatabaseGetProperties_Resource_STATUS to MongoDBDatabaseGetProperties_Resource_STATUS via AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS & AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_Resource_STATUS, MongoDBDatabaseGetProperties_Resource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_Resource_STATUS tests if a specific instance of MongoDBDatabaseGetProperties_Resource_STATUS can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongoDBDatabaseGetProperties_Resource_STATUS(subject MongoDBDatabaseGetProperties_Resource_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.MongoDBDatabaseGetProperties_Resource_STATUS
+	err := copied.AssignProperties_To_MongoDBDatabaseGetProperties_Resource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MongoDBDatabaseGetProperties_Resource_STATUS
+	err = actual.AssignProperties_From_MongoDBDatabaseGetProperties_Resource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_MongoDBDatabaseGetProperties_Resource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -376,6 +630,48 @@ func AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_Resource_ST
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
 
+func Test_MongoDBDatabaseResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongoDBDatabaseResource to MongoDBDatabaseResource via AssignProperties_To_MongoDBDatabaseResource & AssignProperties_From_MongoDBDatabaseResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongoDBDatabaseResource, MongoDBDatabaseResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMongoDBDatabaseResource tests if a specific instance of MongoDBDatabaseResource can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongoDBDatabaseResource(subject MongoDBDatabaseResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.MongoDBDatabaseResource
+	err := copied.AssignProperties_To_MongoDBDatabaseResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MongoDBDatabaseResource
+	err = actual.AssignProperties_From_MongoDBDatabaseResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_MongoDBDatabaseResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -435,6 +731,48 @@ func MongoDBDatabaseResourceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMongoDBDatabaseResource is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMongoDBDatabaseResource(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_OptionsResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from OptionsResource_STATUS to OptionsResource_STATUS via AssignProperties_To_OptionsResource_STATUS & AssignProperties_From_OptionsResource_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForOptionsResource_STATUS, OptionsResource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForOptionsResource_STATUS tests if a specific instance of OptionsResource_STATUS can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForOptionsResource_STATUS(subject OptionsResource_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.OptionsResource_STATUS
+	err := copied.AssignProperties_To_OptionsResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual OptionsResource_STATUS
+	err = actual.AssignProperties_From_OptionsResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_OptionsResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -512,6 +850,48 @@ func AddRelatedPropertyGeneratorsForOptionsResource_STATUS(gens map[string]gopte
 	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettings_STATUSGenerator())
 }
 
+func Test_AutoscaleSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoscaleSettings to AutoscaleSettings via AssignProperties_To_AutoscaleSettings & AssignProperties_From_AutoscaleSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoscaleSettings, AutoscaleSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoscaleSettings tests if a specific instance of AutoscaleSettings can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForAutoscaleSettings(subject AutoscaleSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.AutoscaleSettings
+	err := copied.AssignProperties_To_AutoscaleSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoscaleSettings
+	err = actual.AssignProperties_From_AutoscaleSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AutoscaleSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -570,6 +950,48 @@ func AutoscaleSettingsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAutoscaleSettings is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAutoscaleSettings(gens map[string]gopter.Gen) {
 	gens["MaxThroughput"] = gen.PtrOf(gen.Int())
+}
+
+func Test_AutoscaleSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoscaleSettings_STATUS to AutoscaleSettings_STATUS via AssignProperties_To_AutoscaleSettings_STATUS & AssignProperties_From_AutoscaleSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoscaleSettings_STATUS, AutoscaleSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoscaleSettings_STATUS tests if a specific instance of AutoscaleSettings_STATUS can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForAutoscaleSettings_STATUS(subject AutoscaleSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.AutoscaleSettings_STATUS
+	err := copied.AssignProperties_To_AutoscaleSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoscaleSettings_STATUS
+	err = actual.AssignProperties_From_AutoscaleSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AutoscaleSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

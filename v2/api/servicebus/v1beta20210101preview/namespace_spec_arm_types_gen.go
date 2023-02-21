@@ -5,22 +5,14 @@ package v1beta20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Namespace_Spec. Use v1api20210101preview.Namespace_Spec instead
 type Namespace_Spec_ARM struct {
-	// Identity: Properties of BYOK Identity description
-	Identity *Identity_ARM `json:"identity,omitempty"`
-
-	// Location: The Geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties of the namespace.
+	Identity   *Identity_ARM              `json:"identity,omitempty"`
+	Location   *string                    `json:"location,omitempty"`
+	Name       string                     `json:"name,omitempty"`
 	Properties *SBNamespaceProperties_ARM `json:"properties,omitempty"`
-
-	// Sku: Properties of SKU
-	Sku *SBSku_ARM `json:"sku,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *SBSku_ARM                 `json:"sku,omitempty"`
+	Tags       map[string]string          `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespace_Spec_ARM{}
@@ -40,45 +32,32 @@ func (namespace *Namespace_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces"
 }
 
-// Properties to configure User Assigned Identities for Bring your Own Keys
+// Deprecated version of Identity. Use v1api20210101preview.Identity instead
 type Identity_ARM struct {
-	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
-// Properties of the namespace.
+// Deprecated version of SBNamespaceProperties. Use v1api20210101preview.SBNamespaceProperties instead
 type SBNamespaceProperties_ARM struct {
-	// Encryption: Properties of BYOK Encryption description
-	Encryption *Encryption_ARM `json:"encryption,omitempty"`
-
-	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+	Encryption    *Encryption_ARM `json:"encryption,omitempty"`
+	ZoneRedundant *bool           `json:"zoneRedundant,omitempty"`
 }
 
-// SKU of the namespace.
+// Deprecated version of SBSku. Use v1api20210101preview.SBSku instead
 type SBSku_ARM struct {
-	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Name: Name of this SKU.
-	Name *SBSku_Name `json:"name,omitempty"`
-
-	// Tier: The billing tier of this particular SKU.
-	Tier *SBSku_Tier `json:"tier,omitempty"`
+	Capacity *int        `json:"capacity,omitempty"`
+	Name     *SBSku_Name `json:"name,omitempty"`
+	Tier     *SBSku_Tier `json:"tier,omitempty"`
 }
 
-// Properties to configure Encryption
+// Deprecated version of Encryption. Use v1api20210101preview.Encryption instead
 type Encryption_ARM struct {
-	// KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
-
-	// KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
-
-	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
+	KeySource                       *Encryption_KeySource    `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                    `json:"requireInfrastructureEncryption,omitempty"`
 }
 
+// Deprecated version of Identity_Type. Use v1api20210101preview.Identity_Type instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type Identity_Type string
 
@@ -89,6 +68,7 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
+// Deprecated version of SBSku_Name. Use v1api20210101preview.SBSku_Name instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSku_Name string
 
@@ -98,6 +78,7 @@ const (
 	SBSku_Name_Standard = SBSku_Name("Standard")
 )
 
+// Deprecated version of SBSku_Tier. Use v1api20210101preview.SBSku_Tier instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type SBSku_Tier string
 
@@ -107,20 +88,15 @@ const (
 	SBSku_Tier_Standard = SBSku_Tier("Standard")
 )
 
-// Properties to configure keyVault Properties
+// Deprecated version of KeyVaultProperties. Use v1api20210101preview.KeyVaultProperties instead
 type KeyVaultProperties_ARM struct {
-	Identity *UserAssignedIdentityProperties_ARM `json:"identity,omitempty"`
-
-	// KeyName: Name of the Key from KeyVault
-	KeyName *string `json:"keyName,omitempty"`
-
-	// KeyVaultUri: Uri of KeyVault
-	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
-
-	// KeyVersion: Version of KeyVault
-	KeyVersion *string `json:"keyVersion,omitempty"`
+	Identity    *UserAssignedIdentityProperties_ARM `json:"identity,omitempty"`
+	KeyName     *string                             `json:"keyName,omitempty"`
+	KeyVaultUri *string                             `json:"keyVaultUri,omitempty"`
+	KeyVersion  *string                             `json:"keyVersion,omitempty"`
 }
 
+// Deprecated version of UserAssignedIdentityProperties. Use v1api20210101preview.UserAssignedIdentityProperties instead
 type UserAssignedIdentityProperties_ARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

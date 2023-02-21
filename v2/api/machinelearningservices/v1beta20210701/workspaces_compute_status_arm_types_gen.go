@@ -8,66 +8,31 @@ import (
 	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
+// Deprecated version of Workspaces_Compute_STATUS. Use v1api20210701.Workspaces_Compute_STATUS instead
 type Workspaces_Compute_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
-
-	// Location: Specifies the location of the resource.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Compute properties
-	Properties *Compute_STATUS_ARM `json:"properties,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
-
-	// SystemData: System data
+	Id         *string                `json:"id,omitempty"`
+	Identity   *Identity_STATUS_ARM   `json:"identity,omitempty"`
+	Location   *string                `json:"location,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	Properties *Compute_STATUS_ARM    `json:"properties,omitempty"`
+	Sku        *Sku_STATUS_ARM        `json:"sku,omitempty"`
 	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
-	// Tags: Contains resource tags defined as key/value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Tags       map[string]string      `json:"tags,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
+// Deprecated version of Compute_STATUS. Use v1api20210701.Compute_STATUS instead
 type Compute_STATUS_ARM struct {
-	// AKS: Mutually exclusive with all other properties
-	AKS *AKS_STATUS_ARM `json:"aks,omitempty"`
-
-	// AmlCompute: Mutually exclusive with all other properties
-	AmlCompute *AmlCompute_STATUS_ARM `json:"amlCompute,omitempty"`
-
-	// ComputeInstance: Mutually exclusive with all other properties
-	ComputeInstance *ComputeInstance_STATUS_ARM `json:"computeInstance,omitempty"`
-
-	// DataFactory: Mutually exclusive with all other properties
-	DataFactory *DataFactory_STATUS_ARM `json:"dataFactory,omitempty"`
-
-	// DataLakeAnalytics: Mutually exclusive with all other properties
+	AKS               *AKS_STATUS_ARM               `json:"aks,omitempty"`
+	AmlCompute        *AmlCompute_STATUS_ARM        `json:"amlCompute,omitempty"`
+	ComputeInstance   *ComputeInstance_STATUS_ARM   `json:"computeInstance,omitempty"`
+	DataFactory       *DataFactory_STATUS_ARM       `json:"dataFactory,omitempty"`
 	DataLakeAnalytics *DataLakeAnalytics_STATUS_ARM `json:"dataLakeAnalytics,omitempty"`
-
-	// Databricks: Mutually exclusive with all other properties
-	Databricks *Databricks_STATUS_ARM `json:"databricks,omitempty"`
-
-	// HDInsight: Mutually exclusive with all other properties
-	HDInsight *HDInsight_STATUS_ARM `json:"hdInsight,omitempty"`
-
-	// Kubernetes: Mutually exclusive with all other properties
-	Kubernetes *Kubernetes_STATUS_ARM `json:"kubernetes,omitempty"`
-
-	// SynapseSpark: Mutually exclusive with all other properties
-	SynapseSpark *SynapseSpark_STATUS_ARM `json:"synapseSpark,omitempty"`
-
-	// VirtualMachine: Mutually exclusive with all other properties
-	VirtualMachine *VirtualMachine_STATUS_ARM `json:"virtualMachine,omitempty"`
+	Databricks        *Databricks_STATUS_ARM        `json:"databricks,omitempty"`
+	HDInsight         *HDInsight_STATUS_ARM         `json:"hdInsight,omitempty"`
+	Kubernetes        *Kubernetes_STATUS_ARM        `json:"kubernetes,omitempty"`
+	SynapseSpark      *SynapseSpark_STATUS_ARM      `json:"synapseSpark,omitempty"`
+	VirtualMachine    *VirtualMachine_STATUS_ARM    `json:"virtualMachine,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because Compute_STATUS_ARM represents a discriminated union (JSON OneOf)
@@ -158,410 +123,174 @@ func (compute *Compute_STATUS_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// Deprecated version of AKS_STATUS. Use v1api20210701.AKS_STATUS instead
 type AKS_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType AKS_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: AKS properties
-	Properties *AKS_Properties_STATUS_ARM `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *AKS_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                       `json:"computeLocation,omitempty"`
+	ComputeType        AKS_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                       `json:"createdOn,omitempty"`
+	Description        *string                       `json:"description,omitempty"`
+	DisableLocalAuth   *bool                         `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                         `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                       `json:"modifiedOn,omitempty"`
+	Properties         *AKS_Properties_STATUS_ARM    `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM    `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *AKS_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                       `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of AmlCompute_STATUS. Use v1api20210701.AmlCompute_STATUS instead
 type AmlCompute_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType AmlCompute_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: Properties of AmlCompute
-	Properties *AmlComputeProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *AmlCompute_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                              `json:"computeLocation,omitempty"`
+	ComputeType        AmlCompute_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                              `json:"createdOn,omitempty"`
+	Description        *string                              `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                              `json:"modifiedOn,omitempty"`
+	Properties         *AmlComputeProperties_STATUS_ARM     `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM           `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *AmlCompute_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                              `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of ComputeInstance_STATUS. Use v1api20210701.ComputeInstance_STATUS instead
 type ComputeInstance_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType ComputeInstance_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: Properties of ComputeInstance
-	Properties *ComputeInstanceProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *ComputeInstance_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                                   `json:"computeLocation,omitempty"`
+	ComputeType        ComputeInstance_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                                   `json:"createdOn,omitempty"`
+	Description        *string                                   `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                     `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                     `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                                   `json:"modifiedOn,omitempty"`
+	Properties         *ComputeInstanceProperties_STATUS_ARM     `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM                `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *ComputeInstance_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                                   `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of Databricks_STATUS. Use v1api20210701.Databricks_STATUS instead
 type Databricks_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType Databricks_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: Properties of Databricks
-	Properties *DatabricksProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *Databricks_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                              `json:"computeLocation,omitempty"`
+	ComputeType        Databricks_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                              `json:"createdOn,omitempty"`
+	Description        *string                              `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                              `json:"modifiedOn,omitempty"`
+	Properties         *DatabricksProperties_STATUS_ARM     `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM           `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *Databricks_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                              `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of DataFactory_STATUS. Use v1api20210701.DataFactory_STATUS instead
 type DataFactory_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType DataFactory_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *DataFactory_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                               `json:"computeLocation,omitempty"`
+	ComputeType        DataFactory_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                               `json:"createdOn,omitempty"`
+	Description        *string                               `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                 `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                 `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                               `json:"modifiedOn,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM            `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *DataFactory_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                               `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of DataLakeAnalytics_STATUS. Use v1api20210701.DataLakeAnalytics_STATUS instead
 type DataLakeAnalytics_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType DataLakeAnalytics_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                                  `json:"modifiedOn,omitempty"`
-	Properties *DataLakeAnalytics_Properties_STATUS_ARM `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *DataLakeAnalytics_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                                     `json:"computeLocation,omitempty"`
+	ComputeType        DataLakeAnalytics_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                                     `json:"createdOn,omitempty"`
+	Description        *string                                     `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                       `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                       `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                                     `json:"modifiedOn,omitempty"`
+	Properties         *DataLakeAnalytics_Properties_STATUS_ARM    `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM                  `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *DataLakeAnalytics_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                                     `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of HDInsight_STATUS. Use v1api20210701.HDInsight_STATUS instead
 type HDInsight_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType HDInsight_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: HDInsight compute properties
-	Properties *HDInsightProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *HDInsight_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                             `json:"computeLocation,omitempty"`
+	ComputeType        HDInsight_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                             `json:"createdOn,omitempty"`
+	Description        *string                             `json:"description,omitempty"`
+	DisableLocalAuth   *bool                               `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                               `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                             `json:"modifiedOn,omitempty"`
+	Properties         *HDInsightProperties_STATUS_ARM     `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM          `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *HDInsight_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                             `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of Kubernetes_STATUS. Use v1api20210701.Kubernetes_STATUS instead
 type Kubernetes_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType Kubernetes_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: Properties of Kubernetes
-	Properties *KubernetesProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *Kubernetes_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                              `json:"computeLocation,omitempty"`
+	ComputeType        Kubernetes_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                              `json:"createdOn,omitempty"`
+	Description        *string                              `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                              `json:"modifiedOn,omitempty"`
+	Properties         *KubernetesProperties_STATUS_ARM     `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM           `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *Kubernetes_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                              `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of SynapseSpark_STATUS. Use v1api20210701.SynapseSpark_STATUS instead
 type SynapseSpark_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType SynapseSpark_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                             `json:"modifiedOn,omitempty"`
-	Properties *SynapseSpark_Properties_STATUS_ARM `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *SynapseSpark_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                                `json:"computeLocation,omitempty"`
+	ComputeType        SynapseSpark_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                                `json:"createdOn,omitempty"`
+	Description        *string                                `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                  `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                  `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                                `json:"modifiedOn,omitempty"`
+	Properties         *SynapseSpark_Properties_STATUS_ARM    `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM             `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *SynapseSpark_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                                `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of VirtualMachine_STATUS. Use v1api20210701.VirtualMachine_STATUS instead
 type VirtualMachine_STATUS_ARM struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType VirtualMachine_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                               `json:"modifiedOn,omitempty"`
-	Properties *VirtualMachine_Properties_STATUS_ARM `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS_ARM `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *VirtualMachine_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                                  `json:"computeLocation,omitempty"`
+	ComputeType        VirtualMachine_ComputeType_STATUS        `json:"computeType,omitempty"`
+	CreatedOn          *string                                  `json:"createdOn,omitempty"`
+	Description        *string                                  `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                    `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                    `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                                  `json:"modifiedOn,omitempty"`
+	Properties         *VirtualMachine_Properties_STATUS_ARM    `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS_ARM               `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *VirtualMachine_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                                  `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of AKS_ComputeType_STATUS. Use v1api20210701.AKS_ComputeType_STATUS instead
 type AKS_ComputeType_STATUS string
 
 const AKS_ComputeType_STATUS_AKS = AKS_ComputeType_STATUS("AKS")
 
+// Deprecated version of AKS_Properties_STATUS. Use v1api20210701.AKS_Properties_STATUS instead
 type AKS_Properties_STATUS_ARM struct {
-	// AgentCount: Number of agents
-	AgentCount *int `json:"agentCount,omitempty"`
-
-	// AgentVmSize: Agent virtual machine size
-	AgentVmSize *string `json:"agentVmSize,omitempty"`
-
-	// AksNetworkingConfiguration: AKS networking configuration for vnet
-	AksNetworkingConfiguration *AksNetworkingConfiguration_STATUS_ARM `json:"aksNetworkingConfiguration,omitempty"`
-
-	// ClusterFqdn: Cluster full qualified domain name
-	ClusterFqdn *string `json:"clusterFqdn,omitempty"`
-
-	// ClusterPurpose: Intended usage of the cluster
-	ClusterPurpose *AKS_Properties_ClusterPurpose_STATUS `json:"clusterPurpose,omitempty"`
-
-	// LoadBalancerSubnet: Load Balancer Subnet
-	LoadBalancerSubnet *string `json:"loadBalancerSubnet,omitempty"`
-
-	// LoadBalancerType: Load Balancer Type
-	LoadBalancerType *AKS_Properties_LoadBalancerType_STATUS `json:"loadBalancerType,omitempty"`
-
-	// SslConfiguration: SSL configuration
-	SslConfiguration *SslConfiguration_STATUS_ARM `json:"sslConfiguration,omitempty"`
-
-	// SystemServices: System services
-	SystemServices []SystemService_STATUS_ARM `json:"systemServices,omitempty"`
+	AgentCount                 *int                                    `json:"agentCount,omitempty"`
+	AgentVmSize                *string                                 `json:"agentVmSize,omitempty"`
+	AksNetworkingConfiguration *AksNetworkingConfiguration_STATUS_ARM  `json:"aksNetworkingConfiguration,omitempty"`
+	ClusterFqdn                *string                                 `json:"clusterFqdn,omitempty"`
+	ClusterPurpose             *AKS_Properties_ClusterPurpose_STATUS   `json:"clusterPurpose,omitempty"`
+	LoadBalancerSubnet         *string                                 `json:"loadBalancerSubnet,omitempty"`
+	LoadBalancerType           *AKS_Properties_LoadBalancerType_STATUS `json:"loadBalancerType,omitempty"`
+	SslConfiguration           *SslConfiguration_STATUS_ARM            `json:"sslConfiguration,omitempty"`
+	SystemServices             []SystemService_STATUS_ARM              `json:"systemServices,omitempty"`
 }
 
+// Deprecated version of AKS_ProvisioningState_STATUS. Use v1api20210701.AKS_ProvisioningState_STATUS instead
 type AKS_ProvisioningState_STATUS string
 
 const (
@@ -574,10 +303,12 @@ const (
 	AKS_ProvisioningState_STATUS_Updating  = AKS_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of AmlCompute_ComputeType_STATUS. Use v1api20210701.AmlCompute_ComputeType_STATUS instead
 type AmlCompute_ComputeType_STATUS string
 
 const AmlCompute_ComputeType_STATUS_AmlCompute = AmlCompute_ComputeType_STATUS("AmlCompute")
 
+// Deprecated version of AmlCompute_ProvisioningState_STATUS. Use v1api20210701.AmlCompute_ProvisioningState_STATUS instead
 type AmlCompute_ProvisioningState_STATUS string
 
 const (
@@ -590,72 +321,33 @@ const (
 	AmlCompute_ProvisioningState_STATUS_Updating  = AmlCompute_ProvisioningState_STATUS("Updating")
 )
 
-// AML Compute properties
+// Deprecated version of AmlComputeProperties_STATUS. Use v1api20210701.AmlComputeProperties_STATUS instead
 type AmlComputeProperties_STATUS_ARM struct {
-	// AllocationState: Allocation state of the compute. Possible values are: steady - Indicates that the compute is not
-	// resizing. There are no changes to the number of compute nodes in the compute in progress. A compute enters this state
-	// when it is created and when no operations are being performed on the compute to change the number of compute nodes.
-	// resizing - Indicates that the compute is resizing; that is, compute nodes are being added to or removed from the compute.
-	AllocationState *AmlComputeProperties_AllocationState_STATUS `json:"allocationState,omitempty"`
-
-	// AllocationStateTransitionTime: The time at which the compute entered its current allocation state.
-	AllocationStateTransitionTime *string `json:"allocationStateTransitionTime,omitempty"`
-
-	// CurrentNodeCount: The number of compute nodes currently assigned to the compute.
-	CurrentNodeCount *int `json:"currentNodeCount,omitempty"`
-
-	// EnableNodePublicIp: Enable or disable node public IP address provisioning. Possible values are: Possible values are:
-	// true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will
-	// have a private endpoint and no public IPs.
-	EnableNodePublicIp *bool `json:"enableNodePublicIp,omitempty"`
-
-	// Errors: Collection of errors encountered by various compute nodes during node setup.
-	Errors []ErrorResponse_STATUS_ARM `json:"errors,omitempty"`
-
-	// IsolatedNetwork: Network is isolated or not
-	IsolatedNetwork *bool `json:"isolatedNetwork,omitempty"`
-
-	// NodeStateCounts: Counts of various node states on the compute.
-	NodeStateCounts *NodeStateCounts_STATUS_ARM `json:"nodeStateCounts,omitempty"`
-
-	// OsType: Compute OS Type
-	OsType *AmlComputeProperties_OsType_STATUS `json:"osType,omitempty"`
-
-	// RemoteLoginPortPublicAccess: State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh
-	// port is closed on all nodes of the cluster. Enabled - Indicates that the public ssh port is open on all nodes of the
-	// cluster. NotSpecified - Indicates that the public ssh port is closed on all nodes of the cluster if VNet is defined,
-	// else is open all public nodes. It can be default only during cluster creation time, after creation it will be either
-	// enabled or disabled.
-	RemoteLoginPortPublicAccess *AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS `json:"remoteLoginPortPublicAccess,omitempty"`
-
-	// ScaleSettings: Scale settings for AML Compute
-	ScaleSettings *ScaleSettings_STATUS_ARM `json:"scaleSettings,omitempty"`
-
-	// Subnet: Virtual network subnet resource ID the compute nodes belong to.
-	Subnet *ResourceId_STATUS_ARM `json:"subnet,omitempty"`
-
-	// TargetNodeCount: The target number of compute nodes for the compute. If the allocationState is resizing, this property
-	// denotes the target node count for the ongoing resize operation. If the allocationState is steady, this property denotes
-	// the target node count for the previous resize operation.
-	TargetNodeCount *int `json:"targetNodeCount,omitempty"`
-
-	// UserAccountCredentials: Credentials for an administrator user account that will be created on each compute node.
-	UserAccountCredentials *UserAccountCredentials_STATUS_ARM `json:"userAccountCredentials,omitempty"`
-
-	// VirtualMachineImage: Virtual Machine image for AML Compute - windows only
-	VirtualMachineImage *VirtualMachineImage_STATUS_ARM `json:"virtualMachineImage,omitempty"`
-
-	// VmPriority: Virtual Machine priority
-	VmPriority *AmlComputeProperties_VmPriority_STATUS `json:"vmPriority,omitempty"`
-
-	// VmSize: Virtual Machine Size
-	VmSize *string `json:"vmSize,omitempty"`
+	AllocationState               *AmlComputeProperties_AllocationState_STATUS             `json:"allocationState,omitempty"`
+	AllocationStateTransitionTime *string                                                  `json:"allocationStateTransitionTime,omitempty"`
+	CurrentNodeCount              *int                                                     `json:"currentNodeCount,omitempty"`
+	EnableNodePublicIp            *bool                                                    `json:"enableNodePublicIp,omitempty"`
+	Errors                        []ErrorResponse_STATUS_ARM                               `json:"errors,omitempty"`
+	IsolatedNetwork               *bool                                                    `json:"isolatedNetwork,omitempty"`
+	NodeStateCounts               *NodeStateCounts_STATUS_ARM                              `json:"nodeStateCounts,omitempty"`
+	OsType                        *AmlComputeProperties_OsType_STATUS                      `json:"osType,omitempty"`
+	RemoteLoginPortPublicAccess   *AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS `json:"remoteLoginPortPublicAccess,omitempty"`
+	ScaleSettings                 *ScaleSettings_STATUS_ARM                                `json:"scaleSettings,omitempty"`
+	Subnet                        *ResourceId_STATUS_ARM                                   `json:"subnet,omitempty"`
+	TargetNodeCount               *int                                                     `json:"targetNodeCount,omitempty"`
+	UserAccountCredentials        *UserAccountCredentials_STATUS_ARM                       `json:"userAccountCredentials,omitempty"`
+	VirtualMachineImage           *VirtualMachineImage_STATUS_ARM                          `json:"virtualMachineImage,omitempty"`
+	VmPriority                    *AmlComputeProperties_VmPriority_STATUS                  `json:"vmPriority,omitempty"`
+	VmSize                        *string                                                  `json:"vmSize,omitempty"`
 }
 
+// Deprecated version of ComputeInstance_ComputeType_STATUS. Use v1api20210701.ComputeInstance_ComputeType_STATUS instead
 type ComputeInstance_ComputeType_STATUS string
 
 const ComputeInstance_ComputeType_STATUS_ComputeInstance = ComputeInstance_ComputeType_STATUS("ComputeInstance")
 
+// Deprecated version of ComputeInstance_ProvisioningState_STATUS. Use
+// v1api20210701.ComputeInstance_ProvisioningState_STATUS instead
 type ComputeInstance_ProvisioningState_STATUS string
 
 const (
@@ -668,54 +360,29 @@ const (
 	ComputeInstance_ProvisioningState_STATUS_Updating  = ComputeInstance_ProvisioningState_STATUS("Updating")
 )
 
-// Compute Instance properties
+// Deprecated version of ComputeInstanceProperties_STATUS. Use v1api20210701.ComputeInstanceProperties_STATUS instead
 type ComputeInstanceProperties_STATUS_ARM struct {
-	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
-	// Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access
-	// applications on this instance depending on his/her assigned role.
-	ApplicationSharingPolicy *ComputeInstanceProperties_ApplicationSharingPolicy_STATUS `json:"applicationSharingPolicy,omitempty"`
-
-	// Applications: Describes available applications and their endpoints on this ComputeInstance.
-	Applications []ComputeInstanceApplication_STATUS_ARM `json:"applications,omitempty"`
-
-	// ComputeInstanceAuthorizationType: The Compute Instance Authorization type. Available values are personal (default).
+	ApplicationSharingPolicy         *ComputeInstanceProperties_ApplicationSharingPolicy_STATUS         `json:"applicationSharingPolicy,omitempty"`
+	Applications                     []ComputeInstanceApplication_STATUS_ARM                            `json:"applications,omitempty"`
 	ComputeInstanceAuthorizationType *ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS `json:"computeInstanceAuthorizationType,omitempty"`
-
-	// ConnectivityEndpoints: Describes all connectivity endpoints available for this ComputeInstance.
-	ConnectivityEndpoints *ComputeInstanceConnectivityEndpoints_STATUS_ARM `json:"connectivityEndpoints,omitempty"`
-
-	// CreatedBy: Describes information on user who created this ComputeInstance.
-	CreatedBy *ComputeInstanceCreatedBy_STATUS_ARM `json:"createdBy,omitempty"`
-
-	// Errors: Collection of errors encountered on this ComputeInstance.
-	Errors []ErrorResponse_STATUS_ARM `json:"errors,omitempty"`
-
-	// LastOperation: The last operation on ComputeInstance.
-	LastOperation *ComputeInstanceLastOperation_STATUS_ARM `json:"lastOperation,omitempty"`
-
-	// PersonalComputeInstanceSettings: Settings for a personal compute instance.
-	PersonalComputeInstanceSettings *PersonalComputeInstanceSettings_STATUS_ARM `json:"personalComputeInstanceSettings,omitempty"`
-
-	// SetupScripts: Details of customized scripts to execute for setting up the cluster.
-	SetupScripts *SetupScripts_STATUS_ARM `json:"setupScripts,omitempty"`
-
-	// SshSettings: Specifies policy and settings for SSH access.
-	SshSettings *ComputeInstanceSshSettings_STATUS_ARM `json:"sshSettings,omitempty"`
-
-	// State: The current state of this ComputeInstance.
-	State *ComputeInstanceState_STATUS `json:"state,omitempty"`
-
-	// Subnet: Virtual network subnet resource ID the compute nodes belong to.
-	Subnet *ResourceId_STATUS_ARM `json:"subnet,omitempty"`
-
-	// VmSize: Virtual Machine Size
-	VmSize *string `json:"vmSize,omitempty"`
+	ConnectivityEndpoints            *ComputeInstanceConnectivityEndpoints_STATUS_ARM                   `json:"connectivityEndpoints,omitempty"`
+	CreatedBy                        *ComputeInstanceCreatedBy_STATUS_ARM                               `json:"createdBy,omitempty"`
+	Errors                           []ErrorResponse_STATUS_ARM                                         `json:"errors,omitempty"`
+	LastOperation                    *ComputeInstanceLastOperation_STATUS_ARM                           `json:"lastOperation,omitempty"`
+	PersonalComputeInstanceSettings  *PersonalComputeInstanceSettings_STATUS_ARM                        `json:"personalComputeInstanceSettings,omitempty"`
+	SetupScripts                     *SetupScripts_STATUS_ARM                                           `json:"setupScripts,omitempty"`
+	SshSettings                      *ComputeInstanceSshSettings_STATUS_ARM                             `json:"sshSettings,omitempty"`
+	State                            *ComputeInstanceState_STATUS                                       `json:"state,omitempty"`
+	Subnet                           *ResourceId_STATUS_ARM                                             `json:"subnet,omitempty"`
+	VmSize                           *string                                                            `json:"vmSize,omitempty"`
 }
 
+// Deprecated version of Databricks_ComputeType_STATUS. Use v1api20210701.Databricks_ComputeType_STATUS instead
 type Databricks_ComputeType_STATUS string
 
 const Databricks_ComputeType_STATUS_Databricks = Databricks_ComputeType_STATUS("Databricks")
 
+// Deprecated version of Databricks_ProvisioningState_STATUS. Use v1api20210701.Databricks_ProvisioningState_STATUS instead
 type Databricks_ProvisioningState_STATUS string
 
 const (
@@ -728,19 +395,19 @@ const (
 	Databricks_ProvisioningState_STATUS_Updating  = Databricks_ProvisioningState_STATUS("Updating")
 )
 
-// Properties of Databricks
+// Deprecated version of DatabricksProperties_STATUS. Use v1api20210701.DatabricksProperties_STATUS instead
 type DatabricksProperties_STATUS_ARM struct {
-	// DatabricksAccessToken: Databricks access token
 	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
-
-	// WorkspaceUrl: Workspace Url
-	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
+	WorkspaceUrl          *string `json:"workspaceUrl,omitempty"`
 }
 
+// Deprecated version of DataFactory_ComputeType_STATUS. Use v1api20210701.DataFactory_ComputeType_STATUS instead
 type DataFactory_ComputeType_STATUS string
 
 const DataFactory_ComputeType_STATUS_DataFactory = DataFactory_ComputeType_STATUS("DataFactory")
 
+// Deprecated version of DataFactory_ProvisioningState_STATUS. Use v1api20210701.DataFactory_ProvisioningState_STATUS
+// instead
 type DataFactory_ProvisioningState_STATUS string
 
 const (
@@ -753,15 +420,19 @@ const (
 	DataFactory_ProvisioningState_STATUS_Updating  = DataFactory_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of DataLakeAnalytics_ComputeType_STATUS. Use v1api20210701.DataLakeAnalytics_ComputeType_STATUS
+// instead
 type DataLakeAnalytics_ComputeType_STATUS string
 
 const DataLakeAnalytics_ComputeType_STATUS_DataLakeAnalytics = DataLakeAnalytics_ComputeType_STATUS("DataLakeAnalytics")
 
+// Deprecated version of DataLakeAnalytics_Properties_STATUS. Use v1api20210701.DataLakeAnalytics_Properties_STATUS instead
 type DataLakeAnalytics_Properties_STATUS_ARM struct {
-	// DataLakeStoreAccountName: DataLake Store Account Name
 	DataLakeStoreAccountName *string `json:"dataLakeStoreAccountName,omitempty"`
 }
 
+// Deprecated version of DataLakeAnalytics_ProvisioningState_STATUS. Use
+// v1api20210701.DataLakeAnalytics_ProvisioningState_STATUS instead
 type DataLakeAnalytics_ProvisioningState_STATUS string
 
 const (
@@ -774,17 +445,17 @@ const (
 	DataLakeAnalytics_ProvisioningState_STATUS_Updating  = DataLakeAnalytics_ProvisioningState_STATUS("Updating")
 )
 
-// Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also
-// follows the OData error response format.).
+// Deprecated version of ErrorResponse_STATUS. Use v1api20210701.ErrorResponse_STATUS instead
 type ErrorResponse_STATUS_ARM struct {
-	// Error: The error object.
 	Error *ErrorDetail_STATUS_ARM `json:"error,omitempty"`
 }
 
+// Deprecated version of HDInsight_ComputeType_STATUS. Use v1api20210701.HDInsight_ComputeType_STATUS instead
 type HDInsight_ComputeType_STATUS string
 
 const HDInsight_ComputeType_STATUS_HDInsight = HDInsight_ComputeType_STATUS("HDInsight")
 
+// Deprecated version of HDInsight_ProvisioningState_STATUS. Use v1api20210701.HDInsight_ProvisioningState_STATUS instead
 type HDInsight_ProvisioningState_STATUS string
 
 const (
@@ -797,22 +468,19 @@ const (
 	HDInsight_ProvisioningState_STATUS_Updating  = HDInsight_ProvisioningState_STATUS("Updating")
 )
 
-// HDInsight compute properties
+// Deprecated version of HDInsightProperties_STATUS. Use v1api20210701.HDInsightProperties_STATUS instead
 type HDInsightProperties_STATUS_ARM struct {
-	// Address: Public IP address of the master node of the cluster.
-	Address *string `json:"address,omitempty"`
-
-	// AdministratorAccount: Admin credentials for master node of the cluster
+	Address              *string                                  `json:"address,omitempty"`
 	AdministratorAccount *VirtualMachineSshCredentials_STATUS_ARM `json:"administratorAccount,omitempty"`
-
-	// SshPort: Port open for ssh connections on the master node of the cluster.
-	SshPort *int `json:"sshPort,omitempty"`
+	SshPort              *int                                     `json:"sshPort,omitempty"`
 }
 
+// Deprecated version of Kubernetes_ComputeType_STATUS. Use v1api20210701.Kubernetes_ComputeType_STATUS instead
 type Kubernetes_ComputeType_STATUS string
 
 const Kubernetes_ComputeType_STATUS_Kubernetes = Kubernetes_ComputeType_STATUS("Kubernetes")
 
+// Deprecated version of Kubernetes_ProvisioningState_STATUS. Use v1api20210701.Kubernetes_ProvisioningState_STATUS instead
 type Kubernetes_ProvisioningState_STATUS string
 
 const (
@@ -825,63 +493,37 @@ const (
 	Kubernetes_ProvisioningState_STATUS_Updating  = Kubernetes_ProvisioningState_STATUS("Updating")
 )
 
-// Kubernetes properties
+// Deprecated version of KubernetesProperties_STATUS. Use v1api20210701.KubernetesProperties_STATUS instead
 type KubernetesProperties_STATUS_ARM struct {
-	// DefaultInstanceType: Default instance type
-	DefaultInstanceType *string `json:"defaultInstanceType,omitempty"`
-
-	// ExtensionInstanceReleaseTrain: Extension instance release train.
-	ExtensionInstanceReleaseTrain *string `json:"extensionInstanceReleaseTrain,omitempty"`
-
-	// ExtensionPrincipalId: Extension principal-id.
-	ExtensionPrincipalId *string `json:"extensionPrincipalId,omitempty"`
-
-	// InstanceTypes: Instance Type Schema
-	InstanceTypes map[string]InstanceTypeSchema_STATUS_ARM `json:"instanceTypes,omitempty"`
-
-	// Namespace: Compute namespace
-	Namespace *string `json:"namespace,omitempty"`
-
-	// VcName: VC name.
-	VcName *string `json:"vcName,omitempty"`
+	DefaultInstanceType           *string                                  `json:"defaultInstanceType,omitempty"`
+	ExtensionInstanceReleaseTrain *string                                  `json:"extensionInstanceReleaseTrain,omitempty"`
+	ExtensionPrincipalId          *string                                  `json:"extensionPrincipalId,omitempty"`
+	InstanceTypes                 map[string]InstanceTypeSchema_STATUS_ARM `json:"instanceTypes,omitempty"`
+	Namespace                     *string                                  `json:"namespace,omitempty"`
+	VcName                        *string                                  `json:"vcName,omitempty"`
 }
 
+// Deprecated version of SynapseSpark_ComputeType_STATUS. Use v1api20210701.SynapseSpark_ComputeType_STATUS instead
 type SynapseSpark_ComputeType_STATUS string
 
 const SynapseSpark_ComputeType_STATUS_SynapseSpark = SynapseSpark_ComputeType_STATUS("SynapseSpark")
 
+// Deprecated version of SynapseSpark_Properties_STATUS. Use v1api20210701.SynapseSpark_Properties_STATUS instead
 type SynapseSpark_Properties_STATUS_ARM struct {
-	// AutoPauseProperties: Auto pause properties.
 	AutoPauseProperties *AutoPauseProperties_STATUS_ARM `json:"autoPauseProperties,omitempty"`
-
-	// AutoScaleProperties: Auto scale properties.
 	AutoScaleProperties *AutoScaleProperties_STATUS_ARM `json:"autoScaleProperties,omitempty"`
-
-	// NodeCount: The number of compute nodes currently assigned to the compute.
-	NodeCount *int `json:"nodeCount,omitempty"`
-
-	// NodeSize: Node size.
-	NodeSize *string `json:"nodeSize,omitempty"`
-
-	// NodeSizeFamily: Node size family.
-	NodeSizeFamily *string `json:"nodeSizeFamily,omitempty"`
-
-	// PoolName: Pool name.
-	PoolName *string `json:"poolName,omitempty"`
-
-	// ResourceGroup: Name of the resource group in which workspace is located.
-	ResourceGroup *string `json:"resourceGroup,omitempty"`
-
-	// SparkVersion: Spark version.
-	SparkVersion *string `json:"sparkVersion,omitempty"`
-
-	// SubscriptionId: Azure subscription identifier.
-	SubscriptionId *string `json:"subscriptionId,omitempty"`
-
-	// WorkspaceName: Name of Azure Machine Learning workspace.
-	WorkspaceName *string `json:"workspaceName,omitempty"`
+	NodeCount           *int                            `json:"nodeCount,omitempty"`
+	NodeSize            *string                         `json:"nodeSize,omitempty"`
+	NodeSizeFamily      *string                         `json:"nodeSizeFamily,omitempty"`
+	PoolName            *string                         `json:"poolName,omitempty"`
+	ResourceGroup       *string                         `json:"resourceGroup,omitempty"`
+	SparkVersion        *string                         `json:"sparkVersion,omitempty"`
+	SubscriptionId      *string                         `json:"subscriptionId,omitempty"`
+	WorkspaceName       *string                         `json:"workspaceName,omitempty"`
 }
 
+// Deprecated version of SynapseSpark_ProvisioningState_STATUS. Use v1api20210701.SynapseSpark_ProvisioningState_STATUS
+// instead
 type SynapseSpark_ProvisioningState_STATUS string
 
 const (
@@ -894,27 +536,22 @@ const (
 	SynapseSpark_ProvisioningState_STATUS_Updating  = SynapseSpark_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of VirtualMachine_ComputeType_STATUS. Use v1api20210701.VirtualMachine_ComputeType_STATUS instead
 type VirtualMachine_ComputeType_STATUS string
 
 const VirtualMachine_ComputeType_STATUS_VirtualMachine = VirtualMachine_ComputeType_STATUS("VirtualMachine")
 
+// Deprecated version of VirtualMachine_Properties_STATUS. Use v1api20210701.VirtualMachine_Properties_STATUS instead
 type VirtualMachine_Properties_STATUS_ARM struct {
-	// Address: Public IP address of the virtual machine.
-	Address *string `json:"address,omitempty"`
-
-	// AdministratorAccount: Admin credentials for virtual machine
-	AdministratorAccount *VirtualMachineSshCredentials_STATUS_ARM `json:"administratorAccount,omitempty"`
-
-	// IsNotebookInstanceCompute: Indicates whether this compute will be used for running notebooks.
-	IsNotebookInstanceCompute *bool `json:"isNotebookInstanceCompute,omitempty"`
-
-	// SshPort: Port open for ssh connections.
-	SshPort *int `json:"sshPort,omitempty"`
-
-	// VirtualMachineSize: Virtual Machine size
-	VirtualMachineSize *string `json:"virtualMachineSize,omitempty"`
+	Address                   *string                                  `json:"address,omitempty"`
+	AdministratorAccount      *VirtualMachineSshCredentials_STATUS_ARM `json:"administratorAccount,omitempty"`
+	IsNotebookInstanceCompute *bool                                    `json:"isNotebookInstanceCompute,omitempty"`
+	SshPort                   *int                                     `json:"sshPort,omitempty"`
+	VirtualMachineSize        *string                                  `json:"virtualMachineSize,omitempty"`
 }
 
+// Deprecated version of VirtualMachine_ProvisioningState_STATUS. Use v1api20210701.VirtualMachine_ProvisioningState_STATUS
+// instead
 type VirtualMachine_ProvisioningState_STATUS string
 
 const (
@@ -927,6 +564,8 @@ const (
 	VirtualMachine_ProvisioningState_STATUS_Updating  = VirtualMachine_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of AKS_Properties_ClusterPurpose_STATUS. Use v1api20210701.AKS_Properties_ClusterPurpose_STATUS
+// instead
 type AKS_Properties_ClusterPurpose_STATUS string
 
 const (
@@ -935,6 +574,8 @@ const (
 	AKS_Properties_ClusterPurpose_STATUS_FastProd  = AKS_Properties_ClusterPurpose_STATUS("FastProd")
 )
 
+// Deprecated version of AKS_Properties_LoadBalancerType_STATUS. Use v1api20210701.AKS_Properties_LoadBalancerType_STATUS
+// instead
 type AKS_Properties_LoadBalancerType_STATUS string
 
 const (
@@ -942,24 +583,16 @@ const (
 	AKS_Properties_LoadBalancerType_STATUS_PublicIp             = AKS_Properties_LoadBalancerType_STATUS("PublicIp")
 )
 
-// Advance configuration for AKS networking
+// Deprecated version of AksNetworkingConfiguration_STATUS. Use v1api20210701.AksNetworkingConfiguration_STATUS instead
 type AksNetworkingConfiguration_STATUS_ARM struct {
-	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
-	// range specified in serviceCidr.
-	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
-
-	// DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP
-	// ranges or the Kubernetes service address range.
+	DnsServiceIP     *string `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
-
-	// ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP
-	// ranges.
-	ServiceCidr *string `json:"serviceCidr,omitempty"`
-
-	// SubnetId: Virtual network subnet resource ID the compute nodes belong to
-	SubnetId *string `json:"subnetId,omitempty"`
+	ServiceCidr      *string `json:"serviceCidr,omitempty"`
+	SubnetId         *string `json:"subnetId,omitempty"`
 }
 
+// Deprecated version of AmlComputeProperties_AllocationState_STATUS. Use
+// v1api20210701.AmlComputeProperties_AllocationState_STATUS instead
 type AmlComputeProperties_AllocationState_STATUS string
 
 const (
@@ -967,6 +600,7 @@ const (
 	AmlComputeProperties_AllocationState_STATUS_Steady   = AmlComputeProperties_AllocationState_STATUS("Steady")
 )
 
+// Deprecated version of AmlComputeProperties_OsType_STATUS. Use v1api20210701.AmlComputeProperties_OsType_STATUS instead
 type AmlComputeProperties_OsType_STATUS string
 
 const (
@@ -974,6 +608,8 @@ const (
 	AmlComputeProperties_OsType_STATUS_Windows = AmlComputeProperties_OsType_STATUS("Windows")
 )
 
+// Deprecated version of AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS. Use
+// v1api20210701.AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS instead
 type AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS string
 
 const (
@@ -982,6 +618,8 @@ const (
 	AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS_NotSpecified = AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS("NotSpecified")
 )
 
+// Deprecated version of AmlComputeProperties_VmPriority_STATUS. Use v1api20210701.AmlComputeProperties_VmPriority_STATUS
+// instead
 type AmlComputeProperties_VmPriority_STATUS string
 
 const (
@@ -989,62 +627,47 @@ const (
 	AmlComputeProperties_VmPriority_STATUS_LowPriority = AmlComputeProperties_VmPriority_STATUS("LowPriority")
 )
 
-// Auto pause properties
+// Deprecated version of AutoPauseProperties_STATUS. Use v1api20210701.AutoPauseProperties_STATUS instead
 type AutoPauseProperties_STATUS_ARM struct {
 	DelayInMinutes *int  `json:"delayInMinutes,omitempty"`
 	Enabled        *bool `json:"enabled,omitempty"`
 }
 
-// Auto scale properties
+// Deprecated version of AutoScaleProperties_STATUS. Use v1api20210701.AutoScaleProperties_STATUS instead
 type AutoScaleProperties_STATUS_ARM struct {
 	Enabled      *bool `json:"enabled,omitempty"`
 	MaxNodeCount *int  `json:"maxNodeCount,omitempty"`
 	MinNodeCount *int  `json:"minNodeCount,omitempty"`
 }
 
-// Defines an Aml Instance application and its connectivity endpoint URI.
+// Deprecated version of ComputeInstanceApplication_STATUS. Use v1api20210701.ComputeInstanceApplication_STATUS instead
 type ComputeInstanceApplication_STATUS_ARM struct {
-	// DisplayName: Name of the ComputeInstance application.
 	DisplayName *string `json:"displayName,omitempty"`
-
-	// EndpointUri: Application' endpoint URI.
 	EndpointUri *string `json:"endpointUri,omitempty"`
 }
 
-// Defines all connectivity endpoints and properties for an ComputeInstance.
+// Deprecated version of ComputeInstanceConnectivityEndpoints_STATUS. Use v1api20210701.ComputeInstanceConnectivityEndpoints_STATUS instead
 type ComputeInstanceConnectivityEndpoints_STATUS_ARM struct {
-	// PrivateIpAddress: Private IP Address of this ComputeInstance (local to the VNET in which the compute instance is
-	// deployed).
 	PrivateIpAddress *string `json:"privateIpAddress,omitempty"`
-
-	// PublicIpAddress: Public IP Address of this ComputeInstance.
-	PublicIpAddress *string `json:"publicIpAddress,omitempty"`
+	PublicIpAddress  *string `json:"publicIpAddress,omitempty"`
 }
 
-// Describes information on user who created this ComputeInstance.
+// Deprecated version of ComputeInstanceCreatedBy_STATUS. Use v1api20210701.ComputeInstanceCreatedBy_STATUS instead
 type ComputeInstanceCreatedBy_STATUS_ARM struct {
-	// UserId: Uniquely identifies the user within his/her organization.
-	UserId *string `json:"userId,omitempty"`
-
-	// UserName: Name of the user.
-	UserName *string `json:"userName,omitempty"`
-
-	// UserOrgId: Uniquely identifies user' Azure Active Directory organization.
+	UserId    *string `json:"userId,omitempty"`
+	UserName  *string `json:"userName,omitempty"`
 	UserOrgId *string `json:"userOrgId,omitempty"`
 }
 
-// The last operation on ComputeInstance.
+// Deprecated version of ComputeInstanceLastOperation_STATUS. Use v1api20210701.ComputeInstanceLastOperation_STATUS instead
 type ComputeInstanceLastOperation_STATUS_ARM struct {
-	// OperationName: Name of the last operation.
-	OperationName *ComputeInstanceLastOperation_OperationName_STATUS `json:"operationName,omitempty"`
-
-	// OperationStatus: Operation status.
+	OperationName   *ComputeInstanceLastOperation_OperationName_STATUS   `json:"operationName,omitempty"`
 	OperationStatus *ComputeInstanceLastOperation_OperationStatus_STATUS `json:"operationStatus,omitempty"`
-
-	// OperationTime: Time of the last operation.
-	OperationTime *string `json:"operationTime,omitempty"`
+	OperationTime   *string                                              `json:"operationTime,omitempty"`
 }
 
+// Deprecated version of ComputeInstanceProperties_ApplicationSharingPolicy_STATUS. Use
+// v1api20210701.ComputeInstanceProperties_ApplicationSharingPolicy_STATUS instead
 type ComputeInstanceProperties_ApplicationSharingPolicy_STATUS string
 
 const (
@@ -1052,29 +675,21 @@ const (
 	ComputeInstanceProperties_ApplicationSharingPolicy_STATUS_Shared   = ComputeInstanceProperties_ApplicationSharingPolicy_STATUS("Shared")
 )
 
+// Deprecated version of ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS. Use
+// v1api20210701.ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS instead
 type ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS string
 
 const ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS_Personal = ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS("personal")
 
-// Specifies policy and settings for SSH access.
+// Deprecated version of ComputeInstanceSshSettings_STATUS. Use v1api20210701.ComputeInstanceSshSettings_STATUS instead
 type ComputeInstanceSshSettings_STATUS_ARM struct {
-	// AdminPublicKey: Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH
-	// key pairs.
-	AdminPublicKey *string `json:"adminPublicKey,omitempty"`
-
-	// AdminUserName: Describes the admin user name.
-	AdminUserName *string `json:"adminUserName,omitempty"`
-
-	// SshPort: Describes the port for connecting through SSH.
-	SshPort *int `json:"sshPort,omitempty"`
-
-	// SshPublicAccess: State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is
-	// closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the
-	// VNet/subnet policy if applicable.
+	AdminPublicKey  *string                                            `json:"adminPublicKey,omitempty"`
+	AdminUserName   *string                                            `json:"adminUserName,omitempty"`
+	SshPort         *int                                               `json:"sshPort,omitempty"`
 	SshPublicAccess *ComputeInstanceSshSettings_SshPublicAccess_STATUS `json:"sshPublicAccess,omitempty"`
 }
 
-// Current state of an ComputeInstance.
+// Deprecated version of ComputeInstanceState_STATUS. Use v1api20210701.ComputeInstanceState_STATUS instead
 type ComputeInstanceState_STATUS string
 
 const (
@@ -1095,159 +710,98 @@ const (
 	ComputeInstanceState_STATUS_UserSetupFailed = ComputeInstanceState_STATUS("UserSetupFailed")
 )
 
-// The error detail.
+// Deprecated version of ErrorDetail_STATUS. Use v1api20210701.ErrorDetail_STATUS instead
 type ErrorDetail_STATUS_ARM struct {
-	// AdditionalInfo: The error additional info.
-	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo,omitempty"`
-
-	// Code: The error code.
-	Code *string `json:"code,omitempty"`
-
-	// Details: The error details.
-	Details []ErrorDetail_STATUS_Unrolled_ARM `json:"details,omitempty"`
-
-	// Message: The error message.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The error target.
-	Target *string `json:"target,omitempty"`
+	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM  `json:"additionalInfo,omitempty"`
+	Code           *string                           `json:"code,omitempty"`
+	Details        []ErrorDetail_STATUS_Unrolled_ARM `json:"details,omitempty"`
+	Message        *string                           `json:"message,omitempty"`
+	Target         *string                           `json:"target,omitempty"`
 }
 
-// Instance type schema.
+// Deprecated version of InstanceTypeSchema_STATUS. Use v1api20210701.InstanceTypeSchema_STATUS instead
 type InstanceTypeSchema_STATUS_ARM struct {
-	// NodeSelector: Node Selector
-	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
-
-	// Resources: Resource requests/limits for this instance type
-	Resources *InstanceTypeSchema_Resources_STATUS_ARM `json:"resources,omitempty"`
+	NodeSelector map[string]string                        `json:"nodeSelector,omitempty"`
+	Resources    *InstanceTypeSchema_Resources_STATUS_ARM `json:"resources,omitempty"`
 }
 
-// Counts of various compute node states on the amlCompute.
+// Deprecated version of NodeStateCounts_STATUS. Use v1api20210701.NodeStateCounts_STATUS instead
 type NodeStateCounts_STATUS_ARM struct {
-	// IdleNodeCount: Number of compute nodes in idle state.
-	IdleNodeCount *int `json:"idleNodeCount,omitempty"`
-
-	// LeavingNodeCount: Number of compute nodes which are leaving the amlCompute.
-	LeavingNodeCount *int `json:"leavingNodeCount,omitempty"`
-
-	// PreemptedNodeCount: Number of compute nodes which are in preempted state.
+	IdleNodeCount      *int `json:"idleNodeCount,omitempty"`
+	LeavingNodeCount   *int `json:"leavingNodeCount,omitempty"`
 	PreemptedNodeCount *int `json:"preemptedNodeCount,omitempty"`
-
-	// PreparingNodeCount: Number of compute nodes which are being prepared.
 	PreparingNodeCount *int `json:"preparingNodeCount,omitempty"`
-
-	// RunningNodeCount: Number of compute nodes which are running jobs.
-	RunningNodeCount *int `json:"runningNodeCount,omitempty"`
-
-	// UnusableNodeCount: Number of compute nodes which are in unusable state.
-	UnusableNodeCount *int `json:"unusableNodeCount,omitempty"`
+	RunningNodeCount   *int `json:"runningNodeCount,omitempty"`
+	UnusableNodeCount  *int `json:"unusableNodeCount,omitempty"`
 }
 
-// Settings for a personal compute instance.
+// Deprecated version of PersonalComputeInstanceSettings_STATUS. Use v1api20210701.PersonalComputeInstanceSettings_STATUS instead
 type PersonalComputeInstanceSettings_STATUS_ARM struct {
-	// AssignedUser: A user explicitly assigned to a personal compute instance.
 	AssignedUser *AssignedUser_STATUS_ARM `json:"assignedUser,omitempty"`
 }
 
-// Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+// Deprecated version of ResourceId_STATUS. Use v1api20210701.ResourceId_STATUS instead
 type ResourceId_STATUS_ARM struct {
-	// Id: The ID of the resource
 	Id *string `json:"id,omitempty"`
 }
 
-// scale settings for AML Compute
+// Deprecated version of ScaleSettings_STATUS. Use v1api20210701.ScaleSettings_STATUS instead
 type ScaleSettings_STATUS_ARM struct {
-	// MaxNodeCount: Max number of nodes to use
-	MaxNodeCount *int `json:"maxNodeCount,omitempty"`
-
-	// MinNodeCount: Min number of nodes to use
-	MinNodeCount *int `json:"minNodeCount,omitempty"`
-
-	// NodeIdleTimeBeforeScaleDown: Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format.
+	MaxNodeCount                *int    `json:"maxNodeCount,omitempty"`
+	MinNodeCount                *int    `json:"minNodeCount,omitempty"`
 	NodeIdleTimeBeforeScaleDown *string `json:"nodeIdleTimeBeforeScaleDown,omitempty"`
 }
 
-// Details of customized scripts to execute for setting up the cluster.
+// Deprecated version of SetupScripts_STATUS. Use v1api20210701.SetupScripts_STATUS instead
 type SetupScripts_STATUS_ARM struct {
-	// Scripts: Customized setup scripts
 	Scripts *ScriptsToExecute_STATUS_ARM `json:"scripts,omitempty"`
 }
 
-// The ssl configuration for scoring
+// Deprecated version of SslConfiguration_STATUS. Use v1api20210701.SslConfiguration_STATUS instead
 type SslConfiguration_STATUS_ARM struct {
-	// Cert: Cert data
-	Cert *string `json:"cert,omitempty"`
-
-	// Cname: CNAME of the cert
-	Cname *string `json:"cname,omitempty"`
-
-	// Key: Key data
-	Key *string `json:"key,omitempty"`
-
-	// LeafDomainLabel: Leaf domain label of public endpoint
-	LeafDomainLabel *string `json:"leafDomainLabel,omitempty"`
-
-	// OverwriteExistingDomain: Indicates whether to overwrite existing domain label.
-	OverwriteExistingDomain *bool `json:"overwriteExistingDomain,omitempty"`
-
-	// Status: Enable or disable ssl for scoring
-	Status *SslConfiguration_Status_STATUS `json:"status,omitempty"`
+	Cert                    *string                         `json:"cert,omitempty"`
+	Cname                   *string                         `json:"cname,omitempty"`
+	Key                     *string                         `json:"key,omitempty"`
+	LeafDomainLabel         *string                         `json:"leafDomainLabel,omitempty"`
+	OverwriteExistingDomain *bool                           `json:"overwriteExistingDomain,omitempty"`
+	Status                  *SslConfiguration_Status_STATUS `json:"status,omitempty"`
 }
 
-// A system service running on a compute.
+// Deprecated version of SystemService_STATUS. Use v1api20210701.SystemService_STATUS instead
 type SystemService_STATUS_ARM struct {
-	// PublicIpAddress: Public IP address
-	PublicIpAddress *string `json:"publicIpAddress,omitempty"`
-
-	// SystemServiceType: The type of this system service.
+	PublicIpAddress   *string `json:"publicIpAddress,omitempty"`
 	SystemServiceType *string `json:"systemServiceType,omitempty"`
-
-	// Version: The version for this type.
-	Version *string `json:"version,omitempty"`
+	Version           *string `json:"version,omitempty"`
 }
 
-// Settings for user account that gets created on each on the nodes of a compute.
+// Deprecated version of UserAccountCredentials_STATUS. Use v1api20210701.UserAccountCredentials_STATUS instead
 type UserAccountCredentials_STATUS_ARM struct {
-	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
-	AdminUserName *string `json:"adminUserName,omitempty"`
-
-	// AdminUserPassword: Password of the administrator user account.
-	AdminUserPassword *string `json:"adminUserPassword,omitempty"`
-
-	// AdminUserSshPublicKey: SSH public key of the administrator user account.
+	AdminUserName         *string `json:"adminUserName,omitempty"`
+	AdminUserPassword     *string `json:"adminUserPassword,omitempty"`
 	AdminUserSshPublicKey *string `json:"adminUserSshPublicKey,omitempty"`
 }
 
-// Virtual Machine image for Windows AML Compute
+// Deprecated version of VirtualMachineImage_STATUS. Use v1api20210701.VirtualMachineImage_STATUS instead
 type VirtualMachineImage_STATUS_ARM struct {
-	// Id: Virtual Machine image path
 	Id *string `json:"id,omitempty"`
 }
 
-// Admin credentials for virtual machine
+// Deprecated version of VirtualMachineSshCredentials_STATUS. Use v1api20210701.VirtualMachineSshCredentials_STATUS instead
 type VirtualMachineSshCredentials_STATUS_ARM struct {
-	// Password: Password of admin account
-	Password *string `json:"password,omitempty"`
-
-	// PrivateKeyData: Private key data
+	Password       *string `json:"password,omitempty"`
 	PrivateKeyData *string `json:"privateKeyData,omitempty"`
-
-	// PublicKeyData: Public key data
-	PublicKeyData *string `json:"publicKeyData,omitempty"`
-
-	// Username: Username of admin account
-	Username *string `json:"username,omitempty"`
+	PublicKeyData  *string `json:"publicKeyData,omitempty"`
+	Username       *string `json:"username,omitempty"`
 }
 
-// A user that can be assigned to a compute instance.
+// Deprecated version of AssignedUser_STATUS. Use v1api20210701.AssignedUser_STATUS instead
 type AssignedUser_STATUS_ARM struct {
-	// ObjectId: User’s AAD Object Id.
 	ObjectId *string `json:"objectId,omitempty"`
-
-	// TenantId: User’s AAD Tenant Id.
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+// Deprecated version of ComputeInstanceLastOperation_OperationName_STATUS. Use
+// v1api20210701.ComputeInstanceLastOperation_OperationName_STATUS instead
 type ComputeInstanceLastOperation_OperationName_STATUS string
 
 const (
@@ -1259,6 +813,8 @@ const (
 	ComputeInstanceLastOperation_OperationName_STATUS_Stop    = ComputeInstanceLastOperation_OperationName_STATUS("Stop")
 )
 
+// Deprecated version of ComputeInstanceLastOperation_OperationStatus_STATUS. Use
+// v1api20210701.ComputeInstanceLastOperation_OperationStatus_STATUS instead
 type ComputeInstanceLastOperation_OperationStatus_STATUS string
 
 const (
@@ -1272,6 +828,8 @@ const (
 	ComputeInstanceLastOperation_OperationStatus_STATUS_Succeeded     = ComputeInstanceLastOperation_OperationStatus_STATUS("Succeeded")
 )
 
+// Deprecated version of ComputeInstanceSshSettings_SshPublicAccess_STATUS. Use
+// v1api20210701.ComputeInstanceSshSettings_SshPublicAccess_STATUS instead
 type ComputeInstanceSshSettings_SshPublicAccess_STATUS string
 
 const (
@@ -1279,46 +837,33 @@ const (
 	ComputeInstanceSshSettings_SshPublicAccess_STATUS_Enabled  = ComputeInstanceSshSettings_SshPublicAccess_STATUS("Enabled")
 )
 
-// The resource management error additional info.
+// Deprecated version of ErrorAdditionalInfo_STATUS. Use v1api20210701.ErrorAdditionalInfo_STATUS instead
 type ErrorAdditionalInfo_STATUS_ARM struct {
-	// Info: The additional info.
 	Info map[string]v1.JSON `json:"info,omitempty"`
-
-	// Type: The additional info type.
-	Type *string `json:"type,omitempty"`
+	Type *string            `json:"type,omitempty"`
 }
 
+// Deprecated version of ErrorDetail_STATUS_Unrolled. Use v1api20210701.ErrorDetail_STATUS_Unrolled instead
 type ErrorDetail_STATUS_Unrolled_ARM struct {
-	// AdditionalInfo: The error additional info.
 	AdditionalInfo []ErrorAdditionalInfo_STATUS_ARM `json:"additionalInfo,omitempty"`
-
-	// Code: The error code.
-	Code *string `json:"code,omitempty"`
-
-	// Message: The error message.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The error target.
-	Target *string `json:"target,omitempty"`
+	Code           *string                          `json:"code,omitempty"`
+	Message        *string                          `json:"message,omitempty"`
+	Target         *string                          `json:"target,omitempty"`
 }
 
+// Deprecated version of InstanceTypeSchema_Resources_STATUS. Use v1api20210701.InstanceTypeSchema_Resources_STATUS instead
 type InstanceTypeSchema_Resources_STATUS_ARM struct {
-	// Limits: Resource limits for this instance type
-	Limits map[string]string `json:"limits,omitempty"`
-
-	// Requests: Resource requests for this instance type
+	Limits   map[string]string `json:"limits,omitempty"`
 	Requests map[string]string `json:"requests,omitempty"`
 }
 
-// Customized setup scripts
+// Deprecated version of ScriptsToExecute_STATUS. Use v1api20210701.ScriptsToExecute_STATUS instead
 type ScriptsToExecute_STATUS_ARM struct {
-	// CreationScript: Script that's run only once during provision of the compute.
 	CreationScript *ScriptReference_STATUS_ARM `json:"creationScript,omitempty"`
-
-	// StartupScript: Script that's run every time the machine starts.
-	StartupScript *ScriptReference_STATUS_ARM `json:"startupScript,omitempty"`
+	StartupScript  *ScriptReference_STATUS_ARM `json:"startupScript,omitempty"`
 }
 
+// Deprecated version of SslConfiguration_Status_STATUS. Use v1api20210701.SslConfiguration_Status_STATUS instead
 type SslConfiguration_Status_STATUS string
 
 const (
@@ -1327,17 +872,10 @@ const (
 	SslConfiguration_Status_STATUS_Enabled  = SslConfiguration_Status_STATUS("Enabled")
 )
 
-// Script reference
+// Deprecated version of ScriptReference_STATUS. Use v1api20210701.ScriptReference_STATUS instead
 type ScriptReference_STATUS_ARM struct {
-	// ScriptArguments: Optional command line arguments passed to the script to run.
 	ScriptArguments *string `json:"scriptArguments,omitempty"`
-
-	// ScriptData: The location of scripts in the mounted volume.
-	ScriptData *string `json:"scriptData,omitempty"`
-
-	// ScriptSource: The storage source of the script: inline, workspace.
-	ScriptSource *string `json:"scriptSource,omitempty"`
-
-	// Timeout: Optional time period passed to timeout command.
-	Timeout *string `json:"timeout,omitempty"`
+	ScriptData      *string `json:"scriptData,omitempty"`
+	ScriptSource    *string `json:"scriptSource,omitempty"`
+	Timeout         *string `json:"timeout,omitempty"`
 }

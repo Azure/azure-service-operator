@@ -1,370 +1,370 @@
-| Type Definitions in package "cdn"                                                  | v1beta20210601 |
-|------------------------------------------------------------------------------------|----------------|
-| APIVersion                                                                         | v1beta20210601 |
-| CacheConfiguration                                                                 | v1beta20210601 |
-| CacheConfiguration_CacheBehavior                                                   | v1beta20210601 |
-| CacheConfiguration_CacheBehavior_STATUS                                            | v1beta20210601 |
-| CacheConfiguration_IsCompressionEnabled                                            | v1beta20210601 |
-| CacheConfiguration_IsCompressionEnabled_STATUS                                     | v1beta20210601 |
-| CacheConfiguration_QueryStringCachingBehavior                                      | v1beta20210601 |
-| CacheConfiguration_QueryStringCachingBehavior_STATUS                               | v1beta20210601 |
-| CacheConfiguration_STATUS                                                          | v1beta20210601 |
-| CacheExpirationActionParameters                                                    | v1beta20210601 |
-| CacheExpirationActionParameters_CacheBehavior                                      | v1beta20210601 |
-| CacheExpirationActionParameters_CacheBehavior_STATUS                               | v1beta20210601 |
-| CacheExpirationActionParameters_CacheType                                          | v1beta20210601 |
-| CacheExpirationActionParameters_CacheType_STATUS                                   | v1beta20210601 |
-| CacheExpirationActionParameters_STATUS                                             | v1beta20210601 |
-| CacheExpirationActionParameters_TypeName                                           | v1beta20210601 |
-| CacheExpirationActionParameters_TypeName_STATUS                                    | v1beta20210601 |
-| CacheKeyQueryStringActionParameters                                                | v1beta20210601 |
-| CacheKeyQueryStringActionParameters_QueryStringBehavior                            | v1beta20210601 |
-| CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS                     | v1beta20210601 |
-| CacheKeyQueryStringActionParameters_STATUS                                         | v1beta20210601 |
-| CacheKeyQueryStringActionParameters_TypeName                                       | v1beta20210601 |
-| CacheKeyQueryStringActionParameters_TypeName_STATUS                                | v1beta20210601 |
-| ClientPortMatchConditionParameters                                                 | v1beta20210601 |
-| ClientPortMatchConditionParameters_Operator                                        | v1beta20210601 |
-| ClientPortMatchConditionParameters_Operator_STATUS                                 | v1beta20210601 |
-| ClientPortMatchConditionParameters_STATUS                                          | v1beta20210601 |
-| ClientPortMatchConditionParameters_TypeName                                        | v1beta20210601 |
-| ClientPortMatchConditionParameters_TypeName_STATUS                                 | v1beta20210601 |
-| CookiesMatchConditionParameters                                                    | v1beta20210601 |
-| CookiesMatchConditionParameters_Operator                                           | v1beta20210601 |
-| CookiesMatchConditionParameters_Operator_STATUS                                    | v1beta20210601 |
-| CookiesMatchConditionParameters_STATUS                                             | v1beta20210601 |
-| CookiesMatchConditionParameters_TypeName                                           | v1beta20210601 |
-| CookiesMatchConditionParameters_TypeName_STATUS                                    | v1beta20210601 |
-| DeepCreatedCustomDomainProperties_STATUS                                           | v1beta20210601 |
-| DeepCreatedCustomDomain_STATUS                                                     | v1beta20210601 |
-| DeepCreatedOrigin                                                                  | v1beta20210601 |
-| DeepCreatedOriginGroup                                                             | v1beta20210601 |
-| DeepCreatedOriginGroupProperties                                                   | v1beta20210601 |
-| DeepCreatedOriginGroupProperties_STATUS                                            | v1beta20210601 |
-| DeepCreatedOriginGroup_STATUS                                                      | v1beta20210601 |
-| DeepCreatedOriginProperties                                                        | v1beta20210601 |
-| DeepCreatedOriginProperties_STATUS                                                 | v1beta20210601 |
-| DeepCreatedOrigin_STATUS                                                           | v1beta20210601 |
-| DeliveryRule                                                                       | v1beta20210601 |
-| DeliveryRuleAction                                                                 | v1beta20210601 |
-| DeliveryRuleAction_STATUS                                                          | v1beta20210601 |
-| DeliveryRuleCacheExpirationAction                                                  | v1beta20210601 |
-| DeliveryRuleCacheExpirationAction_Name                                             | v1beta20210601 |
-| DeliveryRuleCacheExpirationAction_Name_STATUS                                      | v1beta20210601 |
-| DeliveryRuleCacheExpirationAction_STATUS                                           | v1beta20210601 |
-| DeliveryRuleCacheKeyQueryStringAction                                              | v1beta20210601 |
-| DeliveryRuleCacheKeyQueryStringAction_Name                                         | v1beta20210601 |
-| DeliveryRuleCacheKeyQueryStringAction_Name_STATUS                                  | v1beta20210601 |
-| DeliveryRuleCacheKeyQueryStringAction_STATUS                                       | v1beta20210601 |
-| DeliveryRuleClientPortCondition                                                    | v1beta20210601 |
-| DeliveryRuleClientPortCondition_Name                                               | v1beta20210601 |
-| DeliveryRuleClientPortCondition_Name_STATUS                                        | v1beta20210601 |
-| DeliveryRuleClientPortCondition_STATUS                                             | v1beta20210601 |
-| DeliveryRuleCondition                                                              | v1beta20210601 |
-| DeliveryRuleCondition_STATUS                                                       | v1beta20210601 |
-| DeliveryRuleCookiesCondition                                                       | v1beta20210601 |
-| DeliveryRuleCookiesCondition_Name                                                  | v1beta20210601 |
-| DeliveryRuleCookiesCondition_Name_STATUS                                           | v1beta20210601 |
-| DeliveryRuleCookiesCondition_STATUS                                                | v1beta20210601 |
-| DeliveryRuleHostNameCondition                                                      | v1beta20210601 |
-| DeliveryRuleHostNameCondition_Name                                                 | v1beta20210601 |
-| DeliveryRuleHostNameCondition_Name_STATUS                                          | v1beta20210601 |
-| DeliveryRuleHostNameCondition_STATUS                                               | v1beta20210601 |
-| DeliveryRuleHttpVersionCondition                                                   | v1beta20210601 |
-| DeliveryRuleHttpVersionCondition_Name                                              | v1beta20210601 |
-| DeliveryRuleHttpVersionCondition_Name_STATUS                                       | v1beta20210601 |
-| DeliveryRuleHttpVersionCondition_STATUS                                            | v1beta20210601 |
-| DeliveryRuleIsDeviceCondition                                                      | v1beta20210601 |
-| DeliveryRuleIsDeviceCondition_Name                                                 | v1beta20210601 |
-| DeliveryRuleIsDeviceCondition_Name_STATUS                                          | v1beta20210601 |
-| DeliveryRuleIsDeviceCondition_STATUS                                               | v1beta20210601 |
-| DeliveryRulePostArgsCondition                                                      | v1beta20210601 |
-| DeliveryRulePostArgsCondition_Name                                                 | v1beta20210601 |
-| DeliveryRulePostArgsCondition_Name_STATUS                                          | v1beta20210601 |
-| DeliveryRulePostArgsCondition_STATUS                                               | v1beta20210601 |
-| DeliveryRuleQueryStringCondition                                                   | v1beta20210601 |
-| DeliveryRuleQueryStringCondition_Name                                              | v1beta20210601 |
-| DeliveryRuleQueryStringCondition_Name_STATUS                                       | v1beta20210601 |
-| DeliveryRuleQueryStringCondition_STATUS                                            | v1beta20210601 |
-| DeliveryRuleRemoteAddressCondition                                                 | v1beta20210601 |
-| DeliveryRuleRemoteAddressCondition_Name                                            | v1beta20210601 |
-| DeliveryRuleRemoteAddressCondition_Name_STATUS                                     | v1beta20210601 |
-| DeliveryRuleRemoteAddressCondition_STATUS                                          | v1beta20210601 |
-| DeliveryRuleRequestBodyCondition                                                   | v1beta20210601 |
-| DeliveryRuleRequestBodyCondition_Name                                              | v1beta20210601 |
-| DeliveryRuleRequestBodyCondition_Name_STATUS                                       | v1beta20210601 |
-| DeliveryRuleRequestBodyCondition_STATUS                                            | v1beta20210601 |
-| DeliveryRuleRequestHeaderAction                                                    | v1beta20210601 |
-| DeliveryRuleRequestHeaderAction_Name                                               | v1beta20210601 |
-| DeliveryRuleRequestHeaderAction_Name_STATUS                                        | v1beta20210601 |
-| DeliveryRuleRequestHeaderAction_STATUS                                             | v1beta20210601 |
-| DeliveryRuleRequestHeaderCondition                                                 | v1beta20210601 |
-| DeliveryRuleRequestHeaderCondition_Name                                            | v1beta20210601 |
-| DeliveryRuleRequestHeaderCondition_Name_STATUS                                     | v1beta20210601 |
-| DeliveryRuleRequestHeaderCondition_STATUS                                          | v1beta20210601 |
-| DeliveryRuleRequestMethodCondition                                                 | v1beta20210601 |
-| DeliveryRuleRequestMethodCondition_Name                                            | v1beta20210601 |
-| DeliveryRuleRequestMethodCondition_Name_STATUS                                     | v1beta20210601 |
-| DeliveryRuleRequestMethodCondition_STATUS                                          | v1beta20210601 |
-| DeliveryRuleRequestSchemeCondition                                                 | v1beta20210601 |
-| DeliveryRuleRequestSchemeCondition_Name                                            | v1beta20210601 |
-| DeliveryRuleRequestSchemeCondition_Name_STATUS                                     | v1beta20210601 |
-| DeliveryRuleRequestSchemeCondition_STATUS                                          | v1beta20210601 |
-| DeliveryRuleRequestUriCondition                                                    | v1beta20210601 |
-| DeliveryRuleRequestUriCondition_Name                                               | v1beta20210601 |
-| DeliveryRuleRequestUriCondition_Name_STATUS                                        | v1beta20210601 |
-| DeliveryRuleRequestUriCondition_STATUS                                             | v1beta20210601 |
-| DeliveryRuleResponseHeaderAction                                                   | v1beta20210601 |
-| DeliveryRuleResponseHeaderAction_Name                                              | v1beta20210601 |
-| DeliveryRuleResponseHeaderAction_Name_STATUS                                       | v1beta20210601 |
-| DeliveryRuleResponseHeaderAction_STATUS                                            | v1beta20210601 |
-| DeliveryRuleRouteConfigurationOverrideAction                                       | v1beta20210601 |
-| DeliveryRuleRouteConfigurationOverrideAction_Name                                  | v1beta20210601 |
-| DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS                           | v1beta20210601 |
-| DeliveryRuleRouteConfigurationOverrideAction_STATUS                                | v1beta20210601 |
-| DeliveryRuleServerPortCondition                                                    | v1beta20210601 |
-| DeliveryRuleServerPortCondition_Name                                               | v1beta20210601 |
-| DeliveryRuleServerPortCondition_Name_STATUS                                        | v1beta20210601 |
-| DeliveryRuleServerPortCondition_STATUS                                             | v1beta20210601 |
-| DeliveryRuleSocketAddrCondition                                                    | v1beta20210601 |
-| DeliveryRuleSocketAddrCondition_Name                                               | v1beta20210601 |
-| DeliveryRuleSocketAddrCondition_Name_STATUS                                        | v1beta20210601 |
-| DeliveryRuleSocketAddrCondition_STATUS                                             | v1beta20210601 |
-| DeliveryRuleSslProtocolCondition                                                   | v1beta20210601 |
-| DeliveryRuleSslProtocolCondition_Name                                              | v1beta20210601 |
-| DeliveryRuleSslProtocolCondition_Name_STATUS                                       | v1beta20210601 |
-| DeliveryRuleSslProtocolCondition_STATUS                                            | v1beta20210601 |
-| DeliveryRuleUrlFileExtensionCondition                                              | v1beta20210601 |
-| DeliveryRuleUrlFileExtensionCondition_Name                                         | v1beta20210601 |
-| DeliveryRuleUrlFileExtensionCondition_Name_STATUS                                  | v1beta20210601 |
-| DeliveryRuleUrlFileExtensionCondition_STATUS                                       | v1beta20210601 |
-| DeliveryRuleUrlFileNameCondition                                                   | v1beta20210601 |
-| DeliveryRuleUrlFileNameCondition_Name                                              | v1beta20210601 |
-| DeliveryRuleUrlFileNameCondition_Name_STATUS                                       | v1beta20210601 |
-| DeliveryRuleUrlFileNameCondition_STATUS                                            | v1beta20210601 |
-| DeliveryRuleUrlPathCondition                                                       | v1beta20210601 |
-| DeliveryRuleUrlPathCondition_Name                                                  | v1beta20210601 |
-| DeliveryRuleUrlPathCondition_Name_STATUS                                           | v1beta20210601 |
-| DeliveryRuleUrlPathCondition_STATUS                                                | v1beta20210601 |
-| DeliveryRule_STATUS                                                                | v1beta20210601 |
-| EndpointProperties                                                                 | v1beta20210601 |
-| EndpointProperties_DeliveryPolicy                                                  | v1beta20210601 |
-| EndpointProperties_DeliveryPolicy_STATUS                                           | v1beta20210601 |
-| EndpointProperties_ProvisioningState_STATUS                                        | v1beta20210601 |
-| EndpointProperties_ResourceState_STATUS                                            | v1beta20210601 |
-| EndpointProperties_STATUS                                                          | v1beta20210601 |
-| EndpointProperties_WebApplicationFirewallPolicyLink                                | v1beta20210601 |
-| EndpointProperties_WebApplicationFirewallPolicyLink_STATUS                         | v1beta20210601 |
-| GeoFilter                                                                          | v1beta20210601 |
-| GeoFilter_Action                                                                   | v1beta20210601 |
-| GeoFilter_Action_STATUS                                                            | v1beta20210601 |
-| GeoFilter_STATUS                                                                   | v1beta20210601 |
-| HeaderActionParameters                                                             | v1beta20210601 |
-| HeaderActionParameters_HeaderAction                                                | v1beta20210601 |
-| HeaderActionParameters_HeaderAction_STATUS                                         | v1beta20210601 |
-| HeaderActionParameters_STATUS                                                      | v1beta20210601 |
-| HeaderActionParameters_TypeName                                                    | v1beta20210601 |
-| HeaderActionParameters_TypeName_STATUS                                             | v1beta20210601 |
-| HealthProbeParameters                                                              | v1beta20210601 |
-| HealthProbeParameters_ProbeProtocol                                                | v1beta20210601 |
-| HealthProbeParameters_ProbeProtocol_STATUS                                         | v1beta20210601 |
-| HealthProbeParameters_ProbeRequestType                                             | v1beta20210601 |
-| HealthProbeParameters_ProbeRequestType_STATUS                                      | v1beta20210601 |
-| HealthProbeParameters_STATUS                                                       | v1beta20210601 |
-| HostNameMatchConditionParameters                                                   | v1beta20210601 |
-| HostNameMatchConditionParameters_Operator                                          | v1beta20210601 |
-| HostNameMatchConditionParameters_Operator_STATUS                                   | v1beta20210601 |
-| HostNameMatchConditionParameters_STATUS                                            | v1beta20210601 |
-| HostNameMatchConditionParameters_TypeName                                          | v1beta20210601 |
-| HostNameMatchConditionParameters_TypeName_STATUS                                   | v1beta20210601 |
-| HttpErrorRangeParameters                                                           | v1beta20210601 |
-| HttpErrorRangeParameters_STATUS                                                    | v1beta20210601 |
-| HttpVersionMatchConditionParameters                                                | v1beta20210601 |
-| HttpVersionMatchConditionParameters_Operator                                       | v1beta20210601 |
-| HttpVersionMatchConditionParameters_Operator_STATUS                                | v1beta20210601 |
-| HttpVersionMatchConditionParameters_STATUS                                         | v1beta20210601 |
-| HttpVersionMatchConditionParameters_TypeName                                       | v1beta20210601 |
-| HttpVersionMatchConditionParameters_TypeName_STATUS                                | v1beta20210601 |
-| IdentityType_STATUS                                                                | v1beta20210601 |
-| IsDeviceMatchConditionParameters                                                   | v1beta20210601 |
-| IsDeviceMatchConditionParameters_MatchValues                                       | v1beta20210601 |
-| IsDeviceMatchConditionParameters_MatchValues_STATUS                                | v1beta20210601 |
-| IsDeviceMatchConditionParameters_Operator                                          | v1beta20210601 |
-| IsDeviceMatchConditionParameters_Operator_STATUS                                   | v1beta20210601 |
-| IsDeviceMatchConditionParameters_STATUS                                            | v1beta20210601 |
-| IsDeviceMatchConditionParameters_TypeName                                          | v1beta20210601 |
-| IsDeviceMatchConditionParameters_TypeName_STATUS                                   | v1beta20210601 |
-| KeyVaultSigningKeyParameters                                                       | v1beta20210601 |
-| KeyVaultSigningKeyParameters_STATUS                                                | v1beta20210601 |
-| KeyVaultSigningKeyParameters_TypeName                                              | v1beta20210601 |
-| KeyVaultSigningKeyParameters_TypeName_STATUS                                       | v1beta20210601 |
-| OptimizationType                                                                   | v1beta20210601 |
-| OptimizationType_STATUS                                                            | v1beta20210601 |
-| OriginGroupOverride                                                                | v1beta20210601 |
-| OriginGroupOverrideAction                                                          | v1beta20210601 |
-| OriginGroupOverrideActionParameters                                                | v1beta20210601 |
-| OriginGroupOverrideActionParameters_STATUS                                         | v1beta20210601 |
-| OriginGroupOverrideActionParameters_TypeName                                       | v1beta20210601 |
-| OriginGroupOverrideActionParameters_TypeName_STATUS                                | v1beta20210601 |
-| OriginGroupOverrideAction_Name                                                     | v1beta20210601 |
-| OriginGroupOverrideAction_Name_STATUS                                              | v1beta20210601 |
-| OriginGroupOverrideAction_STATUS                                                   | v1beta20210601 |
-| OriginGroupOverride_ForwardingProtocol                                             | v1beta20210601 |
-| OriginGroupOverride_ForwardingProtocol_STATUS                                      | v1beta20210601 |
-| OriginGroupOverride_STATUS                                                         | v1beta20210601 |
-| PostArgsMatchConditionParameters                                                   | v1beta20210601 |
-| PostArgsMatchConditionParameters_Operator                                          | v1beta20210601 |
-| PostArgsMatchConditionParameters_Operator_STATUS                                   | v1beta20210601 |
-| PostArgsMatchConditionParameters_STATUS                                            | v1beta20210601 |
-| PostArgsMatchConditionParameters_TypeName                                          | v1beta20210601 |
-| PostArgsMatchConditionParameters_TypeName_STATUS                                   | v1beta20210601 |
-| PrivateEndpointStatus_STATUS                                                       | v1beta20210601 |
-| Profile                                                                            | v1beta20210601 |
-| ProfileProperties                                                                  | v1beta20210601 |
-| ProfileProperties_ProvisioningState_STATUS                                         | v1beta20210601 |
-| ProfileProperties_ResourceState_STATUS                                             | v1beta20210601 |
-| ProfileProperties_STATUS                                                           | v1beta20210601 |
-| Profile_STATUS                                                                     | v1beta20210601 |
-| Profile_Spec                                                                       | v1beta20210601 |
-| ProfilesEndpoint                                                                   | v1beta20210601 |
-| Profiles_Endpoint_STATUS                                                           | v1beta20210601 |
-| Profiles_Endpoint_Spec                                                             | v1beta20210601 |
-| QueryStringCachingBehavior                                                         | v1beta20210601 |
-| QueryStringCachingBehavior_STATUS                                                  | v1beta20210601 |
-| QueryStringMatchConditionParameters                                                | v1beta20210601 |
-| QueryStringMatchConditionParameters_Operator                                       | v1beta20210601 |
-| QueryStringMatchConditionParameters_Operator_STATUS                                | v1beta20210601 |
-| QueryStringMatchConditionParameters_STATUS                                         | v1beta20210601 |
-| QueryStringMatchConditionParameters_TypeName                                       | v1beta20210601 |
-| QueryStringMatchConditionParameters_TypeName_STATUS                                | v1beta20210601 |
-| RemoteAddressMatchConditionParameters                                              | v1beta20210601 |
-| RemoteAddressMatchConditionParameters_Operator                                     | v1beta20210601 |
-| RemoteAddressMatchConditionParameters_Operator_STATUS                              | v1beta20210601 |
-| RemoteAddressMatchConditionParameters_STATUS                                       | v1beta20210601 |
-| RemoteAddressMatchConditionParameters_TypeName                                     | v1beta20210601 |
-| RemoteAddressMatchConditionParameters_TypeName_STATUS                              | v1beta20210601 |
-| RequestBodyMatchConditionParameters                                                | v1beta20210601 |
-| RequestBodyMatchConditionParameters_Operator                                       | v1beta20210601 |
-| RequestBodyMatchConditionParameters_Operator_STATUS                                | v1beta20210601 |
-| RequestBodyMatchConditionParameters_STATUS                                         | v1beta20210601 |
-| RequestBodyMatchConditionParameters_TypeName                                       | v1beta20210601 |
-| RequestBodyMatchConditionParameters_TypeName_STATUS                                | v1beta20210601 |
-| RequestHeaderMatchConditionParameters                                              | v1beta20210601 |
-| RequestHeaderMatchConditionParameters_Operator                                     | v1beta20210601 |
-| RequestHeaderMatchConditionParameters_Operator_STATUS                              | v1beta20210601 |
-| RequestHeaderMatchConditionParameters_STATUS                                       | v1beta20210601 |
-| RequestHeaderMatchConditionParameters_TypeName                                     | v1beta20210601 |
-| RequestHeaderMatchConditionParameters_TypeName_STATUS                              | v1beta20210601 |
-| RequestMethodMatchConditionParameters                                              | v1beta20210601 |
-| RequestMethodMatchConditionParameters_MatchValues                                  | v1beta20210601 |
-| RequestMethodMatchConditionParameters_MatchValues_STATUS                           | v1beta20210601 |
-| RequestMethodMatchConditionParameters_Operator                                     | v1beta20210601 |
-| RequestMethodMatchConditionParameters_Operator_STATUS                              | v1beta20210601 |
-| RequestMethodMatchConditionParameters_STATUS                                       | v1beta20210601 |
-| RequestMethodMatchConditionParameters_TypeName                                     | v1beta20210601 |
-| RequestMethodMatchConditionParameters_TypeName_STATUS                              | v1beta20210601 |
-| RequestSchemeMatchConditionParameters                                              | v1beta20210601 |
-| RequestSchemeMatchConditionParameters_MatchValues                                  | v1beta20210601 |
-| RequestSchemeMatchConditionParameters_MatchValues_STATUS                           | v1beta20210601 |
-| RequestSchemeMatchConditionParameters_Operator                                     | v1beta20210601 |
-| RequestSchemeMatchConditionParameters_Operator_STATUS                              | v1beta20210601 |
-| RequestSchemeMatchConditionParameters_STATUS                                       | v1beta20210601 |
-| RequestSchemeMatchConditionParameters_TypeName                                     | v1beta20210601 |
-| RequestSchemeMatchConditionParameters_TypeName_STATUS                              | v1beta20210601 |
-| RequestUriMatchConditionParameters                                                 | v1beta20210601 |
-| RequestUriMatchConditionParameters_Operator                                        | v1beta20210601 |
-| RequestUriMatchConditionParameters_Operator_STATUS                                 | v1beta20210601 |
-| RequestUriMatchConditionParameters_STATUS                                          | v1beta20210601 |
-| RequestUriMatchConditionParameters_TypeName                                        | v1beta20210601 |
-| RequestUriMatchConditionParameters_TypeName_STATUS                                 | v1beta20210601 |
-| ResourceReference                                                                  | v1beta20210601 |
-| ResourceReference_STATUS                                                           | v1beta20210601 |
-| ResponseBasedOriginErrorDetectionParameters                                        | v1beta20210601 |
-| ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes        | v1beta20210601 |
-| ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS | v1beta20210601 |
-| ResponseBasedOriginErrorDetectionParameters_STATUS                                 | v1beta20210601 |
-| RouteConfigurationOverrideActionParameters                                         | v1beta20210601 |
-| RouteConfigurationOverrideActionParameters_STATUS                                  | v1beta20210601 |
-| RouteConfigurationOverrideActionParameters_TypeName                                | v1beta20210601 |
-| RouteConfigurationOverrideActionParameters_TypeName_STATUS                         | v1beta20210601 |
-| ServerPortMatchConditionParameters                                                 | v1beta20210601 |
-| ServerPortMatchConditionParameters_Operator                                        | v1beta20210601 |
-| ServerPortMatchConditionParameters_Operator_STATUS                                 | v1beta20210601 |
-| ServerPortMatchConditionParameters_STATUS                                          | v1beta20210601 |
-| ServerPortMatchConditionParameters_TypeName                                        | v1beta20210601 |
-| ServerPortMatchConditionParameters_TypeName_STATUS                                 | v1beta20210601 |
-| Sku                                                                                | v1beta20210601 |
-| Sku_Name                                                                           | v1beta20210601 |
-| Sku_Name_STATUS                                                                    | v1beta20210601 |
-| Sku_STATUS                                                                         | v1beta20210601 |
-| SocketAddrMatchConditionParameters                                                 | v1beta20210601 |
-| SocketAddrMatchConditionParameters_Operator                                        | v1beta20210601 |
-| SocketAddrMatchConditionParameters_Operator_STATUS                                 | v1beta20210601 |
-| SocketAddrMatchConditionParameters_STATUS                                          | v1beta20210601 |
-| SocketAddrMatchConditionParameters_TypeName                                        | v1beta20210601 |
-| SocketAddrMatchConditionParameters_TypeName_STATUS                                 | v1beta20210601 |
-| SslProtocol                                                                        | v1beta20210601 |
-| SslProtocolMatchConditionParameters                                                | v1beta20210601 |
-| SslProtocolMatchConditionParameters_Operator                                       | v1beta20210601 |
-| SslProtocolMatchConditionParameters_Operator_STATUS                                | v1beta20210601 |
-| SslProtocolMatchConditionParameters_STATUS                                         | v1beta20210601 |
-| SslProtocolMatchConditionParameters_TypeName                                       | v1beta20210601 |
-| SslProtocolMatchConditionParameters_TypeName_STATUS                                | v1beta20210601 |
-| SslProtocol_STATUS                                                                 | v1beta20210601 |
-| SystemData_STATUS                                                                  | v1beta20210601 |
-| Transform                                                                          | v1beta20210601 |
-| Transform_STATUS                                                                   | v1beta20210601 |
-| UrlFileExtensionMatchConditionParameters                                           | v1beta20210601 |
-| UrlFileExtensionMatchConditionParameters_Operator                                  | v1beta20210601 |
-| UrlFileExtensionMatchConditionParameters_Operator_STATUS                           | v1beta20210601 |
-| UrlFileExtensionMatchConditionParameters_STATUS                                    | v1beta20210601 |
-| UrlFileExtensionMatchConditionParameters_TypeName                                  | v1beta20210601 |
-| UrlFileExtensionMatchConditionParameters_TypeName_STATUS                           | v1beta20210601 |
-| UrlFileNameMatchConditionParameters                                                | v1beta20210601 |
-| UrlFileNameMatchConditionParameters_Operator                                       | v1beta20210601 |
-| UrlFileNameMatchConditionParameters_Operator_STATUS                                | v1beta20210601 |
-| UrlFileNameMatchConditionParameters_STATUS                                         | v1beta20210601 |
-| UrlFileNameMatchConditionParameters_TypeName                                       | v1beta20210601 |
-| UrlFileNameMatchConditionParameters_TypeName_STATUS                                | v1beta20210601 |
-| UrlPathMatchConditionParameters                                                    | v1beta20210601 |
-| UrlPathMatchConditionParameters_Operator                                           | v1beta20210601 |
-| UrlPathMatchConditionParameters_Operator_STATUS                                    | v1beta20210601 |
-| UrlPathMatchConditionParameters_STATUS                                             | v1beta20210601 |
-| UrlPathMatchConditionParameters_TypeName                                           | v1beta20210601 |
-| UrlPathMatchConditionParameters_TypeName_STATUS                                    | v1beta20210601 |
-| UrlRedirectAction                                                                  | v1beta20210601 |
-| UrlRedirectActionParameters                                                        | v1beta20210601 |
-| UrlRedirectActionParameters_DestinationProtocol                                    | v1beta20210601 |
-| UrlRedirectActionParameters_DestinationProtocol_STATUS                             | v1beta20210601 |
-| UrlRedirectActionParameters_RedirectType                                           | v1beta20210601 |
-| UrlRedirectActionParameters_RedirectType_STATUS                                    | v1beta20210601 |
-| UrlRedirectActionParameters_STATUS                                                 | v1beta20210601 |
-| UrlRedirectActionParameters_TypeName                                               | v1beta20210601 |
-| UrlRedirectActionParameters_TypeName_STATUS                                        | v1beta20210601 |
-| UrlRedirectAction_Name                                                             | v1beta20210601 |
-| UrlRedirectAction_Name_STATUS                                                      | v1beta20210601 |
-| UrlRedirectAction_STATUS                                                           | v1beta20210601 |
-| UrlRewriteAction                                                                   | v1beta20210601 |
-| UrlRewriteActionParameters                                                         | v1beta20210601 |
-| UrlRewriteActionParameters_STATUS                                                  | v1beta20210601 |
-| UrlRewriteActionParameters_TypeName                                                | v1beta20210601 |
-| UrlRewriteActionParameters_TypeName_STATUS                                         | v1beta20210601 |
-| UrlRewriteAction_Name                                                              | v1beta20210601 |
-| UrlRewriteAction_Name_STATUS                                                       | v1beta20210601 |
-| UrlRewriteAction_STATUS                                                            | v1beta20210601 |
-| UrlSigningAction                                                                   | v1beta20210601 |
-| UrlSigningActionParameters                                                         | v1beta20210601 |
-| UrlSigningActionParameters_Algorithm                                               | v1beta20210601 |
-| UrlSigningActionParameters_Algorithm_STATUS                                        | v1beta20210601 |
-| UrlSigningActionParameters_STATUS                                                  | v1beta20210601 |
-| UrlSigningActionParameters_TypeName                                                | v1beta20210601 |
-| UrlSigningActionParameters_TypeName_STATUS                                         | v1beta20210601 |
-| UrlSigningAction_Name                                                              | v1beta20210601 |
-| UrlSigningAction_Name_STATUS                                                       | v1beta20210601 |
-| UrlSigningAction_STATUS                                                            | v1beta20210601 |
-| UrlSigningKey                                                                      | v1beta20210601 |
-| UrlSigningKey_STATUS                                                               | v1beta20210601 |
-| UrlSigningParamIdentifier                                                          | v1beta20210601 |
-| UrlSigningParamIdentifier_ParamIndicator                                           | v1beta20210601 |
-| UrlSigningParamIdentifier_ParamIndicator_STATUS                                    | v1beta20210601 |
-| UrlSigningParamIdentifier_STATUS                                                   | v1beta20210601 |
+| Type Definitions in package "cdn"                                                  | v1api20210601 | v1beta20210601 |
+|------------------------------------------------------------------------------------|---------------|----------------|
+| APIVersion                                                                         | v1api20210601 | v1beta20210601 |
+| CacheConfiguration                                                                 | v1api20210601 | v1beta20210601 |
+| CacheConfiguration_CacheBehavior                                                   | v1api20210601 | v1beta20210601 |
+| CacheConfiguration_CacheBehavior_STATUS                                            | v1api20210601 | v1beta20210601 |
+| CacheConfiguration_IsCompressionEnabled                                            | v1api20210601 | v1beta20210601 |
+| CacheConfiguration_IsCompressionEnabled_STATUS                                     | v1api20210601 | v1beta20210601 |
+| CacheConfiguration_QueryStringCachingBehavior                                      | v1api20210601 | v1beta20210601 |
+| CacheConfiguration_QueryStringCachingBehavior_STATUS                               | v1api20210601 | v1beta20210601 |
+| CacheConfiguration_STATUS                                                          | v1api20210601 | v1beta20210601 |
+| CacheExpirationActionParameters                                                    | v1api20210601 | v1beta20210601 |
+| CacheExpirationActionParameters_CacheBehavior                                      | v1api20210601 | v1beta20210601 |
+| CacheExpirationActionParameters_CacheBehavior_STATUS                               | v1api20210601 | v1beta20210601 |
+| CacheExpirationActionParameters_CacheType                                          | v1api20210601 | v1beta20210601 |
+| CacheExpirationActionParameters_CacheType_STATUS                                   | v1api20210601 | v1beta20210601 |
+| CacheExpirationActionParameters_STATUS                                             | v1api20210601 | v1beta20210601 |
+| CacheExpirationActionParameters_TypeName                                           | v1api20210601 | v1beta20210601 |
+| CacheExpirationActionParameters_TypeName_STATUS                                    | v1api20210601 | v1beta20210601 |
+| CacheKeyQueryStringActionParameters                                                | v1api20210601 | v1beta20210601 |
+| CacheKeyQueryStringActionParameters_QueryStringBehavior                            | v1api20210601 | v1beta20210601 |
+| CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS                     | v1api20210601 | v1beta20210601 |
+| CacheKeyQueryStringActionParameters_STATUS                                         | v1api20210601 | v1beta20210601 |
+| CacheKeyQueryStringActionParameters_TypeName                                       | v1api20210601 | v1beta20210601 |
+| CacheKeyQueryStringActionParameters_TypeName_STATUS                                | v1api20210601 | v1beta20210601 |
+| ClientPortMatchConditionParameters                                                 | v1api20210601 | v1beta20210601 |
+| ClientPortMatchConditionParameters_Operator                                        | v1api20210601 | v1beta20210601 |
+| ClientPortMatchConditionParameters_Operator_STATUS                                 | v1api20210601 | v1beta20210601 |
+| ClientPortMatchConditionParameters_STATUS                                          | v1api20210601 | v1beta20210601 |
+| ClientPortMatchConditionParameters_TypeName                                        | v1api20210601 | v1beta20210601 |
+| ClientPortMatchConditionParameters_TypeName_STATUS                                 | v1api20210601 | v1beta20210601 |
+| CookiesMatchConditionParameters                                                    | v1api20210601 | v1beta20210601 |
+| CookiesMatchConditionParameters_Operator                                           | v1api20210601 | v1beta20210601 |
+| CookiesMatchConditionParameters_Operator_STATUS                                    | v1api20210601 | v1beta20210601 |
+| CookiesMatchConditionParameters_STATUS                                             | v1api20210601 | v1beta20210601 |
+| CookiesMatchConditionParameters_TypeName                                           | v1api20210601 | v1beta20210601 |
+| CookiesMatchConditionParameters_TypeName_STATUS                                    | v1api20210601 | v1beta20210601 |
+| DeepCreatedCustomDomainProperties_STATUS                                           | v1api20210601 | v1beta20210601 |
+| DeepCreatedCustomDomain_STATUS                                                     | v1api20210601 | v1beta20210601 |
+| DeepCreatedOrigin                                                                  | v1api20210601 | v1beta20210601 |
+| DeepCreatedOriginGroup                                                             | v1api20210601 | v1beta20210601 |
+| DeepCreatedOriginGroupProperties                                                   | v1api20210601 | v1beta20210601 |
+| DeepCreatedOriginGroupProperties_STATUS                                            | v1api20210601 | v1beta20210601 |
+| DeepCreatedOriginGroup_STATUS                                                      | v1api20210601 | v1beta20210601 |
+| DeepCreatedOriginProperties                                                        | v1api20210601 | v1beta20210601 |
+| DeepCreatedOriginProperties_STATUS                                                 | v1api20210601 | v1beta20210601 |
+| DeepCreatedOrigin_STATUS                                                           | v1api20210601 | v1beta20210601 |
+| DeliveryRule                                                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleAction                                                                 | v1api20210601 | v1beta20210601 |
+| DeliveryRuleAction_STATUS                                                          | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCacheExpirationAction                                                  | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCacheExpirationAction_Name                                             | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCacheExpirationAction_Name_STATUS                                      | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCacheExpirationAction_STATUS                                           | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCacheKeyQueryStringAction                                              | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCacheKeyQueryStringAction_Name                                         | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCacheKeyQueryStringAction_Name_STATUS                                  | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCacheKeyQueryStringAction_STATUS                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleClientPortCondition                                                    | v1api20210601 | v1beta20210601 |
+| DeliveryRuleClientPortCondition_Name                                               | v1api20210601 | v1beta20210601 |
+| DeliveryRuleClientPortCondition_Name_STATUS                                        | v1api20210601 | v1beta20210601 |
+| DeliveryRuleClientPortCondition_STATUS                                             | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCondition                                                              | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCondition_STATUS                                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCookiesCondition                                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCookiesCondition_Name                                                  | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCookiesCondition_Name_STATUS                                           | v1api20210601 | v1beta20210601 |
+| DeliveryRuleCookiesCondition_STATUS                                                | v1api20210601 | v1beta20210601 |
+| DeliveryRuleHostNameCondition                                                      | v1api20210601 | v1beta20210601 |
+| DeliveryRuleHostNameCondition_Name                                                 | v1api20210601 | v1beta20210601 |
+| DeliveryRuleHostNameCondition_Name_STATUS                                          | v1api20210601 | v1beta20210601 |
+| DeliveryRuleHostNameCondition_STATUS                                               | v1api20210601 | v1beta20210601 |
+| DeliveryRuleHttpVersionCondition                                                   | v1api20210601 | v1beta20210601 |
+| DeliveryRuleHttpVersionCondition_Name                                              | v1api20210601 | v1beta20210601 |
+| DeliveryRuleHttpVersionCondition_Name_STATUS                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleHttpVersionCondition_STATUS                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleIsDeviceCondition                                                      | v1api20210601 | v1beta20210601 |
+| DeliveryRuleIsDeviceCondition_Name                                                 | v1api20210601 | v1beta20210601 |
+| DeliveryRuleIsDeviceCondition_Name_STATUS                                          | v1api20210601 | v1beta20210601 |
+| DeliveryRuleIsDeviceCondition_STATUS                                               | v1api20210601 | v1beta20210601 |
+| DeliveryRulePostArgsCondition                                                      | v1api20210601 | v1beta20210601 |
+| DeliveryRulePostArgsCondition_Name                                                 | v1api20210601 | v1beta20210601 |
+| DeliveryRulePostArgsCondition_Name_STATUS                                          | v1api20210601 | v1beta20210601 |
+| DeliveryRulePostArgsCondition_STATUS                                               | v1api20210601 | v1beta20210601 |
+| DeliveryRuleQueryStringCondition                                                   | v1api20210601 | v1beta20210601 |
+| DeliveryRuleQueryStringCondition_Name                                              | v1api20210601 | v1beta20210601 |
+| DeliveryRuleQueryStringCondition_Name_STATUS                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleQueryStringCondition_STATUS                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRemoteAddressCondition                                                 | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRemoteAddressCondition_Name                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRemoteAddressCondition_Name_STATUS                                     | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRemoteAddressCondition_STATUS                                          | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestBodyCondition                                                   | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestBodyCondition_Name                                              | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestBodyCondition_Name_STATUS                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestBodyCondition_STATUS                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestHeaderAction                                                    | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestHeaderAction_Name                                               | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestHeaderAction_Name_STATUS                                        | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestHeaderAction_STATUS                                             | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestHeaderCondition                                                 | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestHeaderCondition_Name                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestHeaderCondition_Name_STATUS                                     | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestHeaderCondition_STATUS                                          | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestMethodCondition                                                 | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestMethodCondition_Name                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestMethodCondition_Name_STATUS                                     | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestMethodCondition_STATUS                                          | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestSchemeCondition                                                 | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestSchemeCondition_Name                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestSchemeCondition_Name_STATUS                                     | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestSchemeCondition_STATUS                                          | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestUriCondition                                                    | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestUriCondition_Name                                               | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestUriCondition_Name_STATUS                                        | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRequestUriCondition_STATUS                                             | v1api20210601 | v1beta20210601 |
+| DeliveryRuleResponseHeaderAction                                                   | v1api20210601 | v1beta20210601 |
+| DeliveryRuleResponseHeaderAction_Name                                              | v1api20210601 | v1beta20210601 |
+| DeliveryRuleResponseHeaderAction_Name_STATUS                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleResponseHeaderAction_STATUS                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRouteConfigurationOverrideAction                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRouteConfigurationOverrideAction_Name                                  | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS                           | v1api20210601 | v1beta20210601 |
+| DeliveryRuleRouteConfigurationOverrideAction_STATUS                                | v1api20210601 | v1beta20210601 |
+| DeliveryRuleServerPortCondition                                                    | v1api20210601 | v1beta20210601 |
+| DeliveryRuleServerPortCondition_Name                                               | v1api20210601 | v1beta20210601 |
+| DeliveryRuleServerPortCondition_Name_STATUS                                        | v1api20210601 | v1beta20210601 |
+| DeliveryRuleServerPortCondition_STATUS                                             | v1api20210601 | v1beta20210601 |
+| DeliveryRuleSocketAddrCondition                                                    | v1api20210601 | v1beta20210601 |
+| DeliveryRuleSocketAddrCondition_Name                                               | v1api20210601 | v1beta20210601 |
+| DeliveryRuleSocketAddrCondition_Name_STATUS                                        | v1api20210601 | v1beta20210601 |
+| DeliveryRuleSocketAddrCondition_STATUS                                             | v1api20210601 | v1beta20210601 |
+| DeliveryRuleSslProtocolCondition                                                   | v1api20210601 | v1beta20210601 |
+| DeliveryRuleSslProtocolCondition_Name                                              | v1api20210601 | v1beta20210601 |
+| DeliveryRuleSslProtocolCondition_Name_STATUS                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleSslProtocolCondition_STATUS                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlFileExtensionCondition                                              | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlFileExtensionCondition_Name                                         | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlFileExtensionCondition_Name_STATUS                                  | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlFileExtensionCondition_STATUS                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlFileNameCondition                                                   | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlFileNameCondition_Name                                              | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlFileNameCondition_Name_STATUS                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlFileNameCondition_STATUS                                            | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlPathCondition                                                       | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlPathCondition_Name                                                  | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlPathCondition_Name_STATUS                                           | v1api20210601 | v1beta20210601 |
+| DeliveryRuleUrlPathCondition_STATUS                                                | v1api20210601 | v1beta20210601 |
+| DeliveryRule_STATUS                                                                | v1api20210601 | v1beta20210601 |
+| EndpointProperties                                                                 | v1api20210601 | v1beta20210601 |
+| EndpointProperties_DeliveryPolicy                                                  | v1api20210601 | v1beta20210601 |
+| EndpointProperties_DeliveryPolicy_STATUS                                           | v1api20210601 | v1beta20210601 |
+| EndpointProperties_ProvisioningState_STATUS                                        | v1api20210601 | v1beta20210601 |
+| EndpointProperties_ResourceState_STATUS                                            | v1api20210601 | v1beta20210601 |
+| EndpointProperties_STATUS                                                          | v1api20210601 | v1beta20210601 |
+| EndpointProperties_WebApplicationFirewallPolicyLink                                | v1api20210601 | v1beta20210601 |
+| EndpointProperties_WebApplicationFirewallPolicyLink_STATUS                         | v1api20210601 | v1beta20210601 |
+| GeoFilter                                                                          | v1api20210601 | v1beta20210601 |
+| GeoFilter_Action                                                                   | v1api20210601 | v1beta20210601 |
+| GeoFilter_Action_STATUS                                                            | v1api20210601 | v1beta20210601 |
+| GeoFilter_STATUS                                                                   | v1api20210601 | v1beta20210601 |
+| HeaderActionParameters                                                             | v1api20210601 | v1beta20210601 |
+| HeaderActionParameters_HeaderAction                                                | v1api20210601 | v1beta20210601 |
+| HeaderActionParameters_HeaderAction_STATUS                                         | v1api20210601 | v1beta20210601 |
+| HeaderActionParameters_STATUS                                                      | v1api20210601 | v1beta20210601 |
+| HeaderActionParameters_TypeName                                                    | v1api20210601 | v1beta20210601 |
+| HeaderActionParameters_TypeName_STATUS                                             | v1api20210601 | v1beta20210601 |
+| HealthProbeParameters                                                              | v1api20210601 | v1beta20210601 |
+| HealthProbeParameters_ProbeProtocol                                                | v1api20210601 | v1beta20210601 |
+| HealthProbeParameters_ProbeProtocol_STATUS                                         | v1api20210601 | v1beta20210601 |
+| HealthProbeParameters_ProbeRequestType                                             | v1api20210601 | v1beta20210601 |
+| HealthProbeParameters_ProbeRequestType_STATUS                                      | v1api20210601 | v1beta20210601 |
+| HealthProbeParameters_STATUS                                                       | v1api20210601 | v1beta20210601 |
+| HostNameMatchConditionParameters                                                   | v1api20210601 | v1beta20210601 |
+| HostNameMatchConditionParameters_Operator                                          | v1api20210601 | v1beta20210601 |
+| HostNameMatchConditionParameters_Operator_STATUS                                   | v1api20210601 | v1beta20210601 |
+| HostNameMatchConditionParameters_STATUS                                            | v1api20210601 | v1beta20210601 |
+| HostNameMatchConditionParameters_TypeName                                          | v1api20210601 | v1beta20210601 |
+| HostNameMatchConditionParameters_TypeName_STATUS                                   | v1api20210601 | v1beta20210601 |
+| HttpErrorRangeParameters                                                           | v1api20210601 | v1beta20210601 |
+| HttpErrorRangeParameters_STATUS                                                    | v1api20210601 | v1beta20210601 |
+| HttpVersionMatchConditionParameters                                                | v1api20210601 | v1beta20210601 |
+| HttpVersionMatchConditionParameters_Operator                                       | v1api20210601 | v1beta20210601 |
+| HttpVersionMatchConditionParameters_Operator_STATUS                                | v1api20210601 | v1beta20210601 |
+| HttpVersionMatchConditionParameters_STATUS                                         | v1api20210601 | v1beta20210601 |
+| HttpVersionMatchConditionParameters_TypeName                                       | v1api20210601 | v1beta20210601 |
+| HttpVersionMatchConditionParameters_TypeName_STATUS                                | v1api20210601 | v1beta20210601 |
+| IdentityType_STATUS                                                                | v1api20210601 | v1beta20210601 |
+| IsDeviceMatchConditionParameters                                                   | v1api20210601 | v1beta20210601 |
+| IsDeviceMatchConditionParameters_MatchValues                                       | v1api20210601 | v1beta20210601 |
+| IsDeviceMatchConditionParameters_MatchValues_STATUS                                | v1api20210601 | v1beta20210601 |
+| IsDeviceMatchConditionParameters_Operator                                          | v1api20210601 | v1beta20210601 |
+| IsDeviceMatchConditionParameters_Operator_STATUS                                   | v1api20210601 | v1beta20210601 |
+| IsDeviceMatchConditionParameters_STATUS                                            | v1api20210601 | v1beta20210601 |
+| IsDeviceMatchConditionParameters_TypeName                                          | v1api20210601 | v1beta20210601 |
+| IsDeviceMatchConditionParameters_TypeName_STATUS                                   | v1api20210601 | v1beta20210601 |
+| KeyVaultSigningKeyParameters                                                       | v1api20210601 | v1beta20210601 |
+| KeyVaultSigningKeyParameters_STATUS                                                | v1api20210601 | v1beta20210601 |
+| KeyVaultSigningKeyParameters_TypeName                                              | v1api20210601 | v1beta20210601 |
+| KeyVaultSigningKeyParameters_TypeName_STATUS                                       | v1api20210601 | v1beta20210601 |
+| OptimizationType                                                                   | v1api20210601 | v1beta20210601 |
+| OptimizationType_STATUS                                                            | v1api20210601 | v1beta20210601 |
+| OriginGroupOverride                                                                | v1api20210601 | v1beta20210601 |
+| OriginGroupOverrideAction                                                          | v1api20210601 | v1beta20210601 |
+| OriginGroupOverrideActionParameters                                                | v1api20210601 | v1beta20210601 |
+| OriginGroupOverrideActionParameters_STATUS                                         | v1api20210601 | v1beta20210601 |
+| OriginGroupOverrideActionParameters_TypeName                                       | v1api20210601 | v1beta20210601 |
+| OriginGroupOverrideActionParameters_TypeName_STATUS                                | v1api20210601 | v1beta20210601 |
+| OriginGroupOverrideAction_Name                                                     | v1api20210601 | v1beta20210601 |
+| OriginGroupOverrideAction_Name_STATUS                                              | v1api20210601 | v1beta20210601 |
+| OriginGroupOverrideAction_STATUS                                                   | v1api20210601 | v1beta20210601 |
+| OriginGroupOverride_ForwardingProtocol                                             | v1api20210601 | v1beta20210601 |
+| OriginGroupOverride_ForwardingProtocol_STATUS                                      | v1api20210601 | v1beta20210601 |
+| OriginGroupOverride_STATUS                                                         | v1api20210601 | v1beta20210601 |
+| PostArgsMatchConditionParameters                                                   | v1api20210601 | v1beta20210601 |
+| PostArgsMatchConditionParameters_Operator                                          | v1api20210601 | v1beta20210601 |
+| PostArgsMatchConditionParameters_Operator_STATUS                                   | v1api20210601 | v1beta20210601 |
+| PostArgsMatchConditionParameters_STATUS                                            | v1api20210601 | v1beta20210601 |
+| PostArgsMatchConditionParameters_TypeName                                          | v1api20210601 | v1beta20210601 |
+| PostArgsMatchConditionParameters_TypeName_STATUS                                   | v1api20210601 | v1beta20210601 |
+| PrivateEndpointStatus_STATUS                                                       | v1api20210601 | v1beta20210601 |
+| Profile                                                                            | v1api20210601 | v1beta20210601 |
+| ProfileProperties                                                                  | v1api20210601 | v1beta20210601 |
+| ProfileProperties_ProvisioningState_STATUS                                         | v1api20210601 | v1beta20210601 |
+| ProfileProperties_ResourceState_STATUS                                             | v1api20210601 | v1beta20210601 |
+| ProfileProperties_STATUS                                                           | v1api20210601 | v1beta20210601 |
+| Profile_STATUS                                                                     | v1api20210601 | v1beta20210601 |
+| Profile_Spec                                                                       | v1api20210601 | v1beta20210601 |
+| ProfilesEndpoint                                                                   | v1api20210601 | v1beta20210601 |
+| Profiles_Endpoint_STATUS                                                           | v1api20210601 | v1beta20210601 |
+| Profiles_Endpoint_Spec                                                             | v1api20210601 | v1beta20210601 |
+| QueryStringCachingBehavior                                                         | v1api20210601 | v1beta20210601 |
+| QueryStringCachingBehavior_STATUS                                                  | v1api20210601 | v1beta20210601 |
+| QueryStringMatchConditionParameters                                                | v1api20210601 | v1beta20210601 |
+| QueryStringMatchConditionParameters_Operator                                       | v1api20210601 | v1beta20210601 |
+| QueryStringMatchConditionParameters_Operator_STATUS                                | v1api20210601 | v1beta20210601 |
+| QueryStringMatchConditionParameters_STATUS                                         | v1api20210601 | v1beta20210601 |
+| QueryStringMatchConditionParameters_TypeName                                       | v1api20210601 | v1beta20210601 |
+| QueryStringMatchConditionParameters_TypeName_STATUS                                | v1api20210601 | v1beta20210601 |
+| RemoteAddressMatchConditionParameters                                              | v1api20210601 | v1beta20210601 |
+| RemoteAddressMatchConditionParameters_Operator                                     | v1api20210601 | v1beta20210601 |
+| RemoteAddressMatchConditionParameters_Operator_STATUS                              | v1api20210601 | v1beta20210601 |
+| RemoteAddressMatchConditionParameters_STATUS                                       | v1api20210601 | v1beta20210601 |
+| RemoteAddressMatchConditionParameters_TypeName                                     | v1api20210601 | v1beta20210601 |
+| RemoteAddressMatchConditionParameters_TypeName_STATUS                              | v1api20210601 | v1beta20210601 |
+| RequestBodyMatchConditionParameters                                                | v1api20210601 | v1beta20210601 |
+| RequestBodyMatchConditionParameters_Operator                                       | v1api20210601 | v1beta20210601 |
+| RequestBodyMatchConditionParameters_Operator_STATUS                                | v1api20210601 | v1beta20210601 |
+| RequestBodyMatchConditionParameters_STATUS                                         | v1api20210601 | v1beta20210601 |
+| RequestBodyMatchConditionParameters_TypeName                                       | v1api20210601 | v1beta20210601 |
+| RequestBodyMatchConditionParameters_TypeName_STATUS                                | v1api20210601 | v1beta20210601 |
+| RequestHeaderMatchConditionParameters                                              | v1api20210601 | v1beta20210601 |
+| RequestHeaderMatchConditionParameters_Operator                                     | v1api20210601 | v1beta20210601 |
+| RequestHeaderMatchConditionParameters_Operator_STATUS                              | v1api20210601 | v1beta20210601 |
+| RequestHeaderMatchConditionParameters_STATUS                                       | v1api20210601 | v1beta20210601 |
+| RequestHeaderMatchConditionParameters_TypeName                                     | v1api20210601 | v1beta20210601 |
+| RequestHeaderMatchConditionParameters_TypeName_STATUS                              | v1api20210601 | v1beta20210601 |
+| RequestMethodMatchConditionParameters                                              | v1api20210601 | v1beta20210601 |
+| RequestMethodMatchConditionParameters_MatchValues                                  | v1api20210601 | v1beta20210601 |
+| RequestMethodMatchConditionParameters_MatchValues_STATUS                           | v1api20210601 | v1beta20210601 |
+| RequestMethodMatchConditionParameters_Operator                                     | v1api20210601 | v1beta20210601 |
+| RequestMethodMatchConditionParameters_Operator_STATUS                              | v1api20210601 | v1beta20210601 |
+| RequestMethodMatchConditionParameters_STATUS                                       | v1api20210601 | v1beta20210601 |
+| RequestMethodMatchConditionParameters_TypeName                                     | v1api20210601 | v1beta20210601 |
+| RequestMethodMatchConditionParameters_TypeName_STATUS                              | v1api20210601 | v1beta20210601 |
+| RequestSchemeMatchConditionParameters                                              | v1api20210601 | v1beta20210601 |
+| RequestSchemeMatchConditionParameters_MatchValues                                  | v1api20210601 | v1beta20210601 |
+| RequestSchemeMatchConditionParameters_MatchValues_STATUS                           | v1api20210601 | v1beta20210601 |
+| RequestSchemeMatchConditionParameters_Operator                                     | v1api20210601 | v1beta20210601 |
+| RequestSchemeMatchConditionParameters_Operator_STATUS                              | v1api20210601 | v1beta20210601 |
+| RequestSchemeMatchConditionParameters_STATUS                                       | v1api20210601 | v1beta20210601 |
+| RequestSchemeMatchConditionParameters_TypeName                                     | v1api20210601 | v1beta20210601 |
+| RequestSchemeMatchConditionParameters_TypeName_STATUS                              | v1api20210601 | v1beta20210601 |
+| RequestUriMatchConditionParameters                                                 | v1api20210601 | v1beta20210601 |
+| RequestUriMatchConditionParameters_Operator                                        | v1api20210601 | v1beta20210601 |
+| RequestUriMatchConditionParameters_Operator_STATUS                                 | v1api20210601 | v1beta20210601 |
+| RequestUriMatchConditionParameters_STATUS                                          | v1api20210601 | v1beta20210601 |
+| RequestUriMatchConditionParameters_TypeName                                        | v1api20210601 | v1beta20210601 |
+| RequestUriMatchConditionParameters_TypeName_STATUS                                 | v1api20210601 | v1beta20210601 |
+| ResourceReference                                                                  | v1api20210601 | v1beta20210601 |
+| ResourceReference_STATUS                                                           | v1api20210601 | v1beta20210601 |
+| ResponseBasedOriginErrorDetectionParameters                                        | v1api20210601 | v1beta20210601 |
+| ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes        | v1api20210601 | v1beta20210601 |
+| ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS | v1api20210601 | v1beta20210601 |
+| ResponseBasedOriginErrorDetectionParameters_STATUS                                 | v1api20210601 | v1beta20210601 |
+| RouteConfigurationOverrideActionParameters                                         | v1api20210601 | v1beta20210601 |
+| RouteConfigurationOverrideActionParameters_STATUS                                  | v1api20210601 | v1beta20210601 |
+| RouteConfigurationOverrideActionParameters_TypeName                                | v1api20210601 | v1beta20210601 |
+| RouteConfigurationOverrideActionParameters_TypeName_STATUS                         | v1api20210601 | v1beta20210601 |
+| ServerPortMatchConditionParameters                                                 | v1api20210601 | v1beta20210601 |
+| ServerPortMatchConditionParameters_Operator                                        | v1api20210601 | v1beta20210601 |
+| ServerPortMatchConditionParameters_Operator_STATUS                                 | v1api20210601 | v1beta20210601 |
+| ServerPortMatchConditionParameters_STATUS                                          | v1api20210601 | v1beta20210601 |
+| ServerPortMatchConditionParameters_TypeName                                        | v1api20210601 | v1beta20210601 |
+| ServerPortMatchConditionParameters_TypeName_STATUS                                 | v1api20210601 | v1beta20210601 |
+| Sku                                                                                | v1api20210601 | v1beta20210601 |
+| Sku_Name                                                                           | v1api20210601 | v1beta20210601 |
+| Sku_Name_STATUS                                                                    | v1api20210601 | v1beta20210601 |
+| Sku_STATUS                                                                         | v1api20210601 | v1beta20210601 |
+| SocketAddrMatchConditionParameters                                                 | v1api20210601 | v1beta20210601 |
+| SocketAddrMatchConditionParameters_Operator                                        | v1api20210601 | v1beta20210601 |
+| SocketAddrMatchConditionParameters_Operator_STATUS                                 | v1api20210601 | v1beta20210601 |
+| SocketAddrMatchConditionParameters_STATUS                                          | v1api20210601 | v1beta20210601 |
+| SocketAddrMatchConditionParameters_TypeName                                        | v1api20210601 | v1beta20210601 |
+| SocketAddrMatchConditionParameters_TypeName_STATUS                                 | v1api20210601 | v1beta20210601 |
+| SslProtocol                                                                        | v1api20210601 | v1beta20210601 |
+| SslProtocolMatchConditionParameters                                                | v1api20210601 | v1beta20210601 |
+| SslProtocolMatchConditionParameters_Operator                                       | v1api20210601 | v1beta20210601 |
+| SslProtocolMatchConditionParameters_Operator_STATUS                                | v1api20210601 | v1beta20210601 |
+| SslProtocolMatchConditionParameters_STATUS                                         | v1api20210601 | v1beta20210601 |
+| SslProtocolMatchConditionParameters_TypeName                                       | v1api20210601 | v1beta20210601 |
+| SslProtocolMatchConditionParameters_TypeName_STATUS                                | v1api20210601 | v1beta20210601 |
+| SslProtocol_STATUS                                                                 | v1api20210601 | v1beta20210601 |
+| SystemData_STATUS                                                                  | v1api20210601 | v1beta20210601 |
+| Transform                                                                          | v1api20210601 | v1beta20210601 |
+| Transform_STATUS                                                                   | v1api20210601 | v1beta20210601 |
+| UrlFileExtensionMatchConditionParameters                                           | v1api20210601 | v1beta20210601 |
+| UrlFileExtensionMatchConditionParameters_Operator                                  | v1api20210601 | v1beta20210601 |
+| UrlFileExtensionMatchConditionParameters_Operator_STATUS                           | v1api20210601 | v1beta20210601 |
+| UrlFileExtensionMatchConditionParameters_STATUS                                    | v1api20210601 | v1beta20210601 |
+| UrlFileExtensionMatchConditionParameters_TypeName                                  | v1api20210601 | v1beta20210601 |
+| UrlFileExtensionMatchConditionParameters_TypeName_STATUS                           | v1api20210601 | v1beta20210601 |
+| UrlFileNameMatchConditionParameters                                                | v1api20210601 | v1beta20210601 |
+| UrlFileNameMatchConditionParameters_Operator                                       | v1api20210601 | v1beta20210601 |
+| UrlFileNameMatchConditionParameters_Operator_STATUS                                | v1api20210601 | v1beta20210601 |
+| UrlFileNameMatchConditionParameters_STATUS                                         | v1api20210601 | v1beta20210601 |
+| UrlFileNameMatchConditionParameters_TypeName                                       | v1api20210601 | v1beta20210601 |
+| UrlFileNameMatchConditionParameters_TypeName_STATUS                                | v1api20210601 | v1beta20210601 |
+| UrlPathMatchConditionParameters                                                    | v1api20210601 | v1beta20210601 |
+| UrlPathMatchConditionParameters_Operator                                           | v1api20210601 | v1beta20210601 |
+| UrlPathMatchConditionParameters_Operator_STATUS                                    | v1api20210601 | v1beta20210601 |
+| UrlPathMatchConditionParameters_STATUS                                             | v1api20210601 | v1beta20210601 |
+| UrlPathMatchConditionParameters_TypeName                                           | v1api20210601 | v1beta20210601 |
+| UrlPathMatchConditionParameters_TypeName_STATUS                                    | v1api20210601 | v1beta20210601 |
+| UrlRedirectAction                                                                  | v1api20210601 | v1beta20210601 |
+| UrlRedirectActionParameters                                                        | v1api20210601 | v1beta20210601 |
+| UrlRedirectActionParameters_DestinationProtocol                                    | v1api20210601 | v1beta20210601 |
+| UrlRedirectActionParameters_DestinationProtocol_STATUS                             | v1api20210601 | v1beta20210601 |
+| UrlRedirectActionParameters_RedirectType                                           | v1api20210601 | v1beta20210601 |
+| UrlRedirectActionParameters_RedirectType_STATUS                                    | v1api20210601 | v1beta20210601 |
+| UrlRedirectActionParameters_STATUS                                                 | v1api20210601 | v1beta20210601 |
+| UrlRedirectActionParameters_TypeName                                               | v1api20210601 | v1beta20210601 |
+| UrlRedirectActionParameters_TypeName_STATUS                                        | v1api20210601 | v1beta20210601 |
+| UrlRedirectAction_Name                                                             | v1api20210601 | v1beta20210601 |
+| UrlRedirectAction_Name_STATUS                                                      | v1api20210601 | v1beta20210601 |
+| UrlRedirectAction_STATUS                                                           | v1api20210601 | v1beta20210601 |
+| UrlRewriteAction                                                                   | v1api20210601 | v1beta20210601 |
+| UrlRewriteActionParameters                                                         | v1api20210601 | v1beta20210601 |
+| UrlRewriteActionParameters_STATUS                                                  | v1api20210601 | v1beta20210601 |
+| UrlRewriteActionParameters_TypeName                                                | v1api20210601 | v1beta20210601 |
+| UrlRewriteActionParameters_TypeName_STATUS                                         | v1api20210601 | v1beta20210601 |
+| UrlRewriteAction_Name                                                              | v1api20210601 | v1beta20210601 |
+| UrlRewriteAction_Name_STATUS                                                       | v1api20210601 | v1beta20210601 |
+| UrlRewriteAction_STATUS                                                            | v1api20210601 | v1beta20210601 |
+| UrlSigningAction                                                                   | v1api20210601 | v1beta20210601 |
+| UrlSigningActionParameters                                                         | v1api20210601 | v1beta20210601 |
+| UrlSigningActionParameters_Algorithm                                               | v1api20210601 | v1beta20210601 |
+| UrlSigningActionParameters_Algorithm_STATUS                                        | v1api20210601 | v1beta20210601 |
+| UrlSigningActionParameters_STATUS                                                  | v1api20210601 | v1beta20210601 |
+| UrlSigningActionParameters_TypeName                                                | v1api20210601 | v1beta20210601 |
+| UrlSigningActionParameters_TypeName_STATUS                                         | v1api20210601 | v1beta20210601 |
+| UrlSigningAction_Name                                                              | v1api20210601 | v1beta20210601 |
+| UrlSigningAction_Name_STATUS                                                       | v1api20210601 | v1beta20210601 |
+| UrlSigningAction_STATUS                                                            | v1api20210601 | v1beta20210601 |
+| UrlSigningKey                                                                      | v1api20210601 | v1beta20210601 |
+| UrlSigningKey_STATUS                                                               | v1api20210601 | v1beta20210601 |
+| UrlSigningParamIdentifier                                                          | v1api20210601 | v1beta20210601 |
+| UrlSigningParamIdentifier_ParamIndicator                                           | v1api20210601 | v1beta20210601 |
+| UrlSigningParamIdentifier_ParamIndicator_STATUS                                    | v1api20210601 | v1beta20210601 |
+| UrlSigningParamIdentifier_STATUS                                                   | v1api20210601 | v1beta20210601 |

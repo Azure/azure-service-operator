@@ -3,47 +3,28 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
+// Deprecated version of DatabaseAccounts_SqlDatabase_STATUS. Use v1api20210515.DatabaseAccounts_SqlDatabase_STATUS instead
 type DatabaseAccounts_SqlDatabase_STATUS_ARM struct {
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties of an Azure Cosmos DB SQL database
+	Id         *string                              `json:"id,omitempty"`
+	Location   *string                              `json:"location,omitempty"`
+	Name       *string                              `json:"name,omitempty"`
 	Properties *SqlDatabaseGetProperties_STATUS_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                    `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Type       *string                              `json:"type,omitempty"`
 }
 
-// The properties of an Azure Cosmos DB SQL database
+// Deprecated version of SqlDatabaseGetProperties_STATUS. Use v1api20210515.SqlDatabaseGetProperties_STATUS instead
 type SqlDatabaseGetProperties_STATUS_ARM struct {
-	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS_ARM                   `json:"options,omitempty"`
 	Resource *SqlDatabaseGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
+// Deprecated version of SqlDatabaseGetProperties_Resource_STATUS. Use v1api20210515.SqlDatabaseGetProperties_Resource_STATUS instead
 type SqlDatabaseGetProperties_Resource_STATUS_ARM struct {
-	// Colls: A system generated property that specified the addressable path of the collections resource.
-	Colls *string `json:"_colls,omitempty"`
-
-	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	// Id: Name of the Cosmos DB SQL database
-	Id *string `json:"id,omitempty"`
-
-	// Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	// Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
-
-	// Users: A system generated property that specifies the addressable path of the users resource.
-	Users *string `json:"_users,omitempty"`
+	Colls *string  `json:"_colls,omitempty"`
+	Etag  *string  `json:"_etag,omitempty"`
+	Id    *string  `json:"id,omitempty"`
+	Rid   *string  `json:"_rid,omitempty"`
+	Ts    *float64 `json:"_ts,omitempty"`
+	Users *string  `json:"_users,omitempty"`
 }

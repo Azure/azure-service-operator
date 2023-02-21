@@ -5,122 +5,62 @@ package v1beta20211001
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-// A container group.
+// Deprecated version of ContainerGroup_STATUS. Use v1api20211001.ContainerGroup_STATUS instead
 type ContainerGroup_STATUS_ARM struct {
-	// Id: The resource id.
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the container group, if configured.
-	Identity *ContainerGroupIdentity_STATUS_ARM `json:"identity,omitempty"`
-
-	// Location: The resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The resource name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The container group properties
+	Id         *string                               `json:"id,omitempty"`
+	Identity   *ContainerGroupIdentity_STATUS_ARM    `json:"identity,omitempty"`
+	Location   *string                               `json:"location,omitempty"`
+	Name       *string                               `json:"name,omitempty"`
 	Properties *ContainerGroup_Properties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Tags: The resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The resource type.
-	Type *string `json:"type,omitempty"`
-
-	// Zones: The zones for the container group.
-	Zones []string `json:"zones,omitempty"`
+	Tags       map[string]string                     `json:"tags,omitempty"`
+	Type       *string                               `json:"type,omitempty"`
+	Zones      []string                              `json:"zones,omitempty"`
 }
 
+// Deprecated version of ContainerGroup_Properties_STATUS. Use v1api20211001.ContainerGroup_Properties_STATUS instead
 type ContainerGroup_Properties_STATUS_ARM struct {
-	// Containers: The containers within the container group.
-	Containers []Container_STATUS_ARM `json:"containers,omitempty"`
-
-	// Diagnostics: The diagnostic information for a container group.
-	Diagnostics *ContainerGroupDiagnostics_STATUS_ARM `json:"diagnostics,omitempty"`
-
-	// DnsConfig: The DNS config information for a container group.
-	DnsConfig *DnsConfiguration_STATUS_ARM `json:"dnsConfig,omitempty"`
-
-	// EncryptionProperties: The encryption properties for a container group.
-	EncryptionProperties *EncryptionProperties_STATUS_ARM `json:"encryptionProperties,omitempty"`
-
-	// ImageRegistryCredentials: The image registry credentials by which the container group is created from.
-	ImageRegistryCredentials []ImageRegistryCredential_STATUS_ARM `json:"imageRegistryCredentials,omitempty"`
-
-	// InitContainers: The init containers for a container group.
-	InitContainers []InitContainerDefinition_STATUS_ARM `json:"initContainers,omitempty"`
-
-	// InstanceView: The instance view of the container group. Only valid in response.
-	InstanceView *ContainerGroup_Properties_InstanceView_STATUS_ARM `json:"instanceView,omitempty"`
-
-	// IpAddress: The IP address type of the container group.
-	IpAddress *IpAddress_STATUS_ARM `json:"ipAddress,omitempty"`
-
-	// OsType: The operating system type required by the containers in the container group.
-	OsType *ContainerGroup_Properties_OsType_STATUS `json:"osType,omitempty"`
-
-	// ProvisioningState: The provisioning state of the container group. This only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// RestartPolicy: Restart policy for all containers within the container group.
-	// - `Always` Always restart
-	// - `OnFailure` Restart on failure
-	// - `Never` Never restart
-	RestartPolicy *ContainerGroup_Properties_RestartPolicy_STATUS `json:"restartPolicy,omitempty"`
-
-	// Sku: The SKU for a container group.
-	Sku *ContainerGroupSku_STATUS `json:"sku,omitempty"`
-
-	// SubnetIds: The subnet resource IDs for a container group.
-	SubnetIds []ContainerGroupSubnetId_STATUS_ARM `json:"subnetIds,omitempty"`
-
-	// Volumes: The list of volumes that can be mounted by containers in this container group.
-	Volumes []Volume_STATUS_ARM `json:"volumes,omitempty"`
+	Containers               []Container_STATUS_ARM                             `json:"containers,omitempty"`
+	Diagnostics              *ContainerGroupDiagnostics_STATUS_ARM              `json:"diagnostics,omitempty"`
+	DnsConfig                *DnsConfiguration_STATUS_ARM                       `json:"dnsConfig,omitempty"`
+	EncryptionProperties     *EncryptionProperties_STATUS_ARM                   `json:"encryptionProperties,omitempty"`
+	ImageRegistryCredentials []ImageRegistryCredential_STATUS_ARM               `json:"imageRegistryCredentials,omitempty"`
+	InitContainers           []InitContainerDefinition_STATUS_ARM               `json:"initContainers,omitempty"`
+	InstanceView             *ContainerGroup_Properties_InstanceView_STATUS_ARM `json:"instanceView,omitempty"`
+	IpAddress                *IpAddress_STATUS_ARM                              `json:"ipAddress,omitempty"`
+	OsType                   *ContainerGroup_Properties_OsType_STATUS           `json:"osType,omitempty"`
+	ProvisioningState        *string                                            `json:"provisioningState,omitempty"`
+	RestartPolicy            *ContainerGroup_Properties_RestartPolicy_STATUS    `json:"restartPolicy,omitempty"`
+	Sku                      *ContainerGroupSku_STATUS                          `json:"sku,omitempty"`
+	SubnetIds                []ContainerGroupSubnetId_STATUS_ARM                `json:"subnetIds,omitempty"`
+	Volumes                  []Volume_STATUS_ARM                                `json:"volumes,omitempty"`
 }
 
-// Identity for the container group.
+// Deprecated version of ContainerGroupIdentity_STATUS. Use v1api20211001.ContainerGroupIdentity_STATUS instead
 type ContainerGroupIdentity_STATUS_ARM struct {
-	// PrincipalId: The principal id of the container group identity. This property will only be provided for a system assigned
-	// identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the container group. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
-	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
-	// container group.
-	Type *ContainerGroupIdentity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the container group.
+	PrincipalId            *string                                      `json:"principalId,omitempty"`
+	TenantId               *string                                      `json:"tenantId,omitempty"`
+	Type                   *ContainerGroupIdentity_Type_STATUS          `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-// A container instance.
+// Deprecated version of Container_STATUS. Use v1api20211001.Container_STATUS instead
 type Container_STATUS_ARM struct {
-	// Name: The user-provided name of the container instance.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties of the container instance.
+	Name       *string                         `json:"name,omitempty"`
 	Properties *ContainerProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of ContainerGroup_Properties_InstanceView_STATUS. Use v1api20211001.ContainerGroup_Properties_InstanceView_STATUS instead
 type ContainerGroup_Properties_InstanceView_STATUS_ARM struct {
-	// Events: The events of this container group.
 	Events []Event_STATUS_ARM `json:"events,omitempty"`
-
-	// State: The state of the container group. Only valid in response.
-	State *string `json:"state,omitempty"`
+	State  *string            `json:"state,omitempty"`
 }
 
-// Container group diagnostic information.
+// Deprecated version of ContainerGroupDiagnostics_STATUS. Use v1api20211001.ContainerGroupDiagnostics_STATUS instead
 type ContainerGroupDiagnostics_STATUS_ARM struct {
-	// LogAnalytics: Container group log analytics information.
 	LogAnalytics *LogAnalytics_STATUS_ARM `json:"logAnalytics,omitempty"`
 }
 
+// Deprecated version of ContainerGroupIdentity_Type_STATUS. Use v1api20211001.ContainerGroupIdentity_Type_STATUS instead
 type ContainerGroupIdentity_Type_STATUS string
 
 const (
@@ -130,406 +70,221 @@ const (
 	ContainerGroupIdentity_Type_STATUS_UserAssigned               = ContainerGroupIdentity_Type_STATUS("UserAssigned")
 )
 
-// Container group subnet information.
+// Deprecated version of ContainerGroupSubnetId_STATUS. Use v1api20211001.ContainerGroupSubnetId_STATUS instead
 type ContainerGroupSubnetId_STATUS_ARM struct {
-	// Id: Resource ID of virtual network and subnet.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Friendly name for the subnet.
+	Id   *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
 }
 
-// DNS configuration for the container group.
+// Deprecated version of DnsConfiguration_STATUS. Use v1api20211001.DnsConfiguration_STATUS instead
 type DnsConfiguration_STATUS_ARM struct {
-	// NameServers: The DNS servers for the container group.
-	NameServers []string `json:"nameServers,omitempty"`
-
-	// Options: The DNS options for the container group.
-	Options *string `json:"options,omitempty"`
-
-	// SearchDomains: The DNS search domains for hostname lookup in the container group.
-	SearchDomains *string `json:"searchDomains,omitempty"`
+	NameServers   []string `json:"nameServers,omitempty"`
+	Options       *string  `json:"options,omitempty"`
+	SearchDomains *string  `json:"searchDomains,omitempty"`
 }
 
-// The container group encryption properties.
+// Deprecated version of EncryptionProperties_STATUS. Use v1api20211001.EncryptionProperties_STATUS instead
 type EncryptionProperties_STATUS_ARM struct {
-	// KeyName: The encryption key name.
-	KeyName *string `json:"keyName,omitempty"`
-
-	// KeyVersion: The encryption key version.
-	KeyVersion *string `json:"keyVersion,omitempty"`
-
-	// VaultBaseUrl: The keyvault base url.
+	KeyName      *string `json:"keyName,omitempty"`
+	KeyVersion   *string `json:"keyVersion,omitempty"`
 	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
 }
 
-// Image registry credential.
+// Deprecated version of ImageRegistryCredential_STATUS. Use v1api20211001.ImageRegistryCredential_STATUS instead
 type ImageRegistryCredential_STATUS_ARM struct {
-	// Identity: The identity for the private registry.
-	Identity *string `json:"identity,omitempty"`
-
-	// IdentityUrl: The identity URL for the private registry.
+	Identity    *string `json:"identity,omitempty"`
 	IdentityUrl *string `json:"identityUrl,omitempty"`
-
-	// Server: The Docker image registry server without a protocol such as "http" and "https".
-	Server *string `json:"server,omitempty"`
-
-	// Username: The username for the private registry.
-	Username *string `json:"username,omitempty"`
+	Server      *string `json:"server,omitempty"`
+	Username    *string `json:"username,omitempty"`
 }
 
-// The init container definition.
+// Deprecated version of InitContainerDefinition_STATUS. Use v1api20211001.InitContainerDefinition_STATUS instead
 type InitContainerDefinition_STATUS_ARM struct {
-	// Name: The name for the init container.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties for the init container.
+	Name       *string                                       `json:"name,omitempty"`
 	Properties *InitContainerPropertiesDefinition_STATUS_ARM `json:"properties,omitempty"`
 }
 
-// IP address for the container group.
+// Deprecated version of IpAddress_STATUS. Use v1api20211001.IpAddress_STATUS instead
 type IpAddress_STATUS_ARM struct {
-	// AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
-	// if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse'
-	// value is the default value if selected and means the object's domain name label can be reused within the same tenant.
-	// The 'SubscriptionReuse' value means the object's domain name label can be reused within the same subscription. The
-	// 'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The
-	// 'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or
-	// tenant.
 	AutoGeneratedDomainNameLabelScope *IpAddress_AutoGeneratedDomainNameLabelScope_STATUS `json:"autoGeneratedDomainNameLabelScope,omitempty"`
-
-	// DnsNameLabel: The Dns name label for the IP.
-	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
-
-	// Fqdn: The FQDN for the IP.
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	// Ip: The IP exposed to the public internet.
-	Ip *string `json:"ip,omitempty"`
-
-	// Ports: The list of ports exposed on the container group.
-	Ports []Port_STATUS_ARM `json:"ports,omitempty"`
-
-	// Type: Specifies if the IP is exposed to the public internet or private VNET.
-	Type *IpAddress_Type_STATUS `json:"type,omitempty"`
+	DnsNameLabel                      *string                                             `json:"dnsNameLabel,omitempty"`
+	Fqdn                              *string                                             `json:"fqdn,omitempty"`
+	Ip                                *string                                             `json:"ip,omitempty"`
+	Ports                             []Port_STATUS_ARM                                   `json:"ports,omitempty"`
+	Type                              *IpAddress_Type_STATUS                              `json:"type,omitempty"`
 }
 
-// The list of user identities associated with the container group. The user identity dictionary key references will be ARM
-// resource ids in the form:
-// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+// Deprecated version of UserAssignedIdentities_STATUS. Use v1api20211001.UserAssignedIdentities_STATUS instead
 type UserAssignedIdentities_STATUS_ARM struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-// The properties of the volume.
+// Deprecated version of Volume_STATUS. Use v1api20211001.Volume_STATUS instead
 type Volume_STATUS_ARM struct {
-	// AzureFile: The Azure File volume.
 	AzureFile *AzureFileVolume_STATUS_ARM `json:"azureFile,omitempty"`
-
-	// EmptyDir: The empty directory volume.
-	EmptyDir map[string]v1.JSON `json:"emptyDir,omitempty"`
-
-	// GitRepo: The git repo volume.
-	GitRepo *GitRepoVolume_STATUS_ARM `json:"gitRepo,omitempty"`
-
-	// Name: The name of the volume.
-	Name *string `json:"name,omitempty"`
-
-	// Secret: The secret volume.
-	Secret map[string]string `json:"secret,omitempty"`
+	EmptyDir  map[string]v1.JSON          `json:"emptyDir,omitempty"`
+	GitRepo   *GitRepoVolume_STATUS_ARM   `json:"gitRepo,omitempty"`
+	Name      *string                     `json:"name,omitempty"`
+	Secret    map[string]string           `json:"secret,omitempty"`
 }
 
-// The properties of the Azure File volume. Azure File shares are mounted as volumes.
+// Deprecated version of AzureFileVolume_STATUS. Use v1api20211001.AzureFileVolume_STATUS instead
 type AzureFileVolume_STATUS_ARM struct {
-	// ReadOnly: The flag indicating whether the Azure File shared mounted as a volume is read-only.
-	ReadOnly *bool `json:"readOnly,omitempty"`
-
-	// ShareName: The name of the Azure File share to be mounted as a volume.
-	ShareName *string `json:"shareName,omitempty"`
-
-	// StorageAccountKey: The storage account access key used to access the Azure File share.
-	StorageAccountKey *string `json:"storageAccountKey,omitempty"`
-
-	// StorageAccountName: The name of the storage account that contains the Azure File share.
+	ReadOnly           *bool   `json:"readOnly,omitempty"`
+	ShareName          *string `json:"shareName,omitempty"`
+	StorageAccountKey  *string `json:"storageAccountKey,omitempty"`
 	StorageAccountName *string `json:"storageAccountName,omitempty"`
 }
 
-// The container instance properties.
+// Deprecated version of ContainerProperties_STATUS. Use v1api20211001.ContainerProperties_STATUS instead
 type ContainerProperties_STATUS_ARM struct {
-	// Command: The commands to execute within the container instance in exec form.
-	Command []string `json:"command,omitempty"`
-
-	// EnvironmentVariables: The environment variables to set in the container instance.
-	EnvironmentVariables []EnvironmentVariable_STATUS_ARM `json:"environmentVariables,omitempty"`
-
-	// Image: The name of the image used to create the container instance.
-	Image *string `json:"image,omitempty"`
-
-	// InstanceView: The instance view of the container instance. Only valid in response.
-	InstanceView *ContainerProperties_InstanceView_STATUS_ARM `json:"instanceView,omitempty"`
-
-	// LivenessProbe: The liveness probe.
-	LivenessProbe *ContainerProbe_STATUS_ARM `json:"livenessProbe,omitempty"`
-
-	// Ports: The exposed ports on the container instance.
-	Ports []ContainerPort_STATUS_ARM `json:"ports,omitempty"`
-
-	// ReadinessProbe: The readiness probe.
-	ReadinessProbe *ContainerProbe_STATUS_ARM `json:"readinessProbe,omitempty"`
-
-	// Resources: The resource requirements of the container instance.
-	Resources *ResourceRequirements_STATUS_ARM `json:"resources,omitempty"`
-
-	// VolumeMounts: The volume mounts available to the container instance.
-	VolumeMounts []VolumeMount_STATUS_ARM `json:"volumeMounts,omitempty"`
+	Command              []string                                     `json:"command,omitempty"`
+	EnvironmentVariables []EnvironmentVariable_STATUS_ARM             `json:"environmentVariables,omitempty"`
+	Image                *string                                      `json:"image,omitempty"`
+	InstanceView         *ContainerProperties_InstanceView_STATUS_ARM `json:"instanceView,omitempty"`
+	LivenessProbe        *ContainerProbe_STATUS_ARM                   `json:"livenessProbe,omitempty"`
+	Ports                []ContainerPort_STATUS_ARM                   `json:"ports,omitempty"`
+	ReadinessProbe       *ContainerProbe_STATUS_ARM                   `json:"readinessProbe,omitempty"`
+	Resources            *ResourceRequirements_STATUS_ARM             `json:"resources,omitempty"`
+	VolumeMounts         []VolumeMount_STATUS_ARM                     `json:"volumeMounts,omitempty"`
 }
 
-// A container group or container instance event.
+// Deprecated version of Event_STATUS. Use v1api20211001.Event_STATUS instead
 type Event_STATUS_ARM struct {
-	// Count: The count of the event.
-	Count *int `json:"count,omitempty"`
-
-	// FirstTimestamp: The date-time of the earliest logged event.
+	Count          *int    `json:"count,omitempty"`
 	FirstTimestamp *string `json:"firstTimestamp,omitempty"`
-
-	// LastTimestamp: The date-time of the latest logged event.
-	LastTimestamp *string `json:"lastTimestamp,omitempty"`
-
-	// Message: The event message.
-	Message *string `json:"message,omitempty"`
-
-	// Name: The event name.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The event type.
-	Type *string `json:"type,omitempty"`
+	LastTimestamp  *string `json:"lastTimestamp,omitempty"`
+	Message        *string `json:"message,omitempty"`
+	Name           *string `json:"name,omitempty"`
+	Type           *string `json:"type,omitempty"`
 }
 
-// Represents a volume that is populated with the contents of a git repository
+// Deprecated version of GitRepoVolume_STATUS. Use v1api20211001.GitRepoVolume_STATUS instead
 type GitRepoVolume_STATUS_ARM struct {
-	// Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
-	// the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
-	// given name.
-	Directory *string `json:"directory,omitempty"`
-
-	// Repository: Repository URL
+	Directory  *string `json:"directory,omitempty"`
 	Repository *string `json:"repository,omitempty"`
-
-	// Revision: Commit hash for the specified revision.
-	Revision *string `json:"revision,omitempty"`
+	Revision   *string `json:"revision,omitempty"`
 }
 
-// The init container definition properties.
+// Deprecated version of InitContainerPropertiesDefinition_STATUS. Use v1api20211001.InitContainerPropertiesDefinition_STATUS instead
 type InitContainerPropertiesDefinition_STATUS_ARM struct {
-	// Command: The command to execute within the init container in exec form.
-	Command []string `json:"command,omitempty"`
-
-	// EnvironmentVariables: The environment variables to set in the init container.
-	EnvironmentVariables []EnvironmentVariable_STATUS_ARM `json:"environmentVariables,omitempty"`
-
-	// Image: The image of the init container.
-	Image *string `json:"image,omitempty"`
-
-	// InstanceView: The instance view of the init container. Only valid in response.
-	InstanceView *InitContainerPropertiesDefinition_InstanceView_STATUS_ARM `json:"instanceView,omitempty"`
-
-	// VolumeMounts: The volume mounts available to the init container.
-	VolumeMounts []VolumeMount_STATUS_ARM `json:"volumeMounts,omitempty"`
+	Command              []string                                                   `json:"command,omitempty"`
+	EnvironmentVariables []EnvironmentVariable_STATUS_ARM                           `json:"environmentVariables,omitempty"`
+	Image                *string                                                    `json:"image,omitempty"`
+	InstanceView         *InitContainerPropertiesDefinition_InstanceView_STATUS_ARM `json:"instanceView,omitempty"`
+	VolumeMounts         []VolumeMount_STATUS_ARM                                   `json:"volumeMounts,omitempty"`
 }
 
-// Container group log analytics information.
+// Deprecated version of LogAnalytics_STATUS. Use v1api20211001.LogAnalytics_STATUS instead
 type LogAnalytics_STATUS_ARM struct {
-	// LogType: The log type to be used.
-	LogType *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
-
-	// Metadata: Metadata for log analytics.
-	Metadata map[string]string `json:"metadata,omitempty"`
-
-	// WorkspaceId: The workspace id for log analytics
-	WorkspaceId *string `json:"workspaceId,omitempty"`
+	LogType     *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
+	Metadata    map[string]string            `json:"metadata,omitempty"`
+	WorkspaceId *string                      `json:"workspaceId,omitempty"`
 }
 
-// The port exposed on the container group.
+// Deprecated version of Port_STATUS. Use v1api20211001.Port_STATUS instead
 type Port_STATUS_ARM struct {
-	// Port: The port number.
-	Port *int `json:"port,omitempty"`
-
-	// Protocol: The protocol associated with the port.
+	Port     *int                  `json:"port,omitempty"`
 	Protocol *Port_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
-// The port exposed on the container instance.
+// Deprecated version of ContainerPort_STATUS. Use v1api20211001.ContainerPort_STATUS instead
 type ContainerPort_STATUS_ARM struct {
-	// Port: The port number exposed within the container group.
-	Port *int `json:"port,omitempty"`
-
-	// Protocol: The protocol associated with the port.
+	Port     *int                           `json:"port,omitempty"`
 	Protocol *ContainerPort_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
-// The container probe, for liveness or readiness
+// Deprecated version of ContainerProbe_STATUS. Use v1api20211001.ContainerProbe_STATUS instead
 type ContainerProbe_STATUS_ARM struct {
-	// Exec: The execution command to probe
-	Exec *ContainerExec_STATUS_ARM `json:"exec,omitempty"`
-
-	// FailureThreshold: The failure threshold.
-	FailureThreshold *int `json:"failureThreshold,omitempty"`
-
-	// HttpGet: The Http Get settings to probe
-	HttpGet *ContainerHttpGet_STATUS_ARM `json:"httpGet,omitempty"`
-
-	// InitialDelaySeconds: The initial delay seconds.
-	InitialDelaySeconds *int `json:"initialDelaySeconds,omitempty"`
-
-	// PeriodSeconds: The period seconds.
-	PeriodSeconds *int `json:"periodSeconds,omitempty"`
-
-	// SuccessThreshold: The success threshold.
-	SuccessThreshold *int `json:"successThreshold,omitempty"`
-
-	// TimeoutSeconds: The timeout seconds.
-	TimeoutSeconds *int `json:"timeoutSeconds,omitempty"`
+	Exec                *ContainerExec_STATUS_ARM    `json:"exec,omitempty"`
+	FailureThreshold    *int                         `json:"failureThreshold,omitempty"`
+	HttpGet             *ContainerHttpGet_STATUS_ARM `json:"httpGet,omitempty"`
+	InitialDelaySeconds *int                         `json:"initialDelaySeconds,omitempty"`
+	PeriodSeconds       *int                         `json:"periodSeconds,omitempty"`
+	SuccessThreshold    *int                         `json:"successThreshold,omitempty"`
+	TimeoutSeconds      *int                         `json:"timeoutSeconds,omitempty"`
 }
 
+// Deprecated version of ContainerProperties_InstanceView_STATUS. Use v1api20211001.ContainerProperties_InstanceView_STATUS instead
 type ContainerProperties_InstanceView_STATUS_ARM struct {
-	// CurrentState: Current container instance state.
-	CurrentState *ContainerState_STATUS_ARM `json:"currentState,omitempty"`
-
-	// Events: The events of the container instance.
-	Events []Event_STATUS_ARM `json:"events,omitempty"`
-
-	// PreviousState: Previous container instance state.
+	CurrentState  *ContainerState_STATUS_ARM `json:"currentState,omitempty"`
+	Events        []Event_STATUS_ARM         `json:"events,omitempty"`
 	PreviousState *ContainerState_STATUS_ARM `json:"previousState,omitempty"`
-
-	// RestartCount: The number of times that the container instance has been restarted.
-	RestartCount *int `json:"restartCount,omitempty"`
+	RestartCount  *int                       `json:"restartCount,omitempty"`
 }
 
-// The environment variable to set within the container instance.
+// Deprecated version of EnvironmentVariable_STATUS. Use v1api20211001.EnvironmentVariable_STATUS instead
 type EnvironmentVariable_STATUS_ARM struct {
-	// Name: The name of the environment variable.
-	Name *string `json:"name,omitempty"`
-
-	// Value: The value of the environment variable.
+	Name  *string `json:"name,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
+// Deprecated version of InitContainerPropertiesDefinition_InstanceView_STATUS. Use v1api20211001.InitContainerPropertiesDefinition_InstanceView_STATUS instead
 type InitContainerPropertiesDefinition_InstanceView_STATUS_ARM struct {
-	// CurrentState: The current state of the init container.
-	CurrentState *ContainerState_STATUS_ARM `json:"currentState,omitempty"`
-
-	// Events: The events of the init container.
-	Events []Event_STATUS_ARM `json:"events,omitempty"`
-
-	// PreviousState: The previous state of the init container.
+	CurrentState  *ContainerState_STATUS_ARM `json:"currentState,omitempty"`
+	Events        []Event_STATUS_ARM         `json:"events,omitempty"`
 	PreviousState *ContainerState_STATUS_ARM `json:"previousState,omitempty"`
-
-	// RestartCount: The number of times that the init container has been restarted.
-	RestartCount *int `json:"restartCount,omitempty"`
+	RestartCount  *int                       `json:"restartCount,omitempty"`
 }
 
-// The resource requirements.
+// Deprecated version of ResourceRequirements_STATUS. Use v1api20211001.ResourceRequirements_STATUS instead
 type ResourceRequirements_STATUS_ARM struct {
-	// Limits: The resource limits of this container instance.
-	Limits *ResourceLimits_STATUS_ARM `json:"limits,omitempty"`
-
-	// Requests: The resource requests of this container instance.
+	Limits   *ResourceLimits_STATUS_ARM   `json:"limits,omitempty"`
 	Requests *ResourceRequests_STATUS_ARM `json:"requests,omitempty"`
 }
 
-// The properties of the volume mount.
+// Deprecated version of VolumeMount_STATUS. Use v1api20211001.VolumeMount_STATUS instead
 type VolumeMount_STATUS_ARM struct {
-	// MountPath: The path within the container where the volume should be mounted. Must not contain colon (:).
 	MountPath *string `json:"mountPath,omitempty"`
-
-	// Name: The name of the volume mount.
-	Name *string `json:"name,omitempty"`
-
-	// ReadOnly: The flag indicating whether the volume mount is read-only.
-	ReadOnly *bool `json:"readOnly,omitempty"`
+	Name      *string `json:"name,omitempty"`
+	ReadOnly  *bool   `json:"readOnly,omitempty"`
 }
 
-// The container execution command, for liveness or readiness probe
+// Deprecated version of ContainerExec_STATUS. Use v1api20211001.ContainerExec_STATUS instead
 type ContainerExec_STATUS_ARM struct {
-	// Command: The commands to execute within the container.
 	Command []string `json:"command,omitempty"`
 }
 
-// The container Http Get settings, for liveness or readiness probe
+// Deprecated version of ContainerHttpGet_STATUS. Use v1api20211001.ContainerHttpGet_STATUS instead
 type ContainerHttpGet_STATUS_ARM struct {
-	// HttpHeaders: The HTTP headers.
-	HttpHeaders []HttpHeader_STATUS_ARM `json:"httpHeaders,omitempty"`
-
-	// Path: The path to probe.
-	Path *string `json:"path,omitempty"`
-
-	// Port: The port number to probe.
-	Port *int `json:"port,omitempty"`
-
-	// Scheme: The scheme.
-	Scheme *ContainerHttpGet_Scheme_STATUS `json:"scheme,omitempty"`
+	HttpHeaders []HttpHeader_STATUS_ARM         `json:"httpHeaders,omitempty"`
+	Path        *string                         `json:"path,omitempty"`
+	Port        *int                            `json:"port,omitempty"`
+	Scheme      *ContainerHttpGet_Scheme_STATUS `json:"scheme,omitempty"`
 }
 
-// The container instance state.
+// Deprecated version of ContainerState_STATUS. Use v1api20211001.ContainerState_STATUS instead
 type ContainerState_STATUS_ARM struct {
-	// DetailStatus: The human-readable status of the container instance state.
 	DetailStatus *string `json:"detailStatus,omitempty"`
-
-	// ExitCode: The container instance exit codes correspond to those from the `docker run` command.
-	ExitCode *int `json:"exitCode,omitempty"`
-
-	// FinishTime: The date-time when the container instance state finished.
-	FinishTime *string `json:"finishTime,omitempty"`
-
-	// StartTime: The date-time when the container instance state started.
-	StartTime *string `json:"startTime,omitempty"`
-
-	// State: The state of the container instance.
-	State *string `json:"state,omitempty"`
+	ExitCode     *int    `json:"exitCode,omitempty"`
+	FinishTime   *string `json:"finishTime,omitempty"`
+	StartTime    *string `json:"startTime,omitempty"`
+	State        *string `json:"state,omitempty"`
 }
 
-// The resource limits.
+// Deprecated version of ResourceLimits_STATUS. Use v1api20211001.ResourceLimits_STATUS instead
 type ResourceLimits_STATUS_ARM struct {
-	// Cpu: The CPU limit of this container instance.
-	Cpu *float64 `json:"cpu,omitempty"`
-
-	// Gpu: The GPU limit of this container instance.
-	Gpu *GpuResource_STATUS_ARM `json:"gpu,omitempty"`
-
-	// MemoryInGB: The memory limit in GB of this container instance.
-	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
+	Cpu        *float64                `json:"cpu,omitempty"`
+	Gpu        *GpuResource_STATUS_ARM `json:"gpu,omitempty"`
+	MemoryInGB *float64                `json:"memoryInGB,omitempty"`
 }
 
-// The resource requests.
+// Deprecated version of ResourceRequests_STATUS. Use v1api20211001.ResourceRequests_STATUS instead
 type ResourceRequests_STATUS_ARM struct {
-	// Cpu: The CPU request of this container instance.
-	Cpu *float64 `json:"cpu,omitempty"`
-
-	// Gpu: The GPU request of this container instance.
-	Gpu *GpuResource_STATUS_ARM `json:"gpu,omitempty"`
-
-	// MemoryInGB: The memory request in GB of this container instance.
-	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
+	Cpu        *float64                `json:"cpu,omitempty"`
+	Gpu        *GpuResource_STATUS_ARM `json:"gpu,omitempty"`
+	MemoryInGB *float64                `json:"memoryInGB,omitempty"`
 }
 
-// The GPU resource.
+// Deprecated version of GpuResource_STATUS. Use v1api20211001.GpuResource_STATUS instead
 type GpuResource_STATUS_ARM struct {
-	// Count: The count of the GPU resource.
-	Count *int `json:"count,omitempty"`
-
-	// Sku: The SKU of the GPU resource.
-	Sku *GpuResource_Sku_STATUS `json:"sku,omitempty"`
+	Count *int                    `json:"count,omitempty"`
+	Sku   *GpuResource_Sku_STATUS `json:"sku,omitempty"`
 }
 
-// The HTTP header.
+// Deprecated version of HttpHeader_STATUS. Use v1api20211001.HttpHeader_STATUS instead
 type HttpHeader_STATUS_ARM struct {
-	// Name: The header name.
-	Name *string `json:"name,omitempty"`
-
-	// Value: The header value.
+	Name  *string `json:"name,omitempty"`
 	Value *string `json:"value,omitempty"`
 }

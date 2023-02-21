@@ -5,6 +5,7 @@ package v1beta20201101
 
 import (
 	"encoding/json"
+	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForVirtualNetwork(subject VirtualNetwork) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20201101s.VirtualNetwork
+	var hub v1api20201101s.VirtualNetwork
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

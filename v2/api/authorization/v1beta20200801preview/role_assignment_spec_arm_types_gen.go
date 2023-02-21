@@ -5,10 +5,9 @@ package v1beta20200801preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of RoleAssignment_Spec. Use v1api20200801preview.RoleAssignment_Spec instead
 type RoleAssignment_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Role assignment properties.
+	Name       string                        `json:"name,omitempty"`
 	Properties *RoleAssignmentProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,26 +28,13 @@ func (assignment *RoleAssignment_Spec_ARM) GetType() string {
 	return "Microsoft.Authorization/roleAssignments"
 }
 
-// Role assignment properties.
+// Deprecated version of RoleAssignmentProperties. Use v1api20200801preview.RoleAssignmentProperties instead
 type RoleAssignmentProperties_ARM struct {
-	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-	// 'foo_storage_container'
-	Condition *string `json:"condition,omitempty"`
-
-	// ConditionVersion: Version of the condition. Currently accepted value is '2.0'
-	ConditionVersion *string `json:"conditionVersion,omitempty"`
-
-	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
-	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
-
-	// Description: Description of role assignment
-	Description *string `json:"description,omitempty"`
-
-	// PrincipalId: The principal ID.
-	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
-
-	// PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType    *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
-	RoleDefinitionId *string                                 `json:"roleDefinitionId,omitempty"`
+	Condition                          *string                                 `json:"condition,omitempty"`
+	ConditionVersion                   *string                                 `json:"conditionVersion,omitempty"`
+	DelegatedManagedIdentityResourceId *string                                 `json:"delegatedManagedIdentityResourceId,omitempty"`
+	Description                        *string                                 `json:"description,omitempty"`
+	PrincipalId                        *string                                 `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalType                      *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
+	RoleDefinitionId                   *string                                 `json:"roleDefinitionId,omitempty"`
 }

@@ -5,6 +5,7 @@ package v1beta20210601
 
 import (
 	"encoding/json"
+	v1api20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
 	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForFlexibleServersDatabase(subject FlexibleServers
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210601s.FlexibleServersDatabase
+	var hub v1api20210601s.FlexibleServersDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

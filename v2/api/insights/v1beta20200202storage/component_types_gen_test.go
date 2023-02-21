@@ -5,6 +5,7 @@ package v1beta20200202storage
 
 import (
 	"encoding/json"
+	v1api20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_Component_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Component to hub returns original",
+		prop.ForAll(RunResourceConversionTestForComponent, ComponentGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForComponent tests if a specific instance of Component round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForComponent(subject Component) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20200202s.Component
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Component
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Component_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Component to Component via AssignProperties_To_Component & AssignProperties_From_Component returns original",
+		prop.ForAll(RunPropertyAssignmentTestForComponent, ComponentGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForComponent tests if a specific instance of Component can be assigned to v1api20200202storage and back losslessly
+func RunPropertyAssignmentTestForComponent(subject Component) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20200202s.Component
+	err := copied.AssignProperties_To_Component(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Component
+	err = actual.AssignProperties_From_Component(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_Component_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +162,48 @@ func ComponentGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForComponent(gens map[string]gopter.Gen) {
 	gens["Spec"] = Component_SpecGenerator()
 	gens["Status"] = Component_STATUSGenerator()
+}
+
+func Test_Component_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Component_Spec to Component_Spec via AssignProperties_To_Component_Spec & AssignProperties_From_Component_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForComponent_Spec, Component_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForComponent_Spec tests if a specific instance of Component_Spec can be assigned to v1api20200202storage and back losslessly
+func RunPropertyAssignmentTestForComponent_Spec(subject Component_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20200202s.Component_Spec
+	err := copied.AssignProperties_To_Component_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Component_Spec
+	err = actual.AssignProperties_From_Component_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Component_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -154,6 +282,48 @@ func AddIndependentPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Ge
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+func Test_Component_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Component_STATUS to Component_STATUS via AssignProperties_To_Component_STATUS & AssignProperties_From_Component_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForComponent_STATUS, Component_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForComponent_STATUS tests if a specific instance of Component_STATUS can be assigned to v1api20200202storage and back losslessly
+func RunPropertyAssignmentTestForComponent_STATUS(subject Component_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20200202s.Component_STATUS
+	err := copied.AssignProperties_To_Component_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Component_STATUS
+	err = actual.AssignProperties_From_Component_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Component_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -258,6 +428,48 @@ func AddIndependentPropertyGeneratorsForComponent_STATUS(gens map[string]gopter.
 // AddRelatedPropertyGeneratorsForComponent_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForComponent_STATUS(gens map[string]gopter.Gen) {
 	gens["PrivateLinkScopedResources"] = gen.SliceOf(PrivateLinkScopedResource_STATUSGenerator())
+}
+
+func Test_PrivateLinkScopedResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateLinkScopedResource_STATUS to PrivateLinkScopedResource_STATUS via AssignProperties_To_PrivateLinkScopedResource_STATUS & AssignProperties_From_PrivateLinkScopedResource_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS, PrivateLinkScopedResource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS tests if a specific instance of PrivateLinkScopedResource_STATUS can be assigned to v1api20200202storage and back losslessly
+func RunPropertyAssignmentTestForPrivateLinkScopedResource_STATUS(subject PrivateLinkScopedResource_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20200202s.PrivateLinkScopedResource_STATUS
+	err := copied.AssignProperties_To_PrivateLinkScopedResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateLinkScopedResource_STATUS
+	err = actual.AssignProperties_From_PrivateLinkScopedResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PrivateLinkScopedResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

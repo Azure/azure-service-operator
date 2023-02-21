@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2021-03-01/redisenterprise.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
+// Deprecated version of RedisEnterpriseDatabase. Use v1api20210301.RedisEnterpriseDatabase instead
 type RedisEnterpriseDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &RedisEnterpriseDatabase{}
 
 // ConvertFrom populates our RedisEnterpriseDatabase from the provided hub RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210301s.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1beta20210301storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210301s.RedisEnterpriseDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_RedisEnterpriseDatabase(source)
+	err = database.AssignProperties_From_RedisEnterpriseDatabase(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterpriseDatabase from our RedisEnterpriseDatabase
 func (database *RedisEnterpriseDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210301s.RedisEnterpriseDatabase)
-	if !ok {
-		return fmt.Errorf("expected cache/v1beta20210301storage/RedisEnterpriseDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210301s.RedisEnterpriseDatabase
+	err := database.AssignProperties_To_RedisEnterpriseDatabase(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_RedisEnterpriseDatabase(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20210301-redisenterprisedatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprisedatabases,verbs=create;update,versions=v1beta20210301,name=default.v1beta20210301.redisenterprisedatabases.cache.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (database *RedisEnterpriseDatabase) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2021-03-01/redisenterprise.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}
+// Deprecated version of RedisEnterpriseDatabase. Use v1api20210301.RedisEnterpriseDatabase instead
 type RedisEnterpriseDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -335,32 +345,19 @@ type RedisEnterpriseDatabaseList struct {
 type RedisEnterprise_Database_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-	// TLS-encrypted.
-	ClientProtocol *DatabaseProperties_ClientProtocol `json:"clientProtocol,omitempty"`
-
-	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
+	AzureName        string                               `json:"azureName,omitempty"`
+	ClientProtocol   *DatabaseProperties_ClientProtocol   `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *DatabaseProperties_ClusteringPolicy `json:"clusteringPolicy,omitempty"`
-
-	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabaseProperties_EvictionPolicy `json:"evictionPolicy,omitempty"`
-
-	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
-	Modules []Module `json:"modules,omitempty"`
+	EvictionPolicy   *DatabaseProperties_EvictionPolicy   `json:"evictionPolicy,omitempty"`
+	Modules          []Module                             `json:"modules,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a cache.azure.com/RedisEnterprise resource
-	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"RedisEnterprise"`
-
-	// Persistence: Persistence settings
-	Persistence *Persistence `json:"persistence,omitempty"`
-
-	// Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
-	Port *int `json:"port,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"RedisEnterprise"`
+	Persistence *Persistence                       `json:"persistence,omitempty"`
+	Port        *int                               `json:"port,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RedisEnterprise_Database_Spec{}
@@ -789,44 +786,22 @@ func (database *RedisEnterprise_Database_Spec) SetAzureName(azureName string) {
 	database.AzureName = azureName
 }
 
+// Deprecated version of RedisEnterprise_Database_STATUS. Use v1api20210301.RedisEnterprise_Database_STATUS instead
 type RedisEnterprise_Database_STATUS struct {
-	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-	// TLS-encrypted.
-	ClientProtocol *DatabaseProperties_ClientProtocol_STATUS `json:"clientProtocol,omitempty"`
-
-	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
+	ClientProtocol   *DatabaseProperties_ClientProtocol_STATUS   `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *DatabaseProperties_ClusteringPolicy_STATUS `json:"clusteringPolicy,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabaseProperties_EvictionPolicy_STATUS `json:"evictionPolicy,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
-	Modules []Module_STATUS `json:"modules,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Persistence: Persistence settings
-	Persistence *Persistence_STATUS `json:"persistence,omitempty"`
-
-	// Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
-	Port *int `json:"port,omitempty"`
-
-	// ProvisioningState: Current provisioning status of the database
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceState: Current resource status of the database
-	ResourceState *ResourceState_STATUS `json:"resourceState,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions        []conditions.Condition                    `json:"conditions,omitempty"`
+	EvictionPolicy    *DatabaseProperties_EvictionPolicy_STATUS `json:"evictionPolicy,omitempty"`
+	Id                *string                                   `json:"id,omitempty"`
+	Modules           []Module_STATUS                           `json:"modules,omitempty"`
+	Name              *string                                   `json:"name,omitempty"`
+	Persistence       *Persistence_STATUS                       `json:"persistence,omitempty"`
+	Port              *int                                      `json:"port,omitempty"`
+	ProvisioningState *ProvisioningState_STATUS                 `json:"provisioningState,omitempty"`
+	ResourceState     *ResourceState_STATUS                     `json:"resourceState,omitempty"`
+	Type              *string                                   `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &RedisEnterprise_Database_STATUS{}
@@ -1191,6 +1166,7 @@ func (database *RedisEnterprise_Database_STATUS) AssignProperties_To_RedisEnterp
 	return nil
 }
 
+// Deprecated version of DatabaseProperties_ClientProtocol. Use v1api20210301.DatabaseProperties_ClientProtocol instead
 // +kubebuilder:validation:Enum={"Encrypted","Plaintext"}
 type DatabaseProperties_ClientProtocol string
 
@@ -1199,6 +1175,8 @@ const (
 	DatabaseProperties_ClientProtocol_Plaintext = DatabaseProperties_ClientProtocol("Plaintext")
 )
 
+// Deprecated version of DatabaseProperties_ClientProtocol_STATUS. Use
+// v1api20210301.DatabaseProperties_ClientProtocol_STATUS instead
 type DatabaseProperties_ClientProtocol_STATUS string
 
 const (
@@ -1206,6 +1184,7 @@ const (
 	DatabaseProperties_ClientProtocol_STATUS_Plaintext = DatabaseProperties_ClientProtocol_STATUS("Plaintext")
 )
 
+// Deprecated version of DatabaseProperties_ClusteringPolicy. Use v1api20210301.DatabaseProperties_ClusteringPolicy instead
 // +kubebuilder:validation:Enum={"EnterpriseCluster","OSSCluster"}
 type DatabaseProperties_ClusteringPolicy string
 
@@ -1214,6 +1193,8 @@ const (
 	DatabaseProperties_ClusteringPolicy_OSSCluster        = DatabaseProperties_ClusteringPolicy("OSSCluster")
 )
 
+// Deprecated version of DatabaseProperties_ClusteringPolicy_STATUS. Use
+// v1api20210301.DatabaseProperties_ClusteringPolicy_STATUS instead
 type DatabaseProperties_ClusteringPolicy_STATUS string
 
 const (
@@ -1221,6 +1202,7 @@ const (
 	DatabaseProperties_ClusteringPolicy_STATUS_OSSCluster        = DatabaseProperties_ClusteringPolicy_STATUS("OSSCluster")
 )
 
+// Deprecated version of DatabaseProperties_EvictionPolicy. Use v1api20210301.DatabaseProperties_EvictionPolicy instead
 // +kubebuilder:validation:Enum={"AllKeysLFU","AllKeysLRU","AllKeysRandom","NoEviction","VolatileLFU","VolatileLRU","VolatileRandom","VolatileTTL"}
 type DatabaseProperties_EvictionPolicy string
 
@@ -1235,6 +1217,8 @@ const (
 	DatabaseProperties_EvictionPolicy_VolatileTTL    = DatabaseProperties_EvictionPolicy("VolatileTTL")
 )
 
+// Deprecated version of DatabaseProperties_EvictionPolicy_STATUS. Use
+// v1api20210301.DatabaseProperties_EvictionPolicy_STATUS instead
 type DatabaseProperties_EvictionPolicy_STATUS string
 
 const (
@@ -1248,13 +1232,11 @@ const (
 	DatabaseProperties_EvictionPolicy_STATUS_VolatileTTL    = DatabaseProperties_EvictionPolicy_STATUS("VolatileTTL")
 )
 
-// Specifies configuration of a redis module
+// Deprecated version of Module. Use v1api20210301.Module instead
 type Module struct {
-	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
 	Name *string `json:"name,omitempty"`
 }
 
@@ -1357,15 +1339,10 @@ func (module *Module) Initialize_From_Module_STATUS(source *Module_STATUS) error
 	return nil
 }
 
-// Specifies configuration of a redis module
+// Deprecated version of Module_STATUS. Use v1api20210301.Module_STATUS instead
 type Module_STATUS struct {
-	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
-	Args *string `json:"args,omitempty"`
-
-	// Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
-	Name *string `json:"name,omitempty"`
-
-	// Version: The version of the module, e.g. '1.0'.
+	Args    *string `json:"args,omitempty"`
+	Name    *string `json:"name,omitempty"`
 	Version *string `json:"version,omitempty"`
 }
 
@@ -1446,18 +1423,11 @@ func (module *Module_STATUS) AssignProperties_To_Module_STATUS(destination *v202
 	return nil
 }
 
-// Persistence-related configuration for the RedisEnterprise database
+// Deprecated version of Persistence. Use v1api20210301.Persistence instead
 type Persistence struct {
-	// AofEnabled: Sets whether AOF is enabled.
-	AofEnabled *bool `json:"aofEnabled,omitempty"`
-
-	// AofFrequency: Sets the frequency at which data is written to disk.
+	AofEnabled   *bool                     `json:"aofEnabled,omitempty"`
 	AofFrequency *Persistence_AofFrequency `json:"aofFrequency,omitempty"`
-
-	// RdbEnabled: Sets whether RDB is enabled.
-	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
-
-	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
+	RdbEnabled   *bool                     `json:"rdbEnabled,omitempty"`
 	RdbFrequency *Persistence_RdbFrequency `json:"rdbFrequency,omitempty"`
 }
 
@@ -1662,18 +1632,11 @@ func (persistence *Persistence) Initialize_From_Persistence_STATUS(source *Persi
 	return nil
 }
 
-// Persistence-related configuration for the RedisEnterprise database
+// Deprecated version of Persistence_STATUS. Use v1api20210301.Persistence_STATUS instead
 type Persistence_STATUS struct {
-	// AofEnabled: Sets whether AOF is enabled.
-	AofEnabled *bool `json:"aofEnabled,omitempty"`
-
-	// AofFrequency: Sets the frequency at which data is written to disk.
+	AofEnabled   *bool                            `json:"aofEnabled,omitempty"`
 	AofFrequency *Persistence_AofFrequency_STATUS `json:"aofFrequency,omitempty"`
-
-	// RdbEnabled: Sets whether RDB is enabled.
-	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
-
-	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
+	RdbEnabled   *bool                            `json:"rdbEnabled,omitempty"`
 	RdbFrequency *Persistence_RdbFrequency_STATUS `json:"rdbFrequency,omitempty"`
 }
 
@@ -1806,6 +1769,7 @@ func (persistence *Persistence_STATUS) AssignProperties_To_Persistence_STATUS(de
 	return nil
 }
 
+// Deprecated version of Persistence_AofFrequency. Use v1api20210301.Persistence_AofFrequency instead
 // +kubebuilder:validation:Enum={"1s","always"}
 type Persistence_AofFrequency string
 
@@ -1814,6 +1778,7 @@ const (
 	Persistence_AofFrequency_Always = Persistence_AofFrequency("always")
 )
 
+// Deprecated version of Persistence_AofFrequency_STATUS. Use v1api20210301.Persistence_AofFrequency_STATUS instead
 type Persistence_AofFrequency_STATUS string
 
 const (
@@ -1821,6 +1786,7 @@ const (
 	Persistence_AofFrequency_STATUS_Always = Persistence_AofFrequency_STATUS("always")
 )
 
+// Deprecated version of Persistence_RdbFrequency. Use v1api20210301.Persistence_RdbFrequency instead
 // +kubebuilder:validation:Enum={"12h","1h","6h"}
 type Persistence_RdbFrequency string
 
@@ -1830,6 +1796,7 @@ const (
 	Persistence_RdbFrequency_6H  = Persistence_RdbFrequency("6h")
 )
 
+// Deprecated version of Persistence_RdbFrequency_STATUS. Use v1api20210301.Persistence_RdbFrequency_STATUS instead
 type Persistence_RdbFrequency_STATUS string
 
 const (

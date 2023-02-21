@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview
 ├── APIVersion: Enum (1 value)
 │   └── "2021-01-01-preview"
 ├── Namespace: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
 │   │   ├── Encryption: *Object (3 properties)

@@ -8,19 +8,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
+// Deprecated version of Server_Spec. Use v1api20180601.Server_Spec instead
 type Server_Spec_ARM struct {
-	// Location: The location the resource resides in.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties of the server.
+	Location   *string                        `json:"location,omitempty"`
+	Name       string                         `json:"name,omitempty"`
 	Properties *ServerPropertiesForCreate_ARM `json:"properties,omitempty"`
-
-	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_ARM `json:"sku,omitempty"`
-
-	// Tags: Application-specific metadata in the form of key-value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *Sku_ARM                       `json:"sku,omitempty"`
+	Tags       map[string]string              `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Server_Spec_ARM{}
@@ -40,18 +34,12 @@ func (server *Server_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMariaDB/servers"
 }
 
+// Deprecated version of ServerPropertiesForCreate. Use v1api20180601.ServerPropertiesForCreate instead
 type ServerPropertiesForCreate_ARM struct {
-	// Default: Mutually exclusive with all other properties
-	Default *ServerPropertiesForDefaultCreate_ARM `json:"default,omitempty"`
-
-	// GeoRestore: Mutually exclusive with all other properties
-	GeoRestore *ServerPropertiesForGeoRestore_ARM `json:"geoRestore,omitempty"`
-
-	// PointInTimeRestore: Mutually exclusive with all other properties
-	PointInTimeRestore *ServerPropertiesForRestore_ARM `json:"pointInTimeRestore,omitempty"`
-
-	// Replica: Mutually exclusive with all other properties
-	Replica *ServerPropertiesForReplica_ARM `json:"replica,omitempty"`
+	Default            *ServerPropertiesForDefaultCreate_ARM `json:"default,omitempty"`
+	GeoRestore         *ServerPropertiesForGeoRestore_ARM    `json:"geoRestore,omitempty"`
+	PointInTimeRestore *ServerPropertiesForRestore_ARM       `json:"pointInTimeRestore,omitempty"`
+	Replica            *ServerPropertiesForReplica_ARM       `json:"replica,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because ServerPropertiesForCreate_ARM represents a discriminated union (JSON OneOf)
@@ -100,127 +88,62 @@ func (create *ServerPropertiesForCreate_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// Billing information related properties of a server.
+// Deprecated version of Sku. Use v1api20180601.Sku instead
 type Sku_ARM struct {
-	// Capacity: The scale up/out capacity, representing server's compute units.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: The family of hardware.
-	Family *string `json:"family,omitempty"`
-
-	// Name: The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
-	Name *string `json:"name,omitempty"`
-
-	// Size: The size code, to be interpreted by resource as appropriate.
-	Size *string `json:"size,omitempty"`
-
-	// Tier: The tier of the particular SKU, e.g. Basic.
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Capacity *int      `json:"capacity,omitempty"`
+	Family   *string   `json:"family,omitempty"`
+	Name     *string   `json:"name,omitempty"`
+	Size     *string   `json:"size,omitempty"`
+	Tier     *Sku_Tier `json:"tier,omitempty"`
 }
 
+// Deprecated version of ServerPropertiesForDefaultCreate. Use v1api20180601.ServerPropertiesForDefaultCreate instead
 type ServerPropertiesForDefaultCreate_ARM struct {
-	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	// (and is required for creation).
-	AdministratorLogin *string `json:"administratorLogin,omitempty"`
-
-	// AdministratorLoginPassword: The password of the administrator login.
-	AdministratorLoginPassword string `json:"administratorLoginPassword,omitempty"`
-
-	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	AdministratorLogin         *string                                     `json:"administratorLogin,omitempty"`
+	AdministratorLoginPassword string                                      `json:"administratorLoginPassword,omitempty"`
+	CreateMode                 ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
+	MinimalTlsVersion          *MinimalTlsVersion                          `json:"minimalTlsVersion,omitempty"`
+	PublicNetworkAccess        *PublicNetworkAccess                        `json:"publicNetworkAccess,omitempty"`
+	SslEnforcement             *SslEnforcement                             `json:"sslEnforcement,omitempty"`
+	StorageProfile             *StorageProfile_ARM                         `json:"storageProfile,omitempty"`
+	Version                    *ServerVersion                              `json:"version,omitempty"`
 }
 
+// Deprecated version of ServerPropertiesForGeoRestore. Use v1api20180601.ServerPropertiesForGeoRestore instead
 type ServerPropertiesForGeoRestore_ARM struct {
-	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// SourceServerId: The source server id to restore from.
-	SourceServerId *string `json:"sourceServerId,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	CreateMode          ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
+	MinimalTlsVersion   *MinimalTlsVersion                       `json:"minimalTlsVersion,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess                     `json:"publicNetworkAccess,omitempty"`
+	SourceServerId      *string                                  `json:"sourceServerId,omitempty"`
+	SslEnforcement      *SslEnforcement                          `json:"sslEnforcement,omitempty"`
+	StorageProfile      *StorageProfile_ARM                      `json:"storageProfile,omitempty"`
+	Version             *ServerVersion                           `json:"version,omitempty"`
 }
 
+// Deprecated version of ServerPropertiesForReplica. Use v1api20180601.ServerPropertiesForReplica instead
 type ServerPropertiesForReplica_ARM struct {
-	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// SourceServerId: The master server id to create replica from.
-	SourceServerId *string `json:"sourceServerId,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	CreateMode          ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
+	MinimalTlsVersion   *MinimalTlsVersion                    `json:"minimalTlsVersion,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess                  `json:"publicNetworkAccess,omitempty"`
+	SourceServerId      *string                               `json:"sourceServerId,omitempty"`
+	SslEnforcement      *SslEnforcement                       `json:"sslEnforcement,omitempty"`
+	StorageProfile      *StorageProfile_ARM                   `json:"storageProfile,omitempty"`
+	Version             *ServerVersion                        `json:"version,omitempty"`
 }
 
+// Deprecated version of ServerPropertiesForRestore. Use v1api20180601.ServerPropertiesForRestore instead
 type ServerPropertiesForRestore_ARM struct {
-	// CreateMode: The mode to create a new server.
-	CreateMode ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
-	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
-
-	// SourceServerId: The source server id to restore from.
-	SourceServerId *string `json:"sourceServerId,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile_ARM `json:"storageProfile,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	CreateMode          ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
+	MinimalTlsVersion   *MinimalTlsVersion                    `json:"minimalTlsVersion,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess                  `json:"publicNetworkAccess,omitempty"`
+	RestorePointInTime  *string                               `json:"restorePointInTime,omitempty"`
+	SourceServerId      *string                               `json:"sourceServerId,omitempty"`
+	SslEnforcement      *SslEnforcement                       `json:"sslEnforcement,omitempty"`
+	StorageProfile      *StorageProfile_ARM                   `json:"storageProfile,omitempty"`
+	Version             *ServerVersion                        `json:"version,omitempty"`
 }
 
+// Deprecated version of Sku_Tier. Use v1api20180601.Sku_Tier instead
 // +kubebuilder:validation:Enum={"Basic","GeneralPurpose","MemoryOptimized"}
 type Sku_Tier string
 
@@ -230,7 +153,7 @@ const (
 	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
-// Enforce a minimal Tls version for the server.
+// Deprecated version of MinimalTlsVersion. Use v1api20180601.MinimalTlsVersion instead
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2","TLSEnforcementDisabled"}
 type MinimalTlsVersion string
 
@@ -241,8 +164,7 @@ const (
 	MinimalTlsVersion_TLSEnforcementDisabled = MinimalTlsVersion("TLSEnforcementDisabled")
 )
 
-// Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
-// or 'Disabled'
+// Deprecated version of PublicNetworkAccess. Use v1api20180601.PublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PublicNetworkAccess string
 
@@ -251,27 +173,35 @@ const (
 	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
 )
 
+// Deprecated version of ServerPropertiesForDefaultCreate_CreateMode. Use
+// v1api20180601.ServerPropertiesForDefaultCreate_CreateMode instead
 // +kubebuilder:validation:Enum={"Default"}
 type ServerPropertiesForDefaultCreate_CreateMode string
 
 const ServerPropertiesForDefaultCreate_CreateMode_Default = ServerPropertiesForDefaultCreate_CreateMode("Default")
 
+// Deprecated version of ServerPropertiesForGeoRestore_CreateMode. Use
+// v1api20180601.ServerPropertiesForGeoRestore_CreateMode instead
 // +kubebuilder:validation:Enum={"GeoRestore"}
 type ServerPropertiesForGeoRestore_CreateMode string
 
 const ServerPropertiesForGeoRestore_CreateMode_GeoRestore = ServerPropertiesForGeoRestore_CreateMode("GeoRestore")
 
+// Deprecated version of ServerPropertiesForReplica_CreateMode. Use v1api20180601.ServerPropertiesForReplica_CreateMode
+// instead
 // +kubebuilder:validation:Enum={"Replica"}
 type ServerPropertiesForReplica_CreateMode string
 
 const ServerPropertiesForReplica_CreateMode_Replica = ServerPropertiesForReplica_CreateMode("Replica")
 
+// Deprecated version of ServerPropertiesForRestore_CreateMode. Use v1api20180601.ServerPropertiesForRestore_CreateMode
+// instead
 // +kubebuilder:validation:Enum={"PointInTimeRestore"}
 type ServerPropertiesForRestore_CreateMode string
 
 const ServerPropertiesForRestore_CreateMode_PointInTimeRestore = ServerPropertiesForRestore_CreateMode("PointInTimeRestore")
 
-// The version of a server.
+// Deprecated version of ServerVersion. Use v1api20180601.ServerVersion instead
 // +kubebuilder:validation:Enum={"10.2","10.3"}
 type ServerVersion string
 
@@ -280,7 +210,7 @@ const (
 	ServerVersion_103 = ServerVersion("10.3")
 )
 
-// Enable ssl enforcement or not when connect to server.
+// Deprecated version of SslEnforcement. Use v1api20180601.SslEnforcement instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type SslEnforcement string
 
@@ -289,21 +219,15 @@ const (
 	SslEnforcement_Enabled  = SslEnforcement("Enabled")
 )
 
-// Storage Profile properties of a server
+// Deprecated version of StorageProfile. Use v1api20180601.StorageProfile instead
 type StorageProfile_ARM struct {
-	// BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfile_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
-
-	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfile_StorageAutogrow `json:"storageAutogrow,omitempty"`
-
-	// StorageMB: Max storage allowed for a server.
-	StorageMB *int `json:"storageMB,omitempty"`
+	BackupRetentionDays *int                               `json:"backupRetentionDays,omitempty"`
+	GeoRedundantBackup  *StorageProfile_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	StorageAutogrow     *StorageProfile_StorageAutogrow    `json:"storageAutogrow,omitempty"`
+	StorageMB           *int                               `json:"storageMB,omitempty"`
 }
 
+// Deprecated version of StorageProfile_GeoRedundantBackup. Use v1api20180601.StorageProfile_GeoRedundantBackup instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageProfile_GeoRedundantBackup string
 
@@ -312,6 +236,7 @@ const (
 	StorageProfile_GeoRedundantBackup_Enabled  = StorageProfile_GeoRedundantBackup("Enabled")
 )
 
+// Deprecated version of StorageProfile_StorageAutogrow. Use v1api20180601.StorageProfile_StorageAutogrow instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageProfile_StorageAutogrow string
 

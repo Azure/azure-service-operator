@@ -3,29 +3,17 @@
 // Licensed under the MIT license.
 package v1beta20220131preview
 
+// Deprecated version of UserAssignedIdentities_FederatedIdentityCredential_STATUS. Use v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS instead
 type UserAssignedIdentities_FederatedIdentityCredential_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties associated with the federated identity credential.
+	Id         *string                                           `json:"id,omitempty"`
+	Name       *string                                           `json:"name,omitempty"`
 	Properties *FederatedIdentityCredentialProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type       *string                                           `json:"type,omitempty"`
 }
 
-// The properties associated with a federated identity credential.
+// Deprecated version of FederatedIdentityCredentialProperties_STATUS. Use v1api20220131preview.FederatedIdentityCredentialProperties_STATUS instead
 type FederatedIdentityCredentialProperties_STATUS_ARM struct {
-	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`
-
-	// Issuer: The URL of the issuer to be trusted.
-	Issuer *string `json:"issuer,omitempty"`
-
-	// Subject: The identifier of the external identity.
-	Subject *string `json:"subject,omitempty"`
+	Issuer    *string  `json:"issuer,omitempty"`
+	Subject   *string  `json:"subject,omitempty"`
 }

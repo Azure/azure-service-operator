@@ -4,6 +4,8 @@
 package customizations
 
 import (
+	v1api20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
+	v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301storage"
 	v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
 	v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -15,6 +17,8 @@ type SiteExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *SiteExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
+		&v1api20220301.Site{},
+		&v1api20220301s.Site{},
 		&v20220301.Site{},
 		&v20220301s.Site{}}
 }

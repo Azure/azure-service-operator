@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	v20200601 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601"
-	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage"
+	v1api20200601 "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601"
+	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +15,6 @@ type PrivateDnsZonesVirtualNetworkLinkExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *PrivateDnsZonesVirtualNetworkLinkExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20200601.PrivateDnsZonesVirtualNetworkLink{},
-		&v20200601s.PrivateDnsZonesVirtualNetworkLink{}}
+		&v1api20200601.PrivateDnsZonesVirtualNetworkLink{},
+		&v1api20200601s.PrivateDnsZonesVirtualNetworkLink{}}
 }

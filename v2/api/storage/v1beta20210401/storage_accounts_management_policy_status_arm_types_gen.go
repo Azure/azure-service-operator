@@ -3,156 +3,89 @@
 // Licensed under the MIT license.
 package v1beta20210401
 
+// Deprecated version of StorageAccounts_ManagementPolicy_STATUS. Use v1api20210401.StorageAccounts_ManagementPolicy_STATUS instead
 type StorageAccounts_ManagementPolicy_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Returns the Storage Account Data Policies Rules.
+	Id         *string                                `json:"id,omitempty"`
+	Name       *string                                `json:"name,omitempty"`
 	Properties *ManagementPolicyProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type       *string                                `json:"type,omitempty"`
 }
 
-// The Storage Account ManagementPolicy properties.
+// Deprecated version of ManagementPolicyProperties_STATUS. Use v1api20210401.ManagementPolicyProperties_STATUS instead
 type ManagementPolicyProperties_STATUS_ARM struct {
-	// LastModifiedTime: Returns the date and time the ManagementPolicies was last modified.
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-
-	// Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
-	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-	Policy *ManagementPolicySchema_STATUS_ARM `json:"policy,omitempty"`
+	LastModifiedTime *string                            `json:"lastModifiedTime,omitempty"`
+	Policy           *ManagementPolicySchema_STATUS_ARM `json:"policy,omitempty"`
 }
 
-// The Storage Account ManagementPolicies Rules. See more details in:
-// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+// Deprecated version of ManagementPolicySchema_STATUS. Use v1api20210401.ManagementPolicySchema_STATUS instead
 type ManagementPolicySchema_STATUS_ARM struct {
-	// Rules: The Storage Account ManagementPolicies Rules. See more details in:
-	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Rules []ManagementPolicyRule_STATUS_ARM `json:"rules,omitempty"`
 }
 
-// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
+// Deprecated version of ManagementPolicyRule_STATUS. Use v1api20210401.ManagementPolicyRule_STATUS instead
 type ManagementPolicyRule_STATUS_ARM struct {
-	// Definition: An object that defines the Lifecycle rule.
 	Definition *ManagementPolicyDefinition_STATUS_ARM `json:"definition,omitempty"`
-
-	// Enabled: Rule is enabled if set to true.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
-	// unique within a policy.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRule_Type_STATUS `json:"type,omitempty"`
+	Enabled    *bool                                  `json:"enabled,omitempty"`
+	Name       *string                                `json:"name,omitempty"`
+	Type       *ManagementPolicyRule_Type_STATUS      `json:"type,omitempty"`
 }
 
-// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
+// Deprecated version of ManagementPolicyDefinition_STATUS. Use v1api20210401.ManagementPolicyDefinition_STATUS instead
 type ManagementPolicyDefinition_STATUS_ARM struct {
-	// Actions: An object that defines the action set.
 	Actions *ManagementPolicyAction_STATUS_ARM `json:"actions,omitempty"`
-
-	// Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_STATUS_ARM `json:"filters,omitempty"`
 }
 
-// Actions are applied to the filtered blobs when the execution condition is met.
+// Deprecated version of ManagementPolicyAction_STATUS. Use v1api20210401.ManagementPolicyAction_STATUS instead
 type ManagementPolicyAction_STATUS_ARM struct {
-	// BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob_STATUS_ARM `json:"baseBlob,omitempty"`
-
-	// Snapshot: The management policy action for snapshot
 	Snapshot *ManagementPolicySnapShot_STATUS_ARM `json:"snapshot,omitempty"`
-
-	// Version: The management policy action for version
-	Version *ManagementPolicyVersion_STATUS_ARM `json:"version,omitempty"`
+	Version  *ManagementPolicyVersion_STATUS_ARM  `json:"version,omitempty"`
 }
 
-// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
-// AND is performed on all filters.
+// Deprecated version of ManagementPolicyFilter_STATUS. Use v1api20210401.ManagementPolicyFilter_STATUS instead
 type ManagementPolicyFilter_STATUS_ARM struct {
-	// BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter_STATUS_ARM `json:"blobIndexMatch,omitempty"`
-
-	// BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
-	// actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes,omitempty"`
-
-	// PrefixMatch: An array of strings for prefixes to be match.
-	PrefixMatch []string `json:"prefixMatch,omitempty"`
+	BlobTypes      []string               `json:"blobTypes,omitempty"`
+	PrefixMatch    []string               `json:"prefixMatch,omitempty"`
 }
 
-// Management policy action for base blob.
+// Deprecated version of ManagementPolicyBaseBlob_STATUS. Use v1api20210401.ManagementPolicyBaseBlob_STATUS instead
 type ManagementPolicyBaseBlob_STATUS_ARM struct {
-	// Delete: The function to delete the blob
-	Delete *DateAfterModification_STATUS_ARM `json:"delete,omitempty"`
-
-	// EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
-	// property requires tierToCool.daysAfterLastAccessTimeGreaterThan.
-	EnableAutoTierToHotFromCool *bool `json:"enableAutoTierToHotFromCool,omitempty"`
-
-	// TierToArchive: The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier
-	TierToArchive *DateAfterModification_STATUS_ARM `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blobs to cool storage. Support blobs currently at Hot tier
-	TierToCool *DateAfterModification_STATUS_ARM `json:"tierToCool,omitempty"`
+	Delete                      *DateAfterModification_STATUS_ARM `json:"delete,omitempty"`
+	EnableAutoTierToHotFromCool *bool                             `json:"enableAutoTierToHotFromCool,omitempty"`
+	TierToArchive               *DateAfterModification_STATUS_ARM `json:"tierToArchive,omitempty"`
+	TierToCool                  *DateAfterModification_STATUS_ARM `json:"tierToCool,omitempty"`
 }
 
-// Management policy action for snapshot.
+// Deprecated version of ManagementPolicySnapShot_STATUS. Use v1api20210401.ManagementPolicySnapShot_STATUS instead
 type ManagementPolicySnapShot_STATUS_ARM struct {
-	// Delete: The function to delete the blob snapshot
-	Delete *DateAfterCreation_STATUS_ARM `json:"delete,omitempty"`
-
-	// TierToArchive: The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier
+	Delete        *DateAfterCreation_STATUS_ARM `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_STATUS_ARM `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier
-	TierToCool *DateAfterCreation_STATUS_ARM `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation_STATUS_ARM `json:"tierToCool,omitempty"`
 }
 
-// Management policy action for blob version.
+// Deprecated version of ManagementPolicyVersion_STATUS. Use v1api20210401.ManagementPolicyVersion_STATUS instead
 type ManagementPolicyVersion_STATUS_ARM struct {
-	// Delete: The function to delete the blob version
-	Delete *DateAfterCreation_STATUS_ARM `json:"delete,omitempty"`
-
-	// TierToArchive: The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier
+	Delete        *DateAfterCreation_STATUS_ARM `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_STATUS_ARM `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blob version to cool storage. Support blob version currently at Hot tier
-	TierToCool *DateAfterCreation_STATUS_ARM `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation_STATUS_ARM `json:"tierToCool,omitempty"`
 }
 
-// Blob index tag based filtering for blob objects
+// Deprecated version of TagFilter_STATUS. Use v1api20210401.TagFilter_STATUS instead
 type TagFilter_STATUS_ARM struct {
-	// Name: This is the filter tag name, it can have 1 - 128 characters
-	Name *string `json:"name,omitempty"`
-
-	// Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
-	// currently supported
-	Op *string `json:"op,omitempty"`
-
-	// Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
+	Name  *string `json:"name,omitempty"`
+	Op    *string `json:"op,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
-// Object to define the number of days after creation.
+// Deprecated version of DateAfterCreation_STATUS. Use v1api20210401.DateAfterCreation_STATUS instead
 type DateAfterCreation_STATUS_ARM struct {
-	// DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *float64 `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
-// Object to define the number of days after object last modification Or last access. Properties
-// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
+// Deprecated version of DateAfterModification_STATUS. Use v1api20210401.DateAfterModification_STATUS instead
 type DateAfterModification_STATUS_ARM struct {
-	// DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
-	// used in conjunction with last access time tracking policy
 	DaysAfterLastAccessTimeGreaterThan *float64 `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
-
-	// DaysAfterModificationGreaterThan: Value indicating the age in days after last modification
-	DaysAfterModificationGreaterThan *float64 `json:"daysAfterModificationGreaterThan,omitempty"`
+	DaysAfterModificationGreaterThan   *float64 `json:"daysAfterModificationGreaterThan,omitempty"`
 }

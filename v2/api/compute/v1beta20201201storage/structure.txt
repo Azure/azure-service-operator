@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 ├── APIVersion: Enum (1 value)
 │   └── "2020-12-01"
 ├── VirtualMachine: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (28 properties)
 │   │   ├── AdditionalCapabilities: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -601,7 +601,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage
 │       ├── VmId: *string
 │       └── Zones: string[]
 ├── VirtualMachineScaleSet: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (24 properties)
 │   │   ├── AdditionalCapabilities: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag

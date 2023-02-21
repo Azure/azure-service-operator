@@ -15,7 +15,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	mariadb "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
+	mariadb "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

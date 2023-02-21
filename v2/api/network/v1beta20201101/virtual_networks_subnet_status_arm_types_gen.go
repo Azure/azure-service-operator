@@ -3,176 +3,102 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
+// Deprecated version of VirtualNetworks_Subnet_STATUS. Use v1api20201101.VirtualNetworks_Subnet_STATUS instead
 type VirtualNetworks_Subnet_STATUS_ARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the subnet.
+	Etag       *string                            `json:"etag,omitempty"`
+	Id         *string                            `json:"id,omitempty"`
+	Name       *string                            `json:"name,omitempty"`
 	Properties *SubnetPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Type       *string                            `json:"type,omitempty"`
 }
 
-// Properties of the subnet.
+// Deprecated version of SubnetPropertiesFormat_STATUS. Use v1api20201101.SubnetPropertiesFormat_STATUS instead
 type SubnetPropertiesFormat_STATUS_ARM struct {
-	// AddressPrefix: The address prefix for the subnet.
-	AddressPrefix *string `json:"addressPrefix,omitempty"`
-
-	// AddressPrefixes: List of address prefixes for the subnet.
-	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
-
-	// ApplicationGatewayIpConfigurations: Application gateway IP configurations of virtual network resource.
+	AddressPrefix                      *string                                                                                   `json:"addressPrefix,omitempty"`
+	AddressPrefixes                    []string                                                                                  `json:"addressPrefixes,omitempty"`
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"applicationGatewayIpConfigurations,omitempty"`
-
-	// Delegations: An array of references to the delegations on the subnet.
-	Delegations []Delegation_STATUS_ARM `json:"delegations,omitempty"`
-
-	// IpAllocations: Array of IpAllocation which reference this subnet.
-	IpAllocations []SubResource_STATUS_ARM `json:"ipAllocations,omitempty"`
-
-	// IpConfigurationProfiles: Array of IP configuration profiles which reference this subnet.
-	IpConfigurationProfiles []IPConfigurationProfile_STATUS_ARM `json:"ipConfigurationProfiles,omitempty"`
-
-	// IpConfigurations: An array of references to the network interface IP configurations using subnet.
-	IpConfigurations []IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"ipConfigurations,omitempty"`
-
-	// NatGateway: Nat gateway associated with this subnet.
-	NatGateway *SubResource_STATUS_ARM `json:"natGateway,omitempty"`
-
-	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"networkSecurityGroup,omitempty"`
-
-	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
-	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS `json:"privateEndpointNetworkPolicies,omitempty"`
-
-	// PrivateEndpoints: An array of references to private endpoints.
-	PrivateEndpoints []PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"privateEndpoints,omitempty"`
-
-	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
-	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS `json:"privateLinkServiceNetworkPolicies,omitempty"`
-
-	// ProvisioningState: The provisioning state of the subnet resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Purpose: A read-only string identifying the intention of use for this subnet based on delegations and other user-defined
-	// properties.
-	Purpose *string `json:"purpose,omitempty"`
-
-	// ResourceNavigationLinks: An array of references to the external resources using subnet.
-	ResourceNavigationLinks []ResourceNavigationLink_STATUS_ARM `json:"resourceNavigationLinks,omitempty"`
-
-	// RouteTable: The reference to the RouteTable resource.
-	RouteTable *RouteTable_STATUS_SubResourceEmbedded_ARM `json:"routeTable,omitempty"`
-
-	// ServiceAssociationLinks: An array of references to services injecting into this subnet.
-	ServiceAssociationLinks []ServiceAssociationLink_STATUS_ARM `json:"serviceAssociationLinks,omitempty"`
-
-	// ServiceEndpointPolicies: An array of service endpoint policies.
-	ServiceEndpointPolicies []ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM `json:"serviceEndpointPolicies,omitempty"`
-
-	// ServiceEndpoints: An array of service endpoints.
-	ServiceEndpoints []ServiceEndpointPropertiesFormat_STATUS_ARM `json:"serviceEndpoints,omitempty"`
+	Delegations                        []Delegation_STATUS_ARM                                                                   `json:"delegations,omitempty"`
+	IpAllocations                      []SubResource_STATUS_ARM                                                                  `json:"ipAllocations,omitempty"`
+	IpConfigurationProfiles            []IPConfigurationProfile_STATUS_ARM                                                       `json:"ipConfigurationProfiles,omitempty"`
+	IpConfigurations                   []IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM                   `json:"ipConfigurations,omitempty"`
+	NatGateway                         *SubResource_STATUS_ARM                                                                   `json:"natGateway,omitempty"`
+	NetworkSecurityGroup               *NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM               `json:"networkSecurityGroup,omitempty"`
+	PrivateEndpointNetworkPolicies     *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS                             `json:"privateEndpointNetworkPolicies,omitempty"`
+	PrivateEndpoints                   []PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM                   `json:"privateEndpoints,omitempty"`
+	PrivateLinkServiceNetworkPolicies  *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS                          `json:"privateLinkServiceNetworkPolicies,omitempty"`
+	ProvisioningState                  *ProvisioningState_STATUS                                                                 `json:"provisioningState,omitempty"`
+	Purpose                            *string                                                                                   `json:"purpose,omitempty"`
+	ResourceNavigationLinks            []ResourceNavigationLink_STATUS_ARM                                                       `json:"resourceNavigationLinks,omitempty"`
+	RouteTable                         *RouteTable_STATUS_SubResourceEmbedded_ARM                                                `json:"routeTable,omitempty"`
+	ServiceAssociationLinks            []ServiceAssociationLink_STATUS_ARM                                                       `json:"serviceAssociationLinks,omitempty"`
+	ServiceEndpointPolicies            []ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM             `json:"serviceEndpointPolicies,omitempty"`
+	ServiceEndpoints                   []ServiceEndpointPropertiesFormat_STATUS_ARM                                              `json:"serviceEndpoints,omitempty"`
 }
 
-// IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
+// Deprecated version of ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded. Use v1api20201101.ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded instead
 type ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// Details the service to which the subnet is delegated.
+// Deprecated version of Delegation_STATUS. Use v1api20201101.Delegation_STATUS instead
 type Delegation_STATUS_ARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the subnet.
+	Etag       *string                                       `json:"etag,omitempty"`
+	Id         *string                                       `json:"id,omitempty"`
+	Name       *string                                       `json:"name,omitempty"`
 	Properties *ServiceDelegationPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Type       *string                                       `json:"type,omitempty"`
 }
 
-// IP configuration.
+// Deprecated version of IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded. Use v1api20201101.IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded instead
 type IPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// IP configuration profile child resource.
+// Deprecated version of IPConfigurationProfile_STATUS. Use v1api20201101.IPConfigurationProfile_STATUS instead
 type IPConfigurationProfile_STATUS_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// NetworkSecurityGroup resource.
+// Deprecated version of NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded. Use v1api20201101.NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded instead
 type NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// Private endpoint resource.
+// Deprecated version of PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded. Use v1api20201101.PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded instead
 type PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// ResourceNavigationLink resource.
+// Deprecated version of ResourceNavigationLink_STATUS. Use v1api20201101.ResourceNavigationLink_STATUS instead
 type ResourceNavigationLink_STATUS_ARM struct {
-	// Id: Resource navigation link identifier.
 	Id *string `json:"id,omitempty"`
 }
 
-// Route table resource.
+// Deprecated version of RouteTable_STATUS_SubResourceEmbedded. Use v1api20201101.RouteTable_STATUS_SubResourceEmbedded instead
 type RouteTable_STATUS_SubResourceEmbedded_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// ServiceAssociationLink resource.
+// Deprecated version of ServiceAssociationLink_STATUS. Use v1api20201101.ServiceAssociationLink_STATUS instead
 type ServiceAssociationLink_STATUS_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// Service End point policy resource.
+// Deprecated version of ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded. Use v1api20201101.ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded instead
 type ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// The service endpoint properties.
+// Deprecated version of ServiceEndpointPropertiesFormat_STATUS. Use v1api20201101.ServiceEndpointPropertiesFormat_STATUS instead
 type ServiceEndpointPropertiesFormat_STATUS_ARM struct {
-	// Locations: A list of locations.
-	Locations []string `json:"locations,omitempty"`
-
-	// ProvisioningState: The provisioning state of the service endpoint resource.
+	Locations         []string                  `json:"locations,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Service: The type of the endpoint service.
-	Service *string `json:"service,omitempty"`
+	Service           *string                   `json:"service,omitempty"`
 }
 
-// Properties of a service delegation.
+// Deprecated version of ServiceDelegationPropertiesFormat_STATUS. Use v1api20201101.ServiceDelegationPropertiesFormat_STATUS instead
 type ServiceDelegationPropertiesFormat_STATUS_ARM struct {
-	// Actions: The actions permitted to the service upon delegation.
-	Actions []string `json:"actions,omitempty"`
-
-	// ProvisioningState: The provisioning state of the service delegation resource.
+	Actions           []string                  `json:"actions,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
-	ServiceName *string `json:"serviceName,omitempty"`
+	ServiceName       *string                   `json:"serviceName,omitempty"`
 }

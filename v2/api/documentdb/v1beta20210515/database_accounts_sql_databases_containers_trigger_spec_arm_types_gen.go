@@ -5,12 +5,10 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec. Use v1api20210515.DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec instead
 type DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM struct {
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties to create and update Azure Cosmos DB trigger.
+	Location   *string                               `json:"location,omitempty"`
+	Name       string                                `json:"name,omitempty"`
 	Properties *SqlTriggerCreateUpdateProperties_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                     `json:"tags,omitempty"`
 }
@@ -32,31 +30,21 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec_ARM) GetTyp
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 
-// Properties to create and update Azure Cosmos DB trigger.
+// Deprecated version of SqlTriggerCreateUpdateProperties. Use v1api20210515.SqlTriggerCreateUpdateProperties instead
 type SqlTriggerCreateUpdateProperties_ARM struct {
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a trigger
-	Resource *SqlTriggerResource_ARM `json:"resource,omitempty"`
+	Options  *CreateUpdateOptions_ARM `json:"options,omitempty"`
+	Resource *SqlTriggerResource_ARM  `json:"resource,omitempty"`
 }
 
-// Cosmos DB SQL trigger resource object
+// Deprecated version of SqlTriggerResource. Use v1api20210515.SqlTriggerResource instead
 type SqlTriggerResource_ARM struct {
-	// Body: Body of the Trigger
-	Body *string `json:"body,omitempty"`
-
-	// Id: Name of the Cosmos DB SQL trigger
-	Id *string `json:"id,omitempty"`
-
-	// TriggerOperation: The operation the trigger is associated with
+	Body             *string                              `json:"body,omitempty"`
+	Id               *string                              `json:"id,omitempty"`
 	TriggerOperation *SqlTriggerResource_TriggerOperation `json:"triggerOperation,omitempty"`
-
-	// TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerResource_TriggerType `json:"triggerType,omitempty"`
+	TriggerType      *SqlTriggerResource_TriggerType      `json:"triggerType,omitempty"`
 }
 
+// Deprecated version of SqlTriggerResource_TriggerOperation. Use v1api20210515.SqlTriggerResource_TriggerOperation instead
 // +kubebuilder:validation:Enum={"All","Create","Delete","Replace","Update"}
 type SqlTriggerResource_TriggerOperation string
 
@@ -68,6 +56,7 @@ const (
 	SqlTriggerResource_TriggerOperation_Update  = SqlTriggerResource_TriggerOperation("Update")
 )
 
+// Deprecated version of SqlTriggerResource_TriggerType. Use v1api20210515.SqlTriggerResource_TriggerType instead
 // +kubebuilder:validation:Enum={"Post","Pre"}
 type SqlTriggerResource_TriggerType string
 

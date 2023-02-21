@@ -5,19 +5,13 @@ package v1beta20210101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of BatchAccount_Spec. Use v1api20210101.BatchAccount_Spec instead
 type BatchAccount_Spec_ARM struct {
-	// Identity: The identity of the Batch account.
-	Identity *BatchAccountIdentity_ARM `json:"identity,omitempty"`
-
-	// Location: The region in which to create the account.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: The properties of the Batch account.
+	Identity   *BatchAccountIdentity_ARM         `json:"identity,omitempty"`
+	Location   *string                           `json:"location,omitempty"`
+	Name       string                            `json:"name,omitempty"`
 	Properties *BatchAccountCreateProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: The user-specified tags associated with the account.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string                 `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &BatchAccount_Spec_ARM{}
@@ -37,39 +31,26 @@ func (account *BatchAccount_Spec_ARM) GetType() string {
 	return "Microsoft.Batch/batchAccounts"
 }
 
-// The properties of a Batch account.
+// Deprecated version of BatchAccountCreateProperties. Use v1api20210101.BatchAccountCreateProperties instead
 type BatchAccountCreateProperties_ARM struct {
-	// AutoStorage: The properties related to the auto-storage account.
-	AutoStorage *AutoStorageBaseProperties_ARM `json:"autoStorage,omitempty"`
-
-	// Encryption: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using
-	// a Microsoft managed key. For additional control, a customer-managed key can be used instead.
-	Encryption *EncryptionProperties_ARM `json:"encryption,omitempty"`
-
-	// KeyVaultReference: A reference to the Azure key vault associated with the Batch account.
-	KeyVaultReference *KeyVaultReference_ARM `json:"keyVaultReference,omitempty"`
-
-	// PoolAllocationMode: The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the
-	// mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is
-	// UserSubscription, clients must use Azure Active Directory. The default is BatchService.
-	PoolAllocationMode *PoolAllocationMode `json:"poolAllocationMode,omitempty"`
-
-	// PublicNetworkAccess: If not specified, the default value is 'enabled'.
-	PublicNetworkAccess *PublicNetworkAccessType `json:"publicNetworkAccess,omitempty"`
+	AutoStorage         *AutoStorageBaseProperties_ARM `json:"autoStorage,omitempty"`
+	Encryption          *EncryptionProperties_ARM      `json:"encryption,omitempty"`
+	KeyVaultReference   *KeyVaultReference_ARM         `json:"keyVaultReference,omitempty"`
+	PoolAllocationMode  *PoolAllocationMode            `json:"poolAllocationMode,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccessType       `json:"publicNetworkAccess,omitempty"`
 }
 
-// The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as
-// their Batch account encryption configuration.
+// Deprecated version of BatchAccountIdentity. Use v1api20210101.BatchAccountIdentity instead
 type BatchAccountIdentity_ARM struct {
-	// Type: The type of identity used for the Batch account.
 	Type *BatchAccountIdentity_Type `json:"type,omitempty"`
 }
 
-// The properties related to the auto-storage account.
+// Deprecated version of AutoStorageBaseProperties. Use v1api20210101.AutoStorageBaseProperties instead
 type AutoStorageBaseProperties_ARM struct {
 	StorageAccountId *string `json:"storageAccountId,omitempty"`
 }
 
+// Deprecated version of BatchAccountIdentity_Type. Use v1api20210101.BatchAccountIdentity_Type instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
 type BatchAccountIdentity_Type string
 
@@ -79,31 +60,19 @@ const (
 	BatchAccountIdentity_Type_UserAssigned   = BatchAccountIdentity_Type("UserAssigned")
 )
 
-// Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
-// managed key. For additional control, a customer-managed key can be used instead.
+// Deprecated version of EncryptionProperties. Use v1api20210101.EncryptionProperties instead
 type EncryptionProperties_ARM struct {
-	// KeySource: Type of the key source.
-	KeySource *EncryptionProperties_KeySource `json:"keySource,omitempty"`
-
-	// KeyVaultProperties: Additional details when using Microsoft.KeyVault
-	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
+	KeySource          *EncryptionProperties_KeySource `json:"keySource,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_ARM         `json:"keyVaultProperties,omitempty"`
 }
 
-// Identifies the Azure key vault associated with a Batch account.
+// Deprecated version of KeyVaultReference. Use v1api20210101.KeyVaultReference instead
 type KeyVaultReference_ARM struct {
-	Id *string `json:"id,omitempty"`
-
-	// Url: The URL of the Azure key vault associated with the Batch account.
+	Id  *string `json:"id,omitempty"`
 	Url *string `json:"url,omitempty"`
 }
 
-// KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
+// Deprecated version of KeyVaultProperties. Use v1api20210101.KeyVaultProperties instead
 type KeyVaultProperties_ARM struct {
-	// KeyIdentifier: Full path to the versioned secret. Example
-	// https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following
-	// prerequisites must be met:
-	// The Batch Account has a System Assigned identity
-	// The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
-	// The KeyVault has soft-delete and purge protection enabled
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }

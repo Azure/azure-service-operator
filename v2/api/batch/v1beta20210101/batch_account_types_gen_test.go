@@ -5,6 +5,7 @@ package v1beta20210101
 
 import (
 	"encoding/json"
+	v1api20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101storage"
 	v20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForBatchAccount(subject BatchAccount) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210101s.BatchAccount
+	var hub v1api20210101s.BatchAccount
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

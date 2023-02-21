@@ -5,12 +5,10 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of DatabaseAccounts_MongodbDatabases_Collection_Spec. Use v1api20210515.DatabaseAccounts_MongodbDatabases_Collection_Spec instead
 type DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM struct {
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties to create and update Azure Cosmos DB MongoDB collection.
+	Location   *string                                      `json:"location,omitempty"`
+	Name       string                                       `json:"name,omitempty"`
 	Properties *MongoDBCollectionCreateUpdateProperties_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                            `json:"tags,omitempty"`
 }
@@ -32,51 +30,33 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec_ARM) GetType
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
 
-// Properties to create and update Azure Cosmos DB MongoDB collection.
+// Deprecated version of MongoDBCollectionCreateUpdateProperties. Use v1api20210515.MongoDBCollectionCreateUpdateProperties instead
 type MongoDBCollectionCreateUpdateProperties_ARM struct {
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a MongoDB collection
+	Options  *CreateUpdateOptions_ARM       `json:"options,omitempty"`
 	Resource *MongoDBCollectionResource_ARM `json:"resource,omitempty"`
 }
 
-// Cosmos DB MongoDB collection resource object
+// Deprecated version of MongoDBCollectionResource. Use v1api20210515.MongoDBCollectionResource instead
 type MongoDBCollectionResource_ARM struct {
-	// AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	// Id: Name of the Cosmos DB MongoDB collection
-	Id *string `json:"id,omitempty"`
-
-	// Indexes: List of index keys
-	Indexes []MongoIndex_ARM `json:"indexes,omitempty"`
-
-	// ShardKey: A key-value pair of shard keys to be applied for the request.
-	ShardKey map[string]string `json:"shardKey,omitempty"`
+	AnalyticalStorageTtl *int              `json:"analyticalStorageTtl,omitempty"`
+	Id                   *string           `json:"id,omitempty"`
+	Indexes              []MongoIndex_ARM  `json:"indexes,omitempty"`
+	ShardKey             map[string]string `json:"shardKey,omitempty"`
 }
 
-// Cosmos DB MongoDB collection index key
+// Deprecated version of MongoIndex. Use v1api20210515.MongoIndex instead
 type MongoIndex_ARM struct {
-	// Key: Cosmos DB MongoDB collection index keys
-	Key *MongoIndexKeys_ARM `json:"key,omitempty"`
-
-	// Options: Cosmos DB MongoDB collection index key options
+	Key     *MongoIndexKeys_ARM    `json:"key,omitempty"`
 	Options *MongoIndexOptions_ARM `json:"options,omitempty"`
 }
 
-// Cosmos DB MongoDB collection resource object
+// Deprecated version of MongoIndexKeys. Use v1api20210515.MongoIndexKeys instead
 type MongoIndexKeys_ARM struct {
-	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
-// Cosmos DB MongoDB collection index options
+// Deprecated version of MongoIndexOptions. Use v1api20210515.MongoIndexOptions instead
 type MongoIndexOptions_ARM struct {
-	// ExpireAfterSeconds: Expire after seconds
-	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
-
-	// Unique: Is unique or not
-	Unique *bool `json:"unique,omitempty"`
+	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
+	Unique             *bool `json:"unique,omitempty"`
 }

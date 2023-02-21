@@ -4,14 +4,14 @@
 package customizations
 
 import (
-	alpha20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501"
-	alpha20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage"
+	v1api20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501"
+	v1api20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501storage"
+	v1api20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201"
+	v1api20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+	v1api20230202p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
+	v1api20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
 	v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
 	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
-	v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230201"
-	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230201storage"
-	v20230202p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230202preview"
-	v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230202previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -21,12 +21,12 @@ type ManagedClustersAgentPoolExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ManagedClustersAgentPoolExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&alpha20210501.ManagedClustersAgentPool{},
-		&alpha20210501s.ManagedClustersAgentPool{},
+		&v1api20210501.ManagedClustersAgentPool{},
+		&v1api20210501s.ManagedClustersAgentPool{},
+		&v1api20230201.ManagedClustersAgentPool{},
+		&v1api20230201s.ManagedClustersAgentPool{},
+		&v1api20230202p.ManagedClustersAgentPool{},
+		&v1api20230202ps.ManagedClustersAgentPool{},
 		&v20210501.ManagedClustersAgentPool{},
-		&v20210501s.ManagedClustersAgentPool{},
-		&v20230201.ManagedClustersAgentPool{},
-		&v20230201s.ManagedClustersAgentPool{},
-		&v20230202p.ManagedClustersAgentPool{},
-		&v20230202ps.ManagedClustersAgentPool{}}
+		&v20210501s.ManagedClustersAgentPool{}}
 }

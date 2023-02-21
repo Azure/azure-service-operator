@@ -4,27 +4,24 @@
 package v1beta20211001storage
 
 import (
+	"fmt"
+	v1api20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=subscription.azure.com,resources=aliases,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=subscription.azure.com,resources={aliases/status,aliases/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20211001.Alias
-// Generator information:
-// - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
-// - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
+// Deprecated version of Alias. Use v1api20211001.Alias instead
 type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -42,6 +39,28 @@ func (alias *Alias) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (alias *Alias) SetConditions(conditions conditions.Conditions) {
 	alias.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &Alias{}
+
+// ConvertFrom populates our Alias from the provided hub Alias
+func (alias *Alias) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1api20211001s.Alias)
+	if !ok {
+		return fmt.Errorf("expected subscription/v1api20211001storage/Alias but received %T instead", hub)
+	}
+
+	return alias.AssignProperties_From_Alias(source)
+}
+
+// ConvertTo populates the provided hub Alias from our Alias
+func (alias *Alias) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1api20211001s.Alias)
+	if !ok {
+		return fmt.Errorf("expected subscription/v1api20211001storage/Alias but received %T instead", hub)
+	}
+
+	return alias.AssignProperties_To_Alias(destination)
 }
 
 var _ genruntime.KubernetesResource = &Alias{}
@@ -105,8 +124,75 @@ func (alias *Alias) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// Hub marks that this Alias is the hub type for conversion
-func (alias *Alias) Hub() {}
+// AssignProperties_From_Alias populates our Alias from the provided source Alias
+func (alias *Alias) AssignProperties_From_Alias(source *v1api20211001s.Alias) error {
+
+	// ObjectMeta
+	alias.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec Alias_Spec
+	err := spec.AssignProperties_From_Alias_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Alias_Spec() to populate field Spec")
+	}
+	alias.Spec = spec
+
+	// Status
+	var status Alias_STATUS
+	err = status.AssignProperties_From_Alias_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_Alias_STATUS() to populate field Status")
+	}
+	alias.Status = status
+
+	// Invoke the augmentConversionForAlias interface (if implemented) to customize the conversion
+	var aliasAsAny any = alias
+	if augmentedAlias, ok := aliasAsAny.(augmentConversionForAlias); ok {
+		err := augmentedAlias.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Alias populates the provided destination Alias from our Alias
+func (alias *Alias) AssignProperties_To_Alias(destination *v1api20211001s.Alias) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *alias.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1api20211001s.Alias_Spec
+	err := alias.Spec.AssignProperties_To_Alias_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Alias_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1api20211001s.Alias_STATUS
+	err = alias.Status.AssignProperties_To_Alias_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_Alias_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForAlias interface (if implemented) to customize the conversion
+	var aliasAsAny any = alias
+	if augmentedAlias, ok := aliasAsAny.(augmentConversionForAlias); ok {
+		err := augmentedAlias.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (alias *Alias) OriginalGVK() *schema.GroupVersionKind {
@@ -119,9 +205,7 @@ func (alias *Alias) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20211001.Alias
-// Generator information:
-// - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
-// - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
+// Deprecated version of Alias. Use v1api20211001.Alias instead
 type AliasList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -142,23 +226,140 @@ var _ genruntime.ConvertibleSpec = &Alias_Spec{}
 
 // ConvertSpecFrom populates our Alias_Spec from the provided source
 func (alias *Alias_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == alias {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1api20211001s.Alias_Spec)
+	if ok {
+		// Populate our instance from source
+		return alias.AssignProperties_From_Alias_Spec(src)
 	}
 
-	return source.ConvertSpecTo(alias)
+	// Convert to an intermediate form
+	src = &v1api20211001s.Alias_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = alias.AssignProperties_From_Alias_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Alias_Spec
 func (alias *Alias_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == alias {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1api20211001s.Alias_Spec)
+	if ok {
+		// Populate destination from our instance
+		return alias.AssignProperties_To_Alias_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(alias)
+	// Convert to an intermediate form
+	dst = &v1api20211001s.Alias_Spec{}
+	err := alias.AssignProperties_To_Alias_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Alias_Spec populates our Alias_Spec from the provided source Alias_Spec
+func (alias *Alias_Spec) AssignProperties_From_Alias_Spec(source *v1api20211001s.Alias_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	alias.AzureName = source.AzureName
+
+	// OriginalVersion
+	alias.OriginalVersion = source.OriginalVersion
+
+	// Properties
+	if source.Properties != nil {
+		var property PutAliasRequestProperties
+		err := property.AssignProperties_From_PutAliasRequestProperties(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PutAliasRequestProperties() to populate field Properties")
+		}
+		alias.Properties = &property
+	} else {
+		alias.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		alias.PropertyBag = propertyBag
+	} else {
+		alias.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAlias_Spec interface (if implemented) to customize the conversion
+	var aliasAsAny any = alias
+	if augmentedAlias, ok := aliasAsAny.(augmentConversionForAlias_Spec); ok {
+		err := augmentedAlias.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Alias_Spec populates the provided destination Alias_Spec from our Alias_Spec
+func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *v1api20211001s.Alias_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(alias.PropertyBag)
+
+	// AzureName
+	destination.AzureName = alias.AzureName
+
+	// OriginalVersion
+	destination.OriginalVersion = alias.OriginalVersion
+
+	// Properties
+	if alias.Properties != nil {
+		var property v1api20211001s.PutAliasRequestProperties
+		err := alias.Properties.AssignProperties_To_PutAliasRequestProperties(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PutAliasRequestProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAlias_Spec interface (if implemented) to customize the conversion
+	var aliasAsAny any = alias
+	if augmentedAlias, ok := aliasAsAny.(augmentConversionForAlias_Spec); ok {
+		err := augmentedAlias.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20211001.Alias_STATUS
+// Deprecated version of Alias_STATUS. Use v1api20211001.Alias_STATUS instead
 type Alias_STATUS struct {
 	Conditions  []conditions.Condition                      `json:"conditions,omitempty"`
 	Id          *string                                     `json:"id,omitempty"`
@@ -173,30 +374,198 @@ var _ genruntime.ConvertibleStatus = &Alias_STATUS{}
 
 // ConvertStatusFrom populates our Alias_STATUS from the provided source
 func (alias *Alias_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == alias {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1api20211001s.Alias_STATUS)
+	if ok {
+		// Populate our instance from source
+		return alias.AssignProperties_From_Alias_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(alias)
+	// Convert to an intermediate form
+	src = &v1api20211001s.Alias_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = alias.AssignProperties_From_Alias_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Alias_STATUS
 func (alias *Alias_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == alias {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1api20211001s.Alias_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return alias.AssignProperties_To_Alias_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(alias)
+	// Convert to an intermediate form
+	dst = &v1api20211001s.Alias_STATUS{}
+	err := alias.AssignProperties_To_Alias_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Alias_STATUS populates our Alias_STATUS from the provided source Alias_STATUS
+func (alias *Alias_STATUS) AssignProperties_From_Alias_STATUS(source *v1api20211001s.Alias_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	alias.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	alias.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	alias.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property SubscriptionAliasResponseProperties_STATUS
+		err := property.AssignProperties_From_SubscriptionAliasResponseProperties_STATUS(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
+		}
+		alias.Properties = &property
+	} else {
+		alias.Properties = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		alias.SystemData = &systemDatum
+	} else {
+		alias.SystemData = nil
+	}
+
+	// Type
+	alias.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		alias.PropertyBag = propertyBag
+	} else {
+		alias.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAlias_STATUS interface (if implemented) to customize the conversion
+	var aliasAsAny any = alias
+	if augmentedAlias, ok := aliasAsAny.(augmentConversionForAlias_STATUS); ok {
+		err := augmentedAlias.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Alias_STATUS populates the provided destination Alias_STATUS from our Alias_STATUS
+func (alias *Alias_STATUS) AssignProperties_To_Alias_STATUS(destination *v1api20211001s.Alias_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(alias.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(alias.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(alias.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(alias.Name)
+
+	// Properties
+	if alias.Properties != nil {
+		var property v1api20211001s.SubscriptionAliasResponseProperties_STATUS
+		err := alias.Properties.AssignProperties_To_SubscriptionAliasResponseProperties_STATUS(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// SystemData
+	if alias.SystemData != nil {
+		var systemDatum v1api20211001s.SystemData_STATUS
+		err := alias.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(alias.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAlias_STATUS interface (if implemented) to customize the conversion
+	var aliasAsAny any = alias
+	if augmentedAlias, ok := aliasAsAny.(augmentConversionForAlias_STATUS); ok {
+		err := augmentedAlias.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20211001.APIVersion
+// Deprecated version of APIVersion. Use v1api20211001.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
 
+type augmentConversionForAlias interface {
+	AssignPropertiesFrom(src *v1api20211001s.Alias) error
+	AssignPropertiesTo(dst *v1api20211001s.Alias) error
+}
+
+type augmentConversionForAlias_Spec interface {
+	AssignPropertiesFrom(src *v1api20211001s.Alias_Spec) error
+	AssignPropertiesTo(dst *v1api20211001s.Alias_Spec) error
+}
+
+type augmentConversionForAlias_STATUS interface {
+	AssignPropertiesFrom(src *v1api20211001s.Alias_STATUS) error
+	AssignPropertiesTo(dst *v1api20211001s.Alias_STATUS) error
+}
+
 // Storage version of v1beta20211001.PutAliasRequestProperties
-// Put subscription properties.
+// Deprecated version of PutAliasRequestProperties. Use v1api20211001.PutAliasRequestProperties instead
 type PutAliasRequestProperties struct {
 	AdditionalProperties *PutAliasRequestAdditionalProperties `json:"additionalProperties,omitempty"`
 	BillingScope         *string                              `json:"billingScope,omitempty"`
@@ -207,8 +576,112 @@ type PutAliasRequestProperties struct {
 	Workload             *string                              `json:"workload,omitempty"`
 }
 
+// AssignProperties_From_PutAliasRequestProperties populates our PutAliasRequestProperties from the provided source PutAliasRequestProperties
+func (properties *PutAliasRequestProperties) AssignProperties_From_PutAliasRequestProperties(source *v1api20211001s.PutAliasRequestProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		var additionalProperty PutAliasRequestAdditionalProperties
+		err := additionalProperty.AssignProperties_From_PutAliasRequestAdditionalProperties(source.AdditionalProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
+		}
+		properties.AdditionalProperties = &additionalProperty
+	} else {
+		properties.AdditionalProperties = nil
+	}
+
+	// BillingScope
+	properties.BillingScope = genruntime.ClonePointerToString(source.BillingScope)
+
+	// DisplayName
+	properties.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
+
+	// ResellerId
+	properties.ResellerId = genruntime.ClonePointerToString(source.ResellerId)
+
+	// SubscriptionId
+	properties.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
+
+	// Workload
+	properties.Workload = genruntime.ClonePointerToString(source.Workload)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPutAliasRequestProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForPutAliasRequestProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PutAliasRequestProperties populates the provided destination PutAliasRequestProperties from our PutAliasRequestProperties
+func (properties *PutAliasRequestProperties) AssignProperties_To_PutAliasRequestProperties(destination *v1api20211001s.PutAliasRequestProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// AdditionalProperties
+	if properties.AdditionalProperties != nil {
+		var additionalProperty v1api20211001s.PutAliasRequestAdditionalProperties
+		err := properties.AdditionalProperties.AssignProperties_To_PutAliasRequestAdditionalProperties(&additionalProperty)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PutAliasRequestAdditionalProperties() to populate field AdditionalProperties")
+		}
+		destination.AdditionalProperties = &additionalProperty
+	} else {
+		destination.AdditionalProperties = nil
+	}
+
+	// BillingScope
+	destination.BillingScope = genruntime.ClonePointerToString(properties.BillingScope)
+
+	// DisplayName
+	destination.DisplayName = genruntime.ClonePointerToString(properties.DisplayName)
+
+	// ResellerId
+	destination.ResellerId = genruntime.ClonePointerToString(properties.ResellerId)
+
+	// SubscriptionId
+	destination.SubscriptionId = genruntime.ClonePointerToString(properties.SubscriptionId)
+
+	// Workload
+	destination.Workload = genruntime.ClonePointerToString(properties.Workload)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPutAliasRequestProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForPutAliasRequestProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20211001.SubscriptionAliasResponseProperties_STATUS
-// Put subscription creation result properties.
+// Deprecated version of SubscriptionAliasResponseProperties_STATUS. Use v1api20211001.SubscriptionAliasResponseProperties_STATUS instead
 type SubscriptionAliasResponseProperties_STATUS struct {
 	AcceptOwnershipState *string                `json:"acceptOwnershipState,omitempty"`
 	AcceptOwnershipUrl   *string                `json:"acceptOwnershipUrl,omitempty"`
@@ -225,8 +698,130 @@ type SubscriptionAliasResponseProperties_STATUS struct {
 	Workload             *string                `json:"workload,omitempty"`
 }
 
+// AssignProperties_From_SubscriptionAliasResponseProperties_STATUS populates our SubscriptionAliasResponseProperties_STATUS from the provided source SubscriptionAliasResponseProperties_STATUS
+func (properties *SubscriptionAliasResponseProperties_STATUS) AssignProperties_From_SubscriptionAliasResponseProperties_STATUS(source *v1api20211001s.SubscriptionAliasResponseProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AcceptOwnershipState
+	properties.AcceptOwnershipState = genruntime.ClonePointerToString(source.AcceptOwnershipState)
+
+	// AcceptOwnershipUrl
+	properties.AcceptOwnershipUrl = genruntime.ClonePointerToString(source.AcceptOwnershipUrl)
+
+	// BillingScope
+	properties.BillingScope = genruntime.ClonePointerToString(source.BillingScope)
+
+	// CreatedTime
+	properties.CreatedTime = genruntime.ClonePointerToString(source.CreatedTime)
+
+	// DisplayName
+	properties.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
+
+	// ManagementGroupId
+	properties.ManagementGroupId = genruntime.ClonePointerToString(source.ManagementGroupId)
+
+	// ProvisioningState
+	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// ResellerId
+	properties.ResellerId = genruntime.ClonePointerToString(source.ResellerId)
+
+	// SubscriptionId
+	properties.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
+
+	// SubscriptionOwnerId
+	properties.SubscriptionOwnerId = genruntime.ClonePointerToString(source.SubscriptionOwnerId)
+
+	// Tags
+	properties.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Workload
+	properties.Workload = genruntime.ClonePointerToString(source.Workload)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSubscriptionAliasResponseProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForSubscriptionAliasResponseProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SubscriptionAliasResponseProperties_STATUS populates the provided destination SubscriptionAliasResponseProperties_STATUS from our SubscriptionAliasResponseProperties_STATUS
+func (properties *SubscriptionAliasResponseProperties_STATUS) AssignProperties_To_SubscriptionAliasResponseProperties_STATUS(destination *v1api20211001s.SubscriptionAliasResponseProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// AcceptOwnershipState
+	destination.AcceptOwnershipState = genruntime.ClonePointerToString(properties.AcceptOwnershipState)
+
+	// AcceptOwnershipUrl
+	destination.AcceptOwnershipUrl = genruntime.ClonePointerToString(properties.AcceptOwnershipUrl)
+
+	// BillingScope
+	destination.BillingScope = genruntime.ClonePointerToString(properties.BillingScope)
+
+	// CreatedTime
+	destination.CreatedTime = genruntime.ClonePointerToString(properties.CreatedTime)
+
+	// DisplayName
+	destination.DisplayName = genruntime.ClonePointerToString(properties.DisplayName)
+
+	// ManagementGroupId
+	destination.ManagementGroupId = genruntime.ClonePointerToString(properties.ManagementGroupId)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
+
+	// ResellerId
+	destination.ResellerId = genruntime.ClonePointerToString(properties.ResellerId)
+
+	// SubscriptionId
+	destination.SubscriptionId = genruntime.ClonePointerToString(properties.SubscriptionId)
+
+	// SubscriptionOwnerId
+	destination.SubscriptionOwnerId = genruntime.ClonePointerToString(properties.SubscriptionOwnerId)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(properties.Tags)
+
+	// Workload
+	destination.Workload = genruntime.ClonePointerToString(properties.Workload)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSubscriptionAliasResponseProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForSubscriptionAliasResponseProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20211001.SystemData_STATUS
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20211001.SystemData_STATUS instead
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -237,14 +832,194 @@ type SystemData_STATUS struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *v1api20211001s.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		data.PropertyBag = propertyBag
+	} else {
+		data.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *v1api20211001s.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
+
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForPutAliasRequestProperties interface {
+	AssignPropertiesFrom(src *v1api20211001s.PutAliasRequestProperties) error
+	AssignPropertiesTo(dst *v1api20211001s.PutAliasRequestProperties) error
+}
+
+type augmentConversionForSubscriptionAliasResponseProperties_STATUS interface {
+	AssignPropertiesFrom(src *v1api20211001s.SubscriptionAliasResponseProperties_STATUS) error
+	AssignPropertiesTo(dst *v1api20211001s.SubscriptionAliasResponseProperties_STATUS) error
+}
+
+type augmentConversionForSystemData_STATUS interface {
+	AssignPropertiesFrom(src *v1api20211001s.SystemData_STATUS) error
+	AssignPropertiesTo(dst *v1api20211001s.SystemData_STATUS) error
+}
+
 // Storage version of v1beta20211001.PutAliasRequestAdditionalProperties
-// Put subscription additional properties.
+// Deprecated version of PutAliasRequestAdditionalProperties. Use v1api20211001.PutAliasRequestAdditionalProperties instead
 type PutAliasRequestAdditionalProperties struct {
 	ManagementGroupId    *string                `json:"managementGroupId,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SubscriptionOwnerId  *string                `json:"subscriptionOwnerId,omitempty"`
 	SubscriptionTenantId *string                `json:"subscriptionTenantId,omitempty"`
 	Tags                 map[string]string      `json:"tags,omitempty"`
+}
+
+// AssignProperties_From_PutAliasRequestAdditionalProperties populates our PutAliasRequestAdditionalProperties from the provided source PutAliasRequestAdditionalProperties
+func (properties *PutAliasRequestAdditionalProperties) AssignProperties_From_PutAliasRequestAdditionalProperties(source *v1api20211001s.PutAliasRequestAdditionalProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ManagementGroupId
+	properties.ManagementGroupId = genruntime.ClonePointerToString(source.ManagementGroupId)
+
+	// SubscriptionOwnerId
+	properties.SubscriptionOwnerId = genruntime.ClonePointerToString(source.SubscriptionOwnerId)
+
+	// SubscriptionTenantId
+	properties.SubscriptionTenantId = genruntime.ClonePointerToString(source.SubscriptionTenantId)
+
+	// Tags
+	properties.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPutAliasRequestAdditionalProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForPutAliasRequestAdditionalProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PutAliasRequestAdditionalProperties populates the provided destination PutAliasRequestAdditionalProperties from our PutAliasRequestAdditionalProperties
+func (properties *PutAliasRequestAdditionalProperties) AssignProperties_To_PutAliasRequestAdditionalProperties(destination *v1api20211001s.PutAliasRequestAdditionalProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// ManagementGroupId
+	destination.ManagementGroupId = genruntime.ClonePointerToString(properties.ManagementGroupId)
+
+	// SubscriptionOwnerId
+	destination.SubscriptionOwnerId = genruntime.ClonePointerToString(properties.SubscriptionOwnerId)
+
+	// SubscriptionTenantId
+	destination.SubscriptionTenantId = genruntime.ClonePointerToString(properties.SubscriptionTenantId)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(properties.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPutAliasRequestAdditionalProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForPutAliasRequestAdditionalProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForPutAliasRequestAdditionalProperties interface {
+	AssignPropertiesFrom(src *v1api20211001s.PutAliasRequestAdditionalProperties) error
+	AssignPropertiesTo(dst *v1api20211001s.PutAliasRequestAdditionalProperties) error
 }
 
 func init() {

@@ -5,6 +5,7 @@ package v1beta20210501storage
 
 import (
 	"encoding/json"
+	v1api20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_FlexibleServersDatabase_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersDatabase to hub returns original",
+		prop.ForAll(RunResourceConversionTestForFlexibleServersDatabase, FlexibleServersDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForFlexibleServersDatabase tests if a specific instance of FlexibleServersDatabase round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForFlexibleServersDatabase(subject FlexibleServersDatabase) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20210501s.FlexibleServersDatabase
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual FlexibleServersDatabase
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FlexibleServersDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersDatabase to FlexibleServersDatabase via AssignProperties_To_FlexibleServersDatabase & AssignProperties_From_FlexibleServersDatabase returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersDatabase, FlexibleServersDatabaseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersDatabase tests if a specific instance of FlexibleServersDatabase can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersDatabase(subject FlexibleServersDatabase) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.FlexibleServersDatabase
+	err := copied.AssignProperties_To_FlexibleServersDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersDatabase
+	err = actual.AssignProperties_From_FlexibleServersDatabase(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_FlexibleServersDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func FlexibleServersDatabaseGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForFlexibleServersDatabase(gens map[string]gopter.Gen) {
 	gens["Spec"] = FlexibleServers_Database_SpecGenerator()
 	gens["Status"] = FlexibleServers_Database_STATUSGenerator()
+}
+
+func Test_FlexibleServers_Database_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServers_Database_Spec to FlexibleServers_Database_Spec via AssignProperties_To_FlexibleServers_Database_Spec & AssignProperties_From_FlexibleServers_Database_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServers_Database_Spec, FlexibleServers_Database_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServers_Database_Spec tests if a specific instance of FlexibleServers_Database_Spec can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServers_Database_Spec(subject FlexibleServers_Database_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.FlexibleServers_Database_Spec
+	err := copied.AssignProperties_To_FlexibleServers_Database_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServers_Database_Spec
+	err = actual.AssignProperties_From_FlexibleServers_Database_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServers_Database_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -141,6 +269,48 @@ func AddIndependentPropertyGeneratorsForFlexibleServers_Database_Spec(gens map[s
 	gens["Charset"] = gen.PtrOf(gen.AlphaString())
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
+}
+
+func Test_FlexibleServers_Database_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServers_Database_STATUS to FlexibleServers_Database_STATUS via AssignProperties_To_FlexibleServers_Database_STATUS & AssignProperties_From_FlexibleServers_Database_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServers_Database_STATUS, FlexibleServers_Database_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServers_Database_STATUS tests if a specific instance of FlexibleServers_Database_STATUS can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServers_Database_STATUS(subject FlexibleServers_Database_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.FlexibleServers_Database_STATUS
+	err := copied.AssignProperties_To_FlexibleServers_Database_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServers_Database_STATUS
+	err = actual.AssignProperties_From_FlexibleServers_Database_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServers_Database_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

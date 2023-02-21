@@ -22,7 +22,7 @@ import (
 	fake2 "sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	"github.com/Azure/azure-service-operator/v2/api"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 )
 
 type clientSet struct {

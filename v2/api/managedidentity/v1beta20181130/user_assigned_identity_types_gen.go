@@ -29,9 +29,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}
+// Deprecated version of UserAssignedIdentity. Use v1api20181130.UserAssignedIdentity instead
 type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -55,22 +53,36 @@ var _ conversion.Convertible = &UserAssignedIdentity{}
 
 // ConvertFrom populates our UserAssignedIdentity from the provided hub UserAssignedIdentity
 func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20181130s.UserAssignedIdentity)
-	if !ok {
-		return fmt.Errorf("expected managedidentity/v1beta20181130storage/UserAssignedIdentity but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20181130s.UserAssignedIdentity
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return identity.AssignProperties_From_UserAssignedIdentity(source)
+	err = identity.AssignProperties_From_UserAssignedIdentity(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to identity")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub UserAssignedIdentity from our UserAssignedIdentity
 func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20181130s.UserAssignedIdentity)
-	if !ok {
-		return fmt.Errorf("expected managedidentity/v1beta20181130storage/UserAssignedIdentity but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20181130s.UserAssignedIdentity
+	err := identity.AssignProperties_To_UserAssignedIdentity(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from identity")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return identity.AssignProperties_To_UserAssignedIdentity(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-managedidentity-azure-com-v1beta20181130-userassignedidentity,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1beta20181130,name=default.v1beta20181130.userassignedidentities.managedidentity.azure.com,admissionReviewVersions=v1
@@ -375,15 +387,14 @@ func (identity *UserAssignedIdentity) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}
+// Deprecated version of UserAssignedIdentity. Use v1api20181130.UserAssignedIdentity instead
 type UserAssignedIdentityList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []UserAssignedIdentity `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20181130.APIVersion instead
 // +kubebuilder:validation:Enum={"2018-11-30"}
 type APIVersion string
 
@@ -395,7 +406,6 @@ type UserAssignedIdentity_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -407,9 +417,7 @@ type UserAssignedIdentity_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UserAssignedIdentity_Spec{}
@@ -635,34 +643,19 @@ func (identity *UserAssignedIdentity_Spec) SetAzureName(azureName string) {
 	identity.AzureName = azureName
 }
 
+// Deprecated version of UserAssignedIdentity_STATUS. Use v1api20181130.UserAssignedIdentity_STATUS instead
 type UserAssignedIdentity_STATUS struct {
-	// ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
 	ClientId *string `json:"clientId,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// PrincipalId: The id of the service principal object associated with the created identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TenantId: The id of the tenant which the identity belongs to.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	Location    *string                `json:"location,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	Tags        map[string]string      `json:"tags,omitempty"`
+	TenantId    *string                `json:"tenantId,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &UserAssignedIdentity_STATUS{}

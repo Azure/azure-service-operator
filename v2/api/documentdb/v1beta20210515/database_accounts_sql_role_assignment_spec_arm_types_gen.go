@@ -5,10 +5,9 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of DatabaseAccounts_SqlRoleAssignment_Spec. Use v1api20210515.DatabaseAccounts_SqlRoleAssignment_Spec instead
 type DatabaseAccounts_SqlRoleAssignment_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties to create and update an Azure Cosmos DB SQL Role Assignment.
+	Name       string                         `json:"name,omitempty"`
 	Properties *SqlRoleAssignmentResource_ARM `json:"properties,omitempty"`
 }
 
@@ -29,15 +28,9 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec_ARM) GetType() string 
 	return "Microsoft.DocumentDB/databaseAccounts/sqlRoleAssignments"
 }
 
-// Azure Cosmos DB SQL Role Assignment resource object.
+// Deprecated version of SqlRoleAssignmentResource. Use v1api20210515.SqlRoleAssignmentResource instead
 type SqlRoleAssignmentResource_ARM struct {
-	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
-	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.
-	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
-
-	// RoleDefinitionId: The unique identifier for the associated Role Definition.
+	PrincipalId      *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
-
-	// Scope: The data plane resource path for which access is being granted through this Role Assignment.
-	Scope *string `json:"scope,omitempty"`
+	Scope            *string `json:"scope,omitempty"`
 }

@@ -4,27 +4,24 @@
 package v1beta20201101storage
 
 import (
+	"fmt"
+	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=network.azure.com,resources=routetablesroutes,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=network.azure.com,resources={routetablesroutes/status,routetablesroutes/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201101.RouteTablesRoute
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
+// Deprecated version of RouteTablesRoute. Use v1api20201101.RouteTablesRoute instead
 type RouteTablesRoute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -42,6 +39,28 @@ func (route *RouteTablesRoute) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (route *RouteTablesRoute) SetConditions(conditions conditions.Conditions) {
 	route.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &RouteTablesRoute{}
+
+// ConvertFrom populates our RouteTablesRoute from the provided hub RouteTablesRoute
+func (route *RouteTablesRoute) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1api20201101s.RouteTablesRoute)
+	if !ok {
+		return fmt.Errorf("expected network/v1api20201101storage/RouteTablesRoute but received %T instead", hub)
+	}
+
+	return route.AssignProperties_From_RouteTablesRoute(source)
+}
+
+// ConvertTo populates the provided hub RouteTablesRoute from our RouteTablesRoute
+func (route *RouteTablesRoute) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1api20201101s.RouteTablesRoute)
+	if !ok {
+		return fmt.Errorf("expected network/v1api20201101storage/RouteTablesRoute but received %T instead", hub)
+	}
+
+	return route.AssignProperties_To_RouteTablesRoute(destination)
 }
 
 var _ genruntime.KubernetesResource = &RouteTablesRoute{}
@@ -110,8 +129,75 @@ func (route *RouteTablesRoute) SetStatus(status genruntime.ConvertibleStatus) er
 	return nil
 }
 
-// Hub marks that this RouteTablesRoute is the hub type for conversion
-func (route *RouteTablesRoute) Hub() {}
+// AssignProperties_From_RouteTablesRoute populates our RouteTablesRoute from the provided source RouteTablesRoute
+func (route *RouteTablesRoute) AssignProperties_From_RouteTablesRoute(source *v1api20201101s.RouteTablesRoute) error {
+
+	// ObjectMeta
+	route.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec RouteTables_Route_Spec
+	err := spec.AssignProperties_From_RouteTables_Route_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_RouteTables_Route_Spec() to populate field Spec")
+	}
+	route.Spec = spec
+
+	// Status
+	var status RouteTables_Route_STATUS
+	err = status.AssignProperties_From_RouteTables_Route_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_RouteTables_Route_STATUS() to populate field Status")
+	}
+	route.Status = status
+
+	// Invoke the augmentConversionForRouteTablesRoute interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRouteTablesRoute); ok {
+		err := augmentedRoute.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RouteTablesRoute populates the provided destination RouteTablesRoute from our RouteTablesRoute
+func (route *RouteTablesRoute) AssignProperties_To_RouteTablesRoute(destination *v1api20201101s.RouteTablesRoute) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *route.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1api20201101s.RouteTables_Route_Spec
+	err := route.Spec.AssignProperties_To_RouteTables_Route_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_RouteTables_Route_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1api20201101s.RouteTables_Route_STATUS
+	err = route.Status.AssignProperties_To_RouteTables_Route_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_RouteTables_Route_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForRouteTablesRoute interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRouteTablesRoute); ok {
+		err := augmentedRoute.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (route *RouteTablesRoute) OriginalGVK() *schema.GroupVersionKind {
@@ -124,13 +210,16 @@ func (route *RouteTablesRoute) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201101.RouteTablesRoute
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
+// Deprecated version of RouteTablesRoute. Use v1api20201101.RouteTablesRoute instead
 type RouteTablesRouteList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RouteTablesRoute `json:"items"`
+}
+
+type augmentConversionForRouteTablesRoute interface {
+	AssignPropertiesFrom(src *v1api20201101s.RouteTablesRoute) error
+	AssignPropertiesTo(dst *v1api20201101s.RouteTablesRoute) error
 }
 
 // Storage version of v1beta20201101.RouteTables_Route_Spec
@@ -157,23 +246,166 @@ var _ genruntime.ConvertibleSpec = &RouteTables_Route_Spec{}
 
 // ConvertSpecFrom populates our RouteTables_Route_Spec from the provided source
 func (route *RouteTables_Route_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1api20201101s.RouteTables_Route_Spec)
+	if ok {
+		// Populate our instance from source
+		return route.AssignProperties_From_RouteTables_Route_Spec(src)
 	}
 
-	return source.ConvertSpecTo(route)
+	// Convert to an intermediate form
+	src = &v1api20201101s.RouteTables_Route_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = route.AssignProperties_From_RouteTables_Route_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our RouteTables_Route_Spec
 func (route *RouteTables_Route_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1api20201101s.RouteTables_Route_Spec)
+	if ok {
+		// Populate destination from our instance
+		return route.AssignProperties_To_RouteTables_Route_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(route)
+	// Convert to an intermediate form
+	dst = &v1api20201101s.RouteTables_Route_Spec{}
+	err := route.AssignProperties_To_RouteTables_Route_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RouteTables_Route_Spec populates our RouteTables_Route_Spec from the provided source RouteTables_Route_Spec
+func (route *RouteTables_Route_Spec) AssignProperties_From_RouteTables_Route_Spec(source *v1api20201101s.RouteTables_Route_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AddressPrefix
+	route.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
+
+	// AzureName
+	route.AzureName = source.AzureName
+
+	// HasBgpOverride
+	if source.HasBgpOverride != nil {
+		hasBgpOverride := *source.HasBgpOverride
+		route.HasBgpOverride = &hasBgpOverride
+	} else {
+		route.HasBgpOverride = nil
+	}
+
+	// NextHopIpAddress
+	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)
+
+	// NextHopType
+	route.NextHopType = genruntime.ClonePointerToString(source.NextHopType)
+
+	// OriginalVersion
+	route.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		route.Owner = &owner
+	} else {
+		route.Owner = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		route.PropertyBag = propertyBag
+	} else {
+		route.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRouteTables_Route_Spec interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRouteTables_Route_Spec); ok {
+		err := augmentedRoute.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RouteTables_Route_Spec populates the provided destination RouteTables_Route_Spec from our RouteTables_Route_Spec
+func (route *RouteTables_Route_Spec) AssignProperties_To_RouteTables_Route_Spec(destination *v1api20201101s.RouteTables_Route_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(route.PropertyBag)
+
+	// AddressPrefix
+	destination.AddressPrefix = genruntime.ClonePointerToString(route.AddressPrefix)
+
+	// AzureName
+	destination.AzureName = route.AzureName
+
+	// HasBgpOverride
+	if route.HasBgpOverride != nil {
+		hasBgpOverride := *route.HasBgpOverride
+		destination.HasBgpOverride = &hasBgpOverride
+	} else {
+		destination.HasBgpOverride = nil
+	}
+
+	// NextHopIpAddress
+	destination.NextHopIpAddress = genruntime.ClonePointerToString(route.NextHopIpAddress)
+
+	// NextHopType
+	destination.NextHopType = genruntime.ClonePointerToString(route.NextHopType)
+
+	// OriginalVersion
+	destination.OriginalVersion = route.OriginalVersion
+
+	// Owner
+	if route.Owner != nil {
+		owner := route.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRouteTables_Route_Spec interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRouteTables_Route_Spec); ok {
+		err := augmentedRoute.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20201101.RouteTables_Route_STATUS
+// Deprecated version of RouteTables_Route_STATUS. Use v1api20201101.RouteTables_Route_STATUS instead
 type RouteTables_Route_STATUS struct {
 	AddressPrefix     *string                `json:"addressPrefix,omitempty"`
 	Conditions        []conditions.Condition `json:"conditions,omitempty"`
@@ -192,20 +424,180 @@ var _ genruntime.ConvertibleStatus = &RouteTables_Route_STATUS{}
 
 // ConvertStatusFrom populates our RouteTables_Route_STATUS from the provided source
 func (route *RouteTables_Route_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1api20201101s.RouteTables_Route_STATUS)
+	if ok {
+		// Populate our instance from source
+		return route.AssignProperties_From_RouteTables_Route_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(route)
+	// Convert to an intermediate form
+	src = &v1api20201101s.RouteTables_Route_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = route.AssignProperties_From_RouteTables_Route_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our RouteTables_Route_STATUS
 func (route *RouteTables_Route_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == route {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1api20201101s.RouteTables_Route_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return route.AssignProperties_To_RouteTables_Route_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(route)
+	// Convert to an intermediate form
+	dst = &v1api20201101s.RouteTables_Route_STATUS{}
+	err := route.AssignProperties_To_RouteTables_Route_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RouteTables_Route_STATUS populates our RouteTables_Route_STATUS from the provided source RouteTables_Route_STATUS
+func (route *RouteTables_Route_STATUS) AssignProperties_From_RouteTables_Route_STATUS(source *v1api20201101s.RouteTables_Route_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AddressPrefix
+	route.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
+
+	// Conditions
+	route.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Etag
+	route.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// HasBgpOverride
+	if source.HasBgpOverride != nil {
+		hasBgpOverride := *source.HasBgpOverride
+		route.HasBgpOverride = &hasBgpOverride
+	} else {
+		route.HasBgpOverride = nil
+	}
+
+	// Id
+	route.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	route.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NextHopIpAddress
+	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)
+
+	// NextHopType
+	route.NextHopType = genruntime.ClonePointerToString(source.NextHopType)
+
+	// ProvisioningState
+	route.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Type
+	route.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		route.PropertyBag = propertyBag
+	} else {
+		route.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRouteTables_Route_STATUS interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRouteTables_Route_STATUS); ok {
+		err := augmentedRoute.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RouteTables_Route_STATUS populates the provided destination RouteTables_Route_STATUS from our RouteTables_Route_STATUS
+func (route *RouteTables_Route_STATUS) AssignProperties_To_RouteTables_Route_STATUS(destination *v1api20201101s.RouteTables_Route_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(route.PropertyBag)
+
+	// AddressPrefix
+	destination.AddressPrefix = genruntime.ClonePointerToString(route.AddressPrefix)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(route.Conditions)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(route.Etag)
+
+	// HasBgpOverride
+	if route.HasBgpOverride != nil {
+		hasBgpOverride := *route.HasBgpOverride
+		destination.HasBgpOverride = &hasBgpOverride
+	} else {
+		destination.HasBgpOverride = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(route.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(route.Name)
+
+	// NextHopIpAddress
+	destination.NextHopIpAddress = genruntime.ClonePointerToString(route.NextHopIpAddress)
+
+	// NextHopType
+	destination.NextHopType = genruntime.ClonePointerToString(route.NextHopType)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(route.ProvisioningState)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(route.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRouteTables_Route_STATUS interface (if implemented) to customize the conversion
+	var routeAsAny any = route
+	if augmentedRoute, ok := routeAsAny.(augmentConversionForRouteTables_Route_STATUS); ok {
+		err := augmentedRoute.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForRouteTables_Route_Spec interface {
+	AssignPropertiesFrom(src *v1api20201101s.RouteTables_Route_Spec) error
+	AssignPropertiesTo(dst *v1api20201101s.RouteTables_Route_Spec) error
+}
+
+type augmentConversionForRouteTables_Route_STATUS interface {
+	AssignPropertiesFrom(src *v1api20201101s.RouteTables_Route_STATUS) error
+	AssignPropertiesTo(dst *v1api20201101s.RouteTables_Route_STATUS) error
 }
 
 func init() {

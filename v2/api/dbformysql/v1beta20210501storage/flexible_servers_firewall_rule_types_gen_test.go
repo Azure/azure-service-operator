@@ -5,6 +5,7 @@ package v1beta20210501storage
 
 import (
 	"encoding/json"
+	v1api20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_FlexibleServersFirewallRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersFirewallRule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForFlexibleServersFirewallRule, FlexibleServersFirewallRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForFlexibleServersFirewallRule tests if a specific instance of FlexibleServersFirewallRule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForFlexibleServersFirewallRule(subject FlexibleServersFirewallRule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20210501s.FlexibleServersFirewallRule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual FlexibleServersFirewallRule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FlexibleServersFirewallRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServersFirewallRule to FlexibleServersFirewallRule via AssignProperties_To_FlexibleServersFirewallRule & AssignProperties_From_FlexibleServersFirewallRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServersFirewallRule, FlexibleServersFirewallRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServersFirewallRule tests if a specific instance of FlexibleServersFirewallRule can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServersFirewallRule(subject FlexibleServersFirewallRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.FlexibleServersFirewallRule
+	err := copied.AssignProperties_To_FlexibleServersFirewallRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServersFirewallRule
+	err = actual.AssignProperties_From_FlexibleServersFirewallRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_FlexibleServersFirewallRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func FlexibleServersFirewallRuleGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = FlexibleServers_FirewallRule_SpecGenerator()
 	gens["Status"] = FlexibleServers_FirewallRule_STATUSGenerator()
+}
+
+func Test_FlexibleServers_FirewallRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServers_FirewallRule_Spec to FlexibleServers_FirewallRule_Spec via AssignProperties_To_FlexibleServers_FirewallRule_Spec & AssignProperties_From_FlexibleServers_FirewallRule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServers_FirewallRule_Spec, FlexibleServers_FirewallRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServers_FirewallRule_Spec tests if a specific instance of FlexibleServers_FirewallRule_Spec can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServers_FirewallRule_Spec(subject FlexibleServers_FirewallRule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.FlexibleServers_FirewallRule_Spec
+	err := copied.AssignProperties_To_FlexibleServers_FirewallRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServers_FirewallRule_Spec
+	err = actual.AssignProperties_From_FlexibleServers_FirewallRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServers_FirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -141,6 +269,48 @@ func AddIndependentPropertyGeneratorsForFlexibleServers_FirewallRule_Spec(gens m
 	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_FlexibleServers_FirewallRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlexibleServers_FirewallRule_STATUS to FlexibleServers_FirewallRule_STATUS via AssignProperties_To_FlexibleServers_FirewallRule_STATUS & AssignProperties_From_FlexibleServers_FirewallRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlexibleServers_FirewallRule_STATUS, FlexibleServers_FirewallRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlexibleServers_FirewallRule_STATUS tests if a specific instance of FlexibleServers_FirewallRule_STATUS can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForFlexibleServers_FirewallRule_STATUS(subject FlexibleServers_FirewallRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.FlexibleServers_FirewallRule_STATUS
+	err := copied.AssignProperties_To_FlexibleServers_FirewallRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlexibleServers_FirewallRule_STATUS
+	err = actual.AssignProperties_From_FlexibleServers_FirewallRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_FlexibleServers_FirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

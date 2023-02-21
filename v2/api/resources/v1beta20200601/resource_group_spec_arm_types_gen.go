@@ -5,17 +5,12 @@ package v1beta20200601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of ResourceGroup_Spec. Use v1api20200601.ResourceGroup_Spec instead
 type ResourceGroup_Spec_ARM struct {
-	// Location: The location of the resource group. It cannot be changed after the resource group has been created. It must be
-	// one of the supported Azure locations.
-	Location *string `json:"location,omitempty"`
-
-	// ManagedBy: The ID of the resource that manages this resource group.
-	ManagedBy *string `json:"managedBy,omitempty"`
-	Name      string  `json:"name,omitempty"`
-
-	// Tags: The tags attached to the resource group.
-	Tags map[string]string `json:"tags,omitempty"`
+	Location  *string           `json:"location,omitempty"`
+	ManagedBy *string           `json:"managedBy,omitempty"`
+	Name      string            `json:"name,omitempty"`
+	Tags      map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ResourceGroup_Spec_ARM{}

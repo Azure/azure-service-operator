@@ -5,7 +5,8 @@ package v1beta20210501storage
 
 import (
 	"encoding/json"
-	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230201storage"
+	v1api20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501storage"
+	v1api20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForManagedCluster(subject ManagedCluster) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20230201s.ManagedCluster
+	var hub v1api20230201s.ManagedCluster
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +73,13 @@ func Test_ManagedCluster_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedCluster tests if a specific instance of ManagedCluster can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedCluster tests if a specific instance of ManagedCluster can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedCluster(subject ManagedCluster) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedCluster
+	var other v1api20210501s.ManagedCluster
 	err := copied.AssignProperties_To_ManagedCluster(&other)
 	if err != nil {
 		return err.Error()
@@ -175,13 +176,13 @@ func Test_ManagedCluster_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedCluster_Spec tests if a specific instance of ManagedCluster_Spec can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedCluster_Spec tests if a specific instance of ManagedCluster_Spec can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedCluster_Spec(subject ManagedCluster_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedCluster_Spec
+	var other v1api20210501s.ManagedCluster_Spec
 	err := copied.AssignProperties_To_ManagedCluster_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -319,13 +320,13 @@ func Test_ManagedCluster_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedCluster_STATUS tests if a specific instance of ManagedCluster_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedCluster_STATUS tests if a specific instance of ManagedCluster_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedCluster_STATUS(subject ManagedCluster_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedCluster_STATUS
+	var other v1api20210501s.ManagedCluster_STATUS
 	err := copied.AssignProperties_To_ManagedCluster_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -470,13 +471,13 @@ func Test_ContainerServiceLinuxProfile_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForContainerServiceLinuxProfile tests if a specific instance of ContainerServiceLinuxProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForContainerServiceLinuxProfile tests if a specific instance of ContainerServiceLinuxProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForContainerServiceLinuxProfile(subject ContainerServiceLinuxProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ContainerServiceLinuxProfile
+	var other v1api20210501s.ContainerServiceLinuxProfile
 	err := copied.AssignProperties_To_ContainerServiceLinuxProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -587,13 +588,13 @@ func Test_ContainerServiceLinuxProfile_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForContainerServiceLinuxProfile_STATUS tests if a specific instance of ContainerServiceLinuxProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForContainerServiceLinuxProfile_STATUS tests if a specific instance of ContainerServiceLinuxProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForContainerServiceLinuxProfile_STATUS(subject ContainerServiceLinuxProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ContainerServiceLinuxProfile_STATUS
+	var other v1api20210501s.ContainerServiceLinuxProfile_STATUS
 	err := copied.AssignProperties_To_ContainerServiceLinuxProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -704,13 +705,13 @@ func Test_ContainerServiceNetworkProfile_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForContainerServiceNetworkProfile tests if a specific instance of ContainerServiceNetworkProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForContainerServiceNetworkProfile tests if a specific instance of ContainerServiceNetworkProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForContainerServiceNetworkProfile(subject ContainerServiceNetworkProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ContainerServiceNetworkProfile
+	var other v1api20210501s.ContainerServiceNetworkProfile
 	err := copied.AssignProperties_To_ContainerServiceNetworkProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -829,13 +830,13 @@ func Test_ContainerServiceNetworkProfile_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForContainerServiceNetworkProfile_STATUS tests if a specific instance of ContainerServiceNetworkProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForContainerServiceNetworkProfile_STATUS tests if a specific instance of ContainerServiceNetworkProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForContainerServiceNetworkProfile_STATUS(subject ContainerServiceNetworkProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ContainerServiceNetworkProfile_STATUS
+	var other v1api20210501s.ContainerServiceNetworkProfile_STATUS
 	err := copied.AssignProperties_To_ContainerServiceNetworkProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -954,13 +955,13 @@ func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ExtendedLocation
+	var other v1api20210501s.ExtendedLocation
 	err := copied.AssignProperties_To_ExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -1057,13 +1058,13 @@ func Test_ExtendedLocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForExtendedLocation_STATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForExtendedLocation_STATUS tests if a specific instance of ExtendedLocation_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocation_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ExtendedLocation_STATUS
+	var other v1api20210501s.ExtendedLocation_STATUS
 	err := copied.AssignProperties_To_ExtendedLocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1161,13 +1162,13 @@ func Test_ManagedClusterAADProfile_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAADProfile tests if a specific instance of ManagedClusterAADProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAADProfile tests if a specific instance of ManagedClusterAADProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAADProfile(subject ManagedClusterAADProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAADProfile
+	var other v1api20210501s.ManagedClusterAADProfile
 	err := copied.AssignProperties_To_ManagedClusterAADProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1270,13 +1271,13 @@ func Test_ManagedClusterAADProfile_STATUS_WhenPropertiesConverted_RoundTripsWith
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAADProfile_STATUS tests if a specific instance of ManagedClusterAADProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAADProfile_STATUS tests if a specific instance of ManagedClusterAADProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAADProfile_STATUS(subject ManagedClusterAADProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAADProfile_STATUS
+	var other v1api20210501s.ManagedClusterAADProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterAADProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1379,13 +1380,13 @@ func Test_ManagedClusterAddonProfile_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAddonProfile tests if a specific instance of ManagedClusterAddonProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAddonProfile tests if a specific instance of ManagedClusterAddonProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAddonProfile(subject ManagedClusterAddonProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAddonProfile
+	var other v1api20210501s.ManagedClusterAddonProfile
 	err := copied.AssignProperties_To_ManagedClusterAddonProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1483,13 +1484,13 @@ func Test_ManagedClusterAddonProfile_STATUS_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAddonProfile_STATUS tests if a specific instance of ManagedClusterAddonProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAddonProfile_STATUS tests if a specific instance of ManagedClusterAddonProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAddonProfile_STATUS(subject ManagedClusterAddonProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAddonProfile_STATUS
+	var other v1api20210501s.ManagedClusterAddonProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterAddonProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1601,13 +1602,13 @@ func Test_ManagedClusterAgentPoolProfile_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAgentPoolProfile tests if a specific instance of ManagedClusterAgentPoolProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAgentPoolProfile tests if a specific instance of ManagedClusterAgentPoolProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAgentPoolProfile(subject ManagedClusterAgentPoolProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAgentPoolProfile
+	var other v1api20210501s.ManagedClusterAgentPoolProfile
 	err := copied.AssignProperties_To_ManagedClusterAgentPoolProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -1747,13 +1748,13 @@ func Test_ManagedClusterAgentPoolProfile_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAgentPoolProfile_STATUS tests if a specific instance of ManagedClusterAgentPoolProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAgentPoolProfile_STATUS tests if a specific instance of ManagedClusterAgentPoolProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAgentPoolProfile_STATUS(subject ManagedClusterAgentPoolProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAgentPoolProfile_STATUS
+	var other v1api20210501s.ManagedClusterAgentPoolProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterAgentPoolProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1899,13 +1900,13 @@ func Test_ManagedClusterAPIServerAccessProfile_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfile tests if a specific instance of ManagedClusterAPIServerAccessProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfile tests if a specific instance of ManagedClusterAPIServerAccessProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfile(subject ManagedClusterAPIServerAccessProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAPIServerAccessProfile
+	var other v1api20210501s.ManagedClusterAPIServerAccessProfile
 	err := copied.AssignProperties_To_ManagedClusterAPIServerAccessProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -2005,13 +2006,13 @@ func Test_ManagedClusterAPIServerAccessProfile_STATUS_WhenPropertiesConverted_Ro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfile_STATUS tests if a specific instance of ManagedClusterAPIServerAccessProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfile_STATUS tests if a specific instance of ManagedClusterAPIServerAccessProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfile_STATUS(subject ManagedClusterAPIServerAccessProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAPIServerAccessProfile_STATUS
+	var other v1api20210501s.ManagedClusterAPIServerAccessProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterAPIServerAccessProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2111,13 +2112,13 @@ func Test_ManagedClusterAutoUpgradeProfile_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfile tests if a specific instance of ManagedClusterAutoUpgradeProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfile tests if a specific instance of ManagedClusterAutoUpgradeProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfile(subject ManagedClusterAutoUpgradeProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAutoUpgradeProfile
+	var other v1api20210501s.ManagedClusterAutoUpgradeProfile
 	err := copied.AssignProperties_To_ManagedClusterAutoUpgradeProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -2214,13 +2215,13 @@ func Test_ManagedClusterAutoUpgradeProfile_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfile_STATUS tests if a specific instance of ManagedClusterAutoUpgradeProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfile_STATUS tests if a specific instance of ManagedClusterAutoUpgradeProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfile_STATUS(subject ManagedClusterAutoUpgradeProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterAutoUpgradeProfile_STATUS
+	var other v1api20210501s.ManagedClusterAutoUpgradeProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterAutoUpgradeProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2317,13 +2318,13 @@ func Test_ManagedClusterHTTPProxyConfig_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterHTTPProxyConfig tests if a specific instance of ManagedClusterHTTPProxyConfig can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterHTTPProxyConfig tests if a specific instance of ManagedClusterHTTPProxyConfig can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterHTTPProxyConfig(subject ManagedClusterHTTPProxyConfig) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterHTTPProxyConfig
+	var other v1api20210501s.ManagedClusterHTTPProxyConfig
 	err := copied.AssignProperties_To_ManagedClusterHTTPProxyConfig(&other)
 	if err != nil {
 		return err.Error()
@@ -2423,13 +2424,13 @@ func Test_ManagedClusterHTTPProxyConfig_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterHTTPProxyConfig_STATUS tests if a specific instance of ManagedClusterHTTPProxyConfig_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterHTTPProxyConfig_STATUS tests if a specific instance of ManagedClusterHTTPProxyConfig_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterHTTPProxyConfig_STATUS(subject ManagedClusterHTTPProxyConfig_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterHTTPProxyConfig_STATUS
+	var other v1api20210501s.ManagedClusterHTTPProxyConfig_STATUS
 	err := copied.AssignProperties_To_ManagedClusterHTTPProxyConfig_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2529,13 +2530,13 @@ func Test_ManagedClusterIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterIdentity tests if a specific instance of ManagedClusterIdentity can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterIdentity tests if a specific instance of ManagedClusterIdentity can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterIdentity(subject ManagedClusterIdentity) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterIdentity
+	var other v1api20210501s.ManagedClusterIdentity
 	err := copied.AssignProperties_To_ManagedClusterIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -2632,13 +2633,13 @@ func Test_ManagedClusterIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterIdentity_STATUS tests if a specific instance of ManagedClusterIdentity_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterIdentity_STATUS tests if a specific instance of ManagedClusterIdentity_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterIdentity_STATUS(subject ManagedClusterIdentity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterIdentity_STATUS
+	var other v1api20210501s.ManagedClusterIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedClusterIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2751,13 +2752,13 @@ func Test_ManagedClusterOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterOperatorSpec tests if a specific instance of ManagedClusterOperatorSpec can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterOperatorSpec tests if a specific instance of ManagedClusterOperatorSpec can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterOperatorSpec(subject ManagedClusterOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterOperatorSpec
+	var other v1api20210501s.ManagedClusterOperatorSpec
 	err := copied.AssignProperties_To_ManagedClusterOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -2854,13 +2855,13 @@ func Test_ManagedClusterPodIdentityProfile_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentityProfile tests if a specific instance of ManagedClusterPodIdentityProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentityProfile tests if a specific instance of ManagedClusterPodIdentityProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentityProfile(subject ManagedClusterPodIdentityProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentityProfile
+	var other v1api20210501s.ManagedClusterPodIdentityProfile
 	err := copied.AssignProperties_To_ManagedClusterPodIdentityProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -2973,13 +2974,13 @@ func Test_ManagedClusterPodIdentityProfile_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentityProfile_STATUS tests if a specific instance of ManagedClusterPodIdentityProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentityProfile_STATUS tests if a specific instance of ManagedClusterPodIdentityProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentityProfile_STATUS(subject ManagedClusterPodIdentityProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentityProfile_STATUS
+	var other v1api20210501s.ManagedClusterPodIdentityProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterPodIdentityProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3092,13 +3093,13 @@ func Test_ManagedClusterProperties_AutoScalerProfile_WhenPropertiesConverted_Rou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterProperties_AutoScalerProfile tests if a specific instance of ManagedClusterProperties_AutoScalerProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterProperties_AutoScalerProfile tests if a specific instance of ManagedClusterProperties_AutoScalerProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterProperties_AutoScalerProfile(subject ManagedClusterProperties_AutoScalerProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterProperties_AutoScalerProfile
+	var other v1api20210501s.ManagedClusterProperties_AutoScalerProfile
 	err := copied.AssignProperties_To_ManagedClusterProperties_AutoScalerProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3211,13 +3212,13 @@ func Test_ManagedClusterProperties_AutoScalerProfile_STATUS_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterProperties_AutoScalerProfile_STATUS tests if a specific instance of ManagedClusterProperties_AutoScalerProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterProperties_AutoScalerProfile_STATUS tests if a specific instance of ManagedClusterProperties_AutoScalerProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterProperties_AutoScalerProfile_STATUS(subject ManagedClusterProperties_AutoScalerProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterProperties_AutoScalerProfile_STATUS
+	var other v1api20210501s.ManagedClusterProperties_AutoScalerProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterProperties_AutoScalerProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3330,13 +3331,13 @@ func Test_ManagedClusterServicePrincipalProfile_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterServicePrincipalProfile tests if a specific instance of ManagedClusterServicePrincipalProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterServicePrincipalProfile tests if a specific instance of ManagedClusterServicePrincipalProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterServicePrincipalProfile(subject ManagedClusterServicePrincipalProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterServicePrincipalProfile
+	var other v1api20210501s.ManagedClusterServicePrincipalProfile
 	err := copied.AssignProperties_To_ManagedClusterServicePrincipalProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3434,13 +3435,13 @@ func Test_ManagedClusterServicePrincipalProfile_STATUS_WhenPropertiesConverted_R
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterServicePrincipalProfile_STATUS tests if a specific instance of ManagedClusterServicePrincipalProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterServicePrincipalProfile_STATUS tests if a specific instance of ManagedClusterServicePrincipalProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterServicePrincipalProfile_STATUS(subject ManagedClusterServicePrincipalProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterServicePrincipalProfile_STATUS
+	var other v1api20210501s.ManagedClusterServicePrincipalProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterServicePrincipalProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3538,13 +3539,13 @@ func Test_ManagedClusterSKU_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterSKU tests if a specific instance of ManagedClusterSKU can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterSKU tests if a specific instance of ManagedClusterSKU can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterSKU(subject ManagedClusterSKU) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterSKU
+	var other v1api20210501s.ManagedClusterSKU
 	err := copied.AssignProperties_To_ManagedClusterSKU(&other)
 	if err != nil {
 		return err.Error()
@@ -3641,13 +3642,13 @@ func Test_ManagedClusterSKU_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterSKU_STATUS tests if a specific instance of ManagedClusterSKU_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterSKU_STATUS tests if a specific instance of ManagedClusterSKU_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterSKU_STATUS(subject ManagedClusterSKU_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterSKU_STATUS
+	var other v1api20210501s.ManagedClusterSKU_STATUS
 	err := copied.AssignProperties_To_ManagedClusterSKU_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3745,13 +3746,13 @@ func Test_ManagedClusterWindowsProfile_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterWindowsProfile tests if a specific instance of ManagedClusterWindowsProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterWindowsProfile tests if a specific instance of ManagedClusterWindowsProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterWindowsProfile(subject ManagedClusterWindowsProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterWindowsProfile
+	var other v1api20210501s.ManagedClusterWindowsProfile
 	err := copied.AssignProperties_To_ManagedClusterWindowsProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -3851,13 +3852,13 @@ func Test_ManagedClusterWindowsProfile_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterWindowsProfile_STATUS tests if a specific instance of ManagedClusterWindowsProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterWindowsProfile_STATUS tests if a specific instance of ManagedClusterWindowsProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterWindowsProfile_STATUS(subject ManagedClusterWindowsProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterWindowsProfile_STATUS
+	var other v1api20210501s.ManagedClusterWindowsProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterWindowsProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3957,13 +3958,13 @@ func Test_PowerState_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPowerState_STATUS tests if a specific instance of PowerState_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForPowerState_STATUS tests if a specific instance of PowerState_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForPowerState_STATUS(subject PowerState_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.PowerState_STATUS
+	var other v1api20210501s.PowerState_STATUS
 	err := copied.AssignProperties_To_PowerState_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4059,13 +4060,13 @@ func Test_PrivateLinkResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkResource tests if a specific instance of PrivateLinkResource can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkResource tests if a specific instance of PrivateLinkResource can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkResource(subject PrivateLinkResource) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.PrivateLinkResource
+	var other v1api20210501s.PrivateLinkResource
 	err := copied.AssignProperties_To_PrivateLinkResource(&other)
 	if err != nil {
 		return err.Error()
@@ -4165,13 +4166,13 @@ func Test_PrivateLinkResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPrivateLinkResource_STATUS tests if a specific instance of PrivateLinkResource_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForPrivateLinkResource_STATUS tests if a specific instance of PrivateLinkResource_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkResource_STATUS(subject PrivateLinkResource_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.PrivateLinkResource_STATUS
+	var other v1api20210501s.PrivateLinkResource_STATUS
 	err := copied.AssignProperties_To_PrivateLinkResource_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4273,13 +4274,13 @@ func Test_UserAssignedIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUserAssignedIdentity tests if a specific instance of UserAssignedIdentity can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForUserAssignedIdentity tests if a specific instance of UserAssignedIdentity can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdentity) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.UserAssignedIdentity
+	var other v1api20210501s.UserAssignedIdentity
 	err := copied.AssignProperties_To_UserAssignedIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -4377,13 +4378,13 @@ func Test_UserAssignedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUserAssignedIdentity_STATUS tests if a specific instance of UserAssignedIdentity_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForUserAssignedIdentity_STATUS tests if a specific instance of UserAssignedIdentity_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssignedIdentity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.UserAssignedIdentity_STATUS
+	var other v1api20210501s.UserAssignedIdentity_STATUS
 	err := copied.AssignProperties_To_UserAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4482,13 +4483,13 @@ func Test_ContainerServiceSshConfiguration_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForContainerServiceSshConfiguration tests if a specific instance of ContainerServiceSshConfiguration can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForContainerServiceSshConfiguration tests if a specific instance of ContainerServiceSshConfiguration can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForContainerServiceSshConfiguration(subject ContainerServiceSshConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ContainerServiceSshConfiguration
+	var other v1api20210501s.ContainerServiceSshConfiguration
 	err := copied.AssignProperties_To_ContainerServiceSshConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -4585,13 +4586,13 @@ func Test_ContainerServiceSshConfiguration_STATUS_WhenPropertiesConverted_RoundT
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForContainerServiceSshConfiguration_STATUS tests if a specific instance of ContainerServiceSshConfiguration_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForContainerServiceSshConfiguration_STATUS tests if a specific instance of ContainerServiceSshConfiguration_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForContainerServiceSshConfiguration_STATUS(subject ContainerServiceSshConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ContainerServiceSshConfiguration_STATUS
+	var other v1api20210501s.ContainerServiceSshConfiguration_STATUS
 	err := copied.AssignProperties_To_ContainerServiceSshConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4688,13 +4689,13 @@ func Test_ManagedClusterIdentity_UserAssignedIdentities_STATUS_WhenPropertiesCon
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterIdentity_UserAssignedIdentities_STATUS tests if a specific instance of ManagedClusterIdentity_UserAssignedIdentities_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterIdentity_UserAssignedIdentities_STATUS tests if a specific instance of ManagedClusterIdentity_UserAssignedIdentities_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterIdentity_UserAssignedIdentities_STATUS(subject ManagedClusterIdentity_UserAssignedIdentities_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+	var other v1api20210501s.ManagedClusterIdentity_UserAssignedIdentities_STATUS
 	err := copied.AssignProperties_To_ManagedClusterIdentity_UserAssignedIdentities_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -4792,13 +4793,13 @@ func Test_ManagedClusterLoadBalancerProfile_WhenPropertiesConverted_RoundTripsWi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile tests if a specific instance of ManagedClusterLoadBalancerProfile can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile tests if a specific instance of ManagedClusterLoadBalancerProfile can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile(subject ManagedClusterLoadBalancerProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterLoadBalancerProfile
+	var other v1api20210501s.ManagedClusterLoadBalancerProfile
 	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -4913,13 +4914,13 @@ func Test_ManagedClusterLoadBalancerProfile_STATUS_WhenPropertiesConverted_Round
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_STATUS tests if a specific instance of ManagedClusterLoadBalancerProfile_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_STATUS tests if a specific instance of ManagedClusterLoadBalancerProfile_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_STATUS(subject ManagedClusterLoadBalancerProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterLoadBalancerProfile_STATUS
+	var other v1api20210501s.ManagedClusterLoadBalancerProfile_STATUS
 	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5034,13 +5035,13 @@ func Test_ManagedClusterOperatorSecrets_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterOperatorSecrets tests if a specific instance of ManagedClusterOperatorSecrets can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterOperatorSecrets tests if a specific instance of ManagedClusterOperatorSecrets can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterOperatorSecrets(subject ManagedClusterOperatorSecrets) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterOperatorSecrets
+	var other v1api20210501s.ManagedClusterOperatorSecrets
 	err := copied.AssignProperties_To_ManagedClusterOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -5131,13 +5132,13 @@ func Test_ManagedClusterPodIdentity_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentity tests if a specific instance of ManagedClusterPodIdentity can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentity tests if a specific instance of ManagedClusterPodIdentity can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentity(subject ManagedClusterPodIdentity) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentity
+	var other v1api20210501s.ManagedClusterPodIdentity
 	err := copied.AssignProperties_To_ManagedClusterPodIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -5250,13 +5251,13 @@ func Test_ManagedClusterPodIdentity_STATUS_WhenPropertiesConverted_RoundTripsWit
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentity_STATUS tests if a specific instance of ManagedClusterPodIdentity_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentity_STATUS tests if a specific instance of ManagedClusterPodIdentity_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentity_STATUS(subject ManagedClusterPodIdentity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentity_STATUS
+	var other v1api20210501s.ManagedClusterPodIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedClusterPodIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5371,13 +5372,13 @@ func Test_ManagedClusterPodIdentityException_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentityException tests if a specific instance of ManagedClusterPodIdentityException can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentityException tests if a specific instance of ManagedClusterPodIdentityException can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentityException(subject ManagedClusterPodIdentityException) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentityException
+	var other v1api20210501s.ManagedClusterPodIdentityException
 	err := copied.AssignProperties_To_ManagedClusterPodIdentityException(&other)
 	if err != nil {
 		return err.Error()
@@ -5476,13 +5477,13 @@ func Test_ManagedClusterPodIdentityException_STATUS_WhenPropertiesConverted_Roun
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentityException_STATUS tests if a specific instance of ManagedClusterPodIdentityException_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentityException_STATUS tests if a specific instance of ManagedClusterPodIdentityException_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentityException_STATUS(subject ManagedClusterPodIdentityException_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentityException_STATUS
+	var other v1api20210501s.ManagedClusterPodIdentityException_STATUS
 	err := copied.AssignProperties_To_ManagedClusterPodIdentityException_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5581,13 +5582,13 @@ func Test_ContainerServiceSshPublicKey_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForContainerServiceSshPublicKey tests if a specific instance of ContainerServiceSshPublicKey can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForContainerServiceSshPublicKey tests if a specific instance of ContainerServiceSshPublicKey can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForContainerServiceSshPublicKey(subject ContainerServiceSshPublicKey) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ContainerServiceSshPublicKey
+	var other v1api20210501s.ContainerServiceSshPublicKey
 	err := copied.AssignProperties_To_ContainerServiceSshPublicKey(&other)
 	if err != nil {
 		return err.Error()
@@ -5684,13 +5685,13 @@ func Test_ContainerServiceSshPublicKey_STATUS_WhenPropertiesConverted_RoundTrips
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForContainerServiceSshPublicKey_STATUS tests if a specific instance of ContainerServiceSshPublicKey_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForContainerServiceSshPublicKey_STATUS tests if a specific instance of ContainerServiceSshPublicKey_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForContainerServiceSshPublicKey_STATUS(subject ContainerServiceSshPublicKey_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ContainerServiceSshPublicKey_STATUS
+	var other v1api20210501s.ContainerServiceSshPublicKey_STATUS
 	err := copied.AssignProperties_To_ContainerServiceSshPublicKey_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5787,13 +5788,13 @@ func Test_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_WhenPropertiesCon
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs tests if a specific instance of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs tests if a specific instance of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs(subject ManagedClusterLoadBalancerProfile_ManagedOutboundIPs) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+	var other v1api20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
 	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(&other)
 	if err != nil {
 		return err.Error()
@@ -5890,13 +5891,13 @@ func Test_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS_WhenProper
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS tests if a specific instance of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS tests if a specific instance of ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(subject ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+	var other v1api20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
 	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -5993,13 +5994,13 @@ func Test_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_WhenPropertiesCon
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes tests if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes tests if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes(subject ManagedClusterLoadBalancerProfile_OutboundIPPrefixes) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
+	var other v1api20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes
 	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes(&other)
 	if err != nil {
 		return err.Error()
@@ -6096,13 +6097,13 @@ func Test_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS_WhenProper
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS tests if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS tests if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(subject ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
+	var other v1api20210501s.ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS
 	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPPrefixes_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6199,13 +6200,13 @@ func Test_ManagedClusterLoadBalancerProfile_OutboundIPs_WhenPropertiesConverted_
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPs tests if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPs can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPs tests if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPs can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPs(subject ManagedClusterLoadBalancerProfile_OutboundIPs) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterLoadBalancerProfile_OutboundIPs
+	var other v1api20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs
 	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs(&other)
 	if err != nil {
 		return err.Error()
@@ -6302,13 +6303,13 @@ func Test_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS_WhenPropertiesCon
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS tests if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS tests if a specific instance of ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(subject ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+	var other v1api20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
 	err := copied.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6405,13 +6406,13 @@ func Test_ManagedClusterPodIdentity_ProvisioningInfo_STATUS_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentity_ProvisioningInfo_STATUS tests if a specific instance of ManagedClusterPodIdentity_ProvisioningInfo_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentity_ProvisioningInfo_STATUS tests if a specific instance of ManagedClusterPodIdentity_ProvisioningInfo_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentity_ProvisioningInfo_STATUS(subject ManagedClusterPodIdentity_ProvisioningInfo_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
+	var other v1api20210501s.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
 	err := copied.AssignProperties_To_ManagedClusterPodIdentity_ProvisioningInfo_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6508,13 +6509,13 @@ func Test_ResourceReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForResourceReference tests if a specific instance of ResourceReference can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForResourceReference tests if a specific instance of ResourceReference can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ResourceReference
+	var other v1api20210501s.ResourceReference
 	err := copied.AssignProperties_To_ResourceReference(&other)
 	if err != nil {
 		return err.Error()
@@ -6604,13 +6605,13 @@ func Test_ResourceReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForResourceReference_STATUS tests if a specific instance of ResourceReference_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForResourceReference_STATUS tests if a specific instance of ResourceReference_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForResourceReference_STATUS(subject ResourceReference_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ResourceReference_STATUS
+	var other v1api20210501s.ResourceReference_STATUS
 	err := copied.AssignProperties_To_ResourceReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6707,13 +6708,13 @@ func Test_ManagedClusterPodIdentityProvisioningError_STATUS_WhenPropertiesConver
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningError_STATUS tests if a specific instance of ManagedClusterPodIdentityProvisioningError_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningError_STATUS tests if a specific instance of ManagedClusterPodIdentityProvisioningError_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningError_STATUS(subject ManagedClusterPodIdentityProvisioningError_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentityProvisioningError_STATUS
+	var other v1api20210501s.ManagedClusterPodIdentityProvisioningError_STATUS
 	err := copied.AssignProperties_To_ManagedClusterPodIdentityProvisioningError_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6810,13 +6811,13 @@ func Test_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_WhenPropertiesCo
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS tests if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_STATUS can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS tests if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_STATUS can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS(subject ManagedClusterPodIdentityProvisioningErrorBody_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentityProvisioningErrorBody_STATUS
+	var other v1api20210501s.ManagedClusterPodIdentityProvisioningErrorBody_STATUS
 	err := copied.AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -6929,13 +6930,13 @@ func Test_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled_WhenPro
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled tests if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled can be assigned to v1beta20230201storage and back losslessly
+// RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled tests if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled can be assigned to v1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled(subject ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230201s.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
+	var other v1api20210501s.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
 	err := copied.AssignProperties_To_ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled(&other)
 	if err != nil {
 		return err.Error()
