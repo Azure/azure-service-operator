@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
+	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
@@ -41,26 +42,30 @@ func newImportAzureResourceCommand() *cobra.Command {
 
 // TODO: importing azure resource logic goes here
 func importAzureResource(ctx context.Context, armID string, output *string) error {
-	importer, err := importing.NewImporter(cloud.AzurePublic)
+	activeCloud := cloud.AzurePublic
+	client, err := importing.CreateARMClient(activeCloud)
 	if err != nil {
-		klog.Errorf("failed to create importer")
-		return errors.Wrapf(err, "failed to create importer")
+		return errors.Wrapf(err, "failed to create ARM client")
 	}
 
-	err = importer.ImportFromARMID(ctx, armID)
+	importer := importing.NewResourceImporter(api.CreateScheme())
+	armImporter := importer.CreateARMImporter(
+		client,
+		activeCloud.Services[cloud.ResourceManager])
+
+	result, err := armImporter.Import(ctx, armID)
 	if err != nil {
-		klog.Errorf("failed to import resource %s", armID)
 		return errors.Wrapf(err, "failed to import resource %s:", armID)
 	}
 
 	if output == nil || *output == "" {
-		err := importer.SaveToWriter(os.Stdout)
+		err := result.SaveToWriter(os.Stdout)
 		if err != nil {
 			klog.Errorf("failed to write to stdout")
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	} else {
-		err := importer.SaveToFile(*output)
+		err := result.SaveToFile(*output)
 		if err != nil {
 			klog.Errorf("failed to write to file %s", *output)
 			return errors.Wrapf(err, "failed to write to file %s", *output)

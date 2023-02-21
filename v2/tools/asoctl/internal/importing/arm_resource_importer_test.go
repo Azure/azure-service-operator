@@ -68,7 +68,7 @@ func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
 
 			g := NewGomegaWithT(t)
 
-			factory := armResourceImporter{}
+			factory := ARMResourceImporter{}
 
 			id, err := arm.ParseResourceID(c.armId)
 			g.Expect(err).To(BeNil())
@@ -114,8 +114,8 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 		},
 	}
 
-	factory := armResourceImporter{
-		resourceImporterFactory: resourceImporterFactory{
+	factory := ARMResourceImporter{
+		ResourceImporter: ResourceImporter{
 			scheme: api.CreateScheme(),
 		},
 	}

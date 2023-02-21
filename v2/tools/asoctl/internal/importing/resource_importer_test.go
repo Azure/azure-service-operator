@@ -6,9 +6,10 @@
 package importing
 
 import (
+	"testing"
+
 	. "github.com/onsi/gomega"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"testing"
 )
 
 func Test_ResourceImporterFactory_SelectLatestVersion(t *testing.T) {
@@ -68,7 +69,7 @@ func Test_ResourceImporterFactory_SelectLatestVersion(t *testing.T) {
 
 			g := NewGomegaWithT(t)
 
-			importer := resourceImporterFactory{}
+			importer := ResourceImporter{}
 			gk := schema.GroupKind{Group: c.group, Kind: c.kind}
 			gvk := importer.selectLatestVersion(gk, c.knownVersions)
 			g.Expect(gvk.Group).To(Equal(gk.Group))
