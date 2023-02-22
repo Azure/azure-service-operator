@@ -23,27 +23,33 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	person2020 := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	person2020s := astmodel.MakeTypeName(test.Pkg2020s, "Person")
+
+	account2020 := astmodel.MakeTypeName(test.Pkg2020, "Account")
+	account2020s := astmodel.MakeTypeName(test.Pkg2020s, "Account")
+
 	omc := config.NewObjectModelConfiguration()
 	builder := NewConversionGraphBuilder(omc, "v")
-	builder.Add(test.Pkg2020, test.Pkg2020s)
-	builder.Add(test.BatchPkg2020, test.BatchPkg2020s)
+	builder.Add(person2020, person2020s)
+	builder.Add(account2020, account2020s)
 	graph, err := builder.Build()
 
 	// Check size of graph
 	g.Expect(err).To(Succeed())
 	g.Expect(graph.TransitionCount()).To(Equal(2))
 
-	// Check for the expected transition from Pkg2020
-	pkg, ok := graph.LookupTransition(test.Pkg2020)
+	// Check for the expected transition from Person2020
+	next, ok := graph.LookupTransition(person2020)
 	g.Expect(ok).To(BeTrue())
-	g.Expect(pkg).NotTo(BeNil())
-	g.Expect(astmodel.IsStoragePackageReference(pkg)).To(BeTrue())
+	g.Expect(next).NotTo(BeNil())
+	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
 
-	// Check for the expected transition from BatchPkg2020
-	pkg, ok = graph.LookupTransition(test.BatchPkg2020)
+	// Check for the expected transition from Account2020
+	next, ok = graph.LookupTransition(account2020)
 	g.Expect(ok).To(BeTrue())
-	g.Expect(pkg).NotTo(BeNil())
-	g.Expect(astmodel.IsStoragePackageReference(pkg)).To(BeTrue())
+	g.Expect(next).NotTo(BeNil())
+	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
 }
 
 func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) {
@@ -77,12 +83,12 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 	defs.AddAll(person2020s, person2021s, person2022s, address2020s, address2021s)
 	defs.AddAll(student2020, student2020s, student2022, student2022s)
 
-	// Create a builder use it to configure a graph to test
+	// Create a builder, and use it to configure a graph to test
 	omc := config.NewObjectModelConfiguration()
 	builder := NewConversionGraphBuilder(omc, "v")
-	builder.Add(test.Pkg2020, test.Pkg2020s)
-	builder.Add(test.Pkg2021, test.Pkg2021s)
-	builder.Add(test.Pkg2022, test.Pkg2022s)
+	builder.Add(person2020.Name(), person2020s.Name(), person2021.Name(), person2021s.Name(), person2022.Name(), person2022s.Name())
+	builder.Add(address2020.Name(), address2020s.Name(), address2021.Name(), address2021s.Name())
+	builder.Add(student2020.Name(), student2020s.Name(), student2022.Name(), student2022s.Name())
 
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
@@ -157,8 +163,8 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc, "v")
-	builder.Add(test.Pkg2020, test.Pkg2020s)
-	builder.Add(test.Pkg2021, test.Pkg2021s)
+	builder.Add(person2020.Name(), person2020s.Name())
+	builder.Add(party2021.Name(), party2021s.Name())
 
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
@@ -198,8 +204,8 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc, "v")
-	builder.Add(test.Pkg2020, test.Pkg2020s)
-	builder.Add(test.Pkg2021, test.Pkg2021s)
+	builder.Add(person2020.Name(), person2020s.Name())
+	builder.Add(party2021.Name(), party2021s.Name())
 
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
@@ -242,8 +248,9 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc, "v")
-	builder.Add(test.Pkg2020, test.Pkg2020s)
-	builder.Add(test.Pkg2021, test.Pkg2021s)
+	builder.Add(person2020.Name(), person2020s.Name())
+	builder.Add(person2021.Name(), person2021s.Name())
+	builder.Add(party2021.Name(), party2021s.Name())
 
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())

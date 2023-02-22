@@ -16,20 +16,20 @@ import (
 // For each group (e.g. microsoft.storage or microsoft.batch) we have a separate subgraph of directed conversions
 type ConversionGraph struct {
 	configuration *config.ObjectModelConfiguration
-	subGraphs     map[string]*GroupConversionGraph
+	subGraphs     map[string]*GroupConversionGraph // Map of group name to subgraph
 }
 
-// LookupTransition looks for a link and find out where it ends, given the starting reference.
-// Returns the end and true if it's found, or nil and false if not.
-func (graph *ConversionGraph) LookupTransition(ref astmodel.PackageReference) (astmodel.PackageReference, bool) {
+// LookupTransition accepts a type name and looks up the transition to the next version in the graph
+// Returns the next version and true if it's found, or an empty type name and false if not.
+func (graph *ConversionGraph) LookupTransition(name astmodel.TypeName) (astmodel.TypeName, bool) {
 	// Expect to get either a local or a storage reference, not an external one
-	group, _ := ref.GroupVersion()
+	group, _ := name.PackageReference.GroupVersion()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
-		return nil, false
+		return astmodel.EmptyTypeName, false
 	}
 
-	return subgraph.LookupTransition(ref)
+	return subgraph.LookupTransition(name)
 }
 
 // FindNextType returns the type name of the next closest type on the path to the hub type.
@@ -196,13 +196,12 @@ func (graph *ConversionGraph) searchForMatchingTypeImpl(
 	typeName astmodel.TypeName,
 	definitions astmodel.TypeDefinitionSet,
 	stepsSoFar int) (astmodel.TypeName, int) {
-	nextPackage, ok := graph.LookupTransition(typeName.PackageReference)
+	nextTypeName, ok := graph.LookupTransition(typeName)
 	if !ok {
 		// No next package, we've fallen off the end of the graph
 		return astmodel.EmptyTypeName, -1
 	}
 
-	nextTypeName := astmodel.MakeTypeName(nextPackage, typeName.Name())
 	if definitions.Contains(nextTypeName) {
 		// Found the type we're looking for
 		return nextTypeName, stepsSoFar
