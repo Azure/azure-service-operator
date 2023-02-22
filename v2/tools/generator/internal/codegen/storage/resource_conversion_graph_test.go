@@ -34,9 +34,8 @@ func TestResourceConversionGraph_WithSingleReference_HasExpectedTransition(t *te
 	g.Expect(graph.TransitionCount()).To(Equal(1))
 
 	// Check for single expected transition
-	next, ok := graph.LookupTransition(person2020)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(next).NotTo(BeNil())
+	next := graph.LookupTransition(person2020)
+	g.Expect(next).NotTo(Equal(astmodel.EmptyTypeName))
 	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
 }
 
@@ -64,21 +63,17 @@ func TestResourceConversionGraph_WithTwoGAReferences_HasExpectedTransitions(t *t
 	g.Expect(graph.TransitionCount()).To(Equal(3))
 
 	// Check for expected transition for Person2020
-	after2020, ok := graph.LookupTransition(person2020)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(after2020).NotTo(BeNil())
+	after2020 := graph.LookupTransition(person2020)
+	g.Expect(after2020).NotTo(Equal(astmodel.EmptyTypeName))
 
 	// Check for expected transition for Person2021
-	after2021, ok := graph.LookupTransition(person2021)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(after2021).NotTo(BeNil())
+	after2021 := graph.LookupTransition(person2021)
+	g.Expect(after2021).NotTo(Equal(astmodel.EmptyTypeName))
 
 	// Check for expected transition for the storage variant of Person2020s
-	after2020s, ok := graph.LookupTransition(after2020)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(after2020s).To(Equal(after2021))
+	after2020s := graph.LookupTransition(after2020)
+	g.Expect(after2020s).NotTo(Equal(astmodel.EmptyTypeName))
 }
-
 func TestResourceConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitions(t *testing.T) {
 	/*
 	 * Test that a graph containing two GA and one *Preview* API release (and matching storage versions) ends up with
@@ -107,18 +102,15 @@ func TestResourceConversionGraph_WithGAAndPreviewReferences_HasExpectedTransitio
 	g.Expect(graph.TransitionCount()).To(Equal(5))
 
 	// Check for expected transition for Person2020
-	after2020, ok := graph.LookupTransition(person2020)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(after2020).NotTo(BeNil())
+	after2020 := graph.LookupTransition(person2020)
+	g.Expect(after2020).NotTo(Equal(astmodel.EmptyTypeName))
 
 	// Check for expected transition for Person2021Preview
-	after2021p, ok := graph.LookupTransition(person2021p)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(after2021p).NotTo(BeNil())
+	after2021p := graph.LookupTransition(person2021p)
+	g.Expect(after2021p).NotTo(Equal(astmodel.EmptyTypeName))
 
 	// Check for expected transition for the storage variant of Person2021Preview - it goes BACK to Person2020
-	ref, ok := graph.LookupTransition(after2021p)
-	g.Expect(ok).To(BeTrue())
+	ref := graph.LookupTransition(after2021p)
 	g.Expect(ref).To(Equal(after2020))
 }
 
@@ -127,7 +119,7 @@ func TestResourceConversionGraph_WithCompatibilityReferences_HasExpectedTransiti
 	 * Test that a graph containing two GA versions and one *backward compatibility* version ends up with
 	 * five transitions. Each API version should have a transition to a matching storage variant, and there should be a
 	 * transition from the compatibility storage variant *forward* to the earlier GA storage variant. There will also
-	 * be a spirious (unused) transition from the API type underlying the compatibility storage variant.
+	 * be a spurious (unused) transition from the API type underlying the compatibility storage variant.
 	 * This test only checks for cases not already covered by other tests, above.
 	 */
 	t.Parallel()
@@ -155,12 +147,10 @@ func TestResourceConversionGraph_WithCompatibilityReferences_HasExpectedTransiti
 	g.Expect(graph.TransitionCount()).To(Equal(5))
 
 	// Check for expected transition for compatApi
-	after2020a, ok := graph.LookupTransition(person2020a)
-	g.Expect(ok).To(BeTrue())
+	after2020a := graph.LookupTransition(person2020a)
 	g.Expect(after2020a).To(Equal(person2020as))
 
 	// Check for expected transition for compatStorage
-	after2020as, ok := graph.LookupTransition(person2020as)
-	g.Expect(ok).To(BeTrue())
+	after2020as := graph.LookupTransition(person2020as)
 	g.Expect(after2020as).To(Equal(person2020s))
 }

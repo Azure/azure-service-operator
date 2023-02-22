@@ -40,15 +40,13 @@ func TestConversionGraph_WithTwoUnrelatedReferences_HasExpectedTransitions(t *te
 	g.Expect(graph.TransitionCount()).To(Equal(2))
 
 	// Check for the expected transition from Person2020
-	next, ok := graph.LookupTransition(person2020)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(next).NotTo(BeNil())
+	next := graph.LookupTransition(person2020)
+	g.Expect(next).NotTo(Equal(astmodel.EmptyTypeName))
 	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
 
 	// Check for the expected transition from Account2020
-	next, ok = graph.LookupTransition(account2020)
-	g.Expect(ok).To(BeTrue())
-	g.Expect(next).NotTo(BeNil())
+	next = graph.LookupTransition(account2020)
+	g.Expect(next).NotTo(Equal(astmodel.EmptyTypeName))
 	g.Expect(astmodel.IsStoragePackageReference(next.PackageReference)).To(BeTrue())
 }
 
@@ -259,4 +257,62 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring(person2020.Name().Name()))
 	g.Expect(err.Error()).To(ContainSubstring(party2021.Name().Name()))
+}
+
+func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitions(t *testing.T) {
+	/*
+	 *  Test that a conversion graph where one type is defined only in preview versions still has the expected
+	 *  transitions for that type, as well as for the other types.
+	 */
+
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	pkg2020p := test.MakeLocalPackageReference(test.Group, "v20200101preview")
+	pkg2020ps := astmodel.MakeStoragePackageReference(pkg2020p)
+
+	pkg2021p := test.MakeLocalPackageReference(test.Group, "v20211231preview")
+	pkg2021ps := astmodel.MakeStoragePackageReference(pkg2021p)
+
+	person2020 := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	person2020s := astmodel.MakeTypeName(test.Pkg2020s, "Person")
+
+	person2021 := astmodel.MakeTypeName(test.Pkg2021, "Person")
+	person2021s := astmodel.MakeTypeName(test.Pkg2021s, "Person")
+
+	address2020p := astmodel.MakeTypeName(pkg2020p, "Address")
+	address2020ps := astmodel.MakeTypeName(pkg2020ps, "Address")
+
+	address2021p := astmodel.MakeTypeName(pkg2021p, "Address")
+	address2021ps := astmodel.MakeTypeName(pkg2021ps, "Address")
+
+	omc := config.NewObjectModelConfiguration()
+	builder := NewConversionGraphBuilder(omc, "v")
+	builder.Add(person2020, person2020s)
+	builder.Add(person2021, person2021s)
+	builder.Add(address2020p, address2020ps)
+	builder.Add(address2021p, address2021ps)
+
+	graph, err := builder.Build()
+
+	// Check size of graph
+	g.Expect(err).To(Succeed())
+	g.Expect(graph.TransitionCount()).To(Equal(6))
+
+	expectedTransitions := []struct {
+		from astmodel.TypeName
+		to   astmodel.TypeName
+	}{
+		{person2020, person2020s},
+		{person2021, person2021s},
+		{person2020s, person2021s},
+
+		{address2020p, address2020ps},
+		{address2021p, address2021ps},
+		{address2021ps, address2020ps}, // Preview versions always convert backwards
+	}
+
+	for _, expected := range expectedTransitions {
+		g.Expect(graph.LookupTransition(expected.from)).To(Equal(expected.to))
+	}
 }

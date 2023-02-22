@@ -23,7 +23,7 @@ type ResourceConversionGraphBuilder struct {
 	links         map[astmodel.TypeName]astmodel.TypeName // A collection of links that make up the graph
 }
 
-// NewResourceConversionGraphBuilder creates a new builder for a specific group
+// NewResourceConversionGraphBuilder creates a new builder for a specific resource/type
 func NewResourceConversionGraphBuilder(name string, versionPrefix string) *ResourceConversionGraphBuilder {
 	return &ResourceConversionGraphBuilder{
 		name:          name,

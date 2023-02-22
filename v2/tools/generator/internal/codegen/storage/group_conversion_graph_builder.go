@@ -13,12 +13,13 @@ import (
 )
 
 // GroupConversionGraphBuilder is used to construct a conversion graph with all the required conversions to/from/between
-// the storage variants of the packages. It uses a separate ResourceConversionGraphBuilder for each distinct group
+// the storage variants of the packages. It uses a separate ResourceConversionGraphBuilder for each distinct resource/type
 type GroupConversionGraphBuilder struct {
-	group         string // Common group of the resources needing conversions
-	configuration *config.ObjectModelConfiguration
-	versionPrefix string
-	subBuilders   map[string]*ResourceConversionGraphBuilder
+	group           string                           // Common group of the resources needing conversions
+	configuration   *config.ObjectModelConfiguration // Configuration used to look up renames
+	versionPrefix   string
+	subBuilders     map[string]*ResourceConversionGraphBuilder // Nested builders, one for each resource, keyed by resource name
+	storagePackages *astmodel.PackageReferenceSet              // Set of all storage packages in this group
 }
 
 // NewGroupConversionGraphBuilder creates a new builder for all our required conversion graphs
@@ -28,10 +29,11 @@ func NewGroupConversionGraphBuilder(
 	versionPrefix string,
 ) *GroupConversionGraphBuilder {
 	return &GroupConversionGraphBuilder{
-		group:         group,
-		configuration: configuration,
-		versionPrefix: versionPrefix,
-		subBuilders:   make(map[string]*ResourceConversionGraphBuilder),
+		group:           group,
+		configuration:   configuration,
+		versionPrefix:   versionPrefix,
+		subBuilders:     make(map[string]*ResourceConversionGraphBuilder),
+		storagePackages: astmodel.NewPackageReferenceSet(),
 	}
 }
 
@@ -40,6 +42,10 @@ func (b *GroupConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 	for _, name := range names {
 		subBuilder := b.getSubBuilder(name)
 		subBuilder.Add(name)
+
+		if astmodel.IsStoragePackageReference(name.PackageReference) {
+			b.storagePackages.AddReference(name.PackageReference)
+		}
 	}
 }
 
@@ -52,25 +58,31 @@ func (b *GroupConversionGraphBuilder) AddAll(names astmodel.TypeNameSet) {
 
 // Build connects all the provided API definitions together into a single conversion graph
 func (b *GroupConversionGraphBuilder) Build() (*GroupConversionGraph, error) {
-	subgraphs := make(map[string]*ResourceConversionGraph, len(b.subBuilders))
+	subGraphs := make(map[string]*ResourceConversionGraph, len(b.subBuilders))
 	for group, builder := range b.subBuilders {
 		subgraph, err := builder.Build()
 		if err != nil {
 			return nil, errors.Wrapf(err, "building subgraph for group %s", group)
 		}
 
-		subgraphs[group] = subgraph
+		subGraphs[group] = subgraph
 	}
 
+	storagePackagesInOrder := b.storagePackages.AsSortedSlice(func(left astmodel.PackageReference, right astmodel.PackageReference) bool {
+		return astmodel.ComparePathAndVersion(left.PackagePath(), right.PackagePath())
+	})
+
 	result := &GroupConversionGraph{
-		group:     b.group,
-		subGraphs: subgraphs,
+		group:           b.group,
+		subGraphs:       subGraphs,
+		storagePackages: storagePackagesInOrder,
+		configuration:   b.configuration,
 	}
 
 	return result, nil
 }
 
-// getSubBuilder finds the relevant builder for the group of the provided reference, creating one if necessary
+// getSubBuilder finds the relevant builder for the resource/type of the provided reference, creating one if necessary
 func (b *GroupConversionGraphBuilder) getSubBuilder(name astmodel.TypeName) *ResourceConversionGraphBuilder {
 	// Expect to get either a local or a storage reference, not an external one
 	n := name.Name()

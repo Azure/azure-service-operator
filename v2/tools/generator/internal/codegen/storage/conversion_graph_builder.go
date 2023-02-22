@@ -32,7 +32,7 @@ func NewConversionGraphBuilder(
 	}
 }
 
-// Add includes the supplied Type NAm4es in the conversion graph
+// Add includes the supplied TypeNames in the conversion graph
 func (b *ConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 	for _, name := range names {
 		subBuilder := b.getSubBuilder(name)
@@ -40,7 +40,7 @@ func (b *ConversionGraphBuilder) Add(names ...astmodel.TypeName) {
 	}
 }
 
-// AddAll includes all the supplied Type Names in the conversion graph
+// AddAll includes the TypeNames in the supplied set in conversion graph
 func (b *ConversionGraphBuilder) AddAll(set astmodel.TypeNameSet) {
 	for name := range set {
 		b.Add(name)
