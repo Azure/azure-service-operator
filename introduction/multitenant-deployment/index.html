@@ -551,8 +551,8 @@ Single operator multitenancy (default) Single operator deployed in the azureserv
 <p>Single operator deployed in the <code>azureserviceoperator-system</code> namespace.
 This operator can be configured to manage resources with multiple different identities:</p>
 <ul>
-<li>Single global credential <code>aso-controller-settings</code> deployed as part of operator deployment in operator&rsquo;s namespace.
-Per-namespace credential <code>aso-credential</code>. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential. This credential can be in a different tenant or subscription than the global credential.</li>
+<li>Single global credential <code>aso-controller-settings</code> deployed as part of operator deployment in operator&rsquo;s namespace.</li>
+<li>Per-namespace credential <code>aso-credential</code>. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential. This credential can be in a different tenant or subscription than the global credential.</li>
 <li>Per-resource credential, indicated by the <code>serviceoperator.azure.com/credential-from</code> annotation. Create this annotation on each resource to configure the credential used for that resource. The secret containing the credential must be in the same Kubernetes namespace as the resource but may be in a different tenant or subscription than both the global credential and per-namespace credential.</li>
 </ul>
 <p>When presented with multiple credential choices, the operator chooses the most specific one: per-resource takes precedence over per-namespace which takes precedence over global.</p>
