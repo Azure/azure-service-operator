@@ -28,14 +28,14 @@ func CreateConversionGraph(
 		"Create the graph of conversions between versions of each resource group",
 		func(ctx context.Context, state *State) (*State, error) {
 			// Collect all distinct references
-			allReferences := astmodel.NewPackageReferenceSet()
+			allNames := astmodel.NewTypeNameSet()
 			for _, def := range state.Definitions() {
-				allReferences.AddReference(def.Name().PackageReference)
+				allNames.Add(def.Name())
 			}
 
 			builder := storage.NewConversionGraphBuilder(
 				configuration.ObjectModelConfiguration, generatorPrefix)
-			builder.AddAll(allReferences)
+			builder.AddAll(allNames)
 			graph, err := builder.Build()
 			if err != nil {
 				// Shouldn't have any non-local references, if we do, abort
