@@ -67,9 +67,9 @@ tasks:
     deps: 
     - generator:ci
     - controller:ci
-    - asoctl:ci
     - crossplane:ci
     cmds:
+    - task: asoctl:ci
     - task: verify-no-changes
 
   ci-live:
