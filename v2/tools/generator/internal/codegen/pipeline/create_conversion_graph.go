@@ -34,7 +34,7 @@ func CreateConversionGraph(
 					// ARM types don't participate in the conversion graph
 					continue
 				}
-				
+
 				allNames.Add(def.Name())
 			}
 
