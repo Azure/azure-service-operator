@@ -11,7 +11,7 @@ Licensed under the MIT license.
 package v1beta20200601
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	"github.com/crossplane/crossplane-runtime/apis/common/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -511,12 +511,12 @@ func (in *RedisParameters) DeepCopyInto(out *RedisParameters) {
 	}
 	if in.ResourceGroupNameRef != nil {
 		in, out := &in.ResourceGroupNameRef, &out.ResourceGroupNameRef
-		*out = new(v1alpha1.Reference)
-		**out = **in
+		*out = new(v1.Reference)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ResourceGroupNameSelector != nil {
 		in, out := &in.ResourceGroupNameSelector, &out.ResourceGroupNameSelector
-		*out = new(v1alpha1.Selector)
+		*out = new(v1.Selector)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.ShardCount != nil {
