@@ -4,7 +4,7 @@
 package v1beta20200601
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	"github.com/crossplane/crossplane-runtime/apis/common/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -40,13 +40,13 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2020-06-01")
 
 type Redis_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline,omitempty"`
-	ForProvider           RedisParameters `json:"forProvider,omitempty"`
+	v1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider     RedisParameters `json:"forProvider,omitempty"`
 }
 
 type Redis_STATUS struct {
-	v1alpha1.ResourceStatus `json:",inline,omitempty"`
-	AtProvider              RedisObservation `json:"atProvider,omitempty"`
+	v1.ResourceStatus `json:",inline,omitempty"`
+	AtProvider        RedisObservation `json:"atProvider,omitempty"`
 }
 
 type RedisObservation struct {
@@ -157,10 +157,10 @@ type RedisParameters struct {
 	RedisConfiguration *RedisCreateProperties_RedisConfiguration `json:"redisConfiguration,omitempty"`
 
 	// ReplicasPerMaster: The number of replicas to be created per master.
-	ReplicasPerMaster         *int                `json:"replicasPerMaster,omitempty"`
-	ResourceGroupName         string              `json:"resourceGroupName,omitempty"`
-	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
-	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
+	ReplicasPerMaster         *int          `json:"replicasPerMaster,omitempty"`
+	ResourceGroupName         string        `json:"resourceGroupName,omitempty"`
+	ResourceGroupNameRef      *v1.Reference `json:"resourceGroupNameRef,omitempty"`
+	ResourceGroupNameSelector *v1.Selector  `json:"resourceGroupNameSelector,omitempty"`
 
 	// ShardCount: The number of shards to be created on a Premium Cluster Cache.
 	ShardCount *int `json:"shardCount,omitempty"`
