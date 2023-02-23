@@ -21,10 +21,10 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 		"Add the 3-tuple of (xName, xNameRef, xNameSelector) for each owning resource",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			referenceTypeName := astmodel.MakeTypeName(
-				CrossplaneRuntimeV1Alpha1Package,
+				CrossplaneRuntimeV1Package,
 				idFactory.CreateIdentifier("Reference", astmodel.Exported))
 			selectorTypeName := astmodel.MakeTypeName(
-				CrossplaneRuntimeV1Alpha1Package,
+				CrossplaneRuntimeV1Package,
 				idFactory.CreateIdentifier("Selector", astmodel.Exported))
 
 			result := make(astmodel.TypeDefinitionSet)
