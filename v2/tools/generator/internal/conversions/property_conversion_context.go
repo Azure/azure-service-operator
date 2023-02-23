@@ -16,8 +16,8 @@ import (
 type PropertyConversionContext struct {
 	// definitions is a map of all known type definitions, used to resolve TypeNames to actual definitions
 	definitions astmodel.TypeDefinitionSet
-	// functionName is the name of the function we're currently generating
-	functionName string
+	// functionBaseName is the base name of the function we're generating (used to generate the names of function calls)
+	functionBaseName string
 	// direction is the direction of the conversion we're generating
 	direction Direction
 	// propertyBagName is the name of the local variable used for a property bag, or "" if we don't have one
@@ -34,9 +34,11 @@ type PropertyConversionContext struct {
 
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
 func NewPropertyConversionContext(
+	functionBaseName string,
 	definitions astmodel.TypeDefinitionSet,
 	idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
+		functionBaseName:     functionBaseName,
 		definitions:          definitions,
 		idFactory:            idFactory,
 		propertyBagName:      "",
@@ -44,9 +46,9 @@ func NewPropertyConversionContext(
 	}
 }
 
-// FunctionName returns the name of this function, as it will be shown in the generated source
-func (c *PropertyConversionContext) FunctionName() string {
-	return c.functionName
+// FunctionBaseName returns the base name of the function we're generating
+func (c *PropertyConversionContext) FunctionBaseName() string {
+	return c.functionBaseName
 }
 
 // Types returns the set of definitions available in this context
@@ -70,13 +72,6 @@ func (c *PropertyConversionContext) WithConfiguration(configuration *config.Obje
 func (c *PropertyConversionContext) WithConversionGraph(conversionGraph *storage.ConversionGraph) *PropertyConversionContext {
 	result := c.clone()
 	result.conversionGraph = conversionGraph
-	return result
-}
-
-// WithFunctionName returns a new context with the specified function name included
-func (c *PropertyConversionContext) WithFunctionName(name string) *PropertyConversionContext {
-	result := c.clone()
-	result.functionName = name
 	return result
 }
 
@@ -152,7 +147,7 @@ func (c *PropertyConversionContext) AddPackageReference(ref astmodel.PackageRefe
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
 		definitions:          c.definitions,
-		functionName:         c.functionName,
+		functionBaseName:     c.functionBaseName,
 		direction:            c.direction,
 		propertyBagName:      c.propertyBagName,
 		idFactory:            c.idFactory,

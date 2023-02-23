@@ -65,7 +65,7 @@ func TestCreateTypeConversion_GivenIncompatibleEndpoints_ReturnsExpectedError(t 
 	defs.AddAll(addressObject, locationObject)
 
 	idFactory := astmodel.NewIdentifierFactory()
-	conversionContext := NewPropertyConversionContext(defs, idFactory).
+	conversionContext := NewPropertyConversionContext("AssignProperties", defs, idFactory).
 		WithDirection(ConvertTo)
 
 	for _, c := range cases {

@@ -186,9 +186,14 @@ func CreateTypeConversion(
 
 // NameOfPropertyAssignmentFunction returns the name of the property assignment function
 func NameOfPropertyAssignmentFunction(
-	parameterType astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
+	baseName string,
+	parameterType astmodel.TypeName,
+	direction Direction,
+	idFactory astmodel.IdentifierFactory,
+) string {
 	nameOfOtherType := idFactory.CreateIdentifier(parameterType.Name(), astmodel.Exported)
-	return "AssignProperties_" + direction.SelectString("From_", "To_") + nameOfOtherType
+	dir := direction.SelectString("From", "To")
+	return fmt.Sprintf("%s_%s_%s", baseName, dir, nameOfOtherType)
 }
 
 // writeToBagItem will generate a conversion where the destination is in our property bag
@@ -1314,7 +1319,8 @@ func assignObjectDirectlyFromObject(
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
-		functionName := NameOfPropertyAssignmentFunction(sourceName, ConvertFrom, conversionContext.idFactory)
+		functionName := NameOfPropertyAssignmentFunction(
+			conversionContext.FunctionBaseName(), sourceName, ConvertFrom, conversionContext.idFactory)
 
 		conversion := astbuilder.AssignmentStatement(
 			errLocal,
@@ -1427,7 +1433,8 @@ func assignObjectDirectlyToObject(
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
-		functionName := NameOfPropertyAssignmentFunction(destinationName, ConvertTo, conversionContext.idFactory)
+		functionName := NameOfPropertyAssignmentFunction(
+			conversionContext.FunctionBaseName(), destinationName, ConvertTo, conversionContext.idFactory)
 		conversion := astbuilder.AssignmentStatement(
 			errLocal,
 			tok,

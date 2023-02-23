@@ -116,8 +116,7 @@ func NewPropertyAssignmentFunction(
 	result.readsFromPropertyBag = readsFromPropertyBag
 	result.writesToPropertyBag = writesToPropertyBag
 
-	result.conversionContext = conversionContext.WithFunctionName(result.Name()).
-		WithDirection(direction).
+	result.conversionContext = conversionContext.WithDirection(direction).
 		WithPropertyBag(propertyBagName).
 		WithPackageReferenceSet(result.packageReferences)
 
@@ -138,7 +137,8 @@ func (fn *PropertyAssignmentFunction) WithAugmentationInterface(augmentation ast
 
 // Name returns the name of this function
 func (fn *PropertyAssignmentFunction) Name() string {
-	return conversions.NameOfPropertyAssignmentFunction(fn.ParameterType(), fn.direction, fn.idFactory)
+	return conversions.NameOfPropertyAssignmentFunction(
+		fn.conversionContext.FunctionBaseName(), fn.ParameterType(), fn.direction, fn.idFactory)
 }
 
 // RequiredPackageReferences returns the set of package references required by this function

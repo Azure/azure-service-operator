@@ -55,7 +55,7 @@ func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 	defs.AddAll(person2021, personSpec2021, personStatus2021)
 
 	cfg := config.NewObjectModelConfiguration()
-	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory).
+	conversionContext := conversions.NewPropertyConversionContext("AssignProperties", defs, idFactory).
 		WithConfiguration(cfg)
 	assignFrom, err := functions.NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
