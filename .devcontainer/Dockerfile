@@ -1,7 +1,7 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.137.0/containers/go/.devcontainer/base.Dockerfile
 
 # This is pinned to a particular version of go:
-FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.19
+FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.20
 
 # APT dependencies
 ENV DEBIAN_FRONTEND=noninteractive
