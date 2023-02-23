@@ -7,7 +7,6 @@ package pipeline
 
 import (
 	"context"
-	"strings"
 
 	"github.com/pkg/errors"
 
@@ -27,8 +26,7 @@ func MakeOneOfDiscriminantRequired() *Stage {
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 			for _, def := range state.Definitions() {
 				isOneOf := astmodel.OneOfFlag.IsOn(def.Type())
-				isARM := strings.HasSuffix(def.Name().Name(), astmodel.ARMSuffix) // TODO: This is a bit of a hack
-
+				isARM := astmodel.IsARMType(def.Name())
 				if !isOneOf || !isARM {
 					continue
 				}
