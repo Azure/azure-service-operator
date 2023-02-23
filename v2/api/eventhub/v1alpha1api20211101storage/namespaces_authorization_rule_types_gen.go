@@ -100,7 +100,7 @@ func (rule *NamespacesAuthorizationRule) NewEmptyStatus() genruntime.Convertible
 	return &Namespaces_AuthorizationRule_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (rule *NamespacesAuthorizationRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return &genruntime.ResourceReference{

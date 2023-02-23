@@ -128,7 +128,7 @@ func (account *BatchAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &BatchAccount_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (account *BatchAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(account.Spec)
 	return &genruntime.ResourceReference{

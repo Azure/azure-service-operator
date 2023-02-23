@@ -81,7 +81,7 @@ func (connection *WorkspacesConnection) NewEmptyStatus() genruntime.ConvertibleS
 	return &Workspaces_Connection_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (connection *WorkspacesConnection) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(connection.Spec)
 	return &genruntime.ResourceReference{

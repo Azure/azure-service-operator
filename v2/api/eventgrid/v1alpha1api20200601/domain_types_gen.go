@@ -140,7 +140,7 @@ func (domain *Domain) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Domain_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (domain *Domain) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(domain.Spec)
 	return &genruntime.ResourceReference{

@@ -128,7 +128,7 @@ func (alias *Alias) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Alias_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns nil as Tenant scoped resources never have an owner
 func (alias *Alias) Owner() *genruntime.ResourceReference {
 	return nil
 }
