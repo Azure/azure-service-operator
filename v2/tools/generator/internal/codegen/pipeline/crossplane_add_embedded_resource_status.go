@@ -20,7 +20,7 @@ func AddCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) *
 		"Add an embedded runtimev1alpha1.ResourceStatus to every status type",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			statusTypeName := astmodel.MakeTypeName(
-				CrossplaneRuntimeV1Alpha1Package,
+				CrossplaneRuntimeV1Package,
 				idFactory.CreateIdentifier("ResourceStatus", astmodel.Exported))
 			embeddedStatus := astmodel.NewPropertyDefinition("", ",inline", statusTypeName)
 

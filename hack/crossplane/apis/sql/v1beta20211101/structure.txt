@@ -37,8 +37,8 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20211101
     │       │   ├── "Disabled"
     │       │   └── "Enabled"
     │       ├── ResourceGroupName: string
-    │       ├── ResourceGroupNameRef: *v1alpha1.Reference
-    │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
+    │       ├── ResourceGroupNameRef: *v1.Reference
+    │       ├── ResourceGroupNameSelector: *v1.Selector
     │       ├── RestrictOutboundNetworkAccess: *Enum (2 values)
     │       │   ├── "Disabled"
     │       │   └── "Enabled"
