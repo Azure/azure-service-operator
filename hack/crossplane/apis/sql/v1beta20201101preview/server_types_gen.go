@@ -4,7 +4,7 @@
 package v1beta20201101preview
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	"github.com/crossplane/crossplane-runtime/apis/common/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -36,13 +36,13 @@ type APIVersion string
 const APIVersion_Value = APIVersion("2020-11-01-preview")
 
 type Server_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline,omitempty"`
-	ForProvider           ServerParameters `json:"forProvider,omitempty"`
+	v1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider     ServerParameters `json:"forProvider,omitempty"`
 }
 
 type Server_STATUS struct {
-	v1alpha1.ResourceStatus `json:",inline,omitempty"`
-	AtProvider              ServerObservation `json:"atProvider,omitempty"`
+	v1.ResourceStatus `json:",inline,omitempty"`
+	AtProvider        ServerObservation `json:"atProvider,omitempty"`
 }
 
 type ServerObservation struct {
@@ -136,8 +136,8 @@ type ServerParameters struct {
 	// in, must be 'Enabled' or 'Disabled'
 	PublicNetworkAccess       *ServerProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 	ResourceGroupName         string                                `json:"resourceGroupName,omitempty"`
-	ResourceGroupNameRef      *v1alpha1.Reference                   `json:"resourceGroupNameRef,omitempty"`
-	ResourceGroupNameSelector *v1alpha1.Selector                    `json:"resourceGroupNameSelector,omitempty"`
+	ResourceGroupNameRef      *v1.Reference                         `json:"resourceGroupNameRef,omitempty"`
+	ResourceGroupNameSelector *v1.Selector                          `json:"resourceGroupNameSelector,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`

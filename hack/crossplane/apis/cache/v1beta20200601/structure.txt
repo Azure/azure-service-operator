@@ -29,8 +29,8 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/cache/v1beta2020060
     │       │   └── RdbStorageConnectionString: *string
     │       ├── ReplicasPerMaster: *int
     │       ├── ResourceGroupName: string
-    │       ├── ResourceGroupNameRef: *v1alpha1.Reference
-    │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
+    │       ├── ResourceGroupNameRef: *v1.Reference
+    │       ├── ResourceGroupNameSelector: *v1.Selector
     │       ├── ShardCount: *int
     │       ├── Sku: *Object (3 properties)
     │       │   ├── Capacity: *int
