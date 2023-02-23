@@ -66,8 +66,10 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 	}
 
 	// We have both a next type and a renamed type
-	// If they're in the same package, the rename has been configured on the wrong version (or the wrong type)
-	return astmodel.EmptyTypeName, errors.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
+	// If they're in the same package, the type-rename has been configured on the wrong version (or the wrong type)
+	if nextType.PackageReference.Equals(renamedType.PackageReference) {
+		return astmodel.EmptyTypeName, errors.Errorf("confict between rename of %s to %s and existing type %s", name, renamedType, nextType)
+	}
 
 	// Now we need to return the earlier type. We can do this by comparing the package paths.
 	// (this be needed if a different type is introduced with the same name in a later version, or if a type is
