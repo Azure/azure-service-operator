@@ -81,7 +81,7 @@ func (service *StorageAccountsQueueService) NewEmptyStatus() genruntime.Converti
 	return &StorageAccounts_QueueService_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (service *StorageAccountsQueueService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
 	return &genruntime.ResourceReference{

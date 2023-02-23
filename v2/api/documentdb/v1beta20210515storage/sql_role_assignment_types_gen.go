@@ -81,7 +81,7 @@ func (assignment *SqlRoleAssignment) NewEmptyStatus() genruntime.ConvertibleStat
 	return &DatabaseAccounts_SqlRoleAssignment_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (assignment *SqlRoleAssignment) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(assignment.Spec)
 	return &genruntime.ResourceReference{

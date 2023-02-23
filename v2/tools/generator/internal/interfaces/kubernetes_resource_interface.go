@@ -301,7 +301,6 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 		}
 
 		fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
-		fn.AddComments("returns the ResourceReference of the owner, or nil if there is no owner")
 
 		groupLocal := "group"
 		kindLocal := "kind"
@@ -312,10 +311,12 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 
 		switch r.Scope() {
 		case astmodel.ResourceScopeResourceGroup:
+			fn.AddComments("returns the ResourceReference of the owner")
 			fn.AddStatements(
 				lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
 				astbuilder.Returns(createResourceReference(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), receiverIdent)))
 		case astmodel.ResourceScopeExtension:
+			fn.AddComments("returns the ResourceReference of the owner")
 			owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
 			group := astbuilder.Selector(owner, "Group")
 			kind := astbuilder.Selector(owner, "Kind")
@@ -324,9 +325,11 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 				astbuilder.Returns(createResourceReference(group, kind, receiverIdent)))
 		case astmodel.ResourceScopeTenant:
 			// Tenant resources never have an owner, just return nil
+			fn.AddComments("returns nil as Tenant scoped resources never have an owner")
 			fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
 		case astmodel.ResourceScopeLocation:
 			// Location resources never have an owner, just return nil
+			fn.AddComments("returns nil as Location scoped resources never have an owner")
 			fn.AddStatements(astbuilder.Returns(astbuilder.Nil()))
 		default:
 			panic(fmt.Sprintf("unknown resource kind: %s", r.Scope()))

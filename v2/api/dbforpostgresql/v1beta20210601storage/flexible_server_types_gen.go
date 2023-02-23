@@ -81,7 +81,7 @@ func (server *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &FlexibleServer_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (server *FlexibleServer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
 	return &genruntime.ResourceReference{

@@ -100,7 +100,7 @@ func (topic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Namespaces_Topic_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (topic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
 	return &genruntime.ResourceReference{

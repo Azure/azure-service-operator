@@ -81,7 +81,7 @@ func (subscription *NamespacesTopicsSubscription) NewEmptyStatus() genruntime.Co
 	return &Namespaces_Topics_Subscription_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
 	return &genruntime.ResourceReference{

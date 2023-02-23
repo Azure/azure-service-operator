@@ -140,7 +140,7 @@ func (collection *MongodbDatabaseCollection) NewEmptyStatus() genruntime.Convert
 	return &DatabaseAccounts_MongodbDatabases_Collection_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (collection *MongodbDatabaseCollection) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(collection.Spec)
 	return &genruntime.ResourceReference{
