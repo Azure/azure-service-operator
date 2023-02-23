@@ -100,7 +100,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) NewEmptyStatus() genruntime.Conve
 	return &NetworkSecurityGroups_SecurityRule_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (rule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return &genruntime.ResourceReference{

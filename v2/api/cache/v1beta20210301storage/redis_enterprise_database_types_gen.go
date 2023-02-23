@@ -81,7 +81,7 @@ func (database *RedisEnterpriseDatabase) NewEmptyStatus() genruntime.Convertible
 	return &RedisEnterprise_Database_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (database *RedisEnterpriseDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return &genruntime.ResourceReference{

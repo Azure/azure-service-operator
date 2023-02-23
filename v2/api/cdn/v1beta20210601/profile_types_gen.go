@@ -128,7 +128,7 @@ func (profile *Profile) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Profile_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (profile *Profile) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(profile.Spec)
 	return &genruntime.ResourceReference{

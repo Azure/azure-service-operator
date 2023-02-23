@@ -64,26 +64,56 @@ func deleteGeneratedCodeByPattern(ctx context.Context, globPattern string) error
 		return errors.Wrapf(err, "error globbing files with pattern %q", globPattern)
 	}
 
-	var errs []error
-	for _, file := range files {
+	// We treat files as a queue of files needing deletion
+	// If we have an error deleting a file, it might be due to a transient lock on the file (e.g. from an editor or
+	// security software); if this happens, we requeue the file so we retry the deletion later
+	// To avoid getting stuck in an infinite loop, we keep track of the number of consequetive deletion failures; if
+	// this exceeds the size of the queue, we give up and return an error
+
+	consecutiveDeleteFailures := 0
+	errorsSeen := make(map[string]error, len(files))
+	for len(files) > 0 {
+		file := files[0]
 		if ctx.Err() != nil { // check for cancellation
 			return ctx.Err()
 		}
 
 		isGenerated, err := isFileGenerated(file)
 		if err != nil {
-			errs = append(errs, errors.Wrapf(err, "error determining if file was generated"))
+			errorsSeen[file] = errors.Wrapf(err, "error determining if file was generated")
+			consecutiveDeleteFailures++
+			files = append(files, file) // requeue the file
 		}
 
 		if isGenerated {
 			err := os.Remove(file)
 			if err != nil {
-				errs = append(errs, errors.Wrapf(err, "error removing file %q", file))
+				errorsSeen[file] = errors.Wrapf(err, "error determining if file was generated")
+				consecutiveDeleteFailures++
+				files = append(files, file) // requeue the file
+			} else {
+				consecutiveDeleteFailures = 0
+				delete(errorsSeen, file) // remove from errors if we previously failed
 			}
+		}
+
+		files = files[1:]
+
+		if consecutiveDeleteFailures > len(files) {
+			break
 		}
 	}
 
-	return kerrors.NewAggregate(errs)
+	if len(errorsSeen) > 0 {
+		errs := make([]error, 0, len(errorsSeen))
+		for _, err := range errorsSeen {
+			errs = append(errs, err)
+		}
+
+		return kerrors.NewAggregate(errs)
+	}
+
+	return nil
 }
 
 func isFileGenerated(filename string) (bool, error) {

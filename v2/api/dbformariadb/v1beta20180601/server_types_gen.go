@@ -128,7 +128,7 @@ func (server *Server) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Server_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (server *Server) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
 	return &genruntime.ResourceReference{

@@ -81,7 +81,7 @@ func (zone *PrivateDnsZone) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &PrivateDnsZone_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (zone *PrivateDnsZone) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(zone.Spec)
 	return &genruntime.ResourceReference{

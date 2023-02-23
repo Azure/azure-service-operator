@@ -140,7 +140,7 @@ func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Namespaces_Queue_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(queue.Spec)
 	return &genruntime.ResourceReference{

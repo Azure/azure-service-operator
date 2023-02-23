@@ -128,7 +128,7 @@ func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.Converti
 	return &DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(trigger.Spec)
 	return &genruntime.ResourceReference{
