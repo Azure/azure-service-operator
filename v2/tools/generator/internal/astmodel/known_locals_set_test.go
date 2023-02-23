@@ -95,8 +95,8 @@ func Test_KnownLocalsSet_CreateSingularLocal_ReturnsExpectedResult(t *testing.T)
 	g.Expect(locals.CreateSingularLocal("ssh")).To(Equal("ssh"))
 	g.Expect(locals.CreateSingularLocal("ssh")).To(Equal("ssh1"))
 
-	g.Expect(locals.CreateSingularLocal("EffectiveOutboundIPs")).To(Equal("effectiveOutboundIp"))
-	g.Expect(locals.CreateSingularLocal("SubnetIds")).To(Equal("subnetId"))
+	g.Expect(locals.CreateSingularLocal("EffectiveOutboundIPs")).To(Equal("effectiveOutboundIP"))
+	g.Expect(locals.CreateSingularLocal("SubnetIDs")).To(Equal("subnetID"))
 }
 
 func Test_KnownLocalsSet_CreatePluralLocal_ReturnsExpectedResult(t *testing.T) {

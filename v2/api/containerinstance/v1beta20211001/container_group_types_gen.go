@@ -937,18 +937,18 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 
 	// SubnetIds
 	if source.SubnetIds != nil {
-		subnetIdList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
-		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
+		subnetIDList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
+		for subnetIDIndex, subnetIDItem := range source.SubnetIds {
 			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
-			var subnetId ContainerGroupSubnetId
-			err := subnetId.AssignProperties_From_ContainerGroupSubnetId(&subnetIdItem)
+			subnetIDItem := subnetIDItem
+			var subnetID ContainerGroupSubnetId
+			err := subnetID.AssignProperties_From_ContainerGroupSubnetId(&subnetIDItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupSubnetId() to populate field SubnetIds")
 			}
-			subnetIdList[subnetIdIndex] = subnetId
+			subnetIDList[subnetIDIndex] = subnetID
 		}
-		group.SubnetIds = subnetIdList
+		group.SubnetIds = subnetIDList
 	} else {
 		group.SubnetIds = nil
 	}
@@ -1143,18 +1143,18 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 
 	// SubnetIds
 	if group.SubnetIds != nil {
-		subnetIdList := make([]v20211001s.ContainerGroupSubnetId, len(group.SubnetIds))
-		for subnetIdIndex, subnetIdItem := range group.SubnetIds {
+		subnetIDList := make([]v20211001s.ContainerGroupSubnetId, len(group.SubnetIds))
+		for subnetIDIndex, subnetIDItem := range group.SubnetIds {
 			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
-			var subnetId v20211001s.ContainerGroupSubnetId
-			err := subnetIdItem.AssignProperties_To_ContainerGroupSubnetId(&subnetId)
+			subnetIDItem := subnetIDItem
+			var subnetID v20211001s.ContainerGroupSubnetId
+			err := subnetIDItem.AssignProperties_To_ContainerGroupSubnetId(&subnetID)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupSubnetId() to populate field SubnetIds")
 			}
-			subnetIdList[subnetIdIndex] = subnetId
+			subnetIDList[subnetIDIndex] = subnetID
 		}
-		destination.SubnetIds = subnetIdList
+		destination.SubnetIds = subnetIDList
 	} else {
 		destination.SubnetIds = nil
 	}
@@ -1733,18 +1733,18 @@ func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(
 
 	// SubnetIds
 	if source.SubnetIds != nil {
-		subnetIdList := make([]ContainerGroupSubnetId_STATUS, len(source.SubnetIds))
-		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
+		subnetIDList := make([]ContainerGroupSubnetId_STATUS, len(source.SubnetIds))
+		for subnetIDIndex, subnetIDItem := range source.SubnetIds {
 			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
-			var subnetId ContainerGroupSubnetId_STATUS
-			err := subnetId.AssignProperties_From_ContainerGroupSubnetId_STATUS(&subnetIdItem)
+			subnetIDItem := subnetIDItem
+			var subnetID ContainerGroupSubnetId_STATUS
+			err := subnetID.AssignProperties_From_ContainerGroupSubnetId_STATUS(&subnetIDItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupSubnetId_STATUS() to populate field SubnetIds")
 			}
-			subnetIdList[subnetIdIndex] = subnetId
+			subnetIDList[subnetIDIndex] = subnetID
 		}
-		group.SubnetIds = subnetIdList
+		group.SubnetIds = subnetIDList
 	} else {
 		group.SubnetIds = nil
 	}
@@ -1952,18 +1952,18 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 
 	// SubnetIds
 	if group.SubnetIds != nil {
-		subnetIdList := make([]v20211001s.ContainerGroupSubnetId_STATUS, len(group.SubnetIds))
-		for subnetIdIndex, subnetIdItem := range group.SubnetIds {
+		subnetIDList := make([]v20211001s.ContainerGroupSubnetId_STATUS, len(group.SubnetIds))
+		for subnetIDIndex, subnetIDItem := range group.SubnetIds {
 			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
-			var subnetId v20211001s.ContainerGroupSubnetId_STATUS
-			err := subnetIdItem.AssignProperties_To_ContainerGroupSubnetId_STATUS(&subnetId)
+			subnetIDItem := subnetIDItem
+			var subnetID v20211001s.ContainerGroupSubnetId_STATUS
+			err := subnetIDItem.AssignProperties_To_ContainerGroupSubnetId_STATUS(&subnetID)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupSubnetId_STATUS() to populate field SubnetIds")
 			}
-			subnetIdList[subnetIdIndex] = subnetId
+			subnetIDList[subnetIDIndex] = subnetID
 		}
-		destination.SubnetIds = subnetIdList
+		destination.SubnetIds = subnetIDList
 	} else {
 		destination.SubnetIds = nil
 	}

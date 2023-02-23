@@ -35,8 +35,8 @@ var flectOverrides = []struct {
 	plural string
 }{
 	{"FIPS", "FIPS"},
-	{"Id", "Ids"},
-	{"Ip", "Ips"},
+	{"ID", "IDs"},
+	{"IP", "IPs"},
 	{"knownAs", "knownAs"},
 	{"ssh", "ssh"}, // workaround flect bug - see https://github.com/gobuffalo/flect/pull/65
 }

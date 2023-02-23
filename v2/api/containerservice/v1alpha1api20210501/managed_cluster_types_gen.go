@@ -9917,18 +9917,18 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedC
 
 	// EffectiveOutboundIPs
 	if source.EffectiveOutboundIPs != nil {
-		effectiveOutboundIpList := make([]ResourceReference, len(source.EffectiveOutboundIPs))
-		for effectiveOutboundIpIndex, effectiveOutboundIpItem := range source.EffectiveOutboundIPs {
+		effectiveOutboundIPList := make([]ResourceReference, len(source.EffectiveOutboundIPs))
+		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range source.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
-			effectiveOutboundIpItem := effectiveOutboundIpItem
-			var effectiveOutboundIp ResourceReference
-			err := effectiveOutboundIp.AssignProperties_From_ResourceReference(&effectiveOutboundIpItem)
+			effectiveOutboundIPItem := effectiveOutboundIPItem
+			var effectiveOutboundIP ResourceReference
+			err := effectiveOutboundIP.AssignProperties_From_ResourceReference(&effectiveOutboundIPItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field EffectiveOutboundIPs")
 			}
-			effectiveOutboundIpList[effectiveOutboundIpIndex] = effectiveOutboundIp
+			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
 		}
-		profile.EffectiveOutboundIPs = effectiveOutboundIpList
+		profile.EffectiveOutboundIPs = effectiveOutboundIPList
 	} else {
 		profile.EffectiveOutboundIPs = nil
 	}
@@ -9943,12 +9943,12 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedC
 
 	// ManagedOutboundIPs
 	if source.ManagedOutboundIPs != nil {
-		var managedOutboundIp ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
-		err := managedOutboundIp.AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(source.ManagedOutboundIPs)
+		var managedOutboundIP ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+		err := managedOutboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(source.ManagedOutboundIPs)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs() to populate field ManagedOutboundIPs")
 		}
-		profile.ManagedOutboundIPs = &managedOutboundIp
+		profile.ManagedOutboundIPs = &managedOutboundIP
 	} else {
 		profile.ManagedOutboundIPs = nil
 	}
@@ -9967,12 +9967,12 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_From_ManagedC
 
 	// OutboundIPs
 	if source.OutboundIPs != nil {
-		var outboundIp ManagedClusterLoadBalancerProfile_OutboundIPs
-		err := outboundIp.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs(source.OutboundIPs)
+		var outboundIP ManagedClusterLoadBalancerProfile_OutboundIPs
+		err := outboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs(source.OutboundIPs)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs() to populate field OutboundIPs")
 		}
-		profile.OutboundIPs = &outboundIp
+		profile.OutboundIPs = &outboundIP
 	} else {
 		profile.OutboundIPs = nil
 	}
@@ -9996,18 +9996,18 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// EffectiveOutboundIPs
 	if profile.EffectiveOutboundIPs != nil {
-		effectiveOutboundIpList := make([]alpha20210501s.ResourceReference, len(profile.EffectiveOutboundIPs))
-		for effectiveOutboundIpIndex, effectiveOutboundIpItem := range profile.EffectiveOutboundIPs {
+		effectiveOutboundIPList := make([]alpha20210501s.ResourceReference, len(profile.EffectiveOutboundIPs))
+		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range profile.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
-			effectiveOutboundIpItem := effectiveOutboundIpItem
-			var effectiveOutboundIp alpha20210501s.ResourceReference
-			err := effectiveOutboundIpItem.AssignProperties_To_ResourceReference(&effectiveOutboundIp)
+			effectiveOutboundIPItem := effectiveOutboundIPItem
+			var effectiveOutboundIP alpha20210501s.ResourceReference
+			err := effectiveOutboundIPItem.AssignProperties_To_ResourceReference(&effectiveOutboundIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field EffectiveOutboundIPs")
 			}
-			effectiveOutboundIpList[effectiveOutboundIpIndex] = effectiveOutboundIp
+			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
 		}
-		destination.EffectiveOutboundIPs = effectiveOutboundIpList
+		destination.EffectiveOutboundIPs = effectiveOutboundIPList
 	} else {
 		destination.EffectiveOutboundIPs = nil
 	}
@@ -10022,12 +10022,12 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// ManagedOutboundIPs
 	if profile.ManagedOutboundIPs != nil {
-		var managedOutboundIp alpha20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
-		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(&managedOutboundIp)
+		var managedOutboundIP alpha20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs
+		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs(&managedOutboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs() to populate field ManagedOutboundIPs")
 		}
-		destination.ManagedOutboundIPs = &managedOutboundIp
+		destination.ManagedOutboundIPs = &managedOutboundIP
 	} else {
 		destination.ManagedOutboundIPs = nil
 	}
@@ -10046,12 +10046,12 @@ func (profile *ManagedClusterLoadBalancerProfile) AssignProperties_To_ManagedClu
 
 	// OutboundIPs
 	if profile.OutboundIPs != nil {
-		var outboundIp alpha20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs
-		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs(&outboundIp)
+		var outboundIP alpha20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs
+		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs(&outboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs() to populate field OutboundIPs")
 		}
-		destination.OutboundIPs = &outboundIp
+		destination.OutboundIPs = &outboundIP
 	} else {
 		destination.OutboundIPs = nil
 	}
@@ -10158,18 +10158,18 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_M
 
 	// EffectiveOutboundIPs
 	if source.EffectiveOutboundIPs != nil {
-		effectiveOutboundIpList := make([]ResourceReference_STATUS, len(source.EffectiveOutboundIPs))
-		for effectiveOutboundIpIndex, effectiveOutboundIpItem := range source.EffectiveOutboundIPs {
+		effectiveOutboundIPList := make([]ResourceReference_STATUS, len(source.EffectiveOutboundIPs))
+		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range source.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
-			effectiveOutboundIpItem := effectiveOutboundIpItem
-			var effectiveOutboundIp ResourceReference_STATUS
-			err := effectiveOutboundIp.AssignProperties_From_ResourceReference_STATUS(&effectiveOutboundIpItem)
+			effectiveOutboundIPItem := effectiveOutboundIPItem
+			var effectiveOutboundIP ResourceReference_STATUS
+			err := effectiveOutboundIP.AssignProperties_From_ResourceReference_STATUS(&effectiveOutboundIPItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field EffectiveOutboundIPs")
 			}
-			effectiveOutboundIpList[effectiveOutboundIpIndex] = effectiveOutboundIp
+			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
 		}
-		profile.EffectiveOutboundIPs = effectiveOutboundIpList
+		profile.EffectiveOutboundIPs = effectiveOutboundIPList
 	} else {
 		profile.EffectiveOutboundIPs = nil
 	}
@@ -10179,12 +10179,12 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_M
 
 	// ManagedOutboundIPs
 	if source.ManagedOutboundIPs != nil {
-		var managedOutboundIp ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
-		err := managedOutboundIp.AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(source.ManagedOutboundIPs)
+		var managedOutboundIP ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+		err := managedOutboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(source.ManagedOutboundIPs)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIPs")
 		}
-		profile.ManagedOutboundIPs = &managedOutboundIp
+		profile.ManagedOutboundIPs = &managedOutboundIP
 	} else {
 		profile.ManagedOutboundIPs = nil
 	}
@@ -10203,12 +10203,12 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_From_M
 
 	// OutboundIPs
 	if source.OutboundIPs != nil {
-		var outboundIp ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
-		err := outboundIp.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(source.OutboundIPs)
+		var outboundIP ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+		err := outboundIP.AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(source.OutboundIPs)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS() to populate field OutboundIPs")
 		}
-		profile.OutboundIPs = &outboundIp
+		profile.OutboundIPs = &outboundIP
 	} else {
 		profile.OutboundIPs = nil
 	}
@@ -10227,18 +10227,18 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// EffectiveOutboundIPs
 	if profile.EffectiveOutboundIPs != nil {
-		effectiveOutboundIpList := make([]alpha20210501s.ResourceReference_STATUS, len(profile.EffectiveOutboundIPs))
-		for effectiveOutboundIpIndex, effectiveOutboundIpItem := range profile.EffectiveOutboundIPs {
+		effectiveOutboundIPList := make([]alpha20210501s.ResourceReference_STATUS, len(profile.EffectiveOutboundIPs))
+		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range profile.EffectiveOutboundIPs {
 			// Shadow the loop variable to avoid aliasing
-			effectiveOutboundIpItem := effectiveOutboundIpItem
-			var effectiveOutboundIp alpha20210501s.ResourceReference_STATUS
-			err := effectiveOutboundIpItem.AssignProperties_To_ResourceReference_STATUS(&effectiveOutboundIp)
+			effectiveOutboundIPItem := effectiveOutboundIPItem
+			var effectiveOutboundIP alpha20210501s.ResourceReference_STATUS
+			err := effectiveOutboundIPItem.AssignProperties_To_ResourceReference_STATUS(&effectiveOutboundIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field EffectiveOutboundIPs")
 			}
-			effectiveOutboundIpList[effectiveOutboundIpIndex] = effectiveOutboundIp
+			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
 		}
-		destination.EffectiveOutboundIPs = effectiveOutboundIpList
+		destination.EffectiveOutboundIPs = effectiveOutboundIPList
 	} else {
 		destination.EffectiveOutboundIPs = nil
 	}
@@ -10248,12 +10248,12 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// ManagedOutboundIPs
 	if profile.ManagedOutboundIPs != nil {
-		var managedOutboundIp alpha20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
-		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(&managedOutboundIp)
+		var managedOutboundIP alpha20210501s.ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS
+		err := profile.ManagedOutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS(&managedOutboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_ManagedOutboundIPs_STATUS() to populate field ManagedOutboundIPs")
 		}
-		destination.ManagedOutboundIPs = &managedOutboundIp
+		destination.ManagedOutboundIPs = &managedOutboundIP
 	} else {
 		destination.ManagedOutboundIPs = nil
 	}
@@ -10272,12 +10272,12 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignProperties_To_Man
 
 	// OutboundIPs
 	if profile.OutboundIPs != nil {
-		var outboundIp alpha20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
-		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(&outboundIp)
+		var outboundIP alpha20210501s.ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS
+		err := profile.OutboundIPs.AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS(&outboundIP)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS() to populate field OutboundIPs")
 		}
-		destination.OutboundIPs = &outboundIp
+		destination.OutboundIPs = &outboundIP
 	} else {
 		destination.OutboundIPs = nil
 	}
@@ -11489,18 +11489,18 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_From_
 
 	// PublicIPs
 	if source.PublicIPs != nil {
-		publicIpList := make([]ResourceReference, len(source.PublicIPs))
-		for publicIpIndex, publicIpItem := range source.PublicIPs {
+		publicIPList := make([]ResourceReference, len(source.PublicIPs))
+		for publicIPIndex, publicIPItem := range source.PublicIPs {
 			// Shadow the loop variable to avoid aliasing
-			publicIpItem := publicIpItem
-			var publicIp ResourceReference
-			err := publicIp.AssignProperties_From_ResourceReference(&publicIpItem)
+			publicIPItem := publicIPItem
+			var publicIP ResourceReference
+			err := publicIP.AssignProperties_From_ResourceReference(&publicIPItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PublicIPs")
 			}
-			publicIpList[publicIpIndex] = publicIp
+			publicIPList[publicIPIndex] = publicIP
 		}
-		iPs.PublicIPs = publicIpList
+		iPs.PublicIPs = publicIPList
 	} else {
 		iPs.PublicIPs = nil
 	}
@@ -11516,18 +11516,18 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs) AssignProperties_To_Ma
 
 	// PublicIPs
 	if iPs.PublicIPs != nil {
-		publicIpList := make([]alpha20210501s.ResourceReference, len(iPs.PublicIPs))
-		for publicIpIndex, publicIpItem := range iPs.PublicIPs {
+		publicIPList := make([]alpha20210501s.ResourceReference, len(iPs.PublicIPs))
+		for publicIPIndex, publicIPItem := range iPs.PublicIPs {
 			// Shadow the loop variable to avoid aliasing
-			publicIpItem := publicIpItem
-			var publicIp alpha20210501s.ResourceReference
-			err := publicIpItem.AssignProperties_To_ResourceReference(&publicIp)
+			publicIPItem := publicIPItem
+			var publicIP alpha20210501s.ResourceReference
+			err := publicIPItem.AssignProperties_To_ResourceReference(&publicIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PublicIPs")
 			}
-			publicIpList[publicIpIndex] = publicIp
+			publicIPList[publicIPIndex] = publicIP
 		}
-		destination.PublicIPs = publicIpList
+		destination.PublicIPs = publicIPList
 	} else {
 		destination.PublicIPs = nil
 	}
@@ -11581,18 +11581,18 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignPropertie
 
 	// PublicIPs
 	if source.PublicIPs != nil {
-		publicIpList := make([]ResourceReference_STATUS, len(source.PublicIPs))
-		for publicIpIndex, publicIpItem := range source.PublicIPs {
+		publicIPList := make([]ResourceReference_STATUS, len(source.PublicIPs))
+		for publicIPIndex, publicIPItem := range source.PublicIPs {
 			// Shadow the loop variable to avoid aliasing
-			publicIpItem := publicIpItem
-			var publicIp ResourceReference_STATUS
-			err := publicIp.AssignProperties_From_ResourceReference_STATUS(&publicIpItem)
+			publicIPItem := publicIPItem
+			var publicIP ResourceReference_STATUS
+			err := publicIP.AssignProperties_From_ResourceReference_STATUS(&publicIPItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field PublicIPs")
 			}
-			publicIpList[publicIpIndex] = publicIp
+			publicIPList[publicIPIndex] = publicIP
 		}
-		iPs.PublicIPs = publicIpList
+		iPs.PublicIPs = publicIPList
 	} else {
 		iPs.PublicIPs = nil
 	}
@@ -11608,18 +11608,18 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignPropertie
 
 	// PublicIPs
 	if iPs.PublicIPs != nil {
-		publicIpList := make([]alpha20210501s.ResourceReference_STATUS, len(iPs.PublicIPs))
-		for publicIpIndex, publicIpItem := range iPs.PublicIPs {
+		publicIPList := make([]alpha20210501s.ResourceReference_STATUS, len(iPs.PublicIPs))
+		for publicIPIndex, publicIPItem := range iPs.PublicIPs {
 			// Shadow the loop variable to avoid aliasing
-			publicIpItem := publicIpItem
-			var publicIp alpha20210501s.ResourceReference_STATUS
-			err := publicIpItem.AssignProperties_To_ResourceReference_STATUS(&publicIp)
+			publicIPItem := publicIPItem
+			var publicIP alpha20210501s.ResourceReference_STATUS
+			err := publicIPItem.AssignProperties_To_ResourceReference_STATUS(&publicIP)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field PublicIPs")
 			}
-			publicIpList[publicIpIndex] = publicIp
+			publicIPList[publicIPIndex] = publicIP
 		}
-		destination.PublicIPs = publicIpList
+		destination.PublicIPs = publicIPList
 	} else {
 		destination.PublicIPs = nil
 	}
