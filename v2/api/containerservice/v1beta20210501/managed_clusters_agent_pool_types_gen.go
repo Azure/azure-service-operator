@@ -128,7 +128,7 @@ func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleSta
 	return &ManagedClusters_AgentPool_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
 	return &genruntime.ResourceReference{

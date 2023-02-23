@@ -121,7 +121,7 @@ func (setting *MongodbDatabaseThroughputSetting) NewEmptyStatus() genruntime.Con
 	return &DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return &genruntime.ResourceReference{

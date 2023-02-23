@@ -128,7 +128,7 @@ func (database *Database) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Servers_Database_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (database *Database) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return &genruntime.ResourceReference{

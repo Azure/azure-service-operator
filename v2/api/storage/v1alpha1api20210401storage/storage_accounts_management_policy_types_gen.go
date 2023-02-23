@@ -100,7 +100,7 @@ func (policy *StorageAccountsManagementPolicy) NewEmptyStatus() genruntime.Conve
 	return &StorageAccounts_ManagementPolicy_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (policy *StorageAccountsManagementPolicy) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return &genruntime.ResourceReference{

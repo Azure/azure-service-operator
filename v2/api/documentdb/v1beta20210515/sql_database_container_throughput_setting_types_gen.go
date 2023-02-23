@@ -121,7 +121,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntim
 	return &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return &genruntime.ResourceReference{

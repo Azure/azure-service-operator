@@ -81,7 +81,7 @@ func (networkInterface *NetworkInterface) NewEmptyStatus() genruntime.Convertibl
 	return &NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (networkInterface *NetworkInterface) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkInterface.Spec)
 	return &genruntime.ResourceReference{

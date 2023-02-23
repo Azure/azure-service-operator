@@ -140,7 +140,7 @@ func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Namespace_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespace.Spec)
 	return &genruntime.ResourceReference{

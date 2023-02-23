@@ -104,7 +104,7 @@ func (machine *VirtualMachine) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &VirtualMachine_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (machine *VirtualMachine) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(machine.Spec)
 	return &genruntime.ResourceReference{

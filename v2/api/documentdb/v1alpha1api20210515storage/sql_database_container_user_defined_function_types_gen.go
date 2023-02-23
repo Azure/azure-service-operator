@@ -100,7 +100,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genrun
 	return &DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(function.Spec)
 	return &genruntime.ResourceReference{

@@ -140,7 +140,7 @@ func (group *NamespacesEventhubsConsumerGroup) NewEmptyStatus() genruntime.Conve
 	return &Namespaces_Eventhubs_Consumergroup_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (group *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceReference {
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return &genruntime.ResourceReference{
