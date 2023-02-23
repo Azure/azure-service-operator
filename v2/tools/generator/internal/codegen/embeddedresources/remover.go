@@ -146,10 +146,10 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 			parent := e.resourcesEmbeddedInParent[typedCtx.name]
 			isResourceEmbeddedInParent := astmodel.TypeEquals(parent, typedCtx.resource)
 			if isResourceEmbeddedInParent {
-				// Remove the ID field if there is one, and it's a spec type.
+				// Remove the ID field if there is one, and it's not a status type.
 				// The expectation is that these resources must be created through
 				// their parent, so you won't ever use the ID field
-				if !typedCtx.name.RepresentsStatusType() {
+				if !typedCtx.name.IsStatus() {
 					it = it.WithoutSpecificProperties("Id")
 				}
 				return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)

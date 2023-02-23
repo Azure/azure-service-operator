@@ -21,14 +21,6 @@ type TypeName struct {
 	name             string
 }
 
-// TODO: this is done to easily rename status types without conflicts,
-// we intend to fix this in a different way in the future
-var StatusNameSuffix = "_STATUS"
-
-func (tn TypeName) RepresentsStatusType() bool {
-	return strings.Contains(tn.name, StatusNameSuffix)
-}
-
 var EmptyTypeName TypeName = TypeName{}
 
 func SortTypeName(left, right TypeName) bool {

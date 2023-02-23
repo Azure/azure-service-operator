@@ -128,7 +128,7 @@ func (endpoint *ProfilesEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus 
 	return &Profiles_Endpoint_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (endpoint *ProfilesEndpoint) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(endpoint.Spec)
 	return &genruntime.ResourceReference{

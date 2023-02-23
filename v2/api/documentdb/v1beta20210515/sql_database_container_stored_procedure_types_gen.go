@@ -128,7 +128,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntim
 	return &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(procedure.Spec)
 	return &genruntime.ResourceReference{

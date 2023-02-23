@@ -140,7 +140,7 @@ func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleSt
 	return &EventSubscription_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{
 		Group: subscription.Spec.Owner.Group,

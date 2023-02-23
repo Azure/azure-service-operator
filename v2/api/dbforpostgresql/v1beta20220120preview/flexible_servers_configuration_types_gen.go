@@ -142,7 +142,7 @@ func (configuration *FlexibleServersConfiguration) NewEmptyStatus() genruntime.C
 	return &FlexibleServers_Configuration_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (configuration *FlexibleServersConfiguration) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(configuration.Spec)
 	return &genruntime.ResourceReference{
