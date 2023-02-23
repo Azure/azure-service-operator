@@ -30,6 +30,11 @@ func CreateConversionGraph(
 			// Collect all distinct references
 			allNames := astmodel.NewTypeNameSet()
 			for _, def := range state.Definitions() {
+				if astmodel.IsARMType(def.Name()) {
+					// ARM types don't participate in the conversion graph
+					continue
+				}
+				
 				allNames.Add(def.Name())
 			}
 
