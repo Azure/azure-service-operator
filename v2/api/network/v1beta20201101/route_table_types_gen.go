@@ -128,7 +128,7 @@ func (table *RouteTable) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &RouteTable_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (table *RouteTable) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(table.Spec)
 	return &genruntime.ResourceReference{

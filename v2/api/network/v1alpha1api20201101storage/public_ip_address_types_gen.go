@@ -100,7 +100,7 @@ func (address *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (address *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(address.Spec)
 	return &genruntime.ResourceReference{

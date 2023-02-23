@@ -82,7 +82,7 @@ func (group *ContainerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &ContainerGroup_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (group *ContainerGroup) Owner() *genruntime.ResourceReference {
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return &genruntime.ResourceReference{
