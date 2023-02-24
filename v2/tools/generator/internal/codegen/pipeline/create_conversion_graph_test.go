@@ -44,33 +44,28 @@ func TestCreateConversionGraph(t *testing.T) {
 	graph := finalState.ConversionGraph()
 
 	// Expect to have a link from Pkg2020 to a matching storage version
-	storage2020, ok := graph.LookupTransition(test.Pkg2020)
-	g.Expect(ok).To(BeTrue())
+	storage2020 := graph.LookupTransition(person2020.Name())
 	g.Expect(storage2020.String()).To(ContainSubstring(test.Pkg2020.Version()))
 
 	// Expect to have a link from Pkg2021 to a matching storage version
-	storage2021, ok := graph.LookupTransition(test.Pkg2021)
-	g.Expect(ok).To(BeTrue())
+	storage2021 := graph.LookupTransition(person2021.Name())
 	g.Expect(storage2021.String()).To(ContainSubstring(test.Pkg2021.Version()))
 
 	// Expect to have a link from Pkg2022 to a matching storage version
-	storage2022, ok := graph.LookupTransition(test.Pkg2022)
-	g.Expect(ok).To(BeTrue())
+	storage2022 := graph.LookupTransition(person2022.Name())
 	g.Expect(storage2022.String()).To(ContainSubstring(test.Pkg2022.Version()))
 
 	// Expect to have a link from Storage2020 to Storage2021
-	linkedFrom2020, ok := graph.LookupTransition(storage2020)
-	g.Expect(ok).To(BeTrue())
+	linkedFrom2020 := graph.LookupTransition(storage2020)
 	g.Expect(linkedFrom2020).To(Equal(storage2021))
 
 	// Expect to have a link from Storage2021 version Storage2022
-	linkedFrom2021, ok := graph.LookupTransition(storage2021)
-	g.Expect(ok).To(BeTrue())
+	linkedFrom2021 := graph.LookupTransition(storage2021)
 	g.Expect(linkedFrom2021).To(Equal(storage2022))
 
 	// Expect NOT to have a link from Storage2022
-	_, ok = graph.LookupTransition(storage2022)
-	g.Expect(ok).To(BeFalse())
+	missing := graph.LookupTransition(storage2022)
+	g.Expect(missing.IsEmpty()).To(BeTrue())
 
 	// Finally, check that the five links we've verified are the only ones there
 	// We check this last, so that a failure doesn't block more detailed checks
