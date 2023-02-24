@@ -41,7 +41,7 @@ func NewWritableConversionEndpointWritingProperty(
 					value),
 			}
 		},
-		description: fmt.Sprintf("write property %s", propertyName),
+		description: fmt.Sprintf("write to property %s", propertyName),
 	}
 }
 

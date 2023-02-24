@@ -35,7 +35,7 @@ func InjectPropertyAssignmentFunctions(
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Definitions()
 			result := defs.Copy()
-			factory := NewPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, defs)
+			factory := newPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, defs)
 
 			for name, def := range defs {
 				_, ok := astmodel.AsFunctionContainer(def.Type())
@@ -116,7 +116,7 @@ type propertyAssignmentFunctionsFactory struct {
 	functionInjector *astmodel.FunctionInjector
 }
 
-func NewPropertyAssignmentFunctionsFactory(
+func newPropertyAssignmentFunctionsFactory(
 	graph *storage.ConversionGraph,
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
