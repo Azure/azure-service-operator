@@ -29,8 +29,6 @@ import (
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
-	resourcesalpha "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
-	resourcesbeta "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
@@ -97,10 +95,6 @@ func getGeneratedStorageTypes(
 	positiveConditions *conditions.PositiveConditionBuilder,
 	options generic.Options) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
-
-	knownStorageTypes = append(
-		knownStorageTypes,
-		registration.NewStorageType(&resourcesbeta.ResourceGroup{}))
 
 	// Verify we're using the hub version of VirtualNetworksSubnet in the loop below
 	var _ ctrlconversion.Hub = &networkstorage.VirtualNetworksSubnet{}
@@ -207,8 +201,6 @@ func GetKnownTypes() []client.Object {
 
 	knownTypes = append(
 		knownTypes,
-		&resourcesalpha.ResourceGroup{},
-		&resourcesbeta.ResourceGroup{},
 		&mysql.User{})
 
 	return knownTypes
@@ -216,8 +208,6 @@ func GetKnownTypes() []client.Object {
 
 func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
-	_ = resourcesalpha.AddToScheme(scheme)
-	_ = resourcesbeta.AddToScheme(scheme)
 	_ = mysql.AddToScheme(scheme)
 
 	return scheme

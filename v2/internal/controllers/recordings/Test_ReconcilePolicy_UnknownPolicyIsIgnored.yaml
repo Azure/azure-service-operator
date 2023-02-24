@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-qwhhpb","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"westus2","name":"asotest-rg-qwhhpb","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-rg-qwhhpb","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z","tag1":"value1"}}'
+    body: '{"location":"westus2","name":"asotest-rg-qwhhpb","tags":{"CreatedAt":"2001-02-03T04:05:06Z","tag1":"value1"}}'
     form: {}
     headers:
       Accept:

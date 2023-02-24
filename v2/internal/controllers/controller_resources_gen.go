@@ -121,6 +121,11 @@ import (
 	operationalinsights_alpha20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601storage"
 	operationalinsights_v20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601"
 	operationalinsights_v20210601s "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601storage"
+	resources_customizations "github.com/Azure/azure-service-operator/v2/api/resources/customizations"
+	resources_alpha20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	resources_alpha20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601storage"
+	resources_v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601storage"
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
 	servicebus_alpha20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101preview"
 	servicebus_alpha20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101previewstorage"
@@ -421,6 +426,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v20210601s.Workspace)})
+	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.NamespacesQueue)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20210101ps.NamespacesTopic)})
@@ -784,6 +790,10 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(operationalinsights_alpha20210601s.Workspace))
 	result = append(result, new(operationalinsights_v20210601.Workspace))
 	result = append(result, new(operationalinsights_v20210601s.Workspace))
+	result = append(result, new(resources_alpha20200601.ResourceGroup))
+	result = append(result, new(resources_alpha20200601s.ResourceGroup))
+	result = append(result, new(resources_v20200601.ResourceGroup))
+	result = append(result, new(resources_v20200601s.ResourceGroup))
 	result = append(
 		result,
 		new(servicebus_alpha20210101p.Namespace),
@@ -951,6 +961,10 @@ func createScheme() *runtime.Scheme {
 	_ = operationalinsights_alpha20210601s.AddToScheme(scheme)
 	_ = operationalinsights_v20210601.AddToScheme(scheme)
 	_ = operationalinsights_v20210601s.AddToScheme(scheme)
+	_ = resources_alpha20200601.AddToScheme(scheme)
+	_ = resources_alpha20200601s.AddToScheme(scheme)
+	_ = resources_v20200601.AddToScheme(scheme)
+	_ = resources_v20200601s.AddToScheme(scheme)
 	_ = servicebus_alpha20210101p.AddToScheme(scheme)
 	_ = servicebus_alpha20210101ps.AddToScheme(scheme)
 	_ = servicebus_v20210101p.AddToScheme(scheme)
@@ -1046,6 +1060,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.VirtualNetworksSubnetExtension{})
 	result = append(result, &network_customizations.VirtualNetworksVirtualNetworkPeeringExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
+	result = append(result, &resources_customizations.ResourceGroupExtension{})
 	result = append(result, &servicebus_customizations.NamespaceExtension{})
 	result = append(result, &servicebus_customizations.NamespacesQueueExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})

@@ -568,6 +568,10 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 	group := ""
 	var nameParts []string
 
+	if strings.EqualFold(operationPath, "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}") {
+		return "Microsoft.Resources", "resourceGroups", "ResourceGroup", nil
+	}
+
 	urlParts := strings.Split(operationPath, "/")
 	reading := false
 	skippedLast := false

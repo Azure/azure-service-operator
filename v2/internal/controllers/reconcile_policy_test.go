@@ -27,8 +27,8 @@ func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipp
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
-	tc.Expect(rg.Status.ID).ToNot(BeNil())
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
+	tc.Expect(rg.Status.Id).ToNot(BeNil())
 
 	// Update the tags but also skip reconcile
 	old := rg.DeepCopy()
@@ -61,8 +61,8 @@ func Test_ReconcilePolicy_UnknownPolicyIsIgnored(t *testing.T) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
-	tc.Expect(rg.Status.ID).ToNot(BeNil())
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
+	tc.Expect(rg.Status.Id).ToNot(BeNil())
 
 	// Update the tags but also reconcile policy
 	old := rg.DeepCopy()
@@ -90,8 +90,8 @@ func Test_ReconcilePolicy_SkippedParentDeleted_ChildIssuesDeleteToAzure(t *testi
 	// Create a resource group
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	tc.Expect(rg.Status.ID).ToNot(BeNil())
-	rgResourceId := *rg.Status.ID
+	tc.Expect(rg.Status.Id).ToNot(BeNil())
+	rgResourceId := *rg.Status.Id
 
 	// Update the tags to skip reconcile
 	old := rg.DeepCopy()
@@ -134,9 +134,9 @@ func testDeleteSkipped(t *testing.T, policy string) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
-	tc.Expect(rg.Status.ID).ToNot(BeNil())
-	armId := *rg.Status.ID
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
+	tc.Expect(rg.Status.Id).ToNot(BeNil())
+	armId := *rg.Status.Id
 
 	// Update to skip reconcile
 	old := rg.DeepCopy()

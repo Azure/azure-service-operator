@@ -118,7 +118,8 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 		})
 }
 
-var resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/.*`)
+var resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/[^/]+/.*`)
+var locationScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/.*`)
 
 func categorizeResourceScope(armURI string) astmodel.ResourceScope {
 	// this is a bit of a hack, eventually we should have better scope support.
@@ -130,6 +131,10 @@ func categorizeResourceScope(armURI string) astmodel.ResourceScope {
 
 	if resourceGroupScopeRegex.MatchString(armURI) {
 		return astmodel.ResourceScopeResourceGroup
+	}
+
+	if locationScopeRegex.MatchString(armURI) {
+		return astmodel.ResourceScopeLocation
 	}
 
 	// TODO: Not currently possible to generate a resource with scope Location, we should fix that

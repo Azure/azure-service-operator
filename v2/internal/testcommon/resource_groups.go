@@ -21,7 +21,7 @@ func CreateResourceGroup() *resources.ResourceGroup {
 			Namespace: "test-namespace",
 			Name:      "myrg",
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: to.StringPtr("West US"),
 		},
 	}

@@ -313,7 +313,7 @@ func newResourceGroup(namespace string) *resources.ResourceGroup {
 			Name:      "my-rg",
 			Namespace: namespace,
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location:  to.StringPtr("West US"),
 			AzureName: "my-rg", // defaulter webhook will copy Name to AzureName
 		},
