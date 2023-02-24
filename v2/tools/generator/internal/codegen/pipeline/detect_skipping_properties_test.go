@@ -36,9 +36,9 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 
 	cfg := config.NewObjectModelConfiguration()
 	builder := storage.NewConversionGraphBuilder(cfg, "v")
-	builder.Add(test.Pkg2020, test.Pkg2020s)
-	builder.Add(test.Pkg2021, test.Pkg2021s)
-	builder.Add(test.Pkg2022, test.Pkg2022s)
+	builder.Add(person2020.Name(), person2020s.Name())
+	builder.Add(person2021.Name(), person2021s.Name())
+	builder.Add(person2022.Name(), person2022s.Name())
 	graph, err := builder.Build()
 	g.Expect(err).NotTo(HaveOccurred())
 

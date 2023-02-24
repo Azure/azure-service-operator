@@ -75,7 +75,7 @@ var _ admission.Defaulter = &FlexibleServer{}
 // Default applies defaults to the FlexibleServer resource
 func (server *FlexibleServer) Default() {
 	server.defaultImpl()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (server *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &FlexibleServer_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (server *FlexibleServer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &FlexibleServer{}
 // ValidateCreate validates the creation of the resource
 func (server *FlexibleServer) ValidateCreate() error {
 	validations := server.createValidations()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (server *FlexibleServer) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (server *FlexibleServer) ValidateDelete() error {
 	validations := server.deleteValidations()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (server *FlexibleServer) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (server *FlexibleServer) ValidateUpdate(old runtime.Object) error {
 	validations := server.updateValidations()
-	var temp interface{} = server
+	var temp any = server
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

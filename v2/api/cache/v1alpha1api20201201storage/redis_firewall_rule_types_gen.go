@@ -100,7 +100,7 @@ func (rule *RedisFirewallRule) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Redis_FirewallRule_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (rule *RedisFirewallRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return &genruntime.ResourceReference{
@@ -151,6 +151,15 @@ func (rule *RedisFirewallRule) AssignProperties_From_RedisFirewallRule(source *v
 	}
 	rule.Status = status
 
+	// Invoke the augmentConversionForRedisFirewallRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (rule *RedisFirewallRule) AssignProperties_To_RedisFirewallRule(destination
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForRedisFirewallRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedisFirewallRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type RedisFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisFirewallRule `json:"items"`
+}
+
+type augmentConversionForRedisFirewallRule interface {
+	AssignPropertiesFrom(src *v20201201s.RedisFirewallRule) error
+	AssignPropertiesTo(dst *v20201201s.RedisFirewallRule) error
 }
 
 // Storage version of v1alpha1api20201201.Redis_FirewallRule_Spec
@@ -298,6 +321,15 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_From_Redis_FirewallRule_Sp
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_FirewallRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedis_FirewallRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -332,6 +364,15 @@ func (rule *Redis_FirewallRule_Spec) AssignProperties_To_Redis_FirewallRule_Spec
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedis_FirewallRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedis_FirewallRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -430,6 +471,15 @@ func (rule *Redis_FirewallRule_STATUS) AssignProperties_From_Redis_FirewallRule_
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_FirewallRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedis_FirewallRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -464,8 +514,27 @@ func (rule *Redis_FirewallRule_STATUS) AssignProperties_To_Redis_FirewallRule_ST
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForRedis_FirewallRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForRedis_FirewallRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForRedis_FirewallRule_Spec interface {
+	AssignPropertiesFrom(src *v20201201s.Redis_FirewallRule_Spec) error
+	AssignPropertiesTo(dst *v20201201s.Redis_FirewallRule_Spec) error
+}
+
+type augmentConversionForRedis_FirewallRule_STATUS interface {
+	AssignPropertiesFrom(src *v20201201s.Redis_FirewallRule_STATUS) error
+	AssignPropertiesTo(dst *v20201201s.Redis_FirewallRule_STATUS) error
 }
 
 func init() {

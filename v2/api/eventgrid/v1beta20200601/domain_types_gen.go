@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Domain{}
 // Default applies defaults to the Domain resource
 func (domain *Domain) Default() {
 	domain.defaultImpl()
-	var temp interface{} = domain
+	var temp any = domain
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (domain *Domain) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Domain_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (domain *Domain) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(domain.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &Domain{}
 // ValidateCreate validates the creation of the resource
 func (domain *Domain) ValidateCreate() error {
 	validations := domain.createValidations()
-	var temp interface{} = domain
+	var temp any = domain
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (domain *Domain) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (domain *Domain) ValidateDelete() error {
 	validations := domain.deleteValidations()
-	var temp interface{} = domain
+	var temp any = domain
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (domain *Domain) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (domain *Domain) ValidateUpdate(old runtime.Object) error {
 	validations := domain.updateValidations()
-	var temp interface{} = domain
+	var temp any = domain
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

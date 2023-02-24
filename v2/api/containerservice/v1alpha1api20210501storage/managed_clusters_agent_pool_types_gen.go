@@ -100,7 +100,7 @@ func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleSta
 	return &ManagedClusters_AgentPool_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
 	return &genruntime.ResourceReference{
@@ -151,6 +151,15 @@ func (pool *ManagedClustersAgentPool) AssignProperties_From_ManagedClustersAgent
 	}
 	pool.Status = status
 
+	// Invoke the augmentConversionForManagedClustersAgentPool interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool); ok {
+		err := augmentedPool.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (pool *ManagedClustersAgentPool) AssignProperties_To_ManagedClustersAgentPo
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForManagedClustersAgentPool interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClustersAgentPool); ok {
+		err := augmentedPool.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type ManagedClustersAgentPoolList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedClustersAgentPool `json:"items"`
+}
+
+type augmentConversionForManagedClustersAgentPool interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClustersAgentPool) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClustersAgentPool) error
 }
 
 // Storage version of v1alpha1api20210501.ManagedClusters_AgentPool_Spec
@@ -495,6 +518,15 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_From_ManagedCluster
 		pool.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusters_AgentPool_Spec interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_Spec); ok {
+		err := augmentedPool.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -694,6 +726,15 @@ func (pool *ManagedClusters_AgentPool_Spec) AssignProperties_To_ManagedClusters_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedClusters_AgentPool_Spec interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_Spec); ok {
+		err := augmentedPool.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -994,6 +1035,15 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_From_ManagedClust
 		pool.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusters_AgentPool_STATUS interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_STATUS); ok {
+		err := augmentedPool.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1196,6 +1246,15 @@ func (pool *ManagedClusters_AgentPool_STATUS) AssignProperties_To_ManagedCluster
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForManagedClusters_AgentPool_STATUS interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForManagedClusters_AgentPool_STATUS); ok {
+		err := augmentedPool.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1222,6 +1281,15 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_From_AgentPoolUpgrade
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAgentPoolUpgradeSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1239,6 +1307,15 @@ func (settings *AgentPoolUpgradeSettings) AssignProperties_To_AgentPoolUpgradeSe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAgentPoolUpgradeSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1267,6 +1344,15 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_From_AgentPool
 		settings.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAgentPoolUpgradeSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1286,8 +1372,27 @@ func (settings *AgentPoolUpgradeSettings_STATUS) AssignProperties_To_AgentPoolUp
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForAgentPoolUpgradeSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForAgentPoolUpgradeSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForManagedClusters_AgentPool_Spec interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusters_AgentPool_Spec) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusters_AgentPool_Spec) error
+}
+
+type augmentConversionForManagedClusters_AgentPool_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.ManagedClusters_AgentPool_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.ManagedClusters_AgentPool_STATUS) error
 }
 
 // Storage version of v1alpha1api20210501.KubeletConfig
@@ -1362,6 +1467,15 @@ func (config *KubeletConfig) AssignProperties_From_KubeletConfig(source *v202105
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKubeletConfig interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig); ok {
+		err := augmentedConfig.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1419,6 +1533,15 @@ func (config *KubeletConfig) AssignProperties_To_KubeletConfig(destination *v202
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKubeletConfig interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig); ok {
+		err := augmentedConfig.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1497,6 +1620,15 @@ func (config *KubeletConfig_STATUS) AssignProperties_From_KubeletConfig_STATUS(s
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKubeletConfig_STATUS interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig_STATUS); ok {
+		err := augmentedConfig.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1556,6 +1688,15 @@ func (config *KubeletConfig_STATUS) AssignProperties_To_KubeletConfig_STATUS(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForKubeletConfig_STATUS interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForKubeletConfig_STATUS); ok {
+		err := augmentedConfig.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1603,6 +1744,15 @@ func (config *LinuxOSConfig) AssignProperties_From_LinuxOSConfig(source *v202105
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLinuxOSConfig interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig); ok {
+		err := augmentedConfig.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1638,6 +1788,15 @@ func (config *LinuxOSConfig) AssignProperties_To_LinuxOSConfig(destination *v202
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForLinuxOSConfig interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig); ok {
+		err := augmentedConfig.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1687,6 +1846,15 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_From_LinuxOSConfig_STATUS(s
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLinuxOSConfig_STATUS interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig_STATUS); ok {
+		err := augmentedConfig.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1724,8 +1892,47 @@ func (config *LinuxOSConfig_STATUS) AssignProperties_To_LinuxOSConfig_STATUS(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLinuxOSConfig_STATUS interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForLinuxOSConfig_STATUS); ok {
+		err := augmentedConfig.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForAgentPoolUpgradeSettings interface {
+	AssignPropertiesFrom(src *v20210501s.AgentPoolUpgradeSettings) error
+	AssignPropertiesTo(dst *v20210501s.AgentPoolUpgradeSettings) error
+}
+
+type augmentConversionForAgentPoolUpgradeSettings_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.AgentPoolUpgradeSettings_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.AgentPoolUpgradeSettings_STATUS) error
+}
+
+type augmentConversionForKubeletConfig interface {
+	AssignPropertiesFrom(src *v20210501s.KubeletConfig) error
+	AssignPropertiesTo(dst *v20210501s.KubeletConfig) error
+}
+
+type augmentConversionForKubeletConfig_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.KubeletConfig_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.KubeletConfig_STATUS) error
+}
+
+type augmentConversionForLinuxOSConfig interface {
+	AssignPropertiesFrom(src *v20210501s.LinuxOSConfig) error
+	AssignPropertiesTo(dst *v20210501s.LinuxOSConfig) error
+}
+
+type augmentConversionForLinuxOSConfig_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.LinuxOSConfig_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.LinuxOSConfig_STATUS) error
 }
 
 // Storage version of v1alpha1api20210501.SysctlConfig
@@ -1863,6 +2070,15 @@ func (config *SysctlConfig) AssignProperties_From_SysctlConfig(source *v20210501
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSysctlConfig interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig); ok {
+		err := augmentedConfig.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1966,6 +2182,15 @@ func (config *SysctlConfig) AssignProperties_To_SysctlConfig(destination *v20210
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSysctlConfig interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig); ok {
+		err := augmentedConfig.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -2107,6 +2332,15 @@ func (config *SysctlConfig_STATUS) AssignProperties_From_SysctlConfig_STATUS(sou
 		config.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSysctlConfig_STATUS interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig_STATUS); ok {
+		err := augmentedConfig.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -2212,8 +2446,27 @@ func (config *SysctlConfig_STATUS) AssignProperties_To_SysctlConfig_STATUS(desti
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSysctlConfig_STATUS interface (if implemented) to customize the conversion
+	var configAsAny any = config
+	if augmentedConfig, ok := configAsAny.(augmentConversionForSysctlConfig_STATUS); ok {
+		err := augmentedConfig.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForSysctlConfig interface {
+	AssignPropertiesFrom(src *v20210501s.SysctlConfig) error
+	AssignPropertiesTo(dst *v20210501s.SysctlConfig) error
+}
+
+type augmentConversionForSysctlConfig_STATUS interface {
+	AssignPropertiesFrom(src *v20210501s.SysctlConfig_STATUS) error
+	AssignPropertiesTo(dst *v20210501s.SysctlConfig_STATUS) error
 }
 
 func init() {

@@ -75,7 +75,7 @@ var _ admission.Defaulter = &RouteTablesRoute{}
 // Default applies defaults to the RouteTablesRoute resource
 func (route *RouteTablesRoute) Default() {
 	route.defaultImpl()
-	var temp interface{} = route
+	var temp any = route
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (route *RouteTablesRoute) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &RouteTables_Route_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (route *RouteTablesRoute) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(route.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &RouteTablesRoute{}
 // ValidateCreate validates the creation of the resource
 func (route *RouteTablesRoute) ValidateCreate() error {
 	validations := route.createValidations()
-	var temp interface{} = route
+	var temp any = route
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (route *RouteTablesRoute) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (route *RouteTablesRoute) ValidateDelete() error {
 	validations := route.deleteValidations()
-	var temp interface{} = route
+	var temp any = route
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (route *RouteTablesRoute) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (route *RouteTablesRoute) ValidateUpdate(old runtime.Object) error {
 	validations := route.updateValidations()
-	var temp interface{} = route
+	var temp any = route
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

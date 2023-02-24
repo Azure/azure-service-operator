@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Registry{}
 // Default applies defaults to the Registry resource
 func (registry *Registry) Default() {
 	registry.defaultImpl()
-	var temp interface{} = registry
+	var temp any = registry
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (registry *Registry) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Registry_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (registry *Registry) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(registry.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &Registry{}
 // ValidateCreate validates the creation of the resource
 func (registry *Registry) ValidateCreate() error {
 	validations := registry.createValidations()
-	var temp interface{} = registry
+	var temp any = registry
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (registry *Registry) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (registry *Registry) ValidateDelete() error {
 	validations := registry.deleteValidations()
-	var temp interface{} = registry
+	var temp any = registry
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (registry *Registry) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (registry *Registry) ValidateUpdate(old runtime.Object) error {
 	validations := registry.updateValidations()
-	var temp interface{} = registry
+	var temp any = registry
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

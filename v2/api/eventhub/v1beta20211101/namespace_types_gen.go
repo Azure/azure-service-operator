@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Namespace{}
 // Default applies defaults to the Namespace resource
 func (namespace *Namespace) Default() {
 	namespace.defaultImpl()
-	var temp interface{} = namespace
+	var temp any = namespace
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Namespace_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespace.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &Namespace{}
 // ValidateCreate validates the creation of the resource
 func (namespace *Namespace) ValidateCreate() error {
 	validations := namespace.createValidations()
-	var temp interface{} = namespace
+	var temp any = namespace
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (namespace *Namespace) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (namespace *Namespace) ValidateDelete() error {
 	validations := namespace.deleteValidations()
-	var temp interface{} = namespace
+	var temp any = namespace
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (namespace *Namespace) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (namespace *Namespace) ValidateUpdate(old runtime.Object) error {
 	validations := namespace.updateValidations()
-	var temp interface{} = namespace
+	var temp any = namespace
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

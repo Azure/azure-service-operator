@@ -87,7 +87,7 @@ var _ admission.Defaulter = &NamespacesEventhubsConsumerGroup{}
 // Default applies defaults to the NamespacesEventhubsConsumerGroup resource
 func (group *NamespacesEventhubsConsumerGroup) Default() {
 	group.defaultImpl()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (group *NamespacesEventhubsConsumerGroup) NewEmptyStatus() genruntime.Conve
 	return &Namespaces_Eventhubs_Consumergroup_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (group *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceReference {
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return &genruntime.ResourceReference{
@@ -176,7 +176,7 @@ var _ admission.Validator = &NamespacesEventhubsConsumerGroup{}
 // ValidateCreate validates the creation of the resource
 func (group *NamespacesEventhubsConsumerGroup) ValidateCreate() error {
 	validations := group.createValidations()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (group *NamespacesEventhubsConsumerGroup) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (group *NamespacesEventhubsConsumerGroup) ValidateDelete() error {
 	validations := group.deleteValidations()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (group *NamespacesEventhubsConsumerGroup) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (group *NamespacesEventhubsConsumerGroup) ValidateUpdate(old runtime.Object) error {
 	validations := group.updateValidations()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

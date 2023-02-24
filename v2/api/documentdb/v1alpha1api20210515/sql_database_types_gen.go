@@ -87,7 +87,7 @@ var _ admission.Defaulter = &SqlDatabase{}
 // Default applies defaults to the SqlDatabase resource
 func (database *SqlDatabase) Default() {
 	database.defaultImpl()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (database *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &DatabaseAccounts_SqlDatabase_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return &genruntime.ResourceReference{
@@ -176,7 +176,7 @@ var _ admission.Validator = &SqlDatabase{}
 // ValidateCreate validates the creation of the resource
 func (database *SqlDatabase) ValidateCreate() error {
 	validations := database.createValidations()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (database *SqlDatabase) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (database *SqlDatabase) ValidateDelete() error {
 	validations := database.deleteValidations()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (database *SqlDatabase) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (database *SqlDatabase) ValidateUpdate(old runtime.Object) error {
 	validations := database.updateValidations()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

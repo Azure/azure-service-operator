@@ -1,6 +1,6 @@
 module github.com/Azure/azure-service-operator
 
-go 1.18
+go 1.20
 
 require (
 	github.com/Azure/aad-pod-identity v1.8.13

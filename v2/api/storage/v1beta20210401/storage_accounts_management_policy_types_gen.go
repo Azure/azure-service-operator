@@ -75,7 +75,7 @@ var _ admission.Defaulter = &StorageAccountsManagementPolicy{}
 // Default applies defaults to the StorageAccountsManagementPolicy resource
 func (policy *StorageAccountsManagementPolicy) Default() {
 	policy.defaultImpl()
-	var temp interface{} = policy
+	var temp any = policy
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -121,7 +121,7 @@ func (policy *StorageAccountsManagementPolicy) NewEmptyStatus() genruntime.Conve
 	return &StorageAccounts_ManagementPolicy_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (policy *StorageAccountsManagementPolicy) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(policy.Spec)
 	return &genruntime.ResourceReference{
@@ -157,7 +157,7 @@ var _ admission.Validator = &StorageAccountsManagementPolicy{}
 // ValidateCreate validates the creation of the resource
 func (policy *StorageAccountsManagementPolicy) ValidateCreate() error {
 	validations := policy.createValidations()
-	var temp interface{} = policy
+	var temp any = policy
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -174,7 +174,7 @@ func (policy *StorageAccountsManagementPolicy) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (policy *StorageAccountsManagementPolicy) ValidateDelete() error {
 	validations := policy.deleteValidations()
-	var temp interface{} = policy
+	var temp any = policy
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -191,7 +191,7 @@ func (policy *StorageAccountsManagementPolicy) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (policy *StorageAccountsManagementPolicy) ValidateUpdate(old runtime.Object) error {
 	validations := policy.updateValidations()
-	var temp interface{} = policy
+	var temp any = policy
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

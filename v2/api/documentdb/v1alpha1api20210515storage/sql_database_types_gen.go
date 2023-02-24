@@ -100,7 +100,7 @@ func (database *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &DatabaseAccounts_SqlDatabase_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return &genruntime.ResourceReference{
@@ -151,6 +151,15 @@ func (database *SqlDatabase) AssignProperties_From_SqlDatabase(source *v20210515
 	}
 	database.Status = status
 
+	// Invoke the augmentConversionForSqlDatabase interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase); ok {
+		err := augmentedDatabase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (database *SqlDatabase) AssignProperties_To_SqlDatabase(destination *v20210
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSqlDatabase interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForSqlDatabase); ok {
+		err := augmentedDatabase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type SqlDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabase `json:"items"`
+}
+
+type augmentConversionForSqlDatabase interface {
+	AssignPropertiesFrom(src *v20210515s.SqlDatabase) error
+	AssignPropertiesTo(dst *v20210515s.SqlDatabase) error
 }
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabase_Spec
@@ -324,6 +347,15 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_From_Databas
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_Spec interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_Spec); ok {
+		err := augmentedDatabase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -382,6 +414,15 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_To_DatabaseA
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_Spec interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_Spec); ok {
+		err := augmentedDatabase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -506,6 +547,15 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_From_Datab
 		database.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_STATUS interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_STATUS); ok {
+		err := augmentedDatabase.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -564,8 +614,27 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_To_Databas
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabase_STATUS interface (if implemented) to customize the conversion
+	var databaseAsAny any = database
+	if augmentedDatabase, ok := databaseAsAny.(augmentConversionForDatabaseAccounts_SqlDatabase_STATUS); ok {
+		err := augmentedDatabase.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabase_Spec interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabase_Spec) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabase_Spec) error
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabase_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabase_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabase_STATUS) error
 }
 
 // Storage version of v1alpha1api20210515.SqlDatabaseGetProperties_Resource_STATUS
@@ -615,6 +684,15 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_From_
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlDatabaseGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -654,6 +732,15 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_To_Sq
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlDatabaseGetProperties_Resource_STATUS interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseGetProperties_Resource_STATUS); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -680,6 +767,15 @@ func (resource *SqlDatabaseResource) AssignProperties_From_SqlDatabaseResource(s
 		resource.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlDatabaseResource interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseResource); ok {
+		err := augmentedResource.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -699,8 +795,27 @@ func (resource *SqlDatabaseResource) AssignProperties_To_SqlDatabaseResource(des
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSqlDatabaseResource interface (if implemented) to customize the conversion
+	var resourceAsAny any = resource
+	if augmentedResource, ok := resourceAsAny.(augmentConversionForSqlDatabaseResource); ok {
+		err := augmentedResource.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForSqlDatabaseGetProperties_Resource_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.SqlDatabaseGetProperties_Resource_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.SqlDatabaseGetProperties_Resource_STATUS) error
+}
+
+type augmentConversionForSqlDatabaseResource interface {
+	AssignPropertiesFrom(src *v20210515s.SqlDatabaseResource) error
+	AssignPropertiesTo(dst *v20210515s.SqlDatabaseResource) error
 }
 
 func init() {

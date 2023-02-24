@@ -69,7 +69,7 @@ var _ admission.Defaulter = &A{}
 // Default applies defaults to the A resource
 func (a *A) Default() {
 	a.defaultImpl()
-	var temp interface{} = a
+	var temp any = a
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -112,7 +112,7 @@ func (a *A) GetType() string {
 	return ""
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (a *A) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(a.Spec)
 	return &genruntime.ResourceReference{
@@ -129,7 +129,7 @@ var _ admission.Validator = &A{}
 // ValidateCreate validates the creation of the resource
 func (a *A) ValidateCreate() error {
 	validations := a.createValidations()
-	var temp interface{} = a
+	var temp any = a
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -146,7 +146,7 @@ func (a *A) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (a *A) ValidateDelete() error {
 	validations := a.deleteValidations()
-	var temp interface{} = a
+	var temp any = a
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -163,7 +163,7 @@ func (a *A) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (a *A) ValidateUpdate(old runtime.Object) error {
 	validations := a.updateValidations()
-	var temp interface{} = a
+	var temp any = a
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -342,7 +342,7 @@ var _ admission.Defaulter = &B{}
 // Default applies defaults to the B resource
 func (b *B) Default() {
 	b.defaultImpl()
-	var temp interface{} = b
+	var temp any = b
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -385,7 +385,7 @@ func (b *B) GetType() string {
 	return ""
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (b *B) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(b.Spec)
 	return &genruntime.ResourceReference{
@@ -402,7 +402,7 @@ var _ admission.Validator = &B{}
 // ValidateCreate validates the creation of the resource
 func (b *B) ValidateCreate() error {
 	validations := b.createValidations()
-	var temp interface{} = b
+	var temp any = b
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -419,7 +419,7 @@ func (b *B) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (b *B) ValidateDelete() error {
 	validations := b.deleteValidations()
-	var temp interface{} = b
+	var temp any = b
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -436,7 +436,7 @@ func (b *B) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (b *B) ValidateUpdate(old runtime.Object) error {
 	validations := b.updateValidations()
-	var temp interface{} = b
+	var temp any = b
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -615,7 +615,7 @@ var _ admission.Defaulter = &C{}
 // Default applies defaults to the C resource
 func (c *C) Default() {
 	c.defaultImpl()
-	var temp interface{} = c
+	var temp any = c
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -658,7 +658,7 @@ func (c *C) GetType() string {
 	return ""
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (c *C) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(c.Spec)
 	return &genruntime.ResourceReference{
@@ -675,7 +675,7 @@ var _ admission.Validator = &C{}
 // ValidateCreate validates the creation of the resource
 func (c *C) ValidateCreate() error {
 	validations := c.createValidations()
-	var temp interface{} = c
+	var temp any = c
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -692,7 +692,7 @@ func (c *C) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (c *C) ValidateDelete() error {
 	validations := c.deleteValidations()
-	var temp interface{} = c
+	var temp any = c
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -709,7 +709,7 @@ func (c *C) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (c *C) ValidateUpdate(old runtime.Object) error {
 	validations := c.updateValidations()
-	var temp interface{} = c
+	var temp any = c
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -888,7 +888,7 @@ var _ admission.Defaulter = &D{}
 // Default applies defaults to the D resource
 func (d *D) Default() {
 	d.defaultImpl()
-	var temp interface{} = d
+	var temp any = d
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -931,7 +931,7 @@ func (d *D) GetType() string {
 	return ""
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (d *D) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(d.Spec)
 	return &genruntime.ResourceReference{
@@ -948,7 +948,7 @@ var _ admission.Validator = &D{}
 // ValidateCreate validates the creation of the resource
 func (d *D) ValidateCreate() error {
 	validations := d.createValidations()
-	var temp interface{} = d
+	var temp any = d
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -965,7 +965,7 @@ func (d *D) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (d *D) ValidateDelete() error {
 	validations := d.deleteValidations()
-	var temp interface{} = d
+	var temp any = d
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -982,7 +982,7 @@ func (d *D) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (d *D) ValidateUpdate(old runtime.Object) error {
 	validations := d.updateValidations()
-	var temp interface{} = d
+	var temp any = d
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

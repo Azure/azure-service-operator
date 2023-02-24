@@ -87,7 +87,7 @@ var _ admission.Defaulter = &FlexibleServersConfiguration{}
 // Default applies defaults to the FlexibleServersConfiguration resource
 func (configuration *FlexibleServersConfiguration) Default() {
 	configuration.defaultImpl()
-	var temp interface{} = configuration
+	var temp any = configuration
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (configuration *FlexibleServersConfiguration) NewEmptyStatus() genruntime.C
 	return &FlexibleServers_Configuration_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (configuration *FlexibleServersConfiguration) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(configuration.Spec)
 	return &genruntime.ResourceReference{
@@ -176,7 +176,7 @@ var _ admission.Validator = &FlexibleServersConfiguration{}
 // ValidateCreate validates the creation of the resource
 func (configuration *FlexibleServersConfiguration) ValidateCreate() error {
 	validations := configuration.createValidations()
-	var temp interface{} = configuration
+	var temp any = configuration
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (configuration *FlexibleServersConfiguration) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (configuration *FlexibleServersConfiguration) ValidateDelete() error {
 	validations := configuration.deleteValidations()
-	var temp interface{} = configuration
+	var temp any = configuration
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (configuration *FlexibleServersConfiguration) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (configuration *FlexibleServersConfiguration) ValidateUpdate(old runtime.Object) error {
 	validations := configuration.updateValidations()
-	var temp interface{} = configuration
+	var temp any = configuration
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

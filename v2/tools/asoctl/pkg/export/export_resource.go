@@ -3,43 +3,27 @@
  * Licensed under the MIT license.
  */
 
-package main
+package export
 
 import (
+	"context"
+
+	"github.com/devigned/pub/pkg/xcobra"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 )
 
-// NewExportCommand creates a new cobra Command when invoked from the command line
-func NewExportCommand() (*cobra.Command, error) {
-
-	cmd := &cobra.Command{
-		Use:   "export",
-		Short: "exports ARM templates",
-		Args:  cobra.ExactArgs(1),
-	}
-
-	exportResourceCommand, err := newExportResourceCommand()
-	if err != nil {
-		return nil, err
-	}
-	cmd.AddCommand(exportResourceCommand)
-
-	return cmd, nil
-}
-
-func newExportResourceCommand() (*cobra.Command, error) { //nolint:unparam // TODO: Remove this comment when the tool is actually functional
+func newExportResourceCommand() *cobra.Command {
 	var output *string
 
 	cmd := &cobra.Command{
 		Use:   "resource <ARM/ID/of/resource>",
 		Short: "exports an ARM resource CRD",
 		Args:  cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error { // TODO: Should consider xcobra.RunWithCtx here
+		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			armID := args[0]
-
 			return exportResource(armID, output)
-		},
+		}),
 	}
 
 	output = cmd.Flags().StringP(
@@ -48,7 +32,7 @@ func newExportResourceCommand() (*cobra.Command, error) { //nolint:unparam // TO
 		"",
 		"Write ARM resource CRD to a file")
 
-	return cmd, nil
+	return cmd
 }
 
 // TODO: export resource logic goes here

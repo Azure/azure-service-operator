@@ -261,7 +261,33 @@ func Test_ReadyConditionErrorWithFastBackoff_UsesFastBackoff(t *testing.T) {
 	g.Expect(calc.(*calculator).failures).To(HaveLen(0))
 }
 
-func Test_KubeClientConflictError_ReturnsSuccess(t *testing.T) {
+func Test_KubeClientNotFoundError_ReturnsSuccess(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	calc := newCalculator(
+		CalculatorParameters{
+			ErrorBaseDelay:    1 * time.Second,
+			ErrorMaxFastDelay: 5 * time.Second,
+			ErrorMaxSlowDelay: 10 * time.Second,
+		})
+
+	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
+
+	inputErr := &apierrors.StatusError{
+		ErrStatus: metav1.Status{
+			Reason: metav1.StatusReasonNotFound,
+		},
+	}
+
+	result, err := calc.NextInterval(req, ctrl.Result{}, inputErr)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).To(Equal(ctrl.Result{}))
+
+	g.Expect(calc.(*calculator).failures).To(HaveLen(0))
+}
+
+func Test_KubeClientConflict_ReturnsBackoff(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -281,7 +307,7 @@ func Test_KubeClientConflictError_ReturnsSuccess(t *testing.T) {
 	}
 
 	result, err := calc.NextInterval(req, ctrl.Result{}, inputErr)
-	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(err).To(HaveOccurred())
 	g.Expect(result).To(Equal(ctrl.Result{}))
 
 	g.Expect(calc.(*calculator).failures).To(HaveLen(1))

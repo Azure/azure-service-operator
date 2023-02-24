@@ -87,7 +87,7 @@ var _ admission.Defaulter = &Image{}
 // Default applies defaults to the Image resource
 func (image *Image) Default() {
 	image.defaultImpl()
-	var temp interface{} = image
+	var temp any = image
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (image *Image) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Image_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (image *Image) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(image.Spec)
 	return &genruntime.ResourceReference{
@@ -176,7 +176,7 @@ var _ admission.Validator = &Image{}
 // ValidateCreate validates the creation of the resource
 func (image *Image) ValidateCreate() error {
 	validations := image.createValidations()
-	var temp interface{} = image
+	var temp any = image
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (image *Image) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (image *Image) ValidateDelete() error {
 	validations := image.deleteValidations()
-	var temp interface{} = image
+	var temp any = image
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (image *Image) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (image *Image) ValidateUpdate(old runtime.Object) error {
 	validations := image.updateValidations()
-	var temp interface{} = image
+	var temp any = image
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

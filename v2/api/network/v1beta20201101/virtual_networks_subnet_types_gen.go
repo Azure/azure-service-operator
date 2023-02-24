@@ -75,7 +75,7 @@ var _ admission.Defaulter = &VirtualNetworksSubnet{}
 // Default applies defaults to the VirtualNetworksSubnet resource
 func (subnet *VirtualNetworksSubnet) Default() {
 	subnet.defaultImpl()
-	var temp interface{} = subnet
+	var temp any = subnet
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (subnet *VirtualNetworksSubnet) NewEmptyStatus() genruntime.ConvertibleStat
 	return &VirtualNetworks_Subnet_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (subnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(subnet.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &VirtualNetworksSubnet{}
 // ValidateCreate validates the creation of the resource
 func (subnet *VirtualNetworksSubnet) ValidateCreate() error {
 	validations := subnet.createValidations()
-	var temp interface{} = subnet
+	var temp any = subnet
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (subnet *VirtualNetworksSubnet) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (subnet *VirtualNetworksSubnet) ValidateDelete() error {
 	validations := subnet.deleteValidations()
-	var temp interface{} = subnet
+	var temp any = subnet
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (subnet *VirtualNetworksSubnet) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (subnet *VirtualNetworksSubnet) ValidateUpdate(old runtime.Object) error {
 	validations := subnet.updateValidations()
-	var temp interface{} = subnet
+	var temp any = subnet
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

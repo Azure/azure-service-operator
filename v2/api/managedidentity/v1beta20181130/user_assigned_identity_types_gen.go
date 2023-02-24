@@ -80,7 +80,7 @@ var _ admission.Defaulter = &UserAssignedIdentity{}
 // Default applies defaults to the UserAssignedIdentity resource
 func (identity *UserAssignedIdentity) Default() {
 	identity.defaultImpl()
-	var temp interface{} = identity
+	var temp any = identity
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -160,7 +160,7 @@ func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleSta
 	return &UserAssignedIdentity_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(identity.Spec)
 	return &genruntime.ResourceReference{
@@ -196,7 +196,7 @@ var _ admission.Validator = &UserAssignedIdentity{}
 // ValidateCreate validates the creation of the resource
 func (identity *UserAssignedIdentity) ValidateCreate() error {
 	validations := identity.createValidations()
-	var temp interface{} = identity
+	var temp any = identity
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -213,7 +213,7 @@ func (identity *UserAssignedIdentity) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (identity *UserAssignedIdentity) ValidateDelete() error {
 	validations := identity.deleteValidations()
-	var temp interface{} = identity
+	var temp any = identity
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -230,7 +230,7 @@ func (identity *UserAssignedIdentity) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (identity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) error {
 	validations := identity.updateValidations()
-	var temp interface{} = identity
+	var temp any = identity
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

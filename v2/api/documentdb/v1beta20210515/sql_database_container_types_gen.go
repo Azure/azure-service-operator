@@ -75,7 +75,7 @@ var _ admission.Defaulter = &SqlDatabaseContainer{}
 // Default applies defaults to the SqlDatabaseContainer resource
 func (container *SqlDatabaseContainer) Default() {
 	container.defaultImpl()
-	var temp interface{} = container
+	var temp any = container
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleSt
 	return &DatabaseAccounts_SqlDatabases_Container_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(container.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &SqlDatabaseContainer{}
 // ValidateCreate validates the creation of the resource
 func (container *SqlDatabaseContainer) ValidateCreate() error {
 	validations := container.createValidations()
-	var temp interface{} = container
+	var temp any = container
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (container *SqlDatabaseContainer) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (container *SqlDatabaseContainer) ValidateDelete() error {
 	validations := container.deleteValidations()
-	var temp interface{} = container
+	var temp any = container
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (container *SqlDatabaseContainer) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (container *SqlDatabaseContainer) ValidateUpdate(old runtime.Object) error {
 	validations := container.updateValidations()
-	var temp interface{} = container
+	var temp any = container
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
