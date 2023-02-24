@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
+	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

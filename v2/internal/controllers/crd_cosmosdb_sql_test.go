@@ -13,9 +13,9 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515"
-	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

@@ -11,8 +11,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930"
-	compute2022 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301"
+	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
+	compute2022 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

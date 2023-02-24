@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001"
+	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

@@ -14,9 +14,9 @@ import (
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	mysqlbeta1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"

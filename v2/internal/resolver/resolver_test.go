@@ -20,11 +20,11 @@ import (
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
-	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
+	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
 
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"

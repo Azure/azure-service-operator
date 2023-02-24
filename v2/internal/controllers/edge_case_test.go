@@ -15,8 +15,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )

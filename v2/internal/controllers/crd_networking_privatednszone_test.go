@@ -11,10 +11,10 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
-	network20200601 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601"
-	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901"
+	network20200601 "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601"
+	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -114,7 +114,7 @@ func newPrivateDNSZone(tc *testcommon.KubePerTestContext, name string, rg *resou
 	return zone
 }
 
-func newVirtualNetworkLink(tc *testcommon.KubePerTestContext, dnsZone *network.PrivateDnsZone, vnet *v1beta20201101.VirtualNetwork) *network20200601.PrivateDnsZonesVirtualNetworkLink {
+func newVirtualNetworkLink(tc *testcommon.KubePerTestContext, dnsZone *network.PrivateDnsZone, vnet *network20201101.VirtualNetwork) *network20200601.PrivateDnsZonesVirtualNetworkLink {
 	links := &network20200601.PrivateDnsZonesVirtualNetworkLink{
 		ObjectMeta: tc.MakeObjectMetaWithName(dnsZone.Name + "-link"),
 		Spec: network20200601.PrivateDnsZones_VirtualNetworkLink_Spec{

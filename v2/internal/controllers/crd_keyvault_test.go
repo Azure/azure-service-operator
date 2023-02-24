@@ -10,9 +10,9 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 
-	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
-	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

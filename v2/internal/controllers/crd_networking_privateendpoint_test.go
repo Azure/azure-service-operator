@@ -11,10 +11,10 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
@@ -65,7 +65,7 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *v1beta20201101.VirtualNetwork, endpoint *network.PrivateEndpoint, rg *resources.ResourceGroup) {
+func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *network20201101.VirtualNetwork, endpoint *network.PrivateEndpoint, rg *resources.ResourceGroup) {
 	zone := newPrivateDNSZone(tc, "privatelink.blob.core.windows.net", rg)
 	vnetLink := newVirtualNetworkLink(tc, zone, vnet)
 
@@ -91,7 +91,7 @@ func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *
 	tc.DeleteResource(dnsZoneGroup)
 }
 
-func newPrivateEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sa *storage.StorageAccount, subnet *v1beta20201101.VirtualNetworksSubnet) *network.PrivateEndpoint {
+func newPrivateEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sa *storage.StorageAccount, subnet *network20201101.VirtualNetworksSubnet) *network.PrivateEndpoint {
 	endpoint := &network.PrivateEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("endpoint"),
 		Spec: network.PrivateEndpoint_Spec{

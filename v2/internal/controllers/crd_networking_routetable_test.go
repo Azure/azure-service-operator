@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

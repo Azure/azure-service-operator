@@ -12,7 +12,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 
-	cdn "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601"
+	cdn "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

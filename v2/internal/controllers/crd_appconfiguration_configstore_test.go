@@ -12,7 +12,7 @@ import (
 	"github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	appconfig "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501"
+	appconfig "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
