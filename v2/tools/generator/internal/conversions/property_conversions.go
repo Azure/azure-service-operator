@@ -14,7 +14,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // PropertyConversion generates the AST for a given property conversion.
@@ -1276,29 +1275,34 @@ func assignObjectDirectlyFromObject(
 		return nil, nil
 	}
 
-	// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
-	nextType, err := conversionContext.FindNextType(destinationName)
-	if err != nil {
-		return nil, errors.Wrapf(
-			err,
-			"looking up next type for %s",
-			astmodel.DebugDescription(destinationEndpoint.Type()))
-	}
+	// If the source and destination types are in different packages, we must consult the conversion graph to make sure
+	// this is an expected conversion.
+	if !sourceName.PackageReference.Equals(destinationName.PackageReference) {
 
-	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
-		return nil, nil
-	}
-
-	// If the two definitions have different names, require an explicit rename from one to the other
-	//
-	// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
-	// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
-	// the right information to infer correctly.
-	//
-	if sourceName.Name() != destinationName.Name() {
-		err := validateTypeRename(sourceName, destinationName, conversionContext)
+		// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
+		nextType, err := conversionContext.FindNextType(destinationName)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrapf(
+				err,
+				"looking up next type for %s",
+				astmodel.DebugDescription(destinationEndpoint.Type()))
+		}
+
+		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
+			return nil, nil
+		}
+
+		// If the two definitions have different names, require an explicit rename from one to the other
+		//
+		// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
+		// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
+		// the right information to infer correctly.
+		//
+		if sourceName.Name() != destinationName.Name() {
+			err := conversionContext.validateTypeRename(sourceName, destinationName)
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -1390,29 +1394,35 @@ func assignObjectDirectlyToObject(
 		return nil, nil
 	}
 
-	// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
-	nextType, err := conversionContext.FindNextType(sourceName)
-	if err != nil {
-		return nil, errors.Wrapf(
-			err,
-			"looking up next type for %s",
-			astmodel.DebugDescription(sourceEndpoint.Type()))
-	}
+	// If the source and destination types are in different packages, we must consult the conversion graph to make sure
+	// this is an expected conversion.
+	if !sourceName.PackageReference.Equals(destinationName.PackageReference) {
 
-	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
-		return nil, nil
-	}
-
-	// If the two definitions have different names, require an explicit rename from one to the other
-	//
-	// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
-	// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
-	// the right information to infer correctly.
-	//
-	if sourceName.Name() != destinationName.Name() {
-		err := validateTypeRename(sourceName, destinationName, conversionContext)
+		// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
+		// Check that
+		nextType, err := conversionContext.FindNextType(sourceName)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrapf(
+				err,
+				"looking up next type for %s",
+				astmodel.DebugDescription(sourceEndpoint.Type()))
+		}
+
+		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
+			return nil, nil
+		}
+
+		// If the two definitions have different names, require an explicit rename from one to the other
+		//
+		// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
+		// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
+		// the right information to infer correctly.
+		//
+		if sourceName.Name() != destinationName.Name() {
+			err := conversionContext.validateTypeRename(sourceName, destinationName)
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
