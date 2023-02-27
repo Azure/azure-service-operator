@@ -38,9 +38,8 @@ func (ext *PrivateEndpointExtension) PreReconcileCheck(
 				// Returns 'conditions.NewReadyConditionImpactingError' error
 				return extensions.BlockReconcile(
 					fmt.Sprintf(
-						"Private connection '%s' to the endpoint requires approval %q",
-						*connection.Id,
-						*connection.PrivateLinkServiceConnectionState)), nil
+						"Private connection '%s' to the endpoint requires approval",
+						*connection.Id)), nil
 			}
 		}
 	}
