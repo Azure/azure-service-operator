@@ -1,7 +1,7 @@
 apiVersion: network.azure.com/v1beta20220701
 kind: PrivateLinkService
 metadata:
-  name: samplepls
+  name: aso-sample-pls
   namespace: default
 spec:
   autoApproval:

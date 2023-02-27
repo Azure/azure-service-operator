@@ -66,6 +66,50 @@ interactions:
     code: 200
     duration: ""
 - request:
+    body: '{"location":"global","name":"privatelink.blob.core.windows.net"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "64"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net?api-version=2018-09-01
+    method: PUT
+  response:
+    body: '{}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0YTQyNjRjZi02ZDJhLTRlZDgtYTNlNC0zYWM0ODRlYjJjN2RfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      Cache-Control:
+      - private
+      Content-Length:
+      - "2"
+      Content-Type:
+      - application/json; charset=utf-8
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0YTQyNjRjZi02ZDJhLTRlZDgtYTNlNC0zYWM0ODRlYjJjN2RfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      Retry-After:
+      - "30"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
     body: '{"location":"westus2","name":"aso-sample-vn","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
     form: {}
     headers:
@@ -81,9 +125,9 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"aso-sample-vn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn\",\r\n
-      \ \"etag\": \"W/\\\"9c4e9bcd-33f5-49ef-b38a-25935833c632\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"07e1791d-87b7-474a-9d80-ceeb0758eb53\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"fdda7f9f-8de0-44e9-a2b9-8afd308dcdbf\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"8bd5f5cd-4149-47d6-ba39-3bf86606a3bd\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -91,7 +135,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ff56c714-ec2a-4019-ac1d-f993926388b9?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/55f6f4b8-90be-48ec-879b-dce8a52cca55?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -130,9 +174,9 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"aso-sample-vn1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1\",\r\n
-      \ \"etag\": \"W/\\\"d1f8524f-57aa-4b0f-a3a7-51e88e528bb1\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"b4270cd1-c876-40f1-885b-34eda8880254\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"7f78227a-3de7-4374-81d3-7e0607553e50\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"d1843aa9-5f0a-43d0-b7f2-4ca0b26a10ba\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -140,7 +184,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ab38c2e8-a40d-44d9-a76a-e3cd48a6d7da?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/75c64c8f-9226-41d5-a7b1-ef551026a078?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -169,61 +213,37 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ff56c714-ec2a-4019-ac1d-f993926388b9?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0YTQyNjRjZi02ZDJhLTRlZDgtYTNlNC0zYWM0ODRlYjJjN2RfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
     method: GET
   response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    body: '{"status":"InProgress"}'
     headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0YTQyNjRjZi02ZDJhLTRlZDgtYTNlNC0zYWM0ODRlYjJjN2RfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
       Cache-Control:
-      - no-cache
+      - private
+      Content-Length:
+      - "23"
       Content-Type:
       - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0YTQyNjRjZi02ZDJhLTRlZDgtYTNlNC0zYWM0ODRlYjJjN2RfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      Retry-After:
+      - "30"
       Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
+      - Microsoft-IIS/10.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
       X-Content-Type-Options:
       - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ab38c2e8-a40d-44d9-a76a-e3cd48a6d7da?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
     duration: ""
 - request:
     body: '{"kind":"BlobStorage","location":"westus2","name":"asosamplestorage","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"}}'
@@ -251,7 +271,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/67f30302-24e8-48cb-89fb-a71df1e3cb81?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/908d2700-e2ea-4318-b1ff-747fabc3e3f1?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -271,23 +291,15 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/55f6f4b8-90be-48ec-879b-dce8a52cca55?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"aso-sample-vn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn\",\r\n
-      \ \"etag\": \"W/\\\"c4d12b8a-d7a8-4155-a086-69c45655d46c\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"fdda7f9f-8de0-44e9-a2b9-8afd308dcdbf\",\r\n
-      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Etag:
-      - W/"c4d12b8a-d7a8-4155-a086-69c45655d46c"
       Expires:
       - "-1"
       Pragma:
@@ -310,13 +322,44 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/75c64c8f-9226-41d5-a7b1-ef551026a078?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"aso-sample-vn1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1\",\r\n
-      \ \"etag\": \"W/\\\"75d7e2dd-9224-440a-a043-5a752174bda6\\\"\",\r\n  \"type\":
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-vn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn\",\r\n
+      \ \"etag\": \"W/\\\"11529d0d-9438-41cc-b3c9-d0cd1ddf81e3\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"7f78227a-3de7-4374-81d3-7e0607553e50\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"8bd5f5cd-4149-47d6-ba39-3bf86606a3bd\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -326,7 +369,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"75d7e2dd-9224-440a-a043-5a752174bda6"
+      - W/"11529d0d-9438-41cc-b3c9-d0cd1ddf81e3"
       Expires:
       - "-1"
       Pragma:
@@ -354,76 +397,28 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"aso-sample-vn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn\",\r\n
-      \ \"etag\": \"W/\\\"c4d12b8a-d7a8-4155-a086-69c45655d46c\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"fdda7f9f-8de0-44e9-a2b9-8afd308dcdbf\",\r\n
-      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/aso-sample-vn''
+      under resource group ''asotest-rg-yqwsln'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
       - no-cache
+      Content-Length:
+      - "236"
       Content-Type:
       - application/json; charset=utf-8
-      Etag:
-      - W/"c4d12b8a-d7a8-4155-a086-69c45655d46c"
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"aso-sample-vn1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1\",\r\n
-      \ \"etag\": \"W/\\\"75d7e2dd-9224-440a-a043-5a752174bda6\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"7f78227a-3de7-4374-81d3-7e0607553e50\",\r\n
-      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
-      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"75d7e2dd-9224-440a-a043-5a752174bda6"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""
 - request:
     body: ""
@@ -431,7 +426,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/67f30302-24e8-48cb-89fb-a71df1e3cb81?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/908d2700-e2ea-4318-b1ff-747fabc3e3f1?monitor=true&api-version=2021-04-01
     method: GET
   response:
     body: ""
@@ -445,7 +440,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/67f30302-24e8-48cb-89fb-a71df1e3cb81?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/908d2700-e2ea-4318-b1ff-747fabc3e3f1?monitor=true&api-version=2021-04-01
       Pragma:
       - no-cache
       Retry-After:
@@ -460,52 +455,172 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"name":"aso-sample-subnet","properties":{"addressPrefix":"10.0.0.0/24","privateLinkServiceNetworkPolicies":"Disabled"}}'
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-vn1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1\",\r\n
+      \ \"etag\": \"W/\\\"22742065-68c3-443e-a328-23a44c376eda\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"d1843aa9-5f0a-43d0-b7f2-4ca0b26a10ba\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"22742065-68c3-443e-a328-23a44c376eda"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-vn1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1\",\r\n
+      \ \"etag\": \"W/\\\"22742065-68c3-443e-a328-23a44c376eda\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"d1843aa9-5f0a-43d0-b7f2-4ca0b26a10ba\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"22742065-68c3-443e-a328-23a44c376eda"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"aso-sample-vn","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "120"
+      - "111"
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet?api-version=2020-11-01
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn?api-version=2020-11-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"aso-sample-subnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet\",\r\n
-      \ \"etag\": \"W/\\\"46b86188-5195-40da-b9dd-c4bd33fbf102\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
-      \   \"privateLinkServiceNetworkPolicies\": \"Disabled\"\r\n  },\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    body: "{\r\n  \"name\": \"aso-sample-vn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn\",\r\n
+      \ \"etag\": \"W/\\\"11529d0d-9438-41cc-b3c9-d0cd1ddf81e3\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"8bd5f5cd-4149-47d6-ba39-3bf86606a3bd\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2829ec9f-b9f4-4657-8942-3908b9d6636b?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/5f77f899-08c9-4006-996c-77d67fc81d58?api-version=2020-11-01
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "557"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "3"
       Server:
       - Microsoft-HTTPAPI/2.0
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-vn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn\",\r\n
+      \ \"etag\": \"W/\\\"11529d0d-9438-41cc-b3c9-d0cd1ddf81e3\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"8bd5f5cd-4149-47d6-ba39-3bf86606a3bd\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"11529d0d-9438-41cc-b3c9-d0cd1ddf81e3"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: '{"name":"aso-sample-subnet1","properties":{"addressPrefix":"10.0.0.0/24"}}'
@@ -523,7 +638,7 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"aso-sample-subnet1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1\",\r\n
-      \ \"etag\": \"W/\\\"7ba43ea9-396c-4d70-9c85-df79e8a8449a\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"38d18c26-37cb-485b-8702-61f8d39f83dd\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
       \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
@@ -532,7 +647,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f3a82345-7161-4015-81cf-48d06f7598e5?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/85053515-24d9-448b-81a7-4b398c55b9d6?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -561,7 +676,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2829ec9f-b9f4-4657-8942-3908b9d6636b?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/85053515-24d9-448b-81a7-4b398c55b9d6?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -592,7 +707,195 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f3a82345-7161-4015-81cf-48d06f7598e5?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-subnet1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1\",\r\n
+      \ \"etag\": \"W/\\\"04326cd8-dc38-48f4-9fbc-52f3919f97a1\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"04326cd8-dc38-48f4-9fbc-52f3919f97a1"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-subnet1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1\",\r\n
+      \ \"etag\": \"W/\\\"04326cd8-dc38-48f4-9fbc-52f3919f97a1\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"04326cd8-dc38-48f4-9fbc-52f3919f97a1"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/908d2700-e2ea-4318-b1ff-747fabc3e3f1?monitor=true&api-version=2021-04-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"BlobStorage","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage","name":"asosamplestorage","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asosamplestorage.dfs.core.windows.net/","blob":"https://asosamplestorage.blob.core.windows.net/","table":"https://asosamplestorage.table.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage?api-version=2021-04-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"BlobStorage","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage","name":"asosamplestorage","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asosamplestorage.dfs.core.windows.net/","blob":"https://asosamplestorage.blob.core.windows.net/","table":"https://asosamplestorage.table.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"aso-sample-subnet","properties":{"addressPrefix":"10.0.0.0/24","privateLinkServiceNetworkPolicies":"Disabled"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "120"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet?api-version=2020-11-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-subnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet\",\r\n
+      \ \"etag\": \"W/\\\"05f18e60-f688-4610-a860-d9569e2a9827\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Disabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/31a0db69-60fe-4d41-86f6-bc43fe13ff99?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "557"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/31a0db69-60fe-4d41-86f6-bc43fe13ff99?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -633,12 +936,12 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"aso-sample-loadbalancer\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer\",\r\n
-      \ \"etag\": \"W/\\\"513de557-ad27-432b-aa3b-dc14859f4b17\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"2aa5170e-daa0-45e3-a1f2-b468580d9886\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"1a8546a6-1f80-43da-b33b-e68eb07afa04\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"3f42d487-0e63-49bf-8690-29a43bc4f2f0\",\r\n
       \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
-      \       \"etag\": \"W/\\\"513de557-ad27-432b-aa3b-dc14859f4b17\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"2aa5170e-daa0-45e3-a1f2-b468580d9886\\\"\",\r\n        \"type\":
       \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Updating\",\r\n          \"privateIPAddress\":
       \"10.0.0.4\",\r\n          \"privateIPAllocationMethod\": \"Dynamic\",\r\n          \"subnet\":
@@ -650,7 +953,7 @@ interactions:
       [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\": [],\r\n    \"outboundRules\":
       [],\r\n    \"inboundNatPools\": [\r\n      {\r\n        \"name\": \"MyFancyNatPool\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/inboundNatPools/MyFancyNatPool\",\r\n
-      \       \"etag\": \"W/\\\"513de557-ad27-432b-aa3b-dc14859f4b17\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"2aa5170e-daa0-45e3-a1f2-b468580d9886\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Updating\",\r\n          \"frontendPortRangeStart\":
       50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
       22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
@@ -664,7 +967,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/9f4e408f-0bcf-4523-a7c4-845c274e0305?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/3680d607-e911-43d7-9aea-f0e60d948ef5?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -697,7 +1000,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"aso-sample-subnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet\",\r\n
-      \ \"etag\": \"W/\\\"20b898b5-825a-4ea5-995d-d0a0b5fc6a5b\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"b0579bba-f35c-4b21-a16e-fe2863d89064\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
       \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
@@ -709,7 +1012,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"20b898b5-825a-4ea5-995d-d0a0b5fc6a5b"
+      - W/"b0579bba-f35c-4b21-a16e-fe2863d89064"
       Expires:
       - "-1"
       Pragma:
@@ -732,126 +1035,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"aso-sample-subnet1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1\",\r\n
-      \ \"etag\": \"W/\\\"80b1c5b9-8147-40ac-8021-dbb3834372d5\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
-      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"80b1c5b9-8147-40ac-8021-dbb3834372d5"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"aso-sample-subnet1\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1\",\r\n
-      \ \"etag\": \"W/\\\"80b1c5b9-8147-40ac-8021-dbb3834372d5\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Disabled\",\r\n
-      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"80b1c5b9-8147-40ac-8021-dbb3834372d5"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"aso-sample-subnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet\",\r\n
-      \ \"etag\": \"W/\\\"20b898b5-825a-4ea5-995d-d0a0b5fc6a5b\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
-      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
-      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Disabled\"\r\n
-      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"20b898b5-825a-4ea5-995d-d0a0b5fc6a5b"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/9f4e408f-0bcf-4523-a7c4-845c274e0305?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/3680d607-e911-43d7-9aea-f0e60d948ef5?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -881,17 +1065,124 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0YTQyNjRjZi02ZDJhLTRlZDgtYTNlNC0zYWM0ODRlYjJjN2RfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"status":"Succeeded"}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-subnet\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet\",\r\n
+      \ \"etag\": \"W/\\\"b0579bba-f35c-4b21-a16e-fe2863d89064\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"ipConfigurations\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
+      \     }\r\n    ],\r\n    \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\":
+      \"Disabled\",\r\n    \"privateLinkServiceNetworkPolicies\": \"Disabled\"\r\n
+      \ },\r\n  \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"b0579bba-f35c-4b21-a16e-fe2863d89064"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-yqwsln\/providers\/Microsoft.Network\/privateDnsZones\/privatelink.blob.core.windows.net","name":"privatelink.blob.core.windows.net","type":"Microsoft.Network\/privateDnsZones","etag":"4182a59d-4196-4920-9f46-cb3bc5e302ff","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 4182a59d-4196-4920-9f46-cb3bc5e302ff
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
       - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"aso-sample-loadbalancer\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer\",\r\n
-      \ \"etag\": \"W/\\\"05e07ce4-1fe2-46f0-8dd7-b7b94b5e328b\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"9a95e7fd-ace1-4015-9d2d-9931a35776cc\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"1a8546a6-1f80-43da-b33b-e68eb07afa04\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3f42d487-0e63-49bf-8690-29a43bc4f2f0\",\r\n
       \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
-      \       \"etag\": \"W/\\\"05e07ce4-1fe2-46f0-8dd7-b7b94b5e328b\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"9a95e7fd-ace1-4015-9d2d-9931a35776cc\\\"\",\r\n        \"type\":
       \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAddress\":
       \"10.0.0.4\",\r\n          \"privateIPAllocationMethod\": \"Dynamic\",\r\n          \"subnet\":
@@ -903,7 +1194,7 @@ interactions:
       [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\": [],\r\n    \"outboundRules\":
       [],\r\n    \"inboundNatPools\": [\r\n      {\r\n        \"name\": \"MyFancyNatPool\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/inboundNatPools/MyFancyNatPool\",\r\n
-      \       \"etag\": \"W/\\\"05e07ce4-1fe2-46f0-8dd7-b7b94b5e328b\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"9a95e7fd-ace1-4015-9d2d-9931a35776cc\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendPortRangeStart\":
       50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
       22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
@@ -919,7 +1210,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"05e07ce4-1fe2-46f0-8dd7-b7b94b5e328b"
+      - W/"9a95e7fd-ace1-4015-9d2d-9931a35776cc"
       Expires:
       - "-1"
       Pragma:
@@ -944,16 +1235,52 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-yqwsln\/providers\/Microsoft.Network\/privateDnsZones\/privatelink.blob.core.windows.net","name":"privatelink.blob.core.windows.net","type":"Microsoft.Network\/privateDnsZones","etag":"4182a59d-4196-4920-9f46-cb3bc5e302ff","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 4182a59d-4196-4920-9f46-cb3bc5e302ff
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"aso-sample-loadbalancer\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer\",\r\n
-      \ \"etag\": \"W/\\\"05e07ce4-1fe2-46f0-8dd7-b7b94b5e328b\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"9a95e7fd-ace1-4015-9d2d-9931a35776cc\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"1a8546a6-1f80-43da-b33b-e68eb07afa04\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"3f42d487-0e63-49bf-8690-29a43bc4f2f0\",\r\n
       \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
-      \       \"etag\": \"W/\\\"05e07ce4-1fe2-46f0-8dd7-b7b94b5e328b\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"9a95e7fd-ace1-4015-9d2d-9931a35776cc\\\"\",\r\n        \"type\":
       \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAddress\":
       \"10.0.0.4\",\r\n          \"privateIPAllocationMethod\": \"Dynamic\",\r\n          \"subnet\":
@@ -965,7 +1292,7 @@ interactions:
       [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\": [],\r\n    \"outboundRules\":
       [],\r\n    \"inboundNatPools\": [\r\n      {\r\n        \"name\": \"MyFancyNatPool\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/inboundNatPools/MyFancyNatPool\",\r\n
-      \       \"etag\": \"W/\\\"05e07ce4-1fe2-46f0-8dd7-b7b94b5e328b\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"9a95e7fd-ace1-4015-9d2d-9931a35776cc\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendPortRangeStart\":
       50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
       22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
@@ -981,7 +1308,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"05e07ce4-1fe2-46f0-8dd7-b7b94b5e328b"
+      - W/"9a95e7fd-ace1-4015-9d2d-9931a35776cc"
       Expires:
       - "-1"
       Pragma:
@@ -997,6 +1324,88 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: '{"location":"global","name":"aso-sample-vnetlink","properties":{"registrationEnabled":false,"virtualNetwork":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn"}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "262"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/aso-sample-vnetlink?api-version=2018-09-01
+    method: PUT
+  response:
+    body: '{}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7MDBkZjc5OWItNDIzMS00NDc1LWI0NTUtN2I1YTVmMGE3NmY5XzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2018-09-01
+      Cache-Control:
+      - private
+      Content-Length:
+      - "2"
+      Content-Type:
+      - application/json; charset=utf-8
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7MDBkZjc5OWItNDIzMS00NDc1LWI0NTUtN2I1YTVmMGE3NmY5XzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2018-09-01
+      Retry-After:
+      - "30"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7MDBkZjc5OWItNDIzMS00NDc1LWI0NTUtN2I1YTVmMGE3NmY5XzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"status":"InProgress"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7MDBkZjc5OWItNDIzMS00NDc1LWI0NTUtN2I1YTVmMGE3NmY5XzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2018-09-01
+      Cache-Control:
+      - private
+      Content-Length:
+      - "23"
+      Content-Type:
+      - application/json; charset=utf-8
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7MDBkZjc5OWItNDIzMS00NDc1LWI0NTUtN2I1YTVmMGE3NmY5XzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2018-09-01
+      Retry-After:
+      - "30"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "497"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
     duration: ""
 - request:
     body: ""
@@ -1004,27 +1413,137 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westus2/asyncoperations/67f30302-24e8-48cb-89fb-a71df1e3cb81?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7MDBkZjc5OWItNDIzMS00NDc1LWI0NTUtN2I1YTVmMGE3NmY5XzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2018-09-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"BlobStorage","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage","name":"asosamplestorage","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asosamplestorage.dfs.core.windows.net/","blob":"https://asosamplestorage.blob.core.windows.net/","table":"https://asosamplestorage.table.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
+    body: '{"status":"InProgress"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7MDBkZjc5OWItNDIzMS00NDc1LWI0NTUtN2I1YTVmMGE3NmY5XzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2018-09-01
+      Cache-Control:
+      - private
+      Content-Length:
+      - "23"
+      Content-Type:
+      - application/json; charset=utf-8
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7MDBkZjc5OWItNDIzMS00NDc1LWI0NTUtN2I1YTVmMGE3NmY5XzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2018-09-01
+      Retry-After:
+      - "30"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "496"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7MDBkZjc5OWItNDIzMS00NDc1LWI0NTUtN2I1YTVmMGE3NmY5XzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"status":"Succeeded"}'
     headers:
       Cache-Control:
-      - no-cache
+      - private
       Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
+      - application/json; charset=utf-8
       Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      - Microsoft-IIS/10.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
       - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
       X-Content-Type-Options:
       - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "495"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/aso-sample-vnetlink?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-yqwsln\/providers\/Microsoft.Network\/privateDnsZones\/privatelink.blob.core.windows.net\/virtualNetworkLinks\/aso-sample-vnetlink","name":"aso-sample-vnetlink","type":"Microsoft.Network\/privateDnsZones\/virtualNetworkLinks","etag":"\"14019422-0000-0100-0000-63fc9f540000\"","location":"global","properties":{"provisioningState":"Succeeded","registrationEnabled":false,"virtualNetwork":{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-yqwsln\/providers\/Microsoft.Network\/virtualNetworks\/aso-sample-vn"},"virtualNetworkLinkState":"Completed"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"14019422-0000-0100-0000-63fc9f540000"'
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/aso-sample-vnetlink?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-yqwsln\/providers\/Microsoft.Network\/privateDnsZones\/privatelink.blob.core.windows.net\/virtualNetworkLinks\/aso-sample-vnetlink","name":"aso-sample-vnetlink","type":"Microsoft.Network\/privateDnsZones\/virtualNetworkLinks","etag":"\"14019422-0000-0100-0000-63fc9f540000\"","location":"global","properties":{"provisioningState":"Succeeded","registrationEnabled":false,"virtualNetwork":{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-yqwsln\/providers\/Microsoft.Network\/virtualNetworks\/aso-sample-vn"},"virtualNetworkLinkState":"Completed"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"14019422-0000-0100-0000-63fc9f540000"'
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
     status: 200 OK
     code: 200
     duration: ""
@@ -1036,49 +1555,17 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint?api-version=2022-07-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"BlobStorage","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage","name":"asosamplestorage","type":"Microsoft.Storage/storageAccounts","location":"westus2","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asosamplestorage.dfs.core.windows.net/","blob":"https://asosamplestorage.blob.core.windows.net/","table":"https://asosamplestorage.table.core.windows.net/"},"primaryLocation":"westus2","statusOfPrimary":"available"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint?api-version=2022-07-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/privateEndpoints/sampleprivateendpoint''
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/privateEndpoints/aso-sample-privateendpoint''
       under resource group ''asotest-rg-yqwsln'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "245"
+      - "250"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -1095,50 +1582,50 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"samplepls","properties":{"autoApproval":{"subscriptions":["00000000-0000-0000-0000-000000000000"]},"ipConfigurations":[{"name":"config","properties":{"privateIPAddressVersion":"IPv4","privateIPAllocationMethod":"Dynamic","subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet"}}}],"loadBalancerFrontendIpConfigurations":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend"}],"visibility":{"subscriptions":["00000000-0000-0000-0000-000000000000"]}}}'
+    body: '{"location":"westus2","name":"aso-sample-pls","properties":{"autoApproval":{"subscriptions":["00000000-0000-0000-0000-000000000000"]},"ipConfigurations":[{"name":"config","properties":{"privateIPAddressVersion":"IPv4","privateIPAllocationMethod":"Dynamic","subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet"}}}],"loadBalancerFrontendIpConfigurations":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend"}],"visibility":{"subscriptions":["00000000-0000-0000-0000-000000000000"]}}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "761"
+      - "766"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls?api-version=2022-07-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"samplepls\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls\",\r\n
-      \ \"etag\": \"W/\\\"90c57670-8aa6-4eba-91bd-4927a46af5d6\\\"\",\r\n  \"type\":
+    body: "{\r\n  \"name\": \"aso-sample-pls\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls\",\r\n
+      \ \"etag\": \"W/\\\"47da57d8-52a7-41c4-9f43-fc015c8107a7\\\"\",\r\n  \"type\":
       \"Microsoft.Network/privateLinkServices\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\":
-      \"088bb601-676c-40bb-9b8c-e1b7ba1e2d72\",\r\n    \"fqdns\": [],\r\n    \"alias\":
-      \"samplepls.cdf6b422-54cf-476f-a2cb-e7c114082da4.westus2.azure.privatelinkservice\",\r\n
+      \"c08daa43-2a42-498e-8ff0-e4e38d4773e0\",\r\n    \"fqdns\": [],\r\n    \"alias\":
+      \"aso-sample-pls.4fde0a37-d633-4e3f-8dec-1c817c935521.westus2.azure.privatelinkservice\",\r\n
       \   \"visibility\": {\r\n      \"subscriptions\": [\r\n        \"00000000-0000-0000-0000-000000000000\"\r\n
       \     ]\r\n    },\r\n    \"autoApproval\": {\r\n      \"subscriptions\": [\r\n
       \       \"00000000-0000-0000-0000-000000000000\"\r\n      ]\r\n    },\r\n    \"enableProxyProtocol\":
       false,\r\n    \"loadBalancerFrontendIpConfigurations\": [\r\n      {\r\n        \"id\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
       \     }\r\n    ],\r\n    \"ipConfigurations\": [\r\n      {\r\n        \"name\":
-      \"config\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls/ipConfigurations/config\",\r\n
-      \       \"etag\": \"W/\\\"90c57670-8aa6-4eba-91bd-4927a46af5d6\\\"\",\r\n        \"type\":
+      \"config\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls/ipConfigurations/config\",\r\n
+      \       \"etag\": \"W/\\\"47da57d8-52a7-41c4-9f43-fc015c8107a7\\\"\",\r\n        \"type\":
       \"Microsoft.Network/privateLinkServices/ipConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"subnet\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet\"\r\n
       \         },\r\n          \"primary\": true,\r\n          \"privateIPAddressVersion\":
       \"IPv4\"\r\n        }\r\n      }\r\n    ],\r\n    \"privateEndpointConnections\":
-      [],\r\n    \"networkInterfaces\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/samplepls.nic.7680959c-2078-4841-ab64-bef5cdb382f6\"\r\n
+      [],\r\n    \"networkInterfaces\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/aso-sample-pls.nic.5047daf7-af16-4063-ae47-1af48fe39f61\"\r\n
       \     }\r\n    ]\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/86753531-8d8b-4e56-9a17-a1572d956c3f?api-version=2022-07-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d56a7af1-34a3-4c0b-9bb8-2b820b4e8767?api-version=2022-07-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "2230"
+      - "2255"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -1158,27 +1645,27 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"sampleprivateendpoint","properties":{"privateLinkServiceConnections":[{"name":"testEndpoint","properties":{"groupIds":["blob"],"privateLinkServiceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage"}}],"subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1"}}}'
+    body: '{"location":"westus2","name":"aso-sample-privateendpoint","properties":{"privateLinkServiceConnections":[{"name":"testEndpoint","properties":{"groupIds":["blob"],"privateLinkServiceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage"}}],"subnet":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1"}}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "521"
+      - "526"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint?api-version=2022-07-01
     method: PUT
   response:
-    body: "{\r\n  \"name\": \"sampleprivateendpoint\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint\",\r\n
-      \ \"etag\": \"W/\\\"e98030de-fe2e-4080-ad88-8b2a1067b78a\\\"\",\r\n  \"type\":
+    body: "{\r\n  \"name\": \"aso-sample-privateendpoint\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint\",\r\n
+      \ \"etag\": \"W/\\\"415630c7-db62-4bbc-8bc8-15eb1a437337\\\"\",\r\n  \"type\":
       \"Microsoft.Network/privateEndpoints\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\":
-      \"5a65634c-38cc-4767-9552-0259aec1997f\",\r\n    \"privateLinkServiceConnections\":
-      [\r\n      {\r\n        \"name\": \"testEndpoint\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint/privateLinkServiceConnections/testEndpoint\",\r\n
-      \       \"etag\": \"W/\\\"e98030de-fe2e-4080-ad88-8b2a1067b78a\\\"\",\r\n        \"properties\":
+      \"cc6f0db5-dc5b-4ed9-8436-cfe67f3441e1\",\r\n    \"privateLinkServiceConnections\":
+      [\r\n      {\r\n        \"name\": \"testEndpoint\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateLinkServiceConnections/testEndpoint\",\r\n
+      \       \"etag\": \"W/\\\"415630c7-db62-4bbc-8bc8-15eb1a437337\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateLinkServiceId\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage\",\r\n
       \         \"groupIds\": [\r\n            \"blob\"\r\n          ],\r\n          \"privateLinkServiceConnectionState\":
@@ -1188,17 +1675,17 @@ interactions:
       \     }\r\n    ],\r\n    \"manualPrivateLinkServiceConnections\": [],\r\n    \"customNetworkInterfaceName\":
       \"\",\r\n    \"subnet\": {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1\"\r\n
       \   },\r\n    \"ipConfigurations\": [],\r\n    \"networkInterfaces\": [\r\n
-      \     {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/sampleprivateendpoint.nic.7691b5bb-3435-492d-b762-c85ae442a7c5\"\r\n
+      \     {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/aso-sample-privateendpoint.nic.a5bca040-65fc-4468-971a-970c159e7050\"\r\n
       \     }\r\n    ],\r\n    \"customDnsConfigs\": []\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/16867dc9-89a7-41fe-a0eb-5da2aba4870d?api-version=2022-07-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f41f0098-7b1c-4491-8a52-af6a329d9ad8?api-version=2022-07-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "2045"
+      - "2065"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -1223,7 +1710,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/86753531-8d8b-4e56-9a17-a1572d956c3f?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d56a7af1-34a3-4c0b-9bb8-2b820b4e8767?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1256,7 +1743,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/16867dc9-89a7-41fe-a0eb-5da2aba4870d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f41f0098-7b1c-4491-8a52-af6a329d9ad8?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1289,7 +1776,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/86753531-8d8b-4e56-9a17-a1572d956c3f?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d56a7af1-34a3-4c0b-9bb8-2b820b4e8767?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -1319,8 +1806,61 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-pls\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls\",\r\n
+      \ \"etag\": \"W/\\\"50fbf738-18a7-44eb-9f85-a58715db28c5\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/privateLinkServices\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
+      \"c08daa43-2a42-498e-8ff0-e4e38d4773e0\",\r\n    \"fqdns\": [],\r\n    \"alias\":
+      \"aso-sample-pls.4fde0a37-d633-4e3f-8dec-1c817c935521.westus2.azure.privatelinkservice\",\r\n
+      \   \"visibility\": {\r\n      \"subscriptions\": [\r\n        \"00000000-0000-0000-0000-000000000000\"\r\n
+      \     ]\r\n    },\r\n    \"autoApproval\": {\r\n      \"subscriptions\": [\r\n
+      \       \"00000000-0000-0000-0000-000000000000\"\r\n      ]\r\n    },\r\n    \"enableProxyProtocol\":
+      false,\r\n    \"loadBalancerFrontendIpConfigurations\": [\r\n      {\r\n        \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
+      \     }\r\n    ],\r\n    \"ipConfigurations\": [\r\n      {\r\n        \"name\":
+      \"config\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls/ipConfigurations/config\",\r\n
+      \       \"etag\": \"W/\\\"50fbf738-18a7-44eb-9f85-a58715db28c5\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/privateLinkServices/ipConfigurations\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
+      \"Dynamic\",\r\n          \"subnet\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet\"\r\n
+      \         },\r\n          \"primary\": true,\r\n          \"privateIPAddressVersion\":
+      \"IPv4\"\r\n        }\r\n      }\r\n    ],\r\n    \"privateEndpointConnections\":
+      [],\r\n    \"networkInterfaces\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/aso-sample-pls.nic.5047daf7-af16-4063-ae47-1af48fe39f61\"\r\n
+      \     }\r\n    ]\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"50fbf738-18a7-44eb-9f85-a58715db28c5"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/16867dc9-89a7-41fe-a0eb-5da2aba4870d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f41f0098-7b1c-4491-8a52-af6a329d9ad8?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"InProgress\"\r\n}"
@@ -1351,86 +1891,33 @@ interactions:
     body: ""
     form: {}
     headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls?api-version=2022-07-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"samplepls\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls\",\r\n
-      \ \"etag\": \"W/\\\"61628842-082f-464f-b58d-8e679acdea22\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/privateLinkServices\",\r\n  \"location\": \"westus2\",\r\n
-      \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"088bb601-676c-40bb-9b8c-e1b7ba1e2d72\",\r\n    \"fqdns\": [],\r\n    \"alias\":
-      \"samplepls.cdf6b422-54cf-476f-a2cb-e7c114082da4.westus2.azure.privatelinkservice\",\r\n
-      \   \"visibility\": {\r\n      \"subscriptions\": [\r\n        \"00000000-0000-0000-0000-000000000000\"\r\n
-      \     ]\r\n    },\r\n    \"autoApproval\": {\r\n      \"subscriptions\": [\r\n
-      \       \"00000000-0000-0000-0000-000000000000\"\r\n      ]\r\n    },\r\n    \"enableProxyProtocol\":
-      false,\r\n    \"loadBalancerFrontendIpConfigurations\": [\r\n      {\r\n        \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
-      \     }\r\n    ],\r\n    \"ipConfigurations\": [\r\n      {\r\n        \"name\":
-      \"config\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls/ipConfigurations/config\",\r\n
-      \       \"etag\": \"W/\\\"61628842-082f-464f-b58d-8e679acdea22\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/privateLinkServices/ipConfigurations\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
-      \"Dynamic\",\r\n          \"subnet\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet\"\r\n
-      \         },\r\n          \"primary\": true,\r\n          \"privateIPAddressVersion\":
-      \"IPv4\"\r\n        }\r\n      }\r\n    ],\r\n    \"privateEndpointConnections\":
-      [],\r\n    \"networkInterfaces\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/samplepls.nic.7680959c-2078-4841-ab64-bef5cdb382f6\"\r\n
-      \     }\r\n    ]\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"61628842-082f-464f-b58d-8e679acdea22"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
       Accept:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls?api-version=2022-07-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"samplepls\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls\",\r\n
-      \ \"etag\": \"W/\\\"61628842-082f-464f-b58d-8e679acdea22\\\"\",\r\n  \"type\":
+    body: "{\r\n  \"name\": \"aso-sample-pls\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls\",\r\n
+      \ \"etag\": \"W/\\\"50fbf738-18a7-44eb-9f85-a58715db28c5\\\"\",\r\n  \"type\":
       \"Microsoft.Network/privateLinkServices\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"088bb601-676c-40bb-9b8c-e1b7ba1e2d72\",\r\n    \"fqdns\": [],\r\n    \"alias\":
-      \"samplepls.cdf6b422-54cf-476f-a2cb-e7c114082da4.westus2.azure.privatelinkservice\",\r\n
+      \"c08daa43-2a42-498e-8ff0-e4e38d4773e0\",\r\n    \"fqdns\": [],\r\n    \"alias\":
+      \"aso-sample-pls.4fde0a37-d633-4e3f-8dec-1c817c935521.westus2.azure.privatelinkservice\",\r\n
       \   \"visibility\": {\r\n      \"subscriptions\": [\r\n        \"00000000-0000-0000-0000-000000000000\"\r\n
       \     ]\r\n    },\r\n    \"autoApproval\": {\r\n      \"subscriptions\": [\r\n
       \       \"00000000-0000-0000-0000-000000000000\"\r\n      ]\r\n    },\r\n    \"enableProxyProtocol\":
       false,\r\n    \"loadBalancerFrontendIpConfigurations\": [\r\n      {\r\n        \"id\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
       \     }\r\n    ],\r\n    \"ipConfigurations\": [\r\n      {\r\n        \"name\":
-      \"config\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls/ipConfigurations/config\",\r\n
-      \       \"etag\": \"W/\\\"61628842-082f-464f-b58d-8e679acdea22\\\"\",\r\n        \"type\":
+      \"config\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls/ipConfigurations/config\",\r\n
+      \       \"etag\": \"W/\\\"50fbf738-18a7-44eb-9f85-a58715db28c5\\\"\",\r\n        \"type\":
       \"Microsoft.Network/privateLinkServices/ipConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"subnet\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet\"\r\n
       \         },\r\n          \"primary\": true,\r\n          \"privateIPAddressVersion\":
       \"IPv4\"\r\n        }\r\n      }\r\n    ],\r\n    \"privateEndpointConnections\":
-      [],\r\n    \"networkInterfaces\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/samplepls.nic.7680959c-2078-4841-ab64-bef5cdb382f6\"\r\n
+      [],\r\n    \"networkInterfaces\": [\r\n      {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/aso-sample-pls.nic.5047daf7-af16-4063-ae47-1af48fe39f61\"\r\n
       \     }\r\n    ]\r\n  }\r\n}"
     headers:
       Cache-Control:
@@ -1438,7 +1925,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"61628842-082f-464f-b58d-8e679acdea22"
+      - W/"50fbf738-18a7-44eb-9f85-a58715db28c5"
       Expires:
       - "-1"
       Pragma:
@@ -1461,7 +1948,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/16867dc9-89a7-41fe-a0eb-5da2aba4870d?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f41f0098-7b1c-4491-8a52-af6a329d9ad8?api-version=2022-07-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -1492,16 +1979,16 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint?api-version=2022-07-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"sampleprivateendpoint\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint\",\r\n
-      \ \"etag\": \"W/\\\"d00437eb-2bfa-42b7-98c2-46aab97473f2\\\"\",\r\n  \"type\":
+    body: "{\r\n  \"name\": \"aso-sample-privateendpoint\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint\",\r\n
+      \ \"etag\": \"W/\\\"2364cb4d-3626-41c5-b641-6fb9973b989d\\\"\",\r\n  \"type\":
       \"Microsoft.Network/privateEndpoints\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"5a65634c-38cc-4767-9552-0259aec1997f\",\r\n    \"privateLinkServiceConnections\":
-      [\r\n      {\r\n        \"name\": \"testEndpoint\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint/privateLinkServiceConnections/testEndpoint\",\r\n
-      \       \"etag\": \"W/\\\"d00437eb-2bfa-42b7-98c2-46aab97473f2\\\"\",\r\n        \"properties\":
+      \"cc6f0db5-dc5b-4ed9-8436-cfe67f3441e1\",\r\n    \"privateLinkServiceConnections\":
+      [\r\n      {\r\n        \"name\": \"testEndpoint\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateLinkServiceConnections/testEndpoint\",\r\n
+      \       \"etag\": \"W/\\\"2364cb4d-3626-41c5-b641-6fb9973b989d\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateLinkServiceId\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage\",\r\n
       \         \"groupIds\": [\r\n            \"blob\"\r\n          ],\r\n          \"privateLinkServiceConnectionState\":
@@ -1511,7 +1998,7 @@ interactions:
       \   ],\r\n    \"manualPrivateLinkServiceConnections\": [],\r\n    \"customNetworkInterfaceName\":
       \"\",\r\n    \"subnet\": {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1\"\r\n
       \   },\r\n    \"ipConfigurations\": [],\r\n    \"networkInterfaces\": [\r\n
-      \     {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/sampleprivateendpoint.nic.7691b5bb-3435-492d-b762-c85ae442a7c5\"\r\n
+      \     {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/aso-sample-privateendpoint.nic.a5bca040-65fc-4468-971a-970c159e7050\"\r\n
       \     }\r\n    ],\r\n    \"customDnsConfigs\": [\r\n      {\r\n        \"fqdn\":
       \"asosamplestorage.blob.core.windows.net\",\r\n        \"ipAddresses\": [\r\n
       \         \"10.0.0.4\"\r\n        ]\r\n      }\r\n    ]\r\n  }\r\n}"
@@ -1521,7 +2008,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"d00437eb-2bfa-42b7-98c2-46aab97473f2"
+      - W/"2364cb4d-3626-41c5-b641-6fb9973b989d"
       Expires:
       - "-1"
       Pragma:
@@ -1546,16 +2033,16 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint?api-version=2022-07-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"sampleprivateendpoint\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint\",\r\n
-      \ \"etag\": \"W/\\\"d00437eb-2bfa-42b7-98c2-46aab97473f2\\\"\",\r\n  \"type\":
+    body: "{\r\n  \"name\": \"aso-sample-privateendpoint\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint\",\r\n
+      \ \"etag\": \"W/\\\"2364cb4d-3626-41c5-b641-6fb9973b989d\\\"\",\r\n  \"type\":
       \"Microsoft.Network/privateEndpoints\",\r\n  \"location\": \"westus2\",\r\n
       \ \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\":
-      \"5a65634c-38cc-4767-9552-0259aec1997f\",\r\n    \"privateLinkServiceConnections\":
-      [\r\n      {\r\n        \"name\": \"testEndpoint\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint/privateLinkServiceConnections/testEndpoint\",\r\n
-      \       \"etag\": \"W/\\\"d00437eb-2bfa-42b7-98c2-46aab97473f2\\\"\",\r\n        \"properties\":
+      \"cc6f0db5-dc5b-4ed9-8436-cfe67f3441e1\",\r\n    \"privateLinkServiceConnections\":
+      [\r\n      {\r\n        \"name\": \"testEndpoint\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateLinkServiceConnections/testEndpoint\",\r\n
+      \       \"etag\": \"W/\\\"2364cb4d-3626-41c5-b641-6fb9973b989d\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateLinkServiceId\":
       \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage\",\r\n
       \         \"groupIds\": [\r\n            \"blob\"\r\n          ],\r\n          \"privateLinkServiceConnectionState\":
@@ -1565,7 +2052,7 @@ interactions:
       \   ],\r\n    \"manualPrivateLinkServiceConnections\": [],\r\n    \"customNetworkInterfaceName\":
       \"\",\r\n    \"subnet\": {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn1/subnets/aso-sample-subnet1\"\r\n
       \   },\r\n    \"ipConfigurations\": [],\r\n    \"networkInterfaces\": [\r\n
-      \     {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/sampleprivateendpoint.nic.7691b5bb-3435-492d-b762-c85ae442a7c5\"\r\n
+      \     {\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/networkInterfaces/aso-sample-privateendpoint.nic.a5bca040-65fc-4468-971a-970c159e7050\"\r\n
       \     }\r\n    ],\r\n    \"customDnsConfigs\": [\r\n      {\r\n        \"fqdn\":
       \"asosamplestorage.blob.core.windows.net\",\r\n        \"ipAddresses\": [\r\n
       \         \"10.0.0.4\"\r\n        ]\r\n      }\r\n    ]\r\n  }\r\n}"
@@ -1575,7 +2062,191 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"d00437eb-2bfa-42b7-98c2-46aab97473f2"
+      - W/"2364cb4d-3626-41c5-b641-6fb9973b989d"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"aso-sample-dnszonegroup","properties":{"privateDnsZoneConfigs":[{"name":"config","properties":{"privateDnsZoneId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"}}]}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "292"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup?api-version=2022-07-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-dnszonegroup\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup\",\r\n
+      \ \"etag\": \"W/\\\"179acdec-b548-4659-a02d-c9ff63dd9129\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/privateEndpoints/privateDnsZoneGroups\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"privateDnsZoneConfigs\":
+      [\r\n      {\r\n        \"name\": \"config\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup/privateDnsZoneConfigs/config\",\r\n
+      \       \"etag\": \"W/\\\"179acdec-b548-4659-a02d-c9ff63dd9129\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs\",\r\n
+      \       \"properties\": {\r\n          \"provisioningState\": \"Updating\",\r\n
+      \         \"privateDnsZoneId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net\",\r\n
+      \         \"recordSets\": [\r\n            {\r\n              \"recordType\":
+      \"A\",\r\n              \"recordSetName\": \"asosamplestorage\",\r\n              \"fqdn\":
+      \"asosamplestorage.privatelink.blob.core.windows.net\",\r\n              \"ttl\":
+      10,\r\n              \"provisioningState\": \"Updating\",\r\n              \"ipAddresses\":
+      [\r\n                \"10.0.0.4\"\r\n              ]\r\n            }\r\n          ]\r\n
+      \       }\r\n      }\r\n    ]\r\n  }\r\n}"
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/80451c36-7921-4471-a15a-abb8d45356af?api-version=2022-07-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1600"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/80451c36-7921-4471-a15a-abb8d45356af?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-dnszonegroup\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup\",\r\n
+      \ \"etag\": \"W/\\\"9b4ef107-f38b-4b8a-9420-1ad882b6b97b\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/privateEndpoints/privateDnsZoneGroups\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"privateDnsZoneConfigs\":
+      [\r\n      {\r\n        \"name\": \"config\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup/privateDnsZoneConfigs/config\",\r\n
+      \       \"etag\": \"W/\\\"9b4ef107-f38b-4b8a-9420-1ad882b6b97b\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs\",\r\n
+      \       \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n
+      \         \"privateDnsZoneId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net\",\r\n
+      \         \"recordSets\": [\r\n            {\r\n              \"recordType\":
+      \"A\",\r\n              \"recordSetName\": \"asosamplestorage\",\r\n              \"fqdn\":
+      \"asosamplestorage.privatelink.blob.core.windows.net\",\r\n              \"ttl\":
+      10,\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"ipAddresses\":
+      [\r\n                \"10.0.0.4\"\r\n              ]\r\n            }\r\n          ]\r\n
+      \       }\r\n      }\r\n    ]\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"9b4ef107-f38b-4b8a-9420-1ad882b6b97b"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup?api-version=2022-07-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"aso-sample-dnszonegroup\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup\",\r\n
+      \ \"etag\": \"W/\\\"9b4ef107-f38b-4b8a-9420-1ad882b6b97b\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/privateEndpoints/privateDnsZoneGroups\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"privateDnsZoneConfigs\":
+      [\r\n      {\r\n        \"name\": \"config\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup/privateDnsZoneConfigs/config\",\r\n
+      \       \"etag\": \"W/\\\"9b4ef107-f38b-4b8a-9420-1ad882b6b97b\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs\",\r\n
+      \       \"properties\": {\r\n          \"provisioningState\": \"Succeeded\",\r\n
+      \         \"privateDnsZoneId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net\",\r\n
+      \         \"recordSets\": [\r\n            {\r\n              \"recordType\":
+      \"A\",\r\n              \"recordSetName\": \"asosamplestorage\",\r\n              \"fqdn\":
+      \"asosamplestorage.privatelink.blob.core.windows.net\",\r\n              \"ttl\":
+      10,\r\n              \"provisioningState\": \"Succeeded\",\r\n              \"ipAddresses\":
+      [\r\n                \"10.0.0.4\"\r\n              ]\r\n            }\r\n          ]\r\n
+      \       }\r\n      }\r\n    ]\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"9b4ef107-f38b-4b8a-9420-1ad882b6b97b"
       Expires:
       - "-1"
       Pragma:
@@ -1971,36 +2642,6 @@ interactions:
       - "0"
       Expires:
       - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRZUVdTTE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRZUVdTTE4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
       Pragma:
       - no-cache
       Strict-Transport-Security:
@@ -2009,6 +2650,39 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqwsln''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""
 - request:
     body: ""
@@ -2051,7 +2725,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/samplepls?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net?api-version=2018-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqwsln''
@@ -2084,7 +2758,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/sampleprivateendpoint?api-version=2022-07-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint?api-version=2022-07-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqwsln''
@@ -2117,40 +2791,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage?api-version=2021-04-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqwsln''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateLinkServices/aso-sample-pls?api-version=2022-07-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqwsln''
@@ -2216,6 +2857,72 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Storage/storageAccounts/asosamplestorage?api-version=2021-04-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqwsln''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/aso-sample-vnetlink?api-version=2018-09-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqwsln''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/virtualNetworks/aso-sample-vn/subnets/aso-sample-subnet?api-version=2020-11-01
     method: DELETE
   response:
@@ -2227,6 +2934,40 @@ interactions:
       - no-cache
       Content-Length:
       - "236"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqwsln/providers/Microsoft.Network/privateEndpoints/aso-sample-privateendpoint/privateDnsZoneGroups/aso-sample-dnszonegroup?api-version=2022-07-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/privateEndpoints/aso-sample-privateendpoint''
+      under resource group ''asotest-rg-yqwsln'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "250"
       Content-Type:
       - application/json; charset=utf-8
       Expires:

@@ -1,7 +1,7 @@
 apiVersion: network.azure.com/v1beta20220701
 kind: PrivateEndpoint
 metadata:
-  name: sampleprivateendpoint
+  name: aso-sample-privateendpoint
   namespace: default
 spec:
   location: westus2

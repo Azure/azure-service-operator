@@ -1,0 +1,15 @@
+apiVersion: network.azure.com/v1beta20180901
+kind: PrivateDnsZonesVirtualNetworkLink
+metadata:
+  name: aso-sample-vnetlink
+  namespace: default
+spec:
+  location: global
+  owner:
+    name: privatelink.blob.core.windows.net
+  registrationEnabled: false
+  virtualNetwork:
+    reference:
+      group: network.azure.com
+      kind: VirtualNetwork
+      name: aso-sample-vn
