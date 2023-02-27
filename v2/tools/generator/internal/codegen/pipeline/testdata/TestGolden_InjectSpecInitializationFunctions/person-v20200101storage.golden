@@ -28,6 +28,7 @@ type PersonList struct {
 
 // Storage version of v20200101.Person_Spec
 type Person_Spec struct {
+	Address     *Address_Spec          `json:"address,omitempty"`
 	FamilyName  *string                `json:"familyName,omitempty"`
 	FullName    *string                `json:"fullName,omitempty"`
 	KnownAs     *string                `json:"knownAs,omitempty"`
@@ -36,9 +37,25 @@ type Person_Spec struct {
 
 // Storage version of v20200101.Person_STATUS
 type Person_STATUS struct {
+	Address     *Location_STATUS       `json:"address,omitempty"`
 	FamilyName  *string                `json:"familyName,omitempty"`
 	FullName    *string                `json:"fullName,omitempty"`
 	KnownAs     *string                `json:"knownAs,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status      *string                `json:"status,omitempty"`
+}
+
+// Storage version of v20200101.Address_Spec
+type Address_Spec struct {
+	City        *string                `json:"city,omitempty"`
+	FullAddress *string                `json:"fullAddress,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v20200101.Location_STATUS
+type Location_STATUS struct {
+	City        *string                `json:"city,omitempty"`
+	FullAddress *string                `json:"fullAddress,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Status      *string                `json:"status,omitempty"`
 }

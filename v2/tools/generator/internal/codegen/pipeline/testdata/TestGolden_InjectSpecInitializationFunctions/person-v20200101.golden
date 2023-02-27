@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package v20200101
 
-import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+import (
+	"github.com/pkg/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
@@ -22,6 +25,8 @@ type PersonList struct {
 }
 
 type Person_Spec struct {
+	Address Address_Spec `json:"address,omitempty"`
+
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
 
@@ -34,6 +39,14 @@ type Person_Spec struct {
 
 // Initialize_From_Person_STATUS populates our Person_Spec from the provided source Person_STATUS
 func (person *Person_Spec) Initialize_From_Person_STATUS(source *Person_STATUS) error {
+
+	// Address
+	var address Address_Spec
+	err := address.Initialize_From_Location_STATUS(&source.Address)
+	if err != nil {
+		return errors.Wrap(err, "calling Initialize_From_Location_STATUS() to populate field Address")
+	}
+	person.Address = address
 
 	// FamilyName
 	person.FamilyName = source.FamilyName
@@ -49,6 +62,8 @@ func (person *Person_Spec) Initialize_From_Person_STATUS(source *Person_STATUS) 
 }
 
 type Person_STATUS struct {
+	Address Location_STATUS `json:"address,omitempty"`
+
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
 
@@ -57,6 +72,25 @@ type Person_STATUS struct {
 
 	// KnownAs: How the person is generally known
 	KnownAs string `json:"knownAs,omitempty"`
+
+	// Status: Current status
+	Status string `json:"status,omitempty"`
+}
+
+type Address_Spec struct {
+	// City: City or town (or nearest)
+	City string `json:"city,omitempty"`
+
+	// FullAddress: Full written address for map or postal use
+	FullAddress string `json:"fullAddress,omitempty"`
+}
+
+type Location_STATUS struct {
+	// City: City or town (or nearest)
+	City string `json:"city,omitempty"`
+
+	// FullAddress: Full written address for map or postal use
+	FullAddress string `json:"fullAddress,omitempty"`
 
 	// Status: Current status
 	Status string `json:"status,omitempty"`
