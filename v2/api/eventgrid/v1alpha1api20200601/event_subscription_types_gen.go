@@ -87,7 +87,7 @@ var _ admission.Defaulter = &EventSubscription{}
 // Default applies defaults to the EventSubscription resource
 func (subscription *EventSubscription) Default() {
 	subscription.defaultImpl()
-	var temp interface{} = subscription
+	var temp any = subscription
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleSt
 	return &EventSubscription_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{
 		Group: subscription.Spec.Owner.Group,
@@ -175,7 +175,7 @@ var _ admission.Validator = &EventSubscription{}
 // ValidateCreate validates the creation of the resource
 func (subscription *EventSubscription) ValidateCreate() error {
 	validations := subscription.createValidations()
-	var temp interface{} = subscription
+	var temp any = subscription
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -192,7 +192,7 @@ func (subscription *EventSubscription) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (subscription *EventSubscription) ValidateDelete() error {
 	validations := subscription.deleteValidations()
-	var temp interface{} = subscription
+	var temp any = subscription
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -209,7 +209,7 @@ func (subscription *EventSubscription) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (subscription *EventSubscription) ValidateUpdate(old runtime.Object) error {
 	validations := subscription.updateValidations()
-	var temp interface{} = subscription
+	var temp any = subscription
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

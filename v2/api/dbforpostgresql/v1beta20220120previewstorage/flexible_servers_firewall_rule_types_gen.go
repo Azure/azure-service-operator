@@ -102,7 +102,7 @@ func (rule *FlexibleServersFirewallRule) NewEmptyStatus() genruntime.Convertible
 	return &FlexibleServers_FirewallRule_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (rule *FlexibleServersFirewallRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return &genruntime.ResourceReference{
@@ -153,6 +153,15 @@ func (rule *FlexibleServersFirewallRule) AssignProperties_From_FlexibleServersFi
 	}
 	rule.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersFirewallRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServersFirewallRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -179,6 +188,15 @@ func (rule *FlexibleServersFirewallRule) AssignProperties_To_FlexibleServersFire
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForFlexibleServersFirewallRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServersFirewallRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -201,6 +219,11 @@ type FlexibleServersFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServersFirewallRule `json:"items"`
+}
+
+type augmentConversionForFlexibleServersFirewallRule interface {
+	AssignPropertiesFrom(src *v20210601s.FlexibleServersFirewallRule) error
+	AssignPropertiesTo(dst *v20210601s.FlexibleServersFirewallRule) error
 }
 
 // Storage version of v1beta20220120preview.FlexibleServers_FirewallRule_Spec
@@ -302,6 +325,15 @@ func (rule *FlexibleServers_FirewallRule_Spec) AssignProperties_From_FlexibleSer
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_FirewallRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServers_FirewallRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -336,6 +368,15 @@ func (rule *FlexibleServers_FirewallRule_Spec) AssignProperties_To_FlexibleServe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlexibleServers_FirewallRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServers_FirewallRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -446,6 +487,15 @@ func (rule *FlexibleServers_FirewallRule_STATUS) AssignProperties_From_FlexibleS
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_FirewallRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServers_FirewallRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -492,8 +542,27 @@ func (rule *FlexibleServers_FirewallRule_STATUS) AssignProperties_To_FlexibleSer
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlexibleServers_FirewallRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForFlexibleServers_FirewallRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForFlexibleServers_FirewallRule_Spec interface {
+	AssignPropertiesFrom(src *v20210601s.FlexibleServers_FirewallRule_Spec) error
+	AssignPropertiesTo(dst *v20210601s.FlexibleServers_FirewallRule_Spec) error
+}
+
+type augmentConversionForFlexibleServers_FirewallRule_STATUS interface {
+	AssignPropertiesFrom(src *v20210601s.FlexibleServers_FirewallRule_STATUS) error
+	AssignPropertiesTo(dst *v20210601s.FlexibleServers_FirewallRule_STATUS) error
 }
 
 func init() {

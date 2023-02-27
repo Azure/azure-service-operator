@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Profile{}
 // Default applies defaults to the Profile resource
 func (profile *Profile) Default() {
 	profile.defaultImpl()
-	var temp interface{} = profile
+	var temp any = profile
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (profile *Profile) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Profile_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (profile *Profile) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(profile.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &Profile{}
 // ValidateCreate validates the creation of the resource
 func (profile *Profile) ValidateCreate() error {
 	validations := profile.createValidations()
-	var temp interface{} = profile
+	var temp any = profile
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (profile *Profile) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (profile *Profile) ValidateDelete() error {
 	validations := profile.deleteValidations()
-	var temp interface{} = profile
+	var temp any = profile
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (profile *Profile) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (profile *Profile) ValidateUpdate(old runtime.Object) error {
 	validations := profile.updateValidations()
-	var temp interface{} = profile
+	var temp any = profile
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

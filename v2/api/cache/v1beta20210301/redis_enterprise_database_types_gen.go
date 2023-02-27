@@ -75,7 +75,7 @@ var _ admission.Defaulter = &RedisEnterpriseDatabase{}
 // Default applies defaults to the RedisEnterpriseDatabase resource
 func (database *RedisEnterpriseDatabase) Default() {
 	database.defaultImpl()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (database *RedisEnterpriseDatabase) NewEmptyStatus() genruntime.Convertible
 	return &RedisEnterprise_Database_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (database *RedisEnterpriseDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &RedisEnterpriseDatabase{}
 // ValidateCreate validates the creation of the resource
 func (database *RedisEnterpriseDatabase) ValidateCreate() error {
 	validations := database.createValidations()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (database *RedisEnterpriseDatabase) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (database *RedisEnterpriseDatabase) ValidateDelete() error {
 	validations := database.deleteValidations()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (database *RedisEnterpriseDatabase) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (database *RedisEnterpriseDatabase) ValidateUpdate(old runtime.Object) error {
 	validations := database.updateValidations()
-	var temp interface{} = database
+	var temp any = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

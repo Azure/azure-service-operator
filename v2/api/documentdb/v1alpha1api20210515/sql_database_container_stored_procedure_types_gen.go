@@ -87,7 +87,7 @@ var _ admission.Defaulter = &SqlDatabaseContainerStoredProcedure{}
 // Default applies defaults to the SqlDatabaseContainerStoredProcedure resource
 func (procedure *SqlDatabaseContainerStoredProcedure) Default() {
 	procedure.defaultImpl()
-	var temp interface{} = procedure
+	var temp any = procedure
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntim
 	return &DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(procedure.Spec)
 	return &genruntime.ResourceReference{
@@ -176,7 +176,7 @@ var _ admission.Validator = &SqlDatabaseContainerStoredProcedure{}
 // ValidateCreate validates the creation of the resource
 func (procedure *SqlDatabaseContainerStoredProcedure) ValidateCreate() error {
 	validations := procedure.createValidations()
-	var temp interface{} = procedure
+	var temp any = procedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (procedure *SqlDatabaseContainerStoredProcedure) ValidateDelete() error {
 	validations := procedure.deleteValidations()
-	var temp interface{} = procedure
+	var temp any = procedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (procedure *SqlDatabaseContainerStoredProcedure) ValidateUpdate(old runtime.Object) error {
 	validations := procedure.updateValidations()
-	var temp interface{} = procedure
+	var temp any = procedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

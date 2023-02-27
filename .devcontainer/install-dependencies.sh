@@ -88,7 +88,7 @@ fi
 GOVER=$(go version)
 write-info "Go version: ${GOVER[*]}"
 
-GOVERREQUIRED="go1.19.*"
+GOVERREQUIRED="go1.20.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo $ver; })
 if ! [[ "$GOVERACTUAL" =~ $GOVERREQUIRED ]]; then
     write-error "Go must be version $GOVERREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
@@ -165,7 +165,7 @@ if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.49.0 2>&1
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.51.2 2>&1
 fi
 
 # Install Task

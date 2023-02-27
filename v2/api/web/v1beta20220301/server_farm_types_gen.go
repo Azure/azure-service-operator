@@ -75,7 +75,7 @@ var _ admission.Defaulter = &ServerFarm{}
 // Default applies defaults to the ServerFarm resource
 func (farm *ServerFarm) Default() {
 	farm.defaultImpl()
-	var temp interface{} = farm
+	var temp any = farm
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (farm *ServerFarm) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Serverfarm_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (farm *ServerFarm) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(farm.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &ServerFarm{}
 // ValidateCreate validates the creation of the resource
 func (farm *ServerFarm) ValidateCreate() error {
 	validations := farm.createValidations()
-	var temp interface{} = farm
+	var temp any = farm
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (farm *ServerFarm) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (farm *ServerFarm) ValidateDelete() error {
 	validations := farm.deleteValidations()
-	var temp interface{} = farm
+	var temp any = farm
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (farm *ServerFarm) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (farm *ServerFarm) ValidateUpdate(old runtime.Object) error {
 	validations := farm.updateValidations()
-	var temp interface{} = farm
+	var temp any = farm
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

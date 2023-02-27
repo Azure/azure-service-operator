@@ -87,7 +87,7 @@ var _ admission.Defaulter = &NetworkInterface{}
 // Default applies defaults to the NetworkInterface resource
 func (networkInterface *NetworkInterface) Default() {
 	networkInterface.defaultImpl()
-	var temp interface{} = networkInterface
+	var temp any = networkInterface
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (networkInterface *NetworkInterface) NewEmptyStatus() genruntime.Convertibl
 	return &NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (networkInterface *NetworkInterface) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkInterface.Spec)
 	return &genruntime.ResourceReference{
@@ -176,7 +176,7 @@ var _ admission.Validator = &NetworkInterface{}
 // ValidateCreate validates the creation of the resource
 func (networkInterface *NetworkInterface) ValidateCreate() error {
 	validations := networkInterface.createValidations()
-	var temp interface{} = networkInterface
+	var temp any = networkInterface
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (networkInterface *NetworkInterface) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (networkInterface *NetworkInterface) ValidateDelete() error {
 	validations := networkInterface.deleteValidations()
-	var temp interface{} = networkInterface
+	var temp any = networkInterface
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (networkInterface *NetworkInterface) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (networkInterface *NetworkInterface) ValidateUpdate(old runtime.Object) error {
 	validations := networkInterface.updateValidations()
-	var temp interface{} = networkInterface
+	var temp any = networkInterface
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

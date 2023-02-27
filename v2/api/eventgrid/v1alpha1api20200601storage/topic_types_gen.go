@@ -100,7 +100,7 @@ func (topic *Topic) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Topic_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (topic *Topic) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
 	return &genruntime.ResourceReference{
@@ -151,6 +151,15 @@ func (topic *Topic) AssignProperties_From_Topic(source *v20200601s.Topic) error 
 	}
 	topic.Status = status
 
+	// Invoke the augmentConversionForTopic interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (topic *Topic) AssignProperties_To_Topic(destination *v20200601s.Topic) err
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForTopic interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type TopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Topic `json:"items"`
+}
+
+type augmentConversionForTopic interface {
+	AssignPropertiesFrom(src *v20200601s.Topic) error
+	AssignPropertiesTo(dst *v20200601s.Topic) error
 }
 
 // Storage version of v1alpha1api20200601.Topic_Spec
@@ -338,6 +361,15 @@ func (topic *Topic_Spec) AssignProperties_From_Topic_Spec(source *v20200601s.Top
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTopic_Spec interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_Spec); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -408,6 +440,15 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *v20200601s.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTopic_Spec interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_Spec); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -590,6 +631,15 @@ func (topic *Topic_STATUS) AssignProperties_From_Topic_STATUS(source *v20200601s
 		topic.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTopic_STATUS interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_STATUS); ok {
+		err := augmentedTopic.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -699,8 +749,27 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *v202006
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTopic_STATUS interface (if implemented) to customize the conversion
+	var topicAsAny any = topic
+	if augmentedTopic, ok := topicAsAny.(augmentConversionForTopic_STATUS); ok {
+		err := augmentedTopic.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForTopic_Spec interface {
+	AssignPropertiesFrom(src *v20200601s.Topic_Spec) error
+	AssignPropertiesTo(dst *v20200601s.Topic_Spec) error
+}
+
+type augmentConversionForTopic_STATUS interface {
+	AssignPropertiesFrom(src *v20200601s.Topic_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.Topic_STATUS) error
 }
 
 // Storage version of v1alpha1api20200601.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
@@ -725,6 +794,15 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -744,8 +822,22 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error
 }
 
 func init() {

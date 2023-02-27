@@ -35,8 +35,8 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
 │   │       │   ├── "Disabled"
 │   │       │   └── "Enabled"
 │   │       ├── ResourceGroupName: string
-│   │       ├── ResourceGroupNameRef: *v1alpha1.Reference
-│   │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
+│   │       ├── ResourceGroupNameRef: *v1.Reference
+│   │       ├── ResourceGroupNameSelector: *v1.Selector
 │   │       ├── Tags: map[string]string
 │   │       └── Version: *string
 │   └── Status: Object (1 property)
@@ -144,8 +144,8 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
     │       │   ├── "Local"
     │       │   └── "Zone"
     │       ├── ResourceGroupName: string
-    │       ├── ResourceGroupNameRef: *v1alpha1.Reference
-    │       ├── ResourceGroupNameSelector: *v1alpha1.Selector
+    │       ├── ResourceGroupNameRef: *v1.Reference
+    │       ├── ResourceGroupNameSelector: *v1.Selector
     │       ├── RestorableDroppedDatabaseId: *string
     │       ├── RestorePointInTime: *string
     │       ├── SampleName: *Enum (3 values)
@@ -156,8 +156,8 @@ github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1beta20201101p
     │       │   ├── "Geo"
     │       │   └── "Named"
     │       ├── ServerName: string
-    │       ├── ServerNameRef: *v1alpha1.Reference
-    │       ├── ServerNameSelector: *v1alpha1.Selector
+    │       ├── ServerNameRef: *v1.Reference
+    │       ├── ServerNameSelector: *v1.Selector
     │       ├── Sku: *Object (5 properties)
     │       │   ├── Capacity: *int
     │       │   ├── Family: *string

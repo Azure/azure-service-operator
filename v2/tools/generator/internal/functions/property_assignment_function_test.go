@@ -442,7 +442,9 @@ func TestGolden_PropertyAssignmentFunction_WhenSharedObjectVersion(t *testing.T)
 
 	cfg := config.NewObjectModelConfiguration()
 	builder := storage.NewConversionGraphBuilder(cfg, "v")
-	builder.Add(test.Pkg2020, test.Pkg2021, test.Pkg2022)
+	builder.Add(person2020.Name(), person2022.Name())
+	builder.Add(location2020.Name(), location2021.Name(), location2022.Name())
+
 	graph, err := builder.Build()
 	g.Expect(err).To(BeNil())
 
@@ -507,14 +509,14 @@ func TestGolden_PropertyAssignmentFunction_WhenMultipleIntermediateSharedObjectV
 
 	cfg := config.NewObjectModelConfiguration()
 	builder := storage.NewConversionGraphBuilder(cfg, "v")
-	builder.Add( // Using references from the resources to guarantee consistency
-		person2020.Name().PackageReference,
-		person2022.Name().PackageReference,
-		location2020.Name().PackageReference,
-		location202101.Name().PackageReference,
-		location202106.Name().PackageReference,
-		location202112.Name().PackageReference,
-		location2022.Name().PackageReference)
+	builder.Add(
+		person2020.Name(),
+		person2022.Name(),
+		location2020.Name(),
+		location202101.Name(),
+		location202106.Name(),
+		location202112.Name(),
+		location2022.Name())
 
 	graph, err := builder.Build()
 	g.Expect(err).To(BeNil())
@@ -531,4 +533,40 @@ func TestGolden_PropertyAssignmentFunction_WhenMultipleIntermediateSharedObjectV
 	g.Expect(err).To(Succeed())
 
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "SharedObjectMultiple", receiverDefinition)
+}
+
+func TestGolden_PropertyAssignmentFunction_WhenOverrideInterfacePresent(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	idFactory := astmodel.NewIdentifierFactory()
+	injector := astmodel.NewFunctionInjector()
+
+	person2020 := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Person",
+		test.FullNameProperty,
+		test.KnownAsProperty,
+		test.FamilyNameProperty)
+
+	person2021 := test.CreateObjectDefinition(
+		test.Pkg2021,
+		"Person",
+		test.FullNameProperty,
+		test.PropertyBagProperty)
+
+	overrideInterfaceName := astmodel.MakeTypeName(test.Pkg2020, "personAssignable")
+
+	conversionContext := conversions.NewPropertyConversionContext(make(astmodel.TypeDefinitionSet), idFactory)
+	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
+	g.Expect(err).To(Succeed())
+	assignFrom = assignFrom.WithAugmentationInterface(overrideInterfaceName)
+
+	assignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
+	g.Expect(err).To(Succeed())
+	assignTo = assignTo.WithAugmentationInterface(overrideInterfaceName)
+
+	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
+	g.Expect(err).To(Succeed())
+
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "OverrideInterface", receiverDefinition)
 }

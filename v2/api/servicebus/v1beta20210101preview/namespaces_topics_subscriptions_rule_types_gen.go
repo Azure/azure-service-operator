@@ -75,7 +75,7 @@ var _ admission.Defaulter = &NamespacesTopicsSubscriptionsRule{}
 // Default applies defaults to the NamespacesTopicsSubscriptionsRule resource
 func (rule *NamespacesTopicsSubscriptionsRule) Default() {
 	rule.defaultImpl()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) NewEmptyStatus() genruntime.Conve
 	return &Namespaces_Topics_Subscriptions_Rule_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (rule *NamespacesTopicsSubscriptionsRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &NamespacesTopicsSubscriptionsRule{}
 // ValidateCreate validates the creation of the resource
 func (rule *NamespacesTopicsSubscriptionsRule) ValidateCreate() error {
 	validations := rule.createValidations()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (rule *NamespacesTopicsSubscriptionsRule) ValidateDelete() error {
 	validations := rule.deleteValidations()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (rule *NamespacesTopicsSubscriptionsRule) ValidateUpdate(old runtime.Object) error {
 	validations := rule.updateValidations()
-	var temp interface{} = rule
+	var temp any = rule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

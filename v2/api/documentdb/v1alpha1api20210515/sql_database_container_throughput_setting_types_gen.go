@@ -87,7 +87,7 @@ var _ admission.Defaulter = &SqlDatabaseContainerThroughputSetting{}
 // Default applies defaults to the SqlDatabaseContainerThroughputSetting resource
 func (setting *SqlDatabaseContainerThroughputSetting) Default() {
 	setting.defaultImpl()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -133,7 +133,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntim
 	return &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return &genruntime.ResourceReference{
@@ -169,7 +169,7 @@ var _ admission.Validator = &SqlDatabaseContainerThroughputSetting{}
 // ValidateCreate validates the creation of the resource
 func (setting *SqlDatabaseContainerThroughputSetting) ValidateCreate() error {
 	validations := setting.createValidations()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -186,7 +186,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (setting *SqlDatabaseContainerThroughputSetting) ValidateDelete() error {
 	validations := setting.deleteValidations()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -203,7 +203,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (setting *SqlDatabaseContainerThroughputSetting) ValidateUpdate(old runtime.Object) error {
 	validations := setting.updateValidations()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

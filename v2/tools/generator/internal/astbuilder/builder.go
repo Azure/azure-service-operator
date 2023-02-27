@@ -339,6 +339,19 @@ func WrappedErrorf(errorsPackage string, template string, args ...interface{}) d
 		StringLiteralf(template, args...))
 }
 
+// WrappedError returns the err local, wrapped with additional information
+//
+// errors.Wrap(err, <message>)
+//
+// (actual package name will be used, which will usually be 'errors')
+func WrappedError(errorsPackage string, str string) dst.Expr {
+	return CallQualifiedFunc(
+		errorsPackage,
+		"Wrap",
+		dst.NewIdent("err"),
+		StringLiteral(str))
+}
+
 // QualifiedTypeName generates a reference to a type within an imported package
 //
 // <pkg>.<name>

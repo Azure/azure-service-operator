@@ -147,7 +147,7 @@ func addRequiredSpecFields(t astmodel.Type) astmodel.Type {
 // all types (apart from Resources) are renamed to have "_STATUS" as a
 // suffix, to avoid name clashes.
 func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
-	resourceLookup, otherTypes, err := renamed(swaggerTypes, true, astmodel.StatusNameSuffix)
+	resourceLookup, otherTypes, err := renamed(swaggerTypes, true, astmodel.StatusSuffix)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -157,7 +157,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 	// we'll try to substitute that with a better name here
 	for resourceName, resourceDef := range resourceLookup {
 		statusTypeName := resourceDef.Type().(astmodel.TypeName) // always a TypeName, see 'renamed' comment
-		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusNameSuffix)
+		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusSuffix)
 
 		if statusTypeName == desiredStatusName {
 			newResources.Add(resourceDef)

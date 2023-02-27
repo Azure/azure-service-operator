@@ -87,7 +87,7 @@ var _ admission.Defaulter = &StorageAccountsBlobServicesContainer{}
 // Default applies defaults to the StorageAccountsBlobServicesContainer resource
 func (container *StorageAccountsBlobServicesContainer) Default() {
 	container.defaultImpl()
-	var temp interface{} = container
+	var temp any = container
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genrunti
 	return &StorageAccounts_BlobServices_Container_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(container.Spec)
 	return &genruntime.ResourceReference{
@@ -176,7 +176,7 @@ var _ admission.Validator = &StorageAccountsBlobServicesContainer{}
 // ValidateCreate validates the creation of the resource
 func (container *StorageAccountsBlobServicesContainer) ValidateCreate() error {
 	validations := container.createValidations()
-	var temp interface{} = container
+	var temp any = container
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (container *StorageAccountsBlobServicesContainer) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (container *StorageAccountsBlobServicesContainer) ValidateDelete() error {
 	validations := container.deleteValidations()
-	var temp interface{} = container
+	var temp any = container
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (container *StorageAccountsBlobServicesContainer) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (container *StorageAccountsBlobServicesContainer) ValidateUpdate(old runtime.Object) error {
 	validations := container.updateValidations()
-	var temp interface{} = container
+	var temp any = container
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

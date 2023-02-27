@@ -75,7 +75,7 @@ var _ admission.Defaulter = &RouteTable{}
 // Default applies defaults to the RouteTable resource
 func (table *RouteTable) Default() {
 	table.defaultImpl()
-	var temp interface{} = table
+	var temp any = table
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (table *RouteTable) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &RouteTable_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (table *RouteTable) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(table.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &RouteTable{}
 // ValidateCreate validates the creation of the resource
 func (table *RouteTable) ValidateCreate() error {
 	validations := table.createValidations()
-	var temp interface{} = table
+	var temp any = table
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (table *RouteTable) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (table *RouteTable) ValidateDelete() error {
 	validations := table.deleteValidations()
-	var temp interface{} = table
+	var temp any = table
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (table *RouteTable) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (table *RouteTable) ValidateUpdate(old runtime.Object) error {
 	validations := table.updateValidations()
-	var temp interface{} = table
+	var temp any = table
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

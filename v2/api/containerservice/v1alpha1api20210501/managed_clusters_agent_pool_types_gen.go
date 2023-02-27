@@ -87,7 +87,7 @@ var _ admission.Defaulter = &ManagedClustersAgentPool{}
 // Default applies defaults to the ManagedClustersAgentPool resource
 func (pool *ManagedClustersAgentPool) Default() {
 	pool.defaultImpl()
-	var temp interface{} = pool
+	var temp any = pool
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleSta
 	return &ManagedClusters_AgentPool_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
 	return &genruntime.ResourceReference{
@@ -176,7 +176,7 @@ var _ admission.Validator = &ManagedClustersAgentPool{}
 // ValidateCreate validates the creation of the resource
 func (pool *ManagedClustersAgentPool) ValidateCreate() error {
 	validations := pool.createValidations()
-	var temp interface{} = pool
+	var temp any = pool
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (pool *ManagedClustersAgentPool) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (pool *ManagedClustersAgentPool) ValidateDelete() error {
 	validations := pool.deleteValidations()
-	var temp interface{} = pool
+	var temp any = pool
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (pool *ManagedClustersAgentPool) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (pool *ManagedClustersAgentPool) ValidateUpdate(old runtime.Object) error {
 	validations := pool.updateValidations()
-	var temp interface{} = pool
+	var temp any = pool
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

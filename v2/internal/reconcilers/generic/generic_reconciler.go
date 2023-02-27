@@ -90,7 +90,9 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 
 	if err != nil {
 		err = gr.writeReadyConditionErrorOrDefault(ctx, log, metaObj, err)
-		return gr.RequeueIntervalCalculator.NextInterval(req, result, err)
+		result, err = gr.RequeueIntervalCalculator.NextInterval(req, result, err)
+		log.V(Verbose).Info("Encountered error, re-queuing...", "result", result)
+		return result, err
 	}
 
 	if (result == ctrl.Result{}) {
@@ -120,14 +122,16 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 	if err != nil {
 		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
 		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		// We must also ignore conflict here because updating a resource that
-		// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985. This is OK
-		// to ignore because a conflict means either the resource has been deleted (in which case there's nothing to do) or
-		// it has been updated, in which case there's going to be a new event triggered for it and we can count this
-		// round of reconciliation as a success and wait for the next event.
-		return ctrl.Result{}, kubeclient.IgnoreNotFoundAndConflict(err)
+		// We do NOT ignore conflict here because it's hard to tell if it's coming from an attempt to update a non-existing resource
+		// (see https://github.com/kubernetes/kubernetes/issues/89985), or if it's from an attempt to update a resource which
+		// was updated by a user. If we ignore the user-update case, we MIGHT get another event since they changed the resource,
+		// but since we don't trigger updates on all changes (some annotations are ignored) we also MIGHT NOT get a fresh event
+		// and get stuck. The solution is to let the GET at the top of the controller check for the not-found case and requeue
+		// on everything else.
+		return ctrl.Result{}, kubeclient.IgnoreNotFound(err)
 	}
 
+	log.V(Verbose).Info("Done with reconcile", "result", result)
 	return result, nil
 }
 
@@ -171,7 +175,7 @@ func (gr *GenericReconciler) claimResource(ctx context.Context, log logr.Logger,
 	err := gr.Reconciler.Claim(ctx, log, gr.Recorder, metaObj)
 	if err != nil {
 		log.Error(err, "Error claiming resource")
-		return kubeclient.IgnoreNotFoundAndConflict(err)
+		return kubeclient.IgnoreNotFound(err)
 	}
 
 	// Adding the finalizer should happen in a reconcile loop prior to the PUT being sent to Azure to avoid situations where
@@ -183,7 +187,7 @@ func (gr *GenericReconciler) claimResource(ctx context.Context, log logr.Logger,
 	err = gr.KubeClient.CommitObject(ctx, metaObj)
 	if err != nil {
 		log.Error(err, "Error adding finalizer")
-		return kubeclient.IgnoreNotFoundAndConflict(err)
+		return kubeclient.IgnoreNotFound(err)
 	}
 
 	return nil
@@ -264,7 +268,7 @@ func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log l
 		err.Severity,
 		obj.GetGeneration(),
 		err.Reason,
-		err.Error()))
+		err.Cause().Error())) // Don't use err.Error() here because it also includes details about Reason, Severity, which are getting displayed as part of the condition structure
 	commitErr := gr.CommitUpdate(ctx, log, nil, obj)
 	if commitErr != nil {
 		return errors.Wrap(commitErr, "updating resource error")

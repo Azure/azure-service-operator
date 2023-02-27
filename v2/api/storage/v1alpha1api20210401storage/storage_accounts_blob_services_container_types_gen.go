@@ -100,7 +100,7 @@ func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genrunti
 	return &StorageAccounts_BlobServices_Container_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(container.Spec)
 	return &genruntime.ResourceReference{
@@ -151,6 +151,15 @@ func (container *StorageAccountsBlobServicesContainer) AssignProperties_From_Sto
 	}
 	container.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsBlobServicesContainer interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccountsBlobServicesContainer); ok {
+		err := augmentedContainer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (container *StorageAccountsBlobServicesContainer) AssignProperties_To_Stora
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForStorageAccountsBlobServicesContainer interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccountsBlobServicesContainer); ok {
+		err := augmentedContainer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type StorageAccountsBlobServicesContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsBlobServicesContainer `json:"items"`
+}
+
+type augmentConversionForStorageAccountsBlobServicesContainer interface {
+	AssignPropertiesFrom(src *v20210401s.StorageAccountsBlobServicesContainer) error
+	AssignPropertiesTo(dst *v20210401s.StorageAccountsBlobServicesContainer) error
 }
 
 // Storage version of v1alpha1api20210401.StorageAccounts_BlobServices_Container_Spec
@@ -326,6 +349,15 @@ func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_F
 		container.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_Spec interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_Spec); ok {
+		err := augmentedContainer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -383,6 +415,15 @@ func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_T
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_Spec interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_Spec); ok {
+		err := augmentedContainer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -592,6 +633,15 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties
 		container.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_STATUS interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_STATUS); ok {
+		err := augmentedContainer.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -721,8 +771,27 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForStorageAccounts_BlobServices_Container_STATUS interface (if implemented) to customize the conversion
+	var containerAsAny any = container
+	if augmentedContainer, ok := containerAsAny.(augmentConversionForStorageAccounts_BlobServices_Container_STATUS); ok {
+		err := augmentedContainer.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForStorageAccounts_BlobServices_Container_Spec interface {
+	AssignPropertiesFrom(src *v20210401s.StorageAccounts_BlobServices_Container_Spec) error
+	AssignPropertiesTo(dst *v20210401s.StorageAccounts_BlobServices_Container_Spec) error
+}
+
+type augmentConversionForStorageAccounts_BlobServices_Container_STATUS interface {
+	AssignPropertiesFrom(src *v20210401s.StorageAccounts_BlobServices_Container_STATUS) error
+	AssignPropertiesTo(dst *v20210401s.StorageAccounts_BlobServices_Container_STATUS) error
 }
 
 // Storage version of v1alpha1api20210401.ImmutabilityPolicyProperties_STATUS
@@ -783,6 +852,15 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_From_Imm
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutabilityPolicyProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForImmutabilityPolicyProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -834,6 +912,15 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_To_Immut
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutabilityPolicyProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForImmutabilityPolicyProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -865,6 +952,15 @@ func (versioning *ImmutableStorageWithVersioning) AssignProperties_From_Immutabl
 		versioning.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutableStorageWithVersioning interface (if implemented) to customize the conversion
+	var versioningAsAny any = versioning
+	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning); ok {
+		err := augmentedVersioning.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -887,6 +983,15 @@ func (versioning *ImmutableStorageWithVersioning) AssignProperties_To_ImmutableS
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImmutableStorageWithVersioning interface (if implemented) to customize the conversion
+	var versioningAsAny any = versioning
+	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning); ok {
+		err := augmentedVersioning.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -928,6 +1033,15 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_From_I
 		versioning.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForImmutableStorageWithVersioning_STATUS interface (if implemented) to customize the conversion
+	var versioningAsAny any = versioning
+	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning_STATUS); ok {
+		err := augmentedVersioning.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -956,6 +1070,15 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_To_Imm
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForImmutableStorageWithVersioning_STATUS interface (if implemented) to customize the conversion
+	var versioningAsAny any = versioning
+	if augmentedVersioning, ok := versioningAsAny.(augmentConversionForImmutableStorageWithVersioning_STATUS); ok {
+		err := augmentedVersioning.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1008,6 +1131,15 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_From_LegalHoldPro
 		properties.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLegalHoldProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForLegalHoldProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1050,8 +1182,37 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_To_LegalHoldPrope
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForLegalHoldProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForLegalHoldProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForImmutabilityPolicyProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20210401s.ImmutabilityPolicyProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210401s.ImmutabilityPolicyProperties_STATUS) error
+}
+
+type augmentConversionForImmutableStorageWithVersioning interface {
+	AssignPropertiesFrom(src *v20210401s.ImmutableStorageWithVersioning) error
+	AssignPropertiesTo(dst *v20210401s.ImmutableStorageWithVersioning) error
+}
+
+type augmentConversionForImmutableStorageWithVersioning_STATUS interface {
+	AssignPropertiesFrom(src *v20210401s.ImmutableStorageWithVersioning_STATUS) error
+	AssignPropertiesTo(dst *v20210401s.ImmutableStorageWithVersioning_STATUS) error
+}
+
+type augmentConversionForLegalHoldProperties_STATUS interface {
+	AssignPropertiesFrom(src *v20210401s.LegalHoldProperties_STATUS) error
+	AssignPropertiesTo(dst *v20210401s.LegalHoldProperties_STATUS) error
 }
 
 // Storage version of v1alpha1api20210401.TagProperty_STATUS
@@ -1092,6 +1253,15 @@ func (property *TagProperty_STATUS) AssignProperties_From_TagProperty_STATUS(sou
 		property.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForTagProperty_STATUS interface (if implemented) to customize the conversion
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForTagProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1121,6 +1291,15 @@ func (property *TagProperty_STATUS) AssignProperties_To_TagProperty_STATUS(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTagProperty_STATUS interface (if implemented) to customize the conversion
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForTagProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -1169,6 +1348,15 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_From_UpdateHistor
 		property.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpdateHistoryProperty_STATUS interface (if implemented) to customize the conversion
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUpdateHistoryProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -1203,8 +1391,27 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_To_UpdateHistoryP
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForUpdateHistoryProperty_STATUS interface (if implemented) to customize the conversion
+	var propertyAsAny any = property
+	if augmentedProperty, ok := propertyAsAny.(augmentConversionForUpdateHistoryProperty_STATUS); ok {
+		err := augmentedProperty.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForTagProperty_STATUS interface {
+	AssignPropertiesFrom(src *v20210401s.TagProperty_STATUS) error
+	AssignPropertiesTo(dst *v20210401s.TagProperty_STATUS) error
+}
+
+type augmentConversionForUpdateHistoryProperty_STATUS interface {
+	AssignPropertiesFrom(src *v20210401s.UpdateHistoryProperty_STATUS) error
+	AssignPropertiesTo(dst *v20210401s.UpdateHistoryProperty_STATUS) error
 }
 
 func init() {

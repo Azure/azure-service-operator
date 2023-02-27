@@ -87,7 +87,7 @@ var _ admission.Defaulter = &SqlDatabaseContainerTrigger{}
 // Default applies defaults to the SqlDatabaseContainerTrigger resource
 func (trigger *SqlDatabaseContainerTrigger) Default() {
 	trigger.defaultImpl()
-	var temp interface{} = trigger
+	var temp any = trigger
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -140,7 +140,7 @@ func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.Converti
 	return &DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(trigger.Spec)
 	return &genruntime.ResourceReference{
@@ -176,7 +176,7 @@ var _ admission.Validator = &SqlDatabaseContainerTrigger{}
 // ValidateCreate validates the creation of the resource
 func (trigger *SqlDatabaseContainerTrigger) ValidateCreate() error {
 	validations := trigger.createValidations()
-	var temp interface{} = trigger
+	var temp any = trigger
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -193,7 +193,7 @@ func (trigger *SqlDatabaseContainerTrigger) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (trigger *SqlDatabaseContainerTrigger) ValidateDelete() error {
 	validations := trigger.deleteValidations()
-	var temp interface{} = trigger
+	var temp any = trigger
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -210,7 +210,7 @@ func (trigger *SqlDatabaseContainerTrigger) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (trigger *SqlDatabaseContainerTrigger) ValidateUpdate(old runtime.Object) error {
 	validations := trigger.updateValidations()
-	var temp interface{} = trigger
+	var temp any = trigger
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

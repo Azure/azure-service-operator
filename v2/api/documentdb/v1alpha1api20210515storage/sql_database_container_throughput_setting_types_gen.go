@@ -100,7 +100,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntim
 	return &DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return &genruntime.ResourceReference{
@@ -151,6 +151,15 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignProperties_From_SqlD
 	}
 	setting.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerThroughputSetting interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForSqlDatabaseContainerThroughputSetting); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignProperties_To_SqlDat
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForSqlDatabaseContainerThroughputSetting interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForSqlDatabaseContainerThroughputSetting); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type SqlDatabaseContainerThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerThroughputSetting `json:"items"`
+}
+
+type augmentConversionForSqlDatabaseContainerThroughputSetting interface {
+	AssignPropertiesFrom(src *v20210515s.SqlDatabaseContainerThroughputSetting) error
+	AssignPropertiesTo(dst *v20210515s.SqlDatabaseContainerThroughputSetting) error
 }
 
 // Storage version of v1alpha1api20210515.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec
@@ -305,6 +328,15 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -348,6 +380,15 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -459,6 +500,15 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
 		setting.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -505,8 +555,27 @@ func (setting *DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec) error
+}
+
+type augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS interface {
+	AssignPropertiesFrom(src *v20210515s.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS) error
+	AssignPropertiesTo(dst *v20210515s.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS) error
 }
 
 func init() {

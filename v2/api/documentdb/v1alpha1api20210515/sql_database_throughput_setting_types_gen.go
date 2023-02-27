@@ -87,7 +87,7 @@ var _ admission.Defaulter = &SqlDatabaseThroughputSetting{}
 // Default applies defaults to the SqlDatabaseThroughputSetting resource
 func (setting *SqlDatabaseThroughputSetting) Default() {
 	setting.defaultImpl()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -133,7 +133,7 @@ func (setting *SqlDatabaseThroughputSetting) NewEmptyStatus() genruntime.Convert
 	return &DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (setting *SqlDatabaseThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return &genruntime.ResourceReference{
@@ -169,7 +169,7 @@ var _ admission.Validator = &SqlDatabaseThroughputSetting{}
 // ValidateCreate validates the creation of the resource
 func (setting *SqlDatabaseThroughputSetting) ValidateCreate() error {
 	validations := setting.createValidations()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -186,7 +186,7 @@ func (setting *SqlDatabaseThroughputSetting) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (setting *SqlDatabaseThroughputSetting) ValidateDelete() error {
 	validations := setting.deleteValidations()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -203,7 +203,7 @@ func (setting *SqlDatabaseThroughputSetting) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (setting *SqlDatabaseThroughputSetting) ValidateUpdate(old runtime.Object) error {
 	validations := setting.updateValidations()
-	var temp interface{} = setting
+	var temp any = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

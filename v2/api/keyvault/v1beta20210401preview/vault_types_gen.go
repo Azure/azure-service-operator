@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Vault{}
 // Default applies defaults to the Vault resource
 func (vault *Vault) Default() {
 	vault.defaultImpl()
-	var temp interface{} = vault
+	var temp any = vault
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (vault *Vault) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Vault_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (vault *Vault) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(vault.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &Vault{}
 // ValidateCreate validates the creation of the resource
 func (vault *Vault) ValidateCreate() error {
 	validations := vault.createValidations()
-	var temp interface{} = vault
+	var temp any = vault
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (vault *Vault) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (vault *Vault) ValidateDelete() error {
 	validations := vault.deleteValidations()
-	var temp interface{} = vault
+	var temp any = vault
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (vault *Vault) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (vault *Vault) ValidateUpdate(old runtime.Object) error {
 	validations := vault.updateValidations()
-	var temp interface{} = vault
+	var temp any = vault
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

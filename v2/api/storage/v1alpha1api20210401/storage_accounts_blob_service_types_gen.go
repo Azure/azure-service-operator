@@ -87,7 +87,7 @@ var _ admission.Defaulter = &StorageAccountsBlobService{}
 // Default applies defaults to the StorageAccountsBlobService resource
 func (service *StorageAccountsBlobService) Default() {
 	service.defaultImpl()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -133,7 +133,7 @@ func (service *StorageAccountsBlobService) NewEmptyStatus() genruntime.Convertib
 	return &StorageAccounts_BlobService_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (service *StorageAccountsBlobService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
 	return &genruntime.ResourceReference{
@@ -169,7 +169,7 @@ var _ admission.Validator = &StorageAccountsBlobService{}
 // ValidateCreate validates the creation of the resource
 func (service *StorageAccountsBlobService) ValidateCreate() error {
 	validations := service.createValidations()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -186,7 +186,7 @@ func (service *StorageAccountsBlobService) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (service *StorageAccountsBlobService) ValidateDelete() error {
 	validations := service.deleteValidations()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -203,7 +203,7 @@ func (service *StorageAccountsBlobService) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (service *StorageAccountsBlobService) ValidateUpdate(old runtime.Object) error {
 	validations := service.updateValidations()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

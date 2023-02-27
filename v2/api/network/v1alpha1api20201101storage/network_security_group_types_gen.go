@@ -100,7 +100,7 @@ func (group *NetworkSecurityGroup) NewEmptyStatus() genruntime.ConvertibleStatus
 	return &NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (group *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return &genruntime.ResourceReference{
@@ -151,6 +151,15 @@ func (group *NetworkSecurityGroup) AssignProperties_From_NetworkSecurityGroup(so
 	}
 	group.Status = status
 
+	// Invoke the augmentConversionForNetworkSecurityGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForNetworkSecurityGroup); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -177,6 +186,15 @@ func (group *NetworkSecurityGroup) AssignProperties_To_NetworkSecurityGroup(dest
 	}
 	destination.Status = status
 
+	// Invoke the augmentConversionForNetworkSecurityGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForNetworkSecurityGroup); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -197,6 +215,11 @@ type NetworkSecurityGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NetworkSecurityGroup `json:"items"`
+}
+
+type augmentConversionForNetworkSecurityGroup interface {
+	AssignPropertiesFrom(src *v20201101s.NetworkSecurityGroup) error
+	AssignPropertiesTo(dst *v20201101s.NetworkSecurityGroup) error
 }
 
 // Storage version of v1alpha1api20201101.NetworkSecurityGroup_Spec
@@ -298,6 +321,15 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_From_NetworkSecurityGro
 		group.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForNetworkSecurityGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -332,6 +364,15 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNetworkSecurityGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForNetworkSecurityGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -537,6 +578,15 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -670,8 +720,27 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForNetworkSecurityGroup_Spec interface {
+	AssignPropertiesFrom(src *v20201101s.NetworkSecurityGroup_Spec) error
+	AssignPropertiesTo(dst *v20201101s.NetworkSecurityGroup_Spec) error
+}
+
+type augmentConversionForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error
 }
 
 // Storage version of v1alpha1api20201101.FlowLog_STATUS
@@ -696,6 +765,15 @@ func (flowLog *FlowLog_STATUS) AssignProperties_From_FlowLog_STATUS(source *v202
 		flowLog.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForFlowLog_STATUS interface (if implemented) to customize the conversion
+	var flowLogAsAny any = flowLog
+	if augmentedFlowLog, ok := flowLogAsAny.(augmentConversionForFlowLog_STATUS); ok {
+		err := augmentedFlowLog.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -713,6 +791,15 @@ func (flowLog *FlowLog_STATUS) AssignProperties_To_FlowLog_STATUS(destination *v
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFlowLog_STATUS interface (if implemented) to customize the conversion
+	var flowLogAsAny any = flowLog
+	if augmentedFlowLog, ok := flowLogAsAny.(augmentConversionForFlowLog_STATUS); ok {
+		err := augmentedFlowLog.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -741,6 +828,15 @@ func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -758,6 +854,15 @@ func (embedded *NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -786,6 +891,15 @@ func (rule *SecurityRule_STATUS) AssignProperties_From_SecurityRule_STATUS(sourc
 		rule.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSecurityRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForSecurityRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -803,6 +917,15 @@ func (rule *SecurityRule_STATUS) AssignProperties_To_SecurityRule_STATUS(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSecurityRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForSecurityRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
 	}
 
 	// No error
@@ -831,6 +954,15 @@ func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPr
 		embedded.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
 	// No error
 	return nil
 }
@@ -850,8 +982,37 @@ func (embedded *Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) AssignPr
 		destination.PropertyBag = nil
 	}
 
+	// Invoke the augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface (if implemented) to customize the conversion
+	var embeddedAsAny any = embedded
+	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		err := augmentedEmbedded.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
 	// No error
 	return nil
+}
+
+type augmentConversionForFlowLog_STATUS interface {
+	AssignPropertiesFrom(src *v20201101s.FlowLog_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.FlowLog_STATUS) error
+}
+
+type augmentConversionForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error
+}
+
+type augmentConversionForSecurityRule_STATUS interface {
+	AssignPropertiesFrom(src *v20201101s.SecurityRule_STATUS) error
+	AssignPropertiesTo(dst *v20201101s.SecurityRule_STATUS) error
+}
+
+type augmentConversionForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded interface {
+	AssignPropertiesFrom(src *v20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error
+	AssignPropertiesTo(dst *v20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error
 }
 
 func init() {

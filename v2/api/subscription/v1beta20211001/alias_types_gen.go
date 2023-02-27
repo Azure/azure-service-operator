@@ -75,7 +75,7 @@ var _ admission.Defaulter = &Alias{}
 // Default applies defaults to the Alias resource
 func (alias *Alias) Default() {
 	alias.defaultImpl()
-	var temp interface{} = alias
+	var temp any = alias
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (alias *Alias) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Alias_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns nil as Tenant scoped resources never have an owner
 func (alias *Alias) Owner() *genruntime.ResourceReference {
 	return nil
 }
@@ -159,7 +159,7 @@ var _ admission.Validator = &Alias{}
 // ValidateCreate validates the creation of the resource
 func (alias *Alias) ValidateCreate() error {
 	validations := alias.createValidations()
-	var temp interface{} = alias
+	var temp any = alias
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -176,7 +176,7 @@ func (alias *Alias) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (alias *Alias) ValidateDelete() error {
 	validations := alias.deleteValidations()
-	var temp interface{} = alias
+	var temp any = alias
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -193,7 +193,7 @@ func (alias *Alias) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (alias *Alias) ValidateUpdate(old runtime.Object) error {
 	validations := alias.updateValidations()
-	var temp interface{} = alias
+	var temp any = alias
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

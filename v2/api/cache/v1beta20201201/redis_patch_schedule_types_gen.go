@@ -75,7 +75,7 @@ var _ admission.Defaulter = &RedisPatchSchedule{}
 // Default applies defaults to the RedisPatchSchedule resource
 func (schedule *RedisPatchSchedule) Default() {
 	schedule.defaultImpl()
-	var temp interface{} = schedule
+	var temp any = schedule
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -121,7 +121,7 @@ func (schedule *RedisPatchSchedule) NewEmptyStatus() genruntime.ConvertibleStatu
 	return &Redis_PatchSchedule_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (schedule *RedisPatchSchedule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(schedule.Spec)
 	return &genruntime.ResourceReference{
@@ -157,7 +157,7 @@ var _ admission.Validator = &RedisPatchSchedule{}
 // ValidateCreate validates the creation of the resource
 func (schedule *RedisPatchSchedule) ValidateCreate() error {
 	validations := schedule.createValidations()
-	var temp interface{} = schedule
+	var temp any = schedule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -174,7 +174,7 @@ func (schedule *RedisPatchSchedule) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (schedule *RedisPatchSchedule) ValidateDelete() error {
 	validations := schedule.deleteValidations()
-	var temp interface{} = schedule
+	var temp any = schedule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -191,7 +191,7 @@ func (schedule *RedisPatchSchedule) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (schedule *RedisPatchSchedule) ValidateUpdate(old runtime.Object) error {
 	validations := schedule.updateValidations()
-	var temp interface{} = schedule
+	var temp any = schedule
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

@@ -21,14 +21,6 @@ type TypeName struct {
 	name             string
 }
 
-// TODO: this is done to easily rename status types without conflicts,
-// we intend to fix this in a different way in the future
-var StatusNameSuffix = "_STATUS"
-
-func (tn TypeName) RepresentsStatusType() bool {
-	return strings.Contains(tn.name, StatusNameSuffix)
-}
-
 var EmptyTypeName TypeName = TypeName{}
 
 func SortTypeName(left, right TypeName) bool {
@@ -259,4 +251,9 @@ func (typeName TypeName) IsStatus() bool {
 // CreateARMTypeName creates an ARM object type name
 func CreateARMTypeName(name TypeName) TypeName {
 	return MakeTypeName(name.PackageReference, name.Name()+ARMSuffix)
+}
+
+// IsARMType returns true if the TypeName identifies an ARM specific type, false otherwise.
+func IsARMType(typeName TypeName) bool {
+	return strings.HasSuffix(typeName.Name(), ARMSuffix)
 }

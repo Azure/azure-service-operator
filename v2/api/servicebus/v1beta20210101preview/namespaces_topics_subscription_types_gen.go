@@ -75,7 +75,7 @@ var _ admission.Defaulter = &NamespacesTopicsSubscription{}
 // Default applies defaults to the NamespacesTopicsSubscription resource
 func (subscription *NamespacesTopicsSubscription) Default() {
 	subscription.defaultImpl()
-	var temp interface{} = subscription
+	var temp any = subscription
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (subscription *NamespacesTopicsSubscription) NewEmptyStatus() genruntime.Co
 	return &Namespaces_Topics_Subscription_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (subscription *NamespacesTopicsSubscription) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &NamespacesTopicsSubscription{}
 // ValidateCreate validates the creation of the resource
 func (subscription *NamespacesTopicsSubscription) ValidateCreate() error {
 	validations := subscription.createValidations()
-	var temp interface{} = subscription
+	var temp any = subscription
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (subscription *NamespacesTopicsSubscription) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (subscription *NamespacesTopicsSubscription) ValidateDelete() error {
 	validations := subscription.deleteValidations()
-	var temp interface{} = subscription
+	var temp any = subscription
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (subscription *NamespacesTopicsSubscription) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (subscription *NamespacesTopicsSubscription) ValidateUpdate(old runtime.Object) error {
 	validations := subscription.updateValidations()
-	var temp interface{} = subscription
+	var temp any = subscription
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

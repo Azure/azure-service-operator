@@ -23,6 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 )
@@ -113,7 +114,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{PerResourceSecretAnnotation: perResourceCredentialName.String()}
+	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -141,7 +142,7 @@ func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
 	}
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{PerResourceSecretAnnotation: credentialNamespacedName.String()}
+	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -172,7 +173,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{PerResourceSecretAnnotation: credentialNamespacedName.String()}
+	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.String()}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 

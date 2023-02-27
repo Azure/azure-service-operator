@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-var CrossplaneRuntimeV1Alpha1Package = astmodel.MakeExternalPackageReference("github.com/crossplane/crossplane-runtime/apis/core/v1alpha1")
+var CrossplaneRuntimeV1Package = astmodel.MakeExternalPackageReference("github.com/crossplane/crossplane-runtime/apis/common/v1")
 
 // AddCrossplaneEmbeddedResourceSpec puts an embedded runtimev1alpha1.ResourceSpec on every spec type
 func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) *Stage {
@@ -22,7 +22,7 @@ func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) *St
 		"Add an embedded runtimev1alpha1.ResourceSpec to every spec type",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			specTypeName := astmodel.MakeTypeName(
-				CrossplaneRuntimeV1Alpha1Package,
+				CrossplaneRuntimeV1Package,
 				idFactory.CreateIdentifier("ResourceSpec", astmodel.Exported))
 			embeddedSpec := astmodel.NewPropertyDefinition("", ",inline", specTypeName)
 
