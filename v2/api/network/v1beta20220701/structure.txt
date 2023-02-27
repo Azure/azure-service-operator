@@ -225,9 +225,73 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701
 │   │   └── Subnet: *Object (1 property)
 │   │       └── Id: *string
 │   └── Tags: map[string]string
+├── PrivateEndpointsPrivateDnsZoneGroup: Resource
+│   ├── Owner: PrivateEndpoint
+│   ├── Spec: Object (3 properties)
+│   │   ├── AzureName: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── PrivateDnsZoneConfigs: Object (2 properties)[]
+│   │       ├── Name: *string
+│   │       └── PrivateDnsZoneReference: *genruntime.ResourceReference
+│   └── Status: Object (6 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PrivateDnsZoneConfigs: Object (3 properties)[]
+│       │   ├── Name: *string
+│       │   ├── PrivateDnsZoneId: *string
+│       │   └── RecordSets: Object (6 properties)[]
+│       │       ├── Fqdn: *string
+│       │       ├── IpAddresses: string[]
+│       │       ├── ProvisioningState: *Enum (4 values)
+│       │       │   ├── "Deleting"
+│       │       │   ├── "Failed"
+│       │       │   ├── "Succeeded"
+│       │       │   └── "Updating"
+│       │       ├── RecordSetName: *string
+│       │       ├── RecordType: *string
+│       │       └── Ttl: *int
+│       └── ProvisioningState: *Enum (4 values)
+│           ├── "Deleting"
+│           ├── "Failed"
+│           ├── "Succeeded"
+│           └── "Updating"
+├── PrivateEndpoints_PrivateDnsZoneGroup_STATUS_ARM: Object (4 properties)
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Name: *string
+│   └── Properties: *Object (2 properties)
+│       ├── PrivateDnsZoneConfigs: Object (2 properties)[]
+│       │   ├── Name: *string
+│       │   └── Properties: *Object (2 properties)
+│       │       ├── PrivateDnsZoneId: *string
+│       │       └── RecordSets: Object (6 properties)[]
+│       │           ├── Fqdn: *string
+│       │           ├── IpAddresses: string[]
+│       │           ├── ProvisioningState: *Enum (4 values)
+│       │           │   ├── "Deleting"
+│       │           │   ├── "Failed"
+│       │           │   ├── "Succeeded"
+│       │           │   └── "Updating"
+│       │           ├── RecordSetName: *string
+│       │           ├── RecordType: *string
+│       │           └── Ttl: *int
+│       └── ProvisioningState: *Enum (4 values)
+│           ├── "Deleting"
+│           ├── "Failed"
+│           ├── "Succeeded"
+│           └── "Updating"
+├── PrivateEndpoints_PrivateDnsZoneGroup_Spec_ARM: Object (2 properties)
+│   ├── Name: string
+│   └── Properties: *Object (1 property)
+│       └── PrivateDnsZoneConfigs: Object (2 properties)[]
+│           ├── Name: *string
+│           └── Properties: *Object (1 property)
+│               └── PrivateDnsZoneId: *string
 ├── PrivateLinkService: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
-│   ├── Spec: Object (11 properties)
+│   ├── Spec: Object (12 properties)
 │   │   ├── AutoApproval: *Object (1 property)
 │   │   │   └── Subscriptions: string[]
 │   │   ├── AzureName: string
@@ -252,6 +316,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701
 │   │   ├── LoadBalancerFrontendIpConfigurations: Object (1 property)[]
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── Location: *string
+│   │   ├── OperatorSpec: *Object (1 property)
+│   │   │   └── ConfigMaps: *Object (1 property)
+│   │   │       └── Alias: *genruntime.ConfigMapDestination
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Tags: map[string]string
 │   │   └── Visibility: *Object (1 property)

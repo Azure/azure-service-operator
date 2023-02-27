@@ -4,16 +4,21 @@
 package v1beta20220701
 
 import (
+	"context"
 	"fmt"
 	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -90,6 +95,23 @@ func (service *PrivateLinkService) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the PrivateLinkService resource
 func (service *PrivateLinkService) defaultImpl() { service.defaultAzureName() }
+
+var _ genruntime.KubernetesExporter = &PrivateLinkService{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (service *PrivateLinkService) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(service.Namespace)
+	if service.Spec.OperatorSpec != nil && service.Spec.OperatorSpec.ConfigMaps != nil {
+		if service.Status.Alias != nil {
+			collector.AddValue(service.Spec.OperatorSpec.ConfigMaps.Alias, *service.Status.Alias)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
+}
 
 var _ genruntime.KubernetesResource = &PrivateLinkService{}
 
@@ -214,7 +236,7 @@ func (service *PrivateLinkService) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (service *PrivateLinkService) createValidations() []func() error {
-	return []func() error{service.validateResourceReferences}
+	return []func() error{service.validateResourceReferences, service.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -228,7 +250,25 @@ func (service *PrivateLinkService) updateValidations() []func(old runtime.Object
 		func(old runtime.Object) error {
 			return service.validateResourceReferences()
 		},
-		service.validateWriteOnceProperties}
+		service.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return service.validateConfigMapDestinations()
+		},
+	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+func (service *PrivateLinkService) validateConfigMapDestinations() error {
+	if service.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if service.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		service.Spec.OperatorSpec.ConfigMaps.Alias,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateResourceReferences validates all resource references
@@ -346,6 +386,10 @@ type PrivateLinkService_Spec struct {
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *PrivateLinkServiceOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -534,6 +578,8 @@ func (service *PrivateLinkService_Spec) PopulateFromARM(owner genruntime.Arbitra
 		service.Location = &location
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	service.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
@@ -693,6 +739,18 @@ func (service *PrivateLinkService_Spec) AssignProperties_From_PrivateLinkService
 	// Location
 	service.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec PrivateLinkServiceOperatorSpec
+		err := operatorSpec.AssignProperties_From_PrivateLinkServiceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		service.OperatorSpec = &operatorSpec
+	} else {
+		service.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -801,6 +859,18 @@ func (service *PrivateLinkService_Spec) AssignProperties_To_PrivateLinkService_S
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(service.Location)
+
+	// OperatorSpec
+	if service.OperatorSpec != nil {
+		var operatorSpec v20220701s.PrivateLinkServiceOperatorSpec
+		err := service.OperatorSpec.AssignProperties_To_PrivateLinkServiceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = service.OriginalVersion()
@@ -2249,6 +2319,59 @@ func (configuration *PrivateLinkServiceIpConfiguration_STATUS) AssignProperties_
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PrivateLinkServiceOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *PrivateLinkServiceOperatorConfigMaps `json:"configMaps,omitempty"`
+}
+
+// AssignProperties_From_PrivateLinkServiceOperatorSpec populates our PrivateLinkServiceOperatorSpec from the provided source PrivateLinkServiceOperatorSpec
+func (operator *PrivateLinkServiceOperatorSpec) AssignProperties_From_PrivateLinkServiceOperatorSpec(source *v20220701s.PrivateLinkServiceOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap PrivateLinkServiceOperatorConfigMaps
+		err := configMap.AssignProperties_From_PrivateLinkServiceOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_PrivateLinkServiceOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateLinkServiceOperatorSpec populates the provided destination PrivateLinkServiceOperatorSpec from our PrivateLinkServiceOperatorSpec
+func (operator *PrivateLinkServiceOperatorSpec) AssignProperties_To_PrivateLinkServiceOperatorSpec(destination *v20220701s.PrivateLinkServiceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v20220701s.PrivateLinkServiceOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_PrivateLinkServiceOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_PrivateLinkServiceOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The base resource set for visibility and auto-approval.
 type ResourceSet struct {
 	// Subscriptions: The list of subscriptions.
@@ -2412,6 +2535,50 @@ const (
 	IPVersion_STATUS_IPv4 = IPVersion_STATUS("IPv4")
 	IPVersion_STATUS_IPv6 = IPVersion_STATUS("IPv6")
 )
+
+type PrivateLinkServiceOperatorConfigMaps struct {
+	// Alias: indicates where the Alias config map should be placed. If omitted, no config map will be created.
+	Alias *genruntime.ConfigMapDestination `json:"alias,omitempty"`
+}
+
+// AssignProperties_From_PrivateLinkServiceOperatorConfigMaps populates our PrivateLinkServiceOperatorConfigMaps from the provided source PrivateLinkServiceOperatorConfigMaps
+func (maps *PrivateLinkServiceOperatorConfigMaps) AssignProperties_From_PrivateLinkServiceOperatorConfigMaps(source *v20220701s.PrivateLinkServiceOperatorConfigMaps) error {
+
+	// Alias
+	if source.Alias != nil {
+		alias := source.Alias.Copy()
+		maps.Alias = &alias
+	} else {
+		maps.Alias = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PrivateLinkServiceOperatorConfigMaps populates the provided destination PrivateLinkServiceOperatorConfigMaps from our PrivateLinkServiceOperatorConfigMaps
+func (maps *PrivateLinkServiceOperatorConfigMaps) AssignProperties_To_PrivateLinkServiceOperatorConfigMaps(destination *v20220701s.PrivateLinkServiceOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Alias
+	if maps.Alias != nil {
+		alias := maps.Alias.Copy()
+		destination.Alias = &alias
+	} else {
+		destination.Alias = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // Subnet in a virtual network resource.
 type Subnet_PrivateLinkService_SubResourceEmbedded struct {

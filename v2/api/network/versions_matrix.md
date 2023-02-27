@@ -141,8 +141,17 @@
 | PfsGroup                                                                               | v1alpha1api20201101 |                | v1beta20201101 |                |
 | PfsGroup_STATUS                                                                        | v1alpha1api20201101 |                | v1beta20201101 |                |
 | PrivateDnsZone                                                                         |                     | v1beta20180901 |                |                |
+| PrivateDnsZoneConfig                                                                   |                     |                |                | v1beta20220701 |
+| PrivateDnsZoneConfig_STATUS                                                            |                     |                |                | v1beta20220701 |
+| PrivateDnsZoneGroupPropertiesFormat                                                    |                     |                |                | v1beta20220701 |
+| PrivateDnsZoneGroupPropertiesFormat_STATUS                                             |                     |                |                | v1beta20220701 |
+| PrivateDnsZonePropertiesFormat                                                         |                     |                |                | v1beta20220701 |
+| PrivateDnsZonePropertiesFormat_STATUS                                                  |                     |                |                | v1beta20220701 |
 | PrivateDnsZone_STATUS                                                                  |                     | v1beta20180901 |                |                |
 | PrivateDnsZone_Spec                                                                    |                     | v1beta20180901 |                |                |
+| PrivateDnsZonesVirtualNetworkLink                                                      |                     | v1beta20180901 |                |                |
+| PrivateDnsZones_VirtualNetworkLink_STATUS                                              |                     | v1beta20180901 |                |                |
+| PrivateDnsZones_VirtualNetworkLink_Spec                                                |                     | v1beta20180901 |                |                |
 | PrivateEndpoint                                                                        |                     |                |                | v1beta20220701 |
 | PrivateEndpointConnection_STATUS                                                       |                     |                |                | v1beta20220701 |
 | PrivateEndpointIPConfiguration                                                         |                     |                |                | v1beta20220701 |
@@ -151,10 +160,14 @@
 | PrivateEndpointIPConfiguration_STATUS                                                  |                     |                |                | v1beta20220701 |
 | PrivateEndpointProperties                                                              |                     |                |                | v1beta20220701 |
 | PrivateEndpointProperties_STATUS                                                       |                     |                |                | v1beta20220701 |
+| PrivateEndpointProvisioningState_STATUS                                                |                     |                |                | v1beta20220701 |
 | PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                            | v1alpha1api20201101 |                | v1beta20201101 |                |
 | PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded                             |                     |                |                | v1beta20220701 |
 | PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                      | v1alpha1api20201101 |                | v1beta20201101 |                |
 | PrivateEndpoint_Spec                                                                   |                     |                |                | v1beta20220701 |
+| PrivateEndpointsPrivateDnsZoneGroup                                                    |                     |                |                | v1beta20220701 |
+| PrivateEndpoints_PrivateDnsZoneGroup_STATUS                                            |                     |                |                | v1beta20220701 |
+| PrivateEndpoints_PrivateDnsZoneGroup_Spec                                              |                     |                |                | v1beta20220701 |
 | PrivateLinkService                                                                     |                     |                |                | v1beta20220701 |
 | PrivateLinkServiceConnection                                                           |                     |                |                | v1beta20220701 |
 | PrivateLinkServiceConnectionProperties                                                 |                     |                |                | v1beta20220701 |
@@ -202,6 +215,7 @@
 | PublicIPAddress_Spec                                                                   | v1alpha1api20201101 |                | v1beta20201101 |                |
 | RadiusServer                                                                           | v1alpha1api20201101 |                | v1beta20201101 |                |
 | RadiusServer_STATUS                                                                    | v1alpha1api20201101 |                | v1beta20201101 |                |
+| RecordSet_STATUS                                                                       |                     |                |                | v1beta20220701 |
 | ResourceNavigationLink_STATUS                                                          | v1alpha1api20201101 |                | v1beta20201101 |                |
 | ResourceSet                                                                            |                     |                |                | v1beta20220701 |
 | ResourceSet_STATUS                                                                     |                     |                |                | v1beta20220701 |
@@ -238,8 +252,8 @@
 | ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                | v1alpha1api20201101 |                | v1beta20201101 |                |
 | ServiceEndpointPropertiesFormat                                                        | v1alpha1api20201101 |                | v1beta20201101 |                |
 | ServiceEndpointPropertiesFormat_STATUS                                                 | v1alpha1api20201101 |                | v1beta20201101 |                |
-| SubResource                                                                            | v1alpha1api20201101 |                | v1beta20201101 |                |
-| SubResource_STATUS                                                                     | v1alpha1api20201101 |                | v1beta20201101 |                |
+| SubResource                                                                            | v1alpha1api20201101 | v1beta20180901 | v1beta20201101 |                |
+| SubResource_STATUS                                                                     | v1alpha1api20201101 | v1beta20180901 | v1beta20201101 |                |
 | SubnetPropertiesFormat_PrivateEndpointNetworkPolicies                                  | v1alpha1api20201101 |                | v1beta20201101 |                |
 | SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS                           | v1alpha1api20201101 |                | v1beta20201101 |                |
 | SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies                               | v1alpha1api20201101 |                | v1beta20201101 |                |
@@ -283,6 +297,10 @@
 | VirtualNetworkGatewaySku_Tier_STATUS                                                   | v1alpha1api20201101 |                | v1beta20201101 |                |
 | VirtualNetworkGateway_STATUS                                                           | v1alpha1api20201101 |                | v1beta20201101 |                |
 | VirtualNetworkGateway_Spec                                                             | v1alpha1api20201101 |                | v1beta20201101 |                |
+| VirtualNetworkLinkProperties                                                           |                     | v1beta20180901 |                |                |
+| VirtualNetworkLinkProperties_ProvisioningState_STATUS                                  |                     | v1beta20180901 |                |                |
+| VirtualNetworkLinkProperties_STATUS                                                    |                     | v1beta20180901 |                |                |
+| VirtualNetworkLinkProperties_VirtualNetworkLinkState_STATUS                            |                     | v1beta20180901 |                |                |
 | VirtualNetworkPeering                                                                  | v1alpha1api20201101 |                | v1beta20201101 |                |
 | VirtualNetworkPeeringPropertiesFormat                                                  | v1alpha1api20201101 |                | v1beta20201101 |                |
 | VirtualNetworkPeeringPropertiesFormat_PeeringState                                     | v1alpha1api20201101 |                | v1beta20201101 |                |

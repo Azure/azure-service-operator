@@ -4,11 +4,16 @@
 package v1beta20220701storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=network.azure.com,resources=privatelinkservices,verbs=get;list;watch;create;update;patch;delete
@@ -42,6 +47,23 @@ func (service *PrivateLinkService) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (service *PrivateLinkService) SetConditions(conditions conditions.Conditions) {
 	service.Status.Conditions = conditions
+}
+
+var _ genruntime.KubernetesExporter = &PrivateLinkService{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (service *PrivateLinkService) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(service.Namespace)
+	if service.Spec.OperatorSpec != nil && service.Spec.OperatorSpec.ConfigMaps != nil {
+		if service.Status.Alias != nil {
+			collector.AddValue(service.Spec.OperatorSpec.ConfigMaps.Alias, *service.Status.Alias)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &PrivateLinkService{}
@@ -146,6 +168,7 @@ type PrivateLinkService_Spec struct {
 	IpConfigurations                     []PrivateLinkServiceIpConfiguration                              `json:"ipConfigurations,omitempty"`
 	LoadBalancerFrontendIpConfigurations []FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded `json:"loadBalancerFrontendIpConfigurations,omitempty"`
 	Location                             *string                                                          `json:"location,omitempty"`
+	OperatorSpec                         *PrivateLinkServiceOperatorSpec                                  `json:"operatorSpec,omitempty"`
 	OriginalVersion                      string                                                           `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -280,6 +303,13 @@ type PrivateLinkServiceIpConfiguration_STATUS struct {
 	Type                      *string                                               `json:"type,omitempty"`
 }
 
+// Storage version of v1beta20220701.PrivateLinkServiceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type PrivateLinkServiceOperatorSpec struct {
+	ConfigMaps  *PrivateLinkServiceOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20220701.ResourceSet
 // The base resource set for visibility and auto-approval.
 type ResourceSet struct {
@@ -292,6 +322,12 @@ type ResourceSet struct {
 type ResourceSet_STATUS struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Subscriptions []string               `json:"subscriptions,omitempty"`
+}
+
+// Storage version of v1beta20220701.PrivateLinkServiceOperatorConfigMaps
+type PrivateLinkServiceOperatorConfigMaps struct {
+	Alias       *genruntime.ConfigMapDestination `json:"alias,omitempty"`
+	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20220701.Subnet_PrivateLinkService_SubResourceEmbedded

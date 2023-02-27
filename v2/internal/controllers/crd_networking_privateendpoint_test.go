@@ -11,7 +11,9 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
+	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
@@ -34,6 +36,66 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 
 	tc.Expect(sa.Status.Id).ToNot(BeNil())
 
+	endpoint := newPrivateEndpoint(tc, rg, sa, subnet)
+
+	tc.CreateResourceAndWait(endpoint)
+
+	tc.Expect(endpoint.Status.Id).ToNot(BeNil())
+	armId := *endpoint.Status.Id
+
+	old := endpoint.DeepCopy()
+	key := "foo"
+	endpoint.Spec.Tags = map[string]string{key: "bar"}
+
+	tc.PatchResourceAndWait(old, endpoint)
+	tc.Expect(endpoint.Status.Tags).To(HaveKey(key))
+
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "Test_DNSZoneGroup_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				DNSZoneGroup_CRUD(tc, vnet, endpoint, rg)
+			},
+		},
+	)
+
+	tc.DeleteResourceAndWait(endpoint)
+
+	// Ensure delete
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+
+}
+
+func DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *v1beta20201101.VirtualNetwork, endpoint *network.PrivateEndpoint, rg *resources.ResourceGroup) {
+	zone := newPrivateDNSZone(tc, "privatelink.blob.core.windows.net", rg)
+	vnetLink := newVirtualNetworkLink(tc, zone, vnet)
+
+	tc.CreateResourcesAndWait(zone, vnetLink)
+
+	dnsZoneGroup := &network.PrivateEndpointsPrivateDnsZoneGroup{
+		ObjectMeta: tc.MakeObjectMeta("dnszonegroup"),
+		Spec: network.PrivateEndpoints_PrivateDnsZoneGroup_Spec{
+			Owner: testcommon.AsOwner(endpoint),
+			PrivateDnsZoneConfigs: []network.PrivateDnsZoneConfig{
+				{
+					Name:                    to.StringPtr("config"),
+					PrivateDnsZoneReference: tc.MakeReferenceFromResource(zone),
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(dnsZoneGroup)
+
+	tc.Expect(dnsZoneGroup.Status.Id).ToNot(BeNil())
+
+	tc.DeleteResource(dnsZoneGroup)
+}
+
+func newPrivateEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sa *storage.StorageAccount, subnet *v1beta20201101.VirtualNetworksSubnet) *network.PrivateEndpoint {
 	endpoint := &network.PrivateEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("endpoint"),
 		Spec: network.PrivateEndpoint_Spec{
@@ -51,25 +113,5 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 			},
 		},
 	}
-
-	tc.CreateResourceAndWait(endpoint)
-
-	tc.Expect(endpoint.Status.Id).ToNot(BeNil())
-	armId := *endpoint.Status.Id
-
-	old := endpoint.DeepCopy()
-	key := "foo"
-	endpoint.Spec.Tags = map[string]string{key: "bar"}
-
-	tc.PatchResourceAndWait(old, endpoint)
-	tc.Expect(endpoint.Status.Tags).To(HaveKey(key))
-
-	tc.DeleteResourceAndWait(endpoint)
-
-	// Ensure delete
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeFalse())
-
+	return endpoint
 }

@@ -1164,6 +1164,9 @@ objectModelConfiguration:
       PrivateDnsZone:
         $export: true
         $supportedFrom: v2.0.0-beta.2
+      PrivateDnsZones_VirtualNetworkLink:
+        $exportAs: PrivateDnsZonesVirtualNetworkLink
+        $supportedFrom: v2.0.0
     2020-11-01:
       BackendAddressPool:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
@@ -1294,7 +1297,15 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: PrivateLinkService
       PrivateLinkServiceIpConfiguration_STATUS:
         $resourceEmbeddedInParent: PrivateLinkService
-
+      PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded:
+        Alias:
+          $exportAsConfigMapPropertyName: Alias
+      PrivateEndpoints_PrivateDnsZoneGroup:
+        $exportAs: PrivateEndpointsPrivateDnsZoneGroup
+        $supportedFrom: v2.0.0
+      PrivateDnsZonePropertiesFormat:
+        PrivateDnsZoneId:
+          $armReference: true
   operationalinsights:
     2021-06-01:
       Workspace:

@@ -119,9 +119,39 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Tags: map[string]string
 │       └── Type: *string
+├── PrivateEndpointsPrivateDnsZoneGroup: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701.PrivateEndpoint
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrivateDnsZoneConfigs: Object (3 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── PrivateDnsZoneReference: *genruntime.ResourceReference
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PrivateDnsZoneConfigs: Object (4 properties)[]
+│       │   ├── Name: *string
+│       │   ├── PrivateDnsZoneId: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── RecordSets: Object (7 properties)[]
+│       │       ├── Fqdn: *string
+│       │       ├── IpAddresses: string[]
+│       │       ├── PropertyBag: genruntime.PropertyBag
+│       │       ├── ProvisioningState: *string
+│       │       ├── RecordSetName: *string
+│       │       ├── RecordType: *string
+│       │       └── Ttl: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       └── ProvisioningState: *string
 └── PrivateLinkService: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
-    ├── Spec: Object (13 properties)
+    ├── Spec: Object (14 properties)
     │   ├── AutoApproval: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Subscriptions: string[]
@@ -146,6 +176,11 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701storage
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Reference: *genruntime.ResourceReference
     │   ├── Location: *string
+    │   ├── OperatorSpec: *Object (2 properties)
+    │   │   ├── ConfigMaps: *Object (2 properties)
+    │   │   │   ├── Alias: *genruntime.ConfigMapDestination
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag

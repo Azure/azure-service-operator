@@ -1,29 +1,58 @@
 github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage
 ├── APIVersion: Enum (1 value)
 │   └── "2018-09-01"
-└── PrivateDnsZone: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
-    ├── Spec: Object (7 properties)
+├── PrivateDnsZone: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Spec: Object (7 properties)
+│   │   ├── AzureName: string
+│   │   ├── Etag: *string
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Tags: map[string]string
+│   └── Status: Object (15 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Location: *string
+│       ├── MaxNumberOfRecordSets: *int
+│       ├── MaxNumberOfVirtualNetworkLinks: *int
+│       ├── MaxNumberOfVirtualNetworkLinksWithRegistration: *int
+│       ├── Name: *string
+│       ├── NumberOfRecordSets: *int
+│       ├── NumberOfVirtualNetworkLinks: *int
+│       ├── NumberOfVirtualNetworkLinksWithRegistration: *int
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── Tags: map[string]string
+│       └── Type: *string
+└── PrivateDnsZonesVirtualNetworkLink: Resource
+    ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901.PrivateDnsZone
+    ├── Spec: Object (9 properties)
     │   ├── AzureName: string
     │   ├── Etag: *string
     │   ├── Location: *string
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
     │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── Tags: map[string]string
-    └── Status: Object (15 properties)
+    │   ├── RegistrationEnabled: *bool
+    │   ├── Tags: map[string]string
+    │   └── VirtualNetwork: *Object (2 properties)
+    │       ├── PropertyBag: genruntime.PropertyBag
+    │       └── Reference: *genruntime.ResourceReference
+    └── Status: Object (12 properties)
         ├── Conditions: conditions.Condition[]
         ├── Etag: *string
         ├── Id: *string
         ├── Location: *string
-        ├── MaxNumberOfRecordSets: *int
-        ├── MaxNumberOfVirtualNetworkLinks: *int
-        ├── MaxNumberOfVirtualNetworkLinksWithRegistration: *int
         ├── Name: *string
-        ├── NumberOfRecordSets: *int
-        ├── NumberOfVirtualNetworkLinks: *int
-        ├── NumberOfVirtualNetworkLinksWithRegistration: *int
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
+        ├── RegistrationEnabled: *bool
         ├── Tags: map[string]string
-        └── Type: *string
+        ├── Type: *string
+        ├── VirtualNetwork: *Object (2 properties)
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        └── VirtualNetworkLinkState: *string

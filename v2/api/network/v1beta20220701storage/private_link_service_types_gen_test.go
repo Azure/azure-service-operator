@@ -159,6 +159,7 @@ func AddRelatedPropertyGeneratorsForPrivateLinkService_Spec(gens map[string]gopt
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["IpConfigurations"] = gen.SliceOf(PrivateLinkServiceIpConfigurationGenerator())
 	gens["LoadBalancerFrontendIpConfigurations"] = gen.SliceOf(FrontendIPConfiguration_PrivateLinkService_SubResourceEmbeddedGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(PrivateLinkServiceOperatorSpecGenerator())
 	gens["Visibility"] = gen.PtrOf(ResourceSetGenerator())
 }
 
@@ -652,6 +653,67 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceIpConfiguration_STATUS(gen
 	gens["Subnet"] = gen.PtrOf(Subnet_STATUS_PrivateLinkService_SubResourceEmbeddedGenerator())
 }
 
+func Test_PrivateLinkServiceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateLinkServiceOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceOperatorSpec, PrivateLinkServiceOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateLinkServiceOperatorSpec runs a test to see if a specific instance of PrivateLinkServiceOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkServiceOperatorSpec(subject PrivateLinkServiceOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateLinkServiceOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateLinkServiceOperatorSpec instances for property testing - lazily instantiated by
+// PrivateLinkServiceOperatorSpecGenerator()
+var privateLinkServiceOperatorSpecGenerator gopter.Gen
+
+// PrivateLinkServiceOperatorSpecGenerator returns a generator of PrivateLinkServiceOperatorSpec instances for property testing.
+func PrivateLinkServiceOperatorSpecGenerator() gopter.Gen {
+	if privateLinkServiceOperatorSpecGenerator != nil {
+		return privateLinkServiceOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForPrivateLinkServiceOperatorSpec(generators)
+	privateLinkServiceOperatorSpecGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceOperatorSpec{}), generators)
+
+	return privateLinkServiceOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForPrivateLinkServiceOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateLinkServiceOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(PrivateLinkServiceOperatorConfigMapsGenerator())
+}
+
 func Test_ResourceSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -770,6 +832,61 @@ func ResourceSet_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForResourceSet_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResourceSet_STATUS(gens map[string]gopter.Gen) {
 	gens["Subscriptions"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_PrivateLinkServiceOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateLinkServiceOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceOperatorConfigMaps, PrivateLinkServiceOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateLinkServiceOperatorConfigMaps runs a test to see if a specific instance of PrivateLinkServiceOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkServiceOperatorConfigMaps(subject PrivateLinkServiceOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateLinkServiceOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateLinkServiceOperatorConfigMaps instances for property testing - lazily instantiated by
+// PrivateLinkServiceOperatorConfigMapsGenerator()
+var privateLinkServiceOperatorConfigMapsGenerator gopter.Gen
+
+// PrivateLinkServiceOperatorConfigMapsGenerator returns a generator of PrivateLinkServiceOperatorConfigMaps instances for property testing.
+func PrivateLinkServiceOperatorConfigMapsGenerator() gopter.Gen {
+	if privateLinkServiceOperatorConfigMapsGenerator != nil {
+		return privateLinkServiceOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	privateLinkServiceOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceOperatorConfigMaps{}), generators)
+
+	return privateLinkServiceOperatorConfigMapsGenerator
 }
 
 func Test_Subnet_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
