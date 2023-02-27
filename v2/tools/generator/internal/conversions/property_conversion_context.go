@@ -13,6 +13,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
+const (
+	AssignPropertiesMethodPrefix = "AssignProperties"
+	InitializationMethodPrefix   = "Initialize"
+)
+
 // PropertyConversionContext captures additional supporting information that may be needed when a
 // storage conversion factory creates a conversion
 type PropertyConversionContext struct {

@@ -138,7 +138,7 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	downstreamDef astmodel.TypeDefinition,
 	augmentationInterface *astmodel.TypeName) (astmodel.TypeDefinition, error) {
 
-	assignmentContext := conversions.NewPropertyConversionContext("AssignProperties", f.definitions, f.idFactory).
+	assignmentContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, f.definitions, f.idFactory).
 		WithConfiguration(f.configuration.ObjectModelConfiguration).
 		WithConversionGraph(f.graph)
 

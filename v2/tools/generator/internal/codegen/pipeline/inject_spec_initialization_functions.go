@@ -48,7 +48,7 @@ func InjectSpecInitializationFunctions(
 				status := defs[statusName]
 
 				// Create the initialization function
-				assignmentContext := conversions.NewPropertyConversionContext("Initialize", defs, idFactory).
+				assignmentContext := conversions.NewPropertyConversionContext(conversions.InitializationMethodPrefix, defs, idFactory).
 					WithConfiguration(configuration.ObjectModelConfiguration)
 
 				initializeFn, err := functions.NewPropertyAssignmentFunction(spec, status, assignmentContext, conversions.ConvertFrom)
