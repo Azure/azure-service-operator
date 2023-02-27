@@ -103,7 +103,7 @@ func (service *PrivateLinkService) NewEmptyStatus() genruntime.ConvertibleStatus
 	return &PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (service *PrivateLinkService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
 	return &genruntime.ResourceReference{

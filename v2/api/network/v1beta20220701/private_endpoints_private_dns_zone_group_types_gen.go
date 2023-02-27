@@ -75,7 +75,7 @@ var _ admission.Defaulter = &PrivateEndpointsPrivateDnsZoneGroup{}
 // Default applies defaults to the PrivateEndpointsPrivateDnsZoneGroup resource
 func (group *PrivateEndpointsPrivateDnsZoneGroup) Default() {
 	group.defaultImpl()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) NewEmptyStatus() genruntime.Co
 	return &PrivateEndpoints_PrivateDnsZoneGroup_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (group *PrivateEndpointsPrivateDnsZoneGroup) Owner() *genruntime.ResourceReference {
 	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &PrivateEndpointsPrivateDnsZoneGroup{}
 // ValidateCreate validates the creation of the resource
 func (group *PrivateEndpointsPrivateDnsZoneGroup) ValidateCreate() error {
 	validations := group.createValidations()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (group *PrivateEndpointsPrivateDnsZoneGroup) ValidateDelete() error {
 	validations := group.deleteValidations()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (group *PrivateEndpointsPrivateDnsZoneGroup) ValidateUpdate(old runtime.Object) error {
 	validations := group.updateValidations()
-	var temp interface{} = group
+	var temp any = group
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

@@ -80,7 +80,7 @@ var _ admission.Defaulter = &PrivateLinkService{}
 // Default applies defaults to the PrivateLinkService resource
 func (service *PrivateLinkService) Default() {
 	service.defaultImpl()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -150,7 +150,7 @@ func (service *PrivateLinkService) NewEmptyStatus() genruntime.ConvertibleStatus
 	return &PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (service *PrivateLinkService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(service.Spec)
 	return &genruntime.ResourceReference{
@@ -186,7 +186,7 @@ var _ admission.Validator = &PrivateLinkService{}
 // ValidateCreate validates the creation of the resource
 func (service *PrivateLinkService) ValidateCreate() error {
 	validations := service.createValidations()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -203,7 +203,7 @@ func (service *PrivateLinkService) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (service *PrivateLinkService) ValidateDelete() error {
 	validations := service.deleteValidations()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -220,7 +220,7 @@ func (service *PrivateLinkService) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (service *PrivateLinkService) ValidateUpdate(old runtime.Object) error {
 	validations := service.updateValidations()
-	var temp interface{} = service
+	var temp any = service
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

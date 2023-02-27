@@ -2755,8 +2755,8 @@ type augmentConversionForPrivateLinkServiceSpec interface {
 }
 
 type augmentConversionForSubResource_STATUS interface {
-	AssignPropertiesFrom(src *v20201101s.SubResource_STATUS) error
-	AssignPropertiesTo(dst *v20201101s.SubResource_STATUS) error
+	AssignPropertiesFrom(src *v20180901s.SubResource_STATUS) error
+	AssignPropertiesTo(dst *v20180901s.SubResource_STATUS) error
 }
 
 // Storage version of v1alpha1api20201101.BackendAddressPool_NetworkInterface_SubResourceEmbedded

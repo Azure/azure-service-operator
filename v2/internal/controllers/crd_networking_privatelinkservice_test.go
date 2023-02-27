@@ -36,6 +36,7 @@ func Test_Networking_PrivateLinkService_CRUD(t *testing.T) {
 
 	ipAllocationMethod := network20220701.IPAllocationMethod_Dynamic
 	ipVersion := network20220701.IPVersion_IPv4
+	plsConfigMap := "plsconfig"
 	pls := &network20220701.PrivateLinkService{
 		ObjectMeta: tc.MakeObjectMeta("pls"),
 		Spec: network20220701.PrivateLinkService_Spec{
@@ -64,6 +65,14 @@ func Test_Networking_PrivateLinkService_CRUD(t *testing.T) {
 			Visibility: &network20220701.ResourceSet{
 				Subscriptions: []string{tc.AzureSubscription},
 			},
+			OperatorSpec: &network20220701.PrivateLinkServiceOperatorSpec{
+				ConfigMaps: &network20220701.PrivateLinkServiceOperatorConfigMaps{
+					Alias: &genruntime.ConfigMapDestination{
+						Name: plsConfigMap,
+						Key:  "alias",
+					},
+				},
+			},
 		},
 	}
 
@@ -71,6 +80,8 @@ func Test_Networking_PrivateLinkService_CRUD(t *testing.T) {
 
 	tc.Expect(pls.Status.Id).ToNot(BeNil())
 	armId := *pls.Status.Id
+
+	tc.ExpectConfigMapHasKeysAndValues(plsConfigMap, "alias", *pls.Status.Alias)
 
 	old := pls.DeepCopy()
 	key := "foo"

@@ -81,7 +81,7 @@ func (endpoint *PrivateEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (endpoint *PrivateEndpoint) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(endpoint.Spec)
 	return &genruntime.ResourceReference{

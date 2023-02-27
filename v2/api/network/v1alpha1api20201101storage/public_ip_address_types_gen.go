@@ -2175,8 +2175,8 @@ type augmentConversionForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
 }
 
 type augmentConversionForSubResource interface {
-	AssignPropertiesFrom(src *v20201101s.SubResource) error
-	AssignPropertiesTo(dst *v20201101s.SubResource) error
+	AssignPropertiesFrom(src *v20180901s.SubResource) error
+	AssignPropertiesTo(dst *v20180901s.SubResource) error
 }
 
 func init() {

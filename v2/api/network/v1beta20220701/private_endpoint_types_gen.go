@@ -75,7 +75,7 @@ var _ admission.Defaulter = &PrivateEndpoint{}
 // Default applies defaults to the PrivateEndpoint resource
 func (endpoint *PrivateEndpoint) Default() {
 	endpoint.defaultImpl()
-	var temp interface{} = endpoint
+	var temp any = endpoint
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (endpoint *PrivateEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (endpoint *PrivateEndpoint) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(endpoint.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &PrivateEndpoint{}
 // ValidateCreate validates the creation of the resource
 func (endpoint *PrivateEndpoint) ValidateCreate() error {
 	validations := endpoint.createValidations()
-	var temp interface{} = endpoint
+	var temp any = endpoint
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (endpoint *PrivateEndpoint) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (endpoint *PrivateEndpoint) ValidateDelete() error {
 	validations := endpoint.deleteValidations()
-	var temp interface{} = endpoint
+	var temp any = endpoint
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (endpoint *PrivateEndpoint) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (endpoint *PrivateEndpoint) ValidateUpdate(old runtime.Object) error {
 	validations := endpoint.updateValidations()
-	var temp interface{} = endpoint
+	var temp any = endpoint
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}

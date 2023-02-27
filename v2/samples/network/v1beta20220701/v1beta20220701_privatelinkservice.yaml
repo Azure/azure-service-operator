@@ -25,3 +25,8 @@ spec:
   visibility:
     subscriptions:
     - 00000000-0000-0000-0000-000000000000
+  operatorSpec:
+    configMaps:
+      alias:
+        name: plsconfig
+        key: alias

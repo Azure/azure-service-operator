@@ -75,7 +75,7 @@ var _ admission.Defaulter = &PrivateDnsZonesVirtualNetworkLink{}
 // Default applies defaults to the PrivateDnsZonesVirtualNetworkLink resource
 func (link *PrivateDnsZonesVirtualNetworkLink) Default() {
 	link.defaultImpl()
-	var temp interface{} = link
+	var temp any = link
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
@@ -128,7 +128,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) NewEmptyStatus() genruntime.Conve
 	return &PrivateDnsZones_VirtualNetworkLink_STATUS{}
 }
 
-// Owner returns the ResourceReference of the owner, or nil if there is no owner
+// Owner returns the ResourceReference of the owner
 func (link *PrivateDnsZonesVirtualNetworkLink) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(link.Spec)
 	return &genruntime.ResourceReference{
@@ -164,7 +164,7 @@ var _ admission.Validator = &PrivateDnsZonesVirtualNetworkLink{}
 // ValidateCreate validates the creation of the resource
 func (link *PrivateDnsZonesVirtualNetworkLink) ValidateCreate() error {
 	validations := link.createValidations()
-	var temp interface{} = link
+	var temp any = link
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -181,7 +181,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) ValidateCreate() error {
 // ValidateDelete validates the deletion of the resource
 func (link *PrivateDnsZonesVirtualNetworkLink) ValidateDelete() error {
 	validations := link.deleteValidations()
-	var temp interface{} = link
+	var temp any = link
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -198,7 +198,7 @@ func (link *PrivateDnsZonesVirtualNetworkLink) ValidateDelete() error {
 // ValidateUpdate validates an update of the resource
 func (link *PrivateDnsZonesVirtualNetworkLink) ValidateUpdate(old runtime.Object) error {
 	validations := link.updateValidations()
-	var temp interface{} = link
+	var temp any = link
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
