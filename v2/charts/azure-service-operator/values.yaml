@@ -80,8 +80,7 @@ metrics:
   address: 0.0.0.0:{{ .Values.metrics.port }}
   port: 8080
 
-# installCRDs determines if the CRDs subchart should be installed.
-installCRDs: true
+installCRDs: true  # TODO: We need to actually use this in the operator when managing the CRDs
 
 # podAnnotations contain the pod annotations for Azure Service Operator
 podAnnotations: {}

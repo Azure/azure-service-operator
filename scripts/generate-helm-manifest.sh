@@ -31,11 +31,12 @@ flow_control(){
 echo "Generating helm chart manifest"
 sed -i "s@\($PUBLIC_REGISTRY\)\(.*\)@\1azureserviceoperator:$VERSION@g" "$ASO_CHART"/values.yaml
 rm -rf "$GEN_FILES_DIR" # remove generated files
-rm -rf "$ASO_CHART"/charts/azure-service-operator-crds/templates
-mkdir -p "$ASO_CHART"/charts/azure-service-operator-crds/templates/crds # create dirs for generated files
 mkdir "$GEN_FILES_DIR"
 kustomize build "$DIR"config/default -o "$GEN_FILES_DIR"
 rm "$GEN_FILES_DIR"/*_namespace_* # remove namespace as we will let Helm manage it
+
+# Remove all the CRDs as we will let the operator pod manage them
+find "$GEN_FILES_DIR"/*_customresourcedefinition_* -delete
 
 # Chart replacements
 sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version for both main and subchart
@@ -55,18 +56,6 @@ sed -i '1 i {{- if .Values.metrics.enable -}}' "$GEN_FILES_DIR"/*controller-mana
 sed -i 's/port: 8080/port: {{ .Values.metrics.port | default 8080 }}/g' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 sed -i -e '$a{{- end }}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 find "$GEN_FILES_DIR" -type f -exec sed -i 's/azureserviceoperator-system/{{ .Release.Namespace }}/g' {} \;
-
-# Azure-Service-Operator-crds actions
-# We had to split charts here here as with a single chart, we were running into the max size issue with helm
-# See https://github.com/helm/helm/issues/9788
-find "$GEN_FILES_DIR"/*_customresourcedefinition_* -exec mv '{}' "$ASO_CHART"/charts/azure-service-operator-crds/templates/crds \; # move CRD definitions to crds chart folder
-
-# Append Helm keep to files in CRD dir
-for file in $(find "$ASO_CHART"/charts/azure-service-operator-crds/templates/crds -type f)
-do
-  sed -i -E 's/(\s+)(controller-gen.kubebuilder.io\/version:.*)/\1\2\n\1"helm.sh\/resource-policy": keep/' $file
-done
-sed -i "1,/version:.*/s/\(version: \)\(.*\)/\1$VERSION/g" "$ASO_CHART"/charts/azure-service-operator-crds/Chart.yaml  # find version key and update the value with the current version for crds chart
 
 # Perform file level changes for cluster and tenant
 for file in $(find "$GEN_FILES_DIR" -type f)
@@ -90,7 +79,5 @@ flow_control "- name: cert" "secretName" "$IF_CLUSTER" "$GEN_FILES_DIR"/*_deploy
 
 # Helm chart packaging, indexing and updating dependencies
 echo "Packaging helm charts"
-helm package "$ASO_CHART"/charts/azure-service-operator-crds -d "$DIR"charts # package the CRD helm files into a tar file
-helm template "$ASO_CHART" --dependency-update > /dev/null # Update the crds dependency
 helm package "$ASO_CHART" -d "$DIR"charts # package the ASOv2 helm files into a tar file
 helm repo index "$DIR"charts # update index.yaml for Helm Repository
