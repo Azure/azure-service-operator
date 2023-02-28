@@ -349,6 +349,14 @@ func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result Sho
 		}
 	}
 
+	// We don't also check for whether the version is expected because it's common for types to be shared
+	// between versions of an API. While end up pulling them into the package alongside the resource, at this
+	// point we haven't done that yet, so it's premature to filter by version.
+
+	if !config.ObjectModelConfiguration.IsGroupExpected(typeName.PackageReference) {
+		return Prune, fmt.Sprintf("No resources expected from %s", typeName.PackageReference.PackagePath())
+	}
+
 	// By default, we include all types
 	return Include, ""
 }

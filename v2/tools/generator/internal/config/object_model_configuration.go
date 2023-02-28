@@ -37,6 +37,27 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 }
 
+func (omc *ObjectModelConfiguration) IsGroupExpected(pkg astmodel.PackageReference) bool {
+	var result bool
+	visitor := newSingleGroupConfigurationVisitor(pkg, func(configuration *GroupConfiguration) error {
+		result = true
+		return nil
+	})
+
+	err := visitor.Visit(omc)
+	if err != nil {
+		if IsNotConfiguredError(err) {
+			// No configuration for this package, we're not expecting any types
+			return false
+		}
+
+		// Some other error, we'll assume we're expecting types
+		return true
+	}
+
+	return result
+}
+
 // LookupNameInNextVersion checks whether we have an alternative name for the specified type, returning the name if
 // found. Returns a NotConfiguredError if no rename is available.
 func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeName) (string, error) {
