@@ -92,6 +92,17 @@ func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
 		config.TypeRegistrationOutputFile)
 }
 
+func (config *Configuration) FullSamplesPath() string {
+	result := config.SamplesPath
+	if !filepath.IsAbs(result) {
+		result = filepath.Join(
+			filepath.Dir(config.DestinationGoModuleFile),
+			result)
+	}
+
+	return result
+}
+
 func (config *Configuration) GetTypeFiltersError() error {
 	for _, filter := range config.TypeFilters {
 		if err := filter.RequiredTypesWereMatched(); err != nil {
@@ -283,6 +294,11 @@ func (config *Configuration) initialize(configPath string) error {
 		errs = append(errs, errors.Errorf("destination Go module must be specified"))
 	}
 
+	// Ensure config.DestinationGoModuleFile is a fully qualified path
+	if !filepath.IsAbs(config.DestinationGoModuleFile) {
+		config.DestinationGoModuleFile = filepath.Join(configDirectory, config.DestinationGoModuleFile)
+	}
+
 	modPath, err := getModulePathFromModFile(config.DestinationGoModuleFile)
 	if err != nil {
 		errs = append(errs, err)
@@ -350,6 +366,7 @@ func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result Sho
 		}
 	}
 
+	// If the type comes from a group that we don't expect, prune it.
 	// We don't also check for whether the version is expected because it's common for types to be shared
 	// between versions of an API. While end up pulling them into the package alongside the resource, at this
 	// point we haven't done that yet, so it's premature to filter by version.

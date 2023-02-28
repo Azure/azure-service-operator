@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
+	"path/filepath"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -97,7 +97,7 @@ func (report *PackagesMatrixReport) WriteTableTo(table *reporting.SparseTable, p
 	var buffer strings.Builder
 	table.WriteTo(&buffer)
 
-	outputFolder := path.Join(outputPath, pkg)
+	outputFolder := filepath.Join(outputPath, pkg)
 	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
 		err = os.MkdirAll(outputFolder, 0700)
 		if err != nil {
@@ -105,6 +105,6 @@ func (report *PackagesMatrixReport) WriteTableTo(table *reporting.SparseTable, p
 		}
 	}
 
-	destination := path.Join(outputFolder, "versions_matrix.md")
+	destination := filepath.Join(outputFolder, "versions_matrix.md")
 	return ioutil.WriteFile(destination, []byte(buffer.String()), 0600)
 }

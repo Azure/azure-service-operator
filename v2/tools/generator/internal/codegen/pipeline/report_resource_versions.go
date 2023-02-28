@@ -72,7 +72,7 @@ func NewResourceVersionsReport(
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
 		rootUrl:                  cfg.RootURL,
-		samplesPath:              cfg.SamplesPath,
+		samplesPath:              cfg.FullSamplesPath(),
 		availableFragments:       make(map[string]string),
 		groups:                   set.Make[string](),
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
