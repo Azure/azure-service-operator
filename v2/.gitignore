@@ -1,6 +1,6 @@
 config/crd/bases/
 config/crd/patches/
-config/crd/out
 config/crd/kustomization.yaml
 config/webhook/manifests.yaml
 config/rbac/role.yaml
+out/

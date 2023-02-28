@@ -319,18 +319,19 @@ tasks:
     - "*.go"
     - "internal/**/*.go"
     - "pkg/**/*.go"
-    - "cmd/main.go"
+    - "cmd/controller/main.go"
     cmds:
     - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build {{.VERSION_FLAGS}} -o ./bin/{{.CONTROLLER_APP}} ./cmd/controller/
 
   controller:docker-build:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:build]
+    deps: [controller:build, controller:bundle-crds] # TODO: Cyclic dependency here?
     run: always
     sources:
     - Dockerfile
     - ./bin/{{.CONTROLLER_APP}}
+    - out/crds/**/*
     cmds:
     - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
     status:
@@ -574,11 +575,11 @@ tasks:
       - config/crd/kustomization.yaml
       - config/crd/kustomizeconfig.yaml
     generates:
-      - config/crd/out/azureserviceoperator.yaml
+      - out/envtest/crds/azureserviceoperator.yaml
     cmds:
-      - mkdir -p config/crd/out
-      - find "config/crd/out" -type f -delete
-      - kustomize build config/crd > config/crd/out/azureserviceoperator.yaml
+      - mkdir -p out/envtest/crds
+      - find "out/envtest/crds" -type f -delete
+      - kustomize build config/crd > out/envtest/crds/azureserviceoperator.yaml
 
   controller:gen-helm-manifest:
     desc: Generate helm manifest using Kustomize for the release
@@ -649,6 +650,23 @@ tasks:
     deps: [controller:generate-kustomize]
     cmds:
       - "cd v2/ && kustomize build config/default  | kubectl apply --server-side=true -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
+
+  controller:bundle-crds:
+    desc: Bundles CRDs...
+    deps: [controller:generate-kustomize]
+    dir: "{{.CONTROLLER_ROOT}}"
+    sources:
+      - config/**/*.yaml
+    generates:
+      - out/crds/**/*.yaml
+    cmds:
+      - "rm -rf out/crd-bundle-staging"
+      - "rm -rf out/crds"
+      - "mkdir -p out/crd-bundle-staging"
+      - "mkdir -p out/crds"
+      - "kustomize build config/default -o out/crd-bundle-staging"
+      - "find out/crd-bundle-staging/*_customresourcedefinition_* -exec mv '{}' out/crds \\;"
+      - "rm -rf out/crd-bundle-staging"
 
   controller:install-cert-manager:
     desc: Installs cert manager

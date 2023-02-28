@@ -66,7 +66,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		return nil, err
 	}
 
-	crdPath := filepath.Join(root, "v2/config/crd/out")
+	crdPath := filepath.Join(root, "v2/out/envtest/crds")
 	webhookPath := filepath.Join(root, "v2/config/webhook")
 
 	environment := envtest.Environment{
