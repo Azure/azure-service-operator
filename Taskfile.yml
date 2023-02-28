@@ -509,7 +509,7 @@ tasks:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
     deps: [controller:generate-types, controller:generate-genruntime-deepcopy]
     sources:
-    - "v2/api/**/*_gen.go" # depends on all generated types
+    - "v2/api/**/*.go" # depends on all API types
     - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
     cmds:
     - mkdir -p v2/api
