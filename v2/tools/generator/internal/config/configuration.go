@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"net/url"
 	"os"
 	"path"
@@ -181,7 +182,7 @@ const (
 	Prune ShouldPruneResult = "prune"
 )
 
-// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
+// TypeRename looks up a type-rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
 func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) {
 	if config.ObjectModelConfiguration == nil {
