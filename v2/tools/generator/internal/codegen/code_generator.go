@@ -255,6 +255,11 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			return errors.Wrapf(err, "failed during pipeline stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
 		}
 
+		if ctx.Err() != nil {
+			// Cancelled
+			return errors.Wrapf(ctx.Err(), "pipeline cancelled during stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
+		}
+
 		// Fail fast if something goes awry
 		if len(newState.Definitions()) == 0 {
 			return errors.Errorf("all type definitions removed by stage %s", stage.Id())
