@@ -60,18 +60,24 @@ find "$GEN_FILES_DIR" -type f -exec sed -i 's/azureserviceoperator-system/{{ .Re
 # We had to split charts here here as with a single chart, we were running into the max size issue with helm
 # See https://github.com/helm/helm/issues/9788
 find "$GEN_FILES_DIR"/*_customresourcedefinition_* -exec mv '{}' "$ASO_CHART"/charts/azure-service-operator-crds/templates/crds \; # move CRD definitions to crds chart folder
+
+# Append Helm keep to files in CRD dir
+for file in $(find "$ASO_CHART"/charts/azure-service-operator-crds/templates/crds -type f)
+do
+  sed -i -E 's/(\s+)(controller-gen.kubebuilder.io\/version:.*)/\1\2\n\1"helm.sh\/resource-policy": keep/' $file
+done
 sed -i "1,/version:.*/s/\(version: \)\(.*\)/\1$VERSION/g" "$ASO_CHART"/charts/azure-service-operator-crds/Chart.yaml  # find version key and update the value with the current version for crds chart
 
 # Perform file level changes for cluster and tenant
 for file in $(find "$GEN_FILES_DIR" -type f)
 do
-    if [[ $file == *"clusterrolebinding_azureserviceoperator-manager"* ]]; then
-      sed -i "1 s/^/$IF_TENANT\n/;$ a {{- end }}" "$file"
-      flow_control "name: azureserviceoperator-manager-rolebinding" "name: azureserviceoperator-manager-rolebinding" "{{- if not .Values.multitenant.enable }}" "$file"
-      sed -i "/name: azureserviceoperator-manager-rolebinding/a \  \ {{ else }}\n \ name: azureserviceoperator-manager-rolebinding-{{ .Release.Namespace }}" "$file"
-    elif [[ $file != *"leader-election"* ]] && [[ $file != *"_deployment_"* ]]; then
-      sed -i "1 s/^/$IF_CLUSTER\n/;$ a {{- end }}" "$file"
-    fi
+  if [[ $file == *"clusterrolebinding_azureserviceoperator-manager"* ]]; then
+    sed -i "1 s/^/$IF_TENANT\n/;$ a {{- end }}" "$file"
+    flow_control "name: azureserviceoperator-manager-rolebinding" "name: azureserviceoperator-manager-rolebinding" "{{- if not .Values.multitenant.enable }}" "$file"
+    sed -i "/name: azureserviceoperator-manager-rolebinding/a \  \ {{ else }}\n \ name: azureserviceoperator-manager-rolebinding-{{ .Release.Namespace }}" "$file"
+  elif [[ $file != *"leader-election"* ]] && [[ $file != *"_deployment_"* ]]; then
+    sed -i "1 s/^/$IF_CLUSTER\n/;$ a {{- end }}" "$file"
+  fi
 done
 
 flow_control "aadpodidbinding" "aadpodidbinding" "$IF_TENANT" "$GEN_FILES_DIR"/*_deployment_*
