@@ -159,7 +159,7 @@ func main() {
 	}
 }
 
-func getGetDefaultCredential(cfg config.Values, err error, setupLog logr.Logger) (azcore.TokenCredential, error) {
+func getGetDefaultCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
 
 	// If subscriptionID is not supplied, then set default credential to not be used/nil
 	if cfg.SubscriptionID == "" {
@@ -168,6 +168,7 @@ func getGetDefaultCredential(cfg config.Values, err error, setupLog logr.Logger)
 	}
 
 	var credential azcore.TokenCredential
+	var err error
 	if cfg.UseWorkloadIdentityAuth {
 		credential, err = identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
 		if err != nil {
