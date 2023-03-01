@@ -52,7 +52,7 @@ type ARMClientCache struct {
 }
 
 func NewARMClientCache(
-	client *genericarmclient.GenericClient,
+	defaultClient *genericarmclient.GenericClient,
 	podNamespace string,
 	kubeClient kubeclient.Client,
 	configuration cloud.Configuration,
@@ -60,7 +60,7 @@ func NewARMClientCache(
 	armMetrics *metrics.ARMClientMetrics) *ARMClientCache {
 
 	globalClient := &armClient{
-		genericClient:  client,
+		genericClient:  defaultClient,
 		credentialFrom: types.NamespacedName{Name: globalCredentialSecretName, Namespace: podNamespace},
 	}
 
@@ -110,6 +110,9 @@ func (c *ARMClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 		return client.GenericClient(), client.CredentialFrom(), nil
 	}
 
+	if c.globalClient.GenericClient() == nil {
+		return nil, "", errors.New("Default global credential is not configured. Use either namespaced or per-resource credential")
+	}
 	// If not found, default is the global client
 	return c.globalClient.GenericClient(), c.globalClient.CredentialFrom(), nil
 }

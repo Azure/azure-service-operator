@@ -90,25 +90,15 @@ func main() {
 		os.Exit(1)
 	}
 
-	var credential azcore.TokenCredential
-	if cfg.UseWorkloadIdentityAuth {
-		credential, err = identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
-		if err != nil {
-			setupLog.Error(err, "unable to get workload identity credential")
-			os.Exit(1)
-		}
-	} else {
-		credential, err = azidentity.NewDefaultAzureCredential(nil)
-		if err != nil {
-			setupLog.Error(err, "unable to get default azure credential")
-			os.Exit(1)
-		}
-	}
+	credential, err := getGetDefaultCredential(cfg, err, setupLog)
 
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, armMetrics)
-	if err != nil {
-		setupLog.Error(err, "failed to get new genericArmClient")
-		os.Exit(1)
+	var globalARMClient *genericarmclient.GenericClient
+	if credential != nil {
+		globalARMClient, err = genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, armMetrics)
+		if err != nil {
+			setupLog.Error(err, "failed to get new genericArmClient")
+			os.Exit(1)
+		}
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
@@ -167,6 +157,32 @@ func main() {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
+}
+
+func getGetDefaultCredential(cfg config.Values, err error, setupLog logr.Logger) (azcore.TokenCredential, error) {
+
+	// If subscriptionID is not supplied, then set default credential to not be used/nil
+	if cfg.SubscriptionID == "" {
+		setupLog.Info("No default credential set found, continuing without default credential")
+		return nil, nil
+	}
+
+	var credential azcore.TokenCredential
+	if cfg.UseWorkloadIdentityAuth {
+		credential, err = identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
+		if err != nil {
+			setupLog.Error(err, "unable to get workload identity credential")
+			os.Exit(1)
+		}
+	} else {
+		credential, err = azidentity.NewDefaultAzureCredential(nil)
+		if err != nil {
+			setupLog.Error(err, "unable to get default azure credential")
+			os.Exit(1)
+		}
+	}
+
+	return credential, err
 }
 
 func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
