@@ -43,13 +43,13 @@ func (person *Person) AssignProperties_From_Person(source *v20211231.Person) err
 
 	// KnownAs
 	if propertyBag.Contains("KnownAs") {
-		var knownA string
-		err := propertyBag.Pull("KnownAs", &knownA)
+		var knownAs string
+		err := propertyBag.Pull("KnownAs", &knownAs)
 		if err != nil {
 			return errors.Wrap(err, "pulling 'KnownAs' from propertyBag")
 		}
 
-		person.KnownAs = knownA
+		person.KnownAs = knownAs
 	} else {
 		person.KnownAs = ""
 	}

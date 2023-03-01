@@ -37,12 +37,12 @@ func (test *Test) AssignProperties_From_Test(source *v20200101s.Test) error {
 
 	// FooAlias
 	if source.FooAlias != nil {
-		var fooAlia Foo
-		err := fooAlia.AssignProperties_From_Foo(source.FooAlias)
+		var fooAlias Foo
+		err := fooAlias.AssignProperties_From_Foo(source.FooAlias)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_Foo() to populate field FooAlias")
 		}
-		test.FooAlias = &fooAlia
+		test.FooAlias = &fooAlias
 	} else {
 		test.FooAlias = nil
 	}
@@ -76,12 +76,12 @@ func (test *Test) AssignProperties_To_Test(destination *v20200101s.Test) error {
 
 	// FooAlias
 	if test.FooAlias != nil {
-		var fooAlia v20200101s.Foo
-		err := test.FooAlias.AssignProperties_To_Foo(&fooAlia)
+		var fooAlias v20200101s.Foo
+		err := test.FooAlias.AssignProperties_To_Foo(&fooAlias)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_Foo() to populate field FooAlias")
 		}
-		destination.FooAlias = &fooAlia
+		destination.FooAlias = &fooAlias
 	} else {
 		destination.FooAlias = nil
 	}

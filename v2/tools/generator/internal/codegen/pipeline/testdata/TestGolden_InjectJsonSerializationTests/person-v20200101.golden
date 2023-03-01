@@ -119,8 +119,8 @@ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v2020010
 	destination.FullName = &fullName
 
 	// KnownAs
-	knownA := person.KnownAs
-	destination.KnownAs = &knownA
+	knownAs := person.KnownAs
+	destination.KnownAs = &knownAs
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
