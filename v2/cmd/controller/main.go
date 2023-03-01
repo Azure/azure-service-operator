@@ -90,7 +90,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	credential, err := getGetDefaultCredential(cfg, err, setupLog)
+	credential, err := getGetDefaultCredential(cfg, setupLog)
 
 	var globalARMClient *genericarmclient.GenericClient
 	if credential != nil {
