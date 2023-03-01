@@ -77,7 +77,7 @@ jobs:
         run: |
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
-          echo "::set-output name=id::$container_id"
+          echo "id=$container_id" >> $GITHUB_OUTPUT
 
       - name: Generate helm manifest
         run: |
