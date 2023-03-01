@@ -4,7 +4,7 @@
 package v1beta20201101preview
 
 import (
-	"github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
+	"github.com/crossplane/crossplane-runtime/apis/common/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -35,13 +35,13 @@ type Servers_DatabaseList struct {
 }
 
 type Servers_Database_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline,omitempty"`
-	ForProvider           Servers_DatabaseParameters `json:"forProvider,omitempty"`
+	v1.ResourceSpec `json:",inline,omitempty"`
+	ForProvider     Servers_DatabaseParameters `json:"forProvider,omitempty"`
 }
 
 type Servers_Database_STATUS struct {
-	v1alpha1.ResourceStatus `json:",inline,omitempty"`
-	AtProvider              ServersObservation `json:"atProvider,omitempty"`
+	v1.ResourceStatus `json:",inline,omitempty"`
+	AtProvider        ServersObservation `json:"atProvider,omitempty"`
 }
 
 type Servers_DatabaseParameters struct {
@@ -119,8 +119,8 @@ type Servers_DatabaseParameters struct {
 	// RequestedBackupStorageRedundancy: The storage account type to be used to store backups for this database.
 	RequestedBackupStorageRedundancy *DatabaseProperties_RequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
 	ResourceGroupName                string                                               `json:"resourceGroupName,omitempty"`
-	ResourceGroupNameRef             *v1alpha1.Reference                                  `json:"resourceGroupNameRef,omitempty"`
-	ResourceGroupNameSelector        *v1alpha1.Selector                                   `json:"resourceGroupNameSelector,omitempty"`
+	ResourceGroupNameRef             *v1.Reference                                        `json:"resourceGroupNameRef,omitempty"`
+	ResourceGroupNameSelector        *v1.Selector                                         `json:"resourceGroupNameSelector,omitempty"`
 
 	// RestorableDroppedDatabaseId: The resource identifier of the restorable dropped database associated with create operation
 	// of this database.
@@ -136,8 +136,8 @@ type Servers_DatabaseParameters struct {
 	// SecondaryType: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
 	SecondaryType      *DatabaseProperties_SecondaryType `json:"secondaryType,omitempty"`
 	ServerName         string                            `json:"serverName,omitempty"`
-	ServerNameRef      *v1alpha1.Reference               `json:"serverNameRef,omitempty"`
-	ServerNameSelector *v1alpha1.Selector                `json:"serverNameSelector,omitempty"`
+	ServerNameRef      *v1.Reference                     `json:"serverNameRef,omitempty"`
+	ServerNameSelector *v1.Selector                      `json:"serverNameSelector,omitempty"`
 
 	// Sku: The database SKU.
 	// The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition,

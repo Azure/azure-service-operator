@@ -10,19 +10,19 @@ nameTypes                                               Name inner types for CRD
 propertyRewrites                                        Modify property types using configured transforms
 applyIsResourceOverrides                                Apply $isResource overrides to objects
 fixIdFields                                             Remove ARM ID annotations from status, and Id from Spec types
-add-api-version-enums                                   Add enums for API Versions in each package
-removeAliases                                           Remove type aliases
-makeStatusPropertiesOptional                            Force all status properties to be optional
-removeStatusPropertyValidation                          Remove validation from all status properties
-transformValidatedFloats                                Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
 unrollRecursiveTypes                                    Unroll directly recursive types since they are not supported by controller-gen
+removeStatusPropertyValidation                          Remove validation from all status properties
 determineResourceOwnership                              Determine ARM resource relationships
 removeAliases                                           Remove type aliases
 collapseCrossGroupReferences                            Find and remove cross group references
 stripUnreferenced                                       Strip unreferenced types
 assertTypesStructureValid                               Verify that all local TypeNames refer to a type
-removeEmptyObjects                                      Remove empty Objects
 filterTypes                                             Apply export filters to reduce the number of generated types
+add-api-version-enums                                   Add enums for API Versions in each package
+removeAliases                                           Remove type aliases
+makeStatusPropertiesOptional                            Force all status properties to be optional
+transformValidatedFloats                                Transform validated 'spec' float type values to validated integer types for compatibility with controller-gen
+removeEmptyObjects                                      Remove empty Objects
 verifyNoErroredTypes                                    Verify there are no ErroredType's containing errors
 stripUnreferenced                                       Strip unreferenced types
 replaceAnyTypeWithJSON                                  Replace properties using interface{} with arbitrary JSON

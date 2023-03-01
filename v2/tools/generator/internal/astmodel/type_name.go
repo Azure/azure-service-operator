@@ -252,3 +252,8 @@ func (typeName TypeName) IsStatus() bool {
 func CreateARMTypeName(name TypeName) TypeName {
 	return MakeTypeName(name.PackageReference, name.Name()+ARMSuffix)
 }
+
+// IsARMType returns true if the TypeName identifies an ARM specific type, false otherwise.
+func IsARMType(typeName TypeName) bool {
+	return strings.HasSuffix(typeName.Name(), ARMSuffix)
+}

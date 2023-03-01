@@ -49,7 +49,7 @@ recoverSoftDeletedKeyVaultSecrets: True
 # repository).
 image:
   repository: mcr.microsoft.com/k8s/azureserviceoperator:1.0.45297
-  kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
+  kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
 
 # installAadPodIdentity determines if the aad-pod-identity subchart should be installed.
 installAadPodIdentity: False
