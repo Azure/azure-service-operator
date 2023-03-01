@@ -30,7 +30,10 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.FullAddressProperty,
 		test.CityProperty)
 
-	addressSpecProperty := astmodel.NewPropertyDefinition("Address", "address", addressSpec.Name())
+	addressesSpecProperty := astmodel.NewPropertyDefinition(
+		"Addresses",
+		"addresses",
+		astmodel.NewArrayType(addressSpec.Name()))
 
 	// We want a status type that has a wholly different name from the spec type
 	locationStatus := test.CreateObjectDefinition(
@@ -40,7 +43,10 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.CityProperty,
 		test.StatusProperty)
 
-	addressStatusProperty := astmodel.NewPropertyDefinition("Address", "address", locationStatus.Name())
+	addressesStatusProperty := astmodel.NewPropertyDefinition(
+		"Addresses",
+		"addresses",
+		astmodel.NewArrayType(locationStatus.Name()))
 
 	spec := test.CreateSpec(
 		test.Pkg2020,
@@ -48,7 +54,7 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.FullNameProperty,
 		test.FamilyNameProperty,
 		test.KnownAsProperty,
-		addressSpecProperty)
+		addressesSpecProperty)
 
 	status := test.CreateStatus(
 		test.Pkg2020,
@@ -56,7 +62,7 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.FullNameProperty,
 		test.FamilyNameProperty,
 		test.KnownAsProperty,
-		addressStatusProperty)
+		addressesStatusProperty)
 
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 

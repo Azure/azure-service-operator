@@ -25,7 +25,7 @@ type PersonList struct {
 }
 
 type Person_Spec struct {
-	Address Address_Spec `json:"address,omitempty"`
+	Addresses []Address_Spec `json:"addresses,omitempty"`
 
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
@@ -40,13 +40,23 @@ type Person_Spec struct {
 // Initialize_From_Person_STATUS populates our Person_Spec from the provided source Person_STATUS
 func (person *Person_Spec) Initialize_From_Person_STATUS(source *Person_STATUS) error {
 
-	// Address
-	var address Address_Spec
-	err := address.Initialize_From_Location_STATUS(&source.Address)
-	if err != nil {
-		return errors.Wrap(err, "calling Initialize_From_Location_STATUS() to populate field Address")
+	// Addresses
+	if source.Addresses != nil {
+		addressList := make([]Address_Spec, len(source.Addresses))
+		for addressIndex, addressItem := range source.Addresses {
+			// Shadow the loop variable to avoid aliasing
+			addressItem := addressItem
+			var address Address_Spec
+			err := address.Initialize_From_Location_STATUS(&addressItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Location_STATUS() to populate field Addresses")
+			}
+			addressList[addressIndex] = address
+		}
+		person.Addresses = addressList
+	} else {
+		person.Addresses = nil
 	}
-	person.Address = address
 
 	// FamilyName
 	person.FamilyName = source.FamilyName
@@ -62,7 +72,7 @@ func (person *Person_Spec) Initialize_From_Person_STATUS(source *Person_STATUS) 
 }
 
 type Person_STATUS struct {
-	Address Location_STATUS `json:"address,omitempty"`
+	Addresses []Location_STATUS `json:"addresses,omitempty"`
 
 	// FamilyName: Shared name of the family
 	FamilyName string `json:"familyName,omitempty"`
@@ -83,6 +93,19 @@ type Address_Spec struct {
 
 	// FullAddress: Full written address for map or postal use
 	FullAddress string `json:"fullAddress,omitempty"`
+}
+
+// Initialize_From_Location_STATUS populates our Address_Spec from the provided source Location_STATUS
+func (address *Address_Spec) Initialize_From_Location_STATUS(source *Location_STATUS) error {
+
+	// City
+	address.City = source.City
+
+	// FullAddress
+	address.FullAddress = source.FullAddress
+
+	// No error
+	return nil
 }
 
 type Location_STATUS struct {

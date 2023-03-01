@@ -28,7 +28,7 @@ type PersonList struct {
 
 // Storage version of v20200101.Person_Spec
 type Person_Spec struct {
-	Address     *Address_Spec          `json:"address,omitempty"`
+	Addresses   []Address_Spec         `json:"addresses,omitempty"`
 	FamilyName  *string                `json:"familyName,omitempty"`
 	FullName    *string                `json:"fullName,omitempty"`
 	KnownAs     *string                `json:"knownAs,omitempty"`
@@ -37,7 +37,7 @@ type Person_Spec struct {
 
 // Storage version of v20200101.Person_STATUS
 type Person_STATUS struct {
-	Address     *Location_STATUS       `json:"address,omitempty"`
+	Addresses   []Location_STATUS      `json:"addresses,omitempty"`
 	FamilyName  *string                `json:"familyName,omitempty"`
 	FullName    *string                `json:"fullName,omitempty"`
 	KnownAs     *string                `json:"knownAs,omitempty"`

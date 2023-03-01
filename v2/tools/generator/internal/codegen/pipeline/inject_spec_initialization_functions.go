@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -31,17 +32,18 @@ func InjectSpecInitializationFunctions(
 		"Inject spec initialization functions Initialize_From_*() into resources and objects",
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Definitions()
-			functionInjector := astmodel.NewFunctionInjector()
 
-			selected, err := selectDefinitionsRequiringSpecInitialization(configuration.ObjectModelConfiguration, defs)
+			// Scan for the object definitions that need spec initialization functions injected
+			scanner := newSpecInitializationScanner(state.Definitions(), configuration)
+			mappings, err := scanner.scanResources()
 			if err != nil {
-				return nil, err
+				return nil, errors.Wrap(err, "scanning for spec/status mappings")
 			}
 
-			newDefs := make(astmodel.TypeDefinitionSet, len(selected))
-
+			functionInjector := astmodel.NewFunctionInjector()
+			newDefs := make(astmodel.TypeDefinitionSet, len(mappings))
 			errs := make([]error, 0, 10)
-			for specName, statusName := range selected {
+			for specName, statusName := range mappings {
 				klog.V(3).Infof("Injecting specName initialization function into %s", specName.String())
 
 				spec := defs[specName]
@@ -78,35 +80,64 @@ func InjectSpecInitializationFunctions(
 	return stage
 }
 
-func selectDefinitionsRequiringSpecInitialization(
-	configuration *config.ObjectModelConfiguration,
-	definitions astmodel.TypeDefinitionSet,
-) (map[astmodel.TypeName]astmodel.TypeName, error) {
+type specInitializationScanner struct {
+	defs         astmodel.TypeDefinitionSet              // A set of all known types, used to follow references
+	config       *config.ObjectModelConfiguration        // Configuration for which resources are importable and which are not
+	specToStatus map[astmodel.TypeName]astmodel.TypeName // maps spec types to corresponding status types
+	visitor      astmodel.TypeVisitor                    // used to walk resources to find the mappings
+}
 
-	// result is a map of spec type to corresponding status type
-	result := make(map[astmodel.TypeName]astmodel.TypeName)
+func newSpecInitializationScanner(
+	defs astmodel.TypeDefinitionSet,
+	config *config.Configuration,
+) *specInitializationScanner {
+	// Every resource has a spec and a status, so an upper limit on the number of mappings we'll need is 1/3 the
+	// total number of types
+	capacity := len(defs)/3 + 1
 
-	for _, def := range definitions {
+	result := &specInitializationScanner{
+		defs:         defs,
+		config:       config.ObjectModelConfiguration,
+		specToStatus: make(map[astmodel.TypeName]astmodel.TypeName, capacity),
+	}
+
+	builder := astmodel.TypeVisitorBuilder{
+		VisitTypeName:   result.visitTypeName,
+		VisitObjectType: result.visitObjectType,
+		VisitMapType:    result.visitMapType,
+		VisitArrayType:  result.visitArrayType,
+	}
+
+	result.visitor = builder.Build()
+	return result
+}
+
+// scanResources does a scan for all the non-storage ResourceTypes in the supplied set
+func (s *specInitializationScanner) scanResources() (map[astmodel.TypeName]astmodel.TypeName, error) {
+	errs := make([]error, 0, 10)
+	for _, def := range s.defs {
+		// Skip storage types, only need spec initialization on API types
 		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
-			// Skip storage types, only need spec initialization on API types
 			continue
 		}
 
+		// Skip non resources
 		rsrc, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
-			// just skip it - not a resource
 			continue
 		}
 
 		// Check configuration to see if this resource should be supported
-		importable, err := configuration.LookupImportable(def.Name())
+		importable, err := s.config.LookupImportable(def.Name())
 		if err != nil {
-			if !config.IsNotConfiguredError(err) {
-
-				return nil, errors.Wrapf(err, "looking up $importable for %q", def.Name())
+			if config.IsNotConfiguredError(err) {
+				// Default to true if we have no explicit configuration
+				importable = true
+			} else {
+				// otherwise we record the error and skip this resource
+				errs = append(errs, errors.Wrapf(err, "looking up $importable for %q", def.Name()))
+				continue
 			}
-
-			importable = true
 		}
 
 		if !importable {
@@ -114,26 +145,138 @@ func selectDefinitionsRequiringSpecInitialization(
 			continue
 		}
 
-		if rsrc.StatusType() == nil {
-			// Skip resources that don't have a status
+		// Scan the resource for mappings
+		if _, err := s.visitor.Visit(rsrc.SpecType(), rsrc.StatusType()); err != nil {
+			errs = append(errs, err)
+		}
+	}
+
+	return s.specToStatus, kerrors.NewAggregate(errs)
+}
+
+// visitTypeName is called for each TypeName in the spec and status types of a resource
+func (s *specInitializationScanner) visitTypeName(
+	visitor *astmodel.TypeVisitor,
+	spec astmodel.TypeName,
+	statusAny interface{},
+) (astmodel.Type, error) {
+	status, ok := astmodel.AsTypeName(statusAny.(astmodel.Type))
+	if !ok {
+		// Don't have a type name, nothing to do
+		return spec, nil
+	}
+
+	// Look to see if we have a definition for that spec type (we might not, if it identifies an external type)
+	specDef, ok := s.defs[spec]
+	if !ok {
+		return spec, nil
+	}
+
+	// Do the same check for the status type
+	statusDef, ok := s.defs[status]
+	if !ok {
+		return spec, nil
+	}
+
+	// Check to see if we already have a specToStatus for this spec type.
+	// If we already have this specToStatus, we're done (as we've already visited their underlying definitions).
+	// If we have a different specToStatus, we have an error.
+	// If we have no specToStatus, we need to add one.
+	if existing, ok := s.specToStatus[spec]; ok {
+		if existing != status {
+			return nil, errors.Errorf("found multiple status types %q and %q for spec type %q", existing, status, spec)
+		}
+	} else {
+		s.specToStatus[spec] = status
+	}
+
+	// Recursively visit the definitions of these types
+	_, err := visitor.Visit(specDef.Type(), statusDef.Type())
+	if err != nil {
+		return nil, errors.Wrapf(err, "visiting definitions of %s and %s", spec, status)
+	}
+
+	return spec, nil
+}
+
+// visitObjectType is called for each Object pair in the spec and status types of a resource
+func (s *specInitializationScanner) visitObjectType(
+	visitor *astmodel.TypeVisitor,
+	spec *astmodel.ObjectType,
+	statusAny interface{},
+) (astmodel.Type, error) {
+	status, ok := astmodel.AsObjectType(statusAny.(astmodel.Type))
+	if !ok {
+		// Don't have an object, nothing to do
+		return spec, nil
+	}
+
+	// Now check for any identically named properties and visit those pairs
+	properties := spec.Properties().AsSlice()
+	errs := make([]error, 0, len(properties))
+	for _, specProperty := range properties {
+		// Look for a matching property on the status type
+		statusProperty, ok := status.Property(specProperty.PropertyName())
+		if !ok {
+			// Skip properties that don't exist in the status
 			continue
 		}
 
-		//!!TODO Walk the object tree rooted by the resource and look for object property matches
-		// Duplicates are ok, but having multiple different matches for a spec is not
-
-		specType, ok := astmodel.AsTypeName(rsrc.SpecType())
-		if !ok {
-			return nil, errors.Errorf("resource %s has spec type %s which is not a TypeName", def.Name(), rsrc.SpecType())
+		_, err := visitor.Visit(specProperty.PropertyType(), statusProperty.PropertyType())
+		if err != nil {
+			// I know that both the property names will be the same, but being explicit should make the message
+			// less confusing to anyone reading it
+			errs = append(errs, errors.Wrapf(
+				err, "visiting properties %q and %q", specProperty.PropertyName(), statusProperty.PropertyName()))
 		}
-
-		statusType, ok := astmodel.AsTypeName(rsrc.StatusType())
-		if !ok {
-			return nil, errors.Errorf("resource %s has status type %s which is not a TypeName", def.Name(), rsrc.StatusType())
-		}
-
-		result[specType] = statusType
 	}
 
-	return result, nil
+	return spec, kerrors.NewAggregate(errs)
+}
+
+// visitMapType is called for each Map pair in the spec and status types of a resource
+func (s *specInitializationScanner) visitMapType(
+	visitor *astmodel.TypeVisitor,
+	spec *astmodel.MapType,
+	statusAny interface{},
+) (astmodel.Type, error) {
+	status, ok := astmodel.AsMapType(statusAny.(astmodel.Type))
+	if !ok {
+		// Don't have a map, nothing to do
+		return spec, nil
+	}
+
+	// Visit the key and value types
+	_, err := visitor.Visit(spec.KeyType(), status.KeyType())
+	if err != nil {
+		return nil, errors.Wrap(err, "visiting map key types")
+	}
+
+	_, err = visitor.Visit(spec.ValueType(), status.ValueType())
+	if err != nil {
+		return nil, errors.Wrap(err, "visiting map value types")
+	}
+
+	return spec, nil
+}
+
+// visitArrayType is called for each Array pair in the spec and status types of a resource
+func (s *specInitializationScanner) visitArrayType(
+	visitor *astmodel.TypeVisitor,
+	spec *astmodel.ArrayType,
+	statusAny interface{},
+) (astmodel.Type, error) {
+	status, ok := astmodel.AsArrayType(statusAny.(astmodel.Type))
+	if !ok {
+		// Don't have an array, nothing to do
+		return spec, nil
+	}
+
+	// Visit the element types
+	_, err := visitor.Visit(spec.Element(), status.Element())
+	if err != nil {
+		return nil, errors.Wrap(err, "visiting array element types")
+	}
+
+	return spec, nil
 }
