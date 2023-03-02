@@ -40,6 +40,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2022-12-reconciliation-extensions/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/annotations/</loc>

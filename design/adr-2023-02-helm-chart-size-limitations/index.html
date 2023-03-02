@@ -4,7 +4,6 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.88.1" />
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/contributing/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,17 +18,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Contributing to Azure Service Operator v2 | Azure Service Operator</title>
-<meta name="description" content="The most popular HTML, CSS, and JS library in the world.">
-<meta property="og:title" content="Contributing to Azure Service Operator v2" />
-<meta property="og:description" content="The most popular HTML, CSS, and JS library in the world." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/" />
+<title>2023-01: Helm Chart Size Limitations and Workarounds | Azure Service Operator</title>
+<meta name="description" content="Context Helm v3 stores chart state in a Kubernetes secret by default. Kubernetes secrets are limited to a max size based on etcd&amp;rsquo;s configuration. The default etcd configuration limits secrets to a maximum size of 1MB.
+Our chart secret is fast approaching 1MB. In fact, outstanding PRs already cause us to surpass the 1MB limit.
+Once this limit is reached, users will be unable to install our chart. When this happens, the error looks like:">
+<meta property="og:title" content="2023-01: Helm Chart Size Limitations and Workarounds" />
+<meta property="og:description" content="Context Helm v3 stores chart state in a Kubernetes secret by default. Kubernetes secrets are limited to a max size based on etcd&rsquo;s configuration. The default etcd configuration limits secrets to a maximum size of 1MB.
+Our chart secret is fast approaching 1MB. In fact, outstanding PRs already cause us to surpass the 1MB limit.
+Once this limit is reached, users will be unable to install our chart. When this happens, the error looks like:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" /><meta property="article:section" content="design" />
 
-<meta itemprop="name" content="Contributing to Azure Service Operator v2">
-<meta itemprop="description" content="The most popular HTML, CSS, and JS library in the world."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Contributing to Azure Service Operator v2"/>
-<meta name="twitter:description" content="The most popular HTML, CSS, and JS library in the world."/>
+
+
+<meta itemprop="name" content="2023-01: Helm Chart Size Limitations and Workarounds">
+<meta itemprop="description" content="Context Helm v3 stores chart state in a Kubernetes secret by default. Kubernetes secrets are limited to a max size based on etcd&rsquo;s configuration. The default etcd configuration limits secrets to a maximum size of 1MB.
+Our chart secret is fast approaching 1MB. In fact, outstanding PRs already cause us to surpass the 1MB limit.
+Once this limit is reached, users will be unable to install our chart. When this happens, the error looks like:">
+
+<meta itemprop="wordCount" content="1628">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="2023-01: Helm Chart Size Limitations and Workarounds"/>
+<meta name="twitter:description" content="Context Helm v3 stores chart state in a Kubernetes secret by default. Kubernetes secrets are limited to a max size based on etcd&rsquo;s configuration. The default etcd configuration limits secrets to a maximum size of 1MB.
+Our chart secret is fast approaching 1MB. In fact, outstanding PRs already cause us to surpass the 1MB limit.
+Once this limit is reached, users will be unable to install our chart. When this happens, the error looks like:"/>
 
 
 
@@ -43,7 +55,7 @@
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
   <a class="navbar-brand" href="/azure-service-operator/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">Azure Service Operator</span></a>
@@ -56,10 +68,10 @@
         <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link active" href="/azure-service-operator/contributing/"><span class="active">Contributing</span></a>
+        <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
+        <a class="nav-link active" href="/azure-service-operator/design/"><span class="active">Design</span></a>
       </li>
       </ul>
   </div>
@@ -366,65 +378,65 @@
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorcontributing-li">
-  <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="td-sidebar-nav-active-item">Contributing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributing-li">
+  <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource-li">
   <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/" title="Adding a new code generated resource to ASO v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingadd-a-new-code-generated-resource"><span class="">Add a resource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributinggenerator-overview-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributinggenerator-overview-li">
   <a href="/azure-service-operator/contributing/generator-overview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributinggenerator-overview"><span class="">Code Generator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorcontributingcreate-a-new-release-li">
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
   <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
   <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
   <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
   <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
   <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
   <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator"><span class="">2022-08 Evil Discriminator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
   <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
   <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
-  <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations"><span class="">2023-01: Helm Chart Size Limitations and Workarounds</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
+  <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations"><span class="td-sidebar-nav-active-item">2023-01: Helm Chart Size Limitations and Workarounds</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -440,7 +452,7 @@
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
 </li>
   </ul>
@@ -461,29 +473,18 @@
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#related-pages">Related pages</a></li>
-    <li><a href="#developer-setup-with-vs-code">Developer setup (with VS Code)</a></li>
-    <li><a href="#without-vs-code">Without VS Code</a>
+    <li><a href="#context">Context</a>
       <ul>
-        <li><a href="#option-1-dockerfile">Option 1: Dockerfile</a></li>
-        <li><a href="#option-2-devsh">Option 2: ./dev.sh</a></li>
+        <li><a href="#splitting-the-helm-chart">Splitting the Helm Chart</a></li>
+        <li><a href="#avoiding-helm-for-installing-crds">Avoiding Helm (for installing CRDs)</a></li>
+        <li><a href="#digging-in">Digging in</a></li>
+        <li><a href="#how-should-the-installedresourcedefinitions-crd-be-consumed">How should the <code>InstalledResourceDefinitions</code> CRD be consumed?</a></li>
       </ul>
     </li>
-    <li><a href="#directory-structure-of-the-operator">Directory structure of the operator</a></li>
-    <li><a href="#running-integration-tests">Running integration tests</a>
-      <ul>
-        <li><a href="#recordreplay">Record/replay</a></li>
-        <li><a href="#running-live-tests">Running live tests</a></li>
-        <li><a href="#running-a-single-test">Running a single test</a></li>
-      </ul>
-    </li>
-    <li><a href="#running-the-operator-locally">Running the operator locally</a></li>
-    <li><a href="#submitting-a-pull-request">Submitting a pull request</a></li>
-    <li><a href="#common-problems-and-their-solutions">Common problems and their solutions</a>
-      <ul>
-        <li><a href="#error-loading-schema-from-root">Error loading schema from root</a></li>
-      </ul>
-    </li>
+    <li><a href="#decision">Decision</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
       </div>
@@ -513,17 +514,20 @@
             
   
 
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
+  </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/contributing/" aria-disabled="true" class="btn-link disabled">Contributing</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" aria-disabled="true" class="btn-link disabled">2023-01: Helm Chart Size Limitations and Workarounds</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Contributing to Azure Service Operator v2</h1>
-  
+	<h1>2023-01: Helm Chart Size Limitations and Workarounds</h1>
+	
 	<header class="article-meta">
 		
 
@@ -538,151 +542,207 @@
   
 
 		
-	</header>
-	<h2 id="related-pages">Related pages</h2>
-<ul>
-<li><a href="add-a-new-code-generated-resource">Adding a new code-generator resource</a>.</li>
-<li><a href="generator-overview">Generator code overview</a></li>
-</ul>
-<h2 id="developer-setup-with-vs-code">Developer setup (with VS Code)</h2>
-<p>This is the recommended setup, especially if you are using Windows as your development platform.</p>
-<p>This repository contains a <a href="https://code.visualstudio.com/docs/remote/containers">devcontainer</a> configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.</p>
-<p>If you want to use this:</p>
-<ol start="0">
-<li>
-<p>Make sure you have installed <a href="https://code.visualstudio.com/docs/remote/containers#_system-requirements">the prerequisites to use Docker</a>, including WSL if on Windows.</p>
-</li>
-<li>
-<p>Install VS Code and the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development</a> extension (check installation instructions there).</p>
-</li>
-<li>
-<p>Run the VS Code command (with <code>Ctrl-Shift-P</code>): <code>Remote Containers: Clone Repository in Container Volume...</code></p>
-<p><strong>Note</strong>: in Windows, it is important to clone directly into a container instead of cloning first and then loading that with the <code>Remote Containers</code> extension, as the tooling performs a lot of file I/O, and if this is performed against a volume mounted in WSL then it is unusably slow.</p>
-<p>To complete the clone:</p>
-<ol>
-<li>Select &ldquo;<code>GitHub</code>&rdquo;.</li>
-<li>Search for &ldquo;<code>Azure/azure-service-operator</code>&rdquo;.</li>
-<li>Choose either of the following options about where to create the volume.</li>
-<li>The window will reload and run the <code>Dockerfile</code> setup. The first time, this will take some minutes to complete as it installs all dependencies.</li>
-<li>Run <code>git submodule init</code> and <code>git submodule update</code></li>
-</ol>
-</li>
-<li>
-<p>To validate everything is working correctly, you can open a terminal in VS Code and run <code>task -l</code>. This will show a list of all <code>task</code> commands. Running <code>task</code> by itself (or <code>task default</code>) will run quick local pre-checkin tests and validation.</p>
-</li>
-</ol>
-<h2 id="without-vs-code">Without VS Code</h2>
-<h3 id="option-1-dockerfile">Option 1: Dockerfile</h3>
-<p>The same <code>Dockerfile</code> that the VS Code <code>devcontainer</code> extension uses can also be used outside of VS Code; it is stored in the root <code>.devcontainer</code> directory and can be used to create a development container with all the tooling preinstalled:</p>
-<pre tabindex="0"><code class="language-console" data-lang="console">$ docker build $(git rev-parse --show-toplevel)/.devcontainer -t asodev:latest
-… image will be created …
-
-$ # After that you can start a terminal in the development container with:
-$ docker run --env-file ~/work/envs.env -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock --network=host  -it asodev:latest /bin/bash
-</code></pre><p>It is not recommended to mount the source like this on Windows (WSL2) as the cross-VM file operations are very slow.</p>
-<h3 id="option-2-devsh">Option 2: ./dev.sh</h3>
-<p>If you are using Linux, instead of using VS Code you can run the <code>dev.sh</code> script in the root of the repository. This will install all required tooling into the <code>hack/tools</code> directory and then start a new shell with the <code>PATH</code> updated to use it.</p>
-<h2 id="directory-structure-of-the-operator">Directory structure of the operator</h2>
-<p>Key folders of note include:</p>
-<ul>
-<li><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/api"><code>api</code></a> contains all of our supported resources. Much (most!) of this code is generated, but handwritten code is added at various extension points for flexibility.</li>
-<li><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/pkg"><code>pkg</code></a> contains the package <code>genruntime</code> which is provides infrastructure for our generated resources.</li>
-<li><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/internal"><code>internal</code></a> contains packages used by our generic controller.</li>
-</ul>
-<p><img src="./images/aso-v2-structure.svg" alt="Overview"></p>
-<p>The size of each dot reflects the size of the file; the legend in the corner shows the meaning of colour.</p>
-<h2 id="running-integration-tests">Running integration tests</h2>
-<p>Basic use: run <code>task controller:test-integration-envtest</code>.</p>
-<h3 id="recordreplay">Record/replay</h3>
-<p>The task <code>controller:test-integration-envtest</code> runs the tests in a record/replay mode by default, so that it does not touch any live Azure resources. (This uses the <a href="https://github.com/dnaeon/go-vcr">go-vcr</a> library.) If you change the controller or other code in such a way that the required requests/responses from ARM change, you will need to update the recordings.</p>
-<p>To do this, delete the recordings for the failing tests (under <code>{test-dir}/recordings/{test-name}.yml</code>), and re-run <code>controller:test-integration-envtest</code>. If the test passes, a new recording will be saved, which you can commit to include with your change. All authentication and subscription information is removed from the recording.</p>
-<p>To run the test and produce a new recording you will also need to have set the required authentication environment variables for an Azure Service Principal: <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, and <code>AZURE_CLIENT_SECRET</code>. This Service Principal will need access to the subscription to create and delete resources.
-A few tests also need the <code>TEST_BILLING_ID</code> variable set to a valid Azure Billing ID when running in record mode. In replay mode this variable is never required. Note that the billing ID is redacted from all recording files so that the resulting file can be replayed by anybody, even somebody who does not know the Billing ID the test was recorded with.</p>
-<p>If you need to create a new Azure Service Principal, run the following commands:</p>
-<pre tabindex="0"><code class="language-console" data-lang="console">$ az login
-… follow the instructions …
-$ az account set --subscription {the subscription ID you would like to use}
-Creating a role assignment under the scope of &quot;/subscriptions/{subscription ID you chose}&quot;
-…
-$ az ad sp create-for-rbac --role contributor --name {the name you would like to use}
-{
-  &quot;appId&quot;: &quot;…&quot;,
-  &quot;displayName&quot;: &quot;{name you chose}&quot;,
-  &quot;name&quot;: &quot;{name you chose}&quot;,
-  &quot;password&quot;: &quot;…&quot;,
-  &quot;tenant&quot;: &quot;…&quot;
-}
-</code></pre><p>The output contains <code>appId</code> (<code>AZURE_CLIENT_ID</code>), <code>password</code> (<code>AZURE_CLIENT_SECRET</code>), and <code>tenant</code> (<code>AZURE_TENANT_ID</code>). Store these somewhere safe as the password cannot be viewed again, only reset. The Service Principal will be created as a “contributor” to your subscription which means it can create and delete resources, so <strong>ensure you keep the secrets secure</strong>.</p>
-<h3 id="running-live-tests">Running live tests</h3>
-<p>If you want to skip all recordings and run all tests directly against live Azure resources, you can use the <code>controller:test-integration-envtest-live</code> task. This will also require you to set the authentication environment variables, as detailed above.</p>
-<h3 id="running-a-single-test">Running a single test</h3>
-<p>By default <code>task controller:test-integration-envtest</code> and its variants run all tests. This is often undesirable as you may just be working on a single feature or test. In order to run a subset of tests, use:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">TEST_FILTER<span style="color:#f92672">=</span>test_name_regex task controller:test-integration-envtest
-</code></pre></div><h2 id="running-the-operator-locally">Running the operator locally</h2>
-<p>If you would like to try something out but do not want to write an integration test, you can run the operation locally in a <a href="https://kind.sigs.k8s.io">kind</a> cluster.</p>
-<p>Before launching <code>kind</code>, make sure that your shell has the <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, and <code>AZURE_CLIENT_SECRET</code> environment variables set. See <a href="#recordreplay">above</a> for more details about them.</p>
-<p>Once you&rsquo;ve set the environment variables above, run one of the following commands to create a <code>kind</code> cluster:</p>
-<ol>
-<li>Service Principal authentication cluster: <code>task controller:kind-create-with-service-principal</code>.</li>
-<li>AAD Pod Identity authentication enabled cluster (emulates Managed Identity): <code>controller:kind-create-with-podidentity</code>.</li>
-</ol>
-<p>You can use <code>kubectl</code> to interact with the local <code>kind</code> cluster.</p>
-<p>When you&rsquo;re done with the local cluster, tear it down with <code>task controller:kind-delete</code>.</p>
-<h2 id="submitting-a-pull-request">Submitting a pull request</h2>
-<p>Pull requests opened from forks of the azure-service-operator repository will initially have a <code>skipped</code> <code>Validate Pull Request / integration-tests</code> check which
-will prevent merging even if all other checks pass. Once a maintainer has looked at your PR and determined it is ready they will comment <code>/ok-to-test sha=&lt;sha&gt;</code>
-to kick off an integration test pass. If this check passes along with the other checks the PR can be merged.</p>
-<h2 id="common-problems-and-their-solutions">Common problems and their solutions</h2>
-<h3 id="error-loading-schema-from-root">Error loading schema from root</h3>
-<p>Full error:</p>
+	</header>    
+	<h2 id="context">Context</h2>
+<p>Helm v3 stores chart state in a Kubernetes secret by default. Kubernetes secrets are limited to a max size based on
+etcd&rsquo;s configuration. The default etcd configuration limits secrets to a maximum size of 1MB.</p>
+<p>Our chart secret is fast approaching 1MB. In fact,
+<a href="https://github.com/Azure/azure-service-operator/pull/2727">outstanding PRs</a> already cause us to surpass the 1MB limit.</p>
+<p>Once this limit is reached, users will be unable to install our chart. When this happens, the error looks like:</p>
 <blockquote>
-<p>error loading schema from root &hellip; open /azure-service-operator/v2/specs/azure-resource-manager-schemas/schemas/2019-04-01/deploymentTemplate.json no such file or directory</p>
+<p>Error: create: failed to create: Secret &ldquo;sh.helm.release.v1.asov2.v1&rdquo; is invalid: data: Too long: must have at most 1048576 bytes</p>
 </blockquote>
-<p>This git repo contains submodules. This error occurs when the submodules are missing, possibly because the repo was not cloned with <code>--recurse-submodules</code>.</p>
-<p>To resolve this problem, run <code>git submodule init</code> and <code>git submodule update</code> and then try building again.</p>
+<p>Digging in a bit, the Helm secret contains compressed data. This means that our chart itself can consume &gt;1MB as long
+as its compressed size is &lt;1MB. Here&rsquo;s a breakdown of our chart size right now:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Chart size</th>
+<th>Helm secret size</th>
+<th>Space savings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v2.0.0-beta.4</td>
+<td>9917 KB</td>
+<td>732 KB</td>
+<td>93%</td>
+</tr>
+<tr>
+<td>v2.0.0-beta.4 (all docs removed)</td>
+<td>8600 KB</td>
+<td>536 KB</td>
+<td>94%</td>
+</tr>
+</tbody>
+</table>
+<p>Unfortunately, Helm stores the chart <em>and all subcharts</em> state in a single secret, which means that splitting the chart
+doesn&rsquo;t prevent us from bypassing this limit if we include the split-charts as subcharts.</p>
+<p>Helm supports alternative storage schemes such as a <a href="https://helm.sh/docs/topics/advanced/#sql-storage-backend">SQL backend</a>
+that bypasses this limit, but we can&rsquo;t reasonably expect all users to use that.</p>
+<p><strong>We need to do something to overcome the 1MB max Helm chart limit</strong></p>
+<h3 id="splitting-the-helm-chart">Splitting the Helm Chart</h3>
+<p>We could split the Helm chart into a number of separate charts, 1 for the operator like we have now,
+and N charts containing just CRDs. The main question here is how to decide which CRDs go into which chart? There
+are a few options:</p>
+<ol>
+<li>Based on popularity/usage, with multiple groups together to limit the total number of charts</li>
+<li>By RP/group, with a chart per group. For example <code>networking</code>, <code>compute</code>, and <code>resources</code> would all be different charts.</li>
+</ol>
+<p>Regardless of which Helm split option we choose, we likely need to support
+<a href="https://github.com/Azure/azure-service-operator/issues/1433">#1433</a>.</p>
+<p>The requirements for the chosen chart breakdown would need to be future-proof. Adding new versions of resources just makes
+that CRD bigger, it doesn&rsquo;t add a new CRD, so we need to be careful to leave ourselves lots of room to grow in the future.</p>
+<p>I think that the best option for chart split is by RP/group. It ends up with a clean structure that matches SDKs. Other
+possible splits seem to risk some charts becoming too large, or a confusing experience for customers. Imagine &ldquo;what chart
+contains RoleAssignment again?&rdquo;</p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>It&rsquo;s clear which resource goes where, and even for the large RPs like <code>compute</code> and <code>networking</code> there should be plenty
+of space in each chart to grow and add new resources/versions, at least in the near term.</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>There&rsquo;s no way with Helm out of the box to get an all-in-one installation, which is the current default now.
+There are tools like <a href="https://github.com/helmfile/helmfile">Helmfile</a> that could enable an all-in-one story.</li>
+<li>There are a lot of RPs, which translates into a lot of Helm charts. The number of charts might get a bit overwhelming.</li>
+<li>It&rsquo;s possible we run into this problem again with one of the huge RPs like <code>compute</code> or <code>networking</code> a few years down
+the line if we keep adding new versions and new resources.</li>
+</ul>
+<h3 id="avoiding-helm-for-installing-crds">Avoiding Helm (for installing CRDs)</h3>
+<p>Helm has pretty poor CRD support. In fact, we install CRDs via Helm by treating them like normal resources. We
+have to do this because otherwise Helm never upgrades them at all. We could just stop using Helm to install CRDs entirely.</p>
+<p>There are a few options for this:</p>
+<ol>
+<li>We have users install CRDs manually via <code>kubectl</code>.</li>
+<li>We update <code>asoctl</code> to support installing CRDs for users.</li>
+<li>We embed the CRDs into the operator pod and have the operator pod manage them on startup.</li>
+</ol>
+<p>For all of the above options, we would still maintain a Helm chart for the operator itself (the deployment, service account, etc).</p>
+<p>Of the above options, I believe embedding the CRDs into the operator pod is the best option. Here are some pros/cons for it.</p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Helm wasn&rsquo;t really getting us a lot for managing CRDs anyway, and embedding the CRDs into the operator itself
+means that we can guarantee the right versions are installed for the corresponding operator version (unlike all
+the chart-splitting options above)</li>
+<li>We&rsquo;re able to continue to offer an easy-to-use Helm chart that provides the entire ASO feature set.</li>
+<li>Because it&rsquo;s integrated into the operator we could add safeguards and capabilities to this &ldquo;CRD reconciliation&rdquo;
+for both deprecation or uninstall cases over and above what we could easily do in Helm.</li>
+<li>More easily enables <a href="https://github.com/Azure/azure-service-operator/issues/1433">#1433</a> as compared to a single
+monolithic Helm chart. We could offer configuration options either via a ConfigMap or a CRD that <em>is</em> included in the
+Helm chart. That single included CRD would be something like <code>InstalledResourceDefinitions</code> and support specifying what groups
+or individual resources would be installed.</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>CRD installation would <em>probably</em> be a required pre-step and if it failed the operator would stop running, which means
+existing resources wouldn&rsquo;t be reconciled until the deployment was rolled back. We could possibly mitigate this by making
+CRD installation failure nonfatal, but that has other complications.</li>
+<li>Operator needs permission to CRUD CRDs, which it previously didn&rsquo;t have.</li>
+<li>Uninstalling the Helm chart will uninstall the operator pod but will not uninstall the CRDs. This is somewhat mitigated
+by the fact that uninstalling CRDs is very dangerous and/or impossible if there are existing resources of that CRD type
+even in the current ASO chart.</li>
+</ul>
+<p>Another possible option is using <code>asoctl</code>. Since that involves writing pretty much the same code as would be required to
+manage the CRDs from the operator, and would preclude installing ASO as an addon in AKS easily (since they want everything
+Helm deployable), it seems to make sense to manage the CRDs from the operator rather than from <code>asoctl</code>.</p>
+<h3 id="digging-in">Digging in</h3>
+<p>We will introduce a new CRD <code>InstalledResourceDefinitions.serviceoperator.azure.com</code>, with the following structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// +kubebuilder:object:root=true
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">InstalledResourceDefinitionsList</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">TypeMeta</span> <span style="color:#e6db74">`json:&#34;,inline&#34;`</span>
+    <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ListMeta</span> <span style="color:#e6db74">`json:&#34;metadata,omitempty&#34;`</span>
+    <span style="color:#a6e22e">Items</span>           []<span style="color:#a6e22e">InstalledResourceDefinitions</span> <span style="color:#e6db74">`json:&#34;items&#34;`</span>
+}
 
-        <div class="section-index">
-    
-    
-    
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/">Adding a new code generated resource to ASO v2</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/contributing/generator-overview/">Code Generator</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/contributing/create-a-new-release/">Creating a new release</a>
-                </h5>
-                <p></p>
-            </div>
-        
-    
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">InstalledResourceDefinitionsSpec</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Pattern defines the set of CRDs which should be installed.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Currently only &#34;*&#34; (all resources) is supported.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Future expansion will allow &#34;&lt;group&gt;.*&#34; to install all resources from a group (e.g. &#34;network.*&#34;)
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// as well as &#34;&lt;group&gt;.&lt;kind&gt; to install a specific resource only (e.g. &#34;network.virtualnetworks&#34;) 
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Pattern</span> []<span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;pattern,omitempty&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">InstalledResourceDefinitionsStatus</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#75715e">//Conditions: The observed state of the resource
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Conditions</span> []<span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">Condition</span> <span style="color:#e6db74">`json:&#34;conditions,omitempty&#34;`</span>
+}
+</code></pre></div><p>This CRD <em>will</em> be included in the Helm chart and will eventually allow users to configure which resources to install.
+We will watch a magically named &ldquo;aso-installed-resources&rdquo; instance of this CRD and install CRDs according to the instructions.</p>
+<h3 id="how-should-the-installedresourcedefinitions-crd-be-consumed">How should the <code>InstalledResourceDefinitions</code> CRD be consumed?</h3>
+<h4 id="from-within-the-existing-container">From within the existing container</h4>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Infrastructure is already there to watch CRDs, controller-runtime <code>Manager</code> is set up, etc.</li>
+<li>When the list of installed CRDs changes, the controller container probably has to restart to get the updated set of
+resources to watch and create clients + caches for them. This would be easier to orchestrate from within the same
+container as we could just coordinate a graceful exit.</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>When the container launches, it goes through the process of starting up watches on ALL the CRDs it&rsquo;s looking for.
+That includes all the standard ASO resources + the new <code>InstalledResourceDefinitions</code> CRD. The operator will fail
+to find the expected ASO resources and error out.</li>
+<li><code>v2/cmd/controller/main.go</code> is already quite complicated and doing this there as well would add more complexity.</li>
+</ul>
+<h4 id="from-another-container-within-the-operator-pod">From another container within the operator pod</h4>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Separation of concerns from reconciliation of Azure resources.</li>
+<li>Avoids further complication of the already somewhat complicated <code>v2/cmd/controller/main.go</code></li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Probably have to produce another docker image, including required image publishing infra work. Could be bypassed
+by just having a <code>mode</code> cmdline flag on <code>v2/cmd/controller/main.go</code> to run in CRD reconciliation mode.</li>
+<li>Harder to coordinate restart of operator container to refresh clients/caches.</li>
+<li>The main operator container still needs to read the <code>aso-installed-resources</code> CR to figure out which resources it
+should watch. We could instead just avoid watch errors but that seems worse than knowing what we should be watching and
+erroring if we&rsquo;re unable to do so for some reason.</li>
+</ul>
+<h4 id="at-operator-pod-start-only">At operator pod start only</h4>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Easy</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Not a true control-loop &ndash; user would have to restart the pod manually after updating the set of installed CRDs for
+them to be picked up.</li>
+</ul>
+<h2 id="decision">Decision</h2>
+<ul>
+<li>We will embed the CRDs in the operator and have a new controller manage their installation.</li>
+<li>We will manage the CRD installation and reconciliation process from within the existing ASO container.</li>
+<li>If the <code>aso-installed-resources</code> resource is missing, the operator pod will exit with an error. This is to ensure that
+we have a place to report status of CRD installations during upgrade and to ensure that we are driving to the expected goal
+state for the CRDs after an upgrade.</li>
+<li>The operator will operate on whatever ASO CRDs it finds as long as they are the expected version. If the CRD is not the
+expected version those resources will not be registered to watch (should trigger webhooks/etc to fail for them as well, need to confirm)</li>
+<li>The operator will add a label to the resources it adds, to make querying them easier.</li>
+<li>The operator will compare the existing CRD against its local copy and ensure that the <em>Spec</em> matches. I have a prototype
+of this diffing which seems to work. We will ignore annotation differences and probably ignore every label except the
+one we add above.</li>
+<li>The operator will tolerate the situation where the meta-resource reconciliation isn&rsquo;t done yet when it launches.</li>
+</ul>
+<h2 id="status">Status</h2>
+<p>TBD</p>
+<h2 id="consequences">Consequences</h2>
+<p>TBD</p>
+<h2 id="reference">Reference</h2>
+<p><a href="https://kubernetes.slack.com/archives/C0NH30761/p1677110151888539">Slack conversation about Helm limits</a></p>
+<p><a href="https://github.com/helmfile/helmfile">Helmfile</a></p>
+<p><a href="https://cloud.google.com/config-connector/docs/how-to/install-other-kubernetes">Installing Google config connector doesn&rsquo;t support Helm</a></p>
+<p><a href="https://docs.crossplane.io/v1.11/getting-started/provider-aws/">Crossplane supports Helm but only for the core, providers and their CRDs are installed another way</a></p>
+
+	
+	
+	
 </div>
 
-	
-	
-	
-</div>
 
           </main>
         </div>
