@@ -7152,12 +7152,12 @@ func (condition *DeliveryRuleCondition) AssignProperties_From_DeliveryRuleCondit
 
 	// Cookies
 	if source.Cookies != nil {
-		var cooky DeliveryRuleCookiesCondition
-		err := cooky.AssignProperties_From_DeliveryRuleCookiesCondition(source.Cookies)
+		var cookie DeliveryRuleCookiesCondition
+		err := cookie.AssignProperties_From_DeliveryRuleCookiesCondition(source.Cookies)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCookiesCondition() to populate field Cookies")
 		}
-		condition.Cookies = &cooky
+		condition.Cookies = &cookie
 	} else {
 		condition.Cookies = nil
 	}
@@ -7389,12 +7389,12 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 
 	// Cookies
 	if condition.Cookies != nil {
-		var cooky v20210601s.DeliveryRuleCookiesCondition
-		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition(&cooky)
+		var cookie v20210601s.DeliveryRuleCookiesCondition
+		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition(&cookie)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition() to populate field Cookies")
 		}
-		destination.Cookies = &cooky
+		destination.Cookies = &cookie
 	} else {
 		destination.Cookies = nil
 	}
@@ -7918,12 +7918,12 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_From_DeliveryRul
 
 	// Cookies
 	if source.Cookies != nil {
-		var cooky DeliveryRuleCookiesCondition_STATUS
-		err := cooky.AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(source.Cookies)
+		var cookie DeliveryRuleCookiesCondition_STATUS
+		err := cookie.AssignProperties_From_DeliveryRuleCookiesCondition_STATUS(source.Cookies)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_DeliveryRuleCookiesCondition_STATUS() to populate field Cookies")
 		}
-		condition.Cookies = &cooky
+		condition.Cookies = &cookie
 	} else {
 		condition.Cookies = nil
 	}
@@ -8155,12 +8155,12 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 
 	// Cookies
 	if condition.Cookies != nil {
-		var cooky v20210601s.DeliveryRuleCookiesCondition_STATUS
-		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(&cooky)
+		var cookie v20210601s.DeliveryRuleCookiesCondition_STATUS
+		err := condition.Cookies.AssignProperties_To_DeliveryRuleCookiesCondition_STATUS(&cookie)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_DeliveryRuleCookiesCondition_STATUS() to populate field Cookies")
 		}
-		destination.Cookies = &cooky
+		destination.Cookies = &cookie
 	} else {
 		destination.Cookies = nil
 	}

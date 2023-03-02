@@ -169,8 +169,8 @@ func (person *Person_Spec) AssignProperties_To_Person_Spec(destination *v2021123
 	destination.FullName = &fullName
 
 	// KnownAs
-	knownA := person.KnownAs
-	destination.KnownAs = &knownA
+	knownAs := person.KnownAs
+	destination.KnownAs = &knownAs
 
 	// PostalAddress
 	var postalAddress v20211231s.Address
