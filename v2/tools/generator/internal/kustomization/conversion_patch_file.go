@@ -31,7 +31,7 @@ import (
 //	    strategy: Webhook
 //	    webhook:
 //	        conversionReviewVersions:
-//	            - v1beta1
+//	            - v1
 //	        clientConfig:
 //	            service:
 //	                namespace: system
@@ -60,13 +60,16 @@ func NewConversionPatchFile(resourceName string) *ConversionPatchFile {
 				Strategy: "Webhook",
 				Webhook: conversionPatchWebhook{
 					ConversionReviewVersions: []string{
-						"v1beta1",
+						"v1",
 					},
 					ClientConfig: conversionPatchClientConfig{
 						Service: conversionPatchServiceConfig{
 							Namespace: "system",
 							Name:      "webhook-service",
 							Path:      "/convert",
+							// 443 is the default if we don't specify a port. To make our lives easier for
+							// CRD diffing we just specify the default here.
+							Port: 443,
 						},
 					},
 				},
@@ -129,4 +132,5 @@ type conversionPatchServiceConfig struct {
 	Namespace string `yaml:"namespace"`
 	Name      string `yaml:"name"`
 	Path      string `yaml:"path"`
+	Port      int    `yaml:"port"`
 }
