@@ -837,6 +837,12 @@ var handCraftedConversions = []handCraftedConversion{
 		implPackage: astmodel.GenRuntimeReference,
 		implFunc:    "GetOptionalIntValue",
 	},
+	{
+		fromType:    astmodel.StringType,
+		toType:      astmodel.KnownResourceReferenceType,
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "CreateResourceReferenceFromARMID",
+	},
 }
 
 func assignHandcraftedImplementations(
