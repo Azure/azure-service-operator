@@ -370,9 +370,10 @@ func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result Sho
 	// We don't also check for whether the version is expected because it's common for types to be shared
 	// between versions of an API. While end up pulling them into the package alongside the resource, at this
 	// point we haven't done that yet, so it's premature to filter by version.
-
-	if !config.ObjectModelConfiguration.IsGroupExpected(typeName.PackageReference) {
-		return Prune, fmt.Sprintf("No resources expected from %s", typeName.PackageReference.PackagePath())
+	// Sometimes in testing, configuration will be empty, and we don't want to do any filtering when that's the case
+	if !config.ObjectModelConfiguration.IsEmpty() &&
+		!config.ObjectModelConfiguration.IsGroupConfigured(typeName.PackageReference) {
+		return Prune, fmt.Sprintf("No resources configured for export from %s", typeName.PackageReference.PackagePath())
 	}
 
 	// By default, we include all types

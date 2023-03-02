@@ -37,7 +37,13 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 }
 
-func (omc *ObjectModelConfiguration) IsGroupExpected(pkg astmodel.PackageReference) bool {
+// IsEmpty returns true if we have no configuration at all, false if we have some groups configured.
+func (omc *ObjectModelConfiguration) IsEmpty() bool {
+	return len(omc.groups) == 0
+}
+
+// IsGroupConfigured returns true if we have any configuration for the specified group, false otherwise.
+func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageReference) bool {
 	var result bool
 	visitor := newSingleGroupConfigurationVisitor(pkg, func(configuration *GroupConfiguration) error {
 		result = true

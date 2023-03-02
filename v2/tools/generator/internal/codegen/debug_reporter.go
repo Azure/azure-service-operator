@@ -11,13 +11,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
-
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 )
 
 // debugReporter is a helper for generating debug logs during the code generation process.
