@@ -19,7 +19,8 @@ vars:
 
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
-  SCRIPTS_ROOT: ./scripts
+  SCRIPTS_ROOT:
+    sh: 'realpath scripts'
 
   HEADER_FILE: 
     sh: 'realpath v2/boilerplate.go.txt'
@@ -326,7 +327,7 @@ tasks:
   controller:docker-build:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:build, controller:bundle-crds] # TODO: Cyclic dependency here?
+    deps: [controller:build, controller:bundle-crds]
     run: always
     sources:
     - Dockerfile
@@ -555,15 +556,15 @@ tasks:
     dir: "v2/"
     cmds:
       - mkdir -p bin # in case it doesn't exist
-      - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
 
   controller:make-multitenant-files:
     desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment
     deps: [controller:run-kustomize]
     dir: "v2/bin"
     cmds:
-      - '../../{{.SCRIPTS_ROOT}}/make-multitenant-cluster.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
-      - '../../{{.SCRIPTS_ROOT}}/make-multitenant-tenant.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
+      - '{{.SCRIPTS_ROOT}}/make-multitenant-cluster.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
+      - '{{.SCRIPTS_ROOT}}/make-multitenant-tenant.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
 
   controller:run-kustomize-for-envtest:
     desc: Generates the CRDs for use in envtest
@@ -583,9 +584,10 @@ tasks:
 
   controller:gen-helm-manifest:
     desc: Generate helm manifest using Kustomize for the release
+    dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:generate-kustomize]
     cmds:
-     - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/{{.CONTROLLER_ROOT}}"
+     - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/"
 
   controller:install-helm:
     desc: Generate and install helm chart on cluster
@@ -648,8 +650,14 @@ tasks:
   controller:install:
     desc: Installs the controller, webhooks, and CRDs into the default kubectl cluster
     deps: [controller:generate-kustomize]
+    dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - "cd v2/ && kustomize build config/default  | kubectl apply --server-side=true -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
+      # TODO: It sucks that we have to pull CRDs out first and wait for them. It's needed because we create a CRD and then use it right
+      # TODO: away and kubectl/kustomize don't wait for the CRD to actually be provisioned before issuing the PUT of the instance of the CRD.
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator > out/operator.yaml"
+      - "yq e '. | select(.kind == \"CustomResourceDefinition\")' out/operator.yaml | kubectl apply --server-side=true -f -"
+      - "yq e '. | select(.kind == \"CustomResourceDefinition\")' out/operator.yaml | kubectl wait --for condition=established --timeout=60s -f -"
+      - "yq e '. | select(.kind != \"CustomResourceDefinition\")' out/operator.yaml | kubectl apply --server-side=true -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
 
   controller:bundle-crds:
     desc: Bundles CRDs...
@@ -660,13 +668,9 @@ tasks:
     generates:
       - out/crds/**/*.yaml
     cmds:
-      - "rm -rf out/crd-bundle-staging"
       - "rm -rf out/crds"
-      - "mkdir -p out/crd-bundle-staging"
       - "mkdir -p out/crds"
-      - "kustomize build config/default -o out/crd-bundle-staging"
-      - "find out/crd-bundle-staging/*_customresourcedefinition_* -exec mv '{}' out/crds \\;"
-      - "rm -rf out/crd-bundle-staging"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k crd -o out/crds"
 
   controller:install-cert-manager:
     desc: Installs cert manager
@@ -758,7 +762,7 @@ tasks:
     deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - ../{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template
+      - "{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template"
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:
@@ -848,7 +852,7 @@ tasks:
     desc: Ensure all Markdown documentation has frontmatter.
     dir: docs/hugo/content
     cmds:
-      - "../../../{{.SCRIPTS_ROOT}}/check_frontmatter.py"
+      - "{{.SCRIPTS_ROOT}}/check_frontmatter.py"
 
   specifier-check:
     desc: Check that format specifiers %v and %+v are not used

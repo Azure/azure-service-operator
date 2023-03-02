@@ -15,6 +15,8 @@ GEN_FILES_DIR="$ASO_CHART"/templates/generated
 IF_CLUSTER="{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode \"webhooks\") }}"
 IF_TENANT="{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode \"watchers\") }}"
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 # Matches and adds helm flow control to a file
 flow_control(){
   MATCHER_IF=$1
@@ -26,17 +28,15 @@ flow_control(){
   sed -i "/$MATCHER_END/a \  \ {{- end }}" "$TARGET"
 }
 
-
 # Manifest purge and generation
 echo "Generating helm chart manifest"
 sed -i "s@\($PUBLIC_REGISTRY\)\(.*\)@\1azureserviceoperator:$VERSION@g" "$ASO_CHART"/values.yaml
 rm -rf "$GEN_FILES_DIR" # remove generated files
 mkdir "$GEN_FILES_DIR"
-kustomize build "$DIR"config/default -o "$GEN_FILES_DIR"
-rm "$GEN_FILES_DIR"/*_namespace_* # remove namespace as we will let Helm manage it
 
-# Remove all the CRDs as we will let the operator pod manage them
-find "$GEN_FILES_DIR"/*_customresourcedefinition_* -delete
+${SCRIPT_DIR}/kustomize-build.sh -k operator -o "$GEN_FILES_DIR"
+
+rm "$GEN_FILES_DIR"/*_namespace_* # remove namespace as we will let Helm manage it
 
 # Chart replacements
 sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version for both main and subchart

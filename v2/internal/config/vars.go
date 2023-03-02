@@ -104,6 +104,11 @@ type Values struct {
 
 	// UseWorkloadIdentityAuth boolean is used to determine if we're using Workload Identity authentication for global credential
 	UseWorkloadIdentityAuth bool
+
+	// InstalledResourceDefinitionsName is the name of the InstalledResourceDefinitions resource used to configure what
+	// ASO CRDs are installed by the operator. It is not currently configurable and is hardcoded to "aso-installed-resources".
+	// It must exist in the namespace that the operator is installed in.
+	InstalledResourceDefinitionsName string
 }
 
 var _ fmt.Stringer = Values{}
@@ -189,6 +194,7 @@ func ReadFromEnvironment() (Values, error) {
 	result.AzureAuthorityHost = envOrDefault(azureAuthorityHostVar, DefaultAADAuthorityHost)
 	result.ClientID = os.Getenv(ClientIDVar)
 	result.TenantID = os.Getenv(TenantIDVar)
+	result.InstalledResourceDefinitionsName = "aso-installed-resources"
 
 	// Ignoring error here, as any other value or empty value means we should default to false
 	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(os.Getenv(useWorkloadIdentityAuth))

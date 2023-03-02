@@ -30,14 +30,17 @@ import (
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	serviceoperator "github.com/Azure/azure-service-operator/v2/api/serviceoperator/v1api"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
+	installedcrdsreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/installedresourcedefinitions"
 	mysqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/mysql"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	custompredicates "github.com/Azure/azure-service-operator/v2/internal/util/predicates"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -88,6 +91,21 @@ func GetKnownStorageTypes(
 					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &mysql.UserList{}),
 				},
 			},
+		})
+
+	// TODO: Shouldn't reconcile this resource if we're in multitenant mode
+	knownStorageTypes = append(
+		knownStorageTypes,
+		&registration.StorageType{
+			Obj:  &serviceoperator.InstalledResourceDefinitions{},
+			Name: "InstalledResourceDefinitionsController",
+			Reconciler: installedcrdsreconciler.NewInstalledResourceDefinitionsReconciler(
+				kubeClient,
+				positiveConditions,
+				options.Config),
+			Predicate: predicate.And(
+				custompredicates.MakeNamespacePredicate(options.Config.PodNamespace),
+				custompredicates.MakeNamePredicate(options.Config.InstalledResourceDefinitionsName)),
 		})
 
 	return knownStorageTypes, nil
@@ -229,6 +247,7 @@ func GetKnownTypes() []client.Object {
 func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
 	_ = mysql.AddToScheme(scheme)
+	_ = serviceoperator.AddToScheme(scheme)
 
 	return scheme
 }

@@ -1,0 +1,8 @@
+apiVersion: serviceoperator.azure.com/v1api
+kind: InstalledResourceDefinitions
+metadata:
+  name: aso-installed-resources
+  namespace: azureserviceoperator-system
+spec:
+  pattern:
+    - "*"
