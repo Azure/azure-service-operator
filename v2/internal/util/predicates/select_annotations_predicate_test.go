@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package annotations_test
+package predicates_test
 
 import (
 	"testing"
@@ -11,11 +11,10 @@ import (
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/klog/v2/klogr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/event"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/annotations"
+	"github.com/Azure/azure-service-operator/v2/internal/util/predicates"
 )
 
 type SampleObj struct {
@@ -34,12 +33,10 @@ var _ client.Object = &SampleObj{}
 func Test_SelectAnnotationsChangedPredicate_DetectsChanges(t *testing.T) {
 	t.Parallel()
 
-	log := klogr.New()
 	annotationKey := "foobar"
-	predicate := annotations.MakeSelectAnnotationChangedPredicate(
-		log,
-		map[string]annotations.HasAnnotationChanged{
-			annotationKey: annotations.HasBasicAnnotationChanged,
+	predicate := predicates.MakeSelectAnnotationChangedPredicate(
+		map[string]predicates.HasAnnotationChanged{
+			annotationKey: predicates.HasBasicAnnotationChanged,
 		})
 
 	empty := &SampleObj{}
@@ -175,13 +172,11 @@ func Test_SelectAnnotationsChangedPredicate_MissingAnnotationPassesNilToHandler(
 	testPredicateReceivesExpectedValue(handler2, withWatchedAnnotation, empty)
 }
 
-func testPredicateReceivesExpectedValue(handler annotations.HasAnnotationChanged, old client.Object, new client.Object) {
-	log := klogr.New()
+func testPredicateReceivesExpectedValue(handler predicates.HasAnnotationChanged, old client.Object, new client.Object) {
 	annotationKey := "foobar"
 
-	predicate := annotations.MakeSelectAnnotationChangedPredicate(
-		log,
-		map[string]annotations.HasAnnotationChanged{
+	predicate := predicates.MakeSelectAnnotationChangedPredicate(
+		map[string]predicates.HasAnnotationChanged{
 			annotationKey: handler,
 		})
 

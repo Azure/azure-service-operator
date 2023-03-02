@@ -11,7 +11,7 @@ import (
 	"github.com/go-logr/logr"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
-	"github.com/Azure/azure-service-operator/v2/internal/util/annotations"
+	"github.com/Azure/azure-service-operator/v2/internal/util/predicates"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -19,20 +19,18 @@ const PerResourceSecretAnnotation = "serviceoperator.azure.com/credential-from"
 
 // ARMReconcilerAnnotationChangedPredicate creates a predicate that emits events when annotations
 // interesting to the generic ARM reconciler are changed
-func ARMReconcilerAnnotationChangedPredicate(log logr.Logger) predicate.Predicate {
-	return annotations.MakeSelectAnnotationChangedPredicate(
-		log,
-		map[string]annotations.HasAnnotationChanged{
+func ARMReconcilerAnnotationChangedPredicate() predicate.Predicate {
+	return predicates.MakeSelectAnnotationChangedPredicate(
+		map[string]predicates.HasAnnotationChanged{
 			ReconcilePolicyAnnotation: HasReconcilePolicyAnnotationChanged,
 		})
 }
 
 // ARMPerResourceSecretAnnotationChangedPredicate creates a predicate that emits events when annotations
 // interesting to the generic ARM reconciler are changed
-func ARMPerResourceSecretAnnotationChangedPredicate(log logr.Logger) predicate.Predicate {
-	return annotations.MakeSelectAnnotationChangedPredicate(
-		log,
-		map[string]annotations.HasAnnotationChanged{
+func ARMPerResourceSecretAnnotationChangedPredicate() predicate.Predicate {
+	return predicates.MakeSelectAnnotationChangedPredicate(
+		map[string]predicates.HasAnnotationChanged{
 			PerResourceSecretAnnotation: HasAnnotationChanged,
 		})
 }
