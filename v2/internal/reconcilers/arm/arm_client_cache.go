@@ -111,7 +111,7 @@ func (c *ARMClientCache) GetClient(ctx context.Context, obj genruntime.ARMMetaOb
 	}
 
 	if c.globalClient.GenericClient() == nil {
-		return nil, "", errors.New("Default global credential is not configured. Use either namespaced or per-resource credential")
+		return nil, "", errors.New("Global credential not configured, you must use either namespaced or per-resource credentials")
 	}
 	// If not found, default is the global client
 	return c.globalClient.GenericClient(), c.globalClient.CredentialFrom(), nil
