@@ -4,9 +4,9 @@ title: Supported Resources
 
 ## Batch
 
-| Resource     | ARM Version    | CRD Version    | Supported From | Sample                                                                           |
-|--------------|----------------|----------------|----------------|----------------------------------------------------------------------------------|
-| BatchAccount | v1beta20210101 | v1beta20210101 | beta.2         | [View](https://github.com/samples/batch/v1beta/v1beta20210101_batchaccount.yaml) |
+| Resource     | ARM Version    | CRD Version    | Supported From | Sample                                                                                                          |
+|--------------|----------------|----------------|----------------|-----------------------------------------------------------------------------------------------------------------|
+| BatchAccount | v1beta20210101 | v1beta20210101 | beta.2         | [View](https://github.com/Azure/azure-service-operator/tree/main/batch/v1beta/v1beta20210101_batchaccount.yaml) |
 
 ## Person
 
