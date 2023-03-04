@@ -31,15 +31,10 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
 	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
-
-	tc.CreateResourcesAndWait(sa, vnet, subnet)
-
-	tc.Expect(sa.Status.Id).ToNot(BeNil())
-
 	endpoint := newPrivateEndpoint(tc, rg, sa, subnet)
 
-	tc.CreateResourceAndWait(endpoint)
-
+	tc.CreateResourcesAndWait(sa, vnet, subnet, endpoint)
+	tc.Expect(sa.Status.Id).ToNot(BeNil())
 	tc.Expect(endpoint.Status.Id).ToNot(BeNil())
 	armId := *endpoint.Status.Id
 
@@ -54,7 +49,7 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Test_DNSZoneGroup_CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				DNSZoneGroup_CRUD(tc, vnet, endpoint, rg)
+				PrivateEndpoint_DNSZoneGroup_CRUD(tc, vnet, endpoint, rg)
 			},
 		},
 	)
@@ -66,10 +61,9 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
-
 }
 
-func DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *v1beta20201101.VirtualNetwork, endpoint *network.PrivateEndpoint, rg *resources.ResourceGroup) {
+func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *v1beta20201101.VirtualNetwork, endpoint *network.PrivateEndpoint, rg *resources.ResourceGroup) {
 	zone := newPrivateDNSZone(tc, "privatelink.blob.core.windows.net", rg)
 	vnetLink := newVirtualNetworkLink(tc, zone, vnet)
 

@@ -1,4 +1,4 @@
-apiVersion: network.azure.com/v1beta20180901
+apiVersion: network.azure.com/v1beta20200601
 kind: PrivateDnsZonesVirtualNetworkLink
 metadata:
   name: aso-sample-vnetlink

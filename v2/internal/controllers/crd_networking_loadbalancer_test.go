@@ -110,7 +110,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 
 // TODO: This is still really awkward
 func getFrontendIPConfigurationARMID(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, lbName string, lbFrontendName string) (string, error) {
-	frontendIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
+	return genericarmclient.MakeResourceGroupScopeARMID(
 		tc.AzureSubscription,
 		rg.Name,
 		"Microsoft.Network",
@@ -118,8 +118,4 @@ func getFrontendIPConfigurationARMID(tc *testcommon.KubePerTestContext, rg *reso
 		lbName,
 		"frontendIPConfigurations",
 		lbFrontendName)
-	if err != nil {
-		panic(err)
-	}
-	return frontendIPConfigurationARMID, err
 }

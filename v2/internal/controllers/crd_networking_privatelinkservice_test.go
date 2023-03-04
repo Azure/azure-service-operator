@@ -30,7 +30,7 @@ func Test_Networking_PrivateLinkService_CRUD(t *testing.T) {
 	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
 	subnet.Spec.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
 
-	lb, frontendIPConfigurationARMID := newLbForPLS(tc, rg, subnet)
+	lb, frontendIPConfigurationARMID := newLoadBalancerForPLS(tc, rg, subnet)
 
 	tc.CreateResourcesAndWait(vnet, subnet, lb)
 
@@ -100,7 +100,7 @@ func Test_Networking_PrivateLinkService_CRUD(t *testing.T) {
 
 }
 
-func newLbForPLS(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, subnet *network20201101.VirtualNetworksSubnet) (*network20201101.LoadBalancer, string) {
+func newLoadBalancerForPLS(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, subnet *network20201101.VirtualNetworksSubnet) (*network20201101.LoadBalancer, string) {
 	ipAllocationMethod := network20201101.IPAllocationMethod_Dynamic
 	// LoadBalancer
 	loadBalancerSku := network20201101.LoadBalancerSku_Name_Standard

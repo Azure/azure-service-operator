@@ -12,6 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
+	network20200601 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -35,9 +36,9 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
-			Name: "Test_WorkspaceCompute_CRUD",
+			Name: "Test_VirtualNetworkLinks_CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				VirtualNetworkLinks_CRUD(tc, zone, rg)
+				PrivateDNSZone_VirtualNetworkLinks_CRUD(tc, zone, rg)
 			},
 		},
 	)
@@ -54,25 +55,22 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func VirtualNetworkLinks_CRUD(tc *testcommon.KubePerTestContext, zone *network.PrivateDnsZone, rg *resources.ResourceGroup) {
+func PrivateDNSZone_VirtualNetworkLinks_CRUD(tc *testcommon.KubePerTestContext, zone *network.PrivateDnsZone, rg *resources.ResourceGroup) {
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
-	tc.CreateResourceAndWait(vnet)
+	link := newVirtualNetworkLink(tc, zone, vnet)
 
-	links := newVirtualNetworkLink(tc, zone, vnet)
+	tc.CreateResourcesAndWait(vnet, link)
 
-	tc.CreateResourcesAndWait(links)
+	tc.Expect(link.Status.Id).ToNot(BeNil())
 
-	tc.Expect(links.Status.Id).ToNot(BeNil())
-
-	old := links.DeepCopy()
+	old := link.DeepCopy()
 	key := "foo"
-	links.Spec.Tags = map[string]string{key: "bar"}
+	link.Spec.Tags = map[string]string{key: "bar"}
 
-	tc.PatchResourceAndWait(old, links)
-	tc.Expect(links.Status.Tags).To(HaveKey(key))
+	tc.PatchResourceAndWait(old, link)
+	tc.Expect(link.Status.Tags).To(HaveKey(key))
 
-	tc.DeleteResource(links)
-
+	tc.DeleteResource(link)
 }
 
 func newPrivateDNSZone(tc *testcommon.KubePerTestContext, name string, rg *resources.ResourceGroup) *network.PrivateDnsZone {
@@ -86,13 +84,13 @@ func newPrivateDNSZone(tc *testcommon.KubePerTestContext, name string, rg *resou
 	return zone
 }
 
-func newVirtualNetworkLink(tc *testcommon.KubePerTestContext, dnsZone *network.PrivateDnsZone, vnet *v1beta20201101.VirtualNetwork) *network.PrivateDnsZonesVirtualNetworkLink {
-	links := &network.PrivateDnsZonesVirtualNetworkLink{
+func newVirtualNetworkLink(tc *testcommon.KubePerTestContext, dnsZone *network.PrivateDnsZone, vnet *v1beta20201101.VirtualNetwork) *network20200601.PrivateDnsZonesVirtualNetworkLink {
+	links := &network20200601.PrivateDnsZonesVirtualNetworkLink{
 		ObjectMeta: tc.MakeObjectMetaWithName(dnsZone.Name + "-link"),
-		Spec: network.PrivateDnsZones_VirtualNetworkLink_Spec{
+		Spec: network20200601.PrivateDnsZones_VirtualNetworkLink_Spec{
 			Location:            to.StringPtr("global"),
 			Owner:               testcommon.AsOwner(dnsZone),
-			VirtualNetwork:      &network.SubResource{Reference: tc.MakeReferenceFromResource(vnet)},
+			VirtualNetwork:      &network20200601.SubResource{Reference: tc.MakeReferenceFromResource(vnet)},
 			RegistrationEnabled: to.BoolPtr(false),
 		},
 	}

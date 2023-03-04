@@ -5,7 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"fmt"
-	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -378,7 +378,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_From
 
 	// RemoteVirtualNetwork
 	if source.RemoteVirtualNetwork != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.RemoteVirtualNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from RemoteVirtualNetwork")
@@ -501,7 +501,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_To_V
 
 	// RemoteVirtualNetwork
 	if peering.RemoteVirtualNetwork != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := peering.RemoteVirtualNetwork.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from RemoteVirtualNetwork")
@@ -697,7 +697,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_Fr
 
 	// RemoteVirtualNetwork
 	if source.RemoteVirtualNetwork != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.RemoteVirtualNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from RemoteVirtualNetwork")
@@ -827,7 +827,7 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_To
 
 	// RemoteVirtualNetwork
 	if peering.RemoteVirtualNetwork != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := peering.RemoteVirtualNetwork.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from RemoteVirtualNetwork")

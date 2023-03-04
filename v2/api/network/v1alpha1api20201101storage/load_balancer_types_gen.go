@@ -5,7 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"fmt"
-	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -1353,7 +1353,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&loadBalancingRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancingRules")
@@ -1375,7 +1375,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 
 	// OutboundRule
 	if source.OutboundRule != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.OutboundRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from OutboundRule")
@@ -1396,7 +1396,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
 			// Shadow the loop variable to avoid aliasing
 			outboundRuleItem := outboundRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&outboundRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from OutboundRules")
@@ -1492,7 +1492,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range embedded.LoadBalancingRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := loadBalancingRuleItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancingRules")
@@ -1514,7 +1514,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 
 	// OutboundRule
 	if embedded.OutboundRule != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := embedded.OutboundRule.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from OutboundRule")
@@ -1535,7 +1535,7 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 		for outboundRuleIndex, outboundRuleItem := range embedded.OutboundRules {
 			// Shadow the loop variable to avoid aliasing
 			outboundRuleItem := outboundRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := outboundRuleItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from OutboundRules")
@@ -1763,7 +1763,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Assign
 
 	// PublicIPPrefix
 	if source.PublicIPPrefix != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.PublicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from PublicIPPrefix")
@@ -1844,7 +1844,7 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Assign
 
 	// PublicIPPrefix
 	if embedded.PublicIPPrefix != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := embedded.PublicIPPrefix.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from PublicIPPrefix")
@@ -1933,7 +1933,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
 			// Shadow the loop variable to avoid aliasing
 			inboundNatPoolItem := inboundNatPoolItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&inboundNatPoolItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from InboundNatPools")
@@ -1956,7 +1956,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
 			// Shadow the loop variable to avoid aliasing
 			inboundNatRuleItem := inboundNatRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&inboundNatRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from InboundNatRules")
@@ -1979,7 +1979,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&loadBalancingRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancingRules")
@@ -2005,7 +2005,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
 			// Shadow the loop variable to avoid aliasing
 			outboundRuleItem := outboundRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&outboundRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from OutboundRules")
@@ -2048,7 +2048,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 
 	// PublicIPPrefix
 	if source.PublicIPPrefix != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.PublicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
@@ -2118,7 +2118,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		for inboundNatPoolIndex, inboundNatPoolItem := range embedded.InboundNatPools {
 			// Shadow the loop variable to avoid aliasing
 			inboundNatPoolItem := inboundNatPoolItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := inboundNatPoolItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from InboundNatPools")
@@ -2141,7 +2141,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		for inboundNatRuleIndex, inboundNatRuleItem := range embedded.InboundNatRules {
 			// Shadow the loop variable to avoid aliasing
 			inboundNatRuleItem := inboundNatRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := inboundNatRuleItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from InboundNatRules")
@@ -2164,7 +2164,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range embedded.LoadBalancingRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := loadBalancingRuleItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancingRules")
@@ -2190,7 +2190,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 		for outboundRuleIndex, outboundRuleItem := range embedded.OutboundRules {
 			// Shadow the loop variable to avoid aliasing
 			outboundRuleItem := outboundRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := outboundRuleItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from OutboundRules")
@@ -2233,7 +2233,7 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 
 	// PublicIPPrefix
 	if embedded.PublicIPPrefix != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := embedded.PublicIPPrefix.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
@@ -2327,7 +2327,7 @@ func (pool *InboundNatPool) AssignProperties_From_InboundNatPool(source *v202011
 
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from FrontendIPConfiguration")
@@ -2403,7 +2403,7 @@ func (pool *InboundNatPool) AssignProperties_To_InboundNatPool(destination *v202
 
 	// FrontendIPConfiguration
 	if pool.FrontendIPConfiguration != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := pool.FrontendIPConfiguration.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from FrontendIPConfiguration")
@@ -2501,7 +2501,7 @@ func (pool *InboundNatPool_STATUS) AssignProperties_From_InboundNatPool_STATUS(s
 
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.FrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfiguration")
@@ -2589,7 +2589,7 @@ func (pool *InboundNatPool_STATUS) AssignProperties_To_InboundNatPool_STATUS(des
 
 	// FrontendIPConfiguration
 	if pool.FrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := pool.FrontendIPConfiguration.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfiguration")
@@ -2688,7 +2688,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignPropertie
 
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from FrontendIPConfiguration")
@@ -2761,7 +2761,7 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignPropertie
 
 	// FrontendIPConfiguration
 	if embedded.FrontendIPConfiguration != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := embedded.FrontendIPConfiguration.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from FrontendIPConfiguration")
@@ -2868,7 +2868,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.FrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfiguration")
@@ -2965,7 +2965,7 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 
 	// FrontendIPConfiguration
 	if embedded.FrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := embedded.FrontendIPConfiguration.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfiguration")
@@ -3186,7 +3186,7 @@ func (rule *LoadBalancingRule) AssignProperties_From_LoadBalancingRule(source *v
 
 	// BackendAddressPool
 	if source.BackendAddressPool != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.BackendAddressPool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from BackendAddressPool")
@@ -3230,7 +3230,7 @@ func (rule *LoadBalancingRule) AssignProperties_From_LoadBalancingRule(source *v
 
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from FrontendIPConfiguration")
@@ -3259,7 +3259,7 @@ func (rule *LoadBalancingRule) AssignProperties_From_LoadBalancingRule(source *v
 
 	// Probe
 	if source.Probe != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.Probe)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from Probe")
@@ -3304,7 +3304,7 @@ func (rule *LoadBalancingRule) AssignProperties_To_LoadBalancingRule(destination
 
 	// BackendAddressPool
 	if rule.BackendAddressPool != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := rule.BackendAddressPool.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from BackendAddressPool")
@@ -3348,7 +3348,7 @@ func (rule *LoadBalancingRule) AssignProperties_To_LoadBalancingRule(destination
 
 	// FrontendIPConfiguration
 	if rule.FrontendIPConfiguration != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := rule.FrontendIPConfiguration.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from FrontendIPConfiguration")
@@ -3377,7 +3377,7 @@ func (rule *LoadBalancingRule) AssignProperties_To_LoadBalancingRule(destination
 
 	// Probe
 	if rule.Probe != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := rule.Probe.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from Probe")
@@ -3444,7 +3444,7 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_From_LoadBalancingRule_ST
 
 	// BackendAddressPool
 	if source.BackendAddressPool != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.BackendAddressPool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from BackendAddressPool")
@@ -3491,7 +3491,7 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_From_LoadBalancingRule_ST
 
 	// FrontendIPConfiguration
 	if source.FrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.FrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfiguration")
@@ -3523,7 +3523,7 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_From_LoadBalancingRule_ST
 
 	// Probe
 	if source.Probe != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.Probe)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from Probe")
@@ -3574,7 +3574,7 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_To_LoadBalancingRule_STAT
 
 	// BackendAddressPool
 	if rule.BackendAddressPool != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := rule.BackendAddressPool.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from BackendAddressPool")
@@ -3621,7 +3621,7 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_To_LoadBalancingRule_STAT
 
 	// FrontendIPConfiguration
 	if rule.FrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := rule.FrontendIPConfiguration.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfiguration")
@@ -3653,7 +3653,7 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_To_LoadBalancingRule_STAT
 
 	// Probe
 	if rule.Probe != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := rule.Probe.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from Probe")
@@ -3720,7 +3720,7 @@ func (rule *OutboundRule) AssignProperties_From_OutboundRule(source *v20201101s.
 
 	// BackendAddressPool
 	if source.BackendAddressPool != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.BackendAddressPool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from BackendAddressPool")
@@ -3749,7 +3749,7 @@ func (rule *OutboundRule) AssignProperties_From_OutboundRule(source *v20201101s.
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var subResourceStash v20180901s.SubResource
+			var subResourceStash v20200601s.SubResource
 			err := subResourceStash.AssignProperties_From_SubResource(&frontendIPConfigurationItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from FrontendIPConfigurations")
@@ -3805,7 +3805,7 @@ func (rule *OutboundRule) AssignProperties_To_OutboundRule(destination *v2020110
 
 	// BackendAddressPool
 	if rule.BackendAddressPool != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := rule.BackendAddressPool.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from BackendAddressPool")
@@ -3834,7 +3834,7 @@ func (rule *OutboundRule) AssignProperties_To_OutboundRule(destination *v2020110
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range rule.FrontendIPConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var subResourceStash v20180901s.SubResource
+			var subResourceStash v20200601s.SubResource
 			err := frontendIPConfigurationItem.AssignProperties_To_SubResource(&subResourceStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from FrontendIPConfigurations")
@@ -3907,7 +3907,7 @@ func (rule *OutboundRule_STATUS) AssignProperties_From_OutboundRule_STATUS(sourc
 
 	// BackendAddressPool
 	if source.BackendAddressPool != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.BackendAddressPool)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from BackendAddressPool")
@@ -3939,7 +3939,7 @@ func (rule *OutboundRule_STATUS) AssignProperties_From_OutboundRule_STATUS(sourc
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&frontendIPConfigurationItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfigurations")
@@ -4004,7 +4004,7 @@ func (rule *OutboundRule_STATUS) AssignProperties_To_OutboundRule_STATUS(destina
 
 	// BackendAddressPool
 	if rule.BackendAddressPool != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := rule.BackendAddressPool.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from BackendAddressPool")
@@ -4036,7 +4036,7 @@ func (rule *OutboundRule_STATUS) AssignProperties_To_OutboundRule_STATUS(destina
 		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range rule.FrontendIPConfigurations {
 			// Shadow the loop variable to avoid aliasing
 			frontendIPConfigurationItem := frontendIPConfigurationItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := frontendIPConfigurationItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfigurations")
@@ -4226,7 +4226,7 @@ func (probe *Probe_STATUS) AssignProperties_From_Probe_STATUS(source *v20201101s
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&loadBalancingRuleItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancingRules")
@@ -4304,7 +4304,7 @@ func (probe *Probe_STATUS) AssignProperties_To_Probe_STATUS(destination *v202011
 		for loadBalancingRuleIndex, loadBalancingRuleItem := range probe.LoadBalancingRules {
 			// Shadow the loop variable to avoid aliasing
 			loadBalancingRuleItem := loadBalancingRuleItem
-			var subResourceSTATUSStash v20180901s.SubResource_STATUS
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
 			err := loadBalancingRuleItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancingRules")
@@ -4473,7 +4473,7 @@ func (address *LoadBalancerBackendAddress) AssignProperties_From_LoadBalancerBac
 
 	// LoadBalancerFrontendIPConfiguration
 	if source.LoadBalancerFrontendIPConfiguration != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.LoadBalancerFrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from LoadBalancerFrontendIPConfiguration")
@@ -4493,7 +4493,7 @@ func (address *LoadBalancerBackendAddress) AssignProperties_From_LoadBalancerBac
 
 	// Subnet
 	if source.Subnet != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.Subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from Subnet")
@@ -4510,7 +4510,7 @@ func (address *LoadBalancerBackendAddress) AssignProperties_From_LoadBalancerBac
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.VirtualNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from VirtualNetwork")
@@ -4555,7 +4555,7 @@ func (address *LoadBalancerBackendAddress) AssignProperties_To_LoadBalancerBacke
 
 	// LoadBalancerFrontendIPConfiguration
 	if address.LoadBalancerFrontendIPConfiguration != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := address.LoadBalancerFrontendIPConfiguration.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from LoadBalancerFrontendIPConfiguration")
@@ -4575,7 +4575,7 @@ func (address *LoadBalancerBackendAddress) AssignProperties_To_LoadBalancerBacke
 
 	// Subnet
 	if address.Subnet != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := address.Subnet.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from Subnet")
@@ -4592,7 +4592,7 @@ func (address *LoadBalancerBackendAddress) AssignProperties_To_LoadBalancerBacke
 
 	// VirtualNetwork
 	if address.VirtualNetwork != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := address.VirtualNetwork.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from VirtualNetwork")
@@ -4649,7 +4649,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_From_LoadBala
 
 	// LoadBalancerFrontendIPConfiguration
 	if source.LoadBalancerFrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.LoadBalancerFrontendIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancerFrontendIPConfiguration")
@@ -4669,7 +4669,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_From_LoadBala
 
 	// NetworkInterfaceIPConfiguration
 	if source.NetworkInterfaceIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.NetworkInterfaceIPConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from NetworkInterfaceIPConfiguration")
@@ -4686,7 +4686,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_From_LoadBala
 
 	// Subnet
 	if source.Subnet != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.Subnet)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from Subnet")
@@ -4703,7 +4703,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_From_LoadBala
 
 	// VirtualNetwork
 	if source.VirtualNetwork != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.VirtualNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualNetwork")
@@ -4748,7 +4748,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_To_LoadBalanc
 
 	// LoadBalancerFrontendIPConfiguration
 	if address.LoadBalancerFrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := address.LoadBalancerFrontendIPConfiguration.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from LoadBalancerFrontendIPConfiguration")
@@ -4768,7 +4768,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_To_LoadBalanc
 
 	// NetworkInterfaceIPConfiguration
 	if address.NetworkInterfaceIPConfiguration != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := address.NetworkInterfaceIPConfiguration.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from NetworkInterfaceIPConfiguration")
@@ -4785,7 +4785,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_To_LoadBalanc
 
 	// Subnet
 	if address.Subnet != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := address.Subnet.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from Subnet")
@@ -4802,7 +4802,7 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_To_LoadBalanc
 
 	// VirtualNetwork
 	if address.VirtualNetwork != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := address.VirtualNetwork.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualNetwork")

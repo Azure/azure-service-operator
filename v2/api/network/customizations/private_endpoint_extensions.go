@@ -32,7 +32,6 @@ func (ext *PrivateEndpointExtension) PreReconcileCheck(
 ) (extensions.PreReconcileCheckResult, error) {
 
 	if endpoint, ok := obj.(*network.PrivateEndpoint); ok && endpoint.Status.PrivateLinkServiceConnections != nil {
-
 		for _, connection := range endpoint.Status.PrivateLinkServiceConnections {
 			if *connection.PrivateLinkServiceConnectionState.Status != "Approved" {
 				// Returns 'conditions.NewReadyConditionImpactingError' error

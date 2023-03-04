@@ -5,7 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"fmt"
-	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -418,7 +418,7 @@ func (address *PublicIPAddress_Spec) AssignProperties_From_PublicIPAddress_Spec(
 
 	// PublicIPPrefix
 	if source.PublicIPPrefix != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.PublicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from PublicIPPrefix")
@@ -597,7 +597,7 @@ func (address *PublicIPAddress_Spec) AssignProperties_To_PublicIPAddress_Spec(de
 
 	// PublicIPPrefix
 	if address.PublicIPPrefix != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := address.PublicIPPrefix.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from PublicIPPrefix")
@@ -859,7 +859,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// PublicIPPrefix
 	if source.PublicIPPrefix != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.PublicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
@@ -1036,7 +1036,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// PublicIPPrefix
 	if embedded.PublicIPPrefix != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := embedded.PublicIPPrefix.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
@@ -1121,7 +1121,7 @@ func (settings *DdosSettings) AssignProperties_From_DdosSettings(source *v202011
 
 	// DdosCustomPolicy
 	if source.DdosCustomPolicy != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := subResourceStash.AssignProperties_From_SubResource(source.DdosCustomPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from DdosCustomPolicy")
@@ -1174,7 +1174,7 @@ func (settings *DdosSettings) AssignProperties_To_DdosSettings(destination *v202
 
 	// DdosCustomPolicy
 	if settings.DdosCustomPolicy != nil {
-		var subResourceStash v20180901s.SubResource
+		var subResourceStash v20200601s.SubResource
 		err := settings.DdosCustomPolicy.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from DdosCustomPolicy")
@@ -1236,7 +1236,7 @@ func (settings *DdosSettings_STATUS) AssignProperties_From_DdosSettings_STATUS(s
 
 	// DdosCustomPolicy
 	if source.DdosCustomPolicy != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.DdosCustomPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DdosCustomPolicy")
@@ -1289,7 +1289,7 @@ func (settings *DdosSettings_STATUS) AssignProperties_To_DdosSettings_STATUS(des
 
 	// DdosCustomPolicy
 	if settings.DdosCustomPolicy != nil {
-		var subResourceSTATUSStash v20180901s.SubResource_STATUS
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
 		err := settings.DdosCustomPolicy.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DdosCustomPolicy")
@@ -2049,7 +2049,7 @@ type SubResource struct {
 }
 
 // AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
-func (resource *SubResource) AssignProperties_From_SubResource(source *v20180901s.SubResource) error {
+func (resource *SubResource) AssignProperties_From_SubResource(source *v20200601s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2082,7 +2082,7 @@ func (resource *SubResource) AssignProperties_From_SubResource(source *v20180901
 }
 
 // AssignProperties_To_SubResource populates the provided destination SubResource from our SubResource
-func (resource *SubResource) AssignProperties_To_SubResource(destination *v20180901s.SubResource) error {
+func (resource *SubResource) AssignProperties_To_SubResource(destination *v20200601s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -2175,8 +2175,8 @@ type augmentConversionForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
 }
 
 type augmentConversionForSubResource interface {
-	AssignPropertiesFrom(src *v20180901s.SubResource) error
-	AssignPropertiesTo(dst *v20180901s.SubResource) error
+	AssignPropertiesFrom(src *v20200601s.SubResource) error
+	AssignPropertiesTo(dst *v20200601s.SubResource) error
 }
 
 func init() {

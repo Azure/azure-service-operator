@@ -114,6 +114,8 @@ import (
 	network_alpha20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
 	network_v20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901"
 	network_v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
+	network_v20200601 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601"
+	network_v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage"
 	network_v20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	network_v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	network_v20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701"
@@ -411,7 +413,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20181130s.UserAssignedIdentity)})
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20220131ps.FederatedIdentityCredential)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180901s.PrivateDnsZone)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20180901s.PrivateDnsZonesVirtualNetworkLink)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.LoadBalancer)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.NetworkInterface)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.NetworkSecurityGroup)})
@@ -758,8 +760,10 @@ func getKnownTypes() []client.Object {
 		new(network_alpha20201101s.VirtualNetworkGateway),
 		new(network_alpha20201101s.VirtualNetworksSubnet),
 		new(network_alpha20201101s.VirtualNetworksVirtualNetworkPeering))
-	result = append(result, new(network_v20180901.PrivateDnsZone), new(network_v20180901.PrivateDnsZonesVirtualNetworkLink))
-	result = append(result, new(network_v20180901s.PrivateDnsZone), new(network_v20180901s.PrivateDnsZonesVirtualNetworkLink))
+	result = append(result, new(network_v20180901.PrivateDnsZone))
+	result = append(result, new(network_v20180901s.PrivateDnsZone))
+	result = append(result, new(network_v20200601.PrivateDnsZonesVirtualNetworkLink))
+	result = append(result, new(network_v20200601s.PrivateDnsZonesVirtualNetworkLink))
 	result = append(
 		result,
 		new(network_v20201101.LoadBalancer),
@@ -961,6 +965,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_alpha20201101s.AddToScheme(scheme)
 	_ = network_v20180901.AddToScheme(scheme)
 	_ = network_v20180901s.AddToScheme(scheme)
+	_ = network_v20200601.AddToScheme(scheme)
+	_ = network_v20200601s.AddToScheme(scheme)
 	_ = network_v20201101.AddToScheme(scheme)
 	_ = network_v20201101s.AddToScheme(scheme)
 	_ = network_v20220701.AddToScheme(scheme)
