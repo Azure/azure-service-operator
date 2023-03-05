@@ -266,7 +266,7 @@ func (report *ResourceVersionsReport) createTable(
 			// We don't include 'refs' directory here, as it contains dependency references for the group and is purely for
 			// samples testing.
 			if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
-				filePath, err = filepath.Rel(report.samplesPath, filePath)
+				filePath, err = filepath.Rel(filepath.Dir(report.samplesPath), filePath)
 				if err != nil {
 					return errors.Wrapf(err, "getting relative path for %s", filePath)
 				}

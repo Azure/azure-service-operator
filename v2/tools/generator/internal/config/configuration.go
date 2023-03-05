@@ -93,11 +93,19 @@ func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
 }
 
 func (config *Configuration) FullSamplesPath() string {
-	result := config.SamplesPath
-	if !filepath.IsAbs(result) {
-		result = filepath.Join(
+	if filepath.IsAbs(config.SamplesPath) {
+		return config.SamplesPath
+	}
+
+	if config.DestinationGoModuleFile != "" {
+		return filepath.Join(
 			filepath.Dir(config.DestinationGoModuleFile),
-			result)
+			config.SamplesPath)
+	}
+
+	result, err := filepath.Abs(config.SamplesPath)
+	if err != nil {
+		panic(fmt.Sprintf("unable to make %q absolute: %v", result, err))
 	}
 
 	return result
