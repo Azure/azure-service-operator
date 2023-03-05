@@ -105,7 +105,7 @@ func (config *Configuration) FullSamplesPath() string {
 
 	result, err := filepath.Abs(config.SamplesPath)
 	if err != nil {
-		panic(fmt.Sprintf("unable to make %q absolute: %v", result, err))
+		panic(fmt.Sprintf("unable to make %q absolute: %s", result, err))
 	}
 
 	return result
