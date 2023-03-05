@@ -11,7 +11,6 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -42,13 +41,13 @@ func DeleteGeneratedCode(outputFolder string) *Stage {
 }
 
 func deleteGeneratedCodeFromFolder(ctx context.Context, outputFolder string) error {
-	genPattern := path.Join(outputFolder, "**", "*", "*"+astmodel.CodeGeneratedFileSuffix+"*.go")
+	genPattern := filepath.Join(outputFolder, "**", "*", "*"+astmodel.CodeGeneratedFileSuffix+"*.go")
 	err := deleteGeneratedCodeByPattern(ctx, genPattern)
 	if err != nil {
 		return err
 	}
 
-	docPattern := path.Join(outputFolder, "**", "*", "doc.go")
+	docPattern := filepath.Join(outputFolder, "**", "*", "doc.go")
 	err = deleteGeneratedCodeByPattern(ctx, docPattern)
 	if err != nil {
 		return err
