@@ -3141,12 +3141,12 @@ func (policy *BackupPolicy) AssignProperties_From_BackupPolicy(source *alpha2021
 
 	// Continuous
 	if source.Continuous != nil {
-		var continuou ContinuousModeBackupPolicy
-		err := continuou.AssignProperties_From_ContinuousModeBackupPolicy(source.Continuous)
+		var continuous ContinuousModeBackupPolicy
+		err := continuous.AssignProperties_From_ContinuousModeBackupPolicy(source.Continuous)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ContinuousModeBackupPolicy() to populate field Continuous")
 		}
-		policy.Continuous = &continuou
+		policy.Continuous = &continuous
 	} else {
 		policy.Continuous = nil
 	}
@@ -3174,12 +3174,12 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *alpha2
 
 	// Continuous
 	if policy.Continuous != nil {
-		var continuou alpha20210515s.ContinuousModeBackupPolicy
-		err := policy.Continuous.AssignProperties_To_ContinuousModeBackupPolicy(&continuou)
+		var continuous alpha20210515s.ContinuousModeBackupPolicy
+		err := policy.Continuous.AssignProperties_To_ContinuousModeBackupPolicy(&continuous)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContinuousModeBackupPolicy() to populate field Continuous")
 		}
-		destination.Continuous = &continuou
+		destination.Continuous = &continuous
 	} else {
 		destination.Continuous = nil
 	}
@@ -3258,12 +3258,12 @@ func (policy *BackupPolicy_STATUS) AssignProperties_From_BackupPolicy_STATUS(sou
 
 	// Continuous
 	if source.Continuous != nil {
-		var continuou ContinuousModeBackupPolicy_STATUS
-		err := continuou.AssignProperties_From_ContinuousModeBackupPolicy_STATUS(source.Continuous)
+		var continuous ContinuousModeBackupPolicy_STATUS
+		err := continuous.AssignProperties_From_ContinuousModeBackupPolicy_STATUS(source.Continuous)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_ContinuousModeBackupPolicy_STATUS() to populate field Continuous")
 		}
-		policy.Continuous = &continuou
+		policy.Continuous = &continuous
 	} else {
 		policy.Continuous = nil
 	}
@@ -3291,12 +3291,12 @@ func (policy *BackupPolicy_STATUS) AssignProperties_To_BackupPolicy_STATUS(desti
 
 	// Continuous
 	if policy.Continuous != nil {
-		var continuou alpha20210515s.ContinuousModeBackupPolicy_STATUS
-		err := policy.Continuous.AssignProperties_To_ContinuousModeBackupPolicy_STATUS(&continuou)
+		var continuous alpha20210515s.ContinuousModeBackupPolicy_STATUS
+		err := policy.Continuous.AssignProperties_To_ContinuousModeBackupPolicy_STATUS(&continuous)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_ContinuousModeBackupPolicy_STATUS() to populate field Continuous")
 		}
-		destination.Continuous = &continuou
+		destination.Continuous = &continuous
 	} else {
 		destination.Continuous = nil
 	}

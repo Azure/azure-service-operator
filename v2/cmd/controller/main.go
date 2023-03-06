@@ -168,7 +168,7 @@ func getGetDefaultCredential(cfg config.Values, setupLog logr.Logger) (azcore.To
 
 	// If subscriptionID is not supplied, then set default credential to not be used/nil
 	if cfg.SubscriptionID == "" {
-		setupLog.Info("No default credential set found, continuing without default credential")
+		setupLog.Info("No global credential configured, continuing without.")
 		return nil, nil
 	}
 
