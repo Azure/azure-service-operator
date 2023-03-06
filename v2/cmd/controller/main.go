@@ -91,7 +91,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	credential, err := getGetDefaultCredential(cfg, setupLog)
+	credential, err := getDefaultAzureCredential(cfg, setupLog)
 	if err != nil {
 		setupLog.Error(err, "error while fetching default global credential")
 		os.Exit(1)
@@ -164,7 +164,7 @@ func main() {
 	}
 }
 
-func getGetDefaultCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
+func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
 
 	// If subscriptionID is not supplied, then set default credential to not be used/nil
 	if cfg.SubscriptionID == "" {
