@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
@@ -91,6 +92,10 @@ func main() {
 	}
 
 	credential, err := getGetDefaultCredential(cfg, setupLog)
+	if err != nil {
+		setupLog.Error(err, "error while fetching default global credential")
+		os.Exit(1)
+	}
 
 	var globalARMClient *genericarmclient.GenericClient
 	if credential != nil {
@@ -172,14 +177,12 @@ func getGetDefaultCredential(cfg config.Values, setupLog logr.Logger) (azcore.To
 	if cfg.UseWorkloadIdentityAuth {
 		credential, err = identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
 		if err != nil {
-			setupLog.Error(err, "unable to get workload identity credential")
-			os.Exit(1)
+			return nil, errors.Wrapf(err, "unable to get workload identity credential")
 		}
 	} else {
 		credential, err = azidentity.NewDefaultAzureCredential(nil)
 		if err != nil {
-			setupLog.Error(err, "unable to get default azure credential")
-			os.Exit(1)
+			return nil, errors.Wrapf(err, "unable to get default azure credential")
 		}
 	}
 
