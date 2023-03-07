@@ -1,7 +1,8 @@
+namePrefix: azureserviceoperator-
+
 resources:
 - manager.yaml
 - manager_metrics_service.yaml
-- aso_installed_resources.yaml
 
 patchesStrategicMerge:
   - manager_auth_proxy_patch.yaml

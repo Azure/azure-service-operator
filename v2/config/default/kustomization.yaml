@@ -6,11 +6,14 @@ namespace: azureserviceoperator-system
 # "wordpress" becomes "alices-wordpress".
 # Note that it should also match with the prefix (text before '-') of the namespace
 # field above.
-namePrefix: azureserviceoperator-
+#namePrefix: azureserviceoperator-
 
 # Labels to add to all resources and selectors.
 #commonLabels:
 #  someName: someValue
+
+resources:
+  - aso_installed_resources.yaml
 
 bases:
 - ../crd

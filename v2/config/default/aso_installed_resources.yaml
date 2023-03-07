@@ -1,7 +1,7 @@
 apiVersion: serviceoperator.azure.com/v1api
 kind: InstalledResourceDefinitions
 metadata:
-  name: installed-resources
+  name: aso-installed-resources
   namespace: system
   annotations:
     "helm.sh/hook": post-install,post-upgrade  # TODO: This is a hack
