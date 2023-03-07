@@ -172,7 +172,7 @@ We will watch a magically named "aso-installed-resources" instance of this CRD a
 - We will embed the CRDs in the operator and have a new controller manage their installation.
 - We will manage the CRD installation and reconciliation process from within the existing ASO container.
 - If the `aso-installed-resources` resource is missing, the operator pod will not manage CRDs at all. This means only LIST
-  CRDs permissions are needed. An external entity (Helm, user) must manage the CRDs. The operator will still ensure that the
+  CRDs permissions are needed. An external entity (e.g. Helm, a user, or another tool) must manage the CRDs. The operator will still ensure that the
   CRDs it finds are shaped as expected. CRDs which don't have the expected shape will be skipped. 
   This means that there will be 2 YAML flavors:
   - Default: no CRDs except `InstalledResourceDefinitions` included in the YAML, YAML also includes an instance of 
