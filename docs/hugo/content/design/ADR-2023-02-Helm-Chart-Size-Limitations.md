@@ -89,7 +89,9 @@ Of the above options, I believe embedding the CRDs into the operator pod is the 
 - CRD installation would _probably_ be a required pre-step and if it failed the operator would stop running, which means
   existing resources wouldn't be reconciled until the deployment was rolled back. We could possibly mitigate this by making
   CRD installation failure nonfatal, but that has other complications.
-- Operator needs permission to CRUD CRDs, which it previously didn't have.
+- Operator needs permission to CRUD CRDs, which it previously didn't have. This can be mitigated by only requiring the 
+  create/update permissions if the CRDs aren't already installed. Users who are sensitive to this permission set can just
+  grant the operator list CRDs and preinstall the CRDs themselves directly from YAML if they're concerned.
 - Uninstalling the Helm chart will uninstall the operator pod but will not uninstall the CRDs. This is somewhat mitigated
   by the fact that uninstalling CRDs is very dangerous and/or impossible if there are existing resources of that CRD type
   even in the current ASO chart.
@@ -169,9 +171,15 @@ We will watch a magically named "aso-installed-resources" instance of this CRD a
 
 - We will embed the CRDs in the operator and have a new controller manage their installation.
 - We will manage the CRD installation and reconciliation process from within the existing ASO container.
-- If the `aso-installed-resources` resource is missing, the operator pod will exit with an error. This is to ensure that
-  we have a place to report status of CRD installations during upgrade and to ensure that we are driving to the expected goal
-  state for the CRDs after an upgrade.
+- If the `aso-installed-resources` resource is missing, the operator pod will not manage CRDs at all. This means only LIST
+  CRDs permissions are needed. An external entity (e.g. Helm, a user, or another tool) must manage the CRDs. The operator will still ensure that the
+  CRDs it finds are shaped as expected. CRDs which don't have the expected shape will be skipped. 
+  This means that there will be 2 YAML flavors:
+  - Default: no CRDs except `InstalledResourceDefinitions` included in the YAML, YAML also includes an instance of 
+    the `InstalledResourceDefinitions` CRD called `aso-installed-resources` (same as Helm). 
+    The operator identity has access to CRUD CRDs.
+  - Reduced permissions: All CRDs included. No `aso-installed-resources`. Operator permissions has access only to read 
+    CRDs, not create/update/delete.
 - The operator will operate on whatever ASO CRDs it finds as long as they are the expected version. If the CRD is not the
   expected version those resources will not be registered to watch (should trigger webhooks/etc to fail for them as well, need to confirm)
 - The operator will add a label to the resources it adds, to make querying them easier.
