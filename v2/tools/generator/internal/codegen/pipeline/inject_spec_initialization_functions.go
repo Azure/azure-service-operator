@@ -53,15 +53,16 @@ func InjectSpecInitializationFunctions(
 				assignmentContext := conversions.NewPropertyConversionContext(conversions.InitializationMethodPrefix, defs, idFactory).
 					WithConfiguration(configuration.ObjectModelConfiguration)
 
-				initializeFn, err := functions.NewPropertyAssignmentFunction(spec, status, assignmentContext, conversions.ConvertFrom)
+				initializationBuilder := functions.NewPropertyAssignmentFunctionBuilder(spec, status, conversions.ConvertFrom)
+				initializationFn, err := initializationBuilder.Build(assignmentContext)
 				if err != nil {
 					errs = append(errs, errors.Wrapf(err, "creating Initialize_From_*() function for %q", specName))
 					continue
 				}
 
-				newSpec, err := functionInjector.Inject(spec, initializeFn)
+				newSpec, err := functionInjector.Inject(spec, initializationFn)
 				if err != nil {
-					errs = append(errs, errors.Wrapf(err, "failed to inject %s function into %q", initializeFn.Name(), specName))
+					errs = append(errs, errors.Wrapf(err, "failed to inject %s function into %q", initializationFn.Name(), specName))
 					continue
 				}
 

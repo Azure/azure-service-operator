@@ -297,10 +297,12 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	g.Expect(ok).To(BeTrue())
 
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, c.definitions, idFactory)
-	assignFrom, err := NewPropertyAssignmentFunction(c.current, c.other, conversionContext, conversions.ConvertFrom)
+	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(c.current, c.other, conversions.ConvertFrom)
+	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(BeNil())
 
-	assignTo, err := NewPropertyAssignmentFunction(c.current, c.other, conversionContext, conversions.ConvertTo)
+	assignToBuilder := NewPropertyAssignmentFunctionBuilder(c.current, c.other, conversions.ConvertTo)
+	assignTo, err := assignToBuilder.Build(conversionContext)
 	g.Expect(err).To(BeNil())
 
 	receiverDefinition := c.current.WithType(currentType.WithFunction(assignFrom).WithFunction(assignTo))
@@ -328,10 +330,12 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) 
 		test.PropertyBagProperty)
 
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, make(astmodel.TypeDefinitionSet), idFactory)
-	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
+	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertFrom)
+	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	assignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
+	assignToBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertTo)
+	assignTo, err := assignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
@@ -390,10 +394,12 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, defs, idFactory).
 		WithConfiguration(omc)
 
-	assignFrom, err := NewPropertyAssignmentFunction(event2020, event2021, conversionContext, conversions.ConvertFrom)
+	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(event2020, event2021, conversions.ConvertFrom)
+	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	assignTo, err := NewPropertyAssignmentFunction(event2020, event2021, conversionContext, conversions.ConvertTo)
+	assignToBuilder := NewPropertyAssignmentFunctionBuilder(event2020, event2021, conversions.ConvertTo)
+	assignTo, err := assignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	receiverDefinition, err := injector.Inject(event2020, assignFrom, assignTo)
@@ -451,10 +457,12 @@ func TestGolden_PropertyAssignmentFunction_WhenSharedObjectVersion(t *testing.T)
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, definitions, idFactory).
 		WithConversionGraph(graph)
 
-	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2022, conversionContext, conversions.ConvertFrom)
+	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2022, conversions.ConvertFrom)
+	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	assignTo, err := NewPropertyAssignmentFunction(person2020, person2022, conversionContext, conversions.ConvertTo)
+	assignToBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2022, conversions.ConvertTo)
+	assignTo, err := assignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
@@ -524,10 +532,12 @@ func TestGolden_PropertyAssignmentFunction_WhenMultipleIntermediateSharedObjectV
 
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, definitions, idFactory).
 		WithConversionGraph(graph)
-	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2022, conversionContext, conversions.ConvertFrom)
+	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2022, conversions.ConvertFrom)
+	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	assignTo, err := NewPropertyAssignmentFunction(person2020, person2022, conversionContext, conversions.ConvertTo)
+	assignToBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2022, conversions.ConvertTo)
+	assignTo, err := assignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
@@ -558,11 +568,13 @@ func TestGolden_PropertyAssignmentFunction_WhenOverrideInterfacePresent(t *testi
 	overrideInterfaceName := astmodel.MakeTypeName(test.Pkg2020, "personAssignable")
 
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, make(astmodel.TypeDefinitionSet), idFactory)
-	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
+	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertFrom)
+	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 	assignFrom = assignFrom.WithAugmentationInterface(overrideInterfaceName)
 
-	assignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
+	assignToBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertTo)
+	assignTo, err := assignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 	assignTo = assignTo.WithAugmentationInterface(overrideInterfaceName)
 

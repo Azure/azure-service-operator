@@ -11,7 +11,6 @@ import (
 	"sort"
 
 	"github.com/dave/dst"
-	"github.com/pkg/errors"
 	"golang.org/x/exp/maps"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -20,8 +19,11 @@ import (
 )
 
 // PropertyAssignmentFunction represents a function that assigns all the properties from one resource or object to
-// another. Performs a single step of the conversions required to/from the hub version.
+// another. Used to perform a single step of the conversions required to/from the hub version, or to convert from
+// status to spec.
 type PropertyAssignmentFunction struct {
+	// Name is the unique name of this function
+	name string
 	// receiverDefinition is the type on which this function will be hosted
 	receiverDefinition astmodel.TypeDefinition
 	// otherDefinition is the type we are converting to (or from). This will be a type which is "closer"
@@ -51,6 +53,10 @@ type PropertyAssignmentFunction struct {
 	packageReferences *astmodel.PackageReferenceSet
 	// knownLocals is the set of local variables in the function
 	knownLocals *astmodel.KnownLocalsSet
+	// sourcePropertyBag is the (optional) property bag property on the source type
+	sourcePropertyBag *astmodel.PropertyDefinition
+	// destinationPropertyBag is the (optional) property bag property on the destination type
+	destinationPropertyBag *astmodel.PropertyDefinition
 }
 
 // StoragePropertyConversion represents a function that generates the correct AST to convert a single property value
@@ -67,68 +73,6 @@ type StoragePropertyConversion func(
 // Ensure that PropertyAssignmentFunction implements Function
 var _ astmodel.Function = &PropertyAssignmentFunction{}
 
-// NewPropertyAssignmentFunction creates a new PropertyAssignmentFunction to convert with the specified type
-// receiver is the type definition that will be the receiver for this function
-// otherDefinition is the type definition to convert TO or FROM
-// conversionContext is our context for creating a conversion
-// direction specifies whether we are converting TO or FROM the other definition
-func NewPropertyAssignmentFunction(
-	receiver astmodel.TypeDefinition,
-	otherDefinition astmodel.TypeDefinition,
-	conversionContext *conversions.PropertyConversionContext,
-	direction conversions.Direction,
-) (*PropertyAssignmentFunction, error) {
-	idFactory := conversionContext.IDFactory()
-
-	receiverName := idFactory.CreateReceiver(receiver.Name().Name())
-	parameterName := direction.SelectString("source", "destination")
-
-	// If the two names collide, use a different convention for our parameter name
-	if receiverName == parameterName {
-		parameterName = direction.SelectString("origin", "target")
-	}
-
-	result := &PropertyAssignmentFunction{
-		receiverDefinition: receiver,
-		otherDefinition:    otherDefinition,
-		idFactory:          idFactory,
-		direction:          direction,
-		conversions:        make(map[string]StoragePropertyConversion),
-		receiverName:       receiverName,
-		parameterName:      parameterName,
-		packageReferences: astmodel.NewPackageReferenceSet(
-			astmodel.GitHubErrorsReference,
-			astmodel.GenRuntimeReference,
-			otherDefinition.Name().PackageReference),
-		knownLocals: astmodel.NewKnownLocalsSet(idFactory),
-	}
-
-	// Flag receiver and parameter names as used
-	result.knownLocals.Add(result.receiverName, result.parameterName)
-
-	// Always assign a name for the property bag (see createPropertyBagPrologue to understand why)
-	propertyBagName := result.knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
-
-	// Create Endpoints for property conversion
-	sourceEndpoints, readsFromPropertyBag := result.createReadingEndpoints()
-	destinationEndpoints, writesToPropertyBag := result.createWritingEndpoints()
-
-	result.readsFromPropertyBag = readsFromPropertyBag
-	result.writesToPropertyBag = writesToPropertyBag
-
-	result.conversionContext = conversionContext.WithDirection(direction).
-		WithPropertyBag(propertyBagName).
-		WithPackageReferenceSet(result.packageReferences)
-
-	err := result.createConversions(sourceEndpoints, destinationEndpoints)
-	if err != nil {
-		parameterType := astmodel.DebugDescription(otherDefinition.Name(), receiver.Name().PackageReference)
-		return nil, errors.Wrapf(err, "creating '%s(%s)'", result.Name(), parameterType)
-	}
-
-	return result, nil
-}
-
 // WithAugmentationInterface returns the property assignment function with a conversion augmentation interface set
 func (fn *PropertyAssignmentFunction) WithAugmentationInterface(augmentation astmodel.TypeName) *PropertyAssignmentFunction {
 	fn.augmentationInterface = &augmentation
@@ -137,8 +81,7 @@ func (fn *PropertyAssignmentFunction) WithAugmentationInterface(augmentation ast
 
 // Name returns the name of this function
 func (fn *PropertyAssignmentFunction) Name() string {
-	return conversions.NameOfPropertyAssignmentFunction(
-		fn.conversionContext.FunctionBaseName(), fn.ParameterType(), fn.direction, fn.idFactory)
+	return fn.name
 }
 
 // RequiredPackageReferences returns the set of package references required by this function
@@ -259,8 +202,9 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 	source string,
 	generationContext *astmodel.CodeGenerationContext,
 ) []dst.Stmt {
-	sourcePropertyBag, sourcePropertyBagFound := fn.findPropertyBagProperty(fn.sourceType())
-	_, destinationPropertyBagFound := fn.findPropertyBagProperty(fn.destinationType())
+	sourcePropertyBag := fn.sourcePropertyBag
+	sourcePropertyBagFound := sourcePropertyBag != nil
+	destinationPropertyBagFound := fn.destinationPropertyBag != nil
 
 	// If we're not using the property bag, don't declare one
 	// We're using it if we are
@@ -315,8 +259,9 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 	destination string,
 ) []dst.Stmt {
-	if prop, found := fn.findPropertyBagProperty(fn.destinationType()); found {
-
+	prop := fn.destinationPropertyBag
+	found := prop != nil
+	if found {
 		bagId := dst.NewIdent(fn.conversionContext.PropertyBagName())
 		bagProperty := astbuilder.Selector(dst.NewIdent(destination), string(prop.PropertyName()))
 
@@ -423,79 +368,6 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	return result
 }
 
-// createConversions iterates through the properties on our receiver type, matching them up with
-// our other type and generating conversions where possible
-func (fn *PropertyAssignmentFunction) createConversions(
-	sourceEndpoints conversions.ReadableConversionEndpointSet,
-	destinationEndpoints conversions.WritableConversionEndpointSet,
-) error {
-	for destinationName, destinationEndpoint := range destinationEndpoints {
-		sourceEndpoint, ok := sourceEndpoints[destinationName]
-
-		if !ok {
-			// TODO: Handle property renames
-			continue
-		}
-
-		// Generate a conversion from one endpoint to another
-		conv, err := fn.createConversion(sourceEndpoint, destinationEndpoint)
-		if err != nil {
-			// An error was returned, we abort creating conversions for this object
-			return errors.Wrapf(
-				err,
-				"creating conversion to %s by %s",
-				destinationEndpoint,
-				sourceEndpoint)
-		} else if conv != nil {
-			// A conversion was created, keep it for later
-			fn.conversions[destinationName] = conv
-		}
-	}
-
-	return nil
-}
-
-// createPropertyConversion tries to create a conversion between the two provided endpoints, using all the available
-// conversion functions in priority order. If no valid conversion can be created an error is returned.
-func (fn *PropertyAssignmentFunction) createConversion(
-	sourceEndpoint *conversions.ReadableConversionEndpoint,
-	destinationEndpoint *conversions.WritableConversionEndpoint,
-) (StoragePropertyConversion, error) {
-	conversion, err := conversions.CreateTypeConversion(
-		sourceEndpoint.Endpoint(),
-		destinationEndpoint.Endpoint(),
-		fn.conversionContext)
-	if err != nil {
-		return nil, errors.Wrapf(
-			err,
-			"trying to %s and %s",
-			sourceEndpoint, destinationEndpoint)
-	}
-
-	return func(source dst.Expr, destination dst.Expr, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
-		reader := sourceEndpoint.Read(source)
-		writer := func(expr dst.Expr) []dst.Stmt {
-			return destinationEndpoint.Write(destination, expr)
-		}
-
-		return conversion(reader, writer, knownLocals, generationContext)
-	}, nil
-}
-
-// findPropertyBagProperty looks for a property bag on the specified type and returns it if found, or nil otherwise
-// We recognize the property bag by type, so that the name can vary to avoid collisions with other properties if needed.
-func (fn *PropertyAssignmentFunction) findPropertyBagProperty(instance astmodel.Type) (*astmodel.PropertyDefinition, bool) {
-	if container, ok := astmodel.AsPropertyContainer(instance); ok {
-		for _, prop := range container.Properties().Copy() {
-			if astmodel.TypeEquals(prop.PropertyType(), astmodel.PropertyBagType) {
-				return prop, true
-			}
-		}
-	}
-
-	return nil, false
-}
-
 // sourceType returns the type we are reading information from
 // When converting FROM, otherDefinition.Type() is our source
 // When converting TO, receiverDefinition.Type() is our source
@@ -510,55 +382,4 @@ func (fn *PropertyAssignmentFunction) sourceType() astmodel.Type {
 // Our inverse is sourceType()
 func (fn *PropertyAssignmentFunction) destinationType() astmodel.Type {
 	return fn.direction.SelectType(fn.receiverDefinition.Type(), fn.otherDefinition.Type())
-}
-
-// createReadingEndpoints creates a ReadableConversionEndpointSet containing all the readable endpoints we need for this
-// conversion. If the source has a property bag, we create additional endpoints to match any surplus properties present
-// on the DESTINATION type, so we can populate those from the property bag. Returns true if we create any endpoints to
-// read from a property bag, false otherwise.
-func (fn *PropertyAssignmentFunction) createReadingEndpoints() (conversions.ReadableConversionEndpointSet, bool) {
-	sourceEndpoints := conversions.NewReadableConversionEndpointSet()
-	sourceEndpoints.CreatePropertyEndpoints(fn.sourceType())
-	sourceEndpoints.CreateValueFunctionEndpoints(fn.sourceType())
-
-	readsFromPropertyBag := false
-	if _, found := fn.findPropertyBagProperty(fn.sourceType()); found {
-		//
-		// Our source has a property bag, which might contain values we can use to populate destination properties
-		// To pull values from the bag, we need a readable endpoint for each *destination* property that doesn't already
-		// have one.
-		//
-		count := sourceEndpoints.CreatePropertyBagMemberEndpoints(fn.destinationType())
-		if count > 0 {
-			// Only flag that we're going to be reading from a property bag if this is actually going to happen
-			readsFromPropertyBag = true
-		}
-	}
-
-	return sourceEndpoints, readsFromPropertyBag
-}
-
-// createWritingEndpoints creates a WritableConversionEndpointSet containing all the writable endpoints we need for this
-// conversion. If the destination has a property bag, we create additional endpoints to match any surplus properties
-// present on the SOURCE type, so we can stash those in the property bag for later use. Returns true if we create any
-// endpoints to write into a property bag, false otherwise.
-func (fn *PropertyAssignmentFunction) createWritingEndpoints() (conversions.WritableConversionEndpointSet, bool) {
-	destinationEndpoints := conversions.NewWritableConversionEndpointSet()
-	destinationEndpoints.CreatePropertyEndpoints(fn.destinationType())
-
-	writesToPropertyBag := false
-	if _, found := fn.findPropertyBagProperty(fn.destinationType()); found {
-		//
-		// Our destination has a property bag, which can be used to stash source properties that don't have another
-		// destination. To add values to the bag, we need a writable endpoint for each *source* property that doesn't
-		// already have one.
-		//
-		count := destinationEndpoints.CreatePropertyBagMemberEndpoints(fn.sourceType())
-		if count > 0 {
-			// Only flag that we're going to be writing to a property bag if this is actually going to happen
-			writesToPropertyBag = true
-		}
-	}
-
-	return destinationEndpoints, writesToPropertyBag
 }

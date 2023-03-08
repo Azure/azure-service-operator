@@ -38,10 +38,12 @@ func TestGolden_ResourceConversionFunction_DirectConversion_GeneratesExpectedCod
 	defs.AddAll(person2021, personSpec2021, personStatus2021)
 
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, defs, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
+	propertyAssignToBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertTo)
+	propertyAssignTo, err := propertyAssignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
+	propertyAssignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertFrom)
+	propertyAssignFrom, err := propertyAssignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	// Create Resource Conversion Functions
@@ -87,10 +89,12 @@ func TestGolden_ResourceConversionFunction_IndirectConversion_GeneratesExpectedC
 	defs.AddAll(person2022, personSpec2022, personStatus2022)
 
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, defs, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
+	propertyAssignToBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertTo)
+	propertyAssignTo, err := propertyAssignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
+	propertyAssignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertFrom)
+	propertyAssignFrom, err := propertyAssignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	// Create Resource Conversion Functions
