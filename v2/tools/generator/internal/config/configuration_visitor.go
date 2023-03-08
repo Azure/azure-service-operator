@@ -95,6 +95,20 @@ func newSingleVersionConfigurationVisitor(
 	}
 }
 
+// newSingleGroupConfigurationVisitor creates a ConfigurationVisitor to apply an action to the group specified
+// ref is the package reference of the group expected.
+// action is the action to apply to that group.
+// Returns (true, nil) if the group is found and the action successfully applied, (true, error) if the action returns
+// an error, and (false, nil) if the group does not exist.
+func newSingleGroupConfigurationVisitor(
+	ref astmodel.PackageReference,
+	action func(configuration *GroupConfiguration) error) *configurationVisitor {
+	return &configurationVisitor{
+		ref:         ref,
+		handleGroup: action,
+	}
+}
+
 // Visit visits the specified ObjectModelConfiguration.
 func (v *configurationVisitor) Visit(omc *ObjectModelConfiguration) error {
 	if v.ref != nil {

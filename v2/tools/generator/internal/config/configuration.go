@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"net/url"
 	"os"
 	"path"
@@ -89,6 +90,25 @@ func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
 	return filepath.Join(
 		filepath.Dir(config.DestinationGoModuleFile),
 		config.TypeRegistrationOutputFile)
+}
+
+func (config *Configuration) FullSamplesPath() string {
+	if filepath.IsAbs(config.SamplesPath) {
+		return config.SamplesPath
+	}
+
+	if config.DestinationGoModuleFile != "" {
+		return filepath.Join(
+			filepath.Dir(config.DestinationGoModuleFile),
+			config.SamplesPath)
+	}
+
+	result, err := filepath.Abs(config.SamplesPath)
+	if err != nil {
+		panic(fmt.Sprintf("unable to make %q absolute: %s", result, err))
+	}
+
+	return result
 }
 
 func (config *Configuration) GetTypeFiltersError() error {
@@ -181,7 +201,7 @@ const (
 	Prune ShouldPruneResult = "prune"
 )
 
-// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
+// TypeRename looks up a type-rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
 func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) {
 	if config.ObjectModelConfiguration == nil {
@@ -282,6 +302,11 @@ func (config *Configuration) initialize(configPath string) error {
 		errs = append(errs, errors.Errorf("destination Go module must be specified"))
 	}
 
+	// Ensure config.DestinationGoModuleFile is a fully qualified path
+	if !filepath.IsAbs(config.DestinationGoModuleFile) {
+		config.DestinationGoModuleFile = filepath.Join(configDirectory, config.DestinationGoModuleFile)
+	}
+
 	modPath, err := getModulePathFromModFile(config.DestinationGoModuleFile)
 	if err != nil {
 		errs = append(errs, err)
@@ -347,6 +372,16 @@ func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result Sho
 				panic(errors.Errorf("unknown typefilter directive: %s", f.Action))
 			}
 		}
+	}
+
+	// If the type comes from a group that we don't expect, prune it.
+	// We don't also check for whether the version is expected because it's common for types to be shared
+	// between versions of an API. While end up pulling them into the package alongside the resource, at this
+	// point we haven't done that yet, so it's premature to filter by version.
+	// Sometimes in testing, configuration will be empty, and we don't want to do any filtering when that's the case
+	if !config.ObjectModelConfiguration.IsEmpty() &&
+		!config.ObjectModelConfiguration.IsGroupConfigured(typeName.PackageReference) {
+		return Prune, fmt.Sprintf("No resources configured for export from %s", typeName.PackageReference.PackagePath())
 	}
 
 	// By default, we include all types

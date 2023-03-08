@@ -6,8 +6,7 @@
 package codegen
 
 import (
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
-	"path"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -17,6 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 )
 
 // debugReporter is a helper for generating debug logs during the code generation process.
@@ -69,5 +69,5 @@ func (dr *debugReporter) createFileName(stage int, description string) string {
 	// Create a filename using the description and the stage number.
 	filename := strconv.Itoa(stage+1) + "-" + stageName + ".txt"
 
-	return path.Join(dr.outputFolder, filename)
+	return filepath.Join(dr.outputFolder, filename)
 }

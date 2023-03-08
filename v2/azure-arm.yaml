@@ -72,6 +72,10 @@ typeFilters:
     version: v*20220131preview
     because: We want to export this particular preview version
 
+  - action: include
+    group: common
+    because: we need these for common resource properties
+
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default (they often do very strange things)
