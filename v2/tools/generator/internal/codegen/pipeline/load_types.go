@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -705,7 +704,7 @@ func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOv
 
 	// see if there is a config override for this file
 	for _, schemaOverride := range overrides {
-		configSchemaPath := filepath.ToSlash(path.Join(rootPath, schemaOverride.BasePath))
+		configSchemaPath := filepath.ToSlash(filepath.Join(rootPath, schemaOverride.BasePath))
 		if strings.HasPrefix(filePath, configSchemaPath) {
 			// a forced namespace: use it
 			if schemaOverride.Namespace != "" {
