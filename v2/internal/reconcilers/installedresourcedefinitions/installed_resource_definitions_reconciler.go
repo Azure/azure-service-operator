@@ -108,7 +108,7 @@ func (r *InstalledResourceReconciler) CreateOrUpdate(ctx context.Context, log lo
 			}
 			result, err := controllerutil.CreateOrUpdate(ctx, r.KubeClient, toApply, func() error {
 				resourceVersion := toApply.ResourceVersion
-				*toApply = crd // TODO: is this right?
+				*toApply = crd
 				toApply.ResourceVersion = resourceVersion
 
 				log.V(Verbose).Info("Applying CRD", "name", toApply.Name) // TODO: Delete this
@@ -144,14 +144,13 @@ func (r *InstalledResourceReconciler) loadCRDs(crdManager *crdmanagement.Manager
 	if err != nil {
 		return nil, err
 	}
-	crds = crdmanagement.ApplyServiceOperatorVersionLabel(crds)
 
 	r.crds = crds
 	return crds, nil
 }
 
 func (r *InstalledResourceReconciler) Delete(_ context.Context, _ logr.Logger, _ record.EventRecorder, _ genruntime.MetaObject) (ctrl.Result, error) {
-	// TODO: We don't uninstall resources currently, so there's nothing to do here
+	// We don't uninstall resources currently, so there's nothing to do here
 	return ctrl.Result{}, nil
 }
 

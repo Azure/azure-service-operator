@@ -8,7 +8,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// +kubebuilder:rbac:groups=serviceoperator.azure.com,resources=installedresourcedefinitions,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=serviceoperator.azure.com,resources=installedresourcedefinitions,verbs=get;list;watch;create;update;patch
 // +kubebuilder:rbac:groups=serviceoperator.azure.com,resources={installedresourcedefinitions/status,installedresourcedefinitions/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true

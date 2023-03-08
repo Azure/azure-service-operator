@@ -1,0 +1,8 @@
+bases:
+    - generated
+
+configurations:
+    - kustomizeconfig.yaml
+
+transformers:
+    - labels.yaml

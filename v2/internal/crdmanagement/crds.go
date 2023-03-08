@@ -5,9 +5,11 @@ package crdmanagement
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -18,14 +20,16 @@ import (
 	"sigs.k8s.io/yaml"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
 
-const ServiceOperatorVersionLabel = "azure.microsoft.com/aso-version"
+// ServiceOperatorVersionLabel is the label the CRDs have on them containing the ASO version. This value must match the value
+// injected by config/crd/labels.yaml
+const ServiceOperatorVersionLabel = "serviceoperator.azure.com/version"
 const CRDLocation = "crds"
 
+const certMgrInjectCAFromAnnotation = "cert-manager.io/inject-ca-from"
+
 // TODO: Fix logging levels in this whole file
-// TODO: The label selector below seems to not be working...
 
 type Manager struct {
 	logger     logr.Logger
@@ -53,7 +57,6 @@ func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomR
 		Selector: selector,
 	}
 	err = m.kubeClient.List(ctx, &list, match)
-	//err := kubeClient.List(ctx, &list)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to list CRDs")
 	}
@@ -144,20 +147,33 @@ func (m *Manager) FindGoalCRDsNeedingUpdate(
 	return needUpdate
 }
 
-func ApplyServiceOperatorVersionLabel(crds []apiextensions.CustomResourceDefinition) []apiextensions.CustomResourceDefinition {
-	results := make([]apiextensions.CustomResourceDefinition, 0, len(crds))
+// fixCRDNamespace fixes up namespace references in the CRD to match the provided namespace.
+// This could in theory be done with a string replace across the JSON representation of the CRD, but that's risky given
+// we don't know what else might have the "azureserviceoperator-system" string in it. Instead, we hardcode specific places
+// we know need to be fixed up. This is more brittle in the face of namespace additions but has the advantage of guaranteeing
+// that we can't break our own CRDs with a string replace gone awry.
+func fixCRDNamespace(crd *apiextensions.CustomResourceDefinition, namespace string) *apiextensions.CustomResourceDefinition {
+	result := crd.DeepCopy()
 
-	for _, crd := range crds {
-		// Apply our version label to it
-		if crd.Labels == nil {
-			crd.Labels = make(map[string]string)
-		}
-		crd.Labels[ServiceOperatorVersionLabel] = version.BuildVersion
-
-		results = append(results, crd)
+	// Set spec.conversion.webhook.clientConfig.service.namespace
+	if result.Spec.Conversion != nil &&
+		result.Spec.Conversion.Webhook != nil &&
+		result.Spec.Conversion.Webhook.ClientConfig != nil &&
+		result.Spec.Conversion.Webhook.ClientConfig.Service != nil {
+		result.Spec.Conversion.Webhook.ClientConfig.Service.Namespace = namespace
 	}
 
-	return results
+	// Set cert-manager.io/inject-ca-from
+	if len(result.Labels) > 0 {
+		if injectCAFrom, ok := result.Labels[certMgrInjectCAFromAnnotation]; ok {
+			split := strings.Split(injectCAFrom, "/")
+			if len(split) == 2 {
+				result.Labels[certMgrInjectCAFromAnnotation] = fmt.Sprintf("%s/%s", namespace, split[1])
+			}
+		}
+	}
+
+	return result
 }
 
 func ignoreCABundle(a apiextensions.CustomResourceDefinition) apiextensions.CustomResourceDefinition {

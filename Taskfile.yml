@@ -515,15 +515,15 @@ tasks:
     cmds:
     - mkdir -p v2/api
     - find v2/api -type f -name "zz_generated.*" -delete
-    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/bases" -type f -delete; fi
-    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/patches" -type f -delete; fi
-    - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./... 
+    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" -type f -delete; fi
+    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" -type f -delete; fi
+    - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./...
     - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
     - cd v2/api && gofmt -l -s -w . # format all generated code
     vars:
-      OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}} 
-      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/bases 
-      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook 
+      OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
+      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/generated/bases
+      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook
       RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
 
   controller:generate-genruntime-deepcopy:
@@ -544,11 +544,11 @@ tasks:
     dir: v2
     sources:
       - bin/{{.GENERATOR_APP}}
-      - config/crd/bases/**/*.yaml
+      - config/crd/generated/bases/**/*.yaml
     generates:
-      - config/crd/kustomization.yaml
+      - config/crd/generated/kustomization.yaml
     cmds:
-      - bin/{{.GENERATOR_APP}} gen-kustomize config/crd
+      - bin/{{.GENERATOR_APP}} gen-kustomize config/crd/generated
 
   controller:run-kustomize:
     desc: Generates the CRD & configuration bundle.
@@ -556,7 +556,7 @@ tasks:
     dir: "v2/"
     cmds:
       - mkdir -p bin # in case it doesn't exist
-      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
 
   controller:make-multitenant-files:
     desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment
@@ -571,10 +571,7 @@ tasks:
     deps: [controller:generate-kustomize]
     dir: "v2/"
     sources:
-      - config/crd/bases/**/*.yaml
-      - config/crd/patches/**/*.yaml
-      - config/crd/kustomization.yaml
-      - config/crd/kustomizeconfig.yaml
+      - config/crd/**/*.yaml
     generates:
       - out/envtest/crds/azureserviceoperator.yaml
     cmds:
@@ -654,7 +651,7 @@ tasks:
     cmds:
       # TODO: It sucks that we have to pull CRDs out first and wait for them. It's needed because we create a CRD and then use it right
       # TODO: away and kubectl/kustomize don't wait for the CRD to actually be provisioned before issuing the PUT of the instance of the CRD.
-      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator > out/operator.yaml"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} > out/operator.yaml"
       - "yq e '. | select(.kind == \"CustomResourceDefinition\")' out/operator.yaml | kubectl apply --server-side=true -f -"
       - "yq e '. | select(.kind == \"CustomResourceDefinition\")' out/operator.yaml | kubectl wait --for condition=established --timeout=60s -f -"
       - "yq e '. | select(.kind != \"CustomResourceDefinition\")' out/operator.yaml | kubectl apply --server-side=true -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
@@ -670,7 +667,7 @@ tasks:
     cmds:
       - "rm -rf out/crds"
       - "mkdir -p out/crds"
-      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k crd -o out/crds"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k crd -v {{.VERSION}} -o out/crds"
 
   controller:install-cert-manager:
     desc: Installs cert manager
