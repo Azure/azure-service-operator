@@ -18,7 +18,6 @@ spec:
                 secretKeyRef:
                   name: aso-controller-settings
                   key: AZURE_CLIENT_ID
-                  optional: true
             - name: AZURE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -30,13 +29,11 @@ spec:
                 secretKeyRef:
                   name: aso-controller-settings
                   key: AZURE_TENANT_ID
-                  optional: true
             - name: AZURE_SUBSCRIPTION_ID
               valueFrom:
                 secretKeyRef:
                   name: aso-controller-settings
                   key: AZURE_SUBSCRIPTION_ID
-                  optional: true
             - name: AZURE_AUTHORITY_HOST
               valueFrom:
                 secretKeyRef:
