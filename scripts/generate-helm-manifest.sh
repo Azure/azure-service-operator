@@ -46,8 +46,8 @@ sed -i "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$GEN_FILES_DIR"
 sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g" "$GEN_FILES_DIR"/*_deployment_* # Replace hardcoded ASO image
 # Perl multiline replacements - using this because it's tricky to do these sorts of multiline replacements with sed
 perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
-perl -0777 -i -pe 's/(volumeMounts:\n(\s*))/$1\{\{- if .Values.azureClientCert.path \}\}\n$2\- mountPath: .Values.azureClientCert.path\n$2\  name: azure-client-ca\n$2\  readOnly: true\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
-perl -0777 -i -pe 's/(volumes:\n(\s*))/$1\{\{- if .Values.azureClientCert.path \}\}\n$2\- name: azure-client-ca\n$2\  secret:\n$2\    defaultMode: 420\n$2\    secretName: \{\{ .Values.azureClientCert.secretName \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
+perl -0777 -i -pe 's/(volumeMounts:\n(\s*))/$1\{\{- if .Values.azureClientCert.path \}\}\n$2\- mountPath: .Values.azureClientCert.path\n$2\  name: azure-client-ca\n$2\  readOnly: true\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add volumeMount for azureClientCert secret
+perl -0777 -i -pe 's/(volumes:\n(\s*))/$1\{\{- if .Values.azureClientCert.path \}\}\n$2\- name: azure-client-ca\n$2\  secret:\n$2\    defaultMode: 420\n$2\    secretName: \{\{ .Values.azureClientCert.secretName \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add volume for azureClientCert secret
 
 
 # Metrics Configuration
