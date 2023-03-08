@@ -569,14 +569,16 @@ func TestGolden_PropertyAssignmentFunction_WhenOverrideInterfacePresent(t *testi
 
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, make(astmodel.TypeDefinitionSet), idFactory)
 	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertFrom)
+	assignFromBuilder.UseAugmentationInterface(overrideInterfaceName)
+
 	assignFrom, err := assignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
-	assignFrom = assignFrom.WithAugmentationInterface(overrideInterfaceName)
 
 	assignToBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertTo)
+	assignToBuilder.UseAugmentationInterface(overrideInterfaceName)
+
 	assignTo, err := assignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
-	assignTo = assignTo.WithAugmentationInterface(overrideInterfaceName)
 
 	receiverDefinition, err := injector.Inject(person2020, assignFrom, assignTo)
 	g.Expect(err).To(Succeed())

@@ -60,6 +60,11 @@ func NewPropertyAssignmentFunctionBuilder(
 	return result
 }
 
+// UseAugmentationInterface returns the property assignment function with a conversion augmentation interface set
+func (builder *PropertyAssignmentFunctionBuilder) UseAugmentationInterface(augmentation astmodel.TypeName) {
+	builder.augmentationInterface = &augmentation
+}
+
 func (builder *PropertyAssignmentFunctionBuilder) Build(
 	conversionContext *conversions.PropertyConversionContext,
 ) (*PropertyAssignmentFunction, error) {

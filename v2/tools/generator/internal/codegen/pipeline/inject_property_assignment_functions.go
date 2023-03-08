@@ -144,23 +144,24 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 
 	// Create conversion functions
 	assignFromBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertFrom)
+	if augmentationInterface != nil {
+		assignFromBuilder.UseAugmentationInterface(*augmentationInterface)
+	}
+
 	assignFromFn, err := assignFromBuilder.Build(assignmentContext)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
+	assignToBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertTo)
 	if augmentationInterface != nil {
-		assignFromFn = assignFromFn.WithAugmentationInterface(*augmentationInterface)
+		assignToBuilder.UseAugmentationInterface(*augmentationInterface)
 	}
 
-	assignToBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertTo)
 	assignToFn, err := assignToBuilder.Build(assignmentContext)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)
-	}
-	if augmentationInterface != nil {
-		assignToFn = assignToFn.WithAugmentationInterface(*augmentationInterface)
 	}
 
 	updatedDefinition, err := f.functionInjector.Inject(upstreamDef, assignFromFn)

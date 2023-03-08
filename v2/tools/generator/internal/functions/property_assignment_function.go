@@ -73,12 +73,6 @@ type StoragePropertyConversion func(
 // Ensure that PropertyAssignmentFunction implements Function
 var _ astmodel.Function = &PropertyAssignmentFunction{}
 
-// WithAugmentationInterface returns the property assignment function with a conversion augmentation interface set
-func (fn *PropertyAssignmentFunction) WithAugmentationInterface(augmentation astmodel.TypeName) *PropertyAssignmentFunction {
-	fn.augmentationInterface = &augmentation
-	return fn
-}
-
 // Name returns the name of this function
 func (fn *PropertyAssignmentFunction) Name() string {
 	return fn.name
