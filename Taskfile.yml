@@ -721,10 +721,10 @@ tasks:
       - "cmctl check api --wait=2m"
       # Install cluster yaml - we need to switch the image to the local one.
       - "cat v2/bin/multitenant-cluster_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
+      # Make sp secret for tenant watching some target namespaces before installing thr tenant.
+      - "{{.SCRIPTS_ROOT}}/deploy_multitenant_testing_secret.sh"
       # Install tenant yaml - with same image switch
       - "cat v2/bin/multitenant-tenant_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
-      # Make sp secret for tenant watching some target namespaces.
-      - "{{.SCRIPTS_ROOT}}/deploy_multitenant_testing_secret.sh"
       # Create the namespaces that the tenant is watching.
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
