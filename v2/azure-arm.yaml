@@ -644,7 +644,6 @@ objectModelConfiguration:
       BatchAccount:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
   cache:
     2020-12-01:
       Redis:
@@ -656,7 +655,6 @@ objectModelConfiguration:
           - HostName
           - Port
           - SSLPort
-        $importable: false
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.0.0-alpha.4
