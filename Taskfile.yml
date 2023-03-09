@@ -22,13 +22,13 @@ vars:
   SCRIPTS_ROOT:
     sh: 'realpath scripts'
 
-  HEADER_FILE: 
+  HEADER_FILE:
     sh: 'realpath v2/boilerplate.go.txt'
 
   TEST_OUT:
     sh: 'realpath reports'
 
-  VERSION: 
+  VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
 
@@ -65,7 +65,7 @@ tasks:
 
   ci:
     desc: Run all CI checks.
-    deps: 
+    deps:
     - generator:ci
     - controller:ci
     - asoctl:ci
@@ -75,7 +75,7 @@ tasks:
 
   ci-live:
     desc: Run all CI checks with live Azure resources. Requires that auth environment variables are set.
-    deps: 
+    deps:
     - generator:ci
     - controller:ci-live
 
@@ -90,7 +90,7 @@ tasks:
     cmds:
     - npm install -g postcss postcss-cli autoprefixer
     - hugo
-    # - htmltest 
+    # - htmltest
     # disabled pending: https://github.com/wjdp/htmltest/issues/45
     # , or us moving to a no-directory URL
     env:
@@ -604,25 +604,6 @@ tasks:
     cmds:
       - "helm delete asov2 -n {{.ASO_NAMESPACE}}"
 
-  controller:kind-create-helm:
-    desc: Creates a local kind cluster with ASO helm chart built and installed.
-    cmds:
-      - task: controller:kind-create
-      - task: controller:install-cert-manager
-      - task: controller:docker-push-local
-      - task: controller:gen-helm-manifest
-      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
-      - "cmctl check api --wait=2m"
-      - task: controller:install-helm
-
-  controller:kind-create-helm-podidentity:
-    desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO helm chart.
-    deps: [controller:kind-create-helm]
-    cmds:
-      - task: controller:install-aad-pod-identity-local
-      - task: controller:make-aadpodidentity-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
-
   controller:kind-delete:
     desc: Deletes a kind cluster
     run: always
@@ -701,6 +682,11 @@ tasks:
     cmds:
       - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh aadpodidentity"
 
+  controller:wait-for-operator-ready:
+    desc: Waits for the operator and associated CRDs to be ready
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/wait-for-operator-ready.sh"
+
   controller:kind-create-with-service-principal:
     desc: Creates a local kind cluster with ASO using service principal auth.
     cmds:
@@ -711,7 +697,7 @@ tasks:
       - "cmctl check api --wait=2m"
       - task: controller:install
       - task: controller:make-sp-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+      - task: controller:wait-for-operator-ready
 
   controller:kind-create-with-podidentity:
     desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO.
@@ -724,10 +710,7 @@ tasks:
       - task: controller:install
       - task: controller:install-aad-pod-identity-local
       - task: controller:make-aadpodidentity-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
-      # Wait for the webhook client config caBundles to be set on the
-      # ASO CRDs.
-      - "{{.SCRIPTS_ROOT}}/wait-for-ca-bundles.sh"
+      - task: controller:wait-for-operator-ready
 
   controller:kind-create-multitenant-cluster:
     desc: Creates a local kind cluster with ASO installed in multitenant configuration.
@@ -748,11 +731,28 @@ tasks:
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
       # Wait for all the operator pods to be ready.
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+      - task: controller:wait-for-operator-ready
       - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
-      # Wait for the webhook client config caBundles to be set on the
-      # ASO CRDs.
-      - "{{.SCRIPTS_ROOT}}/wait-for-ca-bundles.sh"
+
+  controller:kind-create-helm:
+    desc: Creates a local kind cluster with ASO helm chart built and installed.
+    cmds:
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      - task: controller:install-helm
+      - task: controller:wait-for-operator-ready
+
+  controller:kind-create-helm-podidentity:
+    desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO helm chart.
+    deps: [controller:kind-create-helm]
+    cmds:
+      - task: controller:install-aad-pod-identity-local
+      - task: controller:make-aadpodidentity-secret
+      - task: controller:wait-for-operator-ready
 
   controller:gen-crd-docs:
     desc: Generates API docs for CRDs
@@ -853,11 +853,11 @@ tasks:
 
   specifier-check:
     desc: Check that format specifiers %v and %+v are not used
-    # Both %v and %+v result in all the values from structs being dumped into the string. If that 
-    # struct happens to contain a secret or sensitive information, it ends up dumped out in an 
+    # Both %v and %+v result in all the values from structs being dumped into the string. If that
+    # struct happens to contain a secret or sensitive information, it ends up dumped out in an
     # uncontrolled way, potentially leading to a security issue or a problem with PII disclosure.
     # The buried risk here is that while %v might be safe now, a future change to the struct might
-    # introduce a disclosure later on. 
+    # introduce a disclosure later on.
     cmds:
       - cmd: echo "==> Checking format specifiers <=="
         silent: true
