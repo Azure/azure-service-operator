@@ -140,7 +140,7 @@ func (r *InstalledResourceReconciler) loadCRDs(crdManager *crdmanagement.Manager
 	r.mut.Lock()
 	defer r.mut.Unlock()
 
-	crds, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation)
+	crds, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, r.Config.PodNamespace)
 	if err != nil {
 		return nil, err
 	}

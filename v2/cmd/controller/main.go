@@ -98,7 +98,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	resourcesToSkip, err := getCRDsToSkip(ctx, setupLog, k8sConfig)
+	resourcesToSkip, err := getCRDsToSkip(ctx, setupLog, k8sConfig, cfg)
 	if err != nil {
 		setupLog.Error(err, "unable to get CRDs to skip")
 		os.Exit(1)
@@ -262,7 +262,7 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 	}
 }
 
-func getCRDsToSkip(ctx context.Context, logger logr.Logger, k8sConfig *rest.Config) (map[string]apiextensions.CustomResourceDefinition, error) {
+func getCRDsToSkip(ctx context.Context, logger logr.Logger, k8sConfig *rest.Config, cfg config.Values) (map[string]apiextensions.CustomResourceDefinition, error) {
 	// TODO: Clean this up
 	crdScheme := runtime.NewScheme()
 	_ = apiextensions.AddToScheme(crdScheme)
@@ -277,7 +277,7 @@ func getCRDsToSkip(ctx context.Context, logger logr.Logger, k8sConfig *rest.Conf
 		return nil, errors.Wrap(err, "failed to list operator CRDs")
 	}
 
-	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation)
+	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to load CRDs from disk")
 	}

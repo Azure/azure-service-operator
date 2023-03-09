@@ -5,9 +5,11 @@ package crdmanagement_test
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
@@ -88,7 +90,7 @@ func Test_LoadCRDs(t *testing.T) {
 
 	crdManager := crdmanagement.NewManager(logger, nil)
 
-	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir)
+	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir, "")
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(loadedCRDs).To(HaveLen(1))
@@ -183,4 +185,29 @@ func Test_ListCRDs_ListsOnlyCRDsMatchingLabel(t *testing.T) {
 	crds, err := crdManager.ListOperatorCRDs(ctx)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(crds).To(HaveLen(1))
+}
+
+// This test requires that the task target `bundle-crds` has been run
+func Test_BundledCRDs_HaveExactlyTwoInstancesOfNamespace(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	path := "../../out/crds"
+	logger := testcommon.NewTestLogger(t)
+	crdManager := crdmanagement.NewManager(logger, nil)
+
+	defaultNamespace := "azureserviceoperator-system"
+
+	loadedCRDs, err := crdManager.LoadOperatorCRDs(path, defaultNamespace)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(loadedCRDs).ToNot(BeEmpty())
+	// The raw JSON should contain exactly 2 locations where the namespace is referenced. If this changes, we need
+	// to update the code at crdManager.fixCRDNamespace
+
+	crd := loadedCRDs[0]
+	bytes, err := json.Marshal(crd)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	count := strings.Count(string(bytes), defaultNamespace)
+	g.Expect(count).To(Equal(2))
 }

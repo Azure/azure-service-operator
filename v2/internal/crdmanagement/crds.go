@@ -68,7 +68,7 @@ func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomR
 	return list.Items, nil
 }
 
-func (m *Manager) LoadOperatorCRDs(path string) ([]apiextensions.CustomResourceDefinition, error) {
+func (m *Manager) LoadOperatorCRDs(path string, namespace string) ([]apiextensions.CustomResourceDefinition, error) {
 	// Expectation is that every file in this folder is a CRD
 	entries, err := os.ReadDir(path)
 	if err != nil {
@@ -94,6 +94,8 @@ func (m *Manager) LoadOperatorCRDs(path string) ([]apiextensions.CustomResourceD
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
 		}
+
+		crd = fixCRDNamespace(crd, namespace)
 
 		m.logger.V(0).Info("Loaded CRD", "path", filePath, "name", crd.Name)
 		results = append(results, crd)
@@ -152,7 +154,7 @@ func (m *Manager) FindGoalCRDsNeedingUpdate(
 // we don't know what else might have the "azureserviceoperator-system" string in it. Instead, we hardcode specific places
 // we know need to be fixed up. This is more brittle in the face of namespace additions but has the advantage of guaranteeing
 // that we can't break our own CRDs with a string replace gone awry.
-func fixCRDNamespace(crd *apiextensions.CustomResourceDefinition, namespace string) *apiextensions.CustomResourceDefinition {
+func fixCRDNamespace(crd apiextensions.CustomResourceDefinition, namespace string) apiextensions.CustomResourceDefinition {
 	result := crd.DeepCopy()
 
 	// Set spec.conversion.webhook.clientConfig.service.namespace
@@ -173,7 +175,7 @@ func fixCRDNamespace(crd *apiextensions.CustomResourceDefinition, namespace stri
 		}
 	}
 
-	return result
+	return *result
 }
 
 func ignoreCABundle(a apiextensions.CustomResourceDefinition) apiextensions.CustomResourceDefinition {

@@ -34,7 +34,7 @@ sed -i "s@\($PUBLIC_REGISTRY\)\(.*\)@\1azureserviceoperator:$VERSION@g" "$ASO_CH
 rm -rf "$GEN_FILES_DIR" # remove generated files
 mkdir "$GEN_FILES_DIR"
 
-${SCRIPT_DIR}/kustomize-build.sh -k operator -o "$GEN_FILES_DIR"
+${SCRIPT_DIR}/kustomize-build.sh -v "$VERSION" -k operator -o "$GEN_FILES_DIR"
 
 rm "$GEN_FILES_DIR"/*_namespace_* # remove namespace as we will let Helm manage it
 

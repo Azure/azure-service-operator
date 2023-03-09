@@ -265,14 +265,14 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     # controller:run-kustomize-for-envtest isn't strictly required here, but running it here so that
     # integration tests can be run manually (via IDE) after running "task"
-    deps: [controller:generate-crds, controller:run-kustomize-for-envtest]
+    deps: [controller:generate-crds, controller:run-kustomize-for-envtest, controller:bundle-crds] # bundle-crds is here because some tests assert on generated CRD shape
     cmds:
     - go test -short -tags=noexit -timeout 10m -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:test-cover:
     desc: Run {{.CONTROLLER_APP}} unit tests and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds]
+    deps: [controller:generate-crds, controller:bundle-crds] # bundle-crds is here because some tests assert on generated CRD shape
     cmds:
     - defer: # want to run even on failure
         task: produce-markdown-summary
@@ -441,7 +441,7 @@ tasks:
         exit $TEST_EXIT
 
   # Note that this target isn't used in CI and is intended for use when running locally on a kind cluster
-  # that you don't want to delete (in contrast to test-integration-kind which will delete the kind cluster
+  # that you don't want to delete (in contrast to test-integration-kind-ci which will delete the kind cluster
   # when it is done.
   controller:test-integration-kind:
     desc: Run live integration tests in kind.
