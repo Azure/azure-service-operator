@@ -196,51 +196,42 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 	source string,
 	generationContext *astmodel.CodeGenerationContext,
 ) []dst.Stmt {
-	sourcePropertyBag := fn.sourcePropertyBag
-	sourcePropertyBagFound := sourcePropertyBag != nil
-	destinationPropertyBagFound := fn.destinationPropertyBag != nil
-
-	// If we're not using the property bag, don't declare one
-	// We're using it if we are
-	// (a) reading from it; or
-	// (b) writing to it; or
-	// (c) we need one to store in the final object
-	//
-	if !fn.readsFromPropertyBag && !fn.writesToPropertyBag && !destinationPropertyBagFound {
+	// We don't need the prologue if we're not using a property bag at all.
+	// So when are we using one?
+	// - If we're reading from the property bag
+	// - If we're writing to the property bag
+	// - If our destination has a property bag that needs initialization
+	if !fn.readsFromPropertyBag && !fn.writesToPropertyBag && fn.destinationPropertyBag == nil {
 		return nil
 	}
 
 	// Don't refactor the local genruntimePkg out to this scope - calling MustGetImportedPackageName() flags the
 	// package as referenced, so we must only call that if we are actually going to reference the genruntime package
 
-	if sourcePropertyBagFound {
-		// Found a property bag on our source type, need to clone it to allow removal of values
-		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
-		cloneBag := astbuilder.ShortDeclaration(
-			fn.conversionContext.PropertyBagName(),
-			astbuilder.CallQualifiedFunc(
-				genruntimePkg,
-				"NewPropertyBag",
-				astbuilder.Selector(dst.NewIdent(source), string(sourcePropertyBag.PropertyName()))))
-		cloneBag.Decs.Before = dst.NewLine
-		astbuilder.AddComment(&cloneBag.Decorations().Start, "// Clone the existing property bag")
+	var createBag dst.Expr
+	var comment string
+	genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
 
-		return astbuilder.Statements(cloneBag)
+	if fn.sourcePropertyBag != nil {
+		createBag = astbuilder.CallQualifiedFunc(
+			genruntimePkg,
+			"NewPropertyBag",
+			astbuilder.Selector(dst.NewIdent(source), string(fn.sourcePropertyBag.PropertyName())))
+		comment = "// Clone the existing property bag"
+	} else {
+		createBag = astbuilder.CallQualifiedFunc(
+			genruntimePkg,
+			"NewPropertyBag")
+		comment = "// Create a new property bag"
 	}
 
-	if destinationPropertyBagFound {
-		// Found a property bag on our destination type (and NOT on our source type), so we create a new one to populate
-		genruntimePkg := generationContext.MustGetImportedPackageName(astmodel.GenRuntimeReference)
-		createBag := astbuilder.ShortDeclaration(
-			fn.conversionContext.PropertyBagName(),
-			astbuilder.CallQualifiedFunc(genruntimePkg, "NewPropertyBag"))
-		createBag.Decs.Before = dst.NewLine
-		astbuilder.AddComment(&createBag.Decorations().Start, "// Create a new property bag")
+	initializeBag := astbuilder.ShortDeclaration(
+		fn.conversionContext.PropertyBagName(),
+		createBag)
+	initializeBag.Decs.Before = dst.NewLine
+	astbuilder.AddComment(&initializeBag.Decorations().Start, comment)
 
-		return astbuilder.Statements(createBag)
-	}
-
-	return nil
+	return astbuilder.Statements(initializeBag)
 }
 
 // propertyBagEpilogue creates any concluding statements required to handle our property bag after assignments are

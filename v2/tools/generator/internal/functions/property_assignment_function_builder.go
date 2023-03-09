@@ -6,6 +6,7 @@
 package functions
 
 import (
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 
@@ -38,7 +39,20 @@ type PropertyAssignmentFunctionBuilder struct {
 	// augmentationInterface is the conversion augmentation interface associated with this conversion.
 	// If this is nil, there is no augmented conversion associated with this conversion
 	augmentationInterface *astmodel.TypeName
+	// propertySelectors is a list of functions that can be used to select a property to assign to
+	propertySelectors []PropertyAssignmentSelector
 }
+
+// PropertyAssignmentSelector is a function that selects pairs of endpoints to create property assignments
+// sourceProperties is the set of readable property endpoints.
+// destinationProperties is the set of writable property endpoints.
+// assign is a callback function used to assign a value from the source to the destination
+// returns an error if there was a problem selecting a property, nil otherwise
+type PropertyAssignmentSelector func(
+	sourceProperties conversions.ReadableConversionEndpointSet,
+	destinationProperties conversions.WritableConversionEndpointSet,
+	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+) error
 
 // NewPropertyAssignmentFunctionBuilder creates a new factory for construction of a PropertyAssignmentFunction.
 // receiver is the type definition that will be the receiver for this function
@@ -55,6 +69,12 @@ func NewPropertyAssignmentFunctionBuilder(
 		otherDefinition:    otherDefinition,
 		direction:          direction,
 		conversions:        make(map[string]StoragePropertyConversion),
+	}
+
+	result.propertySelectors = []PropertyAssignmentSelector{
+		result.selectIdenticallyNamedProperties,
+		result.readPropertiesFromPropertyBag,
+		result.writePropertiesToPropertyBag,
 	}
 
 	return result
@@ -88,8 +108,8 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	knownLocals.Add(receiverName, parameterName)
 
 	// Create Endpoints for property conversion
-	sourceEndpoints, readsFromPropertyBag := builder.createReadingEndpoints()
-	destinationEndpoints, writesToPropertyBag := builder.createWritingEndpoints()
+	sourceEndpoints := builder.createReadingEndpoints()
+	destinationEndpoints := builder.createWritingEndpoints()
 
 	// Always assign a name for the property bag (see createPropertyBagPrologue to understand why)
 	propertyBagName := knownLocals.CreateLocal("propertyBag", "", "Local", "Temp")
@@ -124,9 +144,12 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 		receiverName:           receiverName,
 		parameterName:          parameterName,
 		knownLocals:            knownLocals,
+		packageReferences:      packageReferences,
+		augmentationInterface:  builder.augmentationInterface,
 		sourcePropertyBag:      builder.findPropertyBagProperty(builder.sourceType()),
 		destinationPropertyBag: builder.findPropertyBagProperty(builder.destinationType()),
-		packageReferences:      packageReferences,
+		readsFromPropertyBag:   builder.readsFromPropertyBag,
+		writesToPropertyBag:    builder.writesToPropertyBag,
 	}
 
 	return result, nil
@@ -136,25 +159,23 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 // conversion. If the source has a property bag, we create additional endpoints to match any surplus properties present
 // on the DESTINATION type, so we can populate those from the property bag. Returns true if we create any endpoints to
 // read from a property bag, false otherwise.
-func (builder *PropertyAssignmentFunctionBuilder) createReadingEndpoints() (conversions.ReadableConversionEndpointSet, bool) {
+func (builder *PropertyAssignmentFunctionBuilder) createReadingEndpoints() conversions.ReadableConversionEndpointSet {
 	sourceEndpoints := conversions.NewReadableConversionEndpointSet()
 	sourceEndpoints.CreatePropertyEndpoints(builder.sourceType())
 	sourceEndpoints.CreateValueFunctionEndpoints(builder.sourceType())
 
-	readsFromPropertyBag := false
-	return sourceEndpoints, readsFromPropertyBag
+	return sourceEndpoints
 }
 
 // createWritingEndpoints creates a WritableConversionEndpointSet containing all the writable endpoints we need for this
 // conversion. If the destination has a property bag, we create additional endpoints to match any surplus properties
 // present on the SOURCE type, so we can stash those in the property bag for later use. Returns true if we create any
 // endpoints to write into a property bag, false otherwise.
-func (builder *PropertyAssignmentFunctionBuilder) createWritingEndpoints() (conversions.WritableConversionEndpointSet, bool) {
+func (builder *PropertyAssignmentFunctionBuilder) createWritingEndpoints() conversions.WritableConversionEndpointSet {
 	destinationEndpoints := conversions.NewWritableConversionEndpointSet()
 	destinationEndpoints.CreatePropertyEndpoints(builder.destinationType())
 
-	writesToPropertyBag := false
-	return destinationEndpoints, writesToPropertyBag
+	return destinationEndpoints
 }
 
 // createConversions iterates through the properties on our receiver type, matching them up with
@@ -167,11 +188,16 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 	sourceEndpoints conversions.ReadableConversionEndpointSet,
 	destinationEndpoints conversions.WritableConversionEndpointSet,
 	conversionContext *conversions.PropertyConversionContext,
-	conversions map[string]StoragePropertyConversion,
+	propertyConversions map[string]StoragePropertyConversion,
 ) error {
-	for destinationName, destinationEndpoint := range destinationEndpoints {
-		sourceEndpoint, ok := sourceEndpoints[destinationName]
+	usedSources := set.Make[string]()
+	usedDestinations := set.Make[string]()
 
+	// Assign generates a conversion between a pair of endpoints
+	assign := func(
+		sourceEndpoint *conversions.ReadableConversionEndpoint,
+		destinationEndpoint *conversions.WritableConversionEndpoint,
+	) error {
 		// Generate a conversion from one endpoint to another
 		conv, err := builder.createConversion(sourceEndpoint, destinationEndpoint, conversionContext)
 		if err != nil {
@@ -185,7 +211,29 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 
 		if conv != nil {
 			// A conversion was created, keep it for later
-			conversions[destinationName] = conv
+			propertyConversions[destinationEndpoint.Name()] = conv
+			usedSources.Add(sourceEndpoint.Name())
+			usedDestinations.Add(destinationEndpoint.Name())
+		}
+
+		return nil
+	}
+
+	for _, selector := range builder.propertySelectors {
+		err := selector(sourceEndpoints, destinationEndpoints, assign)
+		if err != nil {
+			// Don't need to wrap this error, it's already got context
+			return err
+		}
+
+		// Remove used source endpoints
+		for reader := range usedSources {
+			sourceEndpoints.Delete(reader)
+		}
+
+		// Remove used destination endpoints
+		for writer := range usedDestinations {
+			destinationEndpoints.Delete(writer)
 		}
 	}
 
@@ -248,4 +296,103 @@ func (builder *PropertyAssignmentFunctionBuilder) sourceType() astmodel.Type {
 // Our inverse is sourceType()
 func (builder *PropertyAssignmentFunctionBuilder) destinationType() astmodel.Type {
 	return builder.direction.SelectType(builder.receiverDefinition.Type(), builder.otherDefinition.Type())
+}
+
+// selectIdenticallyNamedProperties matches up properties with identical names for conversion
+// sourceProperties is a set of endpoints that can be read from.
+// destinationProperties is a set of endpoints that can be written to.
+// assign is a function that will be called for each matching property, with the source and destination endpoints
+// for that property.
+// Returns an error if any of the assignments fail.
+func (*PropertyAssignmentFunctionBuilder) selectIdenticallyNamedProperties(
+	sourceProperties conversions.ReadableConversionEndpointSet,
+	destinationProperties conversions.WritableConversionEndpointSet,
+	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+) error {
+	for destinationName, destinationEndpoint := range destinationProperties {
+		if sourceEndpoint, ok := sourceProperties[destinationName]; ok {
+			err := assign(sourceEndpoint, destinationEndpoint)
+			if err != nil {
+				return errors.Wrapf(err, "assigning %s", destinationName)
+			}
+		}
+	}
+
+	return nil
+}
+
+// readPropertiesFromPropertyBag populates destination properties that don't have a matching source property by reading
+// the values from a property bag on the source object.
+// sourceEndpoints is a set of endpoints that can be read from.
+// destinationEndpoints is a set of endpoints that can be written to.
+// assign is a function that will be called for each matching property, with the source and destination endpoints
+// for that assignment.
+func (builder *PropertyAssignmentFunctionBuilder) readPropertiesFromPropertyBag(
+	sourceEndpoints conversions.ReadableConversionEndpointSet,
+	destinationEndpoints conversions.WritableConversionEndpointSet,
+	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+) error {
+	prop := builder.findPropertyBagProperty(builder.sourceType())
+	if prop == nil {
+		// No property bag on our source type, nothing to read from
+		return nil
+	}
+
+	// for each destination property that doesn't already have a source endpoint, synthesize an endpoint that reads
+	// from the property bag
+	for destinationName, destinationEndpoint := range destinationEndpoints {
+		if _, ok := sourceEndpoints[destinationName]; ok {
+			// already have a source endpoint for this property
+			continue
+		}
+
+		// Create a new endpoint that reads from the property bag
+		sourceEndpoint := conversions.NewReadableConversionEndpointReadingPropertyBagMember(destinationName, destinationEndpoint.Endpoint().Type())
+		err := assign(sourceEndpoint, destinationEndpoint)
+		if err != nil {
+			return errors.Wrapf(err, "assigning %s from property bag", destinationName)
+		}
+
+		builder.readsFromPropertyBag = true
+	}
+
+	return nil
+}
+
+// writePropertiesToPropertyBag stores source properties that don't have a matching destination property by writing
+// the values to a property bag on the destination object.
+// sourceEndpoints is a set of endpoints that can be read from.
+// destinationEndpoints is a set of endpoints that can be written to.
+// assign is a function that will be called for each matching property, with the source and destination endpoints
+// for that assignment.
+func (builder *PropertyAssignmentFunctionBuilder) writePropertiesToPropertyBag(
+	sourceEndpoints conversions.ReadableConversionEndpointSet,
+	destinationEndpoints conversions.WritableConversionEndpointSet,
+	assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+) error {
+	prop := builder.findPropertyBagProperty(builder.destinationType())
+	if prop == nil {
+		// No property bag on our source type, nothing to read from
+		return nil
+	}
+
+	// for each source property that doesn't already have a destination endpoint, synthesize an endpoint that writes
+	// to the property bag
+	for sourceName, sourceEndpoint := range sourceEndpoints {
+		if _, ok := destinationEndpoints[sourceName]; ok {
+			// already have a destination endpoint for this property, nothing to do
+			continue
+		}
+
+		// Create a new endpoint that reads from the property bag
+		destinationEndpoint := conversions.NewWritableConversionEndpointWritingPropertyBagMember(sourceName, sourceEndpoint.Endpoint().Type())
+		err := assign(sourceEndpoint, destinationEndpoint)
+		if err != nil {
+			return errors.Wrapf(err, "assigning %s to property bag", sourceName)
+		}
+
+		builder.writesToPropertyBag = true
+	}
+
+	return nil
 }
