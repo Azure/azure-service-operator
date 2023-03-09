@@ -71,7 +71,7 @@ do
   fi
 
   # Apply CRD guards
-  if [[ $file == *"v1api_installedresourcedefinitions"* ]]; then
+  if [[ $file == *"v1api_installedresourcedefinitions"* ]] || [[ $file == *"crd-manager-role"* ]]; then
     sed -i "1 s/^/$IF_CRDS\n/;$ a {{- end }}" "$file"
   fi
 done

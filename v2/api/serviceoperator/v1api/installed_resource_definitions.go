@@ -8,8 +8,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// +kubebuilder:rbac:groups=serviceoperator.azure.com,resources=installedresourcedefinitions,verbs=get;list;watch;create;update;patch
-// +kubebuilder:rbac:groups=serviceoperator.azure.com,resources={installedresourcedefinitions/status,installedresourcedefinitions/finalizers},verbs=get;update;patch
+// Note: We do NOT include the kubebuilder rbac annotations for installedresourcedefinitions here because
+// we want to define a special role for this resource.
+// We need a special role because this resource is different than the other CRDs. See the config/rbac/crd_manager_role.yaml
+// and config/rbac/crd_manager_role_binding.yaml
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
