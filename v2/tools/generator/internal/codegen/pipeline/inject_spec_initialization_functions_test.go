@@ -48,13 +48,25 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		"addresses",
 		astmodel.NewArrayType(locationStatus.Name()))
 
+	personReferenceReference := astmodel.NewPropertyDefinition(
+		"PersonReference",
+		"personReference",
+		astmodel.KnownResourceReferenceType)
+
+	personIdProperty := astmodel.NewPropertyDefinition(
+		"PersonId",
+		"personId",
+		astmodel.StringType)
+
 	spec := test.CreateSpec(
 		test.Pkg2020,
 		"Person",
 		test.FullNameProperty,
 		test.FamilyNameProperty,
 		test.KnownAsProperty,
-		addressesSpecProperty)
+		addressesSpecProperty,
+		personReferenceReference,
+	)
 
 	status := test.CreateStatus(
 		test.Pkg2020,
@@ -62,7 +74,9 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.FullNameProperty,
 		test.FamilyNameProperty,
 		test.KnownAsProperty,
-		addressesStatusProperty)
+		addressesStatusProperty,
+		personIdProperty,
+	)
 
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 

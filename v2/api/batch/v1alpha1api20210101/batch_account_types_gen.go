@@ -1569,6 +1569,14 @@ func (properties *AutoStorageBaseProperties) AssignProperties_To_AutoStorageBase
 // Initialize_From_AutoStorageProperties_STATUS populates our AutoStorageBaseProperties from the provided source AutoStorageProperties_STATUS
 func (properties *AutoStorageBaseProperties) Initialize_From_AutoStorageProperties_STATUS(source *AutoStorageProperties_STATUS) error {
 
+	// StorageAccountReference
+	if source.StorageAccountId != nil {
+		storageAccountReference := genruntime.CreateResourceReferenceFromARMID(*source.StorageAccountId)
+		properties.StorageAccountReference = &storageAccountReference
+	} else {
+		properties.StorageAccountReference = nil
+	}
+
 	// No error
 	return nil
 }
@@ -2267,6 +2275,14 @@ func (reference *KeyVaultReference) AssignProperties_To_KeyVaultReference(destin
 
 // Initialize_From_KeyVaultReference_STATUS populates our KeyVaultReference from the provided source KeyVaultReference_STATUS
 func (reference *KeyVaultReference) Initialize_From_KeyVaultReference_STATUS(source *KeyVaultReference_STATUS) error {
+
+	// Reference
+	if source.Id != nil {
+		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
+	}
 
 	// Url
 	reference.Url = genruntime.ClonePointerToString(source.Url)

@@ -1035,6 +1035,14 @@ func (redis *Redis_Spec) Initialize_From_Redis_STATUS(source *Redis_STATUS) erro
 		redis.StaticIP = nil
 	}
 
+	// SubnetReference
+	if source.SubnetId != nil {
+		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
+		redis.SubnetReference = &subnetReference
+	} else {
+		redis.SubnetReference = nil
+	}
+
 	// Tags
 	redis.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 

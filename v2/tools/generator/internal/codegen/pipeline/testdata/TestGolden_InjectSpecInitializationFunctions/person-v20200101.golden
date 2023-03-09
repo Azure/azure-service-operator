@@ -4,6 +4,7 @@
 package v20200101
 
 import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -34,7 +35,8 @@ type Person_Spec struct {
 	FullName string `json:"fullName,omitempty"`
 
 	// KnownAs: How the person is generally known
-	KnownAs string `json:"knownAs,omitempty"`
+	KnownAs         string                            `json:"knownAs,omitempty"`
+	PersonReference genruntime.KnownResourceReference `json:"personReference,omitempty"`
 }
 
 // Initialize_From_Person_STATUS populates our Person_Spec from the provided source Person_STATUS
@@ -67,6 +69,9 @@ func (person *Person_Spec) Initialize_From_Person_STATUS(source *Person_STATUS) 
 	// KnownAs
 	person.KnownAs = source.KnownAs
 
+	// PersonReference
+	person.PersonReference = genruntime.CreateResourceReferenceFromARMID(source.PersonId)
+
 	// No error
 	return nil
 }
@@ -81,7 +86,8 @@ type Person_STATUS struct {
 	FullName string `json:"fullName,omitempty"`
 
 	// KnownAs: How the person is generally known
-	KnownAs string `json:"knownAs,omitempty"`
+	KnownAs  string `json:"knownAs,omitempty"`
+	PersonId string `json:"personId,omitempty"`
 
 	// Status: Current status
 	Status string `json:"status,omitempty"`

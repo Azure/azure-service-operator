@@ -6,6 +6,8 @@
 package functions
 
 import (
+	"strings"
+
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -39,8 +41,13 @@ type PropertyAssignmentFunctionBuilder struct {
 	// augmentationInterface is the conversion augmentation interface associated with this conversion.
 	// If this is nil, there is no augmented conversion associated with this conversion
 	augmentationInterface *astmodel.TypeName
-	// propertySelectors is a list of functions that can be used to select a property to assign to
-	propertySelectors []PropertyAssignmentSelector
+	// assignmentSelectors is a list of functions that can be used to select a property to assign to
+	assignmentSelectors []assignmentSelector
+}
+
+type assignmentSelector struct {
+	sequence int                        // lower numbered sequence numbers are executed first
+	selector PropertyAssignmentSelector // the callback to invoke
 }
 
 // PropertyAssignmentSelector is a function that selects pairs of endpoints to create property assignments
@@ -71,10 +78,10 @@ func NewPropertyAssignmentFunctionBuilder(
 		conversions:        make(map[string]StoragePropertyConversion),
 	}
 
-	result.propertySelectors = []PropertyAssignmentSelector{
-		result.selectIdenticallyNamedProperties,
-		result.readPropertiesFromPropertyBag,
-		result.writePropertiesToPropertyBag,
+	result.assignmentSelectors = []assignmentSelector{
+		{0, result.selectIdenticallyNamedProperties},
+		{100, result.readPropertiesFromPropertyBag}, // High sequence numbers to ensure these are executed last
+		{100, result.writePropertiesToPropertyBag},
 	}
 
 	return result
@@ -83,6 +90,26 @@ func NewPropertyAssignmentFunctionBuilder(
 // UseAugmentationInterface returns the property assignment function with a conversion augmentation interface set
 func (builder *PropertyAssignmentFunctionBuilder) UseAugmentationInterface(augmentation astmodel.TypeName) {
 	builder.augmentationInterface = &augmentation
+}
+
+// AddAssignmentSelector adds a new assignment selector to the list of assignment selectors.
+// Assignment selectors are executed in the order they are added.
+func (builder *PropertyAssignmentFunctionBuilder) AddAssignmentSelector(selector PropertyAssignmentSelector) {
+	as := assignmentSelector{
+		sequence: len(builder.assignmentSelectors) + 1, // ensure we execute after most existing selectors
+		selector: selector,
+	}
+
+	builder.assignmentSelectors = append(builder.assignmentSelectors, as)
+}
+
+// AddSuffixMatchingAssignmentSelector adds a new assignment selector that will match a property with the specified
+// sourceSuffix to a property with the specified destinationSuffix.
+func (builder *PropertyAssignmentFunctionBuilder) AddSuffixMatchingAssignmentSelector(
+	sourceSuffix string,
+	destinationSuffix string,
+) {
+	builder.AddAssignmentSelector(builder.createSuffixMatchingAssignmentSelector(sourceSuffix, destinationSuffix))
 }
 
 func (builder *PropertyAssignmentFunctionBuilder) Build(
@@ -219,8 +246,8 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 		return nil
 	}
 
-	for _, selector := range builder.propertySelectors {
-		err := selector(sourceEndpoints, destinationEndpoints, assign)
+	for _, s := range builder.assignmentSelectors {
+		err := s.selector(sourceEndpoints, destinationEndpoints, assign)
 		if err != nil {
 			// Don't need to wrap this error, it's already got context
 			return err
@@ -255,7 +282,7 @@ func (builder *PropertyAssignmentFunctionBuilder) findPropertyBagProperty(instan
 }
 
 // createPropertyConversion tries to create a conversion between the two provided endpoints, using all the available
-// conversion functions in priority order. If no valid conversion can be created an error is returned.
+// conversion functions in sequence order. If no valid conversion can be created an error is returned.
 func (builder *PropertyAssignmentFunctionBuilder) createConversion(
 	sourceEndpoint *conversions.ReadableConversionEndpoint,
 	destinationEndpoint *conversions.WritableConversionEndpoint,
@@ -395,4 +422,32 @@ func (builder *PropertyAssignmentFunctionBuilder) writePropertiesToPropertyBag(
 	}
 
 	return nil
+}
+
+// createSuffixMatchingAssignmentSelector creates an assignment selector that matches source properties with the
+// given suffix to destination properties with the given suffix.
+func (builder *PropertyAssignmentFunctionBuilder) createSuffixMatchingAssignmentSelector(
+	sourceSuffix string,
+	destinationSuffix string,
+) PropertyAssignmentSelector {
+	return func(sourceProperties conversions.ReadableConversionEndpointSet,
+		destinationProperties conversions.WritableConversionEndpointSet,
+		assign func(reader *conversions.ReadableConversionEndpoint, writer *conversions.WritableConversionEndpoint) error,
+	) error {
+		for destinationName, destinationEndpoint := range destinationProperties {
+			if !strings.HasSuffix(destinationName, destinationSuffix) {
+				continue
+			}
+
+			sourceName := strings.TrimSuffix(destinationName, destinationSuffix) + sourceSuffix
+			if sourceEndpoint, ok := sourceProperties[sourceName]; ok {
+				err := assign(sourceEndpoint, destinationEndpoint)
+				if err != nil {
+					return errors.Wrapf(err, "assigning %s", destinationName)
+				}
+			}
+		}
+
+		return nil
+	}
 }

@@ -54,6 +54,7 @@ func InjectSpecInitializationFunctions(
 					WithConfiguration(configuration.ObjectModelConfiguration)
 
 				initializationBuilder := functions.NewPropertyAssignmentFunctionBuilder(spec, status, conversions.ConvertFrom)
+				initializationBuilder.AddSuffixMatchingAssignmentSelector("Id", "Reference")
 				initializationFn, err := initializationBuilder.Build(assignmentContext)
 				if err != nil {
 					errs = append(errs, errors.Wrapf(err, "creating Initialize_From_*() function for %q", specName))
@@ -70,7 +71,7 @@ func InjectSpecInitializationFunctions(
 			}
 
 			if len(errs) > 0 {
-				return nil, errors.Errorf("failed to inject spec initialization functions: %v", errs)
+				return nil, errors.Wrapf(kerrors.NewAggregate(errs), "failed to inject spec initialization functions")
 			}
 
 			return state.WithDefinitions(defs.OverlayWith(newDefs)), nil
