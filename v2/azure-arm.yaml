@@ -814,13 +814,11 @@ objectModelConfiguration:
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
       VirtualMachineExtension_STATUS:
         $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
       VirtualMachineScaleSetExtension:
         $isResource: false
       VirtualMachineScaleSetExtension_STATUS:
