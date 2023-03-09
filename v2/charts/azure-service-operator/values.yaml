@@ -80,7 +80,7 @@ metrics:
   address: 0.0.0.0:{{ .Values.metrics.port }}
   port: 8080
 
-installCRDs: true  # TODO: We need to actually use this in the operator when managing the CRDs
+installCRDs: true
 
 # podAnnotations contain the pod annotations for Azure Service Operator
 podAnnotations: {}

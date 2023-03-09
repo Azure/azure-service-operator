@@ -14,6 +14,7 @@ ASO_CHART="$DIR"charts/azure-service-operator
 GEN_FILES_DIR="$ASO_CHART"/templates/generated
 IF_CLUSTER="{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode \"webhooks\") }}"
 IF_TENANT="{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode \"watchers\") }}"
+IF_CRDS="{{- if eq .Values.installCRDs true }}"
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -60,12 +61,18 @@ find "$GEN_FILES_DIR" -type f -exec sed -i 's/azureserviceoperator-system/{{ .Re
 # Perform file level changes for cluster and tenant
 for file in $(find "$GEN_FILES_DIR" -type f)
 do
+  # Append cluster or tenant guards to each file
   if [[ $file == *"clusterrolebinding_azureserviceoperator-manager"* ]]; then
     sed -i "1 s/^/$IF_TENANT\n/;$ a {{- end }}" "$file"
     flow_control "name: azureserviceoperator-manager-rolebinding" "name: azureserviceoperator-manager-rolebinding" "{{- if not .Values.multitenant.enable }}" "$file"
     sed -i "/name: azureserviceoperator-manager-rolebinding/a \  \ {{ else }}\n \ name: azureserviceoperator-manager-rolebinding-{{ .Release.Namespace }}" "$file"
   elif [[ $file != *"leader-election"* ]] && [[ $file != *"_deployment_"* ]]; then
     sed -i "1 s/^/$IF_CLUSTER\n/;$ a {{- end }}" "$file"
+  fi
+
+  # Apply CRD guards
+  if [[ $file == *"v1api_installedresourcedefinitions"* ]]; then
+    sed -i "1 s/^/$IF_CRDS\n/;$ a {{- end }}" "$file"
   fi
 done
 
