@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-isodfv","location":"westeurope","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"westeurope","name":"asotest-rg-isodfv","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:

@@ -261,6 +261,13 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 | [Workspace](https://azure.github.io/azure-service-operator/reference/operationalinsights/v1beta20210601/#operationalinsights.azure.com/v1beta20210601.Workspace)           | 2021-06-01  | v1beta20210601      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/operationalinsights/v1beta/v1beta20210601_workspace.yaml)           |
 | [Workspace](https://azure.github.io/azure-service-operator/reference/operationalinsights/v1alpha1api20210601/#operationalinsights.azure.com/v1alpha1api20210601.Workspace) | 2021-06-01  | v1alpha1api20210601 | v2.0.0-alpha.4 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/operationalinsights/v1alpha1api/v1alpha1api20210601_workspace.yaml) |
 
+## Resources
+
+| Resource                                                                                                                                                       | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                    |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| [ResourceGroup](https://azure.github.io/azure-service-operator/reference/resources/v1beta20200601/#resources.azure.com/v1beta20200601.ResourceGroup)           | 2020-06-01  | v1beta20200601      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1beta/v1beta20200601_resourcegroup.yaml)           |
+| [ResourceGroup](https://azure.github.io/azure-service-operator/reference/resources/v1alpha1api20200601/#resources.azure.com/v1alpha1api20200601.ResourceGroup) | 2020-06-01  | v1alpha1api20200601 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1alpha1api/v1alpha1api20200601_resourcegroup.yaml) |
+
 ## Servicebus
 
 | Resource                                                                                                                                                                                                     | ARM Version        | CRD Version                | Supported From | Sample                                                                                                                                                      |

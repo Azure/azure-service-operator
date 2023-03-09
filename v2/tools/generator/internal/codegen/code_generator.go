@@ -134,6 +134,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.MakeStatusPropertiesOptional(),
 		pipeline.TransformValidatedFloats(),
+		pipeline.AddLocatableInterface(idFactory),
 
 		// This is currently also run as part of RemoveEmbeddedResources and so is technically not needed here,
 		// but we include it to hedge against future changes

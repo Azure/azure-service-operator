@@ -25,7 +25,7 @@ func TestOperatorMode_Webhooks(t *testing.T) {
 			Name:      tc.Namer.GenerateName("rg"),
 			Namespace: tc.Namespace,
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: tc.AzureRegion,
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
@@ -53,7 +53,7 @@ func TestOperatorMode_Watchers(t *testing.T) {
 			Name:      tc.Namer.GenerateName("rg"),
 			Namespace: tc.Namespace,
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: tc.AzureRegion,
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
@@ -82,7 +82,7 @@ func TestOperatorMode_Both(t *testing.T) {
 			Name:      tc.Namer.GenerateName("rg"),
 			Namespace: tc.Namespace,
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: tc.AzureRegion,
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},

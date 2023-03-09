@@ -23,9 +23,10 @@ func Test_Resources_ResourceGroup_CRUD(t *testing.T) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
-	tc.Expect(rg.Status.ID).ToNot(BeNil())
-	armId := *rg.Status.ID
+	tc.Expect(rg.Status.Properties).ToNot(BeNil())
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
+	tc.Expect(rg.Status.Id).ToNot(BeNil())
+	armId := *rg.Status.Id
 
 	// Update the tags
 	old := rg.DeepCopy()

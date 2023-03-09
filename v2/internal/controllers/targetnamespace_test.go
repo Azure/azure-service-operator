@@ -36,7 +36,7 @@ func TestTargetNamespaces(t *testing.T) {
 	err := tc.CreateTestNamespaces("watched", "unwatched")
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	standardSpec := resources.ResourceGroupSpec{
+	standardSpec := resources.ResourceGroup_Spec{
 		Location: tc.AzureRegion,
 		Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 	}
@@ -163,7 +163,7 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 				generic.NamespaceAnnotation: "some-other-operator",
 			},
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: tc.AzureRegion,
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
@@ -195,7 +195,7 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 				generic.NamespaceAnnotation: podNamespace,
 			},
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: tc.AzureRegion,
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
