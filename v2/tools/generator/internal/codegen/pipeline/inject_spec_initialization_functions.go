@@ -116,7 +116,33 @@ func newSpecInitializationScanner(
 
 // scanResources does a scan for all the non-storage ResourceTypes in the supplied set
 func (s *specInitializationScanner) scanResources() (map[astmodel.TypeName]astmodel.TypeName, error) {
+	rsrcs, err := s.findResources()
+	if err != nil {
+		// Don't need to wrap this error, it's already wrapped
+		return nil, err
+	}
+
 	errs := make([]error, 0, 10)
+	for _, def := range rsrcs {
+		// Don't need to check, we know this is a resource
+		rsrc, _ := astmodel.AsResourceType(def.Type())
+
+		// Scan the resource for mappings
+		if _, err := s.visitor.Visit(rsrc.SpecType(), rsrc.StatusType()); err != nil {
+			errs = append(errs, err)
+		}
+	}
+
+	return s.specToStatus, kerrors.NewAggregate(errs)
+}
+
+func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet, error) {
+	// Every resource has a spec and a status, so an upper limit on the number of mappings we'll need is 1/3 the
+	// total number of types
+	capacity := len(s.defs)/3 + 1
+
+	errs := make([]error, 0, 10)
+	result := make(astmodel.TypeDefinitionSet, capacity)
 	for _, def := range s.defs {
 		// Skip storage types, only need spec initialization on API types
 		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
@@ -124,7 +150,7 @@ func (s *specInitializationScanner) scanResources() (map[astmodel.TypeName]astmo
 		}
 
 		// Skip non resources
-		rsrc, ok := astmodel.AsResourceType(def.Type())
+		_, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
 			continue
 		}
@@ -147,13 +173,10 @@ func (s *specInitializationScanner) scanResources() (map[astmodel.TypeName]astmo
 			continue
 		}
 
-		// Scan the resource for mappings
-		if _, err := s.visitor.Visit(rsrc.SpecType(), rsrc.StatusType()); err != nil {
-			errs = append(errs, err)
-		}
+		result.Add(def)
 	}
 
-	return s.specToStatus, kerrors.NewAggregate(errs)
+	return result, errors.Wrapf(kerrors.NewAggregate(errs), "finding importable resources")
 }
 
 // visitTypeName is called for each TypeName in the spec and status types of a resource
