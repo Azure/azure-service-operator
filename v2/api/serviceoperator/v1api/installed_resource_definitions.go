@@ -48,9 +48,6 @@ type InstalledResourceDefinitionsList struct {
 	Items           []InstalledResourceDefinitions `json:"items"`
 }
 
-// TODO: I think we just watch a magically named one of these? Similar to "aso-controller-settings"?
-// TODO: How does the Helm update experience work with this resource? If the user has modified it away from its default settings, won't Helm
-// TODO: overwrite it and cause problems? We may need a Helm flag that indicates what to do here
 type InstalledResourceDefinitionsSpec struct {
 	// +kubebuilder:validation:Required
 	// Pattern defines the set of CRDs which should be installed.

@@ -156,11 +156,6 @@ func (r *InstalledResourceReconciler) Delete(_ context.Context, _ logr.Logger, _
 }
 
 func (r *InstalledResourceReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
-	//user, err := r.asInstalledResources(obj)
-	//if err != nil {
-	//	return err
-	//}
-
 	// TODO: Do we need anything on status?
 
 	return nil
