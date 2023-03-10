@@ -17,6 +17,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	"github.com/go-logr/logr"
@@ -29,9 +30,8 @@ import (
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
-	resourcesalpha "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
-	resourcesbeta "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	mysqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/mysql"
@@ -56,15 +56,26 @@ func GetKnownStorageTypes(
 		return nil, err
 	}
 
+	for _, t := range knownStorageTypes {
+		err := augmentWithControllerName(t)
+		if err != nil {
+			return nil, err
+		}
+
+		augmentWithPredicate(t)
+	}
+
 	knownStorageTypes = append(
 		knownStorageTypes,
 		&registration.StorageType{
-			Obj: &mysql.User{},
+			Obj:  &mysql.User{},
+			Name: "UserController",
 			Reconciler: mysqlreconciler.NewMySQLUserReconciler(
 				kubeClient,
 				resourceResolver,
 				positiveConditions,
 				options.Config),
+			Predicate: makeStandardPredicate(),
 			Indexes: []registration.Index{
 				{
 					Key:  ".spec.localUser.password",
@@ -79,13 +90,6 @@ func GetKnownStorageTypes(
 			},
 		})
 
-	for _, t := range knownStorageTypes {
-		err := augmentWithControllerName(t)
-		if err != nil {
-			return nil, err
-		}
-	}
-
 	return knownStorageTypes, nil
 }
 
@@ -97,10 +101,6 @@ func getGeneratedStorageTypes(
 	positiveConditions *conditions.PositiveConditionBuilder,
 	options generic.Options) ([]*registration.StorageType, error) {
 	knownStorageTypes := getKnownStorageTypes()
-
-	knownStorageTypes = append(
-		knownStorageTypes,
-		registration.NewStorageType(&resourcesbeta.ResourceGroup{}))
 
 	// Verify we're using the hub version of VirtualNetworksSubnet in the loop below
 	var _ ctrlconversion.Hub = &networkstorage.VirtualNetworksSubnet{}
@@ -171,6 +171,20 @@ func augmentWithARMReconciler(
 		extension)
 }
 
+func augmentWithPredicate(t *registration.StorageType) {
+
+	t.Predicate = makeStandardPredicate()
+}
+
+func makeStandardPredicate() predicate.Predicate {
+	// Note: These predicates prevent status updates from triggering a reconcile.
+	// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
+	return predicate.Or(
+		predicate.GenerationChangedPredicate{},
+		reconcilers.ARMReconcilerAnnotationChangedPredicate(),
+		reconcilers.ARMPerResourceSecretAnnotationChangedPredicate())
+}
+
 func augmentWithControllerName(t *registration.StorageType) error {
 	controllerName, err := getControllerName(t.Obj)
 	if err != nil {
@@ -207,8 +221,6 @@ func GetKnownTypes() []client.Object {
 
 	knownTypes = append(
 		knownTypes,
-		&resourcesalpha.ResourceGroup{},
-		&resourcesbeta.ResourceGroup{},
 		&mysql.User{})
 
 	return knownTypes
@@ -216,8 +228,6 @@ func GetKnownTypes() []client.Object {
 
 func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
-	_ = resourcesalpha.AddToScheme(scheme)
-	_ = resourcesbeta.AddToScheme(scheme)
 	_ = mysql.AddToScheme(scheme)
 
 	return scheme

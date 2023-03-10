@@ -1286,6 +1286,11 @@ objectModelConfiguration:
       WorkspaceFeatures:
         ClusterResourceId:
           $armReference: true
+  resources:
+    2020-06-01:
+      ResourceGroup:
+        $export: true
+        $supportedFrom: v2.0.0-alpha.1
   servicebus:
     2021-01-01-preview:
       Namespace:

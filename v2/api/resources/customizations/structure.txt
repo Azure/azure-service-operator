@@ -1,0 +1,2 @@
+github.com/Azure/azure-service-operator/v2/api/resources/customizations
+└── ResourceGroupExtension: Object (0 properties)

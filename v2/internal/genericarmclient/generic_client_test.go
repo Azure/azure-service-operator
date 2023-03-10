@@ -43,10 +43,10 @@ func Test_NewResourceGroup(t *testing.T) {
 		Name:               resourceGroup.Name,
 		ResolvedReferences: genruntime.MakeResolved[genruntime.ResourceReference](nil),
 	}
-	resourceGroupSpec, err := resourceGroup.Spec.ConvertToARM(resolved)
+	spec, err := resourceGroup.Spec.ConvertToARM(resolved)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	typedResourceGroupSpec := resourceGroupSpec.(resources.ResourceGroupSpecARM)
+	typedResourceGroupSpec := spec.(*resources.ResourceGroup_Spec_ARM)
 
 	id := genericarmclient.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
 
@@ -56,7 +56,7 @@ func Test_NewResourceGroup(t *testing.T) {
 	g.Eventually(poller).Should(testContext.AzureMatch.BeProvisioned(ctx))
 
 	// Get the resource
-	status := resources.ResourceGroupStatus{}
+	status := resources.ResourceGroup_STATUS{}
 	_, err = testContext.AzureClient.GetByID(ctx, id, typedResourceGroupSpec.GetAPIVersion(), &status)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -85,7 +85,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 		ObjectMeta: metav1.ObjectMeta{
 			Name: rgName,
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: to.StringPtr("BadLocation"),
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
@@ -95,10 +95,10 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 		Name:               rgName,
 		ResolvedReferences: genruntime.MakeResolved[genruntime.ResourceReference](nil),
 	}
-	resourceGroupSpec, err := resourceGroup.Spec.ConvertToARM(resolved)
+	spec, err := resourceGroup.Spec.ConvertToARM(resolved)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	typedResourceGroupSpec := resourceGroupSpec.(resources.ResourceGroupSpecARM)
+	typedResourceGroupSpec := spec.(*resources.ResourceGroup_Spec_ARM)
 
 	id := genericarmclient.MakeResourceGroupID(testContext.AzureSubscription, resourceGroup.Name)
 
@@ -193,7 +193,7 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "name",
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: to.StringPtr("westus"),
 		},
 	}

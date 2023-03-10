@@ -91,7 +91,7 @@ func createResourceGroup(name string) *resources.ResourceGroup {
 			Name:      name,
 			Namespace: testNamespace,
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location:  to.StringPtr("West US"),
 			AzureName: name, // defaulter webhook will copy Name to AzureName
 		},

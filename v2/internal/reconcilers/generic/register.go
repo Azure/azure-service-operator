@@ -19,11 +19,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
-	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -130,18 +128,8 @@ func register(
 		RequeueIntervalCalculator: options.RequeueIntervalCalculator,
 	}
 
-	// Note: These predicates prevent status updates from triggering a reconcile.
-	// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
-	predicateLog := options.LogConstructor(nil).WithName(info.Name)
-	filter := predicate.Or(
-		predicate.GenerationChangedPredicate{},
-		reconcilers.ARMReconcilerAnnotationChangedPredicate(predicateLog),
-		reconcilers.ARMPerResourceSecretAnnotationChangedPredicate(predicateLog))
-
 	builder := ctrl.NewControllerManagedBy(mgr).
-		// Note: These predicates prevent status updates from triggering a reconcile.
-		// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
-		For(info.Obj, ctrlbuilder.WithPredicates(filter)).
+		For(info.Obj, ctrlbuilder.WithPredicates(info.Predicate)).
 		WithOptions(options.Options)
 
 	for _, watch := range info.Watches {
