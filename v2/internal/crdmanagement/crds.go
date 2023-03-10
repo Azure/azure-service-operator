@@ -68,14 +68,14 @@ func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomR
 	return list.Items, nil
 }
 
-func (m *Manager) LoadOperatorCRDs(path string, namespace string) ([]apiextensions.CustomResourceDefinition, error) {
+func (m *Manager) LoadOperatorCRDs(path string) ([]apiextensions.CustomResourceDefinition, error) {
 	// Expectation is that every file in this folder is a CRD
 	entries, err := os.ReadDir(path)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to read directory %s", path)
 	}
 
-	var results []apiextensions.CustomResourceDefinition
+	results := make([]apiextensions.CustomResourceDefinition, 0, len(entries))
 
 	for _, entry := range entries {
 		if entry.IsDir() {
@@ -95,13 +95,22 @@ func (m *Manager) LoadOperatorCRDs(path string, namespace string) ([]apiextensio
 			return nil, errors.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
 		}
 
-		crd = fixCRDNamespace(crd, namespace)
-
 		m.logger.V(0).Info("Loaded CRD", "path", filePath, "name", crd.Name)
 		results = append(results, crd)
 	}
 
 	return results, nil
+}
+
+func (m *Manager) FixCRDNamespaceRefs(crds []apiextensions.CustomResourceDefinition, namespace string) []apiextensions.CustomResourceDefinition {
+	results := make([]apiextensions.CustomResourceDefinition, 0, len(crds))
+
+	for _, crd := range crds {
+		crd = fixCRDNamespace(crd, namespace)
+		results = append(results, crd)
+	}
+
+	return results
 }
 
 func (m *Manager) FindGoalCRDsNeedingUpdate(
@@ -187,9 +196,24 @@ func ignoreCABundle(a apiextensions.CustomResourceDefinition) apiextensions.Cust
 	return a
 }
 
+func ignoreConversionWebhook(a apiextensions.CustomResourceDefinition) apiextensions.CustomResourceDefinition {
+	if a.Spec.Conversion != nil && a.Spec.Conversion.Webhook != nil {
+		a.Spec.Conversion.Webhook = nil
+	}
+
+	return a
+}
+
 func SpecEqual(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool {
 	a = ignoreCABundle(a)
 	b = ignoreCABundle(b)
+
+	return reflect.DeepEqual(a.Spec, b.Spec)
+}
+
+func SpecEqualIgnoreConversionWebhook(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool {
+	a = ignoreConversionWebhook(a)
+	b = ignoreConversionWebhook(b)
 
 	return reflect.DeepEqual(a.Spec, b.Spec)
 }

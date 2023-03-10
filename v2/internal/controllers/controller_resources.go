@@ -93,9 +93,20 @@ func GetKnownStorageTypes(
 			},
 		})
 
-	// TODO: Shouldn't reconcile this resource if we're in multitenant mode
-	knownStorageTypes = append(
-		knownStorageTypes,
+	return knownStorageTypes, nil
+}
+
+func GetClusterScopeStorageTypes(
+	mgr ctrl.Manager,
+	armClientFactory arm.ARMClientFactory,
+	kubeClient kubeclient.Client,
+	positiveConditions *conditions.PositiveConditionBuilder,
+	options generic.Options) ([]*registration.StorageType, error) {
+
+	var result []*registration.StorageType
+
+	result = append(
+		result,
 		&registration.StorageType{
 			Obj:  &serviceoperator.InstalledResourceDefinitions{},
 			Name: "InstalledResourceDefinitionsController",
@@ -108,7 +119,7 @@ func GetKnownStorageTypes(
 				custompredicates.MakeNamePredicate(options.Config.InstalledResourceDefinitionsName)),
 		})
 
-	return knownStorageTypes, nil
+	return result, nil
 }
 
 func getGeneratedStorageTypes(

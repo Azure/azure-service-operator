@@ -14,9 +14,10 @@ namespace='.kind == "Namespace"'
 leader_election_role='(.kind == "Role" and .metadata.name == "azureserviceoperator-leader-election-role")'
 leader_election_binding='(.kind == "RoleBinding" and .metadata.name == "azureserviceoperator-leader-election-rolebinding")'
 manager_role_binding='(.kind == "ClusterRoleBinding" and .metadata.name == "azureserviceoperator-manager-rolebinding")'
+crd_reader_binding='(.kind == "ClusterRoleBinding" and .metadata.name == "azureserviceoperator-crd-reader-rolebinding")'
 deployment='(.kind == "Deployment" and .metadata.name == "azureserviceoperator-controller-manager")'
 serviceaccount='.kind == "ServiceAccount"'
-query="select($namespace or $leader_election_role or $leader_election_binding or $manager_role_binding or $deployment or $serviceaccount)"
+query="select($namespace or $leader_election_role or $leader_election_binding or $manager_role_binding or $crd_reader_binding or $deployment or $serviceaccount)"
 
 yq eval "$query" "$source" > "$target"
 
@@ -34,12 +35,13 @@ inplace_edit "(select($leader_election_role or $leader_election_binding or $depl
 
 # Update the subject namespaces for the bindings so they refer to the
 # service account in the tenant namespace
-inplace_edit "(select($leader_election_binding or $manager_role_binding).subjects[0].namespace) = \"$tenant_namespace\""
+inplace_edit "(select($leader_election_binding or $manager_role_binding or $crd_reader_binding).subjects[0].namespace) = \"$tenant_namespace\""
 inplace_edit "(select($serviceaccount).metadata.namespace) = \"$tenant_namespace\""
 
-# Rename the cluster role binding so bindings for different tenants
+# Rename the cluster role bindings so bindings for different tenants
 # can coexist.
 inplace_edit "(select($manager_role_binding).metadata.name) = \"azureserviceoperator-manager-rolebinding-$tenant\""
+inplace_edit "(select($crd_reader_binding).metadata.name) = \"azureserviceoperator-crd-reader-rolebinding-$tenant\""
 
 # Changes to the deployment:
 # * Remove the webserver cert volume and mount.

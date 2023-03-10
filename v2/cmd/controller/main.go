@@ -19,6 +19,7 @@ import (
 	"github.com/pkg/errors"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/client-go/rest"
 	"k8s.io/klog/v2"
@@ -56,14 +57,10 @@ type flags struct {
 	enableLeaderElection bool
 }
 
-// TODO: Try to clean this mess of a method up some
 func main() {
 	setupLog := ctrl.Log.WithName("setup")
 
-	flags := parseFlags(os.Args)
-
-	armMetrics := asometrics.NewARMClientMetrics()
-	asometrics.RegisterMetrics(armMetrics)
+	flgs := parseFlags(os.Args)
 
 	scheme := controllers.CreateScheme()
 	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs via InstalledResourceDefinitions
@@ -78,93 +75,77 @@ func main() {
 	}
 
 	var cacheFunc cache.NewCacheFunc
-	if cfg.TargetNamespaces != nil {
-		// TODO: In this mode we wouldn't see the InstalledResourceDefinitions CRD if we aren't watching our own namespace.
+	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
 		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
 	}
 
 	k8sConfig := ctrl.GetConfigOrDie()
 	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
 		Scheme:                 scheme,
-		MetricsBindAddress:     flags.metricsAddr,
+		MetricsBindAddress:     flgs.metricsAddr,
 		NewCache:               cacheFunc,
-		LeaderElection:         flags.enableLeaderElection,
+		LeaderElection:         flgs.enableLeaderElection,
 		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
 		Port:                   9443,
-		HealthProbeBindAddress: flags.healthAddr,
+		HealthProbeBindAddress: flgs.healthAddr,
 	})
 	if err != nil {
 		setupLog.Error(err, "unable to create manager")
 		os.Exit(1)
 	}
 
-	resourcesToSkip, err := getCRDsToSkip(ctx, setupLog, k8sConfig, cfg)
+	clients, err := initializeClients(cfg, mgr)
+	if err != nil {
+		setupLog.Error(err, "failed to initialize clients")
+		os.Exit(1)
+	}
+
+	resourcesToSkip, err := getCRDsToSkip(ctx, clients.log, mgr.GetConfig(), cfg)
 	if err != nil {
 		setupLog.Error(err, "unable to get CRDs to skip")
 		os.Exit(1)
 	}
 
-	credential, err := getDefaultAzureCredential(cfg, setupLog)
-	if err != nil {
-		setupLog.Error(err, "error while fetching default global credential")
-		os.Exit(1)
-	}
-
-	var globalARMClient *genericarmclient.GenericClient
-	if credential != nil {
-		globalARMClient, err = genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, armMetrics)
-		if err != nil {
-			setupLog.Error(err, "failed to get new genericArmClient")
-			os.Exit(1)
-		}
-	}
-
-	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil, armMetrics)
-
-	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
-		return armClientCache.GetClient(ctx, obj)
-	}
-	log := ctrl.Log.WithName("controllers")
-	log.V(Status).Info("Configuration details", "config", cfg.String())
 	if cfg.OperatorMode.IncludesWatchers() {
-		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
-
-		options := makeControllerOptions(log, cfg)
-		var objs []*registration.StorageType
-		objs, err = controllers.GetKnownStorageTypes(
-			mgr,
-			clientFactory,
-			kubeClient,
-			positiveConditions,
-			options)
+		err = initializeWatchers(resourcesToSkip, cfg, mgr, clients)
 		if err != nil {
-			setupLog.Error(err, "failed getting storage types and reconcilers")
+			setupLog.Error(err, "failed to initialize watchers")
 			os.Exit(1)
 		}
+	}
 
-		// Filter the types to register
-		objs, err = filterStorageTypesByReadyCRDs(setupLog, scheme, resourcesToSkip, objs)
+	if cfg.OperatorMode.IncludesWebhooks() {
+		var alwaysReconcile []*registration.StorageType
+		alwaysReconcile, err = controllers.GetClusterScopeStorageTypes(
+			mgr,
+			clients.armClientFactory,
+			clients.kubeClient,
+			clients.positiveConditions,
+			clients.options)
 		if err != nil {
-			setupLog.Error(err, "failed to filter storage types by ready CRDs")
+			setupLog.Error(err, "failed to get cluster scope storage types")
 			os.Exit(1)
 		}
 
 		err = generic.RegisterAll(
 			mgr,
 			mgr.GetFieldIndexer(),
-			kubeClient,
-			positiveConditions,
-			objs,
-			options)
+			clients.kubeClient,
+			clients.positiveConditions,
+			alwaysReconcile,
+			clients.options)
 		if err != nil {
-			setupLog.Error(err, "failed to register gvks")
+			setupLog.Error(err, "failed to register alwaysReconcile types")
 			os.Exit(1)
 		}
-	}
 
-	if cfg.OperatorMode.IncludesWebhooks() {
-		objs := controllers.GetKnownTypes() // TODO: we need to filter this too I think
+		objs := controllers.GetKnownTypes()
+
+		objs, err = filterKnownTypesByReadyCRDs(clients.log, scheme, resourcesToSkip, objs)
+		if err != nil {
+			setupLog.Error(err, "failed to filter known types by ready CRDs")
+			os.Exit(1)
+		}
 
 		if errs := generic.RegisterWebhooks(mgr, objs); errs != nil {
 			setupLog.Error(err, "failed to register webhook for gvks")
@@ -180,7 +161,7 @@ func main() {
 	}
 
 	setupLog.Info("starting manager")
-	if err := mgr.Start(ctx); err != nil {
+	if err = mgr.Start(ctx); err != nil {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
@@ -233,6 +214,83 @@ func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.
 	return credential, err
 }
 
+type clients struct {
+	positiveConditions *conditions.PositiveConditionBuilder
+	armClientFactory   armreconciler.ARMClientFactory
+	kubeClient         kubeclient.Client
+	log                logr.Logger
+	options            generic.Options
+}
+
+func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
+	armMetrics := asometrics.NewARMClientMetrics()
+	asometrics.RegisterMetrics(armMetrics)
+
+	log := ctrl.Log.WithName("controllers")
+
+	credential, err := getDefaultAzureCredential(cfg, log)
+	if err != nil {
+		return nil, errors.Wrap(err, "error while fetching default global credential")
+	}
+
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, armMetrics)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get new genericArmClient")
+	}
+
+	kubeClient := kubeclient.NewClient(mgr.GetClient())
+	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil, armMetrics)
+
+	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
+		return armClientCache.GetClient(ctx, obj)
+	}
+
+	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
+
+	options := makeControllerOptions(log, cfg)
+
+	return &clients{
+		positiveConditions: positiveConditions,
+		armClientFactory:   clientFactory,
+		kubeClient:         kubeClient,
+		log:                log,
+		options:            options,
+	}, nil
+}
+
+func initializeWatchers(resourcesToSkip map[string]apiextensions.CustomResourceDefinition, cfg config.Values, mgr ctrl.Manager, clients *clients) error {
+	clients.log.V(Status).Info("Configuration details", "config", cfg.String())
+
+	objs, err := controllers.GetKnownStorageTypes(
+		mgr,
+		clients.armClientFactory,
+		clients.kubeClient,
+		clients.positiveConditions,
+		clients.options)
+	if err != nil {
+		return errors.Wrap(err, "failed getting storage types and reconcilers")
+	}
+
+	// Filter the types to register
+	objs, err = filterStorageTypesByReadyCRDs(clients.log, mgr.GetScheme(), resourcesToSkip, objs)
+	if err != nil {
+		return errors.Wrap(err, "failed to filter storage types by ready CRDs")
+	}
+
+	err = generic.RegisterAll(
+		mgr,
+		mgr.GetFieldIndexer(),
+		clients.kubeClient,
+		clients.positiveConditions,
+		objs,
+		clients.options)
+	if err != nil {
+		return errors.Wrap(err, "failed to register gvks")
+	}
+
+	return nil
+}
+
 func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 	return generic.Options{
 		Config: cfg,
@@ -263,7 +321,6 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 }
 
 func getCRDsToSkip(ctx context.Context, logger logr.Logger, k8sConfig *rest.Config, cfg config.Values) (map[string]apiextensions.CustomResourceDefinition, error) {
-	// TODO: Clean this up
 	crdScheme := runtime.NewScheme()
 	_ = apiextensions.AddToScheme(crdScheme)
 	crdClient, err := client.New(k8sConfig, client.Options{Scheme: crdScheme})
@@ -277,11 +334,18 @@ func getCRDsToSkip(ctx context.Context, logger logr.Logger, k8sConfig *rest.Conf
 		return nil, errors.Wrap(err, "failed to list operator CRDs")
 	}
 
-	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
+	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to load CRDs from disk")
 	}
-	resourcesToSkip := crdManager.FindGoalCRDsNeedingUpdate(existingCRDs, goalCRDs, crdmanagement.SpecEqual)
+	equalityCheck := crdmanagement.SpecEqual
+	// If we're not the webhooks install, we're in multitenant mode and we expect that the CRD webhook points to a different
+	// namespace than ours. We don't actually know what the right namespace is though so we can't verify it - we just have to trust it's right.
+	if !cfg.OperatorMode.IncludesWebhooks() {
+		equalityCheck = crdmanagement.SpecEqualIgnoreConversionWebhook
+	}
+
+	resourcesToSkip := crdManager.FindGoalCRDsNeedingUpdate(existingCRDs, goalCRDs, equalityCheck)
 
 	return resourcesToSkip, nil
 }
@@ -293,12 +357,13 @@ func filterStorageTypesByReadyCRDs(
 	storageTypes []*registration.StorageType,
 ) ([]*registration.StorageType, error) {
 	// skip map key is by CRD name, but we need it to be by kind
-	skipKinds := set.Make[string]()
+	skipKinds := set.Make[schema.GroupKind]()
 	for _, crd := range skip {
-		skipKinds.Add(crd.Spec.Names.Kind)
+		skipKinds.Add(schema.GroupKind{Group: crd.Spec.Group, Kind: crd.Spec.Names.Kind})
 	}
 
-	var result []*registration.StorageType
+	result := make([]*registration.StorageType, 0, len(storageTypes))
+
 	for _, storageType := range storageTypes {
 		// Use the provided GVK to construct a new runtime object of the desired concrete type.
 		gvk, err := apiutil.GVKForObject(storageType.Obj, scheme)
@@ -306,12 +371,43 @@ func filterStorageTypesByReadyCRDs(
 			return nil, errors.Wrapf(err, "creating GVK for obj %T", storageType.Obj)
 		}
 
-		if skipKinds.Contains(gvk.Kind) {
+		if skipKinds.Contains(gvk.GroupKind()) {
 			logger.V(0).Info("Skipping reconciliation of resource because CRD needs update", "groupKind", gvk.GroupKind().String())
 			continue
 		}
 
 		result = append(result, storageType)
+	}
+
+	return result, nil
+}
+
+func filterKnownTypesByReadyCRDs(
+	logger logr.Logger,
+	scheme *runtime.Scheme,
+	skip map[string]apiextensions.CustomResourceDefinition,
+	knownTypes []client.Object,
+) ([]client.Object, error) {
+	// skip map key is by CRD name, but we need it to be by kind
+	skipKinds := set.Make[schema.GroupKind]()
+	for _, crd := range skip {
+		skipKinds.Add(schema.GroupKind{Group: crd.Spec.Group, Kind: crd.Spec.Names.Kind})
+	}
+
+	result := make([]client.Object, 0, len(knownTypes))
+	for _, knownType := range knownTypes {
+		// Use the provided GVK to construct a new runtime object of the desired concrete type.
+		gvk, err := apiutil.GVKForObject(knownType, scheme)
+		if err != nil {
+			return nil, errors.Wrapf(err, "creating GVK for obj %T", knownType)
+		}
+		gvk.GroupKind()
+		if skipKinds.Contains(gvk.GroupKind()) {
+			logger.V(0).Info("Skipping webhooks of resource because CRD needs update", "groupKind", gvk.GroupKind().String())
+			continue
+		}
+
+		result = append(result, knownType)
 	}
 
 	return result, nil

@@ -86,11 +86,11 @@ func Test_LoadCRDs(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	crdPath := filepath.Join(dir, "crd.yaml")
-	g.Expect(os.WriteFile(crdPath, bytes, 0644)).To(Succeed())
+	g.Expect(os.WriteFile(crdPath, bytes, 0600)).To(Succeed())
 
 	crdManager := crdmanagement.NewManager(logger, nil)
 
-	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir, "")
+	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(loadedCRDs).To(HaveLen(1))
@@ -198,7 +198,7 @@ func Test_BundledCRDs_HaveExactlyTwoInstancesOfNamespace(t *testing.T) {
 
 	defaultNamespace := "azureserviceoperator-system"
 
-	loadedCRDs, err := crdManager.LoadOperatorCRDs(path, defaultNamespace)
+	loadedCRDs, err := crdManager.LoadOperatorCRDs(path)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(loadedCRDs).ToNot(BeEmpty())
 	// The raw JSON should contain exactly 2 locations where the namespace is referenced. If this changes, we need
