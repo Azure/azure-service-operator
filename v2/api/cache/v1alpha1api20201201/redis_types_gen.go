@@ -103,6 +103,17 @@ func (redis *Redis) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Redis resource
 func (redis *Redis) defaultImpl() { redis.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Redis{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (redis *Redis) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(Redis_STATUS); ok {
+		return redis.Spec.Initialize_From_Redis_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Redis_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Redis{}
 
 // AzureName returns the Azure name of the resource

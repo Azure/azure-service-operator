@@ -103,6 +103,17 @@ func (account *BatchAccount) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the BatchAccount resource
 func (account *BatchAccount) defaultImpl() { account.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &BatchAccount{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (account *BatchAccount) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(BatchAccount_STATUS); ok {
+		return account.Spec.Initialize_From_BatchAccount_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type BatchAccount_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &BatchAccount{}
 
 // AzureName returns the Azure name of the resource

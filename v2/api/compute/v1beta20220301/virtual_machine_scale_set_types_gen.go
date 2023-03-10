@@ -92,6 +92,17 @@ func (scaleSet *VirtualMachineScaleSet) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the VirtualMachineScaleSet resource
 func (scaleSet *VirtualMachineScaleSet) defaultImpl() { scaleSet.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &VirtualMachineScaleSet{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (scaleSet *VirtualMachineScaleSet) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(VirtualMachineScaleSet_STATUS); ok {
+		return scaleSet.Spec.Initialize_From_VirtualMachineScaleSet_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type VirtualMachineScaleSet_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &VirtualMachineScaleSet{}
 
 // AzureName returns the Azure name of the resource

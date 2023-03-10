@@ -92,6 +92,17 @@ func (machine *VirtualMachine) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the VirtualMachine resource
 func (machine *VirtualMachine) defaultImpl() { machine.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &VirtualMachine{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (machine *VirtualMachine) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(VirtualMachine_STATUS); ok {
+		return machine.Spec.Initialize_From_VirtualMachine_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type VirtualMachine_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &VirtualMachine{}
 
 // AzureName returns the Azure name of the resource
