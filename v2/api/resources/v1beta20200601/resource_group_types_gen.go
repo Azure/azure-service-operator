@@ -91,6 +91,17 @@ func (group *ResourceGroup) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the ResourceGroup resource
 func (group *ResourceGroup) defaultImpl() { group.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &ResourceGroup{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (group *ResourceGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(ResourceGroup_STATUS); ok {
+		return group.Spec.Initialize_From_ResourceGroup_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type ResourceGroup_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &ResourceGroup{}
 
 // AzureName returns the Azure name of the resource
@@ -518,6 +529,22 @@ func (group *ResourceGroup_Spec) AssignProperties_To_ResourceGroup_Spec(destinat
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ResourceGroup_STATUS populates our ResourceGroup_Spec from the provided source ResourceGroup_STATUS
+func (group *ResourceGroup_Spec) Initialize_From_ResourceGroup_STATUS(source *ResourceGroup_STATUS) error {
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// ManagedBy
+	group.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
