@@ -117,10 +117,8 @@ func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationConte
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
-		Body: defaults,
+		ReceiverType:  astbuilder.PointerTo(receiverType),
+		Body:          defaults,
 	}
 
 	fn.AddComments(fmt.Sprintf("applies the code generated defaults to the %s resource", receiver.Name()))
@@ -138,9 +136,7 @@ func (d *DefaulterBuilder) defaultFunction(k *ResourceFunction, codeGenerationCo
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body: []dst.Stmt{
 			astbuilder.InvokeQualifiedFunc(receiverIdent, "defaultImpl"), // TODO: This part should maybe be conditional if there are no defaults to define?
 			astbuilder.AssignToInterface(tempVarIdent, dst.NewIdent(receiverIdent)),

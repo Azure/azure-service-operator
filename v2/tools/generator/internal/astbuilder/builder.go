@@ -299,6 +299,17 @@ func Dereference(expr dst.Expr) dst.Expr {
 	}
 }
 
+// PointerTo returns a statement that dereferences the pointer returned by the provided expression
+//
+// *<expr>
+//
+// Yes, this is identical to Dereference, but having both makes the code more readable
+func PointerTo(expr dst.Expr) dst.Expr {
+	return &dst.StarExpr{
+		X: dst.Clone(expr).(dst.Expr),
+	}
+}
+
 // Returns creates a return statement with one or more expressions, of the form
 //
 //	return <expr>

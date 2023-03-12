@@ -192,9 +192,7 @@ func (d *KubernetesExporterBuilder) exportKubernetesResources(k *ResourceFunctio
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body: astbuilder.Statements(
 			collectorCreationStmt,
 			collectStmts,

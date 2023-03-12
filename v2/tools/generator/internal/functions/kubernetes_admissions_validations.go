@@ -48,15 +48,14 @@ func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astm
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
 		Returns: []*dst.Field{
 			{
 				Type: dst.NewIdent("error"),
 			},
 		},
 		Body: validateResourceReferencesBody(codeGenerationContext, receiverIdent),
+		ReceiverType:  astbuilder.PointerTo(receiverType),
+		Body:          validateResourceReferencesBody(codeGenerationContext, receiverIdent),
 	}
 
 	fn.AddComments("validates all resource references")
@@ -107,7 +106,7 @@ func validateWriteOncePropertiesFunction(resourceFn *ResourceFunction, codeGener
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.Dereference(receiverType),
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
 				Type: dst.NewIdent("error"),
@@ -136,7 +135,7 @@ func validateWriteOncePropertiesFunctionBody(receiver astmodel.TypeName, codeGen
 
 	obj := dst.NewIdent("oldObj")
 
-	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.Dereference(receiver.AsType(codeGenerationContext)))
+	cast := astbuilder.TypeAssert(obj, dst.NewIdent("old"), astbuilder.PointerTo(receiver.AsType(codeGenerationContext)))
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())
 
 	returnStmt := astbuilder.Returns(
@@ -160,9 +159,7 @@ func validateOptionalConfigMapReferences(k *ResourceFunction, codeGenerationCont
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
 				Type: dst.NewIdent("error"),

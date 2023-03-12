@@ -82,7 +82,7 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
-		ReceiverType:  astbuilder.Dereference(builder.receiverTypeExpr),
+		ReceiverType:  astbuilder.PointerTo(builder.receiverTypeExpr),
 		Body:          builder.functionBodyStatements(),
 	}
 

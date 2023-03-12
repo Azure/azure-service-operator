@@ -81,10 +81,8 @@ func (builder *convertToARMBuilder) functionDeclaration() *dst.FuncDecl {
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: builder.receiverTypeExpr,
-		},
-		Body: builder.functionBodyStatements(),
+		ReceiverType:  astbuilder.PointerTo(builder.receiverTypeExpr),
+		Body:          builder.functionBodyStatements(),
 	}
 
 	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsType.AsType(builder.codeGenerationContext))

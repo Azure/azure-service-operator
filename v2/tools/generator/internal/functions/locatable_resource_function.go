@@ -43,15 +43,13 @@ func locatableResourceLocationFunc(k *ResourceFunction, codeGenerationContext *a
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
 		Returns: []*dst.Field{
 			{
 				Type: astmodel.StringType.AsType(codeGenerationContext),
 			},
 		},
-		Body: body,
+		ReceiverType:  astbuilder.PointerTo(receiverType),
+		Body:          body,
 	}
 
 	fn.AddComments("returns the location of the resource")

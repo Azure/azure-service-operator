@@ -46,9 +46,7 @@ func defaultAzureNameFunction(k *ResourceFunction, codeGenerationContext *astmod
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body: astbuilder.Statements(
 			astbuilder.IfEqual(
 				azureNameProp,
