@@ -109,9 +109,7 @@ func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationConte
 	for _, def := range d.defaults {
 		defaults = append(
 			defaults,
-			&dst.ExprStmt{
-				X: astbuilder.CallQualifiedFunc(receiverIdent, def.Name()),
-			})
+			astbuilder.InvokeQualifiedFunc(receiverIdent, def.Name()))
 	}
 
 	fn := &astbuilder.FuncDetails{
