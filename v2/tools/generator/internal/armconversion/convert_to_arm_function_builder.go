@@ -632,18 +632,14 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBui
 
 func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string) []dst.Stmt {
 	// Call ToARM on the property
-	propertyToARMInvocation := &dst.AssignStmt{
-		Lhs: []dst.Expr{
-			destination,
-			dst.NewIdent("err"),
-		},
-		Tok: token.DEFINE,
-		Rhs: []dst.Expr{
-			&dst.CallExpr{
-				Fun: astbuilder.Selector(source, methodName),
-				Args: []dst.Expr{
-					dst.NewIdent(resolvedParameterString),
-				},
+	propertyToARMInvocation := astbuilder.SimpleAssignmentWithErr(
+		destination,
+		token.DEFINE,
+		// Don't use astbuilder.CallExpr() because it flattens dereferences,
+		&dst.CallExpr{
+			Fun: astbuilder.Selector(source, methodName),
+			Args: []dst.Expr{
+				dst.NewIdent(resolvedParameterString),
 			},
 		})
 
