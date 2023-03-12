@@ -631,8 +631,6 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBui
 }
 
 func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string) []dst.Stmt {
-	var results []dst.Stmt
-
 	// Call ToARM on the property
 	propertyToARMInvocation := &dst.AssignStmt{
 		Lhs: []dst.Expr{
@@ -647,10 +645,9 @@ func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string)
 					dst.NewIdent(resolvedParameterString),
 				},
 			},
-		},
-	}
-	results = append(results, propertyToARMInvocation)
-	results = append(results, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
+		})
 
-	return results
+	return astbuilder.Statements(
+		propertyToARMInvocation,
+		astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
 }
