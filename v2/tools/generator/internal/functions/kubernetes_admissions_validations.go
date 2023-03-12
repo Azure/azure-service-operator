@@ -48,17 +48,12 @@ func validateResourceReferences(k *ResourceFunction, codeGenerationContext *astm
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		Returns: []*dst.Field{
-			{
-				Type: dst.NewIdent("error"),
-			},
-		},
-		Body: validateResourceReferencesBody(codeGenerationContext, receiverIdent),
 		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body:          validateResourceReferencesBody(codeGenerationContext, receiverIdent),
 	}
 
 	fn.AddComments("validates all resource references")
+	fn.AddReturns("error")
 	return fn.DefineFunc()
 }
 
