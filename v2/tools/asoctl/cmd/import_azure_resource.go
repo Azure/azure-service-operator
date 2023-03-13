@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package export
+package main
 
 import (
 	"context"
@@ -13,12 +13,13 @@ import (
 	"k8s.io/klog/v2"
 )
 
-func newExportResourceCommand() *cobra.Command {
+// newImportAzureResourceCommand creates a new cobra command for importing a resource as an ASO custom resource
+func newImportAzureResourceCommand() *cobra.Command {
 	var output *string
 
 	cmd := &cobra.Command{
-		Use:   "resource <ARM/ID/of/resource>",
-		Short: "exports an ARM resource CRD",
+		Use:   "azure-resource <ARM/ID/of/resource>",
+		Short: "Imports Azure resources as ASO custom resources",
 		Args:  cobra.ExactArgs(1),
 		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			armID := args[0]
