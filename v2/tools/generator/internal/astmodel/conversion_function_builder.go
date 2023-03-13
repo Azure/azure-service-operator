@@ -570,7 +570,10 @@ func IdentityDeepCopyJSON(_ *ConversionFunctionBuilder, params ConversionParamet
 	}
 
 	newSource := astbuilder.Dereference(
-		astbuilder.CallExpr(params.GetSource(), "DeepCopy"))
+		&dst.CallExpr{
+			Fun:  astbuilder.Selector(params.GetSource(), "DeepCopy"),
+			Args: []dst.Expr{},
+		})
 
 	return []dst.Stmt{
 		params.AssignmentHandlerOrDefault()(params.GetDestination(), newSource),
