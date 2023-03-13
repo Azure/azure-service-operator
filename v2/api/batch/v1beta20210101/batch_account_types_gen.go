@@ -95,7 +95,7 @@ var _ genruntime.ImportableResource = &BatchAccount{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (account *BatchAccount) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(BatchAccount_STATUS); ok {
+	if s, ok := status.(*BatchAccount_STATUS); ok {
 		return account.Spec.Initialize_From_BatchAccount_STATUS(s)
 	}
 

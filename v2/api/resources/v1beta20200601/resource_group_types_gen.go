@@ -95,7 +95,7 @@ var _ genruntime.ImportableResource = &ResourceGroup{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (group *ResourceGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(ResourceGroup_STATUS); ok {
+	if s, ok := status.(*ResourceGroup_STATUS); ok {
 		return group.Spec.Initialize_From_ResourceGroup_STATUS(s)
 	}
 

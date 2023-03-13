@@ -95,7 +95,7 @@ var _ genruntime.ImportableResource = &Redis{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (redis *Redis) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(Redis_STATUS); ok {
+	if s, ok := status.(*Redis_STATUS); ok {
 		return redis.Spec.Initialize_From_Redis_STATUS(s)
 	}
 

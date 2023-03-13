@@ -96,7 +96,7 @@ var _ genruntime.ImportableResource = &VirtualMachine{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (machine *VirtualMachine) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(VirtualMachine_STATUS); ok {
+	if s, ok := status.(*VirtualMachine_STATUS); ok {
 		return machine.Spec.Initialize_From_VirtualMachine_STATUS(s)
 	}
 

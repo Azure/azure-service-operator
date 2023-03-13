@@ -96,7 +96,7 @@ var _ genruntime.ImportableResource = &VirtualMachineScaleSet{}
 
 // InitializeSpec initializes the spec for this resource from the given status
 func (scaleSet *VirtualMachineScaleSet) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(VirtualMachineScaleSet_STATUS); ok {
+	if s, ok := status.(*VirtualMachineScaleSet_STATUS); ok {
 		return scaleSet.Spec.Initialize_From_VirtualMachineScaleSet_STATUS(s)
 	}
 

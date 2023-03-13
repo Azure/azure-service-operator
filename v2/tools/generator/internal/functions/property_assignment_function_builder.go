@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
@@ -101,6 +102,9 @@ func (builder *PropertyAssignmentFunctionBuilder) AddAssignmentSelector(selector
 	}
 
 	builder.assignmentSelectors = append(builder.assignmentSelectors, as)
+	slices.SortFunc(builder.assignmentSelectors, func(i assignmentSelector, j assignmentSelector) bool {
+		return i.sequence < j.sequence
+	})
 }
 
 // AddSuffixMatchingAssignmentSelector adds a new assignment selector that will match a property with the specified

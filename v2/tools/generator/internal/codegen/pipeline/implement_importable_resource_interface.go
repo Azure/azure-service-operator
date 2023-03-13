@@ -171,7 +171,7 @@ func createInitializeSpecFunction(
 		// }
 		initialize := astbuilder.IfType(
 			dst.NewIdent(statusParam),
-			statusType.AsType(codeGenerationContext),
+			astbuilder.Dereference(statusType.AsType(codeGenerationContext)),
 			statusLocal,
 			returnConversion)
 
