@@ -50,6 +50,11 @@ func ImplementImportableResourceInterface(
 					continue
 				}
 
+				if impl == nil {
+					// No implementation needed
+					continue
+				}
+
 				newDef, err := injector.Inject(def, impl)
 				if err != nil {
 					errs = append(errs, err)
@@ -105,7 +110,8 @@ func createImportableResourceImplementation(
 	}
 
 	if fnName == "" {
-		return nil, errors.Errorf("unable to find initialization function on %q", specDef.Name())
+		// No function, so don't implement the interface
+		return nil, nil
 	}
 
 	fn, err := createInitializeSpecFunction(def, fnName, idFactory)

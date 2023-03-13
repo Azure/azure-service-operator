@@ -182,46 +182,52 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 // visitTypeName is called for each TypeName in the spec and status types of a resource
 func (s *specInitializationScanner) visitTypeName(
 	visitor *astmodel.TypeVisitor,
-	spec astmodel.TypeName,
+	specName astmodel.TypeName,
 	statusAny interface{},
 ) (astmodel.Type, error) {
-	status, ok := astmodel.AsTypeName(statusAny.(astmodel.Type))
-	if !ok {
+	statusType, isType := statusAny.(astmodel.Type)
+	if !isType {
 		// Don't have a type name, nothing to do
-		return spec, nil
+		return specName, nil
 	}
 
-	// Look to see if we have a definition for that spec type (we might not, if it identifies an external type)
-	specDef, ok := s.defs[spec]
+	statusName, ok := astmodel.AsTypeName(statusType)
 	if !ok {
-		return spec, nil
+		// Don't have a type name, nothing to do
+		return specName, nil
+	}
+
+	// Look to see if we have a definition for that spec type (we may not, if it identifies an external type)
+	specDef, ok := s.defs[specName]
+	if !ok {
+		return specName, nil
 	}
 
 	// Do the same check for the status type
-	statusDef, ok := s.defs[status]
+	statusDef, ok := s.defs[statusName]
 	if !ok {
-		return spec, nil
+		return specName, nil
 	}
 
 	// Check to see if we already have a specToStatus for this spec type.
 	// If we already have this specToStatus, we're done (as we've already visited their underlying definitions).
 	// If we have a different specToStatus, we have an error.
 	// If we have no specToStatus, we need to add one.
-	if existing, ok := s.specToStatus[spec]; ok {
-		if existing != status {
-			return nil, errors.Errorf("found multiple status types %q and %q for spec type %q", existing, status, spec)
+	if existing, ok := s.specToStatus[specName]; ok {
+		if existing != statusName {
+			return nil, errors.Errorf("found multiple status types %q and %q for spec type %q", existing, statusName, specName)
 		}
 	} else {
-		s.specToStatus[spec] = status
+		s.specToStatus[specName] = statusName
 	}
 
 	// Recursively visit the definitions of these types
 	_, err := visitor.Visit(specDef.Type(), statusDef.Type())
 	if err != nil {
-		return nil, errors.Wrapf(err, "visiting definitions of %s and %s", spec, status)
+		return nil, errors.Wrapf(err, "visiting definitions of %s and %s", specName, statusName)
 	}
 
-	return spec, nil
+	return specName, nil
 }
 
 // visitObjectType is called for each Object pair in the spec and status types of a resource

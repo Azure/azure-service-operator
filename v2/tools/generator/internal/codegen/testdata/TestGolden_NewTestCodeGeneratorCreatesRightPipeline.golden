@@ -45,7 +45,8 @@ injectPropertyAssignmentFunctions         azure      Inject property assignment 
 implementConvertibleSpecInterface         azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
 implementConvertibleStatusInterface       azure      Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type
 injectOriginalGVKFunction                 azure      Inject the function OriginalGVK() into each Resource type
-injectSpecInitializationFunctions         azure      Inject spec initialization functions InitializeSpec_From_*() into resources and objects
+injectSpecInitializationFunctions         azure      Inject spec initialization functions Initialize_From_*() into resources and objects
+implementImportableResourceInterface      azure      Implement the ImportableResource interface for resources that support import via asoctl
 markLatestStorageVariantAsHubVersion      azure      Mark the latest GA storage variant of each resource as the hub version
 injectHubFunction                         azure      Inject the function Hub() into each hub resource
 implementConvertibleInterface             azure      Implement the Convertible interface on each non-hub Resource type
