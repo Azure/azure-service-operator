@@ -203,7 +203,13 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 			buffer.WriteString("\n\n")
 		}
 
-		table, err := report.createTable(report.kinds[svc])
+		kinds := report.kinds[svc]
+		summary := report.createSummary(kinds)
+
+		buffer.WriteString(summary)
+		buffer.WriteString("\n\n")
+
+		table, err := report.createTable(kinds)
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -224,6 +230,28 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 	}
 
 	return kerrors.NewAggregate(errs)
+}
+
+func (report *ResourceVersionsReport) createSummary(
+	resources astmodel.TypeDefinitionSet,
+) string {
+	// names is a set of the distinct resources
+	names := set.Make[string]()
+
+	for _, rsrc := range resources {
+		name := rsrc.Name()
+		names.Add(name.Name())
+	}
+
+	countDescription := fmt.Sprintf("Supporting %d resources", len(names))
+	if len(names) == 1 {
+		countDescription = "Supporting 1 resource"
+	}
+
+	return fmt.Sprintf(
+		"%s: %s",
+		countDescription,
+		strings.Join(set.AsSortedSlice(names), ", "))
 }
 
 func (report *ResourceVersionsReport) createTable(
