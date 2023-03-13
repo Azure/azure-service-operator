@@ -44,10 +44,13 @@ func TestGolden_PropertyAssignmentTestCase_AsFunc(t *testing.T) {
 	cfg := config.NewObjectModelConfiguration()
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, defs, idFactory).
 		WithConfiguration(cfg)
-	convertFrom, err := functions.NewPropertyAssignmentFunction(currentSpec, otherSpec, conversionContext, conversions.ConvertFrom)
+
+	convertFrom, err := functions.NewPropertyAssignmentFunctionBuilder(currentSpec, otherSpec, conversions.ConvertFrom).
+		Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	convertTo, err := functions.NewPropertyAssignmentFunction(currentSpec, otherSpec, conversionContext, conversions.ConvertTo)
+	convertTo, err := functions.NewPropertyAssignmentFunctionBuilder(currentSpec, otherSpec, conversions.ConvertTo).
+		Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	currentSpec, err = functionInjector.Inject(currentSpec, convertTo, convertFrom)
