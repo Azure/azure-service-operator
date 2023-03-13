@@ -3,16 +3,13 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package annotations
+package predicates
 
 import (
 	"reflect"
 
-	"github.com/go-logr/logr"
 	"sigs.k8s.io/controller-runtime/pkg/event"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
-
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 )
 
 type HasAnnotationChanged func(old *string, new *string) bool
@@ -25,9 +22,8 @@ func HasBasicAnnotationChanged(old *string, new *string) bool {
 // changes to select annotations.
 // annotations is a map of annotations to HasAnnotationChanged handlers which define if the annotation has been
 // changed in a way we care about.
-func MakeSelectAnnotationChangedPredicate(log logr.Logger, annotations map[string]HasAnnotationChanged) predicate.Predicate {
+func MakeSelectAnnotationChangedPredicate(annotations map[string]HasAnnotationChanged) predicate.Predicate {
 	return selectAnnotationChangedPredicate{
-		log:         log,
 		annotations: annotations,
 	}
 }
@@ -35,7 +31,6 @@ func MakeSelectAnnotationChangedPredicate(log logr.Logger, annotations map[strin
 type selectAnnotationChangedPredicate struct {
 	predicate.Funcs
 
-	log         logr.Logger
 	annotations map[string]HasAnnotationChanged
 }
 
@@ -44,11 +39,9 @@ var _ predicate.Predicate = selectAnnotationChangedPredicate{}
 // Update implements UpdateEvent filter for annotation changes.
 func (p selectAnnotationChangedPredicate) Update(e event.UpdateEvent) bool {
 	if e.ObjectOld == nil {
-		p.log.V(Debug).Error(nil, "Update event has no old object to update", "event", e)
 		return false
 	}
 	if e.ObjectNew == nil {
-		p.log.V(Debug).Error(nil, "Update event has no new object for update", "event", e)
 		return false
 	}
 

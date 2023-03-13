@@ -292,7 +292,7 @@ func newResourceGroup(name, namespace string) *resources.ResourceGroup {
 			Name:      name,
 			Namespace: namespace,
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: to.StringPtr("westus2"),
 		},
 	}

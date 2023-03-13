@@ -436,7 +436,7 @@ func (tc PerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
 		ObjectMeta: metav1.ObjectMeta{
 			Name: tc.Namer.GenerateName("rg"),
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: tc.AzureRegion,
 			Tags:     CreateTestResourceGroupDefaultTags(),
 		},

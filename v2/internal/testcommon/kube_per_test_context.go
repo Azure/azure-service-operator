@@ -102,7 +102,7 @@ func (tc KubePerTestContext) MakeReferenceFromResource(resource client.Object) *
 func (tc KubePerTestContext) NewTestResourceGroup() *resources.ResourceGroup {
 	return &resources.ResourceGroup{
 		ObjectMeta: tc.MakeObjectMeta("rg"),
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location: tc.AzureRegion,
 			// This tag is used for cleanup optimization
 			Tags: CreateTestResourceGroupDefaultTags(),
