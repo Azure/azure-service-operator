@@ -16,7 +16,7 @@ import (
 var _ extensions.ErrorClassifier = &NamespacesTopicsSubscriptionExtension{}
 
 // ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
-// A conflict error (409) is normally fatal, but Redis resources may return 409 whilst a dependency is being created,
+// A MessagingGatewayBadRequest error (400) is normally fatal, but NamespacesTopicsSubscriptionExtension resource may return 400 whilst a dependency is being created,
 // so we override for that case.
 // cloudError is the error returned from ARM.
 // apiVersion is the ARM API version used for the request.
@@ -32,16 +32,16 @@ func (e *NamespacesTopicsSubscriptionExtension) ClassifyError(
 		return core.CloudErrorDetails{}, err
 	}
 
-	// Override is to treat Conflict as retryable for Redis, if the message contains "try again later"
-	if isRetryableConflict(cloudError) {
+	// Override is to treat MessagingGatewayBadRequest as retryable for NamespacesTopicsSubscriptionExtension
+	if isRetryableMessagingGatewayBadRequest(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
 
 	return details, nil
 }
 
-// isRetryableConflict checks the passed error to see if it is a retryable conflict, returning true if it is.
-func isRetryableConflict(err *genericarmclient.CloudError) bool {
+// isRetryableMessagingGatewayBadRequest checks the passed error to see if it is a retryable MessagingGatewayBadRequest, returning true if it is.
+func isRetryableMessagingGatewayBadRequest(err *genericarmclient.CloudError) bool {
 	if err == nil {
 		return false
 	}
