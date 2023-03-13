@@ -23,6 +23,7 @@ spec:
                 secretKeyRef:
                   name: aso-controller-settings
                   key: AZURE_CLIENT_SECRET
+                  optional: true
             - name: AZURE_TENANT_ID
               valueFrom:
                 secretKeyRef:
