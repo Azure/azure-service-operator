@@ -32,7 +32,7 @@ func (e *NamespacesTopicsSubscriptionExtension) ClassifyError(
 		return core.CloudErrorDetails{}, err
 	}
 
-	// Override is to treat MessagingGatewayBadRequest as retryable for NamespacesTopicsSubscriptionExtension
+	// Override is to treat MessagingGatewayBadRequest as retryable for NamespacesTopicsSubscription
 	if isRetryableMessagingGatewayBadRequest(cloudError) {
 		details.Classification = core.ErrorRetryable
 	}
