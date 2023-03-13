@@ -16,7 +16,7 @@ import (
 var _ extensions.ErrorClassifier = &NamespacesTopicsSubscriptionExtension{}
 
 // ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
-// A MessagingGatewayBadRequest error (400) is normally fatal, but NamespacesTopicsSubscriptionExtension resource may return 400 whilst a dependency is being created,
+// A MessagingGatewayBadRequest error (400) is normally fatal, but NamespacesTopicsSubscription resource may return MessagingGatewayBadRequest whilst a dependency is being created,
 // so we override for that case.
 // cloudError is the error returned from ARM.
 // apiVersion is the ARM API version used for the request.
