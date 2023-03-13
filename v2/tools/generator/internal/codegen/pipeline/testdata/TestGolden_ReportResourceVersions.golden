@@ -4,11 +4,15 @@ title: Supported Resources
 
 ## Batch
 
+Supporting 1 resource: BatchAccount
+
 | Resource     | ARM Version    | CRD Version    | Supported From | Sample                                                                                                                  |
 |--------------|----------------|----------------|----------------|-------------------------------------------------------------------------------------------------------------------------|
 | BatchAccount | v1beta20210101 | v1beta20210101 | beta.2         | [View](https://github.com/Azure/azure-service-operator/tree/main/samples/batch/v1beta/v1beta20210101_batchaccount.yaml) |
 
 ## Person
+
+Supporting 2 resources: Address, Person
 
 | Resource | ARM Version | CRD Version | Supported From | Sample |
 |----------|-------------|-------------|----------------|--------|

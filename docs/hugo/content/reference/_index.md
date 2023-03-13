@@ -17,11 +17,15 @@ grouped by the originating ARM service.
 
 ## Appconfiguration
 
+Supporting 1 resource: ConfigurationStore
+
 | Resource           | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                      |
 |--------------------|-------------|----------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | ConfigurationStore | 2022-05-01  | v1beta20220501 | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v1beta/v1beta20220501_configurationstore.yaml) |
 
 ## Authorization
+
+Supporting 1 resource: RoleAssignment
 
 | Resource                                                                                                                                                                               | ARM Version        | CRD Version                | Supported From | Sample                                                                                                                                                |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -30,12 +34,16 @@ grouped by the originating ARM service.
 
 ## Batch
 
+Supporting 1 resource: BatchAccount
+
 | Resource                                                                                                                                             | ARM Version | CRD Version         | Supported From | Sample                                                                                                                               |
 |------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | [BatchAccount](https://azure.github.io/azure-service-operator/reference/batch/v1beta20210101/#batch.azure.com/v1beta20210101.BatchAccount)           | 2021-01-01  | v1beta20210101      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v1beta/v1beta20210101_batchaccount.yaml)           |
 | [BatchAccount](https://azure.github.io/azure-service-operator/reference/batch/v1alpha1api20210101/#batch.azure.com/v1alpha1api20210101.BatchAccount) | 2021-01-01  | v1alpha1api20210101 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v1alpha1api/v1alpha1api20210101_batchaccount.yaml) |
 
 ## Cache
+
+Supporting 6 resources: Redis, RedisEnterprise, RedisEnterpriseDatabase, RedisFirewallRule, RedisLinkedServer, RedisPatchSchedule
 
 | Resource                                                                                                                                                                   | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                          |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -54,12 +62,16 @@ grouped by the originating ARM service.
 
 ## Cdn
 
+Supporting 2 resources: Profile, ProfilesEndpoint
+
 | Resource                                                                                                                                       | ARM Version | CRD Version    | Supported From | Sample                                                                                                                       |
 |------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
 | [Profile](https://azure.github.io/azure-service-operator/reference/cdn/v1beta20210601/#cdn.azure.com/v1beta20210601.Profile)                   | 2021-06-01  | v1beta20210601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1beta/v1beta20210601_profile.yaml)          |
 | [ProfilesEndpoint](https://azure.github.io/azure-service-operator/reference/cdn/v1beta20210601/#cdn.azure.com/v1beta20210601.ProfilesEndpoint) | 2021-06-01  | v1beta20210601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1beta/v1beta20210601_profilesendpoint.yaml) |
 
 ## Compute
+
+Supporting 5 resources: Disk, Image, Snapshot, VirtualMachine, VirtualMachineScaleSet
 
 | Resource                                                                                                                                                                     | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                           |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -79,11 +91,15 @@ grouped by the originating ARM service.
 
 ## Containerinstance
 
+Supporting 1 resource: ContainerGroup
+
 | Resource                                                                                                                                                               | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                   |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | [ContainerGroup](https://azure.github.io/azure-service-operator/reference/containerinstance/v1beta20211001/#containerinstance.azure.com/v1beta20211001.ContainerGroup) | 2021-10-01  | v1beta20211001 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v1beta/v1beta20211001_containergroup.yaml) |
 
 ## Containerregistry
+
+Supporting 1 resource: Registry
 
 | Resource                                                                                                                                                             | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                       |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------|
@@ -91,6 +107,8 @@ grouped by the originating ARM service.
 | [Registry](https://azure.github.io/azure-service-operator/reference/containerregistry/v1alpha1api20210901/#containerregistry.azure.com/v1alpha1api20210901.Registry) | 2021-09-01  | v1alpha1api20210901 | v2.0.0-alpha.6 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1alpha1api/v1alpha1api20210901_registry.yaml) |
 
 ## Containerservice
+
+Supporting 2 resources: ManagedCluster, ManagedClustersAgentPool
 
 | Resource                                                                                                                                                                                           | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                                      |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -100,6 +118,8 @@ grouped by the originating ARM service.
 | [ManagedClustersAgentPool](https://azure.github.io/azure-service-operator/reference/containerservice/v1alpha1api20210501/#containerservice.azure.com/v1alpha1api20210501.ManagedClustersAgentPool) | 2021-05-01  | v1alpha1api20210501 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1alpha1api/v1alpha1api20210501_managedclustersagentpool.yaml) |
 
 ## Dbformariadb
+
+Supporting 3 resources: Configuration, Database, Server
 
 | Resource                                                                                                                                                   | ARM Version | CRD Version    | Supported From | Sample                                                                                                                             |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
@@ -113,6 +133,8 @@ Azure Database for MySQL - Single Server is on the retirement path and is [sched
 
 Existing instances of *Single Server* can be migrated to *Azure Database for MySQL - Flexible Server* using the [Azure Database migration Service](https://azure.microsoft.com/en-us/products/database-migration).
 
+Supporting 3 resources: FlexibleServer, FlexibleServersDatabase, FlexibleServersFirewallRule
+
 | Resource                                                                                                                                                                                     | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                                   |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [FlexibleServer](https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServer)                                     | 2021-05-01  | v1beta20210501      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserver.yaml)                        |
@@ -123,6 +145,8 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbformysql/v1alpha1api20210501/#dbformysql.azure.com/v1alpha1api20210501.FlexibleServersFirewallRule) | 2021-05-01  | v1alpha1api20210501 | v2.0.0-alpha.2 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1alpha1api/v1alpha1api20210501_flexibleserversfirewallrule.yaml) |
 
 ## Dbforpostgresql
+
+Supporting 4 resources: FlexibleServer, FlexibleServersConfiguration, FlexibleServersDatabase, FlexibleServersFirewallRule
 
 | Resource                                                                                                                                                                                                 | ARM Version        | CRD Version           | Supported From | Sample                                                                                                                                                                     |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|-----------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -140,6 +164,8 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1alpha1api20210601/#dbforpostgresql.azure.com/v1alpha1api20210601.FlexibleServersFirewallRule)   | 2021-06-01         | v1alpha1api20210601   | v2.0.0-alpha.2 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1alpha1api/v1alpha1api20210601_flexibleserversfirewallrule.yaml)              |
 
 ## Documentdb
+
+Supporting 13 resources: DatabaseAccount, MongodbDatabase, MongodbDatabaseCollection, MongodbDatabaseCollectionThroughputSetting, MongodbDatabaseThroughputSetting, SqlDatabase, SqlDatabaseContainer, SqlDatabaseContainerStoredProcedure, SqlDatabaseContainerThroughputSetting, SqlDatabaseContainerTrigger, SqlDatabaseContainerUserDefinedFunction, SqlDatabaseThroughputSetting, SqlRoleAssignment
 
 | Resource                                                                                                                                                                                                                   | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                                                           |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -171,6 +197,8 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 
 ## Eventgrid
 
+Supporting 4 resources: Domain, DomainsTopic, EventSubscription, Topic
+
 | Resource                                                                                                                                                               | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                        |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
 | [Domain](https://azure.github.io/azure-service-operator/reference/eventgrid/v1beta20200601/#eventgrid.azure.com/v1beta20200601.Domain)                                 | 2020-06-01  | v1beta20200601      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1beta/v1beta20200601_domain.yaml)                      |
@@ -183,6 +211,8 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 | [Topic](https://azure.github.io/azure-service-operator/reference/eventgrid/v1alpha1api20200601/#eventgrid.azure.com/v1alpha1api20200601.Topic)                         | 2020-06-01  | v1alpha1api20200601 | v2.0.0-alpha.3 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1alpha1api/v1alpha1api20200601_topic.yaml)             |
 
 ## Eventhub
+
+Supporting 5 resources: Namespace, NamespacesAuthorizationRule, NamespacesEventhub, NamespacesEventhubsAuthorizationRule, NamespacesEventhubsConsumerGroup
 
 | Resource                                                                                                                                                                                                   | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                                          |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -199,6 +229,8 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 
 ## Insights
 
+Supporting 2 resources: Component, Webtest
+
 | Resource                                                                                                                                                       | ARM Version        | CRD Version                | Supported From | Sample                                                                                                                                    |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | [Component](https://azure.github.io/azure-service-operator/reference/insights/v1beta20200202/#insights.azure.com/v1beta20200202.Component)                     | 2020-02-02         | v1beta20200202             | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1beta/v1beta20200202_component.yaml)                |
@@ -208,11 +240,15 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 
 ## Keyvault
 
+Supporting 1 resource: Vault
+
 | Resource                                                                                                                                         | ARM Version        | CRD Version           | Supported From | Sample                                                                                                                        |
 |--------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
 | [Vault](https://azure.github.io/azure-service-operator/reference/keyvault/v1beta20210401preview/#keyvault.azure.com/v1beta20210401preview.Vault) | 2021-04-01-preview | v1beta20210401preview | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1beta/v1beta20210401preview_vault.yaml) |
 
 ## Machinelearningservices
+
+Supporting 3 resources: Workspace, WorkspacesCompute, WorkspacesConnection
 
 | Resource                                                                                                                                                                                       | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                               |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -222,6 +258,8 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 
 ## Managedidentity
 
+Supporting 2 resources: FederatedIdentityCredential, UserAssignedIdentity
+
 | Resource                                                                                                                                                                                 | ARM Version        | CRD Version           | Supported From | Sample                                                                                                                                                     |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|-----------------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | FederatedIdentityCredential                                                                                                                                                              | 2022-01-31-preview | v1beta20220131preview | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1beta/v1beta20220131preview_federatedidentitycredential.yaml) |
@@ -229,6 +267,8 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 | [UserAssignedIdentity](https://azure.github.io/azure-service-operator/reference/managedidentity/v1alpha1api20181130/#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity) | 2018-11-30         | v1alpha1api20181130   | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1alpha1api/v1alpha1api20181130_userassignedidentity.yaml)     |
 
 ## Network
+
+Supporting 12 resources: LoadBalancer, NetworkInterface, NetworkSecurityGroup, NetworkSecurityGroupsSecurityRule, PrivateDnsZone, PublicIPAddress, RouteTable, RouteTablesRoute, VirtualNetwork, VirtualNetworkGateway, VirtualNetworksSubnet, VirtualNetworksVirtualNetworkPeering
 
 | Resource                                                                                                                                                                                                 | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                                         |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -256,6 +296,8 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 
 ## Operationalinsights
 
+Supporting 1 resource: Workspace
+
 | Resource                                                                                                                                                                   | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                          |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Workspace](https://azure.github.io/azure-service-operator/reference/operationalinsights/v1beta20210601/#operationalinsights.azure.com/v1beta20210601.Workspace)           | 2021-06-01  | v1beta20210601      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/operationalinsights/v1beta/v1beta20210601_workspace.yaml)           |
@@ -263,12 +305,16 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 
 ## Resources
 
+Supporting 1 resource: ResourceGroup
+
 | Resource                                                                                                                                                       | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                    |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | [ResourceGroup](https://azure.github.io/azure-service-operator/reference/resources/v1beta20200601/#resources.azure.com/v1beta20200601.ResourceGroup)           | 2020-06-01  | v1beta20200601      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1beta/v1beta20200601_resourcegroup.yaml)           |
 | [ResourceGroup](https://azure.github.io/azure-service-operator/reference/resources/v1alpha1api20200601/#resources.azure.com/v1alpha1api20200601.ResourceGroup) | 2020-06-01  | v1alpha1api20200601 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1alpha1api/v1alpha1api20200601_resourcegroup.yaml) |
 
 ## Servicebus
+
+Supporting 5 resources: Namespace, NamespacesQueue, NamespacesTopic, NamespacesTopicsSubscription, NamespacesTopicsSubscriptionsRule
 
 | Resource                                                                                                                                                                                                     | ARM Version        | CRD Version                | Supported From | Sample                                                                                                                                                      |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|----------------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -283,12 +329,16 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 
 ## Signalrservice
 
+Supporting 1 resource: SignalR
+
 | Resource                                                                                                                                                     | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                   |
 |--------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
 | [SignalR](https://azure.github.io/azure-service-operator/reference/signalrservice/v1beta20211001/#signalrservice.azure.com/v1beta20211001.SignalR)           | 2021-10-01  | v1beta20211001      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1beta/v1beta20211001_signalr.yaml)           |
 | [SignalR](https://azure.github.io/azure-service-operator/reference/signalrservice/v1alpha1api20211001/#signalrservice.azure.com/v1alpha1api20211001.SignalR) | 2021-10-01  | v1alpha1api20211001 | v2.0.0-alpha.4 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1alpha1api/v1alpha1api20211001_signalr.yaml) |
 
 ## Storage
+
+Supporting 6 resources: StorageAccount, StorageAccountsBlobService, StorageAccountsBlobServicesContainer, StorageAccountsManagementPolicy, StorageAccountsQueueService, StorageAccountsQueueServicesQueue
 
 | Resource                                                                                                                                                                                                 | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                                                     |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -307,11 +357,15 @@ Existing instances of *Single Server* can be migrated to *Azure Database for MyS
 
 ## Subscription
 
+Supporting 1 resource: Alias
+
 | Resource                                                                                                                                   | ARM Version | CRD Version    | Supported From | Sample                                                                                                                     |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|----------------------------------------------------------------------------------------------------------------------------|
 | [Alias](https://azure.github.io/azure-service-operator/reference/subscription/v1beta20211001/#subscription.azure.com/v1beta20211001.Alias) | 2021-10-01  | v1beta20211001 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/subscription/v1beta/v1beta20211001_alias.yaml) |
 
 ## Web
+
+Supporting 2 resources: ServerFarm, Site
 
 | Resource   | ARM Version | CRD Version    | Supported From | Sample                                                                                                                 |
 |------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------|
