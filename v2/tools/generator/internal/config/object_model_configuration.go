@@ -456,6 +456,34 @@ func (omc *ObjectModelConfiguration) VerifyIsResourceConsumed() error {
 	return visitor.Visit(omc)
 }
 
+// LookupImportable checks to see whether a specified type is labelled as importable.
+// Returns a NotConfiguredError if no $importable flag is configured.
+func (omc *ObjectModelConfiguration) LookupImportable(name astmodel.TypeName) (bool, error) {
+	var importable bool
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			im, err := configuration.LookupImportable()
+			importable = im
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return false, err
+	}
+
+	return importable, nil
+}
+
+// VerifyImportableConsumed returns an error if our configured $importable flag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyImportableConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyImportableConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 // addGroup includes the provided GroupConfiguration in this model configuration
 func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfiguration) {
 	if omc.groups == nil {

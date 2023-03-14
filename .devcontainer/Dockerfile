@@ -41,7 +41,7 @@ RUN echo 'complete -F __start_kubectl k' >> "/etc/bash.bashrc"
 RUN echo 'source <(kubectl completion bash)' >> "/etc/bash.bashrc"
 
 # Setup go-task completions
-RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.0.0/completion/bash/task.bash" > "/etc/.task.completion.sh" \
+RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.2.0/completion/bash/task.bash" > "/etc/.task.completion.sh" \
     && echo 'source /etc/.task.completion.sh' >> "/etc/bash.bashrc"
 
 ENV KIND_CLUSTER_NAME=aso
