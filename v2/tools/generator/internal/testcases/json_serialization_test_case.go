@@ -196,7 +196,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 	t := dst.NewIdent("t")
 
 	// t.Parallel()
-	declareParallel := astbuilder.InvokeExpr(t, "Parallel")
+	declareParallel := astbuilder.CallExprAsStmt(t, "Parallel")
 
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
@@ -235,7 +235,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 	propForAll.Decs.Before = dst.NewLine
 
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
-	defineTestCase := astbuilder.InvokeQualifiedFunc(
+	defineTestCase := astbuilder.CallQualifiedFuncAsStmt(
 		propertiesLocal,
 		propertyMethod,
 		testName,
@@ -248,7 +248,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		dst.NewIdent("true"),
 		astbuilder.IntLiteral(240),
 		astbuilder.Selector(dst.NewIdent(osPackage), "Stdout"))
-	runTests := astbuilder.InvokeQualifiedFunc(propertiesLocal, testingRunMethod, t, createReporter)
+	runTests := astbuilder.CallQualifiedFuncAsStmt(propertiesLocal, testingRunMethod, t, createReporter)
 
 	// Define our function
 	fn := astbuilder.NewTestFuncDetails(
@@ -516,7 +516,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		//
 		// AddIndependentPropertyGeneratorsFor<Type>(generators)
 		//
-		addGenerators := astbuilder.InvokeFunc(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapId))
+		addGenerators := astbuilder.CallFuncAsStmt(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapId))
 
 		fn.AddStatements(addGenerators)
 	}
@@ -549,7 +549,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		//
 		// AddIndependentPropertyGeneratorsFor<Type>(generators)
 		//
-		addGenerators := astbuilder.InvokeFunc(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapId))
+		addGenerators := astbuilder.CallFuncAsStmt(o.idOfIndependentGeneratorsFactoryMethod(), dst.NewIdent(mapId))
 
 		fn.AddStatements(assignGenerator, assignMap, addGenerators)
 	}
@@ -559,7 +559,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		//
 		// AddRelatedPropertyGeneratorsFor<Type>(generators)
 		//
-		addRelatedGenerators := astbuilder.InvokeFunc(o.idOfRelatedGeneratorsFactoryMethod(), dst.NewIdent(mapId))
+		addRelatedGenerators := astbuilder.CallFuncAsStmt(o.idOfRelatedGeneratorsFactoryMethod(), dst.NewIdent(mapId))
 		fn.AddStatements(addRelatedGenerators)
 	}
 

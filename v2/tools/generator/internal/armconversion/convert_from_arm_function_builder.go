@@ -165,7 +165,7 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 	}
 
 	// Invoke SetAzureName(ExtractKubernetesResourceNameFromARMName(this.Name)):
-	setAzureName := astbuilder.InvokeQualifiedFunc(
+	setAzureName := astbuilder.CallQualifiedFuncAsStmt(
 		builder.receiverIdent,
 		"SetAzureName",
 		astbuilder.CallQualifiedFunc(

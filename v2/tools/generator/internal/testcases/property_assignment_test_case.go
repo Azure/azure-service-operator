@@ -147,7 +147,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 	t := dst.NewIdent("t")
 
 	// t.Parallel()
-	declareParallel := astbuilder.InvokeExpr(t, "Parallel")
+	declareParallel := astbuilder.CallExprAsStmt(t, "Parallel")
 
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
@@ -183,7 +183,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 	propForAll.Decs.Before = dst.NewLine
 
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
-	defineTestCase := astbuilder.InvokeQualifiedFunc(
+	defineTestCase := astbuilder.CallQualifiedFuncAsStmt(
 		propertiesLocal,
 		propertyMethod,
 		testName,
@@ -196,7 +196,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 		dst.NewIdent("false"),
 		astbuilder.IntLiteral(240),
 		astbuilder.Selector(dst.NewIdent(osPackage), "Stdout"))
-	runTests := astbuilder.InvokeQualifiedFunc(propertiesLocal, testingRunMethod, t, createReporter)
+	runTests := astbuilder.CallQualifiedFuncAsStmt(propertiesLocal, testingRunMethod, t, createReporter)
 
 	// Define our function
 	fn := astbuilder.NewTestFuncDetails(

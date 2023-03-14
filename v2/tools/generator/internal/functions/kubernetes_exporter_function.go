@@ -226,7 +226,7 @@ func (d *KubernetesExporterBuilder) addCollectorStmt(
 	if _, ok := astmodel.AsOptionalType(propertyPath[len(propertyPath)-1].PropertyType()); ok {
 		valueExpr = astbuilder.Dereference(valueExpr)
 	}
-	return astbuilder.InvokeQualifiedFunc(
+	return astbuilder.CallQualifiedFuncAsStmt(
 		collectorIdent,
 		"AddValue",
 		astbuilder.Selector(operatorSpecConfigMapsSelector, d.idFactory.CreateIdentifier(operatorSpecPropertyName, astmodel.Exported)),

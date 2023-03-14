@@ -109,7 +109,7 @@ func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationConte
 	for _, def := range d.defaults {
 		defaults = append(
 			defaults,
-			astbuilder.InvokeQualifiedFunc(receiverIdent, def.Name()))
+			astbuilder.CallQualifiedFuncAsStmt(receiverIdent, def.Name()))
 	}
 
 	fn := &astbuilder.FuncDetails{
@@ -136,13 +136,13 @@ func (d *DefaulterBuilder) defaultFunction(k *ResourceFunction, codeGenerationCo
 		ReceiverIdent: receiverIdent,
 		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body: []dst.Stmt{
-			astbuilder.InvokeQualifiedFunc(receiverIdent, "defaultImpl"), // TODO: This part should maybe be conditional if there are no defaults to define?
+			astbuilder.CallQualifiedFuncAsStmt(receiverIdent, "defaultImpl"), // TODO: This part should maybe be conditional if there are no defaults to define?
 			astbuilder.AssignToInterface(tempVarIdent, dst.NewIdent(receiverIdent)),
 			astbuilder.IfType(
 				dst.NewIdent(tempVarIdent),
 				overrideInterfaceType,
 				runtimeDefaulterIdent,
-				astbuilder.InvokeQualifiedFunc(runtimeDefaulterIdent, "CustomDefault")),
+				astbuilder.CallQualifiedFuncAsStmt(runtimeDefaulterIdent, "CustomDefault")),
 		},
 	}
 
