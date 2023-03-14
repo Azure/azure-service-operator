@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package main
+package cmd
 
 import (
 	"context"
