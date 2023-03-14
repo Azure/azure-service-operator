@@ -736,7 +736,7 @@ tasks:
       # Create the namespaces that the tenant is watching.
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
-      # Wait for the other operator to be ready
+      # Wait for the other operator to be ready - not using controller:wait-for-operator-ready because that also waits for CRDs, etc which this doesn't install
       - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
 
   controller:kind-create-helm:

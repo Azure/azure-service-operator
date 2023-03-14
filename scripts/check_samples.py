@@ -42,7 +42,7 @@ def get_expected_samples(crd_path):
         group = group.split(' ')[1]
         group = strip(group, ".azure.com")
         version = version.split(' ')[1]
-        versionPrefix = re.match('v1(alpha|beta)?([0-9][a-z]+)?', version).group() + "*"
+        versionPrefix = re.match('v1(api|alpha1|beta)([0-9][a-z]+)?', version).group() + "*"
         filename = f'{version}_{kind}.yaml'
         expected_samples.add(os.path.join(group, versionPrefix, filename))
 

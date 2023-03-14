@@ -97,7 +97,7 @@ func Test_LoadCRDs(t *testing.T) {
 	g.Expect(loadedCRDs[0]).To(Equal(crd))
 }
 
-func Test_CompareExistingCRDsWithGoal_EqualCRDsCompareAsEqual(t *testing.T) {
+func Test_FindMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -109,12 +109,28 @@ func Test_CompareExistingCRDsWithGoal_EqualCRDsCompareAsEqual(t *testing.T) {
 	logger := testcommon.NewTestLogger(t)
 	crdManager := crdmanagement.NewManager(logger, nil)
 
-	needUpdate := crdManager.FindGoalCRDsNeedingUpdate(existing, goal, crdmanagement.SpecEqual)
+	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
 
-	g.Expect(needUpdate).To(BeEmpty())
+	g.Expect(matching).To(HaveLen(1))
 }
 
-func Test_CompareExistingCRDsWithGoal_CRDsWithDifferentConversionsCompareAsEqual(t *testing.T) {
+func Test_FindMatchingCRDs_MissingCRD(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	goalCRD := makeBasicCRD("test")
+	var existing []apiextensions.CustomResourceDefinition
+	goal := []apiextensions.CustomResourceDefinition{goalCRD}
+
+	logger := testcommon.NewTestLogger(t)
+	crdManager := crdmanagement.NewManager(logger, nil)
+
+	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
+
+	g.Expect(matching).To(BeEmpty())
+}
+
+func Test_FindMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -154,9 +170,88 @@ func Test_CompareExistingCRDsWithGoal_CRDsWithDifferentConversionsCompareAsEqual
 	logger := testcommon.NewTestLogger(t)
 	crdManager := crdmanagement.NewManager(logger, nil)
 
-	needUpdate := crdManager.FindGoalCRDsNeedingUpdate(existing, goal, crdmanagement.SpecEqual)
+	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
 
-	g.Expect(needUpdate).To(BeEmpty())
+	g.Expect(matching).To(HaveLen(1))
+	// Ensure that we still have CABundle set here
+	g.Expect(existing[0].Spec.Conversion.Webhook.ClientConfig.CABundle).ToNot(BeEmpty())
+}
+
+func Test_FindNonMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	existingCRD := makeBasicCRD("test")
+	goalCRD := makeBasicCRD("test")
+	existing := []apiextensions.CustomResourceDefinition{existingCRD}
+	goal := []apiextensions.CustomResourceDefinition{goalCRD}
+
+	logger := testcommon.NewTestLogger(t)
+	crdManager := crdmanagement.NewManager(logger, nil)
+
+	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
+
+	g.Expect(nonMatching).To(BeEmpty())
+}
+func Test_FindNonMatchingCRDs_MissingCRD(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	goalCRD := makeBasicCRD("test")
+	var existing []apiextensions.CustomResourceDefinition
+	goal := []apiextensions.CustomResourceDefinition{goalCRD}
+
+	logger := testcommon.NewTestLogger(t)
+	crdManager := crdmanagement.NewManager(logger, nil)
+
+	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
+
+	g.Expect(nonMatching).To(HaveLen(1))
+}
+
+func Test_FindNonMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	existingCRD := makeBasicCRD("test")
+	existingCRD.Spec.Conversion = &apiextensions.CustomResourceConversion{
+		Strategy: apiextensions.WebhookConverter,
+		Webhook: &apiextensions.WebhookConversion{
+			ClientConfig: &apiextensions.WebhookClientConfig{
+				Service: &apiextensions.ServiceReference{
+					Name:      "azureserviceoperator-webhook-service",
+					Namespace: "azureserviceoperator-system",
+					Path:      to.StringPtr("/convert"),
+					Port:      to.Int32Ptr(443),
+				},
+				CABundle: []byte{17, 14, 12, 21, 33, 61, 25, 99, 111},
+			},
+		},
+	}
+
+	goalCRD := makeBasicCRD("test")
+	goalCRD.Spec.Conversion = &apiextensions.CustomResourceConversion{
+		Strategy: apiextensions.WebhookConverter,
+		Webhook: &apiextensions.WebhookConversion{
+			ClientConfig: &apiextensions.WebhookClientConfig{
+				Service: &apiextensions.ServiceReference{
+					Name:      "azureserviceoperator-webhook-service",
+					Namespace: "azureserviceoperator-system",
+					Path:      to.StringPtr("/convert"),
+					Port:      to.Int32Ptr(443),
+				},
+			},
+		},
+	}
+	existing := []apiextensions.CustomResourceDefinition{existingCRD}
+	goal := []apiextensions.CustomResourceDefinition{goalCRD}
+
+	logger := testcommon.NewTestLogger(t)
+	crdManager := crdmanagement.NewManager(logger, nil)
+
+	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
+
+	g.Expect(nonMatching).To(BeEmpty())
 	// Ensure that we still have CABundle set here
 	g.Expect(existing[0].Spec.Conversion.Webhook.ClientConfig.CABundle).ToNot(BeEmpty())
 }

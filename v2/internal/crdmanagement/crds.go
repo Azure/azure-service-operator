@@ -19,6 +19,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/yaml"
 
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 )
 
@@ -28,8 +30,6 @@ const ServiceOperatorVersionLabel = "serviceoperator.azure.com/version"
 const CRDLocation = "crds"
 
 const certMgrInjectCAFromAnnotation = "cert-manager.io/inject-ca-from"
-
-// TODO: Fix logging levels in this whole file
 
 type Manager struct {
 	logger     logr.Logger
@@ -62,7 +62,7 @@ func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomR
 	}
 
 	for _, crd := range list.Items {
-		m.logger.V(0).Info("Found a CRD", "CRD", crd.Name)
+		m.logger.V(Verbose).Info("Found an existing CRD", "CRD", crd.Name)
 	}
 
 	return list.Items, nil
@@ -95,7 +95,7 @@ func (m *Manager) LoadOperatorCRDs(path string) ([]apiextensions.CustomResourceD
 			return nil, errors.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
 		}
 
-		m.logger.V(0).Info("Loaded CRD", "path", filePath, "name", crd.Name)
+		m.logger.V(Verbose).Info("Loaded CRD", "path", filePath, "name", crd.Name)
 		results = append(results, crd)
 	}
 
@@ -113,13 +113,15 @@ func (m *Manager) FixCRDNamespaceRefs(crds []apiextensions.CustomResourceDefinit
 	return results
 }
 
-func (m *Manager) FindGoalCRDsNeedingUpdate(
+// FindMatchingCRDs finds the CRDs in "goal" that are in "existing" AND compare as equal according to the comparators with
+// the corresponding CRD in "goal"
+func (m *Manager) FindMatchingCRDs(
 	existing []apiextensions.CustomResourceDefinition,
 	goal []apiextensions.CustomResourceDefinition,
 	comparators ...func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool,
 ) map[string]apiextensions.CustomResourceDefinition {
 
-	needUpdate := make(map[string]apiextensions.CustomResourceDefinition)
+	matching := make(map[string]apiextensions.CustomResourceDefinition)
 
 	// Build a map so lookup is faster
 	existingCRDs := make(map[string]apiextensions.CustomResourceDefinition, len(existing))
@@ -129,13 +131,11 @@ func (m *Manager) FindGoalCRDsNeedingUpdate(
 
 	// Every goal CRD should exist and match an existing one
 	for _, goalCRD := range goal {
-		existingCRD, ok := existingCRDs[goalCRD.Name]
-		if !ok {
-			// Not found
-			needUpdate[goalCRD.Name] = goalCRD
-			m.logger.V(0).Info("Found missing CRD", "CRD", goalCRD.Name)
-			continue
-		}
+
+		// Note that if the CRD is not found, we will get back a default initialized CRD.
+		// We run the comparators on that as they may match, especially if the comparator is something like
+		// "specs are not equal"
+		existingCRD := existingCRDs[goalCRD.Name]
 
 		// Deepcopy to ensure that modifications below don't persist
 		existingCRD = *existingCRD.DeepCopy()
@@ -149,13 +149,34 @@ func (m *Manager) FindGoalCRDsNeedingUpdate(
 			}
 		}
 
-		if !equal {
-			m.logger.V(0).Info("Goal CRD does not match existing CRD", "CRD", goalCRD.Name)
-			needUpdate[goalCRD.Name] = goalCRD
+		if equal {
+			matching[goalCRD.Name] = goalCRD
 		}
 	}
 
-	return needUpdate
+	return matching
+}
+
+// FindNonMatchingCRDs finds the CRDs in "goal" that are not in "existing" OR are in "existing" but mismatch with the "goal"
+// based on the comparator functions.
+func (m *Manager) FindNonMatchingCRDs(
+	existing []apiextensions.CustomResourceDefinition,
+	goal []apiextensions.CustomResourceDefinition,
+	comparators ...func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool,
+) map[string]apiextensions.CustomResourceDefinition {
+
+	// Just invert the comparators and call FindMatchingCRDs
+	invertedComparators := make([]func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool, 0, len(comparators))
+	for _, c := range comparators {
+		c := c
+		invertedComparators = append(
+			invertedComparators,
+			func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool {
+				return !c(a, b)
+			})
+	}
+
+	return m.FindMatchingCRDs(existing, goal, invertedComparators...)
 }
 
 // fixCRDNamespace fixes up namespace references in the CRD to match the provided namespace.

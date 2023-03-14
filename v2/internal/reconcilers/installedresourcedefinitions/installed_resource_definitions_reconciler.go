@@ -86,8 +86,8 @@ func (r *InstalledResourceReconciler) CreateOrUpdate(ctx context.Context, log lo
 	}
 	log.V(Info).Info("Existing CRDs", "count", len(existingCRDs))
 
-	goalCRDsWithDifferentVersion := crdManager.FindGoalCRDsNeedingUpdate(existingCRDs, goalCRDs, crdmanagement.VersionEqual)
-	goalCRDsWithDifferentSpec := crdManager.FindGoalCRDsNeedingUpdate(existingCRDs, goalCRDs, crdmanagement.SpecEqual)
+	goalCRDsWithDifferentVersion := crdManager.FindNonMatchingCRDs(existingCRDs, goalCRDs, crdmanagement.VersionEqual)
+	goalCRDsWithDifferentSpec := crdManager.FindNonMatchingCRDs(existingCRDs, goalCRDs, crdmanagement.SpecEqual)
 
 	// The same CRD may be in both sets, but we don't want to apply twice, so combine the sets
 	crdsToApply := make(map[string]apiextensions.CustomResourceDefinition)
@@ -101,6 +101,11 @@ func (r *InstalledResourceReconciler) CreateOrUpdate(ctx context.Context, log lo
 	if len(crdsToApply) > 0 {
 		for _, crd := range crdsToApply {
 			crd := crd
+
+			_, isDifferentVersion := goalCRDsWithDifferentVersion[crd.Name]
+			_, isDifferentSpec := goalCRDsWithDifferentSpec[crd.Name]
+			log.V(Verbose).Info("Found CRD in need of update", "CRD", crd, "SpecDifferent", isDifferentSpec, "VersionDifferent", isDifferentVersion)
+
 			toApply := &apiextensions.CustomResourceDefinition{
 				ObjectMeta: metav1.ObjectMeta{
 					Name: crd.Name,
@@ -111,7 +116,6 @@ func (r *InstalledResourceReconciler) CreateOrUpdate(ctx context.Context, log lo
 				*toApply = crd
 				toApply.ResourceVersion = resourceVersion
 
-				log.V(Verbose).Info("Applying CRD", "name", toApply.Name) // TODO: Delete this
 				return nil
 			})
 			if err != nil {
@@ -127,7 +131,7 @@ func (r *InstalledResourceReconciler) CreateOrUpdate(ctx context.Context, log lo
 		os.Exit(0) // TODO: Should this be nonzero?
 	}
 
-	log.V(Status).Info("Successfully reconciled InstalledResourceDefinitions CRDs.", "count", len(existingCRDs))
+	log.V(Status).Info("Successfully reconciled InstalledResourceDefinitions CRDs.")
 	return ctrl.Result{}, nil
 }
 
