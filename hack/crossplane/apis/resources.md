@@ -7,11 +7,15 @@ These are the Crossplane resources committed to our **main** branch, grouped by 
 
 ## Cache
 
+Supporting 1 resource: Redis
+
 | Resource | ARM Version | CRD Version    | Supported From | Sample |
 |----------|-------------|----------------|----------------|--------|
 | Redis    | 2020-06-01  | v1beta20200601 | -              | -      |
 
 ## Sql
+
+Supporting 2 resources: Server, Servers_Database
 
 | Resource         | ARM Version        | CRD Version           | Supported From | Sample |
 |------------------|--------------------|-----------------------|----------------|--------|

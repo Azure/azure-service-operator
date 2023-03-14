@@ -9,6 +9,7 @@ menu:
 cascade:
 - type: docs
 - render: always
+description: "How to contribute new resources to Azure Service Operator v2"
 ---
 
 ## Related pages
