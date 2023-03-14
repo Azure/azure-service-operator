@@ -28,27 +28,13 @@ func defaultAzureNameFunction(k *ResourceFunction, codeGenerationContext *astmod
 	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
-	specSelector := &dst.SelectorExpr{
-		X:   dst.NewIdent(receiverIdent),
-		Sel: dst.NewIdent("Spec"),
-	}
-
-	azureNameProp := &dst.SelectorExpr{
-		X:   specSelector,
-		Sel: dst.NewIdent(astmodel.AzureNameProperty),
-	}
-
-	nameProp := &dst.SelectorExpr{
-		X:   dst.NewIdent(receiverIdent),
-		Sel: dst.NewIdent("Name"), // this comes from ObjectMeta
-	}
+	azureNameProp := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", astmodel.AzureNameProperty)
+	nameProp := astbuilder.Selector(dst.NewIdent(receiverIdent), "Name")
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body: astbuilder.Statements(
 			astbuilder.IfEqual(
 				azureNameProp,

@@ -131,9 +131,7 @@ func (optional *OptionalType) AsType(codeGenerationContext *CodeGenerationContex
 		return optional.element.AsType(codeGenerationContext)
 	}
 
-	return &dst.StarExpr{
-		X: optional.element.AsType(codeGenerationContext),
-	}
+	return astbuilder.PointerTo(optional.element.AsType(codeGenerationContext))
 }
 
 // AsZero renders an expression for the "zero" value of the type

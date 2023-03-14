@@ -158,7 +158,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	assignLocal := astbuilder.TypeAssert(
 		localIdent,
 		hubIdent,
-		astbuilder.Dereference(fn.hub.AsType(generationContext)))
+		astbuilder.PointerTo(fn.hub.AsType(generationContext)))
 
 	checkAssert := astbuilder.ReturnIfNotOk(
 		astbuilder.FormatError(

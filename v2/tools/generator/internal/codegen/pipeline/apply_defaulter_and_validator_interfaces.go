@@ -137,9 +137,7 @@ func validateSecretDestinations(k *functions.ResourceFunction, codeGenerationCon
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
 				Type: dst.NewIdent("error"),
@@ -174,9 +172,7 @@ func validateConfigMapDestinations(k *functions.ResourceFunction, codeGeneration
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
 				Type: dst.NewIdent("error"),

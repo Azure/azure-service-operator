@@ -81,10 +81,8 @@ func (builder *convertToARMBuilder) functionDeclaration() *dst.FuncDecl {
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: builder.receiverTypeExpr,
-		},
-		Body: builder.functionBodyStatements(),
+		ReceiverType:  astbuilder.PointerTo(builder.receiverTypeExpr),
+		Body:          builder.functionBodyStatements(),
 	}
 
 	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsType.AsType(builder.codeGenerationContext))
@@ -633,26 +631,19 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBui
 }
 
 func callToARMFunction(source dst.Expr, destination dst.Expr, methodName string) []dst.Stmt {
-	var results []dst.Stmt
-
 	// Call ToARM on the property
-	propertyToARMInvocation := &dst.AssignStmt{
-		Lhs: []dst.Expr{
-			destination,
-			dst.NewIdent("err"),
-		},
-		Tok: token.DEFINE,
-		Rhs: []dst.Expr{
-			&dst.CallExpr{
-				Fun: astbuilder.Selector(source, methodName),
-				Args: []dst.Expr{
-					dst.NewIdent(resolvedParameterString),
-				},
+	propertyToARMInvocation := astbuilder.SimpleAssignmentWithErr(
+		destination,
+		token.DEFINE,
+		// Don't use astbuilder.CallExpr() because it flattens dereferences,
+		&dst.CallExpr{
+			Fun: astbuilder.Selector(source, methodName),
+			Args: []dst.Expr{
+				dst.NewIdent(resolvedParameterString),
 			},
-		},
-	}
-	results = append(results, propertyToARMInvocation)
-	results = append(results, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
+		})
 
-	return results
+	return astbuilder.Statements(
+		propertyToARMInvocation,
+		astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
 }
