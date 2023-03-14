@@ -87,7 +87,7 @@ func (f *IndexRegistrationFunction) AsFunc(
 	cast := astbuilder.TypeAssert(
 		dst.NewIdent(objName),
 		dst.NewIdent(rawObjName),
-		astbuilder.Dereference(f.resourceTypeName.AsType(genContext)))
+		astbuilder.PointerTo(f.resourceTypeName.AsType(genContext)))
 
 	// if !ok { return nil }
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())

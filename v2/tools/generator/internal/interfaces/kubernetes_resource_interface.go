@@ -205,7 +205,7 @@ func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
-			ReceiverType:  &dst.StarExpr{X: receiverType},
+			ReceiverType:  astbuilder.PointerTo(receiverType),
 			Body: astbuilder.Statements(
 				astbuilder.Returns(
 					astbuilder.CallFunc("string", astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", astmodel.AzureNameProperty)))),
@@ -229,7 +229,7 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
-			ReceiverType:  &dst.StarExpr{X: receiverType},
+			ReceiverType:  astbuilder.PointerTo(receiverType),
 			Body: astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					azureNameProp,
@@ -261,7 +261,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
-			ReceiverType:  &dst.StarExpr{X: receiverType},
+			ReceiverType:  astbuilder.PointerTo(receiverType),
 			Body: astbuilder.Statements(
 				astbuilder.Returns(
 					astbuilder.TextLiteral(fixedValue))),
@@ -294,10 +294,8 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 		fn := &astbuilder.FuncDetails{
 			Name:          methodName,
 			ReceiverIdent: receiverIdent,
-			ReceiverType: &dst.StarExpr{
-				X: receiver.AsType(codeGenerationContext),
-			},
-			Params: nil,
+			ReceiverType:  astbuilder.PointerTo(receiver.AsType(codeGenerationContext)),
+			Params:        nil,
 		}
 
 		fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
@@ -427,9 +425,7 @@ func setStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationConte
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body: []dst.Stmt{
 			astbuilder.QualifiedAssignment(
 				dst.NewIdent(receiverIdent),
@@ -452,9 +448,7 @@ func getStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationConte
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body: astbuilder.Statements(
 			astbuilder.Returns(
 				astbuilder.Selector(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec"), astmodel.AzureNameProperty))),

@@ -39,13 +39,7 @@ func NewTestFuncDetails(testingPackage string, testName string, body ...dst.Stmt
 		Body: body,
 	}
 
-	result.AddParameter("t",
-		&dst.StarExpr{
-			X: &dst.SelectorExpr{
-				X:   dst.NewIdent(testingPackage),
-				Sel: dst.NewIdent("T"),
-			}},
-	)
+	result.AddParameter("t", PointerTo(Selector(dst.NewIdent(testingPackage), "T")))
 
 	return result
 }

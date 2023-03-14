@@ -205,9 +205,7 @@ func (fn *PropertyAssignmentFunction) AsFunc(generationContext *astmodel.CodeGen
 
 	funcDetails.AddParameter(
 		fn.parameterName,
-		&dst.StarExpr{
-			X: fn.ParameterType().AsType(generationContext),
-		})
+		astbuilder.PointerTo(fn.ParameterType().AsType(generationContext)))
 
 	funcDetails.AddReturns("error")
 	funcDetails.AddComments(description)

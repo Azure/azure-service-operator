@@ -151,9 +151,7 @@ func (v *ValidatorBuilder) validateCreate(k *ResourceFunction, codeGenerationCon
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
 				Type: dst.NewIdent("error"),
@@ -177,11 +175,9 @@ func (v *ValidatorBuilder) validateUpdate(k *ResourceFunction, codeGenerationCon
 		Name:          methodName,
 		Params:        retType.Params.List,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
-		Returns: retType.Results.List,
-		Body:    v.validateBody(codeGenerationContext, receiverIdent, "updateValidations", "UpdateValidations", "old"),
+		ReceiverType:  astbuilder.PointerTo(receiverType),
+		Returns:       retType.Results.List,
+		Body:          v.validateBody(codeGenerationContext, receiverIdent, "updateValidations", "UpdateValidations", "old"),
 	}
 
 	fn.AddComments("validates an update of the resource")
@@ -196,9 +192,7 @@ func (v *ValidatorBuilder) validateDelete(k *ResourceFunction, codeGenerationCon
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
 				Type: dst.NewIdent("error"),
@@ -312,9 +306,7 @@ func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, c
 	return &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Returns: []*dst.Field{
 			{
 				Type: &dst.ArrayType{
