@@ -20,12 +20,10 @@
 
 <title>Authentication in Azure Service Operator v2 | Azure Service Operator</title>
 <meta name="description" content="Azure Service Operator supports three different styles of authentication today.
- Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
-For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI. The AZURE_CLIENT_ID is sometimes also called the App ID.">
+ Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set. This Service Principal is used as a default global credential and is optional. If you do not wish to use a default global credential, you must still provide the secret with empty values for the below keys and follow the instructions in single-operator-multitenancy to specify per-namespace or per-resource credentials">
 <meta property="og:title" content="Authentication in Azure Service Operator v2" />
 <meta property="og:description" content="Azure Service Operator supports three different styles of authentication today.
- Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
-For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI. The AZURE_CLIENT_ID is sometimes also called the App ID." />
+ Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set. This Service Principal is used as a default global credential and is optional. If you do not wish to use a default global credential, you must still provide the secret with empty values for the below keys and follow the instructions in single-operator-multitenancy to specify per-namespace or per-resource credentials" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/authentication/" /><meta property="article:section" content="introduction" />
 
@@ -33,15 +31,13 @@ For more information about Service Principals, see creating an Azure Service Pri
 
 <meta itemprop="name" content="Authentication in Azure Service Operator v2">
 <meta itemprop="description" content="Azure Service Operator supports three different styles of authentication today.
- Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
-For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI. The AZURE_CLIENT_ID is sometimes also called the App ID.">
+ Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set. This Service Principal is used as a default global credential and is optional. If you do not wish to use a default global credential, you must still provide the secret with empty values for the below keys and follow the instructions in single-operator-multitenancy to specify per-namespace or per-resource credentials">
 
-<meta itemprop="wordCount" content="1298">
+<meta itemprop="wordCount" content="1347">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Authentication in Azure Service Operator v2"/>
 <meta name="twitter:description" content="Azure Service Operator supports three different styles of authentication today.
- Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
-For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI. The AZURE_CLIENT_ID is sometimes also called the App ID."/>
+ Service Principal azure-workload-identity authentication (OIDC &#43; Managed Identity or Service Principal) [Deprecated] aad-pod-identity authentication (Managed Identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set. This Service Principal is used as a default global credential and is optional. If you do not wish to use a default global credential, you must still provide the secret with empty values for the below keys and follow the instructions in single-operator-multitenancy to specify per-namespace or per-resource credentials"/>
 
 
 
@@ -566,7 +562,7 @@ For more information about Service Principals, see creating an Azure Service Pri
 <ol>
 <li>An existing Azure Service Principal.</li>
 </ol>
-<p>To use Service Principal authentication, specify an <code>aso-controller-settings</code> secret with the <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> keys set.</p>
+<p>To use Service Principal authentication, specify an <code>aso-controller-settings</code> secret with the <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> keys set. This Service Principal is used as a default global credential and is optional. If you <strong>do not</strong> wish to use a default global credential, you must still provide the secret with empty values for the below keys and follow the instructions in <a href="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/#single-operator-multitenancy-default">single-operator-multitenancy</a> to specify per-namespace or per-resource credentials</p>
 <p>For more information about Service Principals, see <a href="https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication">creating an Azure Service Principal using the Azure CLI</a>.
 The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>AZURE_CLIENT_SECRET</code> is the &ldquo;password&rdquo; returned by the command in the previously linked documentation.</p>
 <p>Use the following Bash script to set the environment variables for the <code>aso-controller-settings</code> secret:</p>
