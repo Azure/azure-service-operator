@@ -115,8 +115,10 @@ func GetClusterScopeStorageTypes(
 				positiveConditions,
 				options.Config),
 			Predicate: predicate.And(
+				predicate.GenerationChangedPredicate{},
 				custompredicates.MakeNamespacePredicate(options.Config.PodNamespace),
-				custompredicates.MakeNamePredicate(options.Config.InstalledResourceDefinitionsName)),
+				custompredicates.MakeNamePredicate(options.Config.InstalledResourceDefinitionsName),
+			),
 		})
 
 	return result, nil
