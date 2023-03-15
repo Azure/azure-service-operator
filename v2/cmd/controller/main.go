@@ -100,14 +100,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	readyResources, err := getReadyCRDs(ctx, clients.log, mgr.GetConfig(), cfg)
+	nonReadyResources, err := getNonReadyCRDs(ctx, clients.log, mgr.GetConfig(), cfg)
 	if err != nil {
 		setupLog.Error(err, "unable to get CRDs to skip")
 		os.Exit(1)
 	}
 
 	if cfg.OperatorMode.IncludesWatchers() {
-		err = initializeWatchers(readyResources, cfg, mgr, clients)
+		err = initializeWatchers(nonReadyResources, cfg, mgr, clients)
 		if err != nil {
 			setupLog.Error(err, "failed to initialize watchers")
 			os.Exit(1)
@@ -141,12 +141,11 @@ func main() {
 
 		objs := controllers.GetKnownTypes()
 
-		objs, err = filterKnownTypesByReadyCRDs(clients.log, scheme, readyResources, objs)
+		objs, err = filterKnownTypesByReadyCRDs(clients.log, scheme, nonReadyResources, objs)
 		if err != nil {
 			setupLog.Error(err, "failed to filter known types by ready CRDs")
 			os.Exit(1)
 		}
-
 		if errs := generic.RegisterWebhooks(mgr, objs); errs != nil {
 			setupLog.Error(err, "failed to register webhook for gvks")
 			os.Exit(1)
@@ -258,7 +257,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	}, nil
 }
 
-func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDefinition, cfg config.Values, mgr ctrl.Manager, clients *clients) error {
+func initializeWatchers(nonReadyResources map[string]apiextensions.CustomResourceDefinition, cfg config.Values, mgr ctrl.Manager, clients *clients) error {
 	clients.log.V(Status).Info("Configuration details", "config", cfg.String())
 
 	objs, err := controllers.GetKnownStorageTypes(
@@ -272,7 +271,7 @@ func initializeWatchers(readyResources map[string]apiextensions.CustomResourceDe
 	}
 
 	// Filter the types to register
-	objs, err = filterStorageTypesByReadyCRDs(clients.log, mgr.GetScheme(), readyResources, objs)
+	objs, err = filterStorageTypesByReadyCRDs(clients.log, mgr.GetScheme(), nonReadyResources, objs)
 	if err != nil {
 		return errors.Wrap(err, "failed to filter storage types by ready CRDs")
 	}
@@ -320,7 +319,7 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 	}
 }
 
-func getReadyCRDs(ctx context.Context, logger logr.Logger, k8sConfig *rest.Config, cfg config.Values) (map[string]apiextensions.CustomResourceDefinition, error) {
+func getNonReadyCRDs(ctx context.Context, logger logr.Logger, k8sConfig *rest.Config, cfg config.Values) (map[string]apiextensions.CustomResourceDefinition, error) {
 	crdScheme := runtime.NewScheme()
 	_ = apiextensions.AddToScheme(crdScheme)
 	crdClient, err := client.New(k8sConfig, client.Options{Scheme: crdScheme})
@@ -345,7 +344,7 @@ func getReadyCRDs(ctx context.Context, logger logr.Logger, k8sConfig *rest.Confi
 		equalityCheck = crdmanagement.SpecEqualIgnoreConversionWebhook
 	}
 
-	readyResources := crdManager.FindMatchingCRDs(existingCRDs, goalCRDs, equalityCheck)
+	readyResources := crdManager.FindNonMatchingCRDs(existingCRDs, goalCRDs, equalityCheck)
 
 	return readyResources, nil
 }
@@ -353,13 +352,13 @@ func getReadyCRDs(ctx context.Context, logger logr.Logger, k8sConfig *rest.Confi
 func filterStorageTypesByReadyCRDs(
 	logger logr.Logger,
 	scheme *runtime.Scheme,
-	ready map[string]apiextensions.CustomResourceDefinition,
+	skip map[string]apiextensions.CustomResourceDefinition,
 	storageTypes []*registration.StorageType,
 ) ([]*registration.StorageType, error) {
-	// ready map key is by CRD name, but we need it to be by kind
-	readyKinds := set.Make[schema.GroupKind]()
-	for _, crd := range ready {
-		readyKinds.Add(schema.GroupKind{Group: crd.Spec.Group, Kind: crd.Spec.Names.Kind})
+	// skip map key is by CRD name, but we need it to be by kind
+	skipKinds := set.Make[schema.GroupKind]()
+	for _, crd := range skip {
+		skipKinds.Add(schema.GroupKind{Group: crd.Spec.Group, Kind: crd.Spec.Names.Kind})
 	}
 
 	result := make([]*registration.StorageType, 0, len(storageTypes))
@@ -371,7 +370,7 @@ func filterStorageTypesByReadyCRDs(
 			return nil, errors.Wrapf(err, "creating GVK for obj %T", storageType.Obj)
 		}
 
-		if !readyKinds.Contains(gvk.GroupKind()) {
+		if skipKinds.Contains(gvk.GroupKind()) {
 			logger.V(0).Info("Skipping reconciliation of resource because CRD needs update", "groupKind", gvk.GroupKind().String())
 			continue
 		}
@@ -385,13 +384,13 @@ func filterStorageTypesByReadyCRDs(
 func filterKnownTypesByReadyCRDs(
 	logger logr.Logger,
 	scheme *runtime.Scheme,
-	ready map[string]apiextensions.CustomResourceDefinition,
+	skip map[string]apiextensions.CustomResourceDefinition,
 	knownTypes []client.Object,
 ) ([]client.Object, error) {
-	// ready map key is by CRD name, but we need it to be by kind
-	readyKinds := set.Make[schema.GroupKind]()
-	for _, crd := range ready {
-		readyKinds.Add(schema.GroupKind{Group: crd.Spec.Group, Kind: crd.Spec.Names.Kind})
+	// skip map key is by CRD name, but we need it to be by kind
+	skipKinds := set.Make[schema.GroupKind]()
+	for _, crd := range skip {
+		skipKinds.Add(schema.GroupKind{Group: crd.Spec.Group, Kind: crd.Spec.Names.Kind})
 	}
 
 	result := make([]client.Object, 0, len(knownTypes))
@@ -401,8 +400,7 @@ func filterKnownTypesByReadyCRDs(
 		if err != nil {
 			return nil, errors.Wrapf(err, "creating GVK for obj %T", knownType)
 		}
-		gvk.GroupKind()
-		if !readyKinds.Contains(gvk.GroupKind()) {
+		if skipKinds.Contains(gvk.GroupKind()) {
 			logger.V(0).Info("Skipping webhooks of resource because CRD needs update", "groupKind", gvk.GroupKind().String())
 			continue
 		}

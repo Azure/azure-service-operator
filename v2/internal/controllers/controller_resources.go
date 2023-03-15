@@ -252,7 +252,8 @@ func GetKnownTypes() []client.Object {
 
 	knownTypes = append(
 		knownTypes,
-		&mysql.User{})
+		&mysql.User{},
+		&serviceoperator.InstalledResourceDefinitions{})
 
 	return knownTypes
 }
