@@ -3,14 +3,11 @@
  * Licensed under the MIT license.
  */
 
-package main
+package cmd
 
 import (
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
-
-	"github.com/Azure/azure-service-operator/v2/tools/asoctl/pkg/crd"
-	"github.com/Azure/azure-service-operator/v2/tools/asoctl/pkg/export"
 )
 
 // Execute kicks off the command line
@@ -35,8 +32,8 @@ func newRootCommand() (*cobra.Command, error) {
 	rootCmd.Flags().SortFlags = false
 
 	cmdFuncs := []func() (*cobra.Command, error){
-		export.NewCommand,
-		crd.NewCommand,
+		newCRDCommand,
+		newImportCommand,
 	}
 
 	for _, f := range cmdFuncs {
