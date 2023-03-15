@@ -91,6 +91,17 @@ func (workspace *Workspace) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Workspace resource
 func (workspace *Workspace) defaultImpl() { workspace.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Workspace{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (workspace *Workspace) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Workspace_STATUS); ok {
+		return workspace.Spec.Initialize_From_Workspace_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Workspace_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Workspace{}
 
 // AzureName returns the Azure name of the resource
@@ -853,6 +864,93 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 	return nil
 }
 
+// Initialize_From_Workspace_STATUS populates our Workspace_Spec from the provided source Workspace_STATUS
+func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Workspace_STATUS) error {
+
+	// Etag
+	workspace.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Features
+	if source.Features != nil {
+		var feature WorkspaceFeatures
+		err := feature.Initialize_From_WorkspaceFeatures_STATUS(source.Features)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_WorkspaceFeatures_STATUS() to populate field Features")
+		}
+		workspace.Features = &feature
+	} else {
+		workspace.Features = nil
+	}
+
+	// ForceCmkForQuery
+	if source.ForceCmkForQuery != nil {
+		forceCmkForQuery := *source.ForceCmkForQuery
+		workspace.ForceCmkForQuery = &forceCmkForQuery
+	} else {
+		workspace.ForceCmkForQuery = nil
+	}
+
+	// Location
+	workspace.Location = genruntime.ClonePointerToString(source.Location)
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := WorkspaceProperties_ProvisioningState(*source.ProvisioningState)
+		workspace.ProvisioningState = &provisioningState
+	} else {
+		workspace.ProvisioningState = nil
+	}
+
+	// PublicNetworkAccessForIngestion
+	if source.PublicNetworkAccessForIngestion != nil {
+		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
+		workspace.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+	} else {
+		workspace.PublicNetworkAccessForIngestion = nil
+	}
+
+	// PublicNetworkAccessForQuery
+	if source.PublicNetworkAccessForQuery != nil {
+		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
+		workspace.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+	} else {
+		workspace.PublicNetworkAccessForQuery = nil
+	}
+
+	// RetentionInDays
+	workspace.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
+
+	// Sku
+	if source.Sku != nil {
+		var sku WorkspaceSku
+		err := sku.Initialize_From_WorkspaceSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_WorkspaceSku_STATUS() to populate field Sku")
+		}
+		workspace.Sku = &sku
+	} else {
+		workspace.Sku = nil
+	}
+
+	// Tags
+	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// WorkspaceCapping
+	if source.WorkspaceCapping != nil {
+		var workspaceCapping WorkspaceCapping
+		err := workspaceCapping.Initialize_From_WorkspaceCapping_STATUS(source.WorkspaceCapping)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_WorkspaceCapping_STATUS() to populate field WorkspaceCapping")
+		}
+		workspace.WorkspaceCapping = &workspaceCapping
+	} else {
+		workspace.WorkspaceCapping = nil
+	}
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (workspace *Workspace_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1594,6 +1692,21 @@ func (capping *WorkspaceCapping) AssignProperties_To_WorkspaceCapping(destinatio
 	return nil
 }
 
+// Initialize_From_WorkspaceCapping_STATUS populates our WorkspaceCapping from the provided source WorkspaceCapping_STATUS
+func (capping *WorkspaceCapping) Initialize_From_WorkspaceCapping_STATUS(source *WorkspaceCapping_STATUS) error {
+
+	// DailyQuotaGb
+	if source.DailyQuotaGb != nil {
+		dailyQuotaGb := *source.DailyQuotaGb
+		capping.DailyQuotaGb = &dailyQuotaGb
+	} else {
+		capping.DailyQuotaGb = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The daily volume cap for ingestion.
 type WorkspaceCapping_STATUS struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
@@ -1911,6 +2024,53 @@ func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destina
 	return nil
 }
 
+// Initialize_From_WorkspaceFeatures_STATUS populates our WorkspaceFeatures from the provided source WorkspaceFeatures_STATUS
+func (features *WorkspaceFeatures) Initialize_From_WorkspaceFeatures_STATUS(source *WorkspaceFeatures_STATUS) error {
+
+	// ClusterResourceReference
+	if source.ClusterResourceId != nil {
+		clusterResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ClusterResourceId)
+		features.ClusterResourceReference = &clusterResourceReference
+	} else {
+		features.ClusterResourceReference = nil
+	}
+
+	// DisableLocalAuth
+	if source.DisableLocalAuth != nil {
+		disableLocalAuth := *source.DisableLocalAuth
+		features.DisableLocalAuth = &disableLocalAuth
+	} else {
+		features.DisableLocalAuth = nil
+	}
+
+	// EnableDataExport
+	if source.EnableDataExport != nil {
+		enableDataExport := *source.EnableDataExport
+		features.EnableDataExport = &enableDataExport
+	} else {
+		features.EnableDataExport = nil
+	}
+
+	// EnableLogAccessUsingOnlyResourcePermissions
+	if source.EnableLogAccessUsingOnlyResourcePermissions != nil {
+		enableLogAccessUsingOnlyResourcePermission := *source.EnableLogAccessUsingOnlyResourcePermissions
+		features.EnableLogAccessUsingOnlyResourcePermissions = &enableLogAccessUsingOnlyResourcePermission
+	} else {
+		features.EnableLogAccessUsingOnlyResourcePermissions = nil
+	}
+
+	// ImmediatePurgeDataOn30Days
+	if source.ImmediatePurgeDataOn30Days != nil {
+		immediatePurgeDataOn30Day := *source.ImmediatePurgeDataOn30Days
+		features.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
+	} else {
+		features.ImmediatePurgeDataOn30Days = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Workspace features.
 type WorkspaceFeatures_STATUS struct {
 	// ClusterResourceId: Dedicated LA cluster resourceId that is linked to the workspaces.
@@ -2206,6 +2366,29 @@ func (workspaceSku *WorkspaceSku) AssignProperties_To_WorkspaceSku(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_WorkspaceSku_STATUS populates our WorkspaceSku from the provided source WorkspaceSku_STATUS
+func (workspaceSku *WorkspaceSku) Initialize_From_WorkspaceSku_STATUS(source *WorkspaceSku_STATUS) error {
+
+	// CapacityReservationLevel
+	if source.CapacityReservationLevel != nil {
+		capacityReservationLevel := WorkspaceSku_CapacityReservationLevel(*source.CapacityReservationLevel)
+		workspaceSku.CapacityReservationLevel = &capacityReservationLevel
+	} else {
+		workspaceSku.CapacityReservationLevel = nil
+	}
+
+	// Name
+	if source.Name != nil {
+		name := WorkspaceSku_Name(*source.Name)
+		workspaceSku.Name = &name
+	} else {
+		workspaceSku.Name = nil
 	}
 
 	// No error

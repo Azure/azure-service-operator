@@ -91,6 +91,17 @@ func (database *Database) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Database resource
 func (database *Database) defaultImpl() { database.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Database{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (database *Database) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Servers_Database_STATUS); ok {
+		return database.Spec.Initialize_From_Servers_Database_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Servers_Database_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Database{}
 
 // AzureName returns the Azure name of the resource
@@ -511,6 +522,19 @@ func (database *Servers_Database_Spec) AssignProperties_To_Servers_Database_Spec
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Servers_Database_STATUS populates our Servers_Database_Spec from the provided source Servers_Database_STATUS
+func (database *Servers_Database_Spec) Initialize_From_Servers_Database_STATUS(source *Servers_Database_STATUS) error {
+
+	// Charset
+	database.Charset = genruntime.ClonePointerToString(source.Charset)
+
+	// Collation
+	database.Collation = genruntime.ClonePointerToString(source.Collation)
 
 	// No error
 	return nil

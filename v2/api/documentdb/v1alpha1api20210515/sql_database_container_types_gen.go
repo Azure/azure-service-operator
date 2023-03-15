@@ -103,6 +103,17 @@ func (container *SqlDatabaseContainer) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the SqlDatabaseContainer resource
 func (container *SqlDatabaseContainer) defaultImpl() { container.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &SqlDatabaseContainer{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (container *SqlDatabaseContainer) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*DatabaseAccounts_SqlDatabases_Container_STATUS); ok {
+		return container.Spec.Initialize_From_DatabaseAccounts_SqlDatabases_Container_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlDatabases_Container_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &SqlDatabaseContainer{}
 
 // AzureName returns the Azure name of the resource
@@ -615,6 +626,43 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) AssignProperties_
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_DatabaseAccounts_SqlDatabases_Container_STATUS populates our DatabaseAccounts_SqlDatabases_Container_Spec from the provided source DatabaseAccounts_SqlDatabases_Container_STATUS
+func (container *DatabaseAccounts_SqlDatabases_Container_Spec) Initialize_From_DatabaseAccounts_SqlDatabases_Container_STATUS(source *DatabaseAccounts_SqlDatabases_Container_STATUS) error {
+
+	// Location
+	container.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Options
+	if source.Options != nil {
+		var option CreateUpdateOptions
+		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
+		}
+		container.Options = &option
+	} else {
+		container.Options = nil
+	}
+
+	// Resource
+	if source.Resource != nil {
+		var resource SqlContainerResource
+		err := resource.Initialize_From_SqlContainerGetProperties_Resource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
+		}
+		container.Resource = &resource
+	} else {
+		container.Resource = nil
+	}
+
+	// Tags
+	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1454,6 +1502,70 @@ func (resource *SqlContainerResource) AssignProperties_To_SqlContainerResource(d
 	return nil
 }
 
+// Initialize_From_SqlContainerGetProperties_Resource_STATUS populates our SqlContainerResource from the provided source SqlContainerGetProperties_Resource_STATUS
+func (resource *SqlContainerResource) Initialize_From_SqlContainerGetProperties_Resource_STATUS(source *SqlContainerGetProperties_Resource_STATUS) error {
+
+	// AnalyticalStorageTtl
+	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
+
+	// ConflictResolutionPolicy
+	if source.ConflictResolutionPolicy != nil {
+		var conflictResolutionPolicy ConflictResolutionPolicy
+		err := conflictResolutionPolicy.Initialize_From_ConflictResolutionPolicy_STATUS(source.ConflictResolutionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ConflictResolutionPolicy_STATUS() to populate field ConflictResolutionPolicy")
+		}
+		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
+	} else {
+		resource.ConflictResolutionPolicy = nil
+	}
+
+	// DefaultTtl
+	resource.DefaultTtl = genruntime.ClonePointerToInt(source.DefaultTtl)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IndexingPolicy
+	if source.IndexingPolicy != nil {
+		var indexingPolicy IndexingPolicy
+		err := indexingPolicy.Initialize_From_IndexingPolicy_STATUS(source.IndexingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_IndexingPolicy_STATUS() to populate field IndexingPolicy")
+		}
+		resource.IndexingPolicy = &indexingPolicy
+	} else {
+		resource.IndexingPolicy = nil
+	}
+
+	// PartitionKey
+	if source.PartitionKey != nil {
+		var partitionKey ContainerPartitionKey
+		err := partitionKey.Initialize_From_ContainerPartitionKey_STATUS(source.PartitionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ContainerPartitionKey_STATUS() to populate field PartitionKey")
+		}
+		resource.PartitionKey = &partitionKey
+	} else {
+		resource.PartitionKey = nil
+	}
+
+	// UniqueKeyPolicy
+	if source.UniqueKeyPolicy != nil {
+		var uniqueKeyPolicy UniqueKeyPolicy
+		err := uniqueKeyPolicy.Initialize_From_UniqueKeyPolicy_STATUS(source.UniqueKeyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_UniqueKeyPolicy_STATUS() to populate field UniqueKeyPolicy")
+		}
+		resource.UniqueKeyPolicy = &uniqueKeyPolicy
+	} else {
+		resource.UniqueKeyPolicy = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of ConflictResolutionPolicy. Use v1beta20210515.ConflictResolutionPolicy instead
 type ConflictResolutionPolicy struct {
 	ConflictResolutionPath      *string                        `json:"conflictResolutionPath,omitempty"`
@@ -1569,6 +1681,27 @@ func (policy *ConflictResolutionPolicy) AssignProperties_To_ConflictResolutionPo
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ConflictResolutionPolicy_STATUS populates our ConflictResolutionPolicy from the provided source ConflictResolutionPolicy_STATUS
+func (policy *ConflictResolutionPolicy) Initialize_From_ConflictResolutionPolicy_STATUS(source *ConflictResolutionPolicy_STATUS) error {
+
+	// ConflictResolutionPath
+	policy.ConflictResolutionPath = genruntime.ClonePointerToString(source.ConflictResolutionPath)
+
+	// ConflictResolutionProcedure
+	policy.ConflictResolutionProcedure = genruntime.ClonePointerToString(source.ConflictResolutionProcedure)
+
+	// Mode
+	if source.Mode != nil {
+		mode := ConflictResolutionPolicy_Mode(*source.Mode)
+		policy.Mode = &mode
+	} else {
+		policy.Mode = nil
 	}
 
 	// No error
@@ -1795,6 +1928,32 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_To_ContainerPartitio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ContainerPartitionKey_STATUS populates our ContainerPartitionKey from the provided source ContainerPartitionKey_STATUS
+func (partitionKey *ContainerPartitionKey) Initialize_From_ContainerPartitionKey_STATUS(source *ContainerPartitionKey_STATUS) error {
+
+	// Kind
+	if source.Kind != nil {
+		kind := ContainerPartitionKey_Kind(*source.Kind)
+		partitionKey.Kind = &kind
+	} else {
+		partitionKey.Kind = nil
+	}
+
+	// Paths
+	partitionKey.Paths = genruntime.CloneSliceOfString(source.Paths)
+
+	// Version
+	if source.Version != nil {
+		version := *source.Version
+		partitionKey.Version = &version
+	} else {
+		partitionKey.Version = nil
 	}
 
 	// No error
@@ -2281,6 +2440,111 @@ func (policy *IndexingPolicy) AssignProperties_To_IndexingPolicy(destination *al
 	return nil
 }
 
+// Initialize_From_IndexingPolicy_STATUS populates our IndexingPolicy from the provided source IndexingPolicy_STATUS
+func (policy *IndexingPolicy) Initialize_From_IndexingPolicy_STATUS(source *IndexingPolicy_STATUS) error {
+
+	// Automatic
+	if source.Automatic != nil {
+		automatic := *source.Automatic
+		policy.Automatic = &automatic
+	} else {
+		policy.Automatic = nil
+	}
+
+	// CompositeIndexes
+	if source.CompositeIndexes != nil {
+		compositeIndexList := make([][]CompositePath, len(source.CompositeIndexes))
+		for compositeIndex, compositeIndexItem := range source.CompositeIndexes {
+			// Shadow the loop variable to avoid aliasing
+			compositeIndexItem := compositeIndexItem
+			if compositeIndexItem != nil {
+				compositeIndexList1 := make([]CompositePath, len(compositeIndexItem))
+				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
+					// Shadow the loop variable to avoid aliasing
+					compositeIndexItem1 := compositeIndexItem1
+					var compositeIndexLocal CompositePath
+					err := compositeIndexLocal.Initialize_From_CompositePath_STATUS(&compositeIndexItem1)
+					if err != nil {
+						return errors.Wrap(err, "calling Initialize_From_CompositePath_STATUS() to populate field CompositeIndexes")
+					}
+					compositeIndexList1[compositeIndex1] = compositeIndexLocal
+				}
+				compositeIndexList[compositeIndex] = compositeIndexList1
+			} else {
+				compositeIndexList[compositeIndex] = nil
+			}
+		}
+		policy.CompositeIndexes = compositeIndexList
+	} else {
+		policy.CompositeIndexes = nil
+	}
+
+	// ExcludedPaths
+	if source.ExcludedPaths != nil {
+		excludedPathList := make([]ExcludedPath, len(source.ExcludedPaths))
+		for excludedPathIndex, excludedPathItem := range source.ExcludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			excludedPathItem := excludedPathItem
+			var excludedPath ExcludedPath
+			err := excludedPath.Initialize_From_ExcludedPath_STATUS(&excludedPathItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_ExcludedPath_STATUS() to populate field ExcludedPaths")
+			}
+			excludedPathList[excludedPathIndex] = excludedPath
+		}
+		policy.ExcludedPaths = excludedPathList
+	} else {
+		policy.ExcludedPaths = nil
+	}
+
+	// IncludedPaths
+	if source.IncludedPaths != nil {
+		includedPathList := make([]IncludedPath, len(source.IncludedPaths))
+		for includedPathIndex, includedPathItem := range source.IncludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			includedPathItem := includedPathItem
+			var includedPath IncludedPath
+			err := includedPath.Initialize_From_IncludedPath_STATUS(&includedPathItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_IncludedPath_STATUS() to populate field IncludedPaths")
+			}
+			includedPathList[includedPathIndex] = includedPath
+		}
+		policy.IncludedPaths = includedPathList
+	} else {
+		policy.IncludedPaths = nil
+	}
+
+	// IndexingMode
+	if source.IndexingMode != nil {
+		indexingMode := IndexingPolicy_IndexingMode(*source.IndexingMode)
+		policy.IndexingMode = &indexingMode
+	} else {
+		policy.IndexingMode = nil
+	}
+
+	// SpatialIndexes
+	if source.SpatialIndexes != nil {
+		spatialIndexList := make([]SpatialSpec, len(source.SpatialIndexes))
+		for spatialIndex, spatialIndexItem := range source.SpatialIndexes {
+			// Shadow the loop variable to avoid aliasing
+			spatialIndexItem := spatialIndexItem
+			var spatialIndexLocal SpatialSpec
+			err := spatialIndexLocal.Initialize_From_SpatialSpec_STATUS(&spatialIndexItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_SpatialSpec_STATUS() to populate field SpatialIndexes")
+			}
+			spatialIndexList[spatialIndex] = spatialIndexLocal
+		}
+		policy.SpatialIndexes = spatialIndexList
+	} else {
+		policy.SpatialIndexes = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of IndexingPolicy_STATUS. Use v1beta20210515.IndexingPolicy_STATUS instead
 type IndexingPolicy_STATUS struct {
 	Automatic        *bool                               `json:"automatic,omitempty"`
@@ -2694,6 +2958,31 @@ func (policy *UniqueKeyPolicy) AssignProperties_To_UniqueKeyPolicy(destination *
 	return nil
 }
 
+// Initialize_From_UniqueKeyPolicy_STATUS populates our UniqueKeyPolicy from the provided source UniqueKeyPolicy_STATUS
+func (policy *UniqueKeyPolicy) Initialize_From_UniqueKeyPolicy_STATUS(source *UniqueKeyPolicy_STATUS) error {
+
+	// UniqueKeys
+	if source.UniqueKeys != nil {
+		uniqueKeyList := make([]UniqueKey, len(source.UniqueKeys))
+		for uniqueKeyIndex, uniqueKeyItem := range source.UniqueKeys {
+			// Shadow the loop variable to avoid aliasing
+			uniqueKeyItem := uniqueKeyItem
+			var uniqueKey UniqueKey
+			err := uniqueKey.Initialize_From_UniqueKey_STATUS(&uniqueKeyItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_UniqueKey_STATUS() to populate field UniqueKeys")
+			}
+			uniqueKeyList[uniqueKeyIndex] = uniqueKey
+		}
+		policy.UniqueKeys = uniqueKeyList
+	} else {
+		policy.UniqueKeys = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of UniqueKeyPolicy_STATUS. Use v1beta20210515.UniqueKeyPolicy_STATUS instead
 type UniqueKeyPolicy_STATUS struct {
 	UniqueKeys []UniqueKey_STATUS `json:"uniqueKeys,omitempty"`
@@ -2888,6 +3177,24 @@ func (path *CompositePath) AssignProperties_To_CompositePath(destination *alpha2
 	return nil
 }
 
+// Initialize_From_CompositePath_STATUS populates our CompositePath from the provided source CompositePath_STATUS
+func (path *CompositePath) Initialize_From_CompositePath_STATUS(source *CompositePath_STATUS) error {
+
+	// Order
+	if source.Order != nil {
+		order := CompositePath_Order(*source.Order)
+		path.Order = &order
+	} else {
+		path.Order = nil
+	}
+
+	// Path
+	path.Path = genruntime.ClonePointerToString(source.Path)
+
+	// No error
+	return nil
+}
+
 // Deprecated version of CompositePath_STATUS. Use v1beta20210515.CompositePath_STATUS instead
 type CompositePath_STATUS struct {
 	Order *CompositePath_Order_STATUS `json:"order,omitempty"`
@@ -3037,6 +3344,16 @@ func (path *ExcludedPath) AssignProperties_To_ExcludedPath(destination *alpha202
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ExcludedPath_STATUS populates our ExcludedPath from the provided source ExcludedPath_STATUS
+func (path *ExcludedPath) Initialize_From_ExcludedPath_STATUS(source *ExcludedPath_STATUS) error {
+
+	// Path
+	path.Path = genruntime.ClonePointerToString(source.Path)
 
 	// No error
 	return nil
@@ -3224,6 +3541,34 @@ func (path *IncludedPath) AssignProperties_To_IncludedPath(destination *alpha202
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_IncludedPath_STATUS populates our IncludedPath from the provided source IncludedPath_STATUS
+func (path *IncludedPath) Initialize_From_IncludedPath_STATUS(source *IncludedPath_STATUS) error {
+
+	// Indexes
+	if source.Indexes != nil {
+		indexList := make([]Indexes, len(source.Indexes))
+		for index, indexItem := range source.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal Indexes
+			err := indexLocal.Initialize_From_Indexes_STATUS(&indexItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Indexes_STATUS() to populate field Indexes")
+			}
+			indexList[index] = indexLocal
+		}
+		path.Indexes = indexList
+	} else {
+		path.Indexes = nil
+	}
+
+	// Path
+	path.Path = genruntime.ClonePointerToString(source.Path)
 
 	// No error
 	return nil
@@ -3444,6 +3789,30 @@ func (spatial *SpatialSpec) AssignProperties_To_SpatialSpec(destination *alpha20
 	return nil
 }
 
+// Initialize_From_SpatialSpec_STATUS populates our SpatialSpec from the provided source SpatialSpec_STATUS
+func (spatial *SpatialSpec) Initialize_From_SpatialSpec_STATUS(source *SpatialSpec_STATUS) error {
+
+	// Path
+	spatial.Path = genruntime.ClonePointerToString(source.Path)
+
+	// Types
+	if source.Types != nil {
+		typeList := make([]SpatialType, len(source.Types))
+		for typeIndex, typeItem := range source.Types {
+			// Shadow the loop variable to avoid aliasing
+			typeItem := typeItem
+			typeVar := SpatialType(typeItem)
+			typeList[typeIndex] = typeVar
+		}
+		spatial.Types = typeList
+	} else {
+		spatial.Types = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of SpatialSpec_STATUS. Use v1beta20210515.SpatialSpec_STATUS instead
 type SpatialSpec_STATUS struct {
 	Path  *string              `json:"path,omitempty"`
@@ -3600,6 +3969,16 @@ func (uniqueKey *UniqueKey) AssignProperties_To_UniqueKey(destination *alpha2021
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_UniqueKey_STATUS populates our UniqueKey from the provided source UniqueKey_STATUS
+func (uniqueKey *UniqueKey) Initialize_From_UniqueKey_STATUS(source *UniqueKey_STATUS) error {
+
+	// Paths
+	uniqueKey.Paths = genruntime.CloneSliceOfString(source.Paths)
 
 	// No error
 	return nil
@@ -3788,6 +4167,32 @@ func (indexes *Indexes) AssignProperties_To_Indexes(destination *alpha20210515s.
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Indexes_STATUS populates our Indexes from the provided source Indexes_STATUS
+func (indexes *Indexes) Initialize_From_Indexes_STATUS(source *Indexes_STATUS) error {
+
+	// DataType
+	if source.DataType != nil {
+		dataType := Indexes_DataType(*source.DataType)
+		indexes.DataType = &dataType
+	} else {
+		indexes.DataType = nil
+	}
+
+	// Kind
+	if source.Kind != nil {
+		kind := Indexes_Kind(*source.Kind)
+		indexes.Kind = &kind
+	} else {
+		indexes.Kind = nil
+	}
+
+	// Precision
+	indexes.Precision = genruntime.ClonePointerToInt(source.Precision)
 
 	// No error
 	return nil

@@ -91,6 +91,17 @@ func (procedure *SqlDatabaseContainerStoredProcedure) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the SqlDatabaseContainerStoredProcedure resource
 func (procedure *SqlDatabaseContainerStoredProcedure) defaultImpl() { procedure.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &SqlDatabaseContainerStoredProcedure{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (procedure *SqlDatabaseContainerStoredProcedure) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS); ok {
+		return procedure.Spec.Initialize_From_DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerStoredProcedure{}
 
 // AzureName returns the Azure name of the resource
@@ -616,6 +627,31 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) 
 	return nil
 }
 
+// Initialize_From_DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS populates our DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS
+func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) Initialize_From_DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS(source *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS) error {
+
+	// Location
+	procedure.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Resource
+	if source.Resource != nil {
+		var resource SqlStoredProcedureResource
+		err := resource.Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
+		}
+		procedure.Resource = &resource
+	} else {
+		procedure.Resource = nil
+	}
+
+	// Tags
+	procedure.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1063,6 +1099,19 @@ func (resource *SqlStoredProcedureResource) AssignProperties_To_SqlStoredProcedu
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS populates our SqlStoredProcedureResource from the provided source SqlStoredProcedureGetProperties_Resource_STATUS
+func (resource *SqlStoredProcedureResource) Initialize_From_SqlStoredProcedureGetProperties_Resource_STATUS(source *SqlStoredProcedureGetProperties_Resource_STATUS) error {
+
+	// Body
+	resource.Body = genruntime.ClonePointerToString(source.Body)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil

@@ -91,6 +91,17 @@ func (account *DatabaseAccount) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the DatabaseAccount resource
 func (account *DatabaseAccount) defaultImpl() { account.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &DatabaseAccount{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (account *DatabaseAccount) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*DatabaseAccount_STATUS); ok {
+		return account.Spec.Initialize_From_DatabaseAccount_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type DatabaseAccount_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &DatabaseAccount{}
 
 // AzureName returns the Azure name of the resource
@@ -1590,6 +1601,274 @@ func (account *DatabaseAccount_Spec) AssignProperties_To_DatabaseAccount_Spec(de
 	return nil
 }
 
+// Initialize_From_DatabaseAccount_STATUS populates our DatabaseAccount_Spec from the provided source DatabaseAccount_STATUS
+func (account *DatabaseAccount_Spec) Initialize_From_DatabaseAccount_STATUS(source *DatabaseAccount_STATUS) error {
+
+	// AnalyticalStorageConfiguration
+	if source.AnalyticalStorageConfiguration != nil {
+		var analyticalStorageConfiguration AnalyticalStorageConfiguration
+		err := analyticalStorageConfiguration.Initialize_From_AnalyticalStorageConfiguration_STATUS(source.AnalyticalStorageConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_AnalyticalStorageConfiguration_STATUS() to populate field AnalyticalStorageConfiguration")
+		}
+		account.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+	} else {
+		account.AnalyticalStorageConfiguration = nil
+	}
+
+	// ApiProperties
+	if source.ApiProperties != nil {
+		var apiProperty ApiProperties
+		err := apiProperty.Initialize_From_ApiProperties_STATUS(source.ApiProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ApiProperties_STATUS() to populate field ApiProperties")
+		}
+		account.ApiProperties = &apiProperty
+	} else {
+		account.ApiProperties = nil
+	}
+
+	// BackupPolicy
+	if source.BackupPolicy != nil {
+		var backupPolicy BackupPolicy
+		err := backupPolicy.Initialize_From_BackupPolicy_STATUS(source.BackupPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_BackupPolicy_STATUS() to populate field BackupPolicy")
+		}
+		account.BackupPolicy = &backupPolicy
+	} else {
+		account.BackupPolicy = nil
+	}
+
+	// Capabilities
+	if source.Capabilities != nil {
+		capabilityList := make([]Capability, len(source.Capabilities))
+		for capabilityIndex, capabilityItem := range source.Capabilities {
+			// Shadow the loop variable to avoid aliasing
+			capabilityItem := capabilityItem
+			var capability Capability
+			err := capability.Initialize_From_Capability_STATUS(&capabilityItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Capability_STATUS() to populate field Capabilities")
+			}
+			capabilityList[capabilityIndex] = capability
+		}
+		account.Capabilities = capabilityList
+	} else {
+		account.Capabilities = nil
+	}
+
+	// ConnectorOffer
+	if source.ConnectorOffer != nil {
+		connectorOffer := ConnectorOffer(*source.ConnectorOffer)
+		account.ConnectorOffer = &connectorOffer
+	} else {
+		account.ConnectorOffer = nil
+	}
+
+	// ConsistencyPolicy
+	if source.ConsistencyPolicy != nil {
+		var consistencyPolicy ConsistencyPolicy
+		err := consistencyPolicy.Initialize_From_ConsistencyPolicy_STATUS(source.ConsistencyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ConsistencyPolicy_STATUS() to populate field ConsistencyPolicy")
+		}
+		account.ConsistencyPolicy = &consistencyPolicy
+	} else {
+		account.ConsistencyPolicy = nil
+	}
+
+	// Cors
+	if source.Cors != nil {
+		corList := make([]CorsPolicy, len(source.Cors))
+		for corIndex, corItem := range source.Cors {
+			// Shadow the loop variable to avoid aliasing
+			corItem := corItem
+			var cor CorsPolicy
+			err := cor.Initialize_From_CorsPolicy_STATUS(&corItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_CorsPolicy_STATUS() to populate field Cors")
+			}
+			corList[corIndex] = cor
+		}
+		account.Cors = corList
+	} else {
+		account.Cors = nil
+	}
+
+	// DatabaseAccountOfferType
+	if source.DatabaseAccountOfferType != nil {
+		databaseAccountOfferType := DatabaseAccountOfferType(*source.DatabaseAccountOfferType)
+		account.DatabaseAccountOfferType = &databaseAccountOfferType
+	} else {
+		account.DatabaseAccountOfferType = nil
+	}
+
+	// DefaultIdentity
+	account.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
+
+	// DisableKeyBasedMetadataWriteAccess
+	if source.DisableKeyBasedMetadataWriteAccess != nil {
+		disableKeyBasedMetadataWriteAccess := *source.DisableKeyBasedMetadataWriteAccess
+		account.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+	} else {
+		account.DisableKeyBasedMetadataWriteAccess = nil
+	}
+
+	// EnableAnalyticalStorage
+	if source.EnableAnalyticalStorage != nil {
+		enableAnalyticalStorage := *source.EnableAnalyticalStorage
+		account.EnableAnalyticalStorage = &enableAnalyticalStorage
+	} else {
+		account.EnableAnalyticalStorage = nil
+	}
+
+	// EnableAutomaticFailover
+	if source.EnableAutomaticFailover != nil {
+		enableAutomaticFailover := *source.EnableAutomaticFailover
+		account.EnableAutomaticFailover = &enableAutomaticFailover
+	} else {
+		account.EnableAutomaticFailover = nil
+	}
+
+	// EnableCassandraConnector
+	if source.EnableCassandraConnector != nil {
+		enableCassandraConnector := *source.EnableCassandraConnector
+		account.EnableCassandraConnector = &enableCassandraConnector
+	} else {
+		account.EnableCassandraConnector = nil
+	}
+
+	// EnableFreeTier
+	if source.EnableFreeTier != nil {
+		enableFreeTier := *source.EnableFreeTier
+		account.EnableFreeTier = &enableFreeTier
+	} else {
+		account.EnableFreeTier = nil
+	}
+
+	// EnableMultipleWriteLocations
+	if source.EnableMultipleWriteLocations != nil {
+		enableMultipleWriteLocation := *source.EnableMultipleWriteLocations
+		account.EnableMultipleWriteLocations = &enableMultipleWriteLocation
+	} else {
+		account.EnableMultipleWriteLocations = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedServiceIdentity
+		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
+		}
+		account.Identity = &identity
+	} else {
+		account.Identity = nil
+	}
+
+	// IpRules
+	if source.IpRules != nil {
+		ipRuleList := make([]IpAddressOrRange, len(source.IpRules))
+		for ipRuleIndex, ipRuleItem := range source.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule IpAddressOrRange
+			err := ipRule.Initialize_From_IpAddressOrRange_STATUS(&ipRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_IpAddressOrRange_STATUS() to populate field IpRules")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
+		}
+		account.IpRules = ipRuleList
+	} else {
+		account.IpRules = nil
+	}
+
+	// IsVirtualNetworkFilterEnabled
+	if source.IsVirtualNetworkFilterEnabled != nil {
+		isVirtualNetworkFilterEnabled := *source.IsVirtualNetworkFilterEnabled
+		account.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+	} else {
+		account.IsVirtualNetworkFilterEnabled = nil
+	}
+
+	// KeyVaultKeyUri
+	account.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
+
+	// Kind
+	if source.Kind != nil {
+		kind := DatabaseAccount_Kind_Spec(*source.Kind)
+		account.Kind = &kind
+	} else {
+		account.Kind = nil
+	}
+
+	// Location
+	account.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Locations
+	if source.Locations != nil {
+		locationList := make([]Location, len(source.Locations))
+		for locationIndex, locationItem := range source.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location Location
+			err := location.Initialize_From_Location_STATUS(&locationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Location_STATUS() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		account.Locations = locationList
+	} else {
+		account.Locations = nil
+	}
+
+	// NetworkAclBypass
+	if source.NetworkAclBypass != nil {
+		networkAclBypass := NetworkAclBypass(*source.NetworkAclBypass)
+		account.NetworkAclBypass = &networkAclBypass
+	} else {
+		account.NetworkAclBypass = nil
+	}
+
+	// NetworkAclBypassResourceIds
+	account.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := PublicNetworkAccess(*source.PublicNetworkAccess)
+		account.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		account.PublicNetworkAccess = nil
+	}
+
+	// Tags
+	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// VirtualNetworkRules
+	if source.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule VirtualNetworkRule
+			err := virtualNetworkRule.Initialize_From_VirtualNetworkRule_STATUS(&virtualNetworkRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_VirtualNetworkRule_STATUS() to populate field VirtualNetworkRules")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		}
+		account.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		account.VirtualNetworkRules = nil
+	}
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (account *DatabaseAccount_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -2955,6 +3234,21 @@ func (configuration *AnalyticalStorageConfiguration) AssignProperties_To_Analyti
 	return nil
 }
 
+// Initialize_From_AnalyticalStorageConfiguration_STATUS populates our AnalyticalStorageConfiguration from the provided source AnalyticalStorageConfiguration_STATUS
+func (configuration *AnalyticalStorageConfiguration) Initialize_From_AnalyticalStorageConfiguration_STATUS(source *AnalyticalStorageConfiguration_STATUS) error {
+
+	// SchemaType
+	if source.SchemaType != nil {
+		schemaType := AnalyticalStorageSchemaType(*source.SchemaType)
+		configuration.SchemaType = &schemaType
+	} else {
+		configuration.SchemaType = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Analytical storage specific properties.
 type AnalyticalStorageConfiguration_STATUS struct {
 	// SchemaType: Describes the types of schema for analytical storage.
@@ -3101,6 +3395,21 @@ func (properties *ApiProperties) AssignProperties_To_ApiProperties(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ApiProperties_STATUS populates our ApiProperties from the provided source ApiProperties_STATUS
+func (properties *ApiProperties) Initialize_From_ApiProperties_STATUS(source *ApiProperties_STATUS) error {
+
+	// ServerVersion
+	if source.ServerVersion != nil {
+		serverVersion := ApiProperties_ServerVersion(*source.ServerVersion)
+		properties.ServerVersion = &serverVersion
+	} else {
+		properties.ServerVersion = nil
 	}
 
 	// No error
@@ -3323,6 +3632,37 @@ func (policy *BackupPolicy) AssignProperties_To_BackupPolicy(destination *v20210
 	return nil
 }
 
+// Initialize_From_BackupPolicy_STATUS populates our BackupPolicy from the provided source BackupPolicy_STATUS
+func (policy *BackupPolicy) Initialize_From_BackupPolicy_STATUS(source *BackupPolicy_STATUS) error {
+
+	// Continuous
+	if source.Continuous != nil {
+		var continuous ContinuousModeBackupPolicy
+		err := continuous.Initialize_From_ContinuousModeBackupPolicy_STATUS(source.Continuous)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ContinuousModeBackupPolicy_STATUS() to populate field Continuous")
+		}
+		policy.Continuous = &continuous
+	} else {
+		policy.Continuous = nil
+	}
+
+	// Periodic
+	if source.Periodic != nil {
+		var periodic PeriodicModeBackupPolicy
+		err := periodic.Initialize_From_PeriodicModeBackupPolicy_STATUS(source.Periodic)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_PeriodicModeBackupPolicy_STATUS() to populate field Periodic")
+		}
+		policy.Periodic = &periodic
+	} else {
+		policy.Periodic = nil
+	}
+
+	// No error
+	return nil
+}
+
 type BackupPolicy_STATUS struct {
 	// Continuous: Mutually exclusive with all other properties
 	Continuous *ContinuousModeBackupPolicy_STATUS `json:"continuous,omitempty"`
@@ -3512,6 +3852,16 @@ func (capability *Capability) AssignProperties_To_Capability(destination *v20210
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Capability_STATUS populates our Capability from the provided source Capability_STATUS
+func (capability *Capability) Initialize_From_Capability_STATUS(source *Capability_STATUS) error {
+
+	// Name
+	capability.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -3737,6 +4087,37 @@ func (policy *ConsistencyPolicy) AssignProperties_To_ConsistencyPolicy(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ConsistencyPolicy_STATUS populates our ConsistencyPolicy from the provided source ConsistencyPolicy_STATUS
+func (policy *ConsistencyPolicy) Initialize_From_ConsistencyPolicy_STATUS(source *ConsistencyPolicy_STATUS) error {
+
+	// DefaultConsistencyLevel
+	if source.DefaultConsistencyLevel != nil {
+		defaultConsistencyLevel := ConsistencyPolicy_DefaultConsistencyLevel(*source.DefaultConsistencyLevel)
+		policy.DefaultConsistencyLevel = &defaultConsistencyLevel
+	} else {
+		policy.DefaultConsistencyLevel = nil
+	}
+
+	// MaxIntervalInSeconds
+	if source.MaxIntervalInSeconds != nil {
+		maxIntervalInSecond := *source.MaxIntervalInSeconds
+		policy.MaxIntervalInSeconds = &maxIntervalInSecond
+	} else {
+		policy.MaxIntervalInSeconds = nil
+	}
+
+	// MaxStalenessPrefix
+	if source.MaxStalenessPrefix != nil {
+		maxStalenessPrefix := *source.MaxStalenessPrefix
+		policy.MaxStalenessPrefix = &maxStalenessPrefix
+	} else {
+		policy.MaxStalenessPrefix = nil
 	}
 
 	// No error
@@ -4012,6 +4393,33 @@ func (policy *CorsPolicy) AssignProperties_To_CorsPolicy(destination *v20210515s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_CorsPolicy_STATUS populates our CorsPolicy from the provided source CorsPolicy_STATUS
+func (policy *CorsPolicy) Initialize_From_CorsPolicy_STATUS(source *CorsPolicy_STATUS) error {
+
+	// AllowedHeaders
+	policy.AllowedHeaders = genruntime.ClonePointerToString(source.AllowedHeaders)
+
+	// AllowedMethods
+	policy.AllowedMethods = genruntime.ClonePointerToString(source.AllowedMethods)
+
+	// AllowedOrigins
+	policy.AllowedOrigins = genruntime.ClonePointerToString(source.AllowedOrigins)
+
+	// ExposedHeaders
+	policy.ExposedHeaders = genruntime.ClonePointerToString(source.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	if source.MaxAgeInSeconds != nil {
+		maxAgeInSecond := *source.MaxAgeInSeconds
+		policy.MaxAgeInSeconds = &maxAgeInSecond
+	} else {
+		policy.MaxAgeInSeconds = nil
 	}
 
 	// No error
@@ -4371,6 +4779,16 @@ func (orRange *IpAddressOrRange) AssignProperties_To_IpAddressOrRange(destinatio
 	return nil
 }
 
+// Initialize_From_IpAddressOrRange_STATUS populates our IpAddressOrRange from the provided source IpAddressOrRange_STATUS
+func (orRange *IpAddressOrRange) Initialize_From_IpAddressOrRange_STATUS(source *IpAddressOrRange_STATUS) error {
+
+	// IpAddressOrRange
+	orRange.IpAddressOrRange = genruntime.ClonePointerToString(source.IpAddressOrRange)
+
+	// No error
+	return nil
+}
+
 // IpAddressOrRange object
 type IpAddressOrRange_STATUS struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
@@ -4567,6 +4985,32 @@ func (location *Location) AssignProperties_To_Location(destination *v20210515s.L
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Location_STATUS populates our Location from the provided source Location_STATUS
+func (location *Location) Initialize_From_Location_STATUS(source *Location_STATUS) error {
+
+	// FailoverPriority
+	if source.FailoverPriority != nil {
+		failoverPriority := *source.FailoverPriority
+		location.FailoverPriority = &failoverPriority
+	} else {
+		location.FailoverPriority = nil
+	}
+
+	// IsZoneRedundant
+	if source.IsZoneRedundant != nil {
+		isZoneRedundant := *source.IsZoneRedundant
+		location.IsZoneRedundant = &isZoneRedundant
+	} else {
+		location.IsZoneRedundant = nil
+	}
+
+	// LocationName
+	location.LocationName = genruntime.ClonePointerToString(source.LocationName)
 
 	// No error
 	return nil
@@ -4796,6 +5240,21 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
+func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := ManagedServiceIdentity_Type(*source.Type)
+		identity.Type = &typeVar
+	} else {
+		identity.Type = nil
 	}
 
 	// No error
@@ -5168,6 +5627,29 @@ func (rule *VirtualNetworkRule) AssignProperties_To_VirtualNetworkRule(destinati
 	return nil
 }
 
+// Initialize_From_VirtualNetworkRule_STATUS populates our VirtualNetworkRule from the provided source VirtualNetworkRule_STATUS
+func (rule *VirtualNetworkRule) Initialize_From_VirtualNetworkRule_STATUS(source *VirtualNetworkRule_STATUS) error {
+
+	// IgnoreMissingVNetServiceEndpoint
+	if source.IgnoreMissingVNetServiceEndpoint != nil {
+		ignoreMissingVNetServiceEndpoint := *source.IgnoreMissingVNetServiceEndpoint
+		rule.IgnoreMissingVNetServiceEndpoint = &ignoreMissingVNetServiceEndpoint
+	} else {
+		rule.IgnoreMissingVNetServiceEndpoint = nil
+	}
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		rule.Reference = &reference
+	} else {
+		rule.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Virtual Network ACL Rule object
 type VirtualNetworkRule_STATUS struct {
 	// Id: Resource ID of a subnet, for example:
@@ -5381,6 +5863,21 @@ func (policy *ContinuousModeBackupPolicy) AssignProperties_To_ContinuousModeBack
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ContinuousModeBackupPolicy_STATUS populates our ContinuousModeBackupPolicy from the provided source ContinuousModeBackupPolicy_STATUS
+func (policy *ContinuousModeBackupPolicy) Initialize_From_ContinuousModeBackupPolicy_STATUS(source *ContinuousModeBackupPolicy_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := ContinuousModeBackupPolicy_Type(*source.Type)
+		policy.Type = &typeVar
+	} else {
+		policy.Type = nil
 	}
 
 	// No error
@@ -5776,6 +6273,33 @@ func (policy *PeriodicModeBackupPolicy) AssignProperties_To_PeriodicModeBackupPo
 	return nil
 }
 
+// Initialize_From_PeriodicModeBackupPolicy_STATUS populates our PeriodicModeBackupPolicy from the provided source PeriodicModeBackupPolicy_STATUS
+func (policy *PeriodicModeBackupPolicy) Initialize_From_PeriodicModeBackupPolicy_STATUS(source *PeriodicModeBackupPolicy_STATUS) error {
+
+	// PeriodicModeProperties
+	if source.PeriodicModeProperties != nil {
+		var periodicModeProperty PeriodicModeProperties
+		err := periodicModeProperty.Initialize_From_PeriodicModeProperties_STATUS(source.PeriodicModeProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_PeriodicModeProperties_STATUS() to populate field PeriodicModeProperties")
+		}
+		policy.PeriodicModeProperties = &periodicModeProperty
+	} else {
+		policy.PeriodicModeProperties = nil
+	}
+
+	// Type
+	if source.Type != nil {
+		typeVar := PeriodicModeBackupPolicy_Type(*source.Type)
+		policy.Type = &typeVar
+	} else {
+		policy.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
 type PeriodicModeBackupPolicy_STATUS struct {
 	// PeriodicModeProperties: Configuration values for periodic mode backup
 	PeriodicModeProperties *PeriodicModeProperties_STATUS        `json:"periodicModeProperties,omitempty"`
@@ -6006,6 +6530,29 @@ func (properties *PeriodicModeProperties) AssignProperties_To_PeriodicModeProper
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_PeriodicModeProperties_STATUS populates our PeriodicModeProperties from the provided source PeriodicModeProperties_STATUS
+func (properties *PeriodicModeProperties) Initialize_From_PeriodicModeProperties_STATUS(source *PeriodicModeProperties_STATUS) error {
+
+	// BackupIntervalInMinutes
+	if source.BackupIntervalInMinutes != nil {
+		backupIntervalInMinute := *source.BackupIntervalInMinutes
+		properties.BackupIntervalInMinutes = &backupIntervalInMinute
+	} else {
+		properties.BackupIntervalInMinutes = nil
+	}
+
+	// BackupRetentionIntervalInHours
+	if source.BackupRetentionIntervalInHours != nil {
+		backupRetentionIntervalInHour := *source.BackupRetentionIntervalInHours
+		properties.BackupRetentionIntervalInHours = &backupRetentionIntervalInHour
+	} else {
+		properties.BackupRetentionIntervalInHours = nil
 	}
 
 	// No error

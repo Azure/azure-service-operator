@@ -96,6 +96,17 @@ func (setting *SqlDatabaseThroughputSetting) Default() {
 // defaultImpl applies the code generated defaults to the SqlDatabaseThroughputSetting resource
 func (setting *SqlDatabaseThroughputSetting) defaultImpl() {}
 
+var _ genruntime.ImportableResource = &SqlDatabaseThroughputSetting{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (setting *SqlDatabaseThroughputSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS); ok {
+		return setting.Spec.Initialize_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &SqlDatabaseThroughputSetting{}
 
 // AzureName returns the Azure name of the resource (always "default")
@@ -549,6 +560,31 @@ func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) AssignPrope
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS populates our DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec from the provided source DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS
+func (setting *DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) Initialize_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS(source *DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) error {
+
+	// Location
+	setting.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Resource
+	if source.Resource != nil {
+		var resource ThroughputSettingsResource
+		err := resource.Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
+		}
+		setting.Resource = &resource
+	} else {
+		setting.Resource = nil
+	}
+
+	// Tags
+	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
