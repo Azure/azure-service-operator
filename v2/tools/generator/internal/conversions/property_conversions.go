@@ -64,6 +64,8 @@ func init() {
 		assignAliasedPrimitiveFromAliasedPrimitive,
 		// Handcrafted implementations in genruntime
 		assignHandcraftedImplementations,
+		// Some conversions are forbidden and we just skip them
+		neuterForbiddenConversions,
 		// Collection Types
 		assignArrayFromArray,
 		assignMapFromMap,
@@ -873,6 +875,46 @@ func assignHandcraftedImplementations(
 			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, cgc *astmodel.CodeGenerationContext) []dst.Stmt {
 				pkg := cgc.MustGetImportedPackageName(impl.implPackage)
 				return writer(astbuilder.CallQualifiedFunc(pkg, impl.implFunc, reader))
+			}, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// forbiddenConversion represents a conversion that we know we shouldn't even attempt to do
+// Encountering one isn't a fatal error, but it does mean we can't generate a conversion
+type forbiddenConversion struct {
+	fromType astmodel.Type
+	toType   astmodel.Type
+}
+
+var forbiddenConversions = []forbiddenConversion{
+	{
+		// Can't use a string (the value of a secret) to initialize a secret reference (pointing to the value source)
+		// We encounter this when initializing the spec of a resource from its status
+		fromType: astmodel.StringType,
+		toType:   astmodel.SecretReferenceType,
+	},
+}
+
+// neuterForbiddenConversions is a conversion factory that will return a conversion that does nothing if we encounter a
+// forbidden conversion
+func neuterForbiddenConversions(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	_ *PropertyConversionContext) (PropertyConversion, error) {
+
+	// Require both source and destination to not be bag items
+	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
+		return nil, nil
+	}
+
+	for _, forbidden := range forbiddenConversions {
+		if astmodel.TypeEquals(sourceEndpoint.Type(), forbidden.fromType) &&
+			astmodel.TypeEquals(destinationEndpoint.Type(), forbidden.toType) {
+			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, _ *astmodel.CodeGenerationContext) []dst.Stmt {
+				return nil
 			}, nil
 		}
 	}
