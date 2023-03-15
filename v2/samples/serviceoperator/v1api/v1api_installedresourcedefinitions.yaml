@@ -4,5 +4,5 @@ metadata:
   name: aso-installed-resources
   namespace: azureserviceoperator-system
 spec:
-  pattern:
+  patterns:
     - "*"

@@ -50,11 +50,11 @@ type InstalledResourceDefinitionsList struct {
 
 type InstalledResourceDefinitionsSpec struct {
 	// +kubebuilder:validation:Required
-	// Pattern defines the set of CRDs which should be installed.
+	// Patterns defines the set of CRDs which should be installed.
 	// Currently only "*" (all resources) is supported.
 	// Future expansion will allow "<group>.*" to install all resources from a group (e.g. "network.*")
 	// as well as "<group>.<kind> to install a specific resource only (e.g. "network.virtualnetworks")
-	Pattern []string `json:"pattern,omitempty"`
+	Patterns []string `json:"patterns,omitempty"`
 }
 
 type InstalledResourceDefinitionsStatus struct {

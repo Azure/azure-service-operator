@@ -6,5 +6,5 @@ metadata:
   annotations:
     "helm.sh/hook": post-install,post-upgrade  # TODO: This is a hack
 spec:
-  pattern:
+  patterns:
     - "*"
