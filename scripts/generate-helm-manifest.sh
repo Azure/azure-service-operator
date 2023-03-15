@@ -49,6 +49,9 @@ sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g
 # Perl multiline replacements - using this because it's tricky to do these sorts of multiline replacements with sed
 perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
 
+# Add annotations to aso-installed-resources resource to ensure it deploys at the right time
+yq -i e '.metadata.annotations.["helm.sh/hook"] = "post-install,post-upgrade"' "$GEN_FILES_DIR"/*_installedresourcedefinitions_aso-installed-resources.yaml
+
 # Metrics Configuration
 flow_control "metrics-addr" "metrics-addr" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
 sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{ tpl .Values.metrics.address . }}/g" "$GEN_FILES_DIR"/*_deployment_*

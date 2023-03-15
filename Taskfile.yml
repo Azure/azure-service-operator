@@ -306,7 +306,6 @@ tasks:
     - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
     - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
     - task: controller:install-helm
-    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
 #   TODO: Will have to change versions in 'Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade' test once we move from beta to stable
     - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
 
@@ -592,14 +591,14 @@ tasks:
     desc: Generate and install helm chart on cluster
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-    - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+    - "helm upgrade --install --wait --timeout 300s --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID=$AZURE_CLIENT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
       asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
-    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+    - task: controller:wait-for-operator-ready
 
   controller:delete-helm:
     desc: Delete helm release
@@ -749,7 +748,6 @@ tasks:
       # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
       - "cmctl check api --wait=2m"
       - task: controller:install-helm
-      - task: controller:wait-for-operator-ready
 
   controller:kind-create-helm-podidentity:
     desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO helm chart.
