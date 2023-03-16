@@ -21,9 +21,6 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 
 	idFactory := astmodel.NewIdentifierFactory()
 
-	//TODO: Add new properties to the spec and status with identical names but typenames with different names
-	// Need to extend proeprty conversions to handle these cases
-
 	addressSpec := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Address"+astmodel.SpecSuffix,
