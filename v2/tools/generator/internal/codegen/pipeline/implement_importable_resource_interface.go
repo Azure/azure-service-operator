@@ -41,7 +41,7 @@ func ImplementImportableResourceInterface(
 
 			injector := astmodel.NewInterfaceInjector()
 
-			errs := make([]error, 0, 10)
+			var errs []error
 			newDefs := make(astmodel.TypeDefinitionSet, len(rsrcs))
 			for _, def := range rsrcs {
 				impl, err := createImportableResourceImplementation(def, defs, idFactory)

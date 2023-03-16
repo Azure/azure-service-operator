@@ -42,7 +42,7 @@ func InjectSpecInitializationFunctions(
 
 			functionInjector := astmodel.NewFunctionInjector()
 			newDefs := make(astmodel.TypeDefinitionSet, len(mappings))
-			errs := make([]error, 0, 10)
+			var errs []error
 			for specName, statusName := range mappings {
 				klog.V(3).Infof("Injecting specName initialization function into %s", specName.String())
 
@@ -122,7 +122,7 @@ func (s *specInitializationScanner) scanResources() (map[astmodel.TypeName]astmo
 		return nil, err
 	}
 
-	errs := make([]error, 0, 10)
+	var errs []error
 	for _, def := range rsrcs {
 		// Don't need to check, we know this is a resource
 		rsrc, _ := astmodel.AsResourceType(def.Type())
@@ -141,7 +141,7 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 	// total number of types
 	capacity := len(s.defs)/3 + 1
 
-	errs := make([]error, 0, 10)
+	var errs []error
 	result := make(astmodel.TypeDefinitionSet, capacity)
 	for _, def := range s.defs {
 		// Skip storage types, only need spec initialization on API types
@@ -244,7 +244,7 @@ func (s *specInitializationScanner) visitObjectType(
 
 	// Now check for any identically named properties and visit those pairs
 	properties := spec.Properties().AsSlice()
-	errs := make([]error, 0, len(properties))
+	var errs []error
 	for _, specProperty := range properties {
 		// Look for a matching property on the status type
 		statusProperty, ok := status.Property(specProperty.PropertyName())
