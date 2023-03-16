@@ -13,6 +13,12 @@ azureClientID: ""
 # This is required when using Service Principal authentication.
 azureClientSecret: ""
 
+#  A PEM or PKCS12 certificate file including the private key for Azure Credential Authentication. The certificate must not be password-protected.
+azureClientCertificate: ""
+
+# Password used to protect the client certificate.
+azureClientCertificatePassword: ""
+
 # [Deprecated] Managed Identity (aad-pod-identity) Authentication
 # azureManagedIdentityResourceId is the resource ID (/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managedIdentityName})
 # of the Azure Managed Identity used to authenticate with Azure if using aad-pod-identity authorization.

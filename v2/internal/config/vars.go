@@ -16,19 +16,20 @@ import (
 
 const (
 	// #nosec
-	ClientSecretVar            = "AZURE_CLIENT_SECRET"
-	SubscriptionIDVar          = "AZURE_SUBSCRIPTION_ID"
-	TenantIDVar                = "AZURE_TENANT_ID"
-	ClientIDVar                = "AZURE_CLIENT_ID"
-	AzureFederatedTokenFileVar = "AZURE_FEDERATED_TOKEN_FILE"
-	targetNamespacesVar        = "AZURE_TARGET_NAMESPACES"
-	operatorModeVar            = "AZURE_OPERATOR_MODE"
-	syncPeriodVar              = "AZURE_SYNC_PERIOD"
-	resourceManagerEndpointVar = "AZURE_RESOURCE_MANAGER_ENDPOINT"
-	resourceManagerAudienceVar = "AZURE_RESOURCE_MANAGER_AUDIENCE"
-	azureAuthorityHostVar      = "AZURE_AUTHORITY_HOST"
-	podNamespaceVar            = "POD_NAMESPACE"
-	useWorkloadIdentityAuth    = "USE_WORKLOAD_IDENTITY_AUTH"
+	ClientSecretVar              = "AZURE_CLIENT_SECRET"
+	SubscriptionIDVar            = "AZURE_SUBSCRIPTION_ID"
+	TenantIDVar                  = "AZURE_TENANT_ID"
+	ClientIDVar                  = "AZURE_CLIENT_ID"
+	ClientCertificateVar         = "AZURE_CLIENT_CERTIFICATE"
+	ClientCertificatePasswordVar = "AZURE_CLIENT_CERTIFICATE_PASSWORD"
+	targetNamespacesVar          = "AZURE_TARGET_NAMESPACES"
+	operatorModeVar              = "AZURE_OPERATOR_MODE"
+	syncPeriodVar                = "AZURE_SYNC_PERIOD"
+	resourceManagerEndpointVar   = "AZURE_RESOURCE_MANAGER_ENDPOINT"
+	resourceManagerAudienceVar   = "AZURE_RESOURCE_MANAGER_AUDIENCE"
+	azureAuthorityHostVar        = "AZURE_AUTHORITY_HOST"
+	podNamespaceVar              = "POD_NAMESPACE"
+	useWorkloadIdentityAuth      = "USE_WORKLOAD_IDENTITY_AUTH"
 
 	// TODO: These values are used for single operator multitenancy tests. We can get rid of them once we have Managed Identity support.
 	AzureClientIDMultitenantVar = "AZURE_CLIENT_ID_MULTITENANT"

@@ -97,6 +97,13 @@ func main() {
 			setupLog.Error(err, "unable to get workload identity credential")
 			os.Exit(1)
 		}
+	} else if cert := os.Getenv(config.ClientCertificateVar); cert != "" {
+		certPassword := os.Getenv(config.ClientCertificatePasswordVar)
+		credential, err = identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
+		if err != nil {
+			setupLog.Error(err, "unable to get client certificate credential")
+			os.Exit(1)
+		}
 	} else {
 		credential, err = azidentity.NewDefaultAzureCredential(nil)
 		if err != nil {

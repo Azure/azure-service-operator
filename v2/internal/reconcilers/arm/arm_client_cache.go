@@ -222,11 +222,23 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 	}
 
 	clientSecret, hasClientSecret := secret.Data[config.ClientSecretVar]
+	clientCert, hasClientCert := secret.Data[config.ClientSecretVar]
 
 	if hasClientSecret {
 		credential, err = azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
 		if err != nil {
 			return nil, "", errors.Wrap(err, errors.Errorf("invalid Client Secret Credential for %q encountered", nsName.String()).Error())
+		}
+	} else if hasClientCert {
+		
+		var clientCertPassword []byte
+		if p, hasClientCertPassword := secret.Data[config.ClientCertificatePasswordVar]; hasClientCertPassword {
+			clientCertPassword = p
+		}
+
+		credential, err = identity.NewClientCertificateCredential(string(tenantID), string(clientID), clientCert, clientCertPassword)
+		if err != nil {
+			return nil, "", errors.Wrap(err, errors.Errorf("invalid Client Certificate Credential for %q encountered", nsName.String()).Error())
 		}
 	} else {
 		// Here we check for workload identity if client secret is not provided.
