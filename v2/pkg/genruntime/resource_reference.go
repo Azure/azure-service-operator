@@ -73,9 +73,9 @@ type ResourceReference struct {
 }
 
 // CreateResourceReferenceFromARMID creates a new ResourceReference from a string representing an ARM ID
-func CreateResourceReferenceFromARMID(armId string) ResourceReference {
+func CreateResourceReferenceFromARMID(armID string) ResourceReference {
 	return ResourceReference{
-		ARMID: armId,
+		ARMID: armID,
 	}
 }
 

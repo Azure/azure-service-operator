@@ -21,9 +21,9 @@ import (
 // InjectSpecInitializationFunctionsStageID is the unique identifier for this pipeline stage
 const InjectSpecInitializationFunctionsStageID = "injectSpecInitializationFunctions"
 
-// InjectSpecInitializationFunctions injects property assignment functions AssignTo*() and AssignFrom*() into both
-// resources and object types. These functions do the heavy lifting of the conversions between versions of each type and
-// are the building blocks of the main CovertTo*() and ConvertFrom*() methods.
+// InjectSpecInitializationFunctions injects the Spec initialization functions Initialize_From_*() into resources and
+// object types. These functions are called from InitializeSpec() to initialize the spec from the status when the
+// resource is imported.
 func InjectSpecInitializationFunctions(
 	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory) *Stage {
@@ -143,15 +143,9 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 
 	var errs []error
 	result := make(astmodel.TypeDefinitionSet, capacity)
-	for _, def := range s.defs {
-		// Skip storage types, only need spec initialization on API types
+	for _, def := range astmodel.FindResourceDefinitions(s.defs) {
+		// Skip storage types, only need spec initialization on API resources
 		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
-			continue
-		}
-
-		// Skip non resources
-		_, ok := astmodel.AsResourceType(def.Type())
-		if !ok {
 			continue
 		}
 
