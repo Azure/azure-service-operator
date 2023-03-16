@@ -70,7 +70,7 @@ func main() {
 	}
 
 	scheme := controllers.CreateScheme()
-	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs via InstalledResourceDefinitions
+	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs
 
 	ctx := ctrl.SetupSignalHandler()
 	cfg, err := config.ReadAndValidate()

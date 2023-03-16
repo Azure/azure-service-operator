@@ -211,7 +211,7 @@ func (m *Manager) ApplyCRDs(ctx context.Context, path string, podNamespace strin
 		os.Exit(0) // TODO: Should this be nonzero?
 	}
 
-	m.logger.V(Status).Info("Successfully reconciled InstalledResourceDefinitions CRDs.")
+	m.logger.V(Status).Info("Successfully reconciled CRDs.")
 	return nil
 }
 

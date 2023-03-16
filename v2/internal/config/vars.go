@@ -104,11 +104,6 @@ type Values struct {
 
 	// UseWorkloadIdentityAuth boolean is used to determine if we're using Workload Identity authentication for global credential
 	UseWorkloadIdentityAuth bool
-
-	// InstalledResourceDefinitionsName is the name of the InstalledResourceDefinitions resource used to configure what
-	// ASO CRDs are installed by the operator. It is not currently configurable and is hardcoded to "aso-installed-resources".
-	// It must exist in the namespace that the operator is installed in.
-	InstalledResourceDefinitionsName string
 }
 
 var _ fmt.Stringer = Values{}
@@ -117,8 +112,7 @@ var _ fmt.Stringer = Values{}
 func (v Values) String() string {
 	return fmt.Sprintf(
 		"SubscriptionID:%s/TenantID:%s/ClientID:%s/PodNamespace:%s/OperatorMode:%s/TargetNamespaces:%s/SyncPeriod:%s"+
-			"/ResourceManagerEndpoint:%s/ResourceManagerAudience:%s/AzureAuthorityHost:%s/UseWorkloadIdentityAuth:%t"+
-			"/InstalledResourceDefinitionsName:%s",
+			"/ResourceManagerEndpoint:%s/ResourceManagerAudience:%s/AzureAuthorityHost:%s/UseWorkloadIdentityAuth:%t",
 		v.SubscriptionID,
 		v.TenantID,
 		v.ClientID,
@@ -129,8 +123,7 @@ func (v Values) String() string {
 		v.ResourceManagerEndpoint,
 		v.ResourceManagerAudience,
 		v.AzureAuthorityHost,
-		v.UseWorkloadIdentityAuth,
-		v.InstalledResourceDefinitionsName)
+		v.UseWorkloadIdentityAuth)
 }
 
 // Cloud returns the cloud the configuration is using
@@ -197,7 +190,6 @@ func ReadFromEnvironment() (Values, error) {
 	result.AzureAuthorityHost = envOrDefault(azureAuthorityHostVar, DefaultAADAuthorityHost)
 	result.ClientID = os.Getenv(ClientIDVar)
 	result.TenantID = os.Getenv(TenantIDVar)
-	result.InstalledResourceDefinitionsName = "aso-installed-resources"
 
 	// Ignoring error here, as any other value or empty value means we should default to false
 	result.UseWorkloadIdentityAuth, _ = strconv.ParseBool(os.Getenv(useWorkloadIdentityAuth))
