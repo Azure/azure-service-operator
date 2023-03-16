@@ -592,7 +592,6 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
     - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID=$AZURE_CLIENT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET \
@@ -719,8 +718,6 @@ tasks:
       # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
       - "cmctl check api --wait=2m"
       # Install cluster yaml - we need to switch the image to the local one.
-      - "yq e '. | select(.kind == \"CustomResourceDefinition\")' v2/bin/multitenant-cluster_{{.VERSION}}.yaml | kubectl apply --server-side=true -f -"
-      - "yq e '. | select(.kind == \"CustomResourceDefinition\")' v2/bin/multitenant-cluster_{{.VERSION}}.yaml | kubectl wait --for condition=established --timeout=60s -f -"
       - "cat v2/bin/multitenant-cluster_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
       # Wait for all the operator pods to be ready.
       - task: controller:wait-for-operator-ready
