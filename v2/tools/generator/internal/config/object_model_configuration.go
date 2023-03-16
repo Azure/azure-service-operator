@@ -512,7 +512,7 @@ func (omc *ObjectModelConfiguration) visitGroup(
 
 // visitGroups invokes the provided visitor on all nested groups.
 func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) error {
-	var errs []error
+	errs := make([]error, 0, len(omc.groups))
 	for _, gc := range omc.groups {
 		err := visitor.visitGroup(gc)
 		err = omc.typoAdvisor.Wrapf(err, gc.name, "group %s not seen", gc.name)
