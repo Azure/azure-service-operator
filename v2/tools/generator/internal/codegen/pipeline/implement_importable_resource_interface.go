@@ -7,14 +7,11 @@ package pipeline
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
-	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
@@ -114,7 +111,7 @@ func createImportableResourceImplementation(
 		return nil, nil
 	}
 
-	fn, err := createInitializeSpecFunction(def, fnName, idFactory)
+	fn, err := functions.NewInitializeSpecFunction(def, fnName, idFactory)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to create initialization function for %q", def.Name())
 	}
@@ -122,87 +119,4 @@ func createImportableResourceImplementation(
 	return astmodel.NewInterfaceImplementation(
 		astmodel.ImportableResourceType,
 		fn), nil
-}
-
-func createInitializeSpecFunction(
-	def astmodel.TypeDefinition,
-	specInitializeFunction string,
-	idFactory astmodel.IdentifierFactory) (astmodel.Function, error) {
-	rsrc, ok := astmodel.AsResourceType(def.Type())
-	if !ok {
-		return nil, errors.Errorf("expected %q to be a resource", def.Name())
-	}
-
-	statusType, ok := astmodel.AsTypeName(rsrc.StatusType())
-	if !ok {
-		return nil, errors.Errorf("expected %q to be a TypeName", rsrc.StatusType())
-	}
-
-	requiredPackages := astmodel.NewPackageReferenceSet(
-		astmodel.GenRuntimeReference,
-	)
-
-	createFn := func(
-		fn *functions.ResourceFunction,
-		codeGenerationContext *astmodel.CodeGenerationContext,
-		receiver astmodel.TypeName,
-		methodName string,
-	) *dst.FuncDecl {
-		fmtPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.FmtReference)
-
-		receiverType := receiver.AsType(codeGenerationContext)
-		receiverName := idFactory.CreateReceiver(receiver.Name())
-
-		knownLocals := astmodel.NewKnownLocalsSet(idFactory)
-		knownLocals.Add(receiverName)
-
-		statusParam := knownLocals.CreateLocal("status", "", "Source")
-		statusLocal := knownLocals.CreateLocal("s", "")
-
-		// return <receiver>.Spec.Initialize_From_Status(s)
-		returnConversion := astbuilder.Returns(
-			astbuilder.CallExpr(
-				astbuilder.Selector(dst.NewIdent(receiverName), "Spec"),
-				specInitializeFunction,
-				dst.NewIdent(statusLocal)))
-
-		// if s, ok := fromStatus.(<type of status>); ok {
-		//   return receiver.Spec.InitializeFromStatus(s)
-		// }
-		initialize := astbuilder.IfType(
-			dst.NewIdent(statusParam),
-			astbuilder.Dereference(statusType.AsType(codeGenerationContext)),
-			statusLocal,
-			returnConversion)
-
-		// return fmt.Errorf("expected Status of type <type of status> but received %T instead", fromStatus)
-		returnError := astbuilder.Returns(
-			astbuilder.FormatError(
-				fmtPackage,
-				fmt.Sprintf("expected Status of type %s but received %%T instead", statusType.Name()),
-				dst.NewIdent(statusParam)))
-		returnError.Decorations().Before = dst.EmptyLine
-
-		funcDetails := astbuilder.FuncDetails{
-			Name:          methodName,
-			ReceiverIdent: receiverName,
-			ReceiverType:  astbuilder.Dereference(receiverType),
-			Body: astbuilder.Statements(
-				initialize,
-				returnError),
-		}
-
-		funcDetails.AddComments("initializes the spec for this resource from the given status")
-		funcDetails.AddParameter(statusParam, astmodel.ConvertibleStatusInterfaceType.AsType(codeGenerationContext))
-		funcDetails.AddReturns("error")
-
-		return funcDetails.DefineFunc()
-	}
-
-	return functions.NewResourceFunction(
-		"InitializeSpec",
-		rsrc,
-		idFactory,
-		createFn,
-		requiredPackages), nil
 }
