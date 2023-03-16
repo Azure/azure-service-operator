@@ -455,7 +455,7 @@ tasks:
   controller:test-multitenant-integration-kind-ci:
     desc: Run live multitenant integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-multitenant-cluster]
+    deps: [controller:kind-create-multitenant-cluster-helm]
     cmds:
       # This timeout is purposefully low - if we find that this job is
       # taking a long time we may need to think of other ways to keep
@@ -476,7 +476,7 @@ tasks:
   controller:test-multitenant-integration-kind:
     desc: Run live multitenant integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-multitenant-cluster]
+    deps: [controller:kind-create-multitenant-cluster-helm]
     cmds:
       # This timeout is purposefully low - if we find that this job is
       # taking a long time we may need to think of other ways to keep
@@ -725,6 +725,37 @@ tasks:
       - "cat v2/bin/multitenant-tenant_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
       # Make sp secret for tenant watching some target namespaces.
       - "{{.SCRIPTS_ROOT}}/deploy_multitenant_testing_secret.sh"
+      # Create the namespaces that the tenant is watching.
+      - "kubectl create namespace t1-items"
+      - "kubectl create namespace t1-more"
+      # Wait for the other operator to be ready - not using controller:wait-for-operator-ready because that also waits for CRDs, etc which this doesn't install
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
+
+  controller:kind-create-multitenant-cluster-helm:
+    desc: Creates a local kind cluster Helm and ASO in multitenant configuration.
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      # Install cluster scope chart (mode == webhooks)
+      - "helm upgrade --install --set multitenant.enable=true --set azureOperatorMode=webhooks \
+           --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+           asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+      - task: controller:wait-for-operator-ready
+      # Install tenant chart
+      - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \ 
+           --set azureTenantID=$AZURE_TENANT_ID \
+           --set azureClientID=$AZURE_CLIENT_ID \
+           --set azureClientSecret=$AZURE_CLIENT_SECRET \
+           --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+           --set multitenant.enable=true \
+           --set azureOperatorMode=watchers \
+           --set-string azureTargetNamespaces='{t1-items,t1-more}' \
+           asov2 -n tenant1-system --create-namespace ./charts/azure-service-operator/"
       # Create the namespaces that the tenant is watching.
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
