@@ -14,13 +14,14 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/selection"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/yaml"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 )
 
@@ -34,6 +35,8 @@ const certMgrInjectCAFromAnnotation = "cert-manager.io/inject-ca-from"
 type Manager struct {
 	logger     logr.Logger
 	kubeClient kubeclient.Client
+
+	crds []apiextensions.CustomResourceDefinition
 }
 
 func NewManager(logger logr.Logger, kubeClient kubeclient.Client) *Manager {
@@ -68,49 +71,20 @@ func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomR
 	return list.Items, nil
 }
 
-func (m *Manager) LoadOperatorCRDs(path string) ([]apiextensions.CustomResourceDefinition, error) {
-	// Expectation is that every file in this folder is a CRD
-	entries, err := os.ReadDir(path)
+func (m *Manager) LoadOperatorCRDs(path string, podNamespace string) ([]apiextensions.CustomResourceDefinition, error) {
+	if len(m.crds) > 0 {
+		// Nothing to do as they're already loaded. Pod has to restart for them to change
+		return m.crds, nil
+	}
+
+	crds, err := m.loadCRDs(path)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to read directory %s", path)
+		return nil, err
 	}
+	crds = m.fixCRDNamespaceRefs(crds, podNamespace)
 
-	results := make([]apiextensions.CustomResourceDefinition, 0, len(entries))
-
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue // Ignore directories
-		}
-
-		filePath := filepath.Join(path, entry.Name())
-		var content []byte
-		content, err = os.ReadFile(filePath)
-		if err != nil {
-			return nil, errors.Wrapf(err, "failed to read %s", filePath)
-		}
-
-		crd := apiextensions.CustomResourceDefinition{}
-		err = yaml.Unmarshal(content, &crd)
-		if err != nil {
-			return nil, errors.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
-		}
-
-		m.logger.V(Verbose).Info("Loaded CRD", "path", filePath, "name", crd.Name)
-		results = append(results, crd)
-	}
-
-	return results, nil
-}
-
-func (m *Manager) FixCRDNamespaceRefs(crds []apiextensions.CustomResourceDefinition, namespace string) []apiextensions.CustomResourceDefinition {
-	results := make([]apiextensions.CustomResourceDefinition, 0, len(crds))
-
-	for _, crd := range crds {
-		crd = fixCRDNamespace(crd, namespace)
-		results = append(results, crd)
-	}
-
-	return results
+	m.crds = crds
+	return crds, nil
 }
 
 // FindMatchingCRDs finds the CRDs in "goal" that are in "existing" AND compare as equal according to the comparators with
@@ -177,6 +151,113 @@ func (m *Manager) FindNonMatchingCRDs(
 	}
 
 	return m.FindMatchingCRDs(existing, goal, invertedComparators...)
+}
+
+func (m *Manager) ApplyCRDs(ctx context.Context, path string, podNamespace string, patterns []string) error {
+	goalCRDs, err := m.LoadOperatorCRDs(path, podNamespace)
+	if err != nil {
+		return err
+	}
+	m.logger.V(Info).Info("Goal CRDs", "count", len(goalCRDs))
+
+	existingCRDs, err := m.ListOperatorCRDs(ctx)
+	if err != nil {
+		return err
+	}
+	m.logger.V(Info).Info("Existing CRDs", "count", len(existingCRDs))
+
+	goalCRDsWithDifferentVersion := m.FindNonMatchingCRDs(existingCRDs, goalCRDs, VersionEqual)
+	goalCRDsWithDifferentSpec := m.FindNonMatchingCRDs(existingCRDs, goalCRDs, SpecEqual)
+
+	// The same CRD may be in both sets, but we don't want to apply twice, so combine the sets
+	crdsToApply := make(map[string]apiextensions.CustomResourceDefinition)
+	for name, crd := range goalCRDsWithDifferentVersion {
+		crdsToApply[name] = crd
+	}
+	for name, crd := range goalCRDsWithDifferentSpec {
+		crdsToApply[name] = crd
+	}
+
+	if len(crdsToApply) > 0 {
+		for _, crd := range crdsToApply {
+			crd := crd
+
+			_, isDifferentVersion := goalCRDsWithDifferentVersion[crd.Name]
+			_, isDifferentSpec := goalCRDsWithDifferentSpec[crd.Name]
+			m.logger.V(Verbose).Info("Found CRD in need of update", "CRD", crd.Name, "SpecDifferent", isDifferentSpec, "VersionDifferent", isDifferentVersion)
+
+			toApply := &apiextensions.CustomResourceDefinition{
+				ObjectMeta: metav1.ObjectMeta{
+					Name: crd.Name,
+				},
+			}
+			result, err := controllerutil.CreateOrUpdate(ctx, m.kubeClient, toApply, func() error {
+				resourceVersion := toApply.ResourceVersion
+				*toApply = crd
+				toApply.ResourceVersion = resourceVersion
+
+				return nil
+			})
+			if err != nil {
+				return errors.Wrapf(err, "failed to apply CRD %s", crd.Name)
+			}
+
+			m.logger.V(Debug).Info("Successfully applied CRD", "name", crd.Name, "result", result)
+		}
+
+		// If we make it to here, we have successfully updated all the CRDs we needed to. We need to kill the pod and let it restart so
+		// that the new shape CRDs can be reconciled.
+		m.logger.V(Status).Info("Restarting operator pod after updating CRDs", "count", len(crdsToApply))
+		os.Exit(0) // TODO: Should this be nonzero?
+	}
+
+	m.logger.V(Status).Info("Successfully reconciled InstalledResourceDefinitions CRDs.")
+	return nil
+}
+
+func (m *Manager) loadCRDs(path string) ([]apiextensions.CustomResourceDefinition, error) {
+	// Expectation is that every file in this folder is a CRD
+	entries, err := os.ReadDir(path)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to read directory %s", path)
+	}
+
+	results := make([]apiextensions.CustomResourceDefinition, 0, len(entries))
+
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue // Ignore directories
+		}
+
+		filePath := filepath.Join(path, entry.Name())
+		var content []byte
+		content, err = os.ReadFile(filePath)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to read %s", filePath)
+		}
+
+		crd := apiextensions.CustomResourceDefinition{}
+		err = yaml.Unmarshal(content, &crd)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to unmarshal %s to CRD", filePath)
+		}
+
+		m.logger.V(Verbose).Info("Loaded CRD", "path", filePath, "name", crd.Name)
+		results = append(results, crd)
+	}
+
+	return results, nil
+}
+
+func (m *Manager) fixCRDNamespaceRefs(crds []apiextensions.CustomResourceDefinition, namespace string) []apiextensions.CustomResourceDefinition {
+	results := make([]apiextensions.CustomResourceDefinition, 0, len(crds))
+
+	for _, crd := range crds {
+		crd = fixCRDNamespace(crd, namespace)
+		results = append(results, crd)
+	}
+
+	return results
 }
 
 // fixCRDNamespace fixes up namespace references in the CRD to match the provided namespace.

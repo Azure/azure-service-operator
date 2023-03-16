@@ -303,7 +303,7 @@ tasks:
       --set azureClientID=$AZURE_CLIENT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET"
     - "kubectl create namespace pre-release"
-    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+    - task: controller:wait-for-operator-ready
     - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
     - task: controller:install-helm
 #   TODO: Will have to change versions in 'Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade' test once we move from beta to stable
@@ -591,7 +591,7 @@ tasks:
     desc: Generate and install helm chart on cluster
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-    - "helm upgrade --install --wait --timeout 300s --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+    - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID=$AZURE_CLIENT_ID \
@@ -631,12 +631,8 @@ tasks:
     deps: [controller:generate-kustomize]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      # TODO: It sucks that we have to pull CRDs out first and wait for them. It's needed because we create a CRD and then use it right
-      # TODO: away and kubectl/kustomize don't wait for the CRD to actually be provisioned before issuing the PUT of the instance of the CRD.
       - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} > out/operator.yaml"
-      - "yq e '. | select(.kind == \"CustomResourceDefinition\")' out/operator.yaml | kubectl apply --server-side=true -f -"
-      - "yq e '. | select(.kind == \"CustomResourceDefinition\")' out/operator.yaml | kubectl wait --for condition=established --timeout=60s -f -"
-      - "yq e '. | select(.kind != \"CustomResourceDefinition\")' out/operator.yaml | kubectl apply --server-side=true -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
+      - "kubectl apply --server-side=true -f out/operator.yaml" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
 
   controller:bundle-crds:
     desc: Bundles CRDs...

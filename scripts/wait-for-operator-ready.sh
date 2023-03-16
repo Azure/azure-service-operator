@@ -24,16 +24,20 @@ function wait_for_crds_cabundle() {
   done
 }
 
-kubectl wait --for=condition=ready --timeout=2m installedresourcedefinitions -n azureserviceoperator-system aso-installed-resources
-kubectl wait --for=condition=established --timeout=1m crd -l 'serviceoperator.azure.com/version'
-kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager
+function wait_for_crds_established() {
+  until kubectl wait --for=condition=established --timeout=5s crd -l 'serviceoperator.azure.com/version'; do
+    sleep 5
+  done
+}
 
-# Wait for all CRDs to have CA bundles set, or 30s.
-SECONDS=0
+kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager
+# This has to be a timeout wrapping kubectl wait as we're racing with CRDs being added, and kubectl wait will fail if nothing matches the -l filter
+export -f wait_for_crds_established
+timeout 1m bash -c wait_for_crds_established
 
 export -f all_crds_have_cabundle
 export -f wait_for_crds_cabundle
 timeout 1m bash -c wait_for_crds_cabundle
 
-echo "All CRDs have CA bundles"
+echo "The operator is ready"
 exit 0

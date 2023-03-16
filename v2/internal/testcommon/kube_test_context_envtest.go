@@ -219,30 +219,6 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	}
 
 	if cfg.OperatorMode.IncludesWebhooks() {
-		var alwaysReconcile []*registration.StorageType
-		alwaysReconcile, err = controllers.GetClusterScopeStorageTypes(
-			mgr,
-			clientFactory,
-			kubeClient,
-			positiveConditions,
-			options)
-		if err != nil {
-			stopEnvironment()
-			return nil, errors.Wrapf(err, "failed to get cluster scope storage types")
-		}
-
-		err = generic.RegisterAll(
-			mgr,
-			mgr.GetFieldIndexer(),
-			kubeClient,
-			positiveConditions,
-			alwaysReconcile,
-			options)
-		if err != nil {
-			stopEnvironment()
-			return nil, errors.Wrapf(err, "failed to register alwaysReconcile types")
-		}
-
 		err = generic.RegisterWebhooks(mgr, controllers.GetKnownTypes())
 		if err != nil {
 			stopEnvironment()

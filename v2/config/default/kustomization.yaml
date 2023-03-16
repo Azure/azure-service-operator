@@ -12,8 +12,7 @@ namespace: azureserviceoperator-system
 #commonLabels:
 #  someName: someValue
 
-resources:
-  - aso_installed_resources.yaml
+resources: []
 
 bases:
 - ../crd

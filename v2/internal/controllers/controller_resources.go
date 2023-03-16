@@ -30,17 +30,14 @@ import (
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
-	serviceoperator "github.com/Azure/azure-service-operator/v2/api/serviceoperator/v1api"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
-	installedcrdsreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/installedresourcedefinitions"
 	mysqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/mysql"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	custompredicates "github.com/Azure/azure-service-operator/v2/internal/util/predicates"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -94,34 +91,6 @@ func GetKnownStorageTypes(
 		})
 
 	return knownStorageTypes, nil
-}
-
-func GetClusterScopeStorageTypes(
-	mgr ctrl.Manager,
-	armClientFactory arm.ARMClientFactory,
-	kubeClient kubeclient.Client,
-	positiveConditions *conditions.PositiveConditionBuilder,
-	options generic.Options) ([]*registration.StorageType, error) {
-
-	var result []*registration.StorageType
-
-	result = append(
-		result,
-		&registration.StorageType{
-			Obj:  &serviceoperator.InstalledResourceDefinitions{},
-			Name: "InstalledResourceDefinitionsController",
-			Reconciler: installedcrdsreconciler.NewInstalledResourceDefinitionsReconciler(
-				kubeClient,
-				positiveConditions,
-				options.Config),
-			Predicate: predicate.And(
-				predicate.GenerationChangedPredicate{},
-				custompredicates.MakeNamespacePredicate(options.Config.PodNamespace),
-				custompredicates.MakeNamePredicate(options.Config.InstalledResourceDefinitionsName),
-			),
-		})
-
-	return result, nil
 }
 
 func getGeneratedStorageTypes(
@@ -252,8 +221,7 @@ func GetKnownTypes() []client.Object {
 
 	knownTypes = append(
 		knownTypes,
-		&mysql.User{},
-		&serviceoperator.InstalledResourceDefinitions{})
+		&mysql.User{})
 
 	return knownTypes
 }
@@ -261,7 +229,6 @@ func GetKnownTypes() []client.Object {
 func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
 	_ = mysql.AddToScheme(scheme)
-	_ = serviceoperator.AddToScheme(scheme)
 
 	return scheme
 }

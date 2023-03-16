@@ -40,7 +40,7 @@ ${SCRIPT_DIR}/kustomize-build.sh -v "$VERSION" -k operator -o "$GEN_FILES_DIR"
 rm "$GEN_FILES_DIR"/*_namespace_* # remove namespace as we will let Helm manage it
 
 # Chart replacements
-sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version for both main and subchart
+sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$ASO_CHART"/Chart.yaml  # find version key and update the value with the current version
 
 # Deployment replacements
 grep -E $KUBE_RBAC_PROXY "$GEN_FILES_DIR"/*_deployment_* > /dev/null # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
@@ -48,9 +48,6 @@ sed -i "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$GEN_FILES_DIR"
 sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g" "$GEN_FILES_DIR"/*_deployment_* # Replace hardcoded ASO image
 # Perl multiline replacements - using this because it's tricky to do these sorts of multiline replacements with sed
 perl -0777 -i -pe 's/(template:\n.*metadata:\n.*annotations:\n(\s*))/$1\{\{- if .Values.podAnnotations \}\}\n$2\{\{ toYaml .Values.podAnnotations \}\}\n$2\{\{- end \}\}\n$2/igs' "$GEN_FILES_DIR"/*_deployment_* # Add pod annotations
-
-# Add annotations to aso-installed-resources resource to ensure it deploys at the right time
-yq -i e '.metadata.annotations.["helm.sh/hook"] = "post-install,post-upgrade"' "$GEN_FILES_DIR"/*_installedresourcedefinitions_aso-installed-resources.yaml
 
 # Metrics Configuration
 flow_control "metrics-addr" "metrics-addr" "{{- if .Values.metrics.enable}}" "$GEN_FILES_DIR"/*_deployment_*
@@ -60,6 +57,10 @@ sed -i '1 i {{- if .Values.metrics.enable -}}' "$GEN_FILES_DIR"/*controller-mana
 sed -i 's/port: 8080/port: {{ .Values.metrics.port | default 8080 }}/g' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 sed -i -e '$a{{- end }}' "$GEN_FILES_DIR"/*controller-manager-metrics-service*
 find "$GEN_FILES_DIR" -type f -exec sed -i 's/azureserviceoperator-system/{{ .Release.Namespace }}/g' {} \;
+
+# Apply CRD guards
+sed -i "1 s/^/$IF_CRDS\n/;$ a {{- end }}" "$GEN_FILES_DIR"/*crd-manager-role*
+flow_control "--crd-pattern" "--crd-pattern" "$IF_CRDS" "$GEN_FILES_DIR"/*_deployment_*
 
 # Perform file level changes for cluster and tenant
 for file in $(find "$GEN_FILES_DIR" -type f)
@@ -71,11 +72,6 @@ do
     sed -i "/name: azureserviceoperator-manager-rolebinding/a \  \ {{ else }}\n \ name: azureserviceoperator-manager-rolebinding-{{ .Release.Namespace }}" "$file"
   elif [[ $file != *"leader-election"* ]] && [[ $file != *"_deployment_"* ]]; then
     sed -i "1 s/^/$IF_CLUSTER\n/;$ a {{- end }}" "$file"
-  fi
-
-  # Apply CRD guards
-  if [[ $file == *"v1api_installedresourcedefinitions"* ]] || [[ $file == *"crd-manager-role"* ]]; then
-    sed -i "1 s/^/$IF_CRDS\n/;$ a {{- end }}" "$file"
   fi
 done
 

@@ -33,8 +33,11 @@ spec:
       serviceAccountName: default
       containers:
       - args:
+        - --metrics-addr=:8080
+        - --health-addr=:8081
         - --enable-leader-election
         - --v=2
+        - --crd-pattern=*
         ports:
           - containerPort: 8081
             name: liveness-port

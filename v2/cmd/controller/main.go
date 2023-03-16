@@ -42,6 +42,7 @@ import (
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	internalflags "github.com/Azure/azure-service-operator/v2/internal/util/flags"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
@@ -55,17 +56,21 @@ type flags struct {
 	metricsAddr          string
 	healthAddr           string
 	enableLeaderElection bool
+	crdPatterns          []string
 }
 
 func main() {
 	setupLog := ctrl.Log.WithName("setup")
+	ctrl.SetLogger(klogr.New())
 
-	flgs := parseFlags(os.Args)
+	flgs, err := parseFlags(os.Args)
+	if err != nil {
+		setupLog.Error(err, "failed to parse cmdline flags")
+		os.Exit(1)
+	}
 
 	scheme := controllers.CreateScheme()
 	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs via InstalledResourceDefinitions
-
-	ctrl.SetLogger(klogr.New())
 
 	ctx := ctrl.SetupSignalHandler()
 	cfg, err := config.ReadAndValidate()
@@ -100,10 +105,24 @@ func main() {
 		os.Exit(1)
 	}
 
-	nonReadyResources, err := getNonReadyCRDs(ctx, clients.log, mgr.GetConfig(), cfg)
+	crdManager, err := newCRDManager(clients.log, mgr.GetConfig())
 	if err != nil {
-		setupLog.Error(err, "unable to get CRDs to skip")
+		setupLog.Error(err, "failed to initialize CRD client")
 		os.Exit(1)
+	}
+
+	nonReadyResources, err := getNonReadyCRDs(ctx, cfg, crdManager)
+	if err != nil {
+		setupLog.Error(err, "failed to find non-ready CRDs")
+		os.Exit(1)
+	}
+
+	if len(flgs.crdPatterns) > 0 {
+		err = crdManager.ApplyCRDs(ctx, crdmanagement.CRDLocation, cfg.PodNamespace, flgs.crdPatterns)
+		if err != nil {
+			setupLog.Error(err, "failed to apply CRDs")
+			os.Exit(1)
+		}
 	}
 
 	if cfg.OperatorMode.IncludesWatchers() {
@@ -115,30 +134,6 @@ func main() {
 	}
 
 	if cfg.OperatorMode.IncludesWebhooks() {
-		var alwaysReconcile []*registration.StorageType
-		alwaysReconcile, err = controllers.GetClusterScopeStorageTypes(
-			mgr,
-			clients.armClientFactory,
-			clients.kubeClient,
-			clients.positiveConditions,
-			clients.options)
-		if err != nil {
-			setupLog.Error(err, "failed to get cluster scope storage types")
-			os.Exit(1)
-		}
-
-		err = generic.RegisterAll(
-			mgr,
-			mgr.GetFieldIndexer(),
-			clients.kubeClient,
-			clients.positiveConditions,
-			alwaysReconcile,
-			clients.options)
-		if err != nil {
-			setupLog.Error(err, "failed to register alwaysReconcile types")
-			os.Exit(1)
-		}
-
 		objs := controllers.GetKnownTypes()
 
 		objs, err = filterKnownTypesByReadyCRDs(clients.log, scheme, nonReadyResources, objs)
@@ -146,6 +141,7 @@ func main() {
 			setupLog.Error(err, "failed to filter known types by ready CRDs")
 			os.Exit(1)
 		}
+
 		if errs := generic.RegisterWebhooks(mgr, objs); errs != nil {
 			setupLog.Error(err, "failed to register webhook for gvks")
 			os.Exit(1)
@@ -166,7 +162,7 @@ func main() {
 	}
 }
 
-func parseFlags(args []string) flags {
+func parseFlags(args []string) (flags, error) {
 	exeName := args[0] + " " + version.BuildVersion
 	flagSet := flag.NewFlagSet(exeName, flag.ExitOnError)
 	klog.InitFlags(flagSet)
@@ -174,19 +170,30 @@ func parseFlags(args []string) flags {
 	var metricsAddr string
 	var healthAddr string
 	var enableLeaderElection bool
+	var crdPatterns internalflags.SliceFlags
 
 	// default here for 'metricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
 	flagSet.StringVar(&healthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
 	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
+	flagSet.Var(&crdPatterns, "crd-pattern", "Install these CRDs. Currently the only value supported is '*'")
+
 	flagSet.Parse(args[1:]) //nolint:errcheck
+
+	if len(crdPatterns) >= 2 {
+		return flags{}, errors.Errorf("crd-pattern flag can have at most 1 argument, had %d", len(crdPatterns))
+	}
+	if len(crdPatterns) == 1 && crdPatterns[0] != "*" {
+		return flags{}, errors.Errorf("crd-pattern flag must be '*', was %q", crdPatterns[0])
+	}
 
 	return flags{
 		metricsAddr:          metricsAddr,
 		healthAddr:           healthAddr,
 		enableLeaderElection: enableLeaderElection,
-	}
+		crdPatterns:          crdPatterns,
+	}, nil
 }
 
 func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
@@ -319,7 +326,7 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 	}
 }
 
-func getNonReadyCRDs(ctx context.Context, logger logr.Logger, k8sConfig *rest.Config, cfg config.Values) (map[string]apiextensions.CustomResourceDefinition, error) {
+func newCRDManager(logger logr.Logger, k8sConfig *rest.Config) (*crdmanagement.Manager, error) {
 	crdScheme := runtime.NewScheme()
 	_ = apiextensions.AddToScheme(crdScheme)
 	crdClient, err := client.New(k8sConfig, client.Options{Scheme: crdScheme})
@@ -328,12 +335,16 @@ func getNonReadyCRDs(ctx context.Context, logger logr.Logger, k8sConfig *rest.Co
 	}
 
 	crdManager := crdmanagement.NewManager(logger, kubeclient.NewClient(crdClient))
+	return crdManager, nil
+}
+
+func getNonReadyCRDs(ctx context.Context, cfg config.Values, crdManager *crdmanagement.Manager) (map[string]apiextensions.CustomResourceDefinition, error) {
 	existingCRDs, err := crdManager.ListOperatorCRDs(ctx)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to list operator CRDs")
 	}
 
-	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation)
+	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to load CRDs from disk")
 	}

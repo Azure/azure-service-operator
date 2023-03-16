@@ -36,10 +36,9 @@ if [[ -n "$DESTINATION" ]]; then
   kustomize build config/default -o "${DESTINATION}"
 
   if [[ "$KIND" == "operator" ]]; then
-    find "${DESTINATION}"/*_customresourcedefinition_* -not -name "*installedresourcedefinitions.serviceoperator.azure.com*" -delete
+    find "${DESTINATION}"/*_customresourcedefinition_* -delete
   else
     find "${DESTINATION}"/* -not -name "*_customresourcedefinition_*" -delete
-    find "${DESTINATION}"/* -name "*installedresourcedefinitions.serviceoperator.azure.com*" -delete
   fi
 
   # envsubst on all the files
@@ -51,7 +50,7 @@ if [[ -n "$DESTINATION" ]]; then
   done
 
 elif [[ "$KIND" == "crd" ]]; then
-  kustomize build config/default | yq e '. | select(.kind == "CustomResourceDefinition" and .metadata.name != "installedresourcedefinitions.serviceoperator.azure.com")' - | envsubst $ENVSUBST_VARS
+  kustomize build config/default | yq e '. | select(.kind == "CustomResourceDefinition")' - | envsubst $ENVSUBST_VARS
 elif [[ "$KIND" == "operator" ]]; then
-  kustomize build config/default | yq e '. | select(.kind != "CustomResourceDefinition" or .metadata.name == "installedresourcedefinitions.serviceoperator.azure.com")' - | envsubst $ENVSUBST_VARS
+  kustomize build config/default | yq e '. | select(.kind != "CustomResourceDefinition")' - | envsubst $ENVSUBST_VARS
 fi
