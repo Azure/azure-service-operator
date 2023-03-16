@@ -3,12 +3,12 @@
  * Licensed under the MIT license.
  */
 
-package importing
+package cmd
 
 import "github.com/spf13/cobra"
 
-// NewCommand creates a new cobra Command when invoked from the command line
-func NewCommand() (*cobra.Command, error) {
+// newImportCommand creates a new cobra Command when invoked from the command line
+func newImportCommand() (*cobra.Command, error) {
 	cmd := &cobra.Command{
 		Use:   "import",
 		Short: "imports ARM resources as YAML resource definitions",
