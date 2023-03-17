@@ -90,13 +90,13 @@ func (o *OriginalGVKFunction) AsFunc(
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.Dereference(receiver.AsType(generationContext)),
+		ReceiverType:  astbuilder.PointerTo(receiver.AsType(generationContext)),
 		Name:          o.Name(),
 		Body:          astbuilder.Statements(astbuilder.Returns(astbuilder.AddrOf(initGVK))),
 	}
 
 	funcDetails.AddComments("returns a GroupValueKind for the original API version used to create the resource")
-	funcDetails.AddReturn(astbuilder.Dereference(gvkType))
+	funcDetails.AddReturn(astbuilder.PointerTo(gvkType))
 
 	return funcDetails.DefineFunc()
 }

@@ -16,6 +16,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
 	"k8s.io/klog/v2/klogr"
@@ -90,32 +91,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	var credential azcore.TokenCredential
-	if cfg.UseWorkloadIdentityAuth {
-		credential, err = identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
-		if err != nil {
-			setupLog.Error(err, "unable to get workload identity credential")
-			os.Exit(1)
-		}
-	} else if cert := os.Getenv(config.ClientCertificateVar); cert != "" {
-		certPassword := os.Getenv(config.ClientCertificatePasswordVar)
-		credential, err = identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
-		if err != nil {
-			setupLog.Error(err, "unable to get client certificate credential")
-			os.Exit(1)
-		}
-	} else {
-		credential, err = azidentity.NewDefaultAzureCredential(nil)
-		if err != nil {
-			setupLog.Error(err, "unable to get default azure credential")
-			os.Exit(1)
-		}
+	credential, err := getDefaultAzureCredential(cfg, setupLog)
+	if err != nil {
+		setupLog.Error(err, "error while fetching default global credential")
+		os.Exit(1)
 	}
 
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, armMetrics)
-	if err != nil {
-		setupLog.Error(err, "failed to get new genericArmClient")
-		os.Exit(1)
+	var globalARMClient *genericarmclient.GenericClient
+	if credential != nil {
+		globalARMClient, err = genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, armMetrics)
+		if err != nil {
+			setupLog.Error(err, "failed to get new genericArmClient")
+			os.Exit(1)
+		}
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
@@ -174,6 +162,38 @@ func main() {
 		setupLog.Error(err, "problem running manager")
 		os.Exit(1)
 	}
+}
+
+func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
+
+	// If subscriptionID is not supplied, then set default credential to not be used/nil
+	if cfg.SubscriptionID == "" {
+		setupLog.Info("No global credential configured, continuing without default global credential.")
+		return nil, nil
+	}
+
+	var credential azcore.TokenCredential
+	var err error
+	if cfg.UseWorkloadIdentityAuth {
+		credential, err = identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
+		if err != nil {
+			return nil, errors.Wrapf(err, "unable to get workload identity credential")
+		}
+	} else if cert := os.Getenv(config.ClientCertificateVar); cert != "" {
+		certPassword := os.Getenv(config.ClientCertificatePasswordVar)
+		credential, err = identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
+		if err != nil {
+			setupLog.Error(err, "unable to get client certificate credential")
+			os.Exit(1)
+		}
+	} else {
+		credential, err = azidentity.NewDefaultAzureCredential(nil)
+		if err != nil {
+			return nil, errors.Wrapf(err, "unable to get default azure credential")
+		}
+	}
+
+	return credential, err
 }
 
 func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {

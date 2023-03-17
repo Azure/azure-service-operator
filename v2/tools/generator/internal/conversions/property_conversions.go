@@ -247,7 +247,7 @@ func writeToBagItem(
 
 	return func(reader dst.Expr, _ func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		createAddToBag := func(expr dst.Expr) dst.Stmt {
-			addToBag := astbuilder.InvokeQualifiedFunc(
+			addToBag := astbuilder.CallQualifiedFuncAsStmt(
 				conversionContext.PropertyBagName(),
 				"Add",
 				astbuilder.StringLiteralf(destinationEndpoint.Name()),
@@ -256,7 +256,7 @@ func writeToBagItem(
 			return addToBag
 		}
 
-		removeFromBag := astbuilder.InvokeQualifiedFunc(
+		removeFromBag := astbuilder.CallQualifiedFuncAsStmt(
 			conversionContext.PropertyBagName(),
 			"Remove",
 			astbuilder.StringLiteralf(destinationEndpoint.Name()))

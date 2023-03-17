@@ -219,9 +219,6 @@ func ReadAndValidate() (Values, error) {
 
 // Validate checks whether the configuration settings are consistent.
 func (v Values) Validate() error {
-	if v.SubscriptionID == "" {
-		return errors.Errorf("missing value for %s", SubscriptionIDVar)
-	}
 	if v.PodNamespace == "" {
 		return errors.Errorf("missing value for %s", podNamespaceVar)
 	}

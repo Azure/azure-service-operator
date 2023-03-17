@@ -7,6 +7,7 @@ menu:
     weight: 40
 cascade:
 - type: docs
+description: "Design discussions, decisions, and specifications for Azure Service Operator v2"
 ---
 Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this folder. ADRs are listed chronologically by month, and should contain the following sections:
 

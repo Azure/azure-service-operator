@@ -74,7 +74,7 @@ func (fn ResourceStatusSetterFunction) AsFunc(genContext *astmodel.CodeGeneratio
 	// }
 	simplePath := astbuilder.IfType(
 		dst.NewIdent(statusParameter),
-		astbuilder.Dereference(dst.NewIdent(fn.nameOfStatusType)),
+		astbuilder.PointerTo(dst.NewIdent(fn.nameOfStatusType)),
 		statusLocal,
 		assignFromStatus, astbuilder.Returns(astbuilder.Nil()))
 	astbuilder.AddComment(&simplePath.Decorations().Start, "// If we have exactly the right type of status, assign it")

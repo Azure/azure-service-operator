@@ -154,7 +154,7 @@ tasks:
     dir: '{{.ASOCTL_ROOT}}'
     deps: [controller:generate-crds]
     cmds:
-      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} ./cmd/
+      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} .
 
   ############### Generator targets ###############
 

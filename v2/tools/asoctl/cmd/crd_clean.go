@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package crd
+package cmd
 
 import (
 	"context"
@@ -20,12 +20,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/crd"
 )
 
+// newCRDCleanCommand creates a new cobra command for cleaning deprecated CRDs from a cluster
 func newCRDCleanCommand() *cobra.Command {
 	dryRunFlagName := "dry-run"
 
 	cmd := &cobra.Command{
 		Use:   "clean",
-		Short: "clean deprecated CRD storedVersions",
+		Short: "Clean deprecated CRD versions from cluster",
 		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			cfg := config.GetConfigOrDie()
 
