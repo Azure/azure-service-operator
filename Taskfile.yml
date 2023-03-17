@@ -303,9 +303,13 @@ tasks:
       --set azureClientID=$AZURE_CLIENT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET"
     - "kubectl create namespace pre-release"
+    # TODO: Can remove the -c parameter once we GA
     - task: controller:wait-for-operator-ready
+      vars:
+        ARGS: "-c"
     - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
     - task: controller:install-helm
+    - task: controller:wait-for-operator-ready
 #   TODO: Will have to change versions in 'Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade' test once we move from beta to stable
     - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
 
@@ -578,7 +582,7 @@ tasks:
     cmds:
       - mkdir -p out/envtest/crds
       - find "out/envtest/crds" -type f -delete
-      - kustomize build config/crd > out/envtest/crds/azureserviceoperator.yaml
+      - kustomize build config/crd/generated > out/envtest/crds/azureserviceoperator.yaml
 
   controller:gen-helm-manifest:
     desc: Generate helm manifest using Kustomize for the release
@@ -681,7 +685,7 @@ tasks:
   controller:wait-for-operator-ready:
     desc: Waits for the operator and associated CRDs to be ready
     cmds:
-      - "{{.SCRIPTS_ROOT}}/wait-for-operator-ready.sh"
+      - "{{.SCRIPTS_ROOT}}/wait-for-operator-ready.sh {{.ARGS}}"
 
   controller:kind-create-with-service-principal:
     desc: Creates a local kind cluster with ASO using service principal auth.
