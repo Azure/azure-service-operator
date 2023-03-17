@@ -61,8 +61,8 @@ Use the following Bash script to set the environment variables for the `aso-cont
 export AZURE_CLIENT_ID="00000000-0000-0000-0000-00000000000"          # The client ID (sometimes called App Id) of the Service Principal.
 export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000"    # The Azure Subscription ID the identity is in.
 export AZURE_TENANT_ID="00000000-0000-0000-0000-00000000000"          # The Azure AAD Tenant the identity/subscription is associated with.
-export AZURE_CLIENT_CERTIFICATE="-----BEGIN CERTIFICATE----- myCertificateValue -----END CERTIFICATE-----"          # The client certificate of the Service Principal.
-export AZURE_CLIENT_CERTIFICATE_PASSWORD="-----BEGIN PRIVATE KEY----- myPrivateKeyValue -----END PRIVATE KEY-----"  # The private key for the above certificate (optional)
+export AZURE_CLIENT_CERTIFICATE="myCertificateValue"                  # The client certificate of the Service Principal.
+export AZURE_CLIENT_CERTIFICATE_PASSWORD="myPrivateKeyValue"          # The private key for the above certificate (optional)
 ```
 
 Create the `aso-controller-settings` secret:
