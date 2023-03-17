@@ -3,18 +3,20 @@ title: Authentication in Azure Service Operator v2
 linktitle: Authentication
 ---
 
-Azure Service Operator supports three different styles of authentication today.
+Azure Service Operator supports four different styles of authentication today. This authentication is used as a default global credential and is optional. If you **do not** wish to use a default global credential, you must still provide the secret with empty values for the secret keys and follow the instructions in [single-operator-multitenancy](https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/#single-operator-multitenancy-default) to specify per-namespace or per-resource credentials.
 
-1. Service Principal
-2. [azure-workload-identity](https://github.com/Azure/azure-workload-identity) authentication (OIDC + Managed Identity or Service Principal)
-3. [Deprecated] aad-pod-identity authentication (Managed Identity)
+1. Service Principal using Client Secret
+2. Service Principal using Client Certificate
+3. [Azure-Workload-Identity](https://github.com/Azure/azure-workload-identity) authentication (OIDC + Managed Identity or Service Principal)
+4. [Deprecated] aad-pod-identity authentication (Managed Identity)
 
-## Service Principal
+
+## Service Principal using Client Secret
 
 ### Prerequisites
 1. An existing Azure Service Principal.
 
-To use Service Principal authentication, specify an `aso-controller-settings` secret with the `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` keys set. This Service Principal is used as a default global credential and is optional. If you **do not** wish to use a default global credential, you must still provide the secret with empty values for the below keys and follow the instructions in [single-operator-multitenancy](https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/#single-operator-multitenancy-default) to specify per-namespace or per-resource credentials
+To use Service Principal authentication via **client secret**, specify an `aso-controller-settings` secret with the `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` keys set.
 
 For more information about Service Principals, see [creating an Azure Service Principal using the Azure CLI](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication).
 The `AZURE_CLIENT_ID` is sometimes also called the App ID. The `AZURE_CLIENT_SECRET` is the "password" returned by the command in the previously linked documentation.
@@ -42,6 +44,44 @@ stringData:
  AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
 EOF
 ```
+
+## Service Principal using Client Certificate
+
+### Prerequisites
+1. An existing Azure Service Principal.
+2. Certificate in ASCII format such as PEM, CER, or DER.
+
+To use Service Principal authentication via client certificate, specify an `aso-controller-settings` secret with the `AZURE_CLIENT_ID`, `AZURE_CLIENT_CERTIFICATE` and `AZURE_CLIENT_CERTIFICATE_PASSWORD`(optional) keys set.
+
+For more information about Service Principals, see [creating an Azure Service Principal using the Azure CLI](https://learn.microsoft.com/en-gb/cli/azure/create-an-azure-service-principal-azure-cli#certificate-based-authentication).
+The `AZURE_CLIENT_ID` is sometimes also called the App ID. The `AZURE_CLIENT_CERTIFICATE` is the "certificate" returned by the command in the previously linked documentation.
+
+Use the following Bash script to set the environment variables for the `aso-controller-settings` secret:
+```bash
+export AZURE_CLIENT_ID="00000000-0000-0000-0000-00000000000"          # The client ID (sometimes called App Id) of the Service Principal.
+export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000"    # The Azure Subscription ID the identity is in.
+export AZURE_TENANT_ID="00000000-0000-0000-0000-00000000000"          # The Azure AAD Tenant the identity/subscription is associated with.
+export AZURE_CLIENT_CERTIFICATE="-----BEGIN CERTIFICATE----- myCertificateValue -----END CERTIFICATE-----"          # The client certificate of the Service Principal.
+export AZURE_CLIENT_CERTIFICATE_PASSWORD="-----BEGIN PRIVATE KEY----- myPrivateKeyValue -----END PRIVATE KEY-----"  # The private key for the above certificate (optional)
+```
+
+Create the `aso-controller-settings` secret:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-controller-settings
+ namespace: azureserviceoperator-system
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ AZURE_CLIENT_CERTIFICATE: "$AZURE_CLIENT_CERTIFICATE"
+ AZURE_CLIENT_CERTIFICATE_PASSWORD: "$AZURE_CLIENT_CERTIFICATE_PASSWORD"
+EOF
+```
+
 
 ## Azure Workload Identity
 
