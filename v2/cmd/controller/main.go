@@ -94,6 +94,7 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: flgs.healthAddr,
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to create manager")
 		os.Exit(1)
@@ -151,7 +152,14 @@ func main() {
 	// Healthz liveness probe endpoint
 	err = mgr.AddHealthzCheck("healthz", healthz.Ping)
 	if err != nil {
-		setupLog.Error(err, "Failed setting up health check")
+		setupLog.Error(err, "Failed setting up healthz check")
+		os.Exit(1)
+	}
+
+	// Readyz probe endpoint
+	err = mgr.AddReadyzCheck("readyz", healthz.Ping)
+	if err != nil {
+		setupLog.Error(err, "Failed setting up readyz check")
 		os.Exit(1)
 	}
 
