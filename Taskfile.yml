@@ -684,6 +684,7 @@ tasks:
 
   controller:wait-for-operator-ready:
     desc: Waits for the operator and associated CRDs to be ready
+    run: always
     cmds:
       - "{{.SCRIPTS_ROOT}}/wait-for-operator-ready.sh {{.ARGS}}"
 
