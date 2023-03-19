@@ -6,9 +6,9 @@ import (
 )
 
 func NewClientCertificateCredential(tenantID, clientID string, clientCertificate, password []byte) (*azidentity.ClientCertificateCredential, error) {
-	certs, key, err := azidentity.ParseCertificates([]byte(clientCertificate), password)
+	certs, key, err := azidentity.ParseCertificates(clientCertificate, password)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed to parse certificate for '%s': %v", clientID)
+		return nil, errors.Wrapf(err, "failed to parse certificate for '%s'", clientID)
 	}
 
 	cred, err := azidentity.NewClientCertificateCredential(tenantID, clientID, certs, key, nil)
