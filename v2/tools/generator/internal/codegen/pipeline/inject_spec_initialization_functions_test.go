@@ -48,7 +48,7 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 	personReferenceReference := astmodel.NewPropertyDefinition(
 		"PersonReference",
 		"personReference",
-		astmodel.KnownResourceReferenceType)
+		astmodel.ResourceReferenceType)
 
 	personIdProperty := astmodel.NewPropertyDefinition(
 		"PersonId",

@@ -35,8 +35,8 @@ type Person_Spec struct {
 	FullName string `json:"fullName,omitempty"`
 
 	// KnownAs: How the person is generally known
-	KnownAs         string                            `json:"knownAs,omitempty"`
-	PersonReference genruntime.KnownResourceReference `json:"personReference,omitempty"`
+	KnownAs         string                       `json:"knownAs,omitempty"`
+	PersonReference genruntime.ResourceReference `json:"personReference,omitempty"`
 }
 
 // Initialize_From_Person_STATUS populates our Person_Spec from the provided source Person_STATUS

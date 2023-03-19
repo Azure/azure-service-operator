@@ -28,12 +28,12 @@ type PersonList struct {
 
 // Storage version of v20200101.Person_Spec
 type Person_Spec struct {
-	Addresses       []Address_Spec                     `json:"addresses,omitempty"`
-	FamilyName      *string                            `json:"familyName,omitempty"`
-	FullName        *string                            `json:"fullName,omitempty"`
-	KnownAs         *string                            `json:"knownAs,omitempty"`
-	PersonReference *genruntime.KnownResourceReference `json:"personReference,omitempty"`
-	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Addresses       []Address_Spec               `json:"addresses,omitempty"`
+	FamilyName      *string                      `json:"familyName,omitempty"`
+	FullName        *string                      `json:"fullName,omitempty"`
+	KnownAs         *string                      `json:"knownAs,omitempty"`
+	PersonReference genruntime.ResourceReference `json:"personReference,omitempty"`
+	PropertyBag     genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20200101.Person_STATUS
