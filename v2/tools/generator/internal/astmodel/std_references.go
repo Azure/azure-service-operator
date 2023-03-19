@@ -83,6 +83,7 @@ var (
 	GenRuntimeValidatorInterfaceName = MakeTypeName(GenRuntimeReference, "Validator")
 	GenRuntimeMetaObjectType         = MakeTypeName(GenRuntimeReference, "MetaObject")
 	LocatableResourceInterfaceName   = MakeTypeName(GenRuntimeReference, "LocatableResource")
+	ImportableResourceType           = MakeTypeName(GenRuntimeReference, "ImportableResource")
 
 	// Optional types - GenRuntime
 	OptionalConfigMapReferenceType     = NewOptionalType(ConfigMapReferenceType)

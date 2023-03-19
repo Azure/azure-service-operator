@@ -644,7 +644,6 @@ objectModelConfiguration:
       BatchAccount:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
   cache:
     2020-12-01:
       Redis:
@@ -656,7 +655,6 @@ objectModelConfiguration:
           - HostName
           - Port
           - SSLPort
-        $importable: false
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.0.0-alpha.4
@@ -816,13 +814,11 @@ objectModelConfiguration:
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
       VirtualMachineExtension_STATUS:
         $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
       VirtualMachineScaleSetExtension:
         $isResource: false
       VirtualMachineScaleSetExtension_STATUS:
