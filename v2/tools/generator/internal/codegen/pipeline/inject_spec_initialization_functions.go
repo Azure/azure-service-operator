@@ -218,7 +218,7 @@ func (s *specInitializationScanner) visitTypeName(
 	// Recursively visit the definitions of these types
 	_, err := visitor.Visit(specDef.Type(), statusDef.Type())
 	if err != nil {
-		return nil, errors.Wrapf(err, "visiting definitions of %s and %s", specName, statusName)
+		return nil, errors.Wrapf(err, "visiting definitions of spec type %s and status type %s", specName, statusName)
 	}
 
 	return specName, nil
@@ -267,8 +267,9 @@ func (s *specInitializationScanner) visitMapType(
 ) (astmodel.Type, error) {
 	status, ok := astmodel.AsMapType(statusAny.(astmodel.Type))
 	if !ok {
-		// Don't have a map, nothing to do
-		return spec, nil
+		// If the status type DOESN'T have a map here, something is awry - they should have very similar structures
+		// as they're both created from the same Swagger spec
+		return nil, errors.Errorf("status type does not have a map where spec type does")
 	}
 
 	// Visit the key and value types
@@ -293,8 +294,9 @@ func (s *specInitializationScanner) visitArrayType(
 ) (astmodel.Type, error) {
 	status, ok := astmodel.AsArrayType(statusAny.(astmodel.Type))
 	if !ok {
-		// Don't have an array, nothing to do
-		return spec, nil
+		// If the status type DOESN'T have an array here, something is awry - they should have very similar structures
+		// as they're both created from the same Swagger spec
+		return nil, errors.Errorf("status type does not have an array where spec type does")
 	}
 
 	// Visit the element types
