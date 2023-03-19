@@ -8,6 +8,7 @@ package testcases
 import (
 	"fmt"
 	"go/token"
+	"strings"
 
 	"github.com/dave/dst"
 
@@ -41,6 +42,12 @@ func NewPropertyAssignmentTestCase(
 
 	// Find Property Assignment functions
 	for _, fn := range container.Functions() {
+		if !strings.HasPrefix(fn.Name(), conversions.AssignPropertiesMethodPrefix) {
+			// We're now using PropertyAssignment functions in other contexts, but only want to generate tests
+			// for the originals (and those only because we're allowing hand-written extensions that need testing).
+			continue
+		}
+
 		if pafn, ok := fn.(*functions.PropertyAssignmentFunction); ok {
 			if pafn.Direction() == conversions.ConvertFrom {
 				result.fromFn = pafn

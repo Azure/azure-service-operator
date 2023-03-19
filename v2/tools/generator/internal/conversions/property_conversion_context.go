@@ -6,9 +6,16 @@
 package conversions
 
 import (
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+)
+
+const (
+	AssignPropertiesMethodPrefix = "AssignProperties"
+	InitializationMethodPrefix   = "Initialize"
 )
 
 // PropertyConversionContext captures additional supporting information that may be needed when a
@@ -16,8 +23,8 @@ import (
 type PropertyConversionContext struct {
 	// definitions is a map of all known type definitions, used to resolve TypeNames to actual definitions
 	definitions astmodel.TypeDefinitionSet
-	// functionName is the name of the function we're currently generating
-	functionName string
+	// functionBaseName is the base name of the function we're generating (used to generate the names of function calls)
+	functionBaseName string
 	// direction is the direction of the conversion we're generating
 	direction Direction
 	// propertyBagName is the name of the local variable used for a property bag, or "" if we don't have one
@@ -34,9 +41,11 @@ type PropertyConversionContext struct {
 
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
 func NewPropertyConversionContext(
+	functionBaseName string,
 	definitions astmodel.TypeDefinitionSet,
 	idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
 	return &PropertyConversionContext{
+		functionBaseName:     functionBaseName,
 		definitions:          definitions,
 		idFactory:            idFactory,
 		propertyBagName:      "",
@@ -44,9 +53,9 @@ func NewPropertyConversionContext(
 	}
 }
 
-// FunctionName returns the name of this function, as it will be shown in the generated source
-func (c *PropertyConversionContext) FunctionName() string {
-	return c.functionName
+// FunctionBaseName returns the base name of the function we're generating
+func (c *PropertyConversionContext) FunctionBaseName() string {
+	return c.functionBaseName
 }
 
 // Types returns the set of definitions available in this context
@@ -70,13 +79,6 @@ func (c *PropertyConversionContext) WithConfiguration(configuration *config.Obje
 func (c *PropertyConversionContext) WithConversionGraph(conversionGraph *storage.ConversionGraph) *PropertyConversionContext {
 	result := c.clone()
 	result.conversionGraph = conversionGraph
-	return result
-}
-
-// WithFunctionName returns a new context with the specified function name included
-func (c *PropertyConversionContext) WithFunctionName(name string) *PropertyConversionContext {
-	result := c.clone()
-	result.functionName = name
 	return result
 }
 
@@ -152,7 +154,7 @@ func (c *PropertyConversionContext) AddPackageReference(ref astmodel.PackageRefe
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
 		definitions:          c.definitions,
-		functionName:         c.functionName,
+		functionBaseName:     c.functionBaseName,
 		direction:            c.direction,
 		propertyBagName:      c.propertyBagName,
 		idFactory:            c.idFactory,
@@ -160,4 +162,50 @@ func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 		conversionGraph:      c.conversionGraph,
 		additionalReferences: c.additionalReferences,
 	}
+}
+
+// validateTypeRename is used to validate two types with different names are a properly renamed pair
+func (c *PropertyConversionContext) validateTypeRename(sourceName astmodel.TypeName, destinationName astmodel.TypeName) error {
+	// Work out which name represents the earlier package release
+	// (needed in order to do the lookup as the type rename is configured on the last type *before* the rename.)
+	var earlier astmodel.TypeName
+	var later astmodel.TypeName
+	if c.direction == ConvertTo {
+		earlier = sourceName
+		later = destinationName
+	} else {
+		earlier = destinationName
+		later = sourceName
+	}
+
+	n, err := c.TypeRename(earlier)
+	if err != nil {
+
+		if config.IsNotConfiguredError(err) {
+			// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
+			// details by CreateTypeConversion() so we only need the specific details here
+			return errors.Wrapf(
+				err,
+				"no configuration to rename %s to %s",
+				earlier.Name(),
+				later.Name())
+		}
+
+		// Some other kind of problem, need to report back
+		return errors.Wrapf(
+			err,
+			"looking up type rename of %s",
+			earlier.Name())
+	}
+
+	if later.Name() != n {
+		// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
+		// by CreateTypeConversion() so we only need the specific details here
+		return errors.Errorf(
+			"configuration includes rename of %s to %s, but found %s",
+			earlier.Name(),
+			n,
+			later.Name())
+	}
+	return nil
 }

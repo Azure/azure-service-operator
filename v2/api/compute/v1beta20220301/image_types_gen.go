@@ -1172,6 +1172,24 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
+
+	// Name
+	location.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	if source.Type != nil {
+		typeVar := ExtendedLocationType(*source.Type)
+		location.Type = &typeVar
+	} else {
+		location.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
@@ -1706,6 +1724,21 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *v20220
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
+func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		resource.Reference = &reference
+	} else {
+		resource.Reference = nil
 	}
 
 	// No error
