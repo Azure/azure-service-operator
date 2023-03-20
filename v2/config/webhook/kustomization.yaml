@@ -1,3 +1,5 @@
+namePrefix: azureserviceoperator-
+
 resources:
   - manifests.yaml
   - service.yaml

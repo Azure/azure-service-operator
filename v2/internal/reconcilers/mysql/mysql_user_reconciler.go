@@ -33,10 +33,8 @@ var _ genruntime.Reconciler = &MySQLUserReconciler{}
 
 type MySQLUserReconciler struct {
 	reconcilers.ARMOwnedResourceReconcilerCommon
-	KubeClient         kubeclient.Client
-	ResourceResolver   *resolver.Resolver
-	PositiveConditions *conditions.PositiveConditionBuilder
-	Config             config.Values
+	ResourceResolver *resolver.Resolver
+	Config           config.Values
 }
 
 func NewMySQLUserReconciler(
@@ -46,14 +44,13 @@ func NewMySQLUserReconciler(
 	cfg config.Values) *MySQLUserReconciler {
 
 	return &MySQLUserReconciler{
-		KubeClient:         kubeClient,
-		ResourceResolver:   resourceResolver,
-		PositiveConditions: positiveConditions,
-		Config:             cfg,
+		ResourceResolver: resourceResolver,
+		Config:           cfg,
 		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
 			ResourceResolver: resourceResolver,
 			ReconcilerCommon: reconcilers.ReconcilerCommon{
-				KubeClient: kubeClient,
+				KubeClient:         kubeClient,
+				PositiveConditions: positiveConditions,
 			},
 		},
 	}
