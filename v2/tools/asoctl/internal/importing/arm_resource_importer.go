@@ -14,15 +14,16 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/klog/v2"
+
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/naming"
-	"github.com/pkg/errors"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/klog/v2"
 
 	armruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm/runtime"
 	azruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
@@ -50,24 +51,24 @@ func (ri *ARMResourceImporter) Import(ctx context.Context, armID string) (*Resou
 		return nil, err
 	}
 
-	armMeta, ok := obj.(genruntime.ARMMetaObject)
+	importable, ok := obj.(genruntime.ImportableARMResource)
 	if !ok {
 		return nil, errors.Errorf(
 			"unable to create blank resource, expected %s to identify an ARM object", armID)
 	}
 
-	status, err := ri.getStatus(ctx, armID, armMeta)
+	status, err := ri.getStatus(ctx, armID, importable)
 	if err != nil {
 		return nil, err
 	}
 
-	err = armMeta.SetStatus(status)
+	err = importable.InitializeSpec(status)
 	if err != nil {
 		return nil, errors.Wrapf(err, "setting status on Kubernetes resource for resource %s", armID)
 	}
 
 	return &ResourceImportResult{
-		resources: []genruntime.MetaObject{armMeta},
+		resources: []genruntime.MetaObject{importable},
 	}, nil
 }
 

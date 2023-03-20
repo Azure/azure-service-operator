@@ -10,3 +10,9 @@ type ImportableResource interface {
 	// InitializeSpec initializes the Spec of the resource from the provided Status.
 	InitializeSpec(status ConvertibleStatus) error
 }
+
+// ImportableARMResource represents an ARM based resource that can be imported into the operator via asoctl
+type ImportableARMResource interface {
+	ImportableResource
+	ARMMetaObject
+}
