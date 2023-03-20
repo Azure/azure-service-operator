@@ -179,12 +179,21 @@ func (m *Manager) ApplyCRDs(ctx context.Context, path string, podNamespace strin
 	}
 
 	if len(crdsToApply) > 0 {
+		m.logger.V(Status).Info("Will apply CRDs", "count", len(crdsToApply))
+
+		i := 0
 		for _, crd := range crdsToApply {
 			crd := crd
 
+			i += 1
 			_, isDifferentVersion := goalCRDsWithDifferentVersion[crd.Name]
 			_, isDifferentSpec := goalCRDsWithDifferentSpec[crd.Name]
-			m.logger.V(Verbose).Info("Found CRD in need of update", "CRD", crd.Name, "SpecDifferent", isDifferentSpec, "VersionDifferent", isDifferentVersion)
+			m.logger.V(Verbose).Info(
+				"Found CRD in need of update",
+				"Progress", fmt.Sprintf("%d/%d", i, len(crdsToApply)),
+				"CRD", crd.Name,
+				"SpecDifferent", isDifferentSpec,
+				"VersionDifferent", isDifferentVersion)
 
 			toApply := &apiextensions.CustomResourceDefinition{
 				ObjectMeta: metav1.ObjectMeta{
@@ -208,7 +217,7 @@ func (m *Manager) ApplyCRDs(ctx context.Context, path string, podNamespace strin
 		// If we make it to here, we have successfully updated all the CRDs we needed to. We need to kill the pod and let it restart so
 		// that the new shape CRDs can be reconciled.
 		m.logger.V(Status).Info("Restarting operator pod after updating CRDs", "count", len(crdsToApply))
-		os.Exit(0) // TODO: Should this be nonzero?
+		os.Exit(0)
 	}
 
 	m.logger.V(Status).Info("Successfully reconciled CRDs.")

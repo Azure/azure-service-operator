@@ -145,7 +145,7 @@ func Test_FindMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *testing
 					Path:      to.StringPtr("/convert"),
 					Port:      to.Int32Ptr(443),
 				},
-				CABundle: []byte{17, 14, 12, 21, 33, 61, 25, 99, 111},
+				CABundle: makeFakeCABundle(),
 			},
 		},
 	}
@@ -224,7 +224,7 @@ func Test_FindNonMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *test
 					Path:      to.StringPtr("/convert"),
 					Port:      to.Int32Ptr(443),
 				},
-				CABundle: []byte{17, 14, 12, 21, 33, 61, 25, 99, 111},
+				CABundle: makeFakeCABundle(),
 			},
 		},
 	}
@@ -305,4 +305,8 @@ func Test_BundledCRDs_HaveExactlyTwoInstancesOfNamespace(t *testing.T) {
 
 	count := strings.Count(string(bytes), defaultNamespace)
 	g.Expect(count).To(Equal(2))
+}
+
+func makeFakeCABundle() []byte {
+	return []byte{17, 14, 12, 21, 33, 61, 25, 99, 111}
 }
