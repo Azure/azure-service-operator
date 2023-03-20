@@ -7,6 +7,7 @@ package versions
 
 import (
 	"strings"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
