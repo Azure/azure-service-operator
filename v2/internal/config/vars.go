@@ -16,11 +16,12 @@ import (
 
 const (
 	// #nosec
-	ClientSecretVar              = "AZURE_CLIENT_SECRET"
-	SubscriptionIDVar            = "AZURE_SUBSCRIPTION_ID"
-	TenantIDVar                  = "AZURE_TENANT_ID"
-	ClientIDVar                  = "AZURE_CLIENT_ID"
-	ClientCertificateVar         = "AZURE_CLIENT_CERTIFICATE"
+	ClientSecretVar      = "AZURE_CLIENT_SECRET"
+	SubscriptionIDVar    = "AZURE_SUBSCRIPTION_ID"
+	TenantIDVar          = "AZURE_TENANT_ID"
+	ClientIDVar          = "AZURE_CLIENT_ID"
+	ClientCertificateVar = "AZURE_CLIENT_CERTIFICATE"
+	// #nosec
 	ClientCertificatePasswordVar = "AZURE_CLIENT_CERTIFICATE_PASSWORD"
 	targetNamespacesVar          = "AZURE_TARGET_NAMESPACES"
 	operatorModeVar              = "AZURE_OPERATOR_MODE"
