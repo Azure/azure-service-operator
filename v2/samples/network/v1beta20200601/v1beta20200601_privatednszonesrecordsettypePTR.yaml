@@ -1,0 +1,11 @@
+apiVersion: network.azure.com/v1beta20200601
+kind: PrivateDnsZonesRecordsetTypePTR
+metadata:
+  name: aso-sample-recordset-ptr
+  namespace: default
+spec:
+  ptrRecords:
+  - ptrdname: asosample.com
+  owner:
+    name: aso-sample-pdz.com
+  ttl: 3600

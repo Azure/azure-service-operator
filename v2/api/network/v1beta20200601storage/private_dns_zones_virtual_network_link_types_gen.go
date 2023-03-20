@@ -134,12 +134,6 @@ type PrivateDnsZonesVirtualNetworkLinkList struct {
 	Items           []PrivateDnsZonesVirtualNetworkLink `json:"items"`
 }
 
-// Storage version of v1beta20200601.APIVersion
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2020-06-01")
-
 // Storage version of v1beta20200601.PrivateDnsZones_VirtualNetworkLink_Spec
 type PrivateDnsZones_VirtualNetworkLink_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

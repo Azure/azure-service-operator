@@ -41,11 +41,17 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 				PrivateDNSZone_VirtualNetworkLinks_CRUD(tc, zone, rg)
 			},
 		},
+		testcommon.Subtest{
+			Name: "Test_Recordset_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				PrivateDNSZone_Recordset_TypeCNAME(tc, zone, rg)
+			},
+		},
 	)
 
 	tc.DeleteResourceAndWait(zone)
 
-	// Ensure that the resource was really deleted in Azure
+	//Ensure that the resource was really deleted in Azure
 	armId, hasID := genruntime.GetResourceID(zone)
 	tc.Expect(hasID).To(BeTrue())
 
@@ -53,6 +59,31 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func PrivateDNSZone_Recordset_TypeCNAME(tc *testcommon.KubePerTestContext, zone *network.PrivateDnsZone, rg *resources.ResourceGroup) {
+
+	record := &network20200601.PrivateDnsZonesRecordsetTypeCNAME{
+		ObjectMeta: tc.MakeObjectMetaWithName("record"),
+		Spec: network20200601.PrivateDnsZones_CNAME_Spec{
+			CnameRecord: &network20200601.CnameRecord{Cname: to.StringPtr("asotest.com")},
+			Owner:       testcommon.AsOwner(zone),
+			Ttl:         to.IntPtr(3600),
+		},
+	}
+
+	tc.CreateResourceAndWait(record)
+
+	tc.Expect(record.Status.Id).ToNot(BeNil())
+
+	old := record.DeepCopy()
+	key := "foo"
+	record.Spec.Metadata = map[string]string{key: "bar"}
+
+	tc.PatchResourceAndWait(old, record)
+	tc.Expect(record.Status.Metadata).To(HaveKey(key))
+
+	tc.DeleteResourceAndWait(record)
 }
 
 func PrivateDNSZone_VirtualNetworkLinks_CRUD(tc *testcommon.KubePerTestContext, zone *network.PrivateDnsZone, rg *resources.ResourceGroup) {

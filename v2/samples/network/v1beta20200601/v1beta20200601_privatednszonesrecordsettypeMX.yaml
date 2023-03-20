@@ -1,0 +1,12 @@
+apiVersion: network.azure.com/v1beta20200601
+kind: PrivateDnsZonesRecordsetTypeMX
+metadata:
+  name: aso-sample-recordset-mx
+  namespace: default
+spec:
+  mxRecords:
+  - exchange: mail.aso-sample.com
+    preference: 0
+  owner:
+    name: aso-sample-pdz.com
+  ttl: 3600

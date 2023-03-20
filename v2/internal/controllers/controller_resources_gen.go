@@ -418,6 +418,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20181130s.UserAssignedIdentity)})
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v20220131ps.FederatedIdentityCredential)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20180901s.PrivateDnsZone)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesRecordsetTypeA)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesRecordsetTypeAAAA)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesRecordsetTypeCNAME)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesRecordsetTypeMX)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesRecordsetTypePTR)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesRecordsetTypeSRV)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesRecordsetTypeTXT)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20200601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.LoadBalancer)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20201101s.NetworkInterface)})
@@ -768,8 +775,26 @@ func getKnownTypes() []client.Object {
 		new(network_alpha20201101s.VirtualNetworksVirtualNetworkPeering))
 	result = append(result, new(network_v20180901.PrivateDnsZone))
 	result = append(result, new(network_v20180901s.PrivateDnsZone))
-	result = append(result, new(network_v20200601.PrivateDnsZonesVirtualNetworkLink))
-	result = append(result, new(network_v20200601s.PrivateDnsZonesVirtualNetworkLink))
+	result = append(
+		result,
+		new(network_v20200601.PrivateDnsZonesRecordsetTypeA),
+		new(network_v20200601.PrivateDnsZonesRecordsetTypeAAAA),
+		new(network_v20200601.PrivateDnsZonesRecordsetTypeCNAME),
+		new(network_v20200601.PrivateDnsZonesRecordsetTypeMX),
+		new(network_v20200601.PrivateDnsZonesRecordsetTypePTR),
+		new(network_v20200601.PrivateDnsZonesRecordsetTypeSRV),
+		new(network_v20200601.PrivateDnsZonesRecordsetTypeTXT),
+		new(network_v20200601.PrivateDnsZonesVirtualNetworkLink))
+	result = append(
+		result,
+		new(network_v20200601s.PrivateDnsZonesRecordsetTypeA),
+		new(network_v20200601s.PrivateDnsZonesRecordsetTypeAAAA),
+		new(network_v20200601s.PrivateDnsZonesRecordsetTypeCNAME),
+		new(network_v20200601s.PrivateDnsZonesRecordsetTypeMX),
+		new(network_v20200601s.PrivateDnsZonesRecordsetTypePTR),
+		new(network_v20200601s.PrivateDnsZonesRecordsetTypeSRV),
+		new(network_v20200601s.PrivateDnsZonesRecordsetTypeTXT),
+		new(network_v20200601s.PrivateDnsZonesVirtualNetworkLink))
 	result = append(
 		result,
 		new(network_v20201101.LoadBalancer),
@@ -1076,6 +1101,13 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupsSecurityRuleExtension{})
 	result = append(result, &network_customizations.PrivateDnsZoneExtension{})
+	result = append(result, &network_customizations.PrivateDnsZonesRecordsetTypeAAAAExtension{})
+	result = append(result, &network_customizations.PrivateDnsZonesRecordsetTypeAExtension{})
+	result = append(result, &network_customizations.PrivateDnsZonesRecordsetTypeCNAMEExtension{})
+	result = append(result, &network_customizations.PrivateDnsZonesRecordsetTypeMXExtension{})
+	result = append(result, &network_customizations.PrivateDnsZonesRecordsetTypePTRExtension{})
+	result = append(result, &network_customizations.PrivateDnsZonesRecordsetTypeSRVExtension{})
+	result = append(result, &network_customizations.PrivateDnsZonesRecordsetTypeTXTExtension{})
 	result = append(result, &network_customizations.PrivateDnsZonesVirtualNetworkLinkExtension{})
 	result = append(result, &network_customizations.PrivateEndpointExtension{})
 	result = append(result, &network_customizations.PrivateEndpointsPrivateDnsZoneGroupExtension{})

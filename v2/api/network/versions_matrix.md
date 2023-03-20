@@ -1,6 +1,10 @@
 | Type Definitions in package "network"                                                  | v1alpha1api20201101 | v1beta20180901 | v1beta20200601 | v1beta20201101 | v1beta20220701 |
 |----------------------------------------------------------------------------------------|---------------------|----------------|----------------|----------------|----------------|
 | APIVersion                                                                             | v1alpha1api20201101 | v1beta20180901 | v1beta20200601 | v1beta20201101 | v1beta20220701 |
+| ARecord                                                                                |                     |                | v1beta20200601 |                |                |
+| ARecord_STATUS                                                                         |                     |                | v1beta20200601 |                |                |
+| AaaaRecord                                                                             |                     |                | v1beta20200601 |                |                |
+| AaaaRecord_STATUS                                                                      |                     |                | v1beta20200601 |                |                |
 | AddressSpace                                                                           | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | AddressSpace_STATUS                                                                    | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded              | v1alpha1api20201101 |                |                | v1beta20201101 |                |
@@ -23,6 +27,8 @@
 | BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                         | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | BgpSettings                                                                            | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | BgpSettings_STATUS                                                                     | v1alpha1api20201101 |                |                | v1beta20201101 |                |
+| CnameRecord                                                                            |                     |                | v1beta20200601 |                |                |
+| CnameRecord_STATUS                                                                     |                     |                | v1beta20200601 |                |                |
 | CustomDnsConfigPropertiesFormat                                                        |                     |                |                |                | v1beta20220701 |
 | CustomDnsConfigPropertiesFormat_STATUS                                                 |                     |                |                |                | v1beta20220701 |
 | DdosSettings                                                                           | v1alpha1api20201101 |                |                | v1beta20201101 |                |
@@ -98,6 +104,8 @@
 | LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS                              | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | LoadBalancingRulePropertiesFormat_STATUS                                               | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | LoadBalancingRule_STATUS                                                               | v1alpha1api20201101 |                |                | v1beta20201101 |                |
+| MxRecord                                                                               |                     |                | v1beta20200601 |                |                |
+| MxRecord_STATUS                                                                        |                     |                | v1beta20200601 |                |                |
 | NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                     | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                  | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | NetworkInterface                                                                       | v1alpha1api20201101 |                |                | v1beta20201101 |                |
@@ -149,7 +157,28 @@
 | PrivateDnsZonePropertiesFormat_STATUS                                                  |                     |                |                |                | v1beta20220701 |
 | PrivateDnsZone_STATUS                                                                  |                     | v1beta20180901 |                |                |                |
 | PrivateDnsZone_Spec                                                                    |                     | v1beta20180901 |                |                |                |
+| PrivateDnsZonesRecordsetTypeA                                                          |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZonesRecordsetTypeAAAA                                                       |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZonesRecordsetTypeCNAME                                                      |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZonesRecordsetTypeMX                                                         |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZonesRecordsetTypePTR                                                        |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZonesRecordsetTypeSRV                                                        |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZonesRecordsetTypeTXT                                                        |                     |                | v1beta20200601 |                |                |
 | PrivateDnsZonesVirtualNetworkLink                                                      |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_AAAA_STATUS                                                            |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_AAAA_Spec                                                              |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_A_STATUS                                                               |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_A_Spec                                                                 |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_CNAME_STATUS                                                           |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_CNAME_Spec                                                             |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_MX_STATUS                                                              |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_MX_Spec                                                                |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_PTR_STATUS                                                             |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_PTR_Spec                                                               |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_SRV_STATUS                                                             |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_SRV_Spec                                                               |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_TXT_STATUS                                                             |                     |                | v1beta20200601 |                |                |
+| PrivateDnsZones_TXT_Spec                                                               |                     |                | v1beta20200601 |                |                |
 | PrivateDnsZones_VirtualNetworkLink_STATUS                                              |                     |                | v1beta20200601 |                |                |
 | PrivateDnsZones_VirtualNetworkLink_Spec                                                |                     |                | v1beta20200601 |                |                |
 | PrivateEndpoint                                                                        |                     |                |                |                | v1beta20220701 |
@@ -194,6 +223,8 @@
 | ProbePropertiesFormat_STATUS                                                           | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | Probe_STATUS                                                                           | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | ProvisioningState_STATUS                                                               | v1alpha1api20201101 |                |                | v1beta20201101 |                |
+| PtrRecord                                                                              |                     |                | v1beta20200601 |                |                |
+| PtrRecord_STATUS                                                                       |                     |                | v1beta20200601 |                |                |
 | PublicIPAddress                                                                        | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | PublicIPAddressDnsSettings                                                             | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | PublicIPAddressDnsSettings_STATUS                                                      | v1alpha1api20201101 |                |                | v1beta20201101 |                |
@@ -215,6 +246,8 @@
 | PublicIPAddress_Spec                                                                   | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | RadiusServer                                                                           | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | RadiusServer_STATUS                                                                    | v1alpha1api20201101 |                |                | v1beta20201101 |                |
+| RecordSetProperties                                                                    |                     |                | v1beta20200601 |                |                |
+| RecordSetProperties_STATUS                                                             |                     |                | v1beta20200601 |                |                |
 | RecordSet_STATUS                                                                       |                     |                |                |                | v1beta20220701 |
 | ResourceNavigationLink_STATUS                                                          | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | ResourceSet                                                                            |                     |                |                |                | v1beta20220701 |
@@ -252,6 +285,10 @@
 | ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | ServiceEndpointPropertiesFormat                                                        | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | ServiceEndpointPropertiesFormat_STATUS                                                 | v1alpha1api20201101 |                |                | v1beta20201101 |                |
+| SoaRecord                                                                              |                     |                | v1beta20200601 |                |                |
+| SoaRecord_STATUS                                                                       |                     |                | v1beta20200601 |                |                |
+| SrvRecord                                                                              |                     |                | v1beta20200601 |                |                |
+| SrvRecord_STATUS                                                                       |                     |                | v1beta20200601 |                |                |
 | SubResource                                                                            | v1alpha1api20201101 |                | v1beta20200601 | v1beta20201101 |                |
 | SubResource_STATUS                                                                     | v1alpha1api20201101 |                | v1beta20200601 | v1beta20201101 |                |
 | SubnetPropertiesFormat_PrivateEndpointNetworkPolicies                                  | v1alpha1api20201101 |                |                | v1beta20201101 |                |
@@ -273,6 +310,8 @@
 | Subnet_VirtualNetwork_SubResourceEmbedded                                              | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | TransportProtocol                                                                      | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | TransportProtocol_STATUS                                                               | v1alpha1api20201101 |                |                | v1beta20201101 |                |
+| TxtRecord                                                                              |                     |                | v1beta20200601 |                |                |
+| TxtRecord_STATUS                                                                       |                     |                | v1beta20200601 |                |                |
 | VirtualNetwork                                                                         | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | VirtualNetworkBgpCommunities                                                           | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | VirtualNetworkBgpCommunities_STATUS                                                    | v1alpha1api20201101 |                |                | v1beta20201101 |                |

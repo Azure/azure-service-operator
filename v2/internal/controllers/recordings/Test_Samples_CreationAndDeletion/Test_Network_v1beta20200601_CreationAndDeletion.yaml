@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-tcqerf","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"westus2","name":"asotest-rg-tcqerf","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -66,50 +66,6 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"global","name":"aso-sample-pdz.com"}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "49"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
-    method: PUT
-  response:
-    body: '{}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs5OGJhNGI2MS0wOGVkLTQ2NjYtOTBkOC05OWExMDBjMDg2MjZfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
-      Cache-Control:
-      - private
-      Content-Length:
-      - "2"
-      Content-Type:
-      - application/json; charset=utf-8
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs5OGJhNGI2MS0wOGVkLTQ2NjYtOTBkOC05OWExMDBjMDg2MjZfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
-      Retry-After:
-      - "30"
-      Server:
-      - Microsoft-IIS/10.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Aspnet-Version:
-      - 4.0.30319
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11998"
-      X-Powered-By:
-      - ASP.NET
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
     body: '{"location":"westus2","name":"aso-sample-vn","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
     form: {}
     headers:
@@ -125,9 +81,9 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"aso-sample-vn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/virtualNetworks/aso-sample-vn\",\r\n
-      \ \"etag\": \"W/\\\"7cb9043e-7592-4ecd-a83c-6dd559443d36\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"882f6ee0-47a1-4bfd-bef7-64efdd2d17c1\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"f6edf182-7eca-410f-84b8-fc51fc1d4846\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"351cede1-f7d3-4cbc-b881-3aa409924f36\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -135,7 +91,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/61cd7d3c-253f-4bab-a9cf-02bdbfeba448?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2116d4fc-5ec5-4573-8d13-468e097a1675?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -159,26 +115,32 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: ""
+    body: '{"location":"global","name":"aso-sample-pdz.com"}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "49"
+      Content-Type:
+      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs5OGJhNGI2MS0wOGVkLTQ2NjYtOTBkOC05OWExMDBjMDg2MjZfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
-    method: GET
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
+    method: PUT
   response:
-    body: '{"status":"InProgress"}'
+    body: '{}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs5OGJhNGI2MS0wOGVkLTQ2NjYtOTBkOC05OWExMDBjMDg2MjZfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTthMDk0NjM1Yi0xYzUwLTQ1MTQtOTdlMi0xZjA5MzQxOWU0ZTFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
       Cache-Control:
       - private
       Content-Length:
-      - "23"
+      - "2"
       Content-Type:
       - application/json; charset=utf-8
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs5OGJhNGI2MS0wOGVkLTQ2NjYtOTBkOC05OWExMDBjMDg2MjZfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTthMDk0NjM1Yi0xYzUwLTQ1MTQtOTdlMi0xZjA5MzQxOWU0ZTFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
       Retry-After:
       - "30"
       Server:
@@ -190,7 +152,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "498"
+      - "11999"
       X-Powered-By:
       - ASP.NET
     status: 202 Accepted
@@ -202,7 +164,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/61cd7d3c-253f-4bab-a9cf-02bdbfeba448?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2116d4fc-5ec5-4573-8d13-468e097a1675?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -233,13 +195,51 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTthMDk0NjM1Yi0xYzUwLTQ1MTQtOTdlMi0xZjA5MzQxOWU0ZTFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"status":"InProgress"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTthMDk0NjM1Yi0xYzUwLTQ1MTQtOTdlMi0xZjA5MzQxOWU0ZTFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      Cache-Control:
+      - private
+      Content-Length:
+      - "23"
+      Content-Type:
+      - application/json; charset=utf-8
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTthMDk0NjM1Yi0xYzUwLTQ1MTQtOTdlMi0xZjA5MzQxOWU0ZTFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      Retry-After:
+      - "30"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/virtualNetworks/aso-sample-vn?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"aso-sample-vn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/virtualNetworks/aso-sample-vn\",\r\n
-      \ \"etag\": \"W/\\\"58bd6221-b6b6-4dd2-899f-8433c8e4df84\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"efd78b18-d3d2-4313-821c-6ed80880ac18\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"f6edf182-7eca-410f-84b8-fc51fc1d4846\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"351cede1-f7d3-4cbc-b881-3aa409924f36\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -249,7 +249,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"58bd6221-b6b6-4dd2-899f-8433c8e4df84"
+      - W/"efd78b18-d3d2-4313-821c-6ed80880ac18"
       Expires:
       - "-1"
       Pragma:
@@ -278,9 +278,9 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"aso-sample-vn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/virtualNetworks/aso-sample-vn\",\r\n
-      \ \"etag\": \"W/\\\"58bd6221-b6b6-4dd2-899f-8433c8e4df84\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"efd78b18-d3d2-4313-821c-6ed80880ac18\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"f6edf182-7eca-410f-84b8-fc51fc1d4846\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"351cede1-f7d3-4cbc-b881-3aa409924f36\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -290,7 +290,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"58bd6221-b6b6-4dd2-899f-8433c8e4df84"
+      - W/"efd78b18-d3d2-4313-821c-6ed80880ac18"
       Expires:
       - "-1"
       Pragma:
@@ -313,7 +313,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs5OGJhNGI2MS0wOGVkLTQ2NjYtOTBkOC05OWExMDBjMDg2MjZfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTthMDk0NjM1Yi0xYzUwLTQ1MTQtOTdlMi0xZjA5MzQxOWU0ZTFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -333,7 +333,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "496"
+      - "498"
       X-Powered-By:
       - ASP.NET
     status: 200 OK
@@ -348,14 +348,651 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
     method: GET
   response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"1eec96de-eb88-40c8-a8c1-ff568dca81a3","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"4b5be760-06be-4b64-aa88-3ebaf80a1d68","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - private
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - 1eec96de-eb88-40c8-a8c1-ff568dca81a3
+      - 4b5be760-06be-4b64-aa88-3ebaf80a1d68
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"4b5be760-06be-4b64-aa88-3ebaf80a1d68","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 4b5be760-06be-4b64-aa88-3ebaf80a1d68
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"aso-sample-recordset-a","properties":{"aRecords":[{"ipv4Address":"10.0.1.9"}],"ttl":3600}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "99"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/A/aso-sample-recordset-a?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/A\/aso-sample-recordset-a","name":"aso-sample-recordset-a","type":"Microsoft.Network\/privateDnsZones\/A","etag":"620a07fb-cde6-418d-8309-6f9fc1699f02","properties":{"fqdn":"aso-sample-recordset-a.aso-sample-pdz.com.","ttl":3600,"aRecords":[{"ipv4Address":"10.0.1.9"}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "459"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 620a07fb-cde6-418d-8309-6f9fc1699f02
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"name":"aso-sample-recordset-aaaa","properties":{"aaaaRecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"ttl":3600}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "136"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/AAAA/aso-sample-recordset-aaaa?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/AAAA\/aso-sample-recordset-aaaa","name":"aso-sample-recordset-aaaa","type":"Microsoft.Network\/privateDnsZones\/AAAA","etag":"a2769642-f6ff-4be7-8d65-a3dba2fc3356","properties":{"fqdn":"aso-sample-recordset-aaaa.aso-sample-pdz.com.","ttl":3600,"aaaaRecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "508"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - a2769642-f6ff-4be7-8d65-a3dba2fc3356
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"name":"aso-sample-recordset-ptr","properties":{"ptrRecords":[{"ptrdname":"asosample.com"}],"ttl":3600}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "105"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/PTR/aso-sample-recordset-ptr?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/PTR\/aso-sample-recordset-ptr","name":"aso-sample-recordset-ptr","type":"Microsoft.Network\/privateDnsZones\/PTR","etag":"2c186557-3000-4f7a-93e1-54e9b05f69ca","properties":{"fqdn":"aso-sample-recordset-ptr.aso-sample-pdz.com.","ttl":3600,"ptrRecords":[{"ptrdname":"asosample.com"}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "473"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 2c186557-3000-4f7a-93e1-54e9b05f69ca
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"name":"aso-sample-recordset-txt","properties":{"ttl":3600,"txtRecords":[{"value":["ASO
+      sample value"]}]}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "107"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/TXT/aso-sample-recordset-txt?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/TXT\/aso-sample-recordset-txt","name":"aso-sample-recordset-txt","type":"Microsoft.Network\/privateDnsZones\/TXT","etag":"a6a54e6f-7991-4561-ace5-de00e778f6b0","properties":{"fqdn":"aso-sample-recordset-txt.aso-sample-pdz.com.","ttl":3600,"txtRecords":[{"value":["ASO
+      sample value"]}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "475"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - a6a54e6f-7991-4561-ace5-de00e778f6b0
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"name":"aso-sample-recordset-srv","properties":{"srvRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"ttl":3600}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "145"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/SRV/aso-sample-recordset-srv?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/SRV\/aso-sample-recordset-srv","name":"aso-sample-recordset-srv","type":"Microsoft.Network\/privateDnsZones\/SRV","etag":"6cc94de8-c8e8-4b71-99bb-068271cf3e25","properties":{"fqdn":"aso-sample-recordset-srv.aso-sample-pdz.com.","ttl":3600,"srvRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "513"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 6cc94de8-c8e8-4b71-99bb-068271cf3e25
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"name":"aso-sample-recordset-mx","properties":{"mxRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"ttl":3600}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "124"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/MX/aso-sample-recordset-mx?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/MX\/aso-sample-recordset-mx","name":"aso-sample-recordset-mx","type":"Microsoft.Network\/privateDnsZones\/MX","etag":"4ce13d3d-552b-452b-949f-2d07f5ed3663","properties":{"fqdn":"aso-sample-recordset-mx.aso-sample-pdz.com.","ttl":3600,"mxRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "488"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 4ce13d3d-552b-452b-949f-2d07f5ed3663
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: '{"name":"aso-sample-recordset-cname","properties":{"cnameRecord":{"cname":"asosample.com"},"ttl":3600}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "103"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/CNAME/aso-sample-recordset-cname?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/CNAME\/aso-sample-recordset-cname","name":"aso-sample-recordset-cname","type":"Microsoft.Network\/privateDnsZones\/CNAME","etag":"6f8c1fc6-0f08-4d6e-b2d6-afd18fdad217","properties":{"fqdn":"aso-sample-recordset-cname.aso-sample-pdz.com.","ttl":3600,"cnameRecord":{"cname":"asosample.com"},"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "479"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 6f8c1fc6-0f08-4d6e-b2d6-afd18fdad217
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/A/aso-sample-recordset-a?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/A\/aso-sample-recordset-a","name":"aso-sample-recordset-a","type":"Microsoft.Network\/privateDnsZones\/A","etag":"620a07fb-cde6-418d-8309-6f9fc1699f02","properties":{"fqdn":"aso-sample-recordset-a.aso-sample-pdz.com.","ttl":3600,"aRecords":[{"ipv4Address":"10.0.1.9"}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 620a07fb-cde6-418d-8309-6f9fc1699f02
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/PTR/aso-sample-recordset-ptr?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/PTR\/aso-sample-recordset-ptr","name":"aso-sample-recordset-ptr","type":"Microsoft.Network\/privateDnsZones\/PTR","etag":"2c186557-3000-4f7a-93e1-54e9b05f69ca","properties":{"fqdn":"aso-sample-recordset-ptr.aso-sample-pdz.com.","ttl":3600,"ptrRecords":[{"ptrdname":"asosample.com"}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 2c186557-3000-4f7a-93e1-54e9b05f69ca
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/AAAA/aso-sample-recordset-aaaa?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/AAAA\/aso-sample-recordset-aaaa","name":"aso-sample-recordset-aaaa","type":"Microsoft.Network\/privateDnsZones\/AAAA","etag":"a2769642-f6ff-4be7-8d65-a3dba2fc3356","properties":{"fqdn":"aso-sample-recordset-aaaa.aso-sample-pdz.com.","ttl":3600,"aaaaRecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - a2769642-f6ff-4be7-8d65-a3dba2fc3356
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/TXT/aso-sample-recordset-txt?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/TXT\/aso-sample-recordset-txt","name":"aso-sample-recordset-txt","type":"Microsoft.Network\/privateDnsZones\/TXT","etag":"a6a54e6f-7991-4561-ace5-de00e778f6b0","properties":{"fqdn":"aso-sample-recordset-txt.aso-sample-pdz.com.","ttl":3600,"txtRecords":[{"value":["ASO
+      sample value"]}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - a6a54e6f-7991-4561-ace5-de00e778f6b0
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/SRV/aso-sample-recordset-srv?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/SRV\/aso-sample-recordset-srv","name":"aso-sample-recordset-srv","type":"Microsoft.Network\/privateDnsZones\/SRV","etag":"6cc94de8-c8e8-4b71-99bb-068271cf3e25","properties":{"fqdn":"aso-sample-recordset-srv.aso-sample-pdz.com.","ttl":3600,"srvRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 6cc94de8-c8e8-4b71-99bb-068271cf3e25
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/MX/aso-sample-recordset-mx?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/MX\/aso-sample-recordset-mx","name":"aso-sample-recordset-mx","type":"Microsoft.Network\/privateDnsZones\/MX","etag":"4ce13d3d-552b-452b-949f-2d07f5ed3663","properties":{"fqdn":"aso-sample-recordset-mx.aso-sample-pdz.com.","ttl":3600,"mxRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 4ce13d3d-552b-452b-949f-2d07f5ed3663
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"global","name":"aso-sample-vnetlink","properties":{"registrationEnabled":false,"virtualNetwork":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/virtualNetworks/aso-sample-vn"}}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "262"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/virtualNetworkLinks/aso-sample-vnetlink?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7YjllN2IwZTgtODllMS00NTJkLWFmMjYtMTY4YjQ5YjgwMTgyXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
+      Cache-Control:
+      - private
+      Content-Length:
+      - "2"
+      Content-Type:
+      - application/json; charset=utf-8
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7YjllN2IwZTgtODllMS00NTJkLWFmMjYtMTY4YjQ5YjgwMTgyXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
+      Retry-After:
+      - "30"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/CNAME/aso-sample-recordset-cname?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/CNAME\/aso-sample-recordset-cname","name":"aso-sample-recordset-cname","type":"Microsoft.Network\/privateDnsZones\/CNAME","etag":"6f8c1fc6-0f08-4d6e-b2d6-afd18fdad217","properties":{"fqdn":"aso-sample-recordset-cname.aso-sample-pdz.com.","ttl":3600,"cnameRecord":{"cname":"asosample.com"},"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 6f8c1fc6-0f08-4d6e-b2d6-afd18fdad217
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/A/aso-sample-recordset-a?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/A\/aso-sample-recordset-a","name":"aso-sample-recordset-a","type":"Microsoft.Network\/privateDnsZones\/A","etag":"620a07fb-cde6-418d-8309-6f9fc1699f02","properties":{"fqdn":"aso-sample-recordset-a.aso-sample-pdz.com.","ttl":3600,"aRecords":[{"ipv4Address":"10.0.1.9"}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 620a07fb-cde6-418d-8309-6f9fc1699f02
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -381,17 +1018,17 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/PTR/aso-sample-recordset-ptr?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"1eec96de-eb88-40c8-a8c1-ff568dca81a3","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/PTR\/aso-sample-recordset-ptr","name":"aso-sample-recordset-ptr","type":"Microsoft.Network\/privateDnsZones\/PTR","etag":"2c186557-3000-4f7a-93e1-54e9b05f69ca","properties":{"fqdn":"aso-sample-recordset-ptr.aso-sample-pdz.com.","ttl":3600,"ptrRecords":[{"ptrdname":"asosample.com"}],"isAutoRegistered":false}}'
     headers:
       Cache-Control:
       - private
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - 1eec96de-eb88-40c8-a8c1-ff568dca81a3
+      - 2c186557-3000-4f7a-93e1-54e9b05f69ca
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -403,55 +1040,192 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "496"
+      - "498"
       X-Powered-By:
       - ASP.NET
     status: 200 OK
     code: 200
     duration: ""
 - request:
-    body: '{"location":"global","name":"aso-sample-vnetlink","properties":{"registrationEnabled":false,"virtualNetwork":{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/virtualNetworks/aso-sample-vn"}}}'
+    body: ""
     form: {}
     headers:
       Accept:
       - application/json
-      Content-Length:
-      - "262"
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/virtualNetworkLinks/aso-sample-vnetlink?api-version=2020-06-01
-    method: PUT
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/AAAA/aso-sample-recordset-aaaa?api-version=2020-06-01
+    method: GET
   response:
-    body: '{}'
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/AAAA\/aso-sample-recordset-aaaa","name":"aso-sample-recordset-aaaa","type":"Microsoft.Network\/privateDnsZones\/AAAA","etag":"a2769642-f6ff-4be7-8d65-a3dba2fc3356","properties":{"fqdn":"aso-sample-recordset-aaaa.aso-sample-pdz.com.","ttl":3600,"aaaaRecords":[{"ipv6Address":"2001:0db8:85a3:0000:0000:8a2e:0370:7334"}],"isAutoRegistered":false}}'
     headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7ZWJkMTgwZWUtOTAyYS00YzdhLWJkYTUtNjZkMTM1YjI4ZWJmXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
       Cache-Control:
       - private
-      Content-Length:
-      - "2"
       Content-Type:
       - application/json; charset=utf-8
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7ZWJkMTgwZWUtOTAyYS00YzdhLWJkYTUtNjZkMTM1YjI4ZWJmXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
-      Retry-After:
-      - "30"
+      Etag:
+      - a2769642-f6ff-4be7-8d65-a3dba2fc3356
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Aspnet-Version:
       - 4.0.30319
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "11999"
+      - "498"
       X-Powered-By:
       - ASP.NET
-    status: 202 Accepted
-    code: 202
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/TXT/aso-sample-recordset-txt?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/TXT\/aso-sample-recordset-txt","name":"aso-sample-recordset-txt","type":"Microsoft.Network\/privateDnsZones\/TXT","etag":"a6a54e6f-7991-4561-ace5-de00e778f6b0","properties":{"fqdn":"aso-sample-recordset-txt.aso-sample-pdz.com.","ttl":3600,"txtRecords":[{"value":["ASO
+      sample value"]}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - a6a54e6f-7991-4561-ace5-de00e778f6b0
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/SRV/aso-sample-recordset-srv?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/SRV\/aso-sample-recordset-srv","name":"aso-sample-recordset-srv","type":"Microsoft.Network\/privateDnsZones\/SRV","etag":"6cc94de8-c8e8-4b71-99bb-068271cf3e25","properties":{"fqdn":"aso-sample-recordset-srv.aso-sample-pdz.com.","ttl":3600,"srvRecords":[{"port":80,"priority":0,"target":"target.asosample.com","weight":50}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 6cc94de8-c8e8-4b71-99bb-068271cf3e25
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/MX/aso-sample-recordset-mx?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/MX\/aso-sample-recordset-mx","name":"aso-sample-recordset-mx","type":"Microsoft.Network\/privateDnsZones\/MX","etag":"4ce13d3d-552b-452b-949f-2d07f5ed3663","properties":{"fqdn":"aso-sample-recordset-mx.aso-sample-pdz.com.","ttl":3600,"mxRecords":[{"exchange":"mail.aso-sample.com","preference":0}],"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 4ce13d3d-552b-452b-949f-2d07f5ed3663
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/CNAME/aso-sample-recordset-cname?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/CNAME\/aso-sample-recordset-cname","name":"aso-sample-recordset-cname","type":"Microsoft.Network\/privateDnsZones\/CNAME","etag":"6f8c1fc6-0f08-4d6e-b2d6-afd18fdad217","properties":{"fqdn":"aso-sample-recordset-cname.aso-sample-pdz.com.","ttl":3600,"cnameRecord":{"cname":"asosample.com"},"isAutoRegistered":false}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 6f8c1fc6-0f08-4d6e-b2d6-afd18fdad217
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Aspnet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -459,13 +1233,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7ZWJkMTgwZWUtOTAyYS00YzdhLWJkYTUtNjZkMTM1YjI4ZWJmXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7YjllN2IwZTgtODllMS00NTJkLWFmMjYtMTY4YjQ5YjgwMTgyXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7ZWJkMTgwZWUtOTAyYS00YzdhLWJkYTUtNjZkMTM1YjI4ZWJmXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7YjllN2IwZTgtODllMS00NTJkLWFmMjYtMTY4YjQ5YjgwMTgyXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
       Cache-Control:
       - private
       Content-Length:
@@ -473,7 +1247,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7ZWJkMTgwZWUtOTAyYS00YzdhLWJkYTUtNjZkMTM1YjI4ZWJmXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7YjllN2IwZTgtODllMS00NTJkLWFmMjYtMTY4YjQ5YjgwMTgyXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
       Retry-After:
       - "30"
       Server:
@@ -485,7 +1259,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "495"
+      - "497"
       X-Powered-By:
       - ASP.NET
     status: 202 Accepted
@@ -497,13 +1271,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7ZWJkMTgwZWUtOTAyYS00YzdhLWJkYTUtNjZkMTM1YjI4ZWJmXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7YjllN2IwZTgtODllMS00NTJkLWFmMjYtMTY4YjQ5YjgwMTgyXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7ZWJkMTgwZWUtOTAyYS00YzdhLWJkYTUtNjZkMTM1YjI4ZWJmXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7YjllN2IwZTgtODllMS00NTJkLWFmMjYtMTY4YjQ5YjgwMTgyXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
       Cache-Control:
       - private
       Content-Length:
@@ -511,7 +1285,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7ZWJkMTgwZWUtOTAyYS00YzdhLWJkYTUtNjZkMTM1YjI4ZWJmXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7YjllN2IwZTgtODllMS00NTJkLWFmMjYtMTY4YjQ5YjgwMTgyXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
       Retry-After:
       - "30"
       Server:
@@ -523,7 +1297,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "494"
+      - "496"
       X-Powered-By:
       - ASP.NET
     status: 202 Accepted
@@ -535,7 +1309,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7ZWJkMTgwZWUtOTAyYS00YzdhLWJkYTUtNjZkMTM1YjI4ZWJmXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRWaXJ0dWFsTmV0d29ya0xpbms7YjllN2IwZTgtODllMS00NTJkLWFmMjYtMTY4YjQ5YjgwMTgyXzgyYWNkNWJiLTQyMDYtNDdkNC05YzEyLWE2NWRiMDI4NDgzZA==?api-version=2020-06-01
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -555,7 +1329,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
-      - "493"
+      - "495"
       X-Powered-By:
       - ASP.NET
     status: 200 OK
@@ -570,14 +1344,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/virtualNetworkLinks/aso-sample-vnetlink?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/virtualNetworkLinks\/aso-sample-vnetlink","name":"aso-sample-vnetlink","type":"Microsoft.Network\/privateDnsZones\/virtualNetworkLinks","etag":"\"6701c9c9-0000-0100-0000-6401cb320000\"","location":"global","properties":{"provisioningState":"Succeeded","registrationEnabled":false,"virtualNetwork":{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/virtualNetworks\/aso-sample-vn"},"virtualNetworkLinkState":"Completed"}}'
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/virtualNetworkLinks\/aso-sample-vnetlink","name":"aso-sample-vnetlink","type":"Microsoft.Network\/privateDnsZones\/virtualNetworkLinks","etag":"\"2801e828-0000-0100-0000-64181c170000\"","location":"global","properties":{"provisioningState":"Succeeded","registrationEnabled":false,"virtualNetwork":{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/virtualNetworks\/aso-sample-vn"},"virtualNetworkLinkState":"Completed"}}'
     headers:
       Cache-Control:
       - private
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"6701c9c9-0000-0100-0000-6401cb320000"'
+      - '"2801e828-0000-0100-0000-64181c170000"'
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -606,14 +1380,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/virtualNetworkLinks/aso-sample-vnetlink?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/virtualNetworkLinks\/aso-sample-vnetlink","name":"aso-sample-vnetlink","type":"Microsoft.Network\/privateDnsZones\/virtualNetworkLinks","etag":"\"6701c9c9-0000-0100-0000-6401cb320000\"","location":"global","properties":{"provisioningState":"Succeeded","registrationEnabled":false,"virtualNetwork":{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/virtualNetworks\/aso-sample-vn"},"virtualNetworkLinkState":"Completed"}}'
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com\/virtualNetworkLinks\/aso-sample-vnetlink","name":"aso-sample-vnetlink","type":"Microsoft.Network\/privateDnsZones\/virtualNetworkLinks","etag":"\"2801e828-0000-0100-0000-64181c170000\"","location":"global","properties":{"provisioningState":"Succeeded","registrationEnabled":false,"virtualNetwork":{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-tcqerf\/providers\/Microsoft.Network\/virtualNetworks\/aso-sample-vn"},"virtualNetworkLinkState":"Completed"}}'
     headers:
       Cache-Control:
       - private
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - '"6701c9c9-0000-0100-0000-6401cb320000"'
+      - '"2801e828-0000-0100-0000-64181c170000"'
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -890,36 +1664,6 @@ interactions:
       - "0"
       Expires:
       - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUQ1FFUkYtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUQ1FFUkYtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
       Pragma:
       - no-cache
       Strict-Transport-Security:
@@ -928,39 +1672,6 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-tcqerf''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
     duration: ""
 - request:
     body: ""
@@ -1003,6 +1714,39 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-tcqerf''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/virtualNetworkLinks/aso-sample-vnetlink?api-version=2020-06-01
     method: DELETE
   response:
@@ -1013,6 +1757,237 @@ interactions:
       - no-cache
       Content-Length:
       - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/A/aso-sample-recordset-a?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''aso-sample-pdz.com'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "159"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/CNAME/aso-sample-recordset-cname?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''aso-sample-pdz.com'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "159"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/AAAA/aso-sample-recordset-aaaa?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''aso-sample-pdz.com'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "159"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/MX/aso-sample-recordset-mx?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''aso-sample-pdz.com'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "159"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/SRV/aso-sample-recordset-srv?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''aso-sample-pdz.com'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "159"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/PTR/aso-sample-recordset-ptr?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''aso-sample-pdz.com'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "159"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tcqerf/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com/TXT/aso-sample-recordset-txt?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
+      operation on nested resource. Parent resource ''aso-sample-pdz.com'' not found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "159"
       Content-Type:
       - application/json; charset=utf-8
       Expires:

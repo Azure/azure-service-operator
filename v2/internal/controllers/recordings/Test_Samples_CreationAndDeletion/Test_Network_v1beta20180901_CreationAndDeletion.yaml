@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-shblaa","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"westus2","name":"asotest-rg-shblaa","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -83,7 +83,7 @@ interactions:
     body: '{}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTtmMzk4ZDNkNy1iY2JmLTRmMTYtOWZmZi0xODk0Y2Q5MzNiZThfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0OTQ2ZTkyMS0wNjE5LTRiYzctOGIwNi1kNGJlMzE3NTE3MmFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
       Cache-Control:
       - private
       Content-Length:
@@ -91,7 +91,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTtmMzk4ZDNkNy1iY2JmLTRmMTYtOWZmZi0xODk0Y2Q5MzNiZThfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0OTQ2ZTkyMS0wNjE5LTRiYzctOGIwNi1kNGJlMzE3NTE3MmFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
       Retry-After:
       - "30"
       Server:
@@ -115,13 +115,13 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTtmMzk4ZDNkNy1iY2JmLTRmMTYtOWZmZi0xODk0Y2Q5MzNiZThfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0OTQ2ZTkyMS0wNjE5LTRiYzctOGIwNi1kNGJlMzE3NTE3MmFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
     method: GET
   response:
     body: '{"status":"InProgress"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTtmMzk4ZDNkNy1iY2JmLTRmMTYtOWZmZi0xODk0Y2Q5MzNiZThfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0OTQ2ZTkyMS0wNjE5LTRiYzctOGIwNi1kNGJlMzE3NTE3MmFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
       Cache-Control:
       - private
       Content-Length:
@@ -129,7 +129,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTtmMzk4ZDNkNy1iY2JmLTRmMTYtOWZmZi0xODk0Y2Q5MzNiZThfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationResults/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0OTQ2ZTkyMS0wNjE5LTRiYzctOGIwNi1kNGJlMzE3NTE3MmFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
       Retry-After:
       - "30"
       Server:
@@ -153,7 +153,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTtmMzk4ZDNkNy1iY2JmLTRmMTYtOWZmZi0xODk0Y2Q5MzNiZThfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsOperationStatuses/RnJvbnRFbmRBc3luY09wZXJhdGlvbjtVcHNlcnRQcml2YXRlRG5zWm9uZTs0OTQ2ZTkyMS0wNjE5LTRiYzctOGIwNi1kNGJlMzE3NTE3MmFfODJhY2Q1YmItNDIwNi00N2Q0LTljMTItYTY1ZGIwMjg0ODNk?api-version=2018-09-01
     method: GET
   response:
     body: '{"status":"Succeeded"}'
@@ -188,14 +188,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
     method: GET
   response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-shblaa\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"66c5f902-9908-4a1a-8904-f6bc819f1261","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-shblaa\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"f4ce2311-aa6e-450e-aed2-e8f6b04d78ad","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - private
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - 66c5f902-9908-4a1a-8904-f6bc819f1261
+      - f4ce2311-aa6e-450e-aed2-e8f6b04d78ad
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:
@@ -224,14 +224,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-shblaa/providers/Microsoft.Network/privateDnsZones/aso-sample-pdz.com?api-version=2018-09-01
     method: GET
   response:
-    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-shblaa\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"66c5f902-9908-4a1a-8904-f6bc819f1261","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-shblaa\/providers\/Microsoft.Network\/privateDnsZones\/aso-sample-pdz.com","name":"aso-sample-pdz.com","type":"Microsoft.Network\/privateDnsZones","etag":"f4ce2311-aa6e-450e-aed2-e8f6b04d78ad","location":"global","properties":{"maxNumberOfRecordSets":25000,"maxNumberOfVirtualNetworkLinks":1000,"maxNumberOfVirtualNetworkLinksWithRegistration":100,"numberOfRecordSets":1,"numberOfVirtualNetworkLinks":0,"numberOfVirtualNetworkLinksWithRegistration":0,"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - private
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - 66c5f902-9908-4a1a-8904-f6bc819f1261
+      - f4ce2311-aa6e-450e-aed2-e8f6b04d78ad
       Server:
       - Microsoft-IIS/10.0
       Strict-Transport-Security:

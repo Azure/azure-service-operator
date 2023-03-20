@@ -1,0 +1,14 @@
+apiVersion: network.azure.com/v1beta20200601
+kind: PrivateDnsZonesRecordsetTypeSRV
+metadata:
+  name: aso-sample-recordset-srv
+  namespace: default
+spec:
+  srvRecords:
+  - target: target.asosample.com
+    port: 80
+    weight: 50
+    priority: 0
+  owner:
+    name: aso-sample-pdz.com
+  ttl: 3600

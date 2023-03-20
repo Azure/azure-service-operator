@@ -1243,6 +1243,27 @@ objectModelConfiguration:
         $exportAs: PrivateDnsZonesVirtualNetworkLink
         $supportedFrom: v2.0.0
         $importable: false
+      PrivateDnsZones_A:
+        $exportAs: PrivateDnsZonesRecordsetTypeA
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_AAAA:
+        $exportAs: PrivateDnsZonesRecordsetTypeAAAA
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_CNAME:
+        $exportAs: PrivateDnsZonesRecordsetTypeCNAME
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_MX:
+        $exportAs: PrivateDnsZonesRecordsetTypeMX
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_SRV:
+        $exportAs: PrivateDnsZonesRecordsetTypeSRV
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_PTR:
+        $exportAs: PrivateDnsZonesRecordsetTypePTR
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_TXT:
+        $exportAs: PrivateDnsZonesRecordsetTypeTXT
+        $supportedFrom: v2.0.0
     2020-11-01:
       BackendAddressPool:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
