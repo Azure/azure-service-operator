@@ -73,6 +73,11 @@ func NewReadableConversionEndpointReadingPropertyBagMember(
 	}
 }
 
+// Name returns the name of the underlying endpoint
+func (r *ReadableConversionEndpoint) Name() string {
+	return r.endpoint.Name()
+}
+
 // String returns a human-readable description of the endpoint
 func (r *ReadableConversionEndpoint) String() string {
 	return r.description

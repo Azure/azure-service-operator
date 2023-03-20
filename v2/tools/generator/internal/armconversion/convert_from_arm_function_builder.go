@@ -82,7 +82,7 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 	fn := &astbuilder.FuncDetails{
 		Name:          builder.methodName,
 		ReceiverIdent: builder.receiverIdent,
-		ReceiverType:  astbuilder.Dereference(builder.receiverTypeExpr),
+		ReceiverType:  astbuilder.PointerTo(builder.receiverTypeExpr),
 		Body:          builder.functionBodyStatements(),
 	}
 
@@ -97,8 +97,6 @@ func (builder *convertFromARMBuilder) functionDeclaration() *dst.FuncDecl {
 }
 
 func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
-	var result []dst.Stmt
-
 	conversionStmts := generateTypeConversionAssignments(
 		builder.armType,
 		builder.kubeType,
@@ -112,13 +110,10 @@ func (builder *convertFromARMBuilder) functionBodyStatements() []dst.Stmt {
 
 	assertStmts := builder.assertInputTypeIsARM(hasConversions)
 
-	// perform a type assert and check its results
-	result = append(result, assertStmts...)
-	result = append(result, conversionStmts...)
-
-	result = append(result, astbuilder.ReturnNoError())
-
-	return result
+	return astbuilder.Statements(
+		assertStmts,
+		conversionStmts,
+		astbuilder.ReturnNoError())
 }
 
 func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []dst.Stmt {
@@ -170,18 +165,16 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 	}
 
 	// Invoke SetAzureName(ExtractKubernetesResourceNameFromARMName(this.Name)):
-	return []dst.Stmt{
-		&dst.ExprStmt{
-			X: astbuilder.CallQualifiedFunc(
-				builder.receiverIdent,
-				"SetAzureName",
-				astbuilder.CallQualifiedFunc(
-					astmodel.GenRuntimeReference.PackageName(),
-					"ExtractKubernetesResourceNameFromARMName",
-					astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))),
-			),
-		},
-	}, true
+	setAzureName := astbuilder.CallQualifiedFuncAsStmt(
+		builder.receiverIdent,
+		"SetAzureName",
+		astbuilder.CallQualifiedFunc(
+			astmodel.GenRuntimeReference.PackageName(),
+			"ExtractKubernetesResourceNameFromARMName",
+			astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))))
+
+	return astbuilder.Statements(
+		setAzureName), true
 }
 
 func (builder *convertFromARMBuilder) referencePropertyHandler(
@@ -265,13 +258,13 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		panic(fmt.Sprintf("found Owner property on spec with unexpected TypeName %s", ownerNameType.String()))
 	}
 
-	result := astbuilder.QualifiedAssignment(
+	setOwner := astbuilder.QualifiedAssignment(
 		dst.NewIdent(builder.receiverIdent),
 		string(toProp.PropertyName()),
 		token.ASSIGN,
 		convertedOwner)
 
-	return []dst.Stmt{result}, true
+	return astbuilder.Statements(setOwner), true
 }
 
 // conditionsPropertyHandler generates conversions for the "Conditions" status property. This property is set by the controller

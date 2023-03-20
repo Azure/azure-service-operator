@@ -37,6 +37,33 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 }
 
+// IsEmpty returns true if we have no configuration at all, false if we have some groups configured.
+func (omc *ObjectModelConfiguration) IsEmpty() bool {
+	return len(omc.groups) == 0
+}
+
+// IsGroupConfigured returns true if we have any configuration for the specified group, false otherwise.
+func (omc *ObjectModelConfiguration) IsGroupConfigured(pkg astmodel.PackageReference) bool {
+	var result bool
+	visitor := newSingleGroupConfigurationVisitor(pkg, func(configuration *GroupConfiguration) error {
+		result = true
+		return nil
+	})
+
+	err := visitor.Visit(omc)
+	if err != nil {
+		if IsNotConfiguredError(err) {
+			// No configuration for this package, we're not expecting any types
+			return false
+		}
+
+		// Some other error, we'll assume we're expecting types
+		return true
+	}
+
+	return result
+}
+
 // LookupNameInNextVersion checks whether we have an alternative name for the specified type, returning the name if
 // found. Returns a NotConfiguredError if no rename is available.
 func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeName) (string, error) {
@@ -425,6 +452,34 @@ func (omc *ObjectModelConfiguration) VerifyIsResourceConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			return configuration.VerifyIsResourceConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+// LookupImportable checks to see whether a specified type is labelled as importable.
+// Returns a NotConfiguredError if no $importable flag is configured.
+func (omc *ObjectModelConfiguration) LookupImportable(name astmodel.TypeName) (bool, error) {
+	var importable bool
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			im, err := configuration.LookupImportable()
+			importable = im
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return false, err
+	}
+
+	return importable, nil
+}
+
+// VerifyImportableConsumed returns an error if our configured $importable flag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyImportableConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyImportableConsumed()
 		})
 	return visitor.Visit(omc)
 }

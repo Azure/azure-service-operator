@@ -41,7 +41,7 @@ func NewWritableConversionEndpointWritingProperty(
 					value),
 			}
 		},
-		description: fmt.Sprintf("write property %s", propertyName),
+		description: fmt.Sprintf("write to property %s", propertyName),
 	}
 }
 
@@ -64,6 +64,12 @@ func NewWritableConversionEndpointWritingPropertyBagMember(
 	}
 }
 
+// Name returns the name of the underlying endpoint
+func (w *WritableConversionEndpoint) Name() string {
+	return w.endpoint.Name()
+}
+
+// String returns a human-readable description of the endpoint
 func (w *WritableConversionEndpoint) String() string {
 	return w.description
 }

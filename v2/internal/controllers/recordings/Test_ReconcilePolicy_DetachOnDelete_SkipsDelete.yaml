@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-dkznhe","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"westus2","name":"asotest-rg-dkznhe","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -96,7 +96,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-rg-dkznhe","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"westus2","name":"asotest-rg-dkznhe","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:

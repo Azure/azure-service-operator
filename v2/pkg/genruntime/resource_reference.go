@@ -72,6 +72,13 @@ type ResourceReference struct {
 	ARMID string `json:"armId,omitempty"`
 }
 
+// CreateResourceReferenceFromARMID creates a new ResourceReference from a string representing an ARM ID
+func CreateResourceReferenceFromARMID(armID string) ResourceReference {
+	return ResourceReference{
+		ARMID: armID,
+	}
+}
+
 // IsDirectARMReference returns true if this ResourceReference is referring to an ARMID directly.
 func (ref ResourceReference) IsDirectARMReference() bool {
 	return ref.ARMID != "" && ref.Name == "" && ref.Group == "" && ref.Kind == ""

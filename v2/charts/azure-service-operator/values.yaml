@@ -70,7 +70,7 @@ azureOperatorMode: ""
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-beta.4
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-beta.5
   kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
 
 # 'metrics' define settings for the metrics from controller.

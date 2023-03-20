@@ -128,80 +128,106 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 		fullPutParameters := append(op.Parameters, op.Put.Parameters...)
 
 		nameParameterType := extractor.getNameParameterType(ctx, rawOperationPath, scanner, fullPutParameters)
-		operationPath := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, fullPutParameters)
+		operationPaths := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, fullPutParameters)
 
-		armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
+		for _, operationPath := range operationPaths {
+			err := extractor.extractOneResourceType(
+				ctx,
+				scanner,
+				result,
+				specSchema,
+				statusSchema,
+				nameParameterType,
+				operationPath)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
+func (extractor *SwaggerTypeExtractor) extractOneResourceType(
+	ctx context.Context,
+	scanner *SchemaScanner,
+	result SwaggerTypes,
+	specSchema *Schema,
+	statusSchema *Schema,
+	nameParameterType astmodel.Type,
+	operationPath string) error {
+
+	armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
+	if err != nil {
+		klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
+		return nil
+	}
+
+	shouldPrune, because := scanner.configuration.ShouldPrune(resourceName)
+	if shouldPrune == config.Prune {
+		klog.V(3).Infof("Skipping %s because %s", resourceName, because)
+		return nil
+	}
+
+	var resourceSpec astmodel.Type
+	if specSchema == nil {
+		// nil indicates empty body
+		resourceSpec = astmodel.NewObjectType()
+	} else {
+		resourceSpec, err = scanner.RunHandlerForSchema(ctx, *specSchema)
 		if err != nil {
-			klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
-			continue
-		}
-
-		shouldPrune, because := scanner.configuration.ShouldPrune(resourceName)
-		if shouldPrune == config.Prune {
-			klog.V(3).Infof("Skipping %s because %s", resourceName, because)
-			continue
-		}
-
-		var resourceSpec astmodel.Type
-		if specSchema == nil {
-			// nil indicates empty body
-			resourceSpec = astmodel.NewObjectType()
-		} else {
-			resourceSpec, err = scanner.RunHandlerForSchema(ctx, *specSchema)
-			if err != nil {
-				if errors.Is(err, context.Canceled) {
-					return err
-				}
-
-				return errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
+			if errors.Is(err, context.Canceled) {
+				return err
 			}
+
+			return errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
 		}
+	}
 
-		if resourceSpec == nil {
-			// this indicates a type filtered out by RunHandlerForSchema, skip
-			continue
+	if resourceSpec == nil {
+		// this indicates a type filtered out by RunHandlerForSchema, skip
+		return nil
+	}
+
+	// Use the name field documented on the PUT parameter as it's likely to have better
+	// validation attached to it than the name specified in the request body (which is usually readonly and has no validation).
+	// If by some chance the body property has validation, the AllOf below will merge it anyway, so it will not be lost.
+	nameProperty := astmodel.NewPropertyDefinition(astmodel.NameProperty, "name", nameParameterType)
+	resourceSpec = astmodel.NewAllOfType(resourceSpec, astmodel.NewObjectType().WithProperty(nameProperty))
+
+	var resourceStatus astmodel.Type
+	if statusSchema == nil {
+		// nil indicates empty body
+		resourceStatus = astmodel.NewObjectType()
+	} else {
+		resourceStatus, err = scanner.RunHandlerForSchema(ctx, *statusSchema)
+		if err != nil {
+			if errors.Is(err, context.Canceled) {
+				return err
+			}
+
+			return errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
 		}
+	}
 
-		// Use the name field documented on the PUT parameter as it's likely to have better
-		// validation attached to it than the name specified in the request body (which is usually readonly and has no validation).
-		// If by some chance the body property has validation, the AllOf below will merge it anyway, so it will not be lost.
-		nameProperty := astmodel.NewPropertyDefinition(astmodel.NameProperty, "name", nameParameterType)
-		resourceSpec = astmodel.NewAllOfType(resourceSpec, astmodel.NewObjectType().WithProperty(nameProperty))
-
-		var resourceStatus astmodel.Type
-		if statusSchema == nil {
-			// nil indicates empty body
-			resourceStatus = astmodel.NewObjectType()
-		} else {
-			resourceStatus, err = scanner.RunHandlerForSchema(ctx, *statusSchema)
-			if err != nil {
-				if errors.Is(err, context.Canceled) {
-					return err
-				}
-
-				return errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
-			}
+	if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
+		// TODO: check status types as well
+		if !astmodel.TypeEquals(existingResource.SpecType, resourceSpec) {
+			return errors.Errorf("resource already defined differently: %s\ndiff:\n%s",
+				resourceName,
+				astmodel.DiffTypes(existingResource.SpecType, resourceSpec))
 		}
-
-		if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
-			// TODO: check status types as well
-			if !astmodel.TypeEquals(existingResource.SpecType, resourceSpec) {
-				return errors.Errorf("resource already defined differently: %s\ndiff:\n%s",
-					resourceName,
-					astmodel.DiffTypes(existingResource.SpecType, resourceSpec))
-			}
-		} else {
-			if resourceSpec != nil && resourceStatus == nil {
-				fmt.Printf("generated nil resourceStatus for %s\n", resourceName)
-				continue
-			}
-			result.ResourceDefinitions[resourceName] = ResourceDefinition{
-				SourceFile: extractor.swaggerPath,
-				SpecType:   resourceSpec,
-				StatusType: resourceStatus,
-				ARMType:    armType,
-				ARMURI:     operationPath,
-			}
+	} else {
+		if resourceSpec != nil && resourceStatus == nil {
+			fmt.Printf("generated nil resourceStatus for %s\n", resourceName)
+			return nil
+		}
+		result.ResourceDefinitions[resourceName] = ResourceDefinition{
+			SourceFile: extractor.swaggerPath,
+			SpecType:   resourceSpec,
+			StatusType: resourceStatus,
+			ARMType:    armType,
+			ARMURI:     operationPath,
 		}
 	}
 
@@ -519,9 +545,11 @@ func (extractor *SwaggerTypeExtractor) expandEnumsInPath(
 	ctx context.Context,
 	operationPath string,
 	scanner *SchemaScanner,
-	parameters []spec.Parameter) string {
+	parameters []spec.Parameter) []string {
 
-	result := operationPath
+	var results = []string{
+		operationPath,
+	}
 
 	for _, param := range parameters {
 		_, resolved := extractor.fullyResolveParameter(param)
@@ -540,14 +568,22 @@ func (extractor *SwaggerTypeExtractor) expandEnumsInPath(
 		}
 
 		enum, isEnum := paramType.(*astmodel.EnumType)
-		if isEnum && len(enum.Options()) == 1 {
-			theOption := strings.Trim(enum.Options()[0].Value, "\"")
+		if isEnum {
 			toReplace := fmt.Sprintf("{%s}", resolved.Name)
-			result = strings.ReplaceAll(result, toReplace, theOption)
+			var expanded []string
+
+			for _, path := range results {
+				for _, opt := range enum.Options() {
+					theOption := strings.Trim(opt.Value, "\"")
+					expanded = append(expanded, strings.ReplaceAll(path, toReplace, theOption))
+				}
+			}
+
+			results = expanded
 		}
 	}
 
-	return result
+	return results
 }
 
 func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (string, astmodel.TypeName, error) {
@@ -567,6 +603,10 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPa
 func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string) (string, string, string, error) {
 	group := ""
 	var nameParts []string
+
+	if strings.EqualFold(operationPath, "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}") {
+		return "Microsoft.Resources", "resourceGroups", "ResourceGroup", nil
+	}
 
 	urlParts := strings.Split(operationPath, "/")
 	reading := false

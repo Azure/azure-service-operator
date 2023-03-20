@@ -134,6 +134,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.MakeStatusPropertiesOptional(),
 		pipeline.TransformValidatedFloats(),
+		pipeline.AddLocatableInterface(idFactory),
 
 		// This is currently also run as part of RemoveEmbeddedResources and so is technically not needed here,
 		// but we include it to hedge against future changes
@@ -194,6 +195,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ImplementConvertibleSpecInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleStatusInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectSpecInitializationFunctions(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ImplementImportableResourceInterface(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.MarkLatestStorageVariantAsHubVersion().UsedFor(pipeline.ARMTarget),
 		pipeline.MarkLatestAPIVersionAsStorageVersion().UsedFor(pipeline.CrossplaneTarget),
@@ -253,6 +256,11 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 		newState, err := stage.Run(ctx, state)
 		if err != nil {
 			return errors.Wrapf(err, "failed during pipeline stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
+		}
+
+		if ctx.Err() != nil {
+			// Cancelled
+			return errors.Wrapf(ctx.Err(), "pipeline cancelled during stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
 		}
 
 		// Fail fast if something goes awry

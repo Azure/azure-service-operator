@@ -9,6 +9,7 @@ import (
 	"github.com/go-logr/logr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -44,6 +45,8 @@ type StorageType struct {
 	Watches []Watch
 	// Reconciler is the reconciler instance for resources of this type.
 	Reconciler genruntime.Reconciler
+	// Predicate determines which events trigger reconciliation for this type
+	Predicate predicate.Predicate
 	// Name is the friendly name of this storage type
 	Name string
 }

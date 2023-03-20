@@ -85,6 +85,26 @@ func testSetup() (*testResources, error) {
 	}, nil
 }
 
+func Test_DefaultCredential_NotSet_ReturnsErrorWhenTryToUseGlobalCredential(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	s := createTestScheme()
+	kubeClient := NewFakeKubeClient(s)
+
+	cfg, err := config.ReadFromEnvironment()
+	g.Expect(err).To(BeNil())
+
+	clientWithNoDefaultCred := NewARMClientCache(nil, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil, metrics.NewARMClientMetrics())
+
+	rg := newResourceGroup("")
+
+	_, _, err = clientWithNoDefaultCred.GetClient(ctx, rg)
+	g.Expect(err).ToNot(BeNil())
+
+}
+
 func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -313,7 +333,7 @@ func newResourceGroup(namespace string) *resources.ResourceGroup {
 			Name:      "my-rg",
 			Namespace: namespace,
 		},
-		Spec: resources.ResourceGroupSpec{
+		Spec: resources.ResourceGroup_Spec{
 			Location:  to.StringPtr("West US"),
 			AzureName: "my-rg", // defaulter webhook will copy Name to AzureName
 		},

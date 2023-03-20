@@ -72,7 +72,7 @@ func NewResourceVersionsReport(
 		reportConfiguration:      cfg.SupportedResourcesReport,
 		objectModelConfiguration: cfg.ObjectModelConfiguration,
 		rootUrl:                  cfg.RootURL,
-		samplesPath:              cfg.SamplesPath,
+		samplesPath:              cfg.FullSamplesPath(),
 		availableFragments:       make(map[string]string),
 		groups:                   set.Make[string](),
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
@@ -203,7 +203,13 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 			buffer.WriteString("\n\n")
 		}
 
-		table, err := report.createTable(report.kinds[svc])
+		kinds := report.kinds[svc]
+		summary := report.createSummary(kinds)
+
+		buffer.WriteString(summary)
+		buffer.WriteString("\n\n")
+
+		table, err := report.createTable(kinds)
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -224,6 +230,28 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 	}
 
 	return kerrors.NewAggregate(errs)
+}
+
+func (report *ResourceVersionsReport) createSummary(
+	resources astmodel.TypeDefinitionSet,
+) string {
+	// names is a set of the distinct resources
+	names := set.Make[string]()
+
+	for _, rsrc := range resources {
+		name := rsrc.Name()
+		names.Add(name.Name())
+	}
+
+	countDescription := fmt.Sprintf("Supporting %d resources", len(names))
+	if len(names) == 1 {
+		countDescription = "Supporting 1 resource"
+	}
+
+	return fmt.Sprintf(
+		"%s: %s",
+		countDescription,
+		strings.Join(set.AsSortedSlice(names), ", "))
 }
 
 func (report *ResourceVersionsReport) createTable(
@@ -266,6 +294,11 @@ func (report *ResourceVersionsReport) createTable(
 			// We don't include 'refs' directory here, as it contains dependency references for the group and is purely for
 			// samples testing.
 			if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
+				filePath, err = filepath.Rel(filepath.Dir(report.samplesPath), filePath)
+				if err != nil {
+					return errors.Wrapf(err, "getting relative path for %s", filePath)
+				}
+
 				filePath = filepath.ToSlash(filePath)
 				filePathURL := url.URL{Path: filePath}
 				sampleLink := parsedRootURL.ResolveReference(&filePathURL).String()

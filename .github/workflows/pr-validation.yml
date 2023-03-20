@@ -84,7 +84,7 @@ jobs:
         run: |
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
-          echo "::set-output name=id::$container_id"
+          echo "id=$container_id" >> $GITHUB_OUTPUT
 
       - name: Build & validate docs site
         run: | 
@@ -96,7 +96,8 @@ jobs:
           container_id=${{steps.devcontainer.outputs.id}}
 
           set +e # don't exit instantly on failure, we need to produce Markdown summary
-          docker exec "$container_id" task ci --concurrency 2 # limit concurrency because build machines are small
+          docker exec "$container_id" task ci --concurrency 1 # limit concurrency because build machines are small
+
           EXIT_CODE=$?
           set -e
 
@@ -114,8 +115,8 @@ jobs:
       - name: Build docker image & build configuration YAML
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:docker-build-and-save --concurrency 2 # limit concurrency because build machines are small
-          docker exec "$container_id" task controller:run-kustomize-for-envtest --concurrency 2 # limit concurrency because build machines are small
+          docker exec "$container_id" task controller:docker-build-and-save --concurrency 1 # limit concurrency because build machines are small
+          docker exec "$container_id" task controller:run-kustomize-for-envtest --concurrency 1 # limit concurrency because build machines are small
 
       - name: Archive outputs
         uses: actions/upload-artifact@v2
@@ -175,7 +176,7 @@ jobs:
         run: |
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
-          echo "::set-output name=id::$container_id"
+          echo "id=$container_id" >> $GITHUB_OUTPUT
 
       - name: Run integration tests
         run: |

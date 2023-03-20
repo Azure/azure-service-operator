@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -118,7 +117,8 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 		})
 }
 
-var resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/.*`)
+var resourceGroupScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/resourcegroups/[^/]+/.*`)
+var locationScopeRegex = regexp.MustCompile(`(?i)^/subscriptions/[^/]+/.*`)
 
 func categorizeResourceScope(armURI string) astmodel.ResourceScope {
 	// this is a bit of a hack, eventually we should have better scope support.
@@ -130,6 +130,10 @@ func categorizeResourceScope(armURI string) astmodel.ResourceScope {
 
 	if resourceGroupScopeRegex.MatchString(armURI) {
 		return astmodel.ResourceScopeResourceGroup
+	}
+
+	if locationScopeRegex.MatchString(armURI) {
+		return astmodel.ResourceScopeLocation
 	}
 
 	// TODO: Not currently possible to generate a resource with scope Location, we should fix that
@@ -700,7 +704,7 @@ func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOv
 
 	// see if there is a config override for this file
 	for _, schemaOverride := range overrides {
-		configSchemaPath := filepath.ToSlash(path.Join(rootPath, schemaOverride.BasePath))
+		configSchemaPath := filepath.ToSlash(filepath.Join(rootPath, schemaOverride.BasePath))
 		if strings.HasPrefix(filePath, configSchemaPath) {
 			// a forced namespace: use it
 			if schemaOverride.Namespace != "" {

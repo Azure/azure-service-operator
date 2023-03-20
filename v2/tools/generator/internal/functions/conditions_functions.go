@@ -28,9 +28,7 @@ func GetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body: []dst.Stmt{
 			astbuilder.Returns(astbuilder.Selector(status, astmodel.ConditionsProperty)),
 		},
@@ -57,9 +55,7 @@ func SetConditionsFunction(k *ResourceFunction, codeGenerationContext *astmodel.
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		ReceiverType: &dst.StarExpr{
-			X: receiverType,
-		},
+		ReceiverType:  astbuilder.PointerTo(receiverType),
 		Body: []dst.Stmt{
 			astbuilder.QualifiedAssignment(status, "Conditions", token.ASSIGN, dst.NewIdent(conditionsParameterName)),
 		},
