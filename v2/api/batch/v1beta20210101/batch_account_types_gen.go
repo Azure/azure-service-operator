@@ -91,6 +91,17 @@ func (account *BatchAccount) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the BatchAccount resource
 func (account *BatchAccount) defaultImpl() { account.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &BatchAccount{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (account *BatchAccount) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*BatchAccount_STATUS); ok {
+		return account.Spec.Initialize_From_BatchAccount_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type BatchAccount_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &BatchAccount{}
 
 // AzureName returns the Azure name of the resource
@@ -788,6 +799,83 @@ func (account *BatchAccount_Spec) AssignProperties_To_BatchAccount_Spec(destinat
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_BatchAccount_STATUS populates our BatchAccount_Spec from the provided source BatchAccount_STATUS
+func (account *BatchAccount_Spec) Initialize_From_BatchAccount_STATUS(source *BatchAccount_STATUS) error {
+
+	// AutoStorage
+	if source.AutoStorage != nil {
+		var autoStorage AutoStorageBaseProperties
+		err := autoStorage.Initialize_From_AutoStorageProperties_STATUS(source.AutoStorage)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_AutoStorageProperties_STATUS() to populate field AutoStorage")
+		}
+		account.AutoStorage = &autoStorage
+	} else {
+		account.AutoStorage = nil
+	}
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption EncryptionProperties
+		err := encryption.Initialize_From_EncryptionProperties_STATUS(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_EncryptionProperties_STATUS() to populate field Encryption")
+		}
+		account.Encryption = &encryption
+	} else {
+		account.Encryption = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity BatchAccountIdentity
+		err := identity.Initialize_From_BatchAccountIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_BatchAccountIdentity_STATUS() to populate field Identity")
+		}
+		account.Identity = &identity
+	} else {
+		account.Identity = nil
+	}
+
+	// KeyVaultReference
+	if source.KeyVaultReference != nil {
+		var keyVaultReference KeyVaultReference
+		err := keyVaultReference.Initialize_From_KeyVaultReference_STATUS(source.KeyVaultReference)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_KeyVaultReference_STATUS() to populate field KeyVaultReference")
+		}
+		account.KeyVaultReference = &keyVaultReference
+	} else {
+		account.KeyVaultReference = nil
+	}
+
+	// Location
+	account.Location = genruntime.ClonePointerToString(source.Location)
+
+	// PoolAllocationMode
+	if source.PoolAllocationMode != nil {
+		poolAllocationMode := PoolAllocationMode(*source.PoolAllocationMode)
+		account.PoolAllocationMode = &poolAllocationMode
+	} else {
+		account.PoolAllocationMode = nil
+	}
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := PublicNetworkAccessType(*source.PublicNetworkAccess)
+		account.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		account.PublicNetworkAccess = nil
+	}
+
+	// Tags
+	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1540,6 +1628,21 @@ func (properties *AutoStorageBaseProperties) AssignProperties_To_AutoStorageBase
 	return nil
 }
 
+// Initialize_From_AutoStorageProperties_STATUS populates our AutoStorageBaseProperties from the provided source AutoStorageProperties_STATUS
+func (properties *AutoStorageBaseProperties) Initialize_From_AutoStorageProperties_STATUS(source *AutoStorageProperties_STATUS) error {
+
+	// StorageAccountReference
+	if source.StorageAccountId != nil {
+		storageAccountReference := genruntime.CreateResourceReferenceFromARMID(*source.StorageAccountId)
+		properties.StorageAccountReference = &storageAccountReference
+	} else {
+		properties.StorageAccountReference = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Contains information about the auto-storage account associated with a Batch account.
 type AutoStorageProperties_STATUS struct {
 	// LastKeySync: The UTC time at which storage keys were last synchronized with the Batch account.
@@ -1694,6 +1797,21 @@ func (identity *BatchAccountIdentity) AssignProperties_To_BatchAccountIdentity(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_BatchAccountIdentity_STATUS populates our BatchAccountIdentity from the provided source BatchAccountIdentity_STATUS
+func (identity *BatchAccountIdentity) Initialize_From_BatchAccountIdentity_STATUS(source *BatchAccountIdentity_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := BatchAccountIdentity_Type(*source.Type)
+		identity.Type = &typeVar
+	} else {
+		identity.Type = nil
 	}
 
 	// No error
@@ -1999,6 +2117,33 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 	return nil
 }
 
+// Initialize_From_EncryptionProperties_STATUS populates our EncryptionProperties from the provided source EncryptionProperties_STATUS
+func (properties *EncryptionProperties) Initialize_From_EncryptionProperties_STATUS(source *EncryptionProperties_STATUS) error {
+
+	// KeySource
+	if source.KeySource != nil {
+		keySource := EncryptionProperties_KeySource(*source.KeySource)
+		properties.KeySource = &keySource
+	} else {
+		properties.KeySource = nil
+	}
+
+	// KeyVaultProperties
+	if source.KeyVaultProperties != nil {
+		var keyVaultProperty KeyVaultProperties
+		err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+		}
+		properties.KeyVaultProperties = &keyVaultProperty
+	} else {
+		properties.KeyVaultProperties = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft
 // managed key. For additional control, a customer-managed key can be used instead.
 type EncryptionProperties_STATUS struct {
@@ -2209,6 +2354,24 @@ func (reference *KeyVaultReference) AssignProperties_To_KeyVaultReference(destin
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_KeyVaultReference_STATUS populates our KeyVaultReference from the provided source KeyVaultReference_STATUS
+func (reference *KeyVaultReference) Initialize_From_KeyVaultReference_STATUS(source *KeyVaultReference_STATUS) error {
+
+	// Reference
+	if source.Id != nil {
+		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
+	}
+
+	// Url
+	reference.Url = genruntime.ClonePointerToString(source.Url)
 
 	// No error
 	return nil
@@ -2617,6 +2780,16 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_KeyVaultProperties_STATUS populates our KeyVaultProperties from the provided source KeyVaultProperties_STATUS
+func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(source *KeyVaultProperties_STATUS) error {
+
+	// KeyIdentifier
+	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
 
 	// No error
 	return nil

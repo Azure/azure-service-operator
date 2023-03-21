@@ -55,12 +55,14 @@ func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 	defs.AddAll(person2021, personSpec2021, personStatus2021)
 
 	cfg := config.NewObjectModelConfiguration()
-	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory).
+	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, defs, idFactory).
 		WithConfiguration(cfg)
-	assignFrom, err := functions.NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
+	assignFrom, err := functions.NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertFrom).
+		Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	assignTo, err := functions.NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
+	assignTo, err := functions.NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertTo).
+		Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	person2020, err = functionInjector.Inject(person2020, assignTo, assignFrom)
