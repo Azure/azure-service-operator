@@ -115,7 +115,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.RemoveStatusValidations(),
 
 		// Figure out resource owners:
-		pipeline.DetermineResourceOwnership(configuration, idFactory),
+		pipeline.DetermineResourceOwnership(configuration),
 
 		// Strip out redundant type aliases
 		pipeline.RemoveTypeAliases(),
