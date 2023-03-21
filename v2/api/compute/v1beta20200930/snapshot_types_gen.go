@@ -91,6 +91,17 @@ func (snapshot *Snapshot) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Snapshot resource
 func (snapshot *Snapshot) defaultImpl() { snapshot.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Snapshot{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (snapshot *Snapshot) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Snapshot_STATUS); ok {
+		return snapshot.Spec.Initialize_From_Snapshot_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Snapshot_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Snapshot{}
 
 // AzureName returns the Azure name of the resource
@@ -1038,6 +1049,142 @@ func (snapshot *Snapshot_Spec) AssignProperties_To_Snapshot_Spec(destination *v2
 	return nil
 }
 
+// Initialize_From_Snapshot_STATUS populates our Snapshot_Spec from the provided source Snapshot_STATUS
+func (snapshot *Snapshot_Spec) Initialize_From_Snapshot_STATUS(source *Snapshot_STATUS) error {
+
+	// CreationData
+	if source.CreationData != nil {
+		var creationDatum CreationData
+		err := creationDatum.Initialize_From_CreationData_STATUS(source.CreationData)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_CreationData_STATUS() to populate field CreationData")
+		}
+		snapshot.CreationData = &creationDatum
+	} else {
+		snapshot.CreationData = nil
+	}
+
+	// DiskAccessReference
+	if source.DiskAccessId != nil {
+		diskAccessReference := genruntime.CreateResourceReferenceFromARMID(*source.DiskAccessId)
+		snapshot.DiskAccessReference = &diskAccessReference
+	} else {
+		snapshot.DiskAccessReference = nil
+	}
+
+	// DiskSizeGB
+	snapshot.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
+
+	// DiskState
+	if source.DiskState != nil {
+		diskState := DiskState(*source.DiskState)
+		snapshot.DiskState = &diskState
+	} else {
+		snapshot.DiskState = nil
+	}
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption Encryption
+		err := encryption.Initialize_From_Encryption_STATUS(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
+		}
+		snapshot.Encryption = &encryption
+	} else {
+		snapshot.Encryption = nil
+	}
+
+	// EncryptionSettingsCollection
+	if source.EncryptionSettingsCollection != nil {
+		var encryptionSettingsCollection EncryptionSettingsCollection
+		err := encryptionSettingsCollection.Initialize_From_EncryptionSettingsCollection_STATUS(source.EncryptionSettingsCollection)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
+		}
+		snapshot.EncryptionSettingsCollection = &encryptionSettingsCollection
+	} else {
+		snapshot.EncryptionSettingsCollection = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		snapshot.ExtendedLocation = &extendedLocation
+	} else {
+		snapshot.ExtendedLocation = nil
+	}
+
+	// HyperVGeneration
+	if source.HyperVGeneration != nil {
+		hyperVGeneration := SnapshotProperties_HyperVGeneration(*source.HyperVGeneration)
+		snapshot.HyperVGeneration = &hyperVGeneration
+	} else {
+		snapshot.HyperVGeneration = nil
+	}
+
+	// Incremental
+	if source.Incremental != nil {
+		incremental := *source.Incremental
+		snapshot.Incremental = &incremental
+	} else {
+		snapshot.Incremental = nil
+	}
+
+	// Location
+	snapshot.Location = genruntime.ClonePointerToString(source.Location)
+
+	// NetworkAccessPolicy
+	if source.NetworkAccessPolicy != nil {
+		networkAccessPolicy := NetworkAccessPolicy(*source.NetworkAccessPolicy)
+		snapshot.NetworkAccessPolicy = &networkAccessPolicy
+	} else {
+		snapshot.NetworkAccessPolicy = nil
+	}
+
+	// OsType
+	if source.OsType != nil {
+		osType := SnapshotProperties_OsType(*source.OsType)
+		snapshot.OsType = &osType
+	} else {
+		snapshot.OsType = nil
+	}
+
+	// PurchasePlan
+	if source.PurchasePlan != nil {
+		var purchasePlan PurchasePlan
+		err := purchasePlan.Initialize_From_PurchasePlan_STATUS(source.PurchasePlan)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_PurchasePlan_STATUS() to populate field PurchasePlan")
+		}
+		snapshot.PurchasePlan = &purchasePlan
+	} else {
+		snapshot.PurchasePlan = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku SnapshotSku
+		err := sku.Initialize_From_SnapshotSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SnapshotSku_STATUS() to populate field Sku")
+		}
+		snapshot.Sku = &sku
+	} else {
+		snapshot.Sku = nil
+	}
+
+	// Tags
+	snapshot.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (snapshot *Snapshot_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1858,6 +2005,21 @@ func (snapshotSku *SnapshotSku) AssignProperties_To_SnapshotSku(destination *v20
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SnapshotSku_STATUS populates our SnapshotSku from the provided source SnapshotSku_STATUS
+func (snapshotSku *SnapshotSku) Initialize_From_SnapshotSku_STATUS(source *SnapshotSku_STATUS) error {
+
+	// Name
+	if source.Name != nil {
+		name := SnapshotSku_Name(*source.Name)
+		snapshotSku.Name = &name
+	} else {
+		snapshotSku.Name = nil
 	}
 
 	// No error

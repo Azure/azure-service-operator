@@ -84,6 +84,17 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Default() {
 // defaultImpl applies the code generated defaults to the MongodbDatabaseCollectionThroughputSetting resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) defaultImpl() {}
 
+var _ genruntime.ImportableResource = &MongodbDatabaseCollectionThroughputSetting{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (setting *MongodbDatabaseCollectionThroughputSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS); ok {
+		return setting.Spec.Initialize_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollectionThroughputSetting{}
 
 // AzureName returns the Azure name of the resource (always "default")
@@ -541,6 +552,31 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS populates our DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec from the provided source DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS
+func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec) Initialize_From_DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS(source *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS) error {
+
+	// Location
+	setting.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Resource
+	if source.Resource != nil {
+		var resource ThroughputSettingsResource
+		err := resource.Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
+		}
+		setting.Resource = &resource
+	} else {
+		setting.Resource = nil
+	}
+
+	// Tags
+	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1076,6 +1112,28 @@ func (resource *ThroughputSettingsResource) AssignProperties_To_ThroughputSettin
 	return nil
 }
 
+// Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS populates our ThroughputSettingsResource from the provided source ThroughputSettingsGetProperties_Resource_STATUS
+func (resource *ThroughputSettingsResource) Initialize_From_ThroughputSettingsGetProperties_Resource_STATUS(source *ThroughputSettingsGetProperties_Resource_STATUS) error {
+
+	// AutoscaleSettings
+	if source.AutoscaleSettings != nil {
+		var autoscaleSetting AutoscaleSettingsResource
+		err := autoscaleSetting.Initialize_From_AutoscaleSettingsResource_STATUS(source.AutoscaleSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_AutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
+		}
+		resource.AutoscaleSettings = &autoscaleSetting
+	} else {
+		resource.AutoscaleSettings = nil
+	}
+
+	// Throughput
+	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
+
+	// No error
+	return nil
+}
+
 // Cosmos DB provisioned throughput settings object
 type AutoscaleSettingsResource struct {
 	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
@@ -1194,6 +1252,28 @@ func (resource *AutoscaleSettingsResource) AssignProperties_To_AutoscaleSettings
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_AutoscaleSettingsResource_STATUS populates our AutoscaleSettingsResource from the provided source AutoscaleSettingsResource_STATUS
+func (resource *AutoscaleSettingsResource) Initialize_From_AutoscaleSettingsResource_STATUS(source *AutoscaleSettingsResource_STATUS) error {
+
+	// AutoUpgradePolicy
+	if source.AutoUpgradePolicy != nil {
+		var autoUpgradePolicy AutoUpgradePolicyResource
+		err := autoUpgradePolicy.Initialize_From_AutoUpgradePolicyResource_STATUS(source.AutoUpgradePolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_AutoUpgradePolicyResource_STATUS() to populate field AutoUpgradePolicy")
+		}
+		resource.AutoUpgradePolicy = &autoUpgradePolicy
+	} else {
+		resource.AutoUpgradePolicy = nil
+	}
+
+	// MaxThroughput
+	resource.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
 
 	// No error
 	return nil
@@ -1413,6 +1493,25 @@ func (resource *AutoUpgradePolicyResource) AssignProperties_To_AutoUpgradePolicy
 	return nil
 }
 
+// Initialize_From_AutoUpgradePolicyResource_STATUS populates our AutoUpgradePolicyResource from the provided source AutoUpgradePolicyResource_STATUS
+func (resource *AutoUpgradePolicyResource) Initialize_From_AutoUpgradePolicyResource_STATUS(source *AutoUpgradePolicyResource_STATUS) error {
+
+	// ThroughputPolicy
+	if source.ThroughputPolicy != nil {
+		var throughputPolicy ThroughputPolicyResource
+		err := throughputPolicy.Initialize_From_ThroughputPolicyResource_STATUS(source.ThroughputPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ThroughputPolicyResource_STATUS() to populate field ThroughputPolicy")
+		}
+		resource.ThroughputPolicy = &throughputPolicy
+	} else {
+		resource.ThroughputPolicy = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Cosmos DB resource auto-upgrade policy
 type AutoUpgradePolicyResource_STATUS struct {
 	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
@@ -1594,6 +1693,24 @@ func (resource *ThroughputPolicyResource) AssignProperties_To_ThroughputPolicyRe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ThroughputPolicyResource_STATUS populates our ThroughputPolicyResource from the provided source ThroughputPolicyResource_STATUS
+func (resource *ThroughputPolicyResource) Initialize_From_ThroughputPolicyResource_STATUS(source *ThroughputPolicyResource_STATUS) error {
+
+	// IncrementPercent
+	resource.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
+
+	// IsEnabled
+	if source.IsEnabled != nil {
+		isEnabled := *source.IsEnabled
+		resource.IsEnabled = &isEnabled
+	} else {
+		resource.IsEnabled = nil
 	}
 
 	// No error

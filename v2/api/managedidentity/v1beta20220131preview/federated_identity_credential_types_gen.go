@@ -91,6 +91,17 @@ func (credential *FederatedIdentityCredential) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the FederatedIdentityCredential resource
 func (credential *FederatedIdentityCredential) defaultImpl() { credential.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &FederatedIdentityCredential{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (credential *FederatedIdentityCredential) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*UserAssignedIdentities_FederatedIdentityCredential_STATUS); ok {
+		return credential.Spec.Initialize_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type UserAssignedIdentities_FederatedIdentityCredential_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &FederatedIdentityCredential{}
 
 // AzureName returns the Azure name of the resource
@@ -541,6 +552,22 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Assig
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source UserAssignedIdentities_FederatedIdentityCredential_STATUS
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Initialize_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(source *UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
+
+	// Audiences
+	credential.Audiences = genruntime.CloneSliceOfString(source.Audiences)
+
+	// Issuer
+	credential.Issuer = genruntime.ClonePointerToString(source.Issuer)
+
+	// Subject
+	credential.Subject = genruntime.ClonePointerToString(source.Subject)
 
 	// No error
 	return nil

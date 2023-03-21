@@ -91,6 +91,17 @@ func (database *MongodbDatabase) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the MongodbDatabase resource
 func (database *MongodbDatabase) defaultImpl() { database.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &MongodbDatabase{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (database *MongodbDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*DatabaseAccounts_MongodbDatabase_STATUS); ok {
+		return database.Spec.Initialize_From_DatabaseAccounts_MongodbDatabase_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type DatabaseAccounts_MongodbDatabase_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &MongodbDatabase{}
 
 // AzureName returns the Azure name of the resource
@@ -616,6 +627,43 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec) AssignProperties_To_Datab
 	return nil
 }
 
+// Initialize_From_DatabaseAccounts_MongodbDatabase_STATUS populates our DatabaseAccounts_MongodbDatabase_Spec from the provided source DatabaseAccounts_MongodbDatabase_STATUS
+func (database *DatabaseAccounts_MongodbDatabase_Spec) Initialize_From_DatabaseAccounts_MongodbDatabase_STATUS(source *DatabaseAccounts_MongodbDatabase_STATUS) error {
+
+	// Location
+	database.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Options
+	if source.Options != nil {
+		var option CreateUpdateOptions
+		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
+		}
+		database.Options = &option
+	} else {
+		database.Options = nil
+	}
+
+	// Resource
+	if source.Resource != nil {
+		var resource MongoDBDatabaseResource
+		err := resource.Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
+		}
+		database.Resource = &resource
+	} else {
+		database.Resource = nil
+	}
+
+	// Tags
+	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (database *DatabaseAccounts_MongodbDatabase_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1008,6 +1056,28 @@ func (options *CreateUpdateOptions) AssignProperties_To_CreateUpdateOptions(dest
 	return nil
 }
 
+// Initialize_From_OptionsResource_STATUS populates our CreateUpdateOptions from the provided source OptionsResource_STATUS
+func (options *CreateUpdateOptions) Initialize_From_OptionsResource_STATUS(source *OptionsResource_STATUS) error {
+
+	// AutoscaleSettings
+	if source.AutoscaleSettings != nil {
+		var autoscaleSetting AutoscaleSettings
+		err := autoscaleSetting.Initialize_From_AutoscaleSettings_STATUS(source.AutoscaleSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_AutoscaleSettings_STATUS() to populate field AutoscaleSettings")
+		}
+		options.AutoscaleSettings = &autoscaleSetting
+	} else {
+		options.AutoscaleSettings = nil
+	}
+
+	// Throughput
+	options.Throughput = genruntime.ClonePointerToInt(source.Throughput)
+
+	// No error
+	return nil
+}
+
 type MongoDBDatabaseGetProperties_Resource_STATUS struct {
 	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
 	Etag *string `json:"_etag,omitempty"`
@@ -1196,6 +1266,16 @@ func (resource *MongoDBDatabaseResource) AssignProperties_To_MongoDBDatabaseReso
 	return nil
 }
 
+// Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS populates our MongoDBDatabaseResource from the provided source MongoDBDatabaseGetProperties_Resource_STATUS
+func (resource *MongoDBDatabaseResource) Initialize_From_MongoDBDatabaseGetProperties_Resource_STATUS(source *MongoDBDatabaseGetProperties_Resource_STATUS) error {
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// No error
+	return nil
+}
+
 // Cosmos DB options resource object
 type OptionsResource_STATUS struct {
 	// AutoscaleSettings: Specifies the Autoscale settings.
@@ -1362,6 +1442,16 @@ func (settings *AutoscaleSettings) AssignProperties_To_AutoscaleSettings(destina
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_AutoscaleSettings_STATUS populates our AutoscaleSettings from the provided source AutoscaleSettings_STATUS
+func (settings *AutoscaleSettings) Initialize_From_AutoscaleSettings_STATUS(source *AutoscaleSettings_STATUS) error {
+
+	// MaxThroughput
+	settings.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
 
 	// No error
 	return nil

@@ -96,6 +96,17 @@ func (identity *UserAssignedIdentity) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the UserAssignedIdentity resource
 func (identity *UserAssignedIdentity) defaultImpl() { identity.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &UserAssignedIdentity{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (identity *UserAssignedIdentity) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*UserAssignedIdentity_STATUS); ok {
+		return identity.Spec.Initialize_From_UserAssignedIdentity_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type UserAssignedIdentity_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesExporter = &UserAssignedIdentity{}
 
 // ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
@@ -596,6 +607,19 @@ func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdent
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_Spec from the provided source UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_Spec) Initialize_From_UserAssignedIdentity_STATUS(source *UserAssignedIdentity_STATUS) error {
+
+	// Location
+	identity.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Tags
+	identity.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

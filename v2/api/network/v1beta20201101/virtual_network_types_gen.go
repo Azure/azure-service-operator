@@ -91,6 +91,17 @@ func (network *VirtualNetwork) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the VirtualNetwork resource
 func (network *VirtualNetwork) defaultImpl() { network.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &VirtualNetwork{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (network *VirtualNetwork) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*VirtualNetwork_STATUS); ok {
+		return network.Spec.Initialize_From_VirtualNetwork_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type VirtualNetwork_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &VirtualNetwork{}
 
 // AzureName returns the Azure name of the resource
@@ -892,6 +903,113 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 	return nil
 }
 
+// Initialize_From_VirtualNetwork_STATUS populates our VirtualNetwork_Spec from the provided source VirtualNetwork_STATUS
+func (network *VirtualNetwork_Spec) Initialize_From_VirtualNetwork_STATUS(source *VirtualNetwork_STATUS) error {
+
+	// AddressSpace
+	if source.AddressSpace != nil {
+		var addressSpace AddressSpace
+		err := addressSpace.Initialize_From_AddressSpace_STATUS(source.AddressSpace)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_AddressSpace_STATUS() to populate field AddressSpace")
+		}
+		network.AddressSpace = &addressSpace
+	} else {
+		network.AddressSpace = nil
+	}
+
+	// BgpCommunities
+	if source.BgpCommunities != nil {
+		var bgpCommunity VirtualNetworkBgpCommunities
+		err := bgpCommunity.Initialize_From_VirtualNetworkBgpCommunities_STATUS(source.BgpCommunities)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_VirtualNetworkBgpCommunities_STATUS() to populate field BgpCommunities")
+		}
+		network.BgpCommunities = &bgpCommunity
+	} else {
+		network.BgpCommunities = nil
+	}
+
+	// DdosProtectionPlan
+	if source.DdosProtectionPlan != nil {
+		var ddosProtectionPlan SubResource
+		err := ddosProtectionPlan.Initialize_From_SubResource_STATUS(source.DdosProtectionPlan)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field DdosProtectionPlan")
+		}
+		network.DdosProtectionPlan = &ddosProtectionPlan
+	} else {
+		network.DdosProtectionPlan = nil
+	}
+
+	// DhcpOptions
+	if source.DhcpOptions != nil {
+		var dhcpOption DhcpOptions
+		err := dhcpOption.Initialize_From_DhcpOptions_STATUS(source.DhcpOptions)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_DhcpOptions_STATUS() to populate field DhcpOptions")
+		}
+		network.DhcpOptions = &dhcpOption
+	} else {
+		network.DhcpOptions = nil
+	}
+
+	// EnableDdosProtection
+	if source.EnableDdosProtection != nil {
+		enableDdosProtection := *source.EnableDdosProtection
+		network.EnableDdosProtection = &enableDdosProtection
+	} else {
+		network.EnableDdosProtection = nil
+	}
+
+	// EnableVmProtection
+	if source.EnableVmProtection != nil {
+		enableVmProtection := *source.EnableVmProtection
+		network.EnableVmProtection = &enableVmProtection
+	} else {
+		network.EnableVmProtection = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		network.ExtendedLocation = &extendedLocation
+	} else {
+		network.ExtendedLocation = nil
+	}
+
+	// IpAllocations
+	if source.IpAllocations != nil {
+		ipAllocationList := make([]SubResource, len(source.IpAllocations))
+		for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
+			// Shadow the loop variable to avoid aliasing
+			ipAllocationItem := ipAllocationItem
+			var ipAllocation SubResource
+			err := ipAllocation.Initialize_From_SubResource_STATUS(&ipAllocationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field IpAllocations")
+			}
+			ipAllocationList[ipAllocationIndex] = ipAllocation
+		}
+		network.IpAllocations = ipAllocationList
+	} else {
+		network.IpAllocations = nil
+	}
+
+	// Location
+	network.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Tags
+	network.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (network *VirtualNetwork_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1526,6 +1644,16 @@ func (space *AddressSpace) AssignProperties_To_AddressSpace(destination *v202011
 	return nil
 }
 
+// Initialize_From_AddressSpace_STATUS populates our AddressSpace from the provided source AddressSpace_STATUS
+func (space *AddressSpace) Initialize_From_AddressSpace_STATUS(source *AddressSpace_STATUS) error {
+
+	// AddressPrefixes
+	space.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
+
+	// No error
+	return nil
+}
+
 // AddressSpace contains an array of IP address ranges that can be used by subnets of the virtual network.
 type AddressSpace_STATUS struct {
 	// AddressPrefixes: A list of address blocks reserved for this virtual network in CIDR notation.
@@ -1652,6 +1780,16 @@ func (options *DhcpOptions) AssignProperties_To_DhcpOptions(destination *v202011
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_DhcpOptions_STATUS populates our DhcpOptions from the provided source DhcpOptions_STATUS
+func (options *DhcpOptions) Initialize_From_DhcpOptions_STATUS(source *DhcpOptions_STATUS) error {
+
+	// DnsServers
+	options.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
 
 	// No error
 	return nil
@@ -1786,6 +1924,16 @@ func (communities *VirtualNetworkBgpCommunities) AssignProperties_To_VirtualNetw
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_VirtualNetworkBgpCommunities_STATUS populates our VirtualNetworkBgpCommunities from the provided source VirtualNetworkBgpCommunities_STATUS
+func (communities *VirtualNetworkBgpCommunities) Initialize_From_VirtualNetworkBgpCommunities_STATUS(source *VirtualNetworkBgpCommunities_STATUS) error {
+
+	// VirtualNetworkCommunity
+	communities.VirtualNetworkCommunity = genruntime.ClonePointerToString(source.VirtualNetworkCommunity)
 
 	// No error
 	return nil

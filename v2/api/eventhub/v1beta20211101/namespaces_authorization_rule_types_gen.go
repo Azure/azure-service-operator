@@ -91,6 +91,17 @@ func (rule *NamespacesAuthorizationRule) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the NamespacesAuthorizationRule resource
 func (rule *NamespacesAuthorizationRule) defaultImpl() { rule.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &NamespacesAuthorizationRule{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (rule *NamespacesAuthorizationRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Namespaces_AuthorizationRule_STATUS); ok {
+		return rule.Spec.Initialize_From_Namespaces_AuthorizationRule_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Namespaces_AuthorizationRule_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &NamespacesAuthorizationRule{}
 
 // AzureName returns the Azure name of the resource
@@ -508,6 +519,27 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_To_Namespaces_Au
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Namespaces_AuthorizationRule_STATUS populates our Namespaces_AuthorizationRule_Spec from the provided source Namespaces_AuthorizationRule_STATUS
+func (rule *Namespaces_AuthorizationRule_Spec) Initialize_From_Namespaces_AuthorizationRule_STATUS(source *Namespaces_AuthorizationRule_STATUS) error {
+
+	// Rights
+	if source.Rights != nil {
+		rightList := make([]Namespaces_AuthorizationRule_Properties_Rights_Spec, len(source.Rights))
+		for rightIndex, rightItem := range source.Rights {
+			// Shadow the loop variable to avoid aliasing
+			rightItem := rightItem
+			right := Namespaces_AuthorizationRule_Properties_Rights_Spec(rightItem)
+			rightList[rightIndex] = right
+		}
+		rule.Rights = rightList
+	} else {
+		rule.Rights = nil
 	}
 
 	// No error
