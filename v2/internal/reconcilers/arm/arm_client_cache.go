@@ -224,15 +224,12 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 		return nil, "", kerrors.NewAggregate(errs)
 	}
 
-	clientSecret, hasClientSecret := secret.Data[config.ClientSecretVar]
-	clientCert, hasClientCert := secret.Data[config.ClientSecretVar]
-
-	if hasClientSecret {
+	if clientSecret, hasClientSecret := secret.Data[config.ClientSecretVar]; hasClientSecret {
 		credential, err = azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
 		if err != nil {
 			return nil, "", errors.Wrap(err, errors.Errorf("invalid Client Secret Credential for %q encountered", nsName.String()).Error())
 		}
-	} else if hasClientCert {
+	} else if clientCert, hasClientCert := secret.Data[config.ClientCertificateVar]; hasClientCert {
 		var clientCertPassword []byte
 		if p, hasClientCertPassword := secret.Data[config.ClientCertificatePasswordVar]; hasClientCertPassword {
 			clientCertPassword = p
