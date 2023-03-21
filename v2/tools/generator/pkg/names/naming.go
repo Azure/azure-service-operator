@@ -32,7 +32,6 @@ var flectOverrides = []struct {
 
 // Singularize returns the singular form of the given name
 func Singularize(name string) string {
-	// work around bug in flect: https://github.com/Azure/azure-service-operator/issues/1454
 	for _, o := range flectOverrides {
 		if strings.HasSuffix(name, o.plural) {
 			return name[0:len(name)-len(o.plural)] + o.single
@@ -47,7 +46,6 @@ func Singularize(name string) string {
 
 // Pluralize returns the plural form of the given name
 func Pluralize(name string) string {
-	// work around bug in flect: https://github.com/Azure/azure-service-operator/issues/1454
 	for _, o := range flectOverrides {
 		plural := o.plural
 		single := o.single
