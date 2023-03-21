@@ -32,6 +32,8 @@ func Test_Singularize(t *testing.T) {
 		{"ID", "ID", "ID"},
 		{"IDs", "IDs", "ID"},
 		{"SSH", "SSH", "SSH"},
+		{"SubnetID", "subnetID", "subnetID"},
+		{"SubnetIDs", "subnetIDs", "subnetID"},
 	}
 
 	for _, c := range cases {
@@ -67,6 +69,10 @@ func Test_Pluralize(t *testing.T) {
 		{"ID", "ID", "IDs"},
 		{"IDs", "IDs", "IDs"},
 		{"SSH", "SSH", "SSHs"},
+		{"SubnetID", "subnetID", "subnetIDs"},
+		{"SubnetIDs", "subnetIDs", "subnetIDs"},
+		{"SubnetId", "subnetId", "subnetIds"},
+		{"SubnetIds", "subnetIds", "subnetIds"},
 	}
 
 	for _, c := range cases {

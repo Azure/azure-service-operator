@@ -22,9 +22,11 @@ var flectOverrides = []struct {
 	{"redis", "redis"},
 	{"FIPS", "FIPS"},
 	{"ID", "IDs"},
+	{"Id", "Ids"},
 	{"IP", "IPs"},
 	{"knownAs", "knownAs"},
-	{"ssh", "ssh"}, // workaround flect bug - see https://github.com/gobuffalo/flect/pull/65
+	{"ssh", "sshs"},
+	{"SSH", "SSHs"},
 }
 
 // Singularize returns the singular form of the given name
@@ -50,6 +52,10 @@ func Pluralize(name string) string {
 		single := o.single
 		if strings.HasSuffix(name, single) {
 			return name[0:len(name)-len(single)] + plural
+		}
+
+		if strings.HasSuffix(name, plural) {
+			return name
 		}
 	}
 
