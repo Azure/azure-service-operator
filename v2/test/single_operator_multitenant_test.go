@@ -162,12 +162,12 @@ func newClientCertificateCredential(subscriptionID, tenantID, name, namespaceNam
 
 	clientCert := os.Getenv(AzureClientCertificateMultitenantVar)
 	if clientCert == "" {
-		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientSecretMultitenantVar)
+		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientCertificateMultitenantVar)
 	}
 
 	clientID := os.Getenv(AzureClientIDMultitenantCertAuthVar)
 	if clientID == "" {
-		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantVar)
+		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantCertAuthVar)
 	}
 
 	secret.Data[config.ClientIDVar] = []byte(clientID)
