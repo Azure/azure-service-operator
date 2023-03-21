@@ -6,7 +6,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -18,7 +17,6 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/kustomization"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/xcobra"
 )
 
 // NewGenKustomizeCommand creates a new cobra Command when invoked from the command line
@@ -30,7 +28,7 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 		Use:   "gen-kustomize <path to config/crd/generated folder>",
 		Short: "generate K8s Kustomize file in the spirit of Kubebuilder, based on the specified config folder",
 		Args:  cobra.ExactArgs(1),
-		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			crdPath := args[0]
 
 			const bases = "bases"
@@ -100,7 +98,7 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 			}
 
 			return nil
-		}),
+		},
 	}
 
 	return cmd, nil
