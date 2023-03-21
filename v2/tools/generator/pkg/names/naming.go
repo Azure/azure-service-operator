@@ -12,7 +12,7 @@ import (
 	"github.com/gobuffalo/flect"
 )
 
-// flectOverrides is an ordered list of overrides for flect pluralization
+// flectOverrides is a case-sensitive ordered list of overrides for flect pluralization
 // Earlier overrides take precedence over later ones
 var flectOverrides = []struct {
 	single string
@@ -25,6 +25,7 @@ var flectOverrides = []struct {
 	{"Id", "Ids"},
 	{"IP", "IPs"},
 	{"knownAs", "knownAs"},
+	{"KnownAs", "KnownAs"},
 	{"ssh", "sshs"},
 	{"SSH", "SSHs"},
 }
