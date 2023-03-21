@@ -5,7 +5,7 @@ linktitle: Multitenancy
 
 Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
 
-## Single operator multitenancy (default)
+## Single operator multitenancy (default, recommended)
 Single operator deployed in the `azureserviceoperator-system` namespace.
 This operator can be configured to manage resources with multiple different identities:
 * Single global credential `aso-controller-settings` deployed as part of operator deployment in operator's namespace.
@@ -156,11 +156,7 @@ To deploy the operator in multi-operator multi-tenant using helm is split into t
    helm upgrade --install --devel aso2 aso2/azure-service-operator \
       --create-namespace \
       --namespace=azureserviceoperator-system \
-      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-      --set azureTenantID=$AZURE_TENANT_ID \
-      --set azureClientID=$AZURE_CLIENT_ID \
-      --set azureClientSecret=$AZURE_CLIENT_SECRET
-      --set multitenant.enable=true
+      --set multitenant.enable=true \
       --set azureOperatorMode=webhooks
    ```
 
@@ -172,12 +168,13 @@ To deploy the operator in multi-operator multi-tenant using helm is split into t
    ```
    helm upgrade --install --devel aso2 aso2/azure-service-operator \
       --create-namespace \
-      --namespace=azureserviceoperator-system \
+      --namespace=tenant1-system \
       --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID=$AZURE_CLIENT_ID \
-      --set azureClientSecret=$AZURE_CLIENT_SECRET
-      --set multitenant.enable=true
+      --set azureClientSecret=$AZURE_CLIENT_SECRET \
+      --set multitenant.enable=true \
+      --set azureTargetNamespaces='{ns1,ns2,ns3}' \
       --set azureOperatorMode=watchers
    ```
    
