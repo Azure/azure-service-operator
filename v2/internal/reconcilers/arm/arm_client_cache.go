@@ -233,7 +233,6 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 			return nil, "", errors.Wrap(err, errors.Errorf("invalid Client Secret Credential for %q encountered", nsName.String()).Error())
 		}
 	} else if hasClientCert {
-		
 		var clientCertPassword []byte
 		if p, hasClientCertPassword := secret.Data[config.ClientCertificatePasswordVar]; hasClientCertPassword {
 			clientCertPassword = p
