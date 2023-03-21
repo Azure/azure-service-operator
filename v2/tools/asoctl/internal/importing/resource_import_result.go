@@ -26,15 +26,26 @@ func (r *ResourceImportResult) SaveToWriter(destination io.Writer) error {
 		_ = buf.Flush()
 	}(buf)
 
-	buf.WriteString("---\n")
+	_, err := buf.WriteString("---\n")
+	if err != nil {
+		return errors.Wrap(err, "unable to save to writer")
+	}
+
 	for _, resource := range r.resources {
 		data, err := yaml.Marshal(resource)
 		if err != nil {
 			return errors.Wrap(err, "unable to save to writer")
 		}
 
-		buf.Write(data)
-		buf.WriteString("---\n")
+		_, err = buf.Write(data)
+		if err != nil {
+			return errors.Wrap(err, "unable to save to writer")
+		}
+
+		_, err = buf.WriteString("---\n")
+		if err != nil {
+			return errors.Wrap(err, "unable to save to writer")
+		}
 	}
 
 	return nil

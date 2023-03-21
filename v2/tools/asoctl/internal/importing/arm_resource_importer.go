@@ -83,6 +83,9 @@ func (ri *ARMResourceImporter) getStatus(ctx context.Context, armID string, armM
 
 	// Execute the request
 	resp, err := ri.client.Do(req)
+	if resp != nil {
+		defer resp.Body.Close()
+	}
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to execute request to import ARM resource %s", armID)
 	}
@@ -99,7 +102,7 @@ func (ri *ARMResourceImporter) getStatus(ctx context.Context, armID string, armM
 	}
 
 	// Populate our Status from the response
-	if err := azruntime.UnmarshalAsJSON(resp, armStatus); err != nil {
+	if err = azruntime.UnmarshalAsJSON(resp, armStatus); err != nil {
 		return nil, errors.Wrapf(err, "unable to deserialize ARM response for importing ARM resource %s", armID)
 	}
 
@@ -117,6 +120,7 @@ func (ri *ARMResourceImporter) getStatus(ctx context.Context, armID string, armM
 			return nil, errors.Wrapf(err, "converting ARM status to Kubernetes status for resource %s", armID)
 		}
 	}
+
 	return status, nil
 }
 
@@ -159,11 +163,7 @@ func (ri *ARMResourceImporter) createBlankObjectFromID(armID *arm.ResourceID) (r
 	}
 
 	if mo, ok := obj.(genruntime.ARMMetaObject); ok {
-		name, err := ri.nameFromID(armID)
-		if err != nil {
-			return nil, errors.Wrap(err, "unable to get name for blank resource")
-		}
-
+		name := ri.nameFromID(armID)
 		mo.SetName(name)
 	}
 
@@ -172,21 +172,16 @@ func (ri *ARMResourceImporter) createBlankObjectFromID(armID *arm.ResourceID) (r
 
 // groupVersionKindFromID returns the GroupVersionKind for the resource we're importing
 func (ri *ARMResourceImporter) groupVersionKindFromID(id *arm.ResourceID) (schema.GroupVersionKind, error) {
-	gk, err := ri.groupKindFromID(id)
-	if err != nil {
-		return schema.GroupVersionKind{},
-			errors.Wrap(err, "unable to determine GroupVersionKind for the resource")
-	}
-
+	gk := ri.groupKindFromID(id)
 	return ri.selectVersionFromGK(gk)
 }
 
 // groupKindFromID parses a GroupKind from the resource URL, allowing us to look up the actual resource
-func (ri *ARMResourceImporter) groupKindFromID(id *arm.ResourceID) (schema.GroupKind, error) {
+func (ri *ARMResourceImporter) groupKindFromID(id *arm.ResourceID) schema.GroupKind {
 	return schema.GroupKind{
 		Group: ri.groupFromID(id),
 		Kind:  ri.kindFromID(id),
-	}, nil
+	}
 }
 
 // groupFromID extracts an ASO group name from the ARM ID
@@ -213,9 +208,9 @@ func (*ARMResourceImporter) kindFromID(id *arm.ResourceID) string {
 	return kind
 }
 
-func (ri *ARMResourceImporter) nameFromID(id *arm.ResourceID) (string, error) {
+func (ri *ARMResourceImporter) nameFromID(id *arm.ResourceID) string {
 	klog.V(3).Infof("Name: %s", id.Name)
-	return id.Name, nil
+	return id.Name
 }
 
 func CreateARMClient(cloudConfig cloud.Configuration) (*azruntime.Pipeline, error) {

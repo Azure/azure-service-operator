@@ -41,7 +41,7 @@ func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
 			expectedKind:  "DatabaseAccount",
 		},
 		{
-			name: "VMSS Scale Set	",
+			name:          "VMSS Scale Set",
 			armId:         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Compute/virtualMachineScaleSets/aso-scaleset",
 			expectedGroup: "compute.azure.com",
 			expectedKind:  "VirtualMachineScaleSet",
@@ -73,8 +73,7 @@ func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
 			id, err := arm.ParseResourceID(c.armId)
 			g.Expect(err).To(BeNil())
 
-			gk, err := factory.groupKindFromID(id)
-			g.Expect(err).To(BeNil())
+			gk := factory.groupKindFromID(id)
 			g.Expect(gk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gk.Kind).To(Equal(c.expectedKind))
 		})
