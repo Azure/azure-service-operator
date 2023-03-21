@@ -6,9 +6,6 @@
 package cmd
 
 import (
-	"context"
-
-	"github.com/devigned/pub/pkg/xcobra"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	v1 "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
@@ -27,8 +24,9 @@ func newCRDCleanCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "clean",
 		Short: "Clean deprecated CRD versions from cluster",
-		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg := config.GetConfigOrDie()
+			ctx := cmd.Context()
 
 			apiExtClient, err := v1.NewForConfig(cfg)
 			if err != nil {
@@ -49,7 +47,7 @@ func newCRDCleanCommand() *cobra.Command {
 				apiExtClient.CustomResourceDefinitions(),
 				cl,
 				dryRun).Run(ctx)
-		}),
+		},
 	}
 
 	cmd.PersistentFlags().Bool(dryRunFlagName, false, "")

@@ -6,9 +6,6 @@
 package cmd
 
 import (
-	"context"
-
-	"github.com/devigned/pub/pkg/xcobra"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 )
@@ -21,10 +18,10 @@ func newImportAzureResourceCommand() *cobra.Command {
 		Use:   "azure-resource <ARM/ID/of/resource>",
 		Short: "Imports Azure resources as ASO custom resources",
 		Args:  cobra.ExactArgs(1),
-		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			armID := args[0]
 			return exportResource(armID, output)
-		}),
+		},
 	}
 
 	output = cmd.Flags().StringP(

@@ -6,7 +6,6 @@
 package main
 
 import (
-	"context"
 	"io/ioutil"
 	"strings"
 	"unicode"
@@ -16,7 +15,6 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/xcobra"
 )
 
 // NewGenTypesCommand creates a new cobra Command when invoked from the command line
@@ -30,8 +28,9 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 		Use:   "gen-types <config>",
 		Short: "generate K8s resources from Azure deployment template schema",
 		Args:  cobra.ExactArgs(1),
-		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			configFile := args[0]
+			ctx := cmd.Context()
 
 			cg, err := codegen.NewCodeGeneratorFromConfigFile(configFile)
 			if err != nil {
@@ -62,7 +61,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 			}
 
 			return nil
-		}),
+		},
 	}
 
 	debugMode = cmd.Flags().StringP(
