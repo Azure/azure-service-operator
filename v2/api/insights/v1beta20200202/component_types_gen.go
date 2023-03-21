@@ -91,6 +91,17 @@ func (component *Component) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Component resource
 func (component *Component) defaultImpl() { component.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Component{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (component *Component) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Component_STATUS); ok {
+		return component.Spec.Initialize_From_Component_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Component_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Component{}
 
 // AzureName returns the Azure name of the resource
@@ -1006,6 +1017,127 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Component_STATUS populates our Component_Spec from the provided source Component_STATUS
+func (component *Component_Spec) Initialize_From_Component_STATUS(source *Component_STATUS) error {
+
+	// Application_Type
+	if source.Application_Type != nil {
+		applicationType := ApplicationInsightsComponentProperties_Application_Type(*source.Application_Type)
+		component.Application_Type = &applicationType
+	} else {
+		component.Application_Type = nil
+	}
+
+	// DisableIpMasking
+	if source.DisableIpMasking != nil {
+		disableIpMasking := *source.DisableIpMasking
+		component.DisableIpMasking = &disableIpMasking
+	} else {
+		component.DisableIpMasking = nil
+	}
+
+	// DisableLocalAuth
+	if source.DisableLocalAuth != nil {
+		disableLocalAuth := *source.DisableLocalAuth
+		component.DisableLocalAuth = &disableLocalAuth
+	} else {
+		component.DisableLocalAuth = nil
+	}
+
+	// Etag
+	component.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Flow_Type
+	if source.Flow_Type != nil {
+		flowType := ApplicationInsightsComponentProperties_Flow_Type(*source.Flow_Type)
+		component.Flow_Type = &flowType
+	} else {
+		component.Flow_Type = nil
+	}
+
+	// ForceCustomerStorageForProfiler
+	if source.ForceCustomerStorageForProfiler != nil {
+		forceCustomerStorageForProfiler := *source.ForceCustomerStorageForProfiler
+		component.ForceCustomerStorageForProfiler = &forceCustomerStorageForProfiler
+	} else {
+		component.ForceCustomerStorageForProfiler = nil
+	}
+
+	// HockeyAppId
+	component.HockeyAppId = genruntime.ClonePointerToString(source.HockeyAppId)
+
+	// ImmediatePurgeDataOn30Days
+	if source.ImmediatePurgeDataOn30Days != nil {
+		immediatePurgeDataOn30Day := *source.ImmediatePurgeDataOn30Days
+		component.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Day
+	} else {
+		component.ImmediatePurgeDataOn30Days = nil
+	}
+
+	// IngestionMode
+	if source.IngestionMode != nil {
+		ingestionMode := ApplicationInsightsComponentProperties_IngestionMode(*source.IngestionMode)
+		component.IngestionMode = &ingestionMode
+	} else {
+		component.IngestionMode = nil
+	}
+
+	// Kind
+	component.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// Location
+	component.Location = genruntime.ClonePointerToString(source.Location)
+
+	// PublicNetworkAccessForIngestion
+	if source.PublicNetworkAccessForIngestion != nil {
+		publicNetworkAccessForIngestion := PublicNetworkAccessType(*source.PublicNetworkAccessForIngestion)
+		component.PublicNetworkAccessForIngestion = &publicNetworkAccessForIngestion
+	} else {
+		component.PublicNetworkAccessForIngestion = nil
+	}
+
+	// PublicNetworkAccessForQuery
+	if source.PublicNetworkAccessForQuery != nil {
+		publicNetworkAccessForQuery := PublicNetworkAccessType(*source.PublicNetworkAccessForQuery)
+		component.PublicNetworkAccessForQuery = &publicNetworkAccessForQuery
+	} else {
+		component.PublicNetworkAccessForQuery = nil
+	}
+
+	// Request_Source
+	if source.Request_Source != nil {
+		requestSource := ApplicationInsightsComponentProperties_Request_Source(*source.Request_Source)
+		component.Request_Source = &requestSource
+	} else {
+		component.Request_Source = nil
+	}
+
+	// RetentionInDays
+	component.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
+
+	// SamplingPercentage
+	if source.SamplingPercentage != nil {
+		samplingPercentage := *source.SamplingPercentage
+		component.SamplingPercentage = &samplingPercentage
+	} else {
+		component.SamplingPercentage = nil
+	}
+
+	// Tags
+	component.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// WorkspaceResourceReference
+	if source.WorkspaceResourceId != nil {
+		workspaceResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.WorkspaceResourceId)
+		component.WorkspaceResourceReference = &workspaceResourceReference
+	} else {
+		component.WorkspaceResourceReference = nil
 	}
 
 	// No error

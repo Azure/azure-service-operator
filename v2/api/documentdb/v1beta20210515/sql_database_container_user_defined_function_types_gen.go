@@ -91,6 +91,17 @@ func (function *SqlDatabaseContainerUserDefinedFunction) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the SqlDatabaseContainerUserDefinedFunction resource
 func (function *SqlDatabaseContainerUserDefinedFunction) defaultImpl() { function.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &SqlDatabaseContainerUserDefinedFunction{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (function *SqlDatabaseContainerUserDefinedFunction) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS); ok {
+		return function.Spec.Initialize_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerUserDefinedFunction{}
 
 // AzureName returns the Azure name of the resource
@@ -616,6 +627,31 @@ func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spe
 	return nil
 }
 
+// Initialize_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS populates our DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec from the provided source DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS
+func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) Initialize_From_DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS(source *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS) error {
+
+	// Location
+	function.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Resource
+	if source.Resource != nil {
+		var resource SqlUserDefinedFunctionResource
+		err := resource.Initialize_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
+		}
+		function.Resource = &resource
+	} else {
+		function.Resource = nil
+	}
+
+	// Tags
+	function.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (function *DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1063,6 +1099,19 @@ func (resource *SqlUserDefinedFunctionResource) AssignProperties_To_SqlUserDefin
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS populates our SqlUserDefinedFunctionResource from the provided source SqlUserDefinedFunctionGetProperties_Resource_STATUS
+func (resource *SqlUserDefinedFunctionResource) Initialize_From_SqlUserDefinedFunctionGetProperties_Resource_STATUS(source *SqlUserDefinedFunctionGetProperties_Resource_STATUS) error {
+
+	// Body
+	resource.Body = genruntime.ClonePointerToString(source.Body)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil

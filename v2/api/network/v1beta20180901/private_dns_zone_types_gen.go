@@ -91,6 +91,17 @@ func (zone *PrivateDnsZone) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the PrivateDnsZone resource
 func (zone *PrivateDnsZone) defaultImpl() { zone.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &PrivateDnsZone{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (zone *PrivateDnsZone) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*PrivateDnsZone_STATUS); ok {
+		return zone.Spec.Initialize_From_PrivateDnsZone_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type PrivateDnsZone_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &PrivateDnsZone{}
 
 // AzureName returns the Azure name of the resource
@@ -534,6 +545,22 @@ func (zone *PrivateDnsZone_Spec) AssignProperties_To_PrivateDnsZone_Spec(destina
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_PrivateDnsZone_STATUS populates our PrivateDnsZone_Spec from the provided source PrivateDnsZone_STATUS
+func (zone *PrivateDnsZone_Spec) Initialize_From_PrivateDnsZone_STATUS(source *PrivateDnsZone_STATUS) error {
+
+	// Etag
+	zone.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Location
+	zone.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Tags
+	zone.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

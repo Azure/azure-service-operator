@@ -91,6 +91,17 @@ func (store *ConfigurationStore) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the ConfigurationStore resource
 func (store *ConfigurationStore) defaultImpl() { store.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &ConfigurationStore{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (store *ConfigurationStore) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*ConfigurationStore_STATUS); ok {
+		return store.Spec.Initialize_From_ConfigurationStore_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type ConfigurationStore_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &ConfigurationStore{}
 
 // AzureName returns the Azure name of the resource
@@ -937,6 +948,102 @@ func (store *ConfigurationStore_Spec) AssignProperties_To_ConfigurationStore_Spe
 	return nil
 }
 
+// Initialize_From_ConfigurationStore_STATUS populates our ConfigurationStore_Spec from the provided source ConfigurationStore_STATUS
+func (store *ConfigurationStore_Spec) Initialize_From_ConfigurationStore_STATUS(source *ConfigurationStore_STATUS) error {
+
+	// CreateMode
+	if source.CreateMode != nil {
+		createMode := ConfigurationStoreProperties_CreateMode(*source.CreateMode)
+		store.CreateMode = &createMode
+	} else {
+		store.CreateMode = nil
+	}
+
+	// DisableLocalAuth
+	if source.DisableLocalAuth != nil {
+		disableLocalAuth := *source.DisableLocalAuth
+		store.DisableLocalAuth = &disableLocalAuth
+	} else {
+		store.DisableLocalAuth = nil
+	}
+
+	// EnablePurgeProtection
+	if source.EnablePurgeProtection != nil {
+		enablePurgeProtection := *source.EnablePurgeProtection
+		store.EnablePurgeProtection = &enablePurgeProtection
+	} else {
+		store.EnablePurgeProtection = nil
+	}
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption EncryptionProperties
+		err := encryption.Initialize_From_EncryptionProperties_STATUS(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_EncryptionProperties_STATUS() to populate field Encryption")
+		}
+		store.Encryption = &encryption
+	} else {
+		store.Encryption = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity ResourceIdentity
+		err := identity.Initialize_From_ResourceIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ResourceIdentity_STATUS() to populate field Identity")
+		}
+		store.Identity = &identity
+	} else {
+		store.Identity = nil
+	}
+
+	// Location
+	store.Location = genruntime.ClonePointerToString(source.Location)
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := ConfigurationStoreProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		store.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		store.PublicNetworkAccess = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.Initialize_From_Sku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+		}
+		store.Sku = &sku
+	} else {
+		store.Sku = nil
+	}
+
+	// SoftDeleteRetentionInDays
+	store.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(source.SoftDeleteRetentionInDays)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData
+		err := systemDatum.Initialize_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
+		}
+		store.SystemData = &systemDatum
+	} else {
+		store.SystemData = nil
+	}
+
+	// Tags
+	store.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (store *ConfigurationStore_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1727,6 +1834,25 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 	return nil
 }
 
+// Initialize_From_EncryptionProperties_STATUS populates our EncryptionProperties from the provided source EncryptionProperties_STATUS
+func (properties *EncryptionProperties) Initialize_From_EncryptionProperties_STATUS(source *EncryptionProperties_STATUS) error {
+
+	// KeyVaultProperties
+	if source.KeyVaultProperties != nil {
+		var keyVaultProperty KeyVaultProperties
+		err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+		}
+		properties.KeyVaultProperties = &keyVaultProperty
+	} else {
+		properties.KeyVaultProperties = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The encryption settings for a configuration store.
 type EncryptionProperties_STATUS struct {
 	// KeyVaultProperties: Key vault properties.
@@ -1947,6 +2073,21 @@ func (identity *ResourceIdentity) AssignProperties_To_ResourceIdentity(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ResourceIdentity_STATUS populates our ResourceIdentity from the provided source ResourceIdentity_STATUS
+func (identity *ResourceIdentity) Initialize_From_ResourceIdentity_STATUS(source *ResourceIdentity_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := ResourceIdentity_Type(*source.Type)
+		identity.Type = &typeVar
+	} else {
+		identity.Type = nil
 	}
 
 	// No error
@@ -2178,6 +2319,16 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20220501s.Sku) error {
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
+func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
+
+	// Name
+	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2435,6 +2586,41 @@ func (data *SystemData) AssignProperties_To_SystemData(destination *v20220501s.S
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SystemData_STATUS populates our SystemData from the provided source SystemData_STATUS
+func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STATUS) error {
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	if source.CreatedByType != nil {
+		createdByType := SystemData_CreatedByType(*source.CreatedByType)
+		data.CreatedByType = &createdByType
+	} else {
+		data.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	if source.LastModifiedByType != nil {
+		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
+		data.LastModifiedByType = &lastModifiedByType
+	} else {
+		data.LastModifiedByType = nil
 	}
 
 	// No error
@@ -2950,6 +3136,19 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_KeyVaultProperties_STATUS populates our KeyVaultProperties from the provided source KeyVaultProperties_STATUS
+func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(source *KeyVaultProperties_STATUS) error {
+
+	// IdentityClientId
+	properties.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
+
+	// KeyIdentifier
+	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
 
 	// No error
 	return nil
