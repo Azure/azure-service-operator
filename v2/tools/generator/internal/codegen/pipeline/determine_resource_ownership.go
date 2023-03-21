@@ -22,20 +22,18 @@ const DetermineResourceOwnershipStageId = "determineResourceOwnership"
 
 func DetermineResourceOwnership(
 	configuration *config.Configuration,
-	idFactory astmodel.IdentifierFactory,
 ) *Stage {
 	return NewLegacyStage(
 		DetermineResourceOwnershipStageId,
 		"Determine ARM resource relationships",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			return determineOwnership(definitions, configuration, idFactory)
+			return determineOwnership(definitions, configuration)
 		})
 }
 
 func determineOwnership(
 	definitions astmodel.TypeDefinitionSet,
 	configuration *config.Configuration,
-	idFactory astmodel.IdentifierFactory,
 ) (astmodel.TypeDefinitionSet, error) {
 	updatedDefs := make(astmodel.TypeDefinitionSet)
 
@@ -49,7 +47,7 @@ func determineOwnership(
 		rt := def.Type().(*astmodel.ResourceType)
 		childResourceTypeNames := findChildren(rt, def.Name(), resources)
 
-		err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs, idFactory)
+		err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs)
 		if err != nil {
 			return nil, err
 		}
@@ -128,12 +126,10 @@ func updateChildResourceDefinitionsWithOwner(
 	childResourceTypeNames []astmodel.TypeName,
 	owningResourceName astmodel.TypeName,
 	updatedDefs astmodel.TypeDefinitionSet,
-	idFactory astmodel.IdentifierFactory,
 ) error {
-
 	for _, typeName := range childResourceTypeNames {
 		// Use the singular form of the name
-		typeName = typeName.Singular(idFactory)
+		typeName = typeName.Singular()
 
 		// Confirm the type really exists
 		childResourceDef, ok := definitions[typeName]
