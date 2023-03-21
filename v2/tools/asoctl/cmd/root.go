@@ -7,9 +7,8 @@ package cmd
 
 import (
 	"context"
-	"os"
-	"os/signal"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 )
@@ -21,16 +20,7 @@ func Execute() {
 		klog.Fatalf("fatal error: commands failed to build! %s\n", err)
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	// Wait for a signal to quit:
-	signalChan := make(chan os.Signal, 1)
-	signal.Notify(signalChan, os.Interrupt, os.Kill)
-
-	go func() {
-		<-signalChan
-		cancel()
-	}()
-
+	ctx := xcontext.MakeInterruptibleContext(context.Background())
 	if err := cmd.ExecuteContext(ctx); err != nil {
 		klog.Fatalln(err)
 	}
