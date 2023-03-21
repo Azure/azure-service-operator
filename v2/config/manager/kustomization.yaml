@@ -1,3 +1,5 @@
+namePrefix: azureserviceoperator-
+
 resources:
 - manager.yaml
 - manager_metrics_service.yaml

@@ -1,6 +1,12 @@
+namePrefix: azureserviceoperator-
+
 resources:
 - role.yaml
 - role_binding.yaml
+- crd_manager_role.yaml
+- crd_manager_role_binding.yaml
+- crd_reader_role.yaml
+- crd_reader_role_binding.yaml
 - leader_election_role.yaml
 - leader_election_role_binding.yaml
 # Comment the following 3 lines if you want to disable
