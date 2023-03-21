@@ -10,9 +10,9 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"github.com/gobuffalo/flect"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/names"
 )
 
 // TypeName is a name associated with another Type (it also is usable as a Type)
@@ -153,54 +153,16 @@ func (typeName TypeName) String() string {
 	return fmt.Sprintf("%s/%s", typeName.PackageReference, typeName.name)
 }
 
-var typeNamePluralToSingularOverrides = map[string]string{
-	"Redis": "Redis",
-	"redis": "redis",
-}
-
-var typeNameSingularToPluralOverrides map[string]string
-
 // Singular returns a TypeName with the name singularized.
-func (typeName TypeName) Singular(idFactory IdentifierFactory) TypeName {
-	name := Singularize(typeName.Name(), idFactory)
-
+func (typeName TypeName) Singular() TypeName {
+	name := names.Singularize(typeName.Name())
 	return typeName.WithName(name)
-}
-
-func Singularize(name string, idFactory IdentifierFactory) string {
-	// work around bug in flect: https://github.com/Azure/azure-service-operator/issues/1454
-	for plural, single := range typeNamePluralToSingularOverrides {
-		if strings.HasSuffix(name, plural) {
-			return name[0:len(name)-len(plural)] + single
-		}
-	}
-
-	singular := flect.Singularize(name)
-
-	// Flect isn't consistent about what case it returns. If it's just removing an 's', it will maintain
-	// case, but if it's performing a more complicated transformation the result will be all lower case.
-	return idFactory.CreateIdentifier(singular, Exported)
 }
 
 // Plural returns a TypeName with the name pluralized.
 func (typeName TypeName) Plural() TypeName {
-	name := typeName.name
-
-	if typeNamePluralToSingularOverrides == nil {
-		typeNameSingularToPluralOverrides = make(map[string]string, len(typeNamePluralToSingularOverrides))
-		for plural, single := range typeNamePluralToSingularOverrides {
-			typeNameSingularToPluralOverrides[single] = plural
-		}
-	}
-
-	for single, plural := range typeNameSingularToPluralOverrides {
-		if strings.HasSuffix(name, single) {
-			n := name[0:len(name)-len(single)] + plural
-			return MakeTypeName(typeName.PackageReference, n)
-		}
-	}
-
-	return MakeTypeName(typeName.PackageReference, flect.Pluralize(typeName.name))
+	name := names.Pluralize(typeName.Name())
+	return typeName.WithName(name)
 }
 
 // WriteDebugDescription adds a description of the current type to the passed builder
