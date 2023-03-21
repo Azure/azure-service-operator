@@ -23,7 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/naming"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/names"
 
 	armruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm/runtime"
 	azruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
@@ -203,7 +203,7 @@ func (*ARMResourceImporter) kindFromID(id *arm.ResourceID) string {
 		panic("Don't currently know how to handle nested resources")
 	}
 
-	kind := naming.Singularize(id.ResourceType.Types[0])
+	kind := names.Singularize(id.ResourceType.Types[0])
 	klog.V(3).Infof("Kind: %s", kind)
 	return kind
 }
