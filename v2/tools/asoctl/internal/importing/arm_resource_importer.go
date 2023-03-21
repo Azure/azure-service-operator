@@ -48,13 +48,14 @@ func (ri *ARMResourceImporter) Import(ctx context.Context, armID string) (*Resou
 	// Create a blank object into which we capture the current state of the resource
 	obj, err := ri.createBlankObjectFromID(id)
 	if err != nil {
+		// Error doesn't need additional context
 		return nil, err
 	}
 
 	importable, ok := obj.(genruntime.ImportableARMResource)
 	if !ok {
 		return nil, errors.Errorf(
-			"unable to create blank resource, expected %s to identify an ARM object", armID)
+			"unable to create blank resource, expected %s to identify an importable ARM object", armID)
 	}
 
 	status, err := ri.getStatus(ctx, armID, importable)
@@ -149,7 +150,7 @@ func (ri *ARMResourceImporter) Config() cloud.ServiceConfiguration {
 func (ri *ARMResourceImporter) createBlankObjectFromID(armID *arm.ResourceID) (runtime.Object, error) {
 	gvk, err := ri.groupVersionKindFromID(armID)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to get GVK for blank resource")
+		return nil, errors.Wrap(err, "unable to determine GVK of resource")
 	}
 
 	obj, err := ri.createBlankObjectFromGVK(gvk)
@@ -204,6 +205,10 @@ func (*ARMResourceImporter) kindFromID(id *arm.ResourceID) string {
 	}
 
 	kind := names.Singularize(id.ResourceType.Types[0])
+
+	// Ensure the first character is uppercase
+	kind = strings.ToUpper(kind[0:1]) + kind[1:]
+
 	klog.V(3).Infof("Kind: %s", kind)
 	return kind
 }

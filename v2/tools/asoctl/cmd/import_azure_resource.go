@@ -27,8 +27,9 @@ func newImportAzureResourceCommand() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			armID := args[0]
+			ctx := cmd.Context()
 			return importAzureResource(ctx, armID, output)
-		}),
+		},
 	}
 
 	output = cmd.Flags().StringP(
