@@ -1351,18 +1351,18 @@ func (group *ContainerGroup_Spec) Initialize_From_ContainerGroup_STATUS(source *
 
 	// SubnetIds
 	if source.SubnetIds != nil {
-		subnetIDList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
-		for subnetIDIndex, subnetIDItem := range source.SubnetIds {
+		subnetIdList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
+		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
 			// Shadow the loop variable to avoid aliasing
-			subnetIDItem := subnetIDItem
-			var subnetID ContainerGroupSubnetId
-			err := subnetID.Initialize_From_ContainerGroupSubnetId_STATUS(&subnetIDItem)
+			subnetIdItem := subnetIdItem
+			var subnetId ContainerGroupSubnetId
+			err := subnetId.Initialize_From_ContainerGroupSubnetId_STATUS(&subnetIdItem)
 			if err != nil {
 				return errors.Wrap(err, "calling Initialize_From_ContainerGroupSubnetId_STATUS() to populate field SubnetIds")
 			}
-			subnetIDList[subnetIDIndex] = subnetID
+			subnetIdList[subnetIdIndex] = subnetId
 		}
-		group.SubnetIds = subnetIDList
+		group.SubnetIds = subnetIdList
 	} else {
 		group.SubnetIds = nil
 	}
