@@ -55,7 +55,7 @@ We provide best effort support via GitHub for ASO, focusing on the latest versio
 
 ## Downgrading
 
-If you encounter an issue after an upgrade of ASO that can't be addressed by any other means, you may want to downgrade to the prior version. This isn't an officially supported scenario, but we'll try to provide some guidance here.
+If you encounter an issue after an upgrade of ASO that can't be addressed by any other means, you may want to downgrade to the prior version. This isn't an officially supported scenario, we recommend rolling forward to a newer version if at all possible, but we'll try to provide some guidance here.
 
 Summary: If the new version of ASO didn't change the stored version of your resource, then you should be able to downgrade without issue. If the new version of ASO did change the stored version of your resource, then you will need to manually fix things up.
 
@@ -63,7 +63,7 @@ Each ASO resource is stored within the cluster using a canonical storage (or hub
 
 When a new version of ASO adds support for a later version of an already supported resource (say, adding support for the latest release of Azure Redis, v2022-06-01, in addition to the existing support for v2021-12-01), then the new version of ASO will use the newer API version of the resource as the storage version. In this situation, downgrading ASO to the prior version will orphan the resource, as the older version of ASO is unaware of the newer storage version and is unable to interact with it. This means that any resources created with the newer version of ASO will be unable to be managed by the older version of ASO. They will also be inaccessible via `kubectl` or any other tool.
 
-These orphaned resources can be recovered by reapplying the resource (using `kubectl apply`) and overwriting the resource with a new version. Alternatively, if you are going to be re-upgrading to ASO soon, you can leave those resources in place. The older version of ASO will ignore them, and any newer version should pick them up and start reconciliation automatically.
+These orphaned resources can be recovered by reapplying the resource (using `kubectl apply`) and overwriting the resource with a new version after the downgrade. Alternatively, if you are going to be re-upgrading to ASO soon, you can leave those resources in place. The older version of ASO will ignore them, and any newer version should pick them up and start reconciliation automatically.
 
 When a new version of ASO does not change the stored version of a resource (say, adding support for an old version of Azure Redis, v2020-12-01, in addition fo the existing support for v2021-12-01) then the new version of ASO will be using the same API version of the resource as the prior release. In this situation, downgrading ASO to the prior version should work without issue.
 
