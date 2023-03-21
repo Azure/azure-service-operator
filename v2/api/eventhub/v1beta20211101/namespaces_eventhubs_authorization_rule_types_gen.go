@@ -91,6 +91,17 @@ func (rule *NamespacesEventhubsAuthorizationRule) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the NamespacesEventhubsAuthorizationRule resource
 func (rule *NamespacesEventhubsAuthorizationRule) defaultImpl() { rule.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &NamespacesEventhubsAuthorizationRule{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (rule *NamespacesEventhubsAuthorizationRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Namespaces_Eventhubs_AuthorizationRule_STATUS); ok {
+		return rule.Spec.Initialize_From_Namespaces_Eventhubs_AuthorizationRule_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Namespaces_Eventhubs_AuthorizationRule_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &NamespacesEventhubsAuthorizationRule{}
 
 // AzureName returns the Azure name of the resource
@@ -508,6 +519,27 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) AssignProperties_To_Nam
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Namespaces_Eventhubs_AuthorizationRule_STATUS populates our Namespaces_Eventhubs_AuthorizationRule_Spec from the provided source Namespaces_Eventhubs_AuthorizationRule_STATUS
+func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec) Initialize_From_Namespaces_Eventhubs_AuthorizationRule_STATUS(source *Namespaces_Eventhubs_AuthorizationRule_STATUS) error {
+
+	// Rights
+	if source.Rights != nil {
+		rightList := make([]Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec, len(source.Rights))
+		for rightIndex, rightItem := range source.Rights {
+			// Shadow the loop variable to avoid aliasing
+			rightItem := rightItem
+			right := Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec(rightItem)
+			rightList[rightIndex] = right
+		}
+		rule.Rights = rightList
+	} else {
+		rule.Rights = nil
 	}
 
 	// No error

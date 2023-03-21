@@ -91,6 +91,17 @@ func (vault *Vault) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Vault resource
 func (vault *Vault) defaultImpl() { vault.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Vault{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (vault *Vault) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Vault_STATUS); ok {
+		return vault.Spec.Initialize_From_Vault_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Vault_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Vault{}
 
 // AzureName returns the Azure name of the resource
@@ -577,6 +588,31 @@ func (vault *Vault_Spec) AssignProperties_To_Vault_Spec(destination *v20210401ps
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Vault_STATUS populates our Vault_Spec from the provided source Vault_STATUS
+func (vault *Vault_Spec) Initialize_From_Vault_STATUS(source *Vault_STATUS) error {
+
+	// Location
+	vault.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Properties
+	if source.Properties != nil {
+		var property VaultProperties
+		err := property.Initialize_From_VaultProperties_STATUS(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_VaultProperties_STATUS() to populate field Properties")
+		}
+		vault.Properties = &property
+	} else {
+		vault.Properties = nil
+	}
+
+	// Tags
+	vault.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1547,6 +1583,133 @@ func (properties *VaultProperties) AssignProperties_To_VaultProperties(destinati
 	return nil
 }
 
+// Initialize_From_VaultProperties_STATUS populates our VaultProperties from the provided source VaultProperties_STATUS
+func (properties *VaultProperties) Initialize_From_VaultProperties_STATUS(source *VaultProperties_STATUS) error {
+
+	// AccessPolicies
+	if source.AccessPolicies != nil {
+		accessPolicyList := make([]AccessPolicyEntry, len(source.AccessPolicies))
+		for accessPolicyIndex, accessPolicyItem := range source.AccessPolicies {
+			// Shadow the loop variable to avoid aliasing
+			accessPolicyItem := accessPolicyItem
+			var accessPolicy AccessPolicyEntry
+			err := accessPolicy.Initialize_From_AccessPolicyEntry_STATUS(&accessPolicyItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_AccessPolicyEntry_STATUS() to populate field AccessPolicies")
+			}
+			accessPolicyList[accessPolicyIndex] = accessPolicy
+		}
+		properties.AccessPolicies = accessPolicyList
+	} else {
+		properties.AccessPolicies = nil
+	}
+
+	// CreateMode
+	if source.CreateMode != nil {
+		createMode := VaultProperties_CreateMode(*source.CreateMode)
+		properties.CreateMode = &createMode
+	} else {
+		properties.CreateMode = nil
+	}
+
+	// EnablePurgeProtection
+	if source.EnablePurgeProtection != nil {
+		enablePurgeProtection := *source.EnablePurgeProtection
+		properties.EnablePurgeProtection = &enablePurgeProtection
+	} else {
+		properties.EnablePurgeProtection = nil
+	}
+
+	// EnableRbacAuthorization
+	if source.EnableRbacAuthorization != nil {
+		enableRbacAuthorization := *source.EnableRbacAuthorization
+		properties.EnableRbacAuthorization = &enableRbacAuthorization
+	} else {
+		properties.EnableRbacAuthorization = nil
+	}
+
+	// EnableSoftDelete
+	if source.EnableSoftDelete != nil {
+		enableSoftDelete := *source.EnableSoftDelete
+		properties.EnableSoftDelete = &enableSoftDelete
+	} else {
+		properties.EnableSoftDelete = nil
+	}
+
+	// EnabledForDeployment
+	if source.EnabledForDeployment != nil {
+		enabledForDeployment := *source.EnabledForDeployment
+		properties.EnabledForDeployment = &enabledForDeployment
+	} else {
+		properties.EnabledForDeployment = nil
+	}
+
+	// EnabledForDiskEncryption
+	if source.EnabledForDiskEncryption != nil {
+		enabledForDiskEncryption := *source.EnabledForDiskEncryption
+		properties.EnabledForDiskEncryption = &enabledForDiskEncryption
+	} else {
+		properties.EnabledForDiskEncryption = nil
+	}
+
+	// EnabledForTemplateDeployment
+	if source.EnabledForTemplateDeployment != nil {
+		enabledForTemplateDeployment := *source.EnabledForTemplateDeployment
+		properties.EnabledForTemplateDeployment = &enabledForTemplateDeployment
+	} else {
+		properties.EnabledForTemplateDeployment = nil
+	}
+
+	// NetworkAcls
+	if source.NetworkAcls != nil {
+		var networkAcl NetworkRuleSet
+		err := networkAcl.Initialize_From_NetworkRuleSet_STATUS(source.NetworkAcls)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_NetworkRuleSet_STATUS() to populate field NetworkAcls")
+		}
+		properties.NetworkAcls = &networkAcl
+	} else {
+		properties.NetworkAcls = nil
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := VaultProperties_ProvisioningState(*source.ProvisioningState)
+		properties.ProvisioningState = &provisioningState
+	} else {
+		properties.ProvisioningState = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.Initialize_From_Sku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+		}
+		properties.Sku = &sku
+	} else {
+		properties.Sku = nil
+	}
+
+	// SoftDeleteRetentionInDays
+	properties.SoftDeleteRetentionInDays = genruntime.ClonePointerToInt(source.SoftDeleteRetentionInDays)
+
+	// TenantId
+	if source.TenantId != nil {
+		tenantId := *source.TenantId
+		properties.TenantId = &tenantId
+	} else {
+		properties.TenantId = nil
+	}
+
+	// VaultUri
+	properties.VaultUri = genruntime.ClonePointerToString(source.VaultUri)
+
+	// No error
+	return nil
+}
+
 // Properties of the vault
 type VaultProperties_STATUS struct {
 	// AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
@@ -2317,6 +2480,44 @@ func (entry *AccessPolicyEntry) AssignProperties_To_AccessPolicyEntry(destinatio
 	return nil
 }
 
+// Initialize_From_AccessPolicyEntry_STATUS populates our AccessPolicyEntry from the provided source AccessPolicyEntry_STATUS
+func (entry *AccessPolicyEntry) Initialize_From_AccessPolicyEntry_STATUS(source *AccessPolicyEntry_STATUS) error {
+
+	// ApplicationId
+	if source.ApplicationId != nil {
+		applicationId := *source.ApplicationId
+		entry.ApplicationId = &applicationId
+	} else {
+		entry.ApplicationId = nil
+	}
+
+	// ObjectId
+	entry.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// Permissions
+	if source.Permissions != nil {
+		var permission Permissions
+		err := permission.Initialize_From_Permissions_STATUS(source.Permissions)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Permissions_STATUS() to populate field Permissions")
+		}
+		entry.Permissions = &permission
+	} else {
+		entry.Permissions = nil
+	}
+
+	// TenantId
+	if source.TenantId != nil {
+		tenantId := *source.TenantId
+		entry.TenantId = &tenantId
+	} else {
+		entry.TenantId = nil
+	}
+
+	// No error
+	return nil
+}
+
 // An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
 // vault's tenant ID.
 type AccessPolicyEntry_STATUS struct {
@@ -2673,6 +2874,65 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *v
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_NetworkRuleSet_STATUS populates our NetworkRuleSet from the provided source NetworkRuleSet_STATUS
+func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *NetworkRuleSet_STATUS) error {
+
+	// Bypass
+	if source.Bypass != nil {
+		bypass := NetworkRuleSet_Bypass(*source.Bypass)
+		ruleSet.Bypass = &bypass
+	} else {
+		ruleSet.Bypass = nil
+	}
+
+	// DefaultAction
+	if source.DefaultAction != nil {
+		defaultAction := NetworkRuleSet_DefaultAction(*source.DefaultAction)
+		ruleSet.DefaultAction = &defaultAction
+	} else {
+		ruleSet.DefaultAction = nil
+	}
+
+	// IpRules
+	if source.IpRules != nil {
+		ipRuleList := make([]IPRule, len(source.IpRules))
+		for ipRuleIndex, ipRuleItem := range source.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule IPRule
+			err := ipRule.Initialize_From_IPRule_STATUS(&ipRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_IPRule_STATUS() to populate field IpRules")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
+		}
+		ruleSet.IpRules = ipRuleList
+	} else {
+		ruleSet.IpRules = nil
+	}
+
+	// VirtualNetworkRules
+	if source.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule VirtualNetworkRule
+			err := virtualNetworkRule.Initialize_From_VirtualNetworkRule_STATUS(&virtualNetworkRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_VirtualNetworkRule_STATUS() to populate field VirtualNetworkRules")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		}
+		ruleSet.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		ruleSet.VirtualNetworkRules = nil
 	}
 
 	// No error
@@ -3174,6 +3434,29 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210401ps.Sku) error {
 	return nil
 }
 
+// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
+func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
+
+	// Family
+	if source.Family != nil {
+		family := Sku_Family(*source.Family)
+		sku.Family = &family
+	} else {
+		sku.Family = nil
+	}
+
+	// Name
+	if source.Name != nil {
+		name := Sku_Name(*source.Name)
+		sku.Name = &name
+	} else {
+		sku.Name = nil
+	}
+
+	// No error
+	return nil
+}
+
 // SKU details
 type Sku_STATUS struct {
 	// Family: SKU family name
@@ -3339,6 +3622,16 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *v20210401ps.IPRule) 
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_IPRule_STATUS populates our IPRule from the provided source IPRule_STATUS
+func (rule *IPRule) Initialize_From_IPRule_STATUS(source *IPRule_STATUS) error {
+
+	// Value
+	rule.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil
@@ -3607,6 +3900,69 @@ func (permissions *Permissions) AssignProperties_To_Permissions(destination *v20
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Permissions_STATUS populates our Permissions from the provided source Permissions_STATUS
+func (permissions *Permissions) Initialize_From_Permissions_STATUS(source *Permissions_STATUS) error {
+
+	// Certificates
+	if source.Certificates != nil {
+		certificateList := make([]Permissions_Certificates, len(source.Certificates))
+		for certificateIndex, certificateItem := range source.Certificates {
+			// Shadow the loop variable to avoid aliasing
+			certificateItem := certificateItem
+			certificate := Permissions_Certificates(certificateItem)
+			certificateList[certificateIndex] = certificate
+		}
+		permissions.Certificates = certificateList
+	} else {
+		permissions.Certificates = nil
+	}
+
+	// Keys
+	if source.Keys != nil {
+		keyList := make([]Permissions_Keys, len(source.Keys))
+		for keyIndex, keyItem := range source.Keys {
+			// Shadow the loop variable to avoid aliasing
+			keyItem := keyItem
+			key := Permissions_Keys(keyItem)
+			keyList[keyIndex] = key
+		}
+		permissions.Keys = keyList
+	} else {
+		permissions.Keys = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		secretList := make([]Permissions_Secrets, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			secret := Permissions_Secrets(secretItem)
+			secretList[secretIndex] = secret
+		}
+		permissions.Secrets = secretList
+	} else {
+		permissions.Secrets = nil
+	}
+
+	// Storage
+	if source.Storage != nil {
+		storageList := make([]Permissions_Storage, len(source.Storage))
+		for storageIndex, storageItem := range source.Storage {
+			// Shadow the loop variable to avoid aliasing
+			storageItem := storageItem
+			storage := Permissions_Storage(storageItem)
+			storageList[storageIndex] = storage
+		}
+		permissions.Storage = storageList
+	} else {
+		permissions.Storage = nil
 	}
 
 	// No error
@@ -4085,6 +4441,29 @@ func (rule *VirtualNetworkRule) AssignProperties_To_VirtualNetworkRule(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_VirtualNetworkRule_STATUS populates our VirtualNetworkRule from the provided source VirtualNetworkRule_STATUS
+func (rule *VirtualNetworkRule) Initialize_From_VirtualNetworkRule_STATUS(source *VirtualNetworkRule_STATUS) error {
+
+	// IgnoreMissingVnetServiceEndpoint
+	if source.IgnoreMissingVnetServiceEndpoint != nil {
+		ignoreMissingVnetServiceEndpoint := *source.IgnoreMissingVnetServiceEndpoint
+		rule.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint
+	} else {
+		rule.IgnoreMissingVnetServiceEndpoint = nil
+	}
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		rule.Reference = &reference
+	} else {
+		rule.Reference = nil
 	}
 
 	// No error
