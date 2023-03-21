@@ -94,7 +94,7 @@ jobs:
       - name: Run integration tests
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT "$container_id" task controller:ci-integration-tests --concurrency 1 # limit concurrency because build machines are small
+          docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT -e AZURE_CLIENT_ID_CERT_AUTH -e AZURE_CLIENT_SECRET_CERT_AUTH "$container_id" task controller:ci-integration-tests --concurrency 1 # limit concurrency because build machines are small
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -102,6 +102,8 @@ jobs:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           AZURE_CLIENT_SECRET_MULTITENANT: ${{ secrets.AZURE_CLIENT_SECRET_MULTITENANT }}
           AZURE_CLIENT_ID_MULTITENANT: ${{ secrets.AZURE_CLIENT_ID_MULTITENANT }}
+          AZURE_CLIENT_ID_CERT_AUTH: ${{ secrets.AZURE_CLIENT_ID_CERT_AUTH }}
+          AZURE_CLIENT_SECRET_CERT_AUTH: ${{ secrets.AZURE_CLIENT_SECRET_CERT_AUTH }}
 
       # Update check run called "integration-fork"
       - uses: actions/github-script@v1
