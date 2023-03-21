@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package name
+package names
 
 import (
 	"strings"
