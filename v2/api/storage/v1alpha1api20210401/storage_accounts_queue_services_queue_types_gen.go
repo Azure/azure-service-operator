@@ -103,6 +103,17 @@ func (queue *StorageAccountsQueueServicesQueue) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the StorageAccountsQueueServicesQueue resource
 func (queue *StorageAccountsQueueServicesQueue) defaultImpl() { queue.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &StorageAccountsQueueServicesQueue{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (queue *StorageAccountsQueueServicesQueue) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*StorageAccounts_QueueServices_Queue_STATUS); ok {
+		return queue.Spec.Initialize_From_StorageAccounts_QueueServices_Queue_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type StorageAccounts_QueueServices_Queue_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &StorageAccountsQueueServicesQueue{}
 
 // AzureName returns the Azure name of the resource
@@ -503,6 +514,16 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) AssignProperties_To_Stora
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_StorageAccounts_QueueServices_Queue_STATUS populates our StorageAccounts_QueueServices_Queue_Spec from the provided source StorageAccounts_QueueServices_Queue_STATUS
+func (queue *StorageAccounts_QueueServices_Queue_Spec) Initialize_From_StorageAccounts_QueueServices_Queue_STATUS(source *StorageAccounts_QueueServices_Queue_STATUS) error {
+
+	// Metadata
+	queue.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// No error
 	return nil

@@ -91,6 +91,17 @@ func (topic *Topic) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Topic resource
 func (topic *Topic) defaultImpl() { topic.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Topic{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (topic *Topic) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Topic_STATUS); ok {
+		return topic.Spec.Initialize_From_Topic_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Topic_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Topic{}
 
 // AzureName returns the Azure name of the resource
@@ -693,6 +704,65 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *v20200601s.
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Topic_STATUS populates our Topic_Spec from the provided source Topic_STATUS
+func (topic *Topic_Spec) Initialize_From_Topic_STATUS(source *Topic_STATUS) error {
+
+	// InboundIpRules
+	if source.InboundIpRules != nil {
+		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundIpRuleItem := inboundIpRuleItem
+			var inboundIpRule InboundIpRule
+			err := inboundIpRule.Initialize_From_InboundIpRule_STATUS(&inboundIpRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_InboundIpRule_STATUS() to populate field InboundIpRules")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		}
+		topic.InboundIpRules = inboundIpRuleList
+	} else {
+		topic.InboundIpRules = nil
+	}
+
+	// InputSchema
+	if source.InputSchema != nil {
+		inputSchema := TopicProperties_InputSchema(*source.InputSchema)
+		topic.InputSchema = &inputSchema
+	} else {
+		topic.InputSchema = nil
+	}
+
+	// InputSchemaMapping
+	if source.InputSchemaMapping != nil {
+		var inputSchemaMapping InputSchemaMapping
+		err := inputSchemaMapping.Initialize_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
+		}
+		topic.InputSchemaMapping = &inputSchemaMapping
+	} else {
+		topic.InputSchemaMapping = nil
+	}
+
+	// Location
+	topic.Location = genruntime.ClonePointerToString(source.Location)
+
+	// PublicNetworkAccess
+	if source.PublicNetworkAccess != nil {
+		publicNetworkAccess := TopicProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
+		topic.PublicNetworkAccess = &publicNetworkAccess
+	} else {
+		topic.PublicNetworkAccess = nil
+	}
+
+	// Tags
+	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

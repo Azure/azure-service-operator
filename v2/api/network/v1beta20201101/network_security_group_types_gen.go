@@ -91,6 +91,17 @@ func (group *NetworkSecurityGroup) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the NetworkSecurityGroup resource
 func (group *NetworkSecurityGroup) defaultImpl() { group.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &NetworkSecurityGroup{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (group *NetworkSecurityGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded); ok {
+		return group.Spec.Initialize_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(s)
+	}
+
+	return fmt.Errorf("expected Status of type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &NetworkSecurityGroup{}
 
 // AzureName returns the Azure name of the resource
@@ -508,6 +519,19 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded populates our NetworkSecurityGroup_Spec from the provided source NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+func (group *NetworkSecurityGroup_Spec) Initialize_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(source *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) error {
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

@@ -96,6 +96,17 @@ func (service *StorageAccountsQueueService) Default() {
 // defaultImpl applies the code generated defaults to the StorageAccountsQueueService resource
 func (service *StorageAccountsQueueService) defaultImpl() {}
 
+var _ genruntime.ImportableResource = &StorageAccountsQueueService{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (service *StorageAccountsQueueService) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*StorageAccounts_QueueService_STATUS); ok {
+		return service.Spec.Initialize_From_StorageAccounts_QueueService_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type StorageAccounts_QueueService_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &StorageAccountsQueueService{}
 
 // AzureName returns the Azure name of the resource (always "default")
@@ -504,6 +515,25 @@ func (service *StorageAccounts_QueueService_Spec) AssignProperties_To_StorageAcc
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_StorageAccounts_QueueService_STATUS populates our StorageAccounts_QueueService_Spec from the provided source StorageAccounts_QueueService_STATUS
+func (service *StorageAccounts_QueueService_Spec) Initialize_From_StorageAccounts_QueueService_STATUS(source *StorageAccounts_QueueService_STATUS) error {
+
+	// Cors
+	if source.Cors != nil {
+		var cor CorsRules
+		err := cor.Initialize_From_CorsRules_STATUS(source.Cors)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_CorsRules_STATUS() to populate field Cors")
+		}
+		service.Cors = &cor
+	} else {
+		service.Cors = nil
 	}
 
 	// No error

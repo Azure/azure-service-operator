@@ -91,6 +91,17 @@ func (rule *NamespacesTopicsSubscriptionsRule) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the NamespacesTopicsSubscriptionsRule resource
 func (rule *NamespacesTopicsSubscriptionsRule) defaultImpl() { rule.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &NamespacesTopicsSubscriptionsRule{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (rule *NamespacesTopicsSubscriptionsRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Namespaces_Topics_Subscriptions_Rule_STATUS); ok {
+		return rule.Spec.Initialize_From_Namespaces_Topics_Subscriptions_Rule_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Namespaces_Topics_Subscriptions_Rule_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscriptionsRule{}
 
 // AzureName returns the Azure name of the resource
@@ -657,6 +668,57 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Names
 	return nil
 }
 
+// Initialize_From_Namespaces_Topics_Subscriptions_Rule_STATUS populates our Namespaces_Topics_Subscriptions_Rule_Spec from the provided source Namespaces_Topics_Subscriptions_Rule_STATUS
+func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) Initialize_From_Namespaces_Topics_Subscriptions_Rule_STATUS(source *Namespaces_Topics_Subscriptions_Rule_STATUS) error {
+
+	// Action
+	if source.Action != nil {
+		var action Action
+		err := action.Initialize_From_Action_STATUS(source.Action)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Action_STATUS() to populate field Action")
+		}
+		rule.Action = &action
+	} else {
+		rule.Action = nil
+	}
+
+	// CorrelationFilter
+	if source.CorrelationFilter != nil {
+		var correlationFilter CorrelationFilter
+		err := correlationFilter.Initialize_From_CorrelationFilter_STATUS(source.CorrelationFilter)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_CorrelationFilter_STATUS() to populate field CorrelationFilter")
+		}
+		rule.CorrelationFilter = &correlationFilter
+	} else {
+		rule.CorrelationFilter = nil
+	}
+
+	// FilterType
+	if source.FilterType != nil {
+		filterType := FilterType(*source.FilterType)
+		rule.FilterType = &filterType
+	} else {
+		rule.FilterType = nil
+	}
+
+	// SqlFilter
+	if source.SqlFilter != nil {
+		var sqlFilter SqlFilter
+		err := sqlFilter.Initialize_From_SqlFilter_STATUS(source.SqlFilter)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SqlFilter_STATUS() to populate field SqlFilter")
+		}
+		rule.SqlFilter = &sqlFilter
+	} else {
+		rule.SqlFilter = nil
+	}
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1134,6 +1196,27 @@ func (action *Action) AssignProperties_To_Action(destination *v20210101ps.Action
 	return nil
 }
 
+// Initialize_From_Action_STATUS populates our Action from the provided source Action_STATUS
+func (action *Action) Initialize_From_Action_STATUS(source *Action_STATUS) error {
+
+	// CompatibilityLevel
+	action.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
+
+	// RequiresPreprocessing
+	if source.RequiresPreprocessing != nil {
+		requiresPreprocessing := *source.RequiresPreprocessing
+		action.RequiresPreprocessing = &requiresPreprocessing
+	} else {
+		action.RequiresPreprocessing = nil
+	}
+
+	// SqlExpression
+	action.SqlExpression = genruntime.ClonePointerToString(source.SqlExpression)
+
+	// No error
+	return nil
+}
+
 // Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
 // expression.
 type Action_STATUS struct {
@@ -1512,6 +1595,48 @@ func (filter *CorrelationFilter) AssignProperties_To_CorrelationFilter(destinati
 	return nil
 }
 
+// Initialize_From_CorrelationFilter_STATUS populates our CorrelationFilter from the provided source CorrelationFilter_STATUS
+func (filter *CorrelationFilter) Initialize_From_CorrelationFilter_STATUS(source *CorrelationFilter_STATUS) error {
+
+	// ContentType
+	filter.ContentType = genruntime.ClonePointerToString(source.ContentType)
+
+	// CorrelationId
+	filter.CorrelationId = genruntime.ClonePointerToString(source.CorrelationId)
+
+	// Label
+	filter.Label = genruntime.ClonePointerToString(source.Label)
+
+	// MessageId
+	filter.MessageId = genruntime.ClonePointerToString(source.MessageId)
+
+	// Properties
+	filter.Properties = genruntime.CloneMapOfStringToString(source.Properties)
+
+	// ReplyTo
+	filter.ReplyTo = genruntime.ClonePointerToString(source.ReplyTo)
+
+	// ReplyToSessionId
+	filter.ReplyToSessionId = genruntime.ClonePointerToString(source.ReplyToSessionId)
+
+	// RequiresPreprocessing
+	if source.RequiresPreprocessing != nil {
+		requiresPreprocessing := *source.RequiresPreprocessing
+		filter.RequiresPreprocessing = &requiresPreprocessing
+	} else {
+		filter.RequiresPreprocessing = nil
+	}
+
+	// SessionId
+	filter.SessionId = genruntime.ClonePointerToString(source.SessionId)
+
+	// To
+	filter.To = genruntime.ClonePointerToString(source.To)
+
+	// No error
+	return nil
+}
+
 // Represents the correlation filter expression.
 type CorrelationFilter_STATUS struct {
 	// ContentType: Content type of the message.
@@ -1869,6 +1994,32 @@ func (filter *SqlFilter) AssignProperties_To_SqlFilter(destination *v20210101ps.
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SqlFilter_STATUS populates our SqlFilter from the provided source SqlFilter_STATUS
+func (filter *SqlFilter) Initialize_From_SqlFilter_STATUS(source *SqlFilter_STATUS) error {
+
+	// CompatibilityLevel
+	if source.CompatibilityLevel != nil {
+		compatibilityLevel := *source.CompatibilityLevel
+		filter.CompatibilityLevel = &compatibilityLevel
+	} else {
+		filter.CompatibilityLevel = nil
+	}
+
+	// RequiresPreprocessing
+	if source.RequiresPreprocessing != nil {
+		requiresPreprocessing := *source.RequiresPreprocessing
+		filter.RequiresPreprocessing = &requiresPreprocessing
+	} else {
+		filter.RequiresPreprocessing = nil
+	}
+
+	// SqlExpression
+	filter.SqlExpression = genruntime.ClonePointerToString(source.SqlExpression)
 
 	// No error
 	return nil

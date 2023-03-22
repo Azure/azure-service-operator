@@ -115,7 +115,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.RemoveStatusValidations(),
 
 		// Figure out resource owners:
-		pipeline.DetermineResourceOwnership(configuration, idFactory),
+		pipeline.DetermineResourceOwnership(configuration),
 
 		// Strip out redundant type aliases
 		pipeline.RemoveTypeAliases(),
@@ -195,6 +195,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ImplementConvertibleSpecInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleStatusInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectSpecInitializationFunctions(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ImplementImportableResourceInterface(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.MarkLatestStorageVariantAsHubVersion().UsedFor(pipeline.ARMTarget),
 		pipeline.MarkLatestAPIVersionAsStorageVersion().UsedFor(pipeline.CrossplaneTarget),

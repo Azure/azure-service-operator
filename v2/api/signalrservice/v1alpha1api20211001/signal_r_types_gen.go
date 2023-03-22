@@ -103,6 +103,17 @@ func (signalR *SignalR) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the SignalR resource
 func (signalR *SignalR) defaultImpl() { signalR.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &SignalR{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (signalR *SignalR) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*SignalR_STATUS); ok {
+		return signalR.Spec.Initialize_From_SignalR_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type SignalR_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &SignalR{}
 
 // AzureName returns the Azure name of the resource
@@ -1025,6 +1036,148 @@ func (signalR *SignalR_Spec) AssignProperties_To_SignalR_Spec(destination *alpha
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SignalR_STATUS populates our SignalR_Spec from the provided source SignalR_STATUS
+func (signalR *SignalR_Spec) Initialize_From_SignalR_STATUS(source *SignalR_STATUS) error {
+
+	// Cors
+	if source.Cors != nil {
+		var cor SignalRCorsSettings
+		err := cor.Initialize_From_SignalRCorsSettings_STATUS(source.Cors)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SignalRCorsSettings_STATUS() to populate field Cors")
+		}
+		signalR.Cors = &cor
+	} else {
+		signalR.Cors = nil
+	}
+
+	// DisableAadAuth
+	if source.DisableAadAuth != nil {
+		disableAadAuth := *source.DisableAadAuth
+		signalR.DisableAadAuth = &disableAadAuth
+	} else {
+		signalR.DisableAadAuth = nil
+	}
+
+	// DisableLocalAuth
+	if source.DisableLocalAuth != nil {
+		disableLocalAuth := *source.DisableLocalAuth
+		signalR.DisableLocalAuth = &disableLocalAuth
+	} else {
+		signalR.DisableLocalAuth = nil
+	}
+
+	// Features
+	if source.Features != nil {
+		featureList := make([]SignalRFeature, len(source.Features))
+		for featureIndex, featureItem := range source.Features {
+			// Shadow the loop variable to avoid aliasing
+			featureItem := featureItem
+			var feature SignalRFeature
+			err := feature.Initialize_From_SignalRFeature_STATUS(&featureItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_SignalRFeature_STATUS() to populate field Features")
+			}
+			featureList[featureIndex] = feature
+		}
+		signalR.Features = featureList
+	} else {
+		signalR.Features = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedIdentity
+		err := identity.Initialize_From_ManagedIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ManagedIdentity_STATUS() to populate field Identity")
+		}
+		signalR.Identity = &identity
+	} else {
+		signalR.Identity = nil
+	}
+
+	// Kind
+	if source.Kind != nil {
+		kind := ServiceKind(*source.Kind)
+		signalR.Kind = &kind
+	} else {
+		signalR.Kind = nil
+	}
+
+	// Location
+	signalR.Location = genruntime.ClonePointerToString(source.Location)
+
+	// NetworkACLs
+	if source.NetworkACLs != nil {
+		var networkACL SignalRNetworkACLs
+		err := networkACL.Initialize_From_SignalRNetworkACLs_STATUS(source.NetworkACLs)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SignalRNetworkACLs_STATUS() to populate field NetworkACLs")
+		}
+		signalR.NetworkACLs = &networkACL
+	} else {
+		signalR.NetworkACLs = nil
+	}
+
+	// PublicNetworkAccess
+	signalR.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+
+	// ResourceLogConfiguration
+	if source.ResourceLogConfiguration != nil {
+		var resourceLogConfiguration ResourceLogConfiguration
+		err := resourceLogConfiguration.Initialize_From_ResourceLogConfiguration_STATUS(source.ResourceLogConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ResourceLogConfiguration_STATUS() to populate field ResourceLogConfiguration")
+		}
+		signalR.ResourceLogConfiguration = &resourceLogConfiguration
+	} else {
+		signalR.ResourceLogConfiguration = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku ResourceSku
+		err := sku.Initialize_From_ResourceSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ResourceSku_STATUS() to populate field Sku")
+		}
+		signalR.Sku = &sku
+	} else {
+		signalR.Sku = nil
+	}
+
+	// Tags
+	signalR.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Tls
+	if source.Tls != nil {
+		var tl SignalRTlsSettings
+		err := tl.Initialize_From_SignalRTlsSettings_STATUS(source.Tls)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SignalRTlsSettings_STATUS() to populate field Tls")
+		}
+		signalR.Tls = &tl
+	} else {
+		signalR.Tls = nil
+	}
+
+	// Upstream
+	if source.Upstream != nil {
+		var upstream ServerlessUpstreamSettings
+		err := upstream.Initialize_From_ServerlessUpstreamSettings_STATUS(source.Upstream)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ServerlessUpstreamSettings_STATUS() to populate field Upstream")
+		}
+		signalR.Upstream = &upstream
+	} else {
+		signalR.Upstream = nil
 	}
 
 	// No error
@@ -1960,6 +2113,21 @@ func (identity *ManagedIdentity) AssignProperties_To_ManagedIdentity(destination
 	return nil
 }
 
+// Initialize_From_ManagedIdentity_STATUS populates our ManagedIdentity from the provided source ManagedIdentity_STATUS
+func (identity *ManagedIdentity) Initialize_From_ManagedIdentity_STATUS(source *ManagedIdentity_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := ManagedIdentityType(*source.Type)
+		identity.Type = &typeVar
+	} else {
+		identity.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of ManagedIdentity_STATUS. Use v1beta20211001.ManagedIdentity_STATUS instead
 type ManagedIdentity_STATUS struct {
 	PrincipalId            *string                                        `json:"principalId,omitempty"`
@@ -2287,6 +2455,31 @@ func (configuration *ResourceLogConfiguration) AssignProperties_To_ResourceLogCo
 	return nil
 }
 
+// Initialize_From_ResourceLogConfiguration_STATUS populates our ResourceLogConfiguration from the provided source ResourceLogConfiguration_STATUS
+func (configuration *ResourceLogConfiguration) Initialize_From_ResourceLogConfiguration_STATUS(source *ResourceLogConfiguration_STATUS) error {
+
+	// Categories
+	if source.Categories != nil {
+		categoryList := make([]ResourceLogCategory, len(source.Categories))
+		for categoryIndex, categoryItem := range source.Categories {
+			// Shadow the loop variable to avoid aliasing
+			categoryItem := categoryItem
+			var category ResourceLogCategory
+			err := category.Initialize_From_ResourceLogCategory_STATUS(&categoryItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_ResourceLogCategory_STATUS() to populate field Categories")
+			}
+			categoryList[categoryIndex] = category
+		}
+		configuration.Categories = categoryList
+	} else {
+		configuration.Categories = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of ResourceLogConfiguration_STATUS. Use v1beta20211001.ResourceLogConfiguration_STATUS instead
 type ResourceLogConfiguration_STATUS struct {
 	Categories []ResourceLogCategory_STATUS `json:"categories,omitempty"`
@@ -2496,6 +2689,27 @@ func (resourceSku *ResourceSku) AssignProperties_To_ResourceSku(destination *alp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ResourceSku_STATUS populates our ResourceSku from the provided source ResourceSku_STATUS
+func (resourceSku *ResourceSku) Initialize_From_ResourceSku_STATUS(source *ResourceSku_STATUS) error {
+
+	// Capacity
+	resourceSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+
+	// Name
+	resourceSku.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Tier
+	if source.Tier != nil {
+		tier := SignalRSkuTier(*source.Tier)
+		resourceSku.Tier = &tier
+	} else {
+		resourceSku.Tier = nil
 	}
 
 	// No error
@@ -2732,6 +2946,31 @@ func (settings *ServerlessUpstreamSettings) AssignProperties_To_ServerlessUpstre
 	return nil
 }
 
+// Initialize_From_ServerlessUpstreamSettings_STATUS populates our ServerlessUpstreamSettings from the provided source ServerlessUpstreamSettings_STATUS
+func (settings *ServerlessUpstreamSettings) Initialize_From_ServerlessUpstreamSettings_STATUS(source *ServerlessUpstreamSettings_STATUS) error {
+
+	// Templates
+	if source.Templates != nil {
+		templateList := make([]UpstreamTemplate, len(source.Templates))
+		for templateIndex, templateItem := range source.Templates {
+			// Shadow the loop variable to avoid aliasing
+			templateItem := templateItem
+			var template UpstreamTemplate
+			err := template.Initialize_From_UpstreamTemplate_STATUS(&templateItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_UpstreamTemplate_STATUS() to populate field Templates")
+			}
+			templateList[templateIndex] = template
+		}
+		settings.Templates = templateList
+	} else {
+		settings.Templates = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of ServerlessUpstreamSettings_STATUS. Use v1beta20211001.ServerlessUpstreamSettings_STATUS instead
 type ServerlessUpstreamSettings_STATUS struct {
 	Templates []UpstreamTemplate_STATUS `json:"templates,omitempty"`
@@ -2953,6 +3192,16 @@ func (settings *SignalRCorsSettings) AssignProperties_To_SignalRCorsSettings(des
 	return nil
 }
 
+// Initialize_From_SignalRCorsSettings_STATUS populates our SignalRCorsSettings from the provided source SignalRCorsSettings_STATUS
+func (settings *SignalRCorsSettings) Initialize_From_SignalRCorsSettings_STATUS(source *SignalRCorsSettings_STATUS) error {
+
+	// AllowedOrigins
+	settings.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
+
+	// No error
+	return nil
+}
+
 // Deprecated version of SignalRCorsSettings_STATUS. Use v1beta20211001.SignalRCorsSettings_STATUS instead
 type SignalRCorsSettings_STATUS struct {
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
@@ -3144,6 +3393,32 @@ func (feature *SignalRFeature) AssignProperties_To_SignalRFeature(destination *a
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SignalRFeature_STATUS populates our SignalRFeature from the provided source SignalRFeature_STATUS
+func (feature *SignalRFeature) Initialize_From_SignalRFeature_STATUS(source *SignalRFeature_STATUS) error {
+
+	// Flag
+	if source.Flag != nil {
+		flag := FeatureFlags(*source.Flag)
+		feature.Flag = &flag
+	} else {
+		feature.Flag = nil
+	}
+
+	// Properties
+	feature.Properties = genruntime.CloneMapOfStringToString(source.Properties)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		feature.Value = &value
+	} else {
+		feature.Value = nil
 	}
 
 	// No error
@@ -3431,6 +3706,51 @@ func (acLs *SignalRNetworkACLs) AssignProperties_To_SignalRNetworkACLs(destinati
 	return nil
 }
 
+// Initialize_From_SignalRNetworkACLs_STATUS populates our SignalRNetworkACLs from the provided source SignalRNetworkACLs_STATUS
+func (acLs *SignalRNetworkACLs) Initialize_From_SignalRNetworkACLs_STATUS(source *SignalRNetworkACLs_STATUS) error {
+
+	// DefaultAction
+	if source.DefaultAction != nil {
+		defaultAction := ACLAction(*source.DefaultAction)
+		acLs.DefaultAction = &defaultAction
+	} else {
+		acLs.DefaultAction = nil
+	}
+
+	// PrivateEndpoints
+	if source.PrivateEndpoints != nil {
+		privateEndpointList := make([]PrivateEndpointACL, len(source.PrivateEndpoints))
+		for privateEndpointIndex, privateEndpointItem := range source.PrivateEndpoints {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointItem := privateEndpointItem
+			var privateEndpoint PrivateEndpointACL
+			err := privateEndpoint.Initialize_From_PrivateEndpointACL_STATUS(&privateEndpointItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_PrivateEndpointACL_STATUS() to populate field PrivateEndpoints")
+			}
+			privateEndpointList[privateEndpointIndex] = privateEndpoint
+		}
+		acLs.PrivateEndpoints = privateEndpointList
+	} else {
+		acLs.PrivateEndpoints = nil
+	}
+
+	// PublicNetwork
+	if source.PublicNetwork != nil {
+		var publicNetwork NetworkACL
+		err := publicNetwork.Initialize_From_NetworkACL_STATUS(source.PublicNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_NetworkACL_STATUS() to populate field PublicNetwork")
+		}
+		acLs.PublicNetwork = &publicNetwork
+	} else {
+		acLs.PublicNetwork = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of SignalRNetworkACLs_STATUS. Use v1beta20211001.SignalRNetworkACLs_STATUS instead
 type SignalRNetworkACLs_STATUS struct {
 	DefaultAction    *ACLAction_STATUS           `json:"defaultAction,omitempty"`
@@ -3659,6 +3979,21 @@ func (settings *SignalRTlsSettings) AssignProperties_To_SignalRTlsSettings(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SignalRTlsSettings_STATUS populates our SignalRTlsSettings from the provided source SignalRTlsSettings_STATUS
+func (settings *SignalRTlsSettings) Initialize_From_SignalRTlsSettings_STATUS(source *SignalRTlsSettings_STATUS) error {
+
+	// ClientCertEnabled
+	if source.ClientCertEnabled != nil {
+		clientCertEnabled := *source.ClientCertEnabled
+		settings.ClientCertEnabled = &clientCertEnabled
+	} else {
+		settings.ClientCertEnabled = nil
 	}
 
 	// No error
@@ -4042,6 +4377,41 @@ func (networkACL *NetworkACL) AssignProperties_To_NetworkACL(destination *alpha2
 	return nil
 }
 
+// Initialize_From_NetworkACL_STATUS populates our NetworkACL from the provided source NetworkACL_STATUS
+func (networkACL *NetworkACL) Initialize_From_NetworkACL_STATUS(source *NetworkACL_STATUS) error {
+
+	// Allow
+	if source.Allow != nil {
+		allowList := make([]SignalRRequestType, len(source.Allow))
+		for allowIndex, allowItem := range source.Allow {
+			// Shadow the loop variable to avoid aliasing
+			allowItem := allowItem
+			allow := SignalRRequestType(allowItem)
+			allowList[allowIndex] = allow
+		}
+		networkACL.Allow = allowList
+	} else {
+		networkACL.Allow = nil
+	}
+
+	// Deny
+	if source.Deny != nil {
+		denyList := make([]SignalRRequestType, len(source.Deny))
+		for denyIndex, denyItem := range source.Deny {
+			// Shadow the loop variable to avoid aliasing
+			denyItem := denyItem
+			deny := SignalRRequestType(denyItem)
+			denyList[denyIndex] = deny
+		}
+		networkACL.Deny = denyList
+	} else {
+		networkACL.Deny = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of NetworkACL_STATUS. Use v1beta20211001.NetworkACL_STATUS instead
 type NetworkACL_STATUS struct {
 	Allow []SignalRRequestType_STATUS `json:"allow,omitempty"`
@@ -4300,6 +4670,44 @@ func (endpointACL *PrivateEndpointACL) AssignProperties_To_PrivateEndpointACL(de
 	return nil
 }
 
+// Initialize_From_PrivateEndpointACL_STATUS populates our PrivateEndpointACL from the provided source PrivateEndpointACL_STATUS
+func (endpointACL *PrivateEndpointACL) Initialize_From_PrivateEndpointACL_STATUS(source *PrivateEndpointACL_STATUS) error {
+
+	// Allow
+	if source.Allow != nil {
+		allowList := make([]SignalRRequestType, len(source.Allow))
+		for allowIndex, allowItem := range source.Allow {
+			// Shadow the loop variable to avoid aliasing
+			allowItem := allowItem
+			allow := SignalRRequestType(allowItem)
+			allowList[allowIndex] = allow
+		}
+		endpointACL.Allow = allowList
+	} else {
+		endpointACL.Allow = nil
+	}
+
+	// Deny
+	if source.Deny != nil {
+		denyList := make([]SignalRRequestType, len(source.Deny))
+		for denyIndex, denyItem := range source.Deny {
+			// Shadow the loop variable to avoid aliasing
+			denyItem := denyItem
+			deny := SignalRRequestType(denyItem)
+			denyList[denyIndex] = deny
+		}
+		endpointACL.Deny = denyList
+	} else {
+		endpointACL.Deny = nil
+	}
+
+	// Name
+	endpointACL.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
 // Deprecated version of PrivateEndpointACL_STATUS. Use v1beta20211001.PrivateEndpointACL_STATUS instead
 type PrivateEndpointACL_STATUS struct {
 	Allow []SignalRRequestType_STATUS `json:"allow,omitempty"`
@@ -4509,6 +4917,19 @@ func (category *ResourceLogCategory) AssignProperties_To_ResourceLogCategory(des
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ResourceLogCategory_STATUS populates our ResourceLogCategory from the provided source ResourceLogCategory_STATUS
+func (category *ResourceLogCategory) Initialize_From_ResourceLogCategory_STATUS(source *ResourceLogCategory_STATUS) error {
+
+	// Enabled
+	category.Enabled = genruntime.ClonePointerToString(source.Enabled)
+
+	// Name
+	category.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -4758,6 +5179,37 @@ func (template *UpstreamTemplate) AssignProperties_To_UpstreamTemplate(destinati
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_UpstreamTemplate_STATUS populates our UpstreamTemplate from the provided source UpstreamTemplate_STATUS
+func (template *UpstreamTemplate) Initialize_From_UpstreamTemplate_STATUS(source *UpstreamTemplate_STATUS) error {
+
+	// Auth
+	if source.Auth != nil {
+		var auth UpstreamAuthSettings
+		err := auth.Initialize_From_UpstreamAuthSettings_STATUS(source.Auth)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_UpstreamAuthSettings_STATUS() to populate field Auth")
+		}
+		template.Auth = &auth
+	} else {
+		template.Auth = nil
+	}
+
+	// CategoryPattern
+	template.CategoryPattern = genruntime.ClonePointerToString(source.CategoryPattern)
+
+	// EventPattern
+	template.EventPattern = genruntime.ClonePointerToString(source.EventPattern)
+
+	// HubPattern
+	template.HubPattern = genruntime.ClonePointerToString(source.HubPattern)
+
+	// UrlTemplate
+	template.UrlTemplate = genruntime.ClonePointerToString(source.UrlTemplate)
 
 	// No error
 	return nil
@@ -5117,6 +5569,33 @@ func (settings *UpstreamAuthSettings) AssignProperties_To_UpstreamAuthSettings(d
 	return nil
 }
 
+// Initialize_From_UpstreamAuthSettings_STATUS populates our UpstreamAuthSettings from the provided source UpstreamAuthSettings_STATUS
+func (settings *UpstreamAuthSettings) Initialize_From_UpstreamAuthSettings_STATUS(source *UpstreamAuthSettings_STATUS) error {
+
+	// ManagedIdentity
+	if source.ManagedIdentity != nil {
+		var managedIdentity ManagedIdentitySettings
+		err := managedIdentity.Initialize_From_ManagedIdentitySettings_STATUS(source.ManagedIdentity)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ManagedIdentitySettings_STATUS() to populate field ManagedIdentity")
+		}
+		settings.ManagedIdentity = &managedIdentity
+	} else {
+		settings.ManagedIdentity = nil
+	}
+
+	// Type
+	if source.Type != nil {
+		typeVar := UpstreamAuthType(*source.Type)
+		settings.Type = &typeVar
+	} else {
+		settings.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of UpstreamAuthSettings_STATUS. Use v1beta20211001.UpstreamAuthSettings_STATUS instead
 type UpstreamAuthSettings_STATUS struct {
 	ManagedIdentity *ManagedIdentitySettings_STATUS `json:"managedIdentity,omitempty"`
@@ -5289,6 +5768,16 @@ func (settings *ManagedIdentitySettings) AssignProperties_To_ManagedIdentitySett
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ManagedIdentitySettings_STATUS populates our ManagedIdentitySettings from the provided source ManagedIdentitySettings_STATUS
+func (settings *ManagedIdentitySettings) Initialize_From_ManagedIdentitySettings_STATUS(source *ManagedIdentitySettings_STATUS) error {
+
+	// Resource
+	settings.Resource = genruntime.ClonePointerToString(source.Resource)
 
 	// No error
 	return nil

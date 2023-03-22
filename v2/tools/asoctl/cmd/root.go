@@ -6,6 +6,9 @@
 package cmd
 
 import (
+	"context"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 )
@@ -17,7 +20,8 @@ func Execute() {
 		klog.Fatalf("fatal error: commands failed to build! %s\n", err)
 	}
 
-	if err := cmd.Execute(); err != nil {
+	ctx := xcontext.MakeInterruptibleContext(context.Background())
+	if err := cmd.ExecuteContext(ctx); err != nil {
 		klog.Fatalln(err)
 	}
 }

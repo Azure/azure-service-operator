@@ -35,7 +35,7 @@ func InjectPropertyAssignmentFunctions(
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Definitions()
 			result := defs.Copy()
-			factory := NewPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, defs)
+			factory := newPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, defs)
 
 			for name, def := range defs {
 				_, ok := astmodel.AsFunctionContainer(def.Type())
@@ -116,7 +116,7 @@ type propertyAssignmentFunctionsFactory struct {
 	functionInjector *astmodel.FunctionInjector
 }
 
-func NewPropertyAssignmentFunctionsFactory(
+func newPropertyAssignmentFunctionsFactory(
 	graph *storage.ConversionGraph,
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
@@ -138,29 +138,30 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	downstreamDef astmodel.TypeDefinition,
 	augmentationInterface *astmodel.TypeName) (astmodel.TypeDefinition, error) {
 
-	assignmentContext := conversions.NewPropertyConversionContext(f.definitions, f.idFactory).
+	assignmentContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, f.definitions, f.idFactory).
 		WithConfiguration(f.configuration.ObjectModelConfiguration).
 		WithConversionGraph(f.graph)
 
 	// Create conversion functions
-	assignFromFn, err := functions.NewPropertyAssignmentFunction(
-		upstreamDef, downstreamDef, assignmentContext, conversions.ConvertFrom)
+	assignFromBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertFrom)
+	if augmentationInterface != nil {
+		assignFromBuilder.UseAugmentationInterface(*augmentationInterface)
+	}
+
+	assignFromFn, err := assignFromBuilder.Build(assignmentContext)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
+	assignToBuilder := functions.NewPropertyAssignmentFunctionBuilder(upstreamDef, downstreamDef, conversions.ConvertTo)
 	if augmentationInterface != nil {
-		assignFromFn = assignFromFn.WithAugmentationInterface(*augmentationInterface)
+		assignToBuilder.UseAugmentationInterface(*augmentationInterface)
 	}
 
-	assignToFn, err := functions.NewPropertyAssignmentFunction(
-		upstreamDef, downstreamDef, assignmentContext, conversions.ConvertTo)
+	assignToFn, err := assignToBuilder.Build(assignmentContext)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)
-	}
-	if augmentationInterface != nil {
-		assignToFn = assignToFn.WithAugmentationInterface(*augmentationInterface)
 	}
 
 	updatedDefinition, err := f.functionInjector.Inject(upstreamDef, assignFromFn)

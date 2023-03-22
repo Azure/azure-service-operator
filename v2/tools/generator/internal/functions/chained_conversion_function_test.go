@@ -44,13 +44,13 @@ func TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCod
 	defs.AddAll(personSpec2020)
 	defs.AddAll(personSpec2021)
 
-	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentFunction(
-		personSpec2020, personSpec2021, conversionContext, conversions.ConvertTo)
+	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, defs, idFactory)
+	propertyAssignToBuilder := NewPropertyAssignmentFunctionBuilder(personSpec2020, personSpec2021, conversions.ConvertTo)
+	propertyAssignTo, err := propertyAssignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFunction(
-		personSpec2020, personSpec2021, conversionContext, conversions.ConvertFrom)
+	propertyAssignFromBuilder := NewPropertyAssignmentFunctionBuilder(personSpec2020, personSpec2021, conversions.ConvertFrom)
+	propertyAssignFrom, err := propertyAssignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions
@@ -89,13 +89,13 @@ func TestGolden_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedC
 	defs.AddAll(personStatus2020)
 	defs.AddAll(personStatus2021)
 
-	conversionContext := conversions.NewPropertyConversionContext(defs, idFactory)
-	propertyAssignTo, err := NewPropertyAssignmentFunction(
-		personStatus2020, personStatus2021, conversionContext, conversions.ConvertTo)
+	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, defs, idFactory)
+	propertyAssignToBuilder := NewPropertyAssignmentFunctionBuilder(personStatus2020, personStatus2021, conversions.ConvertTo)
+	propertyAssignTo, err := propertyAssignToBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
-	propertyAssignFrom, err := NewPropertyAssignmentFunction(
-		personStatus2020, personStatus2021, conversionContext, conversions.ConvertFrom)
+	propertyAssignFromBuilder := NewPropertyAssignmentFunctionBuilder(personStatus2020, personStatus2021, conversions.ConvertFrom)
+	propertyAssignFrom, err := propertyAssignFromBuilder.Build(conversionContext)
 	g.Expect(err).To(Succeed())
 
 	// Create Spec Conversion Functions

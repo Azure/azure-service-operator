@@ -91,6 +91,17 @@ func (namespace *Namespace) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Namespace resource
 func (namespace *Namespace) defaultImpl() { namespace.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Namespace{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (namespace *Namespace) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Namespace_STATUS); ok {
+		return namespace.Spec.Initialize_From_Namespace_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Namespace_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Namespace{}
 
 // AzureName returns the Azure name of the resource
@@ -743,6 +754,63 @@ func (namespace *Namespace_Spec) AssignProperties_To_Namespace_Spec(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Namespace_STATUS populates our Namespace_Spec from the provided source Namespace_STATUS
+func (namespace *Namespace_Spec) Initialize_From_Namespace_STATUS(source *Namespace_STATUS) error {
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption Encryption
+		err := encryption.Initialize_From_Encryption_STATUS(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
+		}
+		namespace.Encryption = &encryption
+	} else {
+		namespace.Encryption = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity Identity
+		err := identity.Initialize_From_Identity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
+		}
+		namespace.Identity = &identity
+	} else {
+		namespace.Identity = nil
+	}
+
+	// Location
+	namespace.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Sku
+	if source.Sku != nil {
+		var sku SBSku
+		err := sku.Initialize_From_SBSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SBSku_STATUS() to populate field Sku")
+		}
+		namespace.Sku = &sku
+	} else {
+		namespace.Sku = nil
+	}
+
+	// Tags
+	namespace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// ZoneRedundant
+	if source.ZoneRedundant != nil {
+		zoneRedundant := *source.ZoneRedundant
+		namespace.ZoneRedundant = &zoneRedundant
+	} else {
+		namespace.ZoneRedundant = nil
 	}
 
 	// No error
@@ -1454,6 +1522,47 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *v20210
 	return nil
 }
 
+// Initialize_From_Encryption_STATUS populates our Encryption from the provided source Encryption_STATUS
+func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encryption_STATUS) error {
+
+	// KeySource
+	if source.KeySource != nil {
+		keySource := Encryption_KeySource(*source.KeySource)
+		encryption.KeySource = &keySource
+	} else {
+		encryption.KeySource = nil
+	}
+
+	// KeyVaultProperties
+	if source.KeyVaultProperties != nil {
+		keyVaultPropertyList := make([]KeyVaultProperties, len(source.KeyVaultProperties))
+		for keyVaultPropertyIndex, keyVaultPropertyItem := range source.KeyVaultProperties {
+			// Shadow the loop variable to avoid aliasing
+			keyVaultPropertyItem := keyVaultPropertyItem
+			var keyVaultProperty KeyVaultProperties
+			err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(&keyVaultPropertyItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
+			}
+			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
+		}
+		encryption.KeyVaultProperties = keyVaultPropertyList
+	} else {
+		encryption.KeyVaultProperties = nil
+	}
+
+	// RequireInfrastructureEncryption
+	if source.RequireInfrastructureEncryption != nil {
+		requireInfrastructureEncryption := *source.RequireInfrastructureEncryption
+		encryption.RequireInfrastructureEncryption = &requireInfrastructureEncryption
+	} else {
+		encryption.RequireInfrastructureEncryption = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Properties to configure Encryption
 type Encryption_STATUS struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
@@ -1675,6 +1784,21 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210101ps.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Identity_STATUS populates our Identity from the provided source Identity_STATUS
+func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := Identity_Type(*source.Type)
+		identity.Type = &typeVar
+	} else {
+		identity.Type = nil
 	}
 
 	// No error
@@ -2075,6 +2199,32 @@ func (sbSku *SBSku) AssignProperties_To_SBSku(destination *v20210101ps.SBSku) er
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SBSku_STATUS populates our SBSku from the provided source SBSku_STATUS
+func (sbSku *SBSku) Initialize_From_SBSku_STATUS(source *SBSku_STATUS) error {
+
+	// Capacity
+	sbSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+
+	// Name
+	if source.Name != nil {
+		name := SBSku_Name(*source.Name)
+		sbSku.Name = &name
+	} else {
+		sbSku.Name = nil
+	}
+
+	// Tier
+	if source.Tier != nil {
+		tier := SBSku_Tier(*source.Tier)
+		sbSku.Tier = &tier
+	} else {
+		sbSku.Tier = nil
 	}
 
 	// No error
@@ -2590,6 +2740,34 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
+// Initialize_From_KeyVaultProperties_STATUS populates our KeyVaultProperties from the provided source KeyVaultProperties_STATUS
+func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(source *KeyVaultProperties_STATUS) error {
+
+	// Identity
+	if source.Identity != nil {
+		var identity UserAssignedIdentityProperties
+		err := identity.Initialize_From_UserAssignedIdentityProperties_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_UserAssignedIdentityProperties_STATUS() to populate field Identity")
+		}
+		properties.Identity = &identity
+	} else {
+		properties.Identity = nil
+	}
+
+	// KeyName
+	properties.KeyName = genruntime.ClonePointerToString(source.KeyName)
+
+	// KeyVaultUri
+	properties.KeyVaultUri = genruntime.ClonePointerToString(source.KeyVaultUri)
+
+	// KeyVersion
+	properties.KeyVersion = genruntime.ClonePointerToString(source.KeyVersion)
+
+	// No error
+	return nil
+}
+
 // Properties to configure keyVault Properties
 type KeyVaultProperties_STATUS struct {
 	Identity *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
@@ -2838,6 +3016,13 @@ func (properties *UserAssignedIdentityProperties) AssignProperties_To_UserAssign
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_UserAssignedIdentityProperties_STATUS populates our UserAssignedIdentityProperties from the provided source UserAssignedIdentityProperties_STATUS
+func (properties *UserAssignedIdentityProperties) Initialize_From_UserAssignedIdentityProperties_STATUS(source *UserAssignedIdentityProperties_STATUS) error {
 
 	// No error
 	return nil

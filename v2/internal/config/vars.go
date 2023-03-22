@@ -107,19 +107,20 @@ var _ fmt.Stringer = Values{}
 
 // Returns the configuration as a string
 func (v Values) String() string {
-	return fmt.Sprintf(
-		"SubscriptionID:%s/TenantID:%s/ClientID:%s/PodNamespace:%s/OperatorMode:%s/TargetNamespaces:%s/SyncPeriod:%s/ResourceManagerEndpoint:%s/ResourceManagerAudience:%s/AzureAuthorityHost:%s/UseWorkloadIdentityAuth:%t",
-		v.SubscriptionID,
-		v.TenantID,
-		v.ClientID,
-		v.PodNamespace,
-		v.OperatorMode,
-		strings.Join(v.TargetNamespaces, "|"),
-		v.SyncPeriod,
-		v.ResourceManagerEndpoint,
-		v.ResourceManagerAudience,
-		v.AzureAuthorityHost,
-		v.UseWorkloadIdentityAuth)
+	var builder strings.Builder
+	builder.WriteString(fmt.Sprintf("SubscriptionID:%s/", v.SubscriptionID))
+	builder.WriteString(fmt.Sprintf("TenantID:%s/", v.TenantID))
+	builder.WriteString(fmt.Sprintf("ClientID:%s/", v.ClientID))
+	builder.WriteString(fmt.Sprintf("PodNamespace:%s/", v.PodNamespace))
+	builder.WriteString(fmt.Sprintf("OperatorMode:%s/", v.OperatorMode))
+	builder.WriteString(fmt.Sprintf("TargetNamespaces:%s/", strings.Join(v.TargetNamespaces, "|")))
+	builder.WriteString(fmt.Sprintf("SyncPeriod:%s/", v.SyncPeriod))
+	builder.WriteString(fmt.Sprintf("ResourceManagerEndpoint:%s/", v.ResourceManagerEndpoint))
+	builder.WriteString(fmt.Sprintf("ResourceManagerAudience:%s/", v.ResourceManagerAudience))
+	builder.WriteString(fmt.Sprintf("AzureAuthorityHost:%s/", v.AzureAuthorityHost))
+	builder.WriteString(fmt.Sprintf("UseWorkloadIdentityAuth:%t", v.UseWorkloadIdentityAuth))
+
+	return builder.String()
 }
 
 // Cloud returns the cloud the configuration is using

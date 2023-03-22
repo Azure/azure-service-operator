@@ -14,7 +14,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // PropertyConversion generates the AST for a given property conversion.
@@ -65,6 +64,8 @@ func init() {
 		assignAliasedPrimitiveFromAliasedPrimitive,
 		// Handcrafted implementations in genruntime
 		assignHandcraftedImplementations,
+		// Some conversions are forbidden and we just skip them
+		neuterForbiddenConversions,
 		// Collection Types
 		assignArrayFromArray,
 		assignMapFromMap,
@@ -186,9 +187,14 @@ func CreateTypeConversion(
 
 // NameOfPropertyAssignmentFunction returns the name of the property assignment function
 func NameOfPropertyAssignmentFunction(
-	parameterType astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
+	baseName string,
+	parameterType astmodel.TypeName,
+	direction Direction,
+	idFactory astmodel.IdentifierFactory,
+) string {
 	nameOfOtherType := idFactory.CreateIdentifier(parameterType.Name(), astmodel.Exported)
-	return "AssignProperties_" + direction.SelectString("From_", "To_") + nameOfOtherType
+	dir := direction.SelectString("From", "To")
+	return fmt.Sprintf("%s_%s_%s", baseName, dir, nameOfOtherType)
 }
 
 // writeToBagItem will generate a conversion where the destination is in our property bag
@@ -833,6 +839,18 @@ var handCraftedConversions = []handCraftedConversion{
 		implPackage: astmodel.GenRuntimeReference,
 		implFunc:    "GetOptionalIntValue",
 	},
+	{
+		fromType:    astmodel.StringType,
+		toType:      astmodel.ResourceReferenceType,
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "CreateResourceReferenceFromARMID",
+	},
+	{
+		fromType:    astmodel.FloatType,
+		toType:      astmodel.IntType,
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "GetIntFromFloat",
+	},
 }
 
 func assignHandcraftedImplementations(
@@ -851,6 +869,46 @@ func assignHandcraftedImplementations(
 			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, cgc *astmodel.CodeGenerationContext) []dst.Stmt {
 				pkg := cgc.MustGetImportedPackageName(impl.implPackage)
 				return writer(astbuilder.CallQualifiedFunc(pkg, impl.implFunc, reader))
+			}, nil
+		}
+	}
+
+	return nil, nil
+}
+
+// forbiddenConversion represents a conversion that we know we shouldn't even attempt to do
+// Encountering one isn't a fatal error, but it does mean we can't generate a conversion
+type forbiddenConversion struct {
+	fromType astmodel.Type
+	toType   astmodel.Type
+}
+
+var forbiddenConversions = []forbiddenConversion{
+	{
+		// Can't use a string (the value of a secret) to initialize a secret reference (pointing to the value source)
+		// We encounter this when initializing the spec of a resource from its status
+		fromType: astmodel.StringType,
+		toType:   astmodel.SecretReferenceType,
+	},
+}
+
+// neuterForbiddenConversions is a conversion factory that will return a conversion that does nothing if we encounter a
+// forbidden conversion
+func neuterForbiddenConversions(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	_ *PropertyConversionContext) (PropertyConversion, error) {
+
+	// Require both source and destination to not be bag items
+	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
+		return nil, nil
+	}
+
+	for _, forbidden := range forbiddenConversions {
+		if astmodel.TypeEquals(sourceEndpoint.Type(), forbidden.fromType) &&
+			astmodel.TypeEquals(destinationEndpoint.Type(), forbidden.toType) {
+			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, _ *astmodel.CodeGenerationContext) []dst.Stmt {
+				return nil
 			}, nil
 		}
 	}
@@ -1271,29 +1329,34 @@ func assignObjectDirectlyFromObject(
 		return nil, nil
 	}
 
-	// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
-	nextType, err := conversionContext.FindNextType(destinationName)
-	if err != nil {
-		return nil, errors.Wrapf(
-			err,
-			"looking up next type for %s",
-			astmodel.DebugDescription(destinationEndpoint.Type()))
-	}
+	// If the source and destination types are in different packages, we must consult the conversion graph to make sure
+	// this is an expected conversion.
+	if !sourceName.PackageReference.Equals(destinationName.PackageReference) {
 
-	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
-		return nil, nil
-	}
-
-	// If the two definitions have different names, require an explicit rename from one to the other
-	//
-	// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
-	// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
-	// the right information to infer correctly.
-	//
-	if sourceName.Name() != destinationName.Name() {
-		err := validateTypeRename(sourceName, destinationName, conversionContext)
+		// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
+		nextType, err := conversionContext.FindNextType(destinationName)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrapf(
+				err,
+				"looking up next type for %s",
+				astmodel.DebugDescription(destinationEndpoint.Type()))
+		}
+
+		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
+			return nil, nil
+		}
+
+		// If the two definitions have different names, require an explicit rename from one to the other
+		//
+		// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
+		// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
+		// the right information to infer correctly.
+		//
+		if sourceName.Name() != destinationName.Name() {
+			err := conversionContext.validateTypeRename(sourceName, destinationName)
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -1314,7 +1377,8 @@ func assignObjectDirectlyFromObject(
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
-		functionName := NameOfPropertyAssignmentFunction(sourceName, ConvertFrom, conversionContext.idFactory)
+		functionName := NameOfPropertyAssignmentFunction(
+			conversionContext.FunctionBaseName(), sourceName, ConvertFrom, conversionContext.idFactory)
 
 		conversion := astbuilder.AssignmentStatement(
 			errLocal,
@@ -1384,29 +1448,35 @@ func assignObjectDirectlyToObject(
 		return nil, nil
 	}
 
-	// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
-	nextType, err := conversionContext.FindNextType(sourceName)
-	if err != nil {
-		return nil, errors.Wrapf(
-			err,
-			"looking up next type for %s",
-			astmodel.DebugDescription(sourceEndpoint.Type()))
-	}
+	// If the source and destination types are in different packages, we must consult the conversion graph to make sure
+	// this is an expected conversion.
+	if !sourceName.PackageReference.Equals(destinationName.PackageReference) {
 
-	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
-		return nil, nil
-	}
-
-	// If the two definitions have different names, require an explicit rename from one to the other
-	//
-	// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
-	// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
-	// the right information to infer correctly.
-	//
-	if sourceName.Name() != destinationName.Name() {
-		err := validateTypeRename(sourceName, destinationName, conversionContext)
+		// If our two types are not adjacent in our conversion graph, this is not the conversion you're looking for
+		// Check that
+		nextType, err := conversionContext.FindNextType(sourceName)
 		if err != nil {
-			return nil, err
+			return nil, errors.Wrapf(
+				err,
+				"looking up next type for %s",
+				astmodel.DebugDescription(sourceEndpoint.Type()))
+		}
+
+		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
+			return nil, nil
+		}
+
+		// If the two definitions have different names, require an explicit rename from one to the other
+		//
+		// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
+		// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
+		// the right information to infer correctly.
+		//
+		if sourceName.Name() != destinationName.Name() {
+			err := conversionContext.validateTypeRename(sourceName, destinationName)
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -1427,7 +1497,8 @@ func assignObjectDirectlyToObject(
 
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
-		functionName := NameOfPropertyAssignmentFunction(destinationName, ConvertTo, conversionContext.idFactory)
+		functionName := NameOfPropertyAssignmentFunction(
+			conversionContext.FunctionBaseName(), destinationName, ConvertTo, conversionContext.idFactory)
 		conversion := astbuilder.AssignmentStatement(
 			errLocal,
 			tok,
@@ -1684,52 +1755,6 @@ func createTypeDeclaration(name astmodel.TypeName, generationContext *astmodel.C
 
 	packageName := generationContext.MustGetImportedPackageName(name.PackageReference)
 	return astbuilder.Selector(dst.NewIdent(packageName), name.Name())
-}
-
-// validateTypeRename is used to validate two types with different names are a properly renamed set
-func validateTypeRename(sourceName astmodel.TypeName, destinationName astmodel.TypeName, conversionContext *PropertyConversionContext) error {
-	// Work out which name represents the earlier package release
-	// (needed in order to do the lookup as the type rename is configured on the last type *before* the rename.)
-	var earlier astmodel.TypeName
-	var later astmodel.TypeName
-	if conversionContext.direction == ConvertTo {
-		earlier = sourceName
-		later = destinationName
-	} else {
-		earlier = destinationName
-		later = sourceName
-	}
-
-	n, err := conversionContext.TypeRename(earlier)
-	if err != nil {
-
-		if config.IsNotConfiguredError(err) {
-			// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
-			// details by CreateTypeConversion() so we only need the specific details here
-			return errors.Wrapf(
-				err,
-				"no configuration to rename %s to %s",
-				earlier.Name(),
-				later.Name())
-		}
-
-		// Some other kind of problem, need to report back
-		return errors.Wrapf(
-			err,
-			"looking up type rename of %s",
-			earlier.Name())
-	}
-
-	if later.Name() != n {
-		// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
-		// by CreateTypeConversion() so we only need the specific details here
-		return errors.Errorf(
-			"configuration includes rename of %s to %s, but found %s",
-			earlier.Name(),
-			n,
-			later.Name())
-	}
-	return nil
 }
 
 func describeAssignment(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint) string {

@@ -622,18 +622,15 @@ objectModelConfiguration:
           - SecondaryReadOnlyKeyID
           - SecondaryReadOnlyKey
           - SecondaryReadOnlyConnectionString
-        $importable: false
       PrivateEndpointConnectionReference_STATUS:
         # This is a subresource but it's not labelled as one in their Swagger, instead there's a duplicate entity
         # shaped the same called PrivateEndpointConnection which is labelled as a resource. We want to prune this.
         $isResource: true
-        $importable: false
   authorization:
     2020-08-01-preview:
       RoleAssignment:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       RoleAssignmentProperties:
         RoleDefinitionId:
           $armReference: true
@@ -644,7 +641,6 @@ objectModelConfiguration:
       BatchAccount:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
   cache:
     2020-12-01:
       Redis:
@@ -656,28 +652,22 @@ objectModelConfiguration:
           - HostName
           - Port
           - SSLPort
-        $importable: false
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
       Redis_LinkedServer:
         $exportAs: RedisLinkedServer
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
       Redis_PatchSchedule: 
         $exportAs: RedisPatchSchedule
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
     2021-03-01:
       RedisEnterprise:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
       RedisEnterprise_Database:
         $exportAs: RedisEnterpriseDatabase
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
   cdn:
     2021-06-01:
       DeepCreatedOriginGroup:
@@ -706,11 +696,9 @@ objectModelConfiguration:
       Profile:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-        $importable: false
       Profiles_Endpoint:
         $exportAs: ProfilesEndpoint
         $supportedFrom: v2.0.0-beta.1
-        $importable: false
   compute:
     2020-09-30:
       CreationData:
@@ -719,7 +707,6 @@ objectModelConfiguration:
       Disk:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       DiskProperties:
         DiskAccessId:
           $armReference: true
@@ -732,7 +719,6 @@ objectModelConfiguration:
       Snapshot:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
       SnapshotProperties:
         DiskAccessId: 
           $armReference: true
@@ -758,13 +744,11 @@ objectModelConfiguration:
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       VirtualMachineExtension_STATUS:
         $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       VirtualMachineScaleSetExtension:
         $isResource: false
       VirtualMachineScaleSetExtension_STATUS:
@@ -781,7 +765,6 @@ objectModelConfiguration:
       Image:
         $export: true
         $supportedFrom: v2.0.0-alpha.6
-        $importable: false
     2022-03-01:
       ApiEntityReference:
         Id:
@@ -789,7 +772,6 @@ objectModelConfiguration:
       Image:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
       ImageReference:
         $isResource: false
         Version:
@@ -816,13 +798,11 @@ objectModelConfiguration:
       VirtualMachine:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
       VirtualMachineExtension_STATUS:
         $isResource: false  # TODO[breaking]: This is actually a resource but we weren't pruning it before
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
       VirtualMachineScaleSetExtension:
         $isResource: false
       VirtualMachineScaleSetExtension_STATUS:
@@ -840,7 +820,6 @@ objectModelConfiguration:
       ContainerGroup:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-        $importable: false
       ContainerGroupSubnetId:
         Id:
           $armReference: true
@@ -852,7 +831,6 @@ objectModelConfiguration:
       Registry:
         $export: true
         $supportedFrom: v2.0.0-alpha.6
-        $importable: false
       IdentityProperties:
         PrincipalId:
           $armReference: false
@@ -864,14 +842,12 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - AdminCredentials
           - UserCredentials
-        $importable: false
       ManagedClusterAgentPoolProfile:
         ProximityPlacementGroupID:
           $armReference: false  # TODO[breaking]: Delete this and let the ARM value win
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       ManagedClusterAgentPoolProfileProperties:
         ProximityPlacementGroupID:
           $armReference: false # TODO[breaking]: Delete this and let the ARM value win
@@ -885,15 +861,12 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-beta.1
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-        $importable: false
       Servers_Configuration:
         $exportAs: Configuration
         $supportedFrom: v2.0.0-beta.1
-        $importable: false
       Servers_Database:
         $exportAs: Database
         $supportedFrom: v2.0.0-beta.1
-        $importable: false
   dbformysql:
     2021-05-01:
       DataEncryption:
@@ -906,15 +879,12 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.2
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-        $importable: false
       FlexibleServers_Database:
         $exportAs: FlexibleServersDatabase
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
   dbforpostgresql:
     2021-06-01:
       FlexibleServer:
@@ -922,39 +892,31 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.2
         $azureGeneratedSecrets:
           - FullyQualifiedDomainName
-        $importable: false
       FlexibleServers_Configuration:
         $exportAs: FlexibleServersConfiguration
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
       FlexibleServers_Database:
         $exportAs: FlexibleServersDatabase
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
     2022-01-20-preview:
       FlexibleServer:
         $export: true
         $supportedFrom: v2.0.0-beta.4
-        $importable: false
       FlexibleServer_STATUS:
         FullyQualifiedDomainName:
           $exportAsConfigMapPropertyName: FullyQualifiedDomainName
       FlexibleServers_Configuration:
         $exportAs: FlexibleServersConfiguration
         $supportedFrom: v2.0.0-beta.4
-        $importable: false
       FlexibleServers_Database:
         $exportAs: FlexibleServersDatabase
         $supportedFrom: v2.0.0-beta.4
-        $importable: false
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-beta.4
-        $importable: false
       ServerProperties:
         SourceServerResourceId:
           $armReference: true
@@ -974,54 +936,42 @@ objectModelConfiguration:
           - PrimaryReadonlyMasterKey
           - SecondaryReadonlyMasterKey
           - DocumentEndpoint
-        $importable: false
       DatabaseAccountCreateUpdateProperties:
         NetworkAclBypassResourceIds:
           $armReference: false  # TODO[breaking]: Change this to true
       DatabaseAccounts_MongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_MongodbDatabases_Collection:
         $exportAs: MongodbDatabaseCollection
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting:
         $exportAs: MongodbDatabaseCollectionThroughputSetting
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_MongodbDatabases_ThroughputSetting:
         $exportAs: MongodbDatabaseThroughputSetting
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_SqlDatabase:
         $exportAs: SqlDatabase
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_SqlDatabases_Container:
         $exportAs: SqlDatabaseContainer
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_SqlDatabases_Containers_StoredProcedure:
         $exportAs: SqlDatabaseContainerStoredProcedure
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting:
         $exportAs: SqlDatabaseContainerThroughputSetting
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_SqlDatabases_Containers_Trigger:
         $exportAs: SqlDatabaseContainerTrigger
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction:
         $exportAs: SqlDatabaseContainerUserDefinedFunction
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       DatabaseAccounts_SqlDatabases_ThroughputSetting:
         $exportAs: SqlDatabaseThroughputSetting
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       MongoDBCollectionResource:
         Id:
           $armReference: false
@@ -1037,7 +987,6 @@ objectModelConfiguration:
       DatabaseAccounts_SqlRoleAssignment:
         $exportAs: SqlRoleAssignment
         $supportedFrom: v2.0.0-beta.3
-        $importable: false
       SqlRoleAssignmentResource:
         PrincipalId:
           $importConfigMapMode: optional
@@ -1055,19 +1004,15 @@ objectModelConfiguration:
       Domain:
         $export: true
         $supportedFrom: v2.0.0-alpha.5
-        $importable: false
       Domains_Topic:
         $exportAs: DomainsTopic
         $supportedFrom: v2.0.0-alpha.5
-        $importable: false
       EventSubscription:
         $export: true
         $supportedFrom: v2.0.0-alpha.5
-        $importable: false
       Topic:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
-        $importable: false
   eventhub:
     2021-11-01:
       Destination_Properties:
@@ -1076,23 +1021,18 @@ objectModelConfiguration:
       Namespace:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       Namespaces_AuthorizationRule:
         $exportAs: NamespacesAuthorizationRule
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
       Namespaces_Eventhub:
         $exportAs: NamespacesEventhub
         $supportedFrom: v2.0.0-alpha.3
-        $importable: false
       Namespaces_Eventhubs_AuthorizationRule:
         $exportAs: NamespacesEventhubsAuthorizationRule
         $supportedFrom: v2.0.0-alpha.3
-        $importable: false
       Namespaces_Eventhubs_Consumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       Namespace_Properties_Spec:
         ClusterArmId:
           $armReference: true
@@ -1109,7 +1049,6 @@ objectModelConfiguration:
       Webtest:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
       WebTestGeolocation:
         Id:
           $armReference: false
@@ -1120,13 +1059,11 @@ objectModelConfiguration:
       Component:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
-        $importable: false
   keyvault:
     2021-04-01-preview:
       Vault:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-        $importable: false
       AccessPolicyEntry:
         TenantId:
           $importConfigMapMode: optional
@@ -1142,7 +1079,6 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       UserAssignedIdentity_STATUS:
         ClientId:
           $exportAsConfigMapPropertyName: ClientId
@@ -1155,7 +1091,6 @@ objectModelConfiguration:
       UserAssignedIdentities_FederatedIdentityCredential:
         $exportAs: FederatedIdentityCredential
         $supportedFrom: v2.0.0-beta.3
-        $importable: false
   machinelearningservices:
     2021-07-01:
       AksNetworkingConfiguration:
@@ -1175,7 +1110,6 @@ objectModelConfiguration:
           - PrimaryNotebookAccessKey
           - SecondaryNotebookAccessKey
           - UserStorageKey
-        $importable: false
       WorkspaceProperties:
         ApplicationInsights:
           $armReference: true
@@ -1193,7 +1127,6 @@ objectModelConfiguration:
       Workspaces_Compute:
         $exportAs: WorkspacesCompute
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
       HDInsight:
         ResourceId:
           $armReference: true
@@ -1235,13 +1168,11 @@ objectModelConfiguration:
       Workspaces_Connection:
         $exportAs: WorkspacesConnection
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
   network:
     2018-09-01:
       PrivateDnsZone:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
     2020-11-01:
       BackendAddressPool:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
@@ -1272,7 +1203,6 @@ objectModelConfiguration:
       LoadBalancer:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       LoadBalancingRule:
         $resourceEmbeddedInParent: LoadBalancer # This is not a real resource, can GET but can't PUT
       LoadBalancingRule_STATUS:
@@ -1280,7 +1210,6 @@ objectModelConfiguration:
       NetworkInterface:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
-        $importable: false
       NetworkInterfaceIPConfiguration:
         $resourceEmbeddedInParent: NetworkInterface  # Not a real resource, can GET but not PUT
       NetworkInterfaceIPConfiguration_STATUS:
@@ -1288,11 +1217,9 @@ objectModelConfiguration:
       NetworkSecurityGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       NetworkSecurityGroups_SecurityRule:
         $exportAs: NetworkSecurityGroupsSecurityRule
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       OutboundRule:
         $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
       OutboundRule_STATUS:
@@ -1304,18 +1231,15 @@ objectModelConfiguration:
       PublicIPAddress:
         $exportAs: PublicIPAddress
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-        $importable: false
       RouteTablePropertiesFormat:
         Routes:
           $resourceLifecycleOwnedByParent: RouteTable
       RouteTables_Route:
         $exportAs: RouteTablesRoute
         $supportedFrom: v2.0.0-beta.1
-        $importable: false
 #      SecurityRule_NetworkInterface_SubResourceEmbedded:
 #        Id:
 #          $armReference: true
@@ -1328,11 +1252,9 @@ objectModelConfiguration:
       VirtualNetwork:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
           $armReference: true
@@ -1358,17 +1280,14 @@ objectModelConfiguration:
       VirtualNetworks_Subnet:
         $exportAs: VirtualNetworksSubnet
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
   operationalinsights:
     2021-06-01:
       Workspace:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
       WorkspaceFeatures:
         ClusterResourceId:
           $armReference: true
@@ -1384,32 +1303,26 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.1
         $azureGeneratedSecrets:
           - Endpoint
-        $importable: false
       Namespaces_Queue:
         $exportAs: NamespacesQueue
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       Namespaces_Topic:
         $exportAs: NamespacesTopic
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
       Namespaces_Topics_Subscription:
         $exportAs: NamespacesTopicsSubscription
         $supportedFrom: v2.0.0-beta.3
-        $importable: false
       Namespaces_Topics_Subscriptions_Rule:
         $exportAs: NamespacesTopicsSubscriptionsRule
         $supportedFrom: v2.0.0-beta.3
-        $importable: false
   signalrservice:
     2021-10-01:
       SignalR:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
-        $importable: false
   storage:
     2021-04-01:
       EncryptionIdentity:
@@ -1430,27 +1343,21 @@ objectModelConfiguration:
           - QueueEndpoint
           - TableEndpoint
           - DfsEndpoint
-        $importable: false
       StorageAccounts_BlobService:
         $exportAs: StorageAccountsBlobService
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       StorageAccounts_BlobServices_Container:
         $exportAs: StorageAccountsBlobServicesContainer
         $supportedFrom: v2.0.0-alpha.1
-        $importable: false
       StorageAccounts_QueueService:
         $exportAs: StorageAccountsQueueService
         $supportedFrom: v2.0.0-alpha.5
-        $importable: false
       StorageAccounts_QueueServices_Queue:
         $exportAs: StorageAccountsQueueServicesQueue
         $supportedFrom: v2.0.0-alpha.5
-        $importable: false
       StorageAccounts_ManagementPolicy:
         $exportAs: StorageAccountsManagementPolicy
         $supportedFrom: v2.0.0-alpha.6
-        $importable: false
       VirtualNetworkRule:
         Id:
           $armReference: true
@@ -1459,7 +1366,6 @@ objectModelConfiguration:
       Alias:
         $export: true
         $supportedFrom: v2.0.0-beta.2
-        $importable: false
   web:
     2022-03-01:
       ApiManagementConfig:
@@ -1488,11 +1394,9 @@ objectModelConfiguration:
       ServerFarm:
         $exportAs: ServerFarm
         $supportedFrom: v2.0.0-beta.3
-        $importable: false
       Site:
         $export: true
         $supportedFrom: v2.0.0-beta.3
-        $importable: false
       Site_Properties_Spec:
         ServerFarmId:
           $armReference: true
