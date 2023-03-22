@@ -8,6 +8,7 @@ package main
 import (
 	"context"
 
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
@@ -38,6 +39,7 @@ func newRootCommand() (*cobra.Command, error) {
 	cmdFuncs := []func() (*cobra.Command, error){
 		NewGenTypesCommand,
 		NewGenKustomizeCommand,
+		version.NewCommand,
 	}
 
 	for _, f := range cmdFuncs {
