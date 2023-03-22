@@ -145,14 +145,13 @@ type PrivateEndpoint_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                           string                            `json:"azureName,omitempty"`
-	CustomDnsConfigs                    []CustomDnsConfigPropertiesFormat `json:"customDnsConfigs,omitempty"`
-	CustomNetworkInterfaceName          *string                           `json:"customNetworkInterfaceName,omitempty"`
-	ExtendedLocation                    *ExtendedLocation                 `json:"extendedLocation,omitempty"`
-	IpConfigurations                    []PrivateEndpointIPConfiguration  `json:"ipConfigurations,omitempty"`
-	Location                            *string                           `json:"location,omitempty"`
-	ManualPrivateLinkServiceConnections []PrivateLinkServiceConnection    `json:"manualPrivateLinkServiceConnections,omitempty"`
-	OriginalVersion                     string                            `json:"originalVersion,omitempty"`
+	AzureName                           string                           `json:"azureName,omitempty"`
+	CustomNetworkInterfaceName          *string                          `json:"customNetworkInterfaceName,omitempty"`
+	ExtendedLocation                    *ExtendedLocation                `json:"extendedLocation,omitempty"`
+	IpConfigurations                    []PrivateEndpointIPConfiguration `json:"ipConfigurations,omitempty"`
+	Location                            *string                          `json:"location,omitempty"`
+	ManualPrivateLinkServiceConnections []PrivateLinkServiceConnection   `json:"manualPrivateLinkServiceConnections,omitempty"`
+	OriginalVersion                     string                           `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -242,14 +241,6 @@ type ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded struct {
 
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// Storage version of v1beta20220701.CustomDnsConfigPropertiesFormat
-// Contains custom Dns resolution configuration from customer.
-type CustomDnsConfigPropertiesFormat struct {
-	Fqdn        *string                `json:"fqdn,omitempty"`
-	IpAddresses []string               `json:"ipAddresses,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20220701.CustomDnsConfigPropertiesFormat_STATUS

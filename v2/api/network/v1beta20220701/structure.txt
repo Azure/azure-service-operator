@@ -3,13 +3,10 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701
 │   └── "2022-07-01"
 ├── PrivateEndpoint: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
-│   ├── Spec: Object (12 properties)
+│   ├── Spec: Object (11 properties)
 │   │   ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── AzureName: string
-│   │   ├── CustomDnsConfigs: Object (2 properties)[]
-│   │   │   ├── Fqdn: *string
-│   │   │   └── IpAddresses: string[]
 │   │   ├── CustomNetworkInterfaceName: *string
 │   │   ├── ExtendedLocation: *Object (2 properties)
 │   │   │   ├── Name: *string
@@ -189,12 +186,9 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701
 │   │       └── "EdgeZone"
 │   ├── Location: *string
 │   ├── Name: string
-│   ├── Properties: *Object (7 properties)
+│   ├── Properties: *Object (6 properties)
 │   │   ├── ApplicationSecurityGroups: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── CustomDnsConfigs: Object (2 properties)[]
-│   │   │   ├── Fqdn: *string
-│   │   │   └── IpAddresses: string[]
 │   │   ├── CustomNetworkInterfaceName: *string
 │   │   ├── IpConfigurations: Object (2 properties)[]
 │   │   │   ├── Name: *string

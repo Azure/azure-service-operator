@@ -155,7 +155,6 @@ func AddIndependentPropertyGeneratorsForPrivateEndpoint_Spec(gens map[string]gop
 // AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateEndpoint_Spec(gens map[string]gopter.Gen) {
 	gens["ApplicationSecurityGroups"] = gen.SliceOf(ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator())
-	gens["CustomDnsConfigs"] = gen.SliceOf(CustomDnsConfigPropertiesFormatGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["IpConfigurations"] = gen.SliceOf(PrivateEndpointIPConfigurationGenerator())
 	gens["ManualPrivateLinkServiceConnections"] = gen.SliceOf(PrivateLinkServiceConnectionGenerator())
@@ -366,68 +365,6 @@ func ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator()
 	applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded{}), generators)
 
 	return applicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbeddedGenerator
-}
-
-func Test_CustomDnsConfigPropertiesFormat_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomDnsConfigPropertiesFormat via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomDnsConfigPropertiesFormat, CustomDnsConfigPropertiesFormatGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomDnsConfigPropertiesFormat runs a test to see if a specific instance of CustomDnsConfigPropertiesFormat round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomDnsConfigPropertiesFormat(subject CustomDnsConfigPropertiesFormat) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomDnsConfigPropertiesFormat
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomDnsConfigPropertiesFormat instances for property testing - lazily instantiated by
-// CustomDnsConfigPropertiesFormatGenerator()
-var customDnsConfigPropertiesFormatGenerator gopter.Gen
-
-// CustomDnsConfigPropertiesFormatGenerator returns a generator of CustomDnsConfigPropertiesFormat instances for property testing.
-func CustomDnsConfigPropertiesFormatGenerator() gopter.Gen {
-	if customDnsConfigPropertiesFormatGenerator != nil {
-		return customDnsConfigPropertiesFormatGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDnsConfigPropertiesFormat(generators)
-	customDnsConfigPropertiesFormatGenerator = gen.Struct(reflect.TypeOf(CustomDnsConfigPropertiesFormat{}), generators)
-
-	return customDnsConfigPropertiesFormatGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomDnsConfigPropertiesFormat is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomDnsConfigPropertiesFormat(gens map[string]gopter.Gen) {
-	gens["Fqdn"] = gen.PtrOf(gen.AlphaString())
-	gens["IpAddresses"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_CustomDnsConfigPropertiesFormat_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

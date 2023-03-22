@@ -271,6 +271,12 @@ typeTransformers:
     #  4. Live with it.
     remove: true
     because: We don't handle this very well right now, manually remove until TODO above has been done
+  - group: network
+    version: "*"
+    name: PrivateEndpointProperties
+    property: CustomDnsConfigs
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
 
   - name: EventHubProperties;Namespaces_Eventhub_Properties_Spec
     group: eventhub

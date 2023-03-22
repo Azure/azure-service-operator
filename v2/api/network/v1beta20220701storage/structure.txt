@@ -3,15 +3,11 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701storage
 │   └── "2022-07-01"
 ├── PrivateEndpoint: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
-│   ├── Spec: Object (14 properties)
+│   ├── Spec: Object (13 properties)
 │   │   ├── ApplicationSecurityGroups: Object (2 properties)[]
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── AzureName: string
-│   │   ├── CustomDnsConfigs: Object (3 properties)[]
-│   │   │   ├── Fqdn: *string
-│   │   │   ├── IpAddresses: string[]
-│   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── CustomNetworkInterfaceName: *string
 │   │   ├── ExtendedLocation: *Object (3 properties)
 │   │   │   ├── Name: *string

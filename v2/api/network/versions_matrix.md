@@ -29,7 +29,6 @@
 | BgpSettings_STATUS                                                                     | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | CnameRecord                                                                            |                     |                | v1beta20200601 |                |                |
 | CnameRecord_STATUS                                                                     |                     |                | v1beta20200601 |                |                |
-| CustomDnsConfigPropertiesFormat                                                        |                     |                |                |                | v1beta20220701 |
 | CustomDnsConfigPropertiesFormat_STATUS                                                 |                     |                |                |                | v1beta20220701 |
 | DdosSettings                                                                           | v1alpha1api20201101 |                |                | v1beta20201101 |                |
 | DdosSettings_ProtectionCoverage                                                        | v1alpha1api20201101 |                |                | v1beta20201101 |                |

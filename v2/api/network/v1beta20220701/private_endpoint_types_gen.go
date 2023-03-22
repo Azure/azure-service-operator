@@ -345,9 +345,6 @@ type PrivateEndpoint_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// CustomDnsConfigs: An array of custom dns configurations.
-	CustomDnsConfigs []CustomDnsConfigPropertiesFormat `json:"customDnsConfigs,omitempty"`
-
 	// CustomNetworkInterfaceName: The custom name of the network interface attached to the private endpoint.
 	CustomNetworkInterfaceName *string `json:"customNetworkInterfaceName,omitempty"`
 
@@ -411,7 +408,6 @@ func (endpoint *PrivateEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘Properties’:
 	if endpoint.ApplicationSecurityGroups != nil ||
-		endpoint.CustomDnsConfigs != nil ||
 		endpoint.CustomNetworkInterfaceName != nil ||
 		endpoint.IpConfigurations != nil ||
 		endpoint.ManualPrivateLinkServiceConnections != nil ||
@@ -425,13 +421,6 @@ func (endpoint *PrivateEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertTo
 			return nil, err
 		}
 		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, *item_ARM.(*ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_ARM))
-	}
-	for _, item := range endpoint.CustomDnsConfigs {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.CustomDnsConfigs = append(result.Properties.CustomDnsConfigs, *item_ARM.(*CustomDnsConfigPropertiesFormat_ARM))
 	}
 	if endpoint.CustomNetworkInterfaceName != nil {
 		customNetworkInterfaceName := *endpoint.CustomNetworkInterfaceName
@@ -504,19 +493,6 @@ func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘AzureName’:
 	endpoint.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘CustomDnsConfigs’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.CustomDnsConfigs {
-			var item1 CustomDnsConfigPropertiesFormat
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			endpoint.CustomDnsConfigs = append(endpoint.CustomDnsConfigs, item1)
-		}
-	}
 
 	// Set property ‘CustomNetworkInterfaceName’:
 	// copying flattened property:
@@ -686,24 +662,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_From_PrivateEndpoint_Spec
 	// AzureName
 	endpoint.AzureName = source.AzureName
 
-	// CustomDnsConfigs
-	if source.CustomDnsConfigs != nil {
-		customDnsConfigList := make([]CustomDnsConfigPropertiesFormat, len(source.CustomDnsConfigs))
-		for customDnsConfigIndex, customDnsConfigItem := range source.CustomDnsConfigs {
-			// Shadow the loop variable to avoid aliasing
-			customDnsConfigItem := customDnsConfigItem
-			var customDnsConfig CustomDnsConfigPropertiesFormat
-			err := customDnsConfig.AssignProperties_From_CustomDnsConfigPropertiesFormat(&customDnsConfigItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_CustomDnsConfigPropertiesFormat() to populate field CustomDnsConfigs")
-			}
-			customDnsConfigList[customDnsConfigIndex] = customDnsConfig
-		}
-		endpoint.CustomDnsConfigs = customDnsConfigList
-	} else {
-		endpoint.CustomDnsConfigs = nil
-	}
-
 	// CustomNetworkInterfaceName
 	endpoint.CustomNetworkInterfaceName = genruntime.ClonePointerToString(source.CustomNetworkInterfaceName)
 
@@ -828,24 +786,6 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 
 	// AzureName
 	destination.AzureName = endpoint.AzureName
-
-	// CustomDnsConfigs
-	if endpoint.CustomDnsConfigs != nil {
-		customDnsConfigList := make([]v20220701s.CustomDnsConfigPropertiesFormat, len(endpoint.CustomDnsConfigs))
-		for customDnsConfigIndex, customDnsConfigItem := range endpoint.CustomDnsConfigs {
-			// Shadow the loop variable to avoid aliasing
-			customDnsConfigItem := customDnsConfigItem
-			var customDnsConfig v20220701s.CustomDnsConfigPropertiesFormat
-			err := customDnsConfigItem.AssignProperties_To_CustomDnsConfigPropertiesFormat(&customDnsConfig)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_CustomDnsConfigPropertiesFormat() to populate field CustomDnsConfigs")
-			}
-			customDnsConfigList[customDnsConfigIndex] = customDnsConfig
-		}
-		destination.CustomDnsConfigs = customDnsConfigList
-	} else {
-		destination.CustomDnsConfigs = nil
-	}
 
 	// CustomNetworkInterfaceName
 	destination.CustomNetworkInterfaceName = genruntime.ClonePointerToString(endpoint.CustomNetworkInterfaceName)
@@ -975,24 +915,6 @@ func (endpoint *PrivateEndpoint_Spec) Initialize_From_PrivateEndpoint_STATUS_Pri
 		endpoint.ApplicationSecurityGroups = applicationSecurityGroupList
 	} else {
 		endpoint.ApplicationSecurityGroups = nil
-	}
-
-	// CustomDnsConfigs
-	if source.CustomDnsConfigs != nil {
-		customDnsConfigList := make([]CustomDnsConfigPropertiesFormat, len(source.CustomDnsConfigs))
-		for customDnsConfigIndex, customDnsConfigItem := range source.CustomDnsConfigs {
-			// Shadow the loop variable to avoid aliasing
-			customDnsConfigItem := customDnsConfigItem
-			var customDnsConfig CustomDnsConfigPropertiesFormat
-			err := customDnsConfig.Initialize_From_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfigItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
-			}
-			customDnsConfigList[customDnsConfigIndex] = customDnsConfig
-		}
-		endpoint.CustomDnsConfigs = customDnsConfigList
-	} else {
-		endpoint.CustomDnsConfigs = nil
 	}
 
 	// CustomNetworkInterfaceName
@@ -1893,112 +1815,6 @@ func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 	} else {
 		embedded.Reference = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Contains custom Dns resolution configuration from customer.
-type CustomDnsConfigPropertiesFormat struct {
-	// Fqdn: Fqdn that resolves to private endpoint ip address.
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	// IpAddresses: A list of private ip addresses of the private endpoint.
-	IpAddresses []string `json:"ipAddresses,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &CustomDnsConfigPropertiesFormat{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (format *CustomDnsConfigPropertiesFormat) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if format == nil {
-		return nil, nil
-	}
-	result := &CustomDnsConfigPropertiesFormat_ARM{}
-
-	// Set property ‘Fqdn’:
-	if format.Fqdn != nil {
-		fqdn := *format.Fqdn
-		result.Fqdn = &fqdn
-	}
-
-	// Set property ‘IpAddresses’:
-	for _, item := range format.IpAddresses {
-		result.IpAddresses = append(result.IpAddresses, item)
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (format *CustomDnsConfigPropertiesFormat) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomDnsConfigPropertiesFormat_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (format *CustomDnsConfigPropertiesFormat) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomDnsConfigPropertiesFormat_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDnsConfigPropertiesFormat_ARM, got %T", armInput)
-	}
-
-	// Set property ‘Fqdn’:
-	if typedInput.Fqdn != nil {
-		fqdn := *typedInput.Fqdn
-		format.Fqdn = &fqdn
-	}
-
-	// Set property ‘IpAddresses’:
-	for _, item := range typedInput.IpAddresses {
-		format.IpAddresses = append(format.IpAddresses, item)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_CustomDnsConfigPropertiesFormat populates our CustomDnsConfigPropertiesFormat from the provided source CustomDnsConfigPropertiesFormat
-func (format *CustomDnsConfigPropertiesFormat) AssignProperties_From_CustomDnsConfigPropertiesFormat(source *v20220701s.CustomDnsConfigPropertiesFormat) error {
-
-	// Fqdn
-	format.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
-
-	// IpAddresses
-	format.IpAddresses = genruntime.CloneSliceOfString(source.IpAddresses)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_CustomDnsConfigPropertiesFormat populates the provided destination CustomDnsConfigPropertiesFormat from our CustomDnsConfigPropertiesFormat
-func (format *CustomDnsConfigPropertiesFormat) AssignProperties_To_CustomDnsConfigPropertiesFormat(destination *v20220701s.CustomDnsConfigPropertiesFormat) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Fqdn
-	destination.Fqdn = genruntime.ClonePointerToString(format.Fqdn)
-
-	// IpAddresses
-	destination.IpAddresses = genruntime.CloneSliceOfString(format.IpAddresses)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CustomDnsConfigPropertiesFormat_STATUS populates our CustomDnsConfigPropertiesFormat from the provided source CustomDnsConfigPropertiesFormat_STATUS
-func (format *CustomDnsConfigPropertiesFormat) Initialize_From_CustomDnsConfigPropertiesFormat_STATUS(source *CustomDnsConfigPropertiesFormat_STATUS) error {
-
-	// Fqdn
-	format.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
-
-	// IpAddresses
-	format.IpAddresses = genruntime.CloneSliceOfString(source.IpAddresses)
 
 	// No error
 	return nil

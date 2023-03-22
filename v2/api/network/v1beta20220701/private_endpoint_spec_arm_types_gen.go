@@ -51,9 +51,6 @@ type PrivateEndpointProperties_ARM struct {
 	// ApplicationSecurityGroups: Application security groups in which the private endpoint IP configuration is included.
 	ApplicationSecurityGroups []ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_ARM `json:"applicationSecurityGroups,omitempty"`
 
-	// CustomDnsConfigs: An array of custom dns configurations.
-	CustomDnsConfigs []CustomDnsConfigPropertiesFormat_ARM `json:"customDnsConfigs,omitempty"`
-
 	// CustomNetworkInterfaceName: The custom name of the network interface attached to the private endpoint.
 	CustomNetworkInterfaceName *string `json:"customNetworkInterfaceName,omitempty"`
 
@@ -75,15 +72,6 @@ type PrivateEndpointProperties_ARM struct {
 // An application security group in a resource group.
 type ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
-}
-
-// Contains custom Dns resolution configuration from customer.
-type CustomDnsConfigPropertiesFormat_ARM struct {
-	// Fqdn: Fqdn that resolves to private endpoint ip address.
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	// IpAddresses: A list of private ip addresses of the private endpoint.
-	IpAddresses []string `json:"ipAddresses,omitempty"`
 }
 
 // The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
