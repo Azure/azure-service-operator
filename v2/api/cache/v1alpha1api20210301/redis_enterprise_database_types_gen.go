@@ -103,6 +103,17 @@ func (database *RedisEnterpriseDatabase) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the RedisEnterpriseDatabase resource
 func (database *RedisEnterpriseDatabase) defaultImpl() { database.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &RedisEnterpriseDatabase{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (database *RedisEnterpriseDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*RedisEnterprise_Database_STATUS); ok {
+		return database.Spec.Initialize_From_RedisEnterprise_Database_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type RedisEnterprise_Database_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &RedisEnterpriseDatabase{}
 
 // AzureName returns the Azure name of the resource
@@ -701,6 +712,70 @@ func (database *RedisEnterprise_Database_Spec) AssignProperties_To_RedisEnterpri
 	return nil
 }
 
+// Initialize_From_RedisEnterprise_Database_STATUS populates our RedisEnterprise_Database_Spec from the provided source RedisEnterprise_Database_STATUS
+func (database *RedisEnterprise_Database_Spec) Initialize_From_RedisEnterprise_Database_STATUS(source *RedisEnterprise_Database_STATUS) error {
+
+	// ClientProtocol
+	if source.ClientProtocol != nil {
+		clientProtocol := DatabaseProperties_ClientProtocol(*source.ClientProtocol)
+		database.ClientProtocol = &clientProtocol
+	} else {
+		database.ClientProtocol = nil
+	}
+
+	// ClusteringPolicy
+	if source.ClusteringPolicy != nil {
+		clusteringPolicy := DatabaseProperties_ClusteringPolicy(*source.ClusteringPolicy)
+		database.ClusteringPolicy = &clusteringPolicy
+	} else {
+		database.ClusteringPolicy = nil
+	}
+
+	// EvictionPolicy
+	if source.EvictionPolicy != nil {
+		evictionPolicy := DatabaseProperties_EvictionPolicy(*source.EvictionPolicy)
+		database.EvictionPolicy = &evictionPolicy
+	} else {
+		database.EvictionPolicy = nil
+	}
+
+	// Modules
+	if source.Modules != nil {
+		moduleList := make([]Module, len(source.Modules))
+		for moduleIndex, moduleItem := range source.Modules {
+			// Shadow the loop variable to avoid aliasing
+			moduleItem := moduleItem
+			var module Module
+			err := module.Initialize_From_Module_STATUS(&moduleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Module_STATUS() to populate field Modules")
+			}
+			moduleList[moduleIndex] = module
+		}
+		database.Modules = moduleList
+	} else {
+		database.Modules = nil
+	}
+
+	// Persistence
+	if source.Persistence != nil {
+		var persistence Persistence
+		err := persistence.Initialize_From_Persistence_STATUS(source.Persistence)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Persistence_STATUS() to populate field Persistence")
+		}
+		database.Persistence = &persistence
+	} else {
+		database.Persistence = nil
+	}
+
+	// Port
+	database.Port = genruntime.ClonePointerToInt(source.Port)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (database *RedisEnterprise_Database_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1251,6 +1326,19 @@ func (module *Module) AssignProperties_To_Module(destination *alpha20210301s.Mod
 	return nil
 }
 
+// Initialize_From_Module_STATUS populates our Module from the provided source Module_STATUS
+func (module *Module) Initialize_From_Module_STATUS(source *Module_STATUS) error {
+
+	// Args
+	module.Args = genruntime.ClonePointerToString(source.Args)
+
+	// Name
+	module.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
 // Deprecated version of Module_STATUS. Use v1beta20210301.Module_STATUS instead
 type Module_STATUS struct {
 	Args    *string `json:"args,omitempty"`
@@ -1499,6 +1587,45 @@ func (persistence *Persistence) AssignProperties_To_Persistence(destination *alp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Persistence_STATUS populates our Persistence from the provided source Persistence_STATUS
+func (persistence *Persistence) Initialize_From_Persistence_STATUS(source *Persistence_STATUS) error {
+
+	// AofEnabled
+	if source.AofEnabled != nil {
+		aofEnabled := *source.AofEnabled
+		persistence.AofEnabled = &aofEnabled
+	} else {
+		persistence.AofEnabled = nil
+	}
+
+	// AofFrequency
+	if source.AofFrequency != nil {
+		aofFrequency := Persistence_AofFrequency(*source.AofFrequency)
+		persistence.AofFrequency = &aofFrequency
+	} else {
+		persistence.AofFrequency = nil
+	}
+
+	// RdbEnabled
+	if source.RdbEnabled != nil {
+		rdbEnabled := *source.RdbEnabled
+		persistence.RdbEnabled = &rdbEnabled
+	} else {
+		persistence.RdbEnabled = nil
+	}
+
+	// RdbFrequency
+	if source.RdbFrequency != nil {
+		rdbFrequency := Persistence_RdbFrequency(*source.RdbFrequency)
+		persistence.RdbFrequency = &rdbFrequency
+	} else {
+		persistence.RdbFrequency = nil
 	}
 
 	// No error

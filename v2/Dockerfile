@@ -5,5 +5,6 @@
 FROM gcr.io/distroless/static:nonroot
 WORKDIR /
 COPY ./bin/aso-controller .
+COPY ./out/crds ./crds
 USER nonroot:nonroot
 ENTRYPOINT ["/aso-controller"]

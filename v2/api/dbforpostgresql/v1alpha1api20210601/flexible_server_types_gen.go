@@ -103,6 +103,17 @@ func (server *FlexibleServer) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the FlexibleServer resource
 func (server *FlexibleServer) defaultImpl() { server.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &FlexibleServer{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (server *FlexibleServer) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*FlexibleServer_STATUS); ok {
+		return server.Spec.Initialize_From_FlexibleServer_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type FlexibleServer_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &FlexibleServer{}
 
 // AzureName returns the Azure name of the resource
@@ -1047,6 +1058,124 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 	return nil
 }
 
+// Initialize_From_FlexibleServer_STATUS populates our FlexibleServer_Spec from the provided source FlexibleServer_STATUS
+func (server *FlexibleServer_Spec) Initialize_From_FlexibleServer_STATUS(source *FlexibleServer_STATUS) error {
+
+	// AdministratorLogin
+	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
+
+	// AvailabilityZone
+	server.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
+
+	// Backup
+	if source.Backup != nil {
+		var backup Backup
+		err := backup.Initialize_From_Backup_STATUS(source.Backup)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Backup_STATUS() to populate field Backup")
+		}
+		server.Backup = &backup
+	} else {
+		server.Backup = nil
+	}
+
+	// CreateMode
+	if source.CreateMode != nil {
+		createMode := ServerProperties_CreateMode(*source.CreateMode)
+		server.CreateMode = &createMode
+	} else {
+		server.CreateMode = nil
+	}
+
+	// HighAvailability
+	if source.HighAvailability != nil {
+		var highAvailability HighAvailability
+		err := highAvailability.Initialize_From_HighAvailability_STATUS(source.HighAvailability)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_HighAvailability_STATUS() to populate field HighAvailability")
+		}
+		server.HighAvailability = &highAvailability
+	} else {
+		server.HighAvailability = nil
+	}
+
+	// Location
+	server.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MaintenanceWindow
+	if source.MaintenanceWindow != nil {
+		var maintenanceWindow MaintenanceWindow
+		err := maintenanceWindow.Initialize_From_MaintenanceWindow_STATUS(source.MaintenanceWindow)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_MaintenanceWindow_STATUS() to populate field MaintenanceWindow")
+		}
+		server.MaintenanceWindow = &maintenanceWindow
+	} else {
+		server.MaintenanceWindow = nil
+	}
+
+	// Network
+	if source.Network != nil {
+		var network Network
+		err := network.Initialize_From_Network_STATUS(source.Network)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Network_STATUS() to populate field Network")
+		}
+		server.Network = &network
+	} else {
+		server.Network = nil
+	}
+
+	// PointInTimeUTC
+	server.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.Initialize_From_Sku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+		}
+		server.Sku = &sku
+	} else {
+		server.Sku = nil
+	}
+
+	// SourceServerResourceReference
+	if source.SourceServerResourceId != nil {
+		sourceServerResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.SourceServerResourceId)
+		server.SourceServerResourceReference = &sourceServerResourceReference
+	} else {
+		server.SourceServerResourceReference = nil
+	}
+
+	// Storage
+	if source.Storage != nil {
+		var storage Storage
+		err := storage.Initialize_From_Storage_STATUS(source.Storage)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Storage_STATUS() to populate field Storage")
+		}
+		server.Storage = &storage
+	} else {
+		server.Storage = nil
+	}
+
+	// Tags
+	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Version
+	if source.Version != nil {
+		version := ServerVersion(*source.Version)
+		server.Version = &version
+	} else {
+		server.Version = nil
+	}
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (server *FlexibleServer_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1771,6 +1900,24 @@ func (backup *Backup) AssignProperties_To_Backup(destination *alpha20210601s.Bac
 	return nil
 }
 
+// Initialize_From_Backup_STATUS populates our Backup from the provided source Backup_STATUS
+func (backup *Backup) Initialize_From_Backup_STATUS(source *Backup_STATUS) error {
+
+	// BackupRetentionDays
+	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
+
+	// GeoRedundantBackup
+	if source.GeoRedundantBackup != nil {
+		geoRedundantBackup := Backup_GeoRedundantBackup(*source.GeoRedundantBackup)
+		backup.GeoRedundantBackup = &geoRedundantBackup
+	} else {
+		backup.GeoRedundantBackup = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of Backup_STATUS. Use v1beta20210601.Backup_STATUS instead
 type Backup_STATUS struct {
 	BackupRetentionDays *int                              `json:"backupRetentionDays,omitempty"`
@@ -2020,6 +2167,24 @@ func (availability *HighAvailability) AssignProperties_To_HighAvailability(desti
 	return nil
 }
 
+// Initialize_From_HighAvailability_STATUS populates our HighAvailability from the provided source HighAvailability_STATUS
+func (availability *HighAvailability) Initialize_From_HighAvailability_STATUS(source *HighAvailability_STATUS) error {
+
+	// Mode
+	if source.Mode != nil {
+		mode := HighAvailability_Mode(*source.Mode)
+		availability.Mode = &mode
+	} else {
+		availability.Mode = nil
+	}
+
+	// StandbyAvailabilityZone
+	availability.StandbyAvailabilityZone = genruntime.ClonePointerToString(source.StandbyAvailabilityZone)
+
+	// No error
+	return nil
+}
+
 // Deprecated version of HighAvailability_STATUS. Use v1beta20210601.HighAvailability_STATUS instead
 type HighAvailability_STATUS struct {
 	Mode                    *HighAvailability_Mode_STATUS  `json:"mode,omitempty"`
@@ -2254,6 +2419,25 @@ func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destinati
 	return nil
 }
 
+// Initialize_From_MaintenanceWindow_STATUS populates our MaintenanceWindow from the provided source MaintenanceWindow_STATUS
+func (window *MaintenanceWindow) Initialize_From_MaintenanceWindow_STATUS(source *MaintenanceWindow_STATUS) error {
+
+	// CustomWindow
+	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
+
+	// DayOfWeek
+	window.DayOfWeek = genruntime.ClonePointerToInt(source.DayOfWeek)
+
+	// StartHour
+	window.StartHour = genruntime.ClonePointerToInt(source.StartHour)
+
+	// StartMinute
+	window.StartMinute = genruntime.ClonePointerToInt(source.StartMinute)
+
+	// No error
+	return nil
+}
+
 // Deprecated version of MaintenanceWindow_STATUS. Use v1beta20210601.MaintenanceWindow_STATUS instead
 type MaintenanceWindow_STATUS struct {
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -2457,6 +2641,29 @@ func (network *Network) AssignProperties_To_Network(destination *alpha20210601s.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Network_STATUS populates our Network from the provided source Network_STATUS
+func (network *Network) Initialize_From_Network_STATUS(source *Network_STATUS) error {
+
+	// DelegatedSubnetResourceReference
+	if source.DelegatedSubnetResourceId != nil {
+		delegatedSubnetResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.DelegatedSubnetResourceId)
+		network.DelegatedSubnetResourceReference = &delegatedSubnetResourceReference
+	} else {
+		network.DelegatedSubnetResourceReference = nil
+	}
+
+	// PrivateDnsZoneArmResourceReference
+	if source.PrivateDnsZoneArmResourceId != nil {
+		privateDnsZoneArmResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.PrivateDnsZoneArmResourceId)
+		network.PrivateDnsZoneArmResourceReference = &privateDnsZoneArmResourceReference
+	} else {
+		network.PrivateDnsZoneArmResourceReference = nil
 	}
 
 	// No error
@@ -2717,6 +2924,24 @@ func (sku *Sku) AssignProperties_To_Sku(destination *alpha20210601s.Sku) error {
 	return nil
 }
 
+// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
+func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
+
+	// Name
+	sku.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Tier
+	if source.Tier != nil {
+		tier := Sku_Tier(*source.Tier)
+		sku.Tier = &tier
+	} else {
+		sku.Tier = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Deprecated version of Sku_STATUS. Use v1beta20210601.Sku_STATUS instead
 type Sku_STATUS struct {
 	Name *string          `json:"name,omitempty"`
@@ -2866,6 +3091,16 @@ func (storage *Storage) AssignProperties_To_Storage(destination *alpha20210601s.
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Storage_STATUS populates our Storage from the provided source Storage_STATUS
+func (storage *Storage) Initialize_From_Storage_STATUS(source *Storage_STATUS) error {
+
+	// StorageSizeGB
+	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
 
 	// No error
 	return nil

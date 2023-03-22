@@ -91,6 +91,17 @@ func (balancer *LoadBalancer) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the LoadBalancer resource
 func (balancer *LoadBalancer) defaultImpl() { balancer.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &LoadBalancer{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (balancer *LoadBalancer) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*LoadBalancer_STATUS); ok {
+		return balancer.Spec.Initialize_From_LoadBalancer_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type LoadBalancer_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &LoadBalancer{}
 
 // AzureName returns the Azure name of the resource
@@ -1045,6 +1056,169 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 	return nil
 }
 
+// Initialize_From_LoadBalancer_STATUS populates our LoadBalancer_Spec from the provided source LoadBalancer_STATUS
+func (balancer *LoadBalancer_Spec) Initialize_From_LoadBalancer_STATUS(source *LoadBalancer_STATUS) error {
+
+	// BackendAddressPools
+	if source.BackendAddressPools != nil {
+		backendAddressPoolList := make([]BackendAddressPool_LoadBalancer_SubResourceEmbedded, len(source.BackendAddressPools))
+		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			backendAddressPoolItem := backendAddressPoolItem
+			var backendAddressPool BackendAddressPool_LoadBalancer_SubResourceEmbedded
+			err := backendAddressPool.Initialize_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(&backendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendAddressPools")
+			}
+			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
+		}
+		balancer.BackendAddressPools = backendAddressPoolList
+	} else {
+		balancer.BackendAddressPools = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		balancer.ExtendedLocation = &extendedLocation
+	} else {
+		balancer.ExtendedLocation = nil
+	}
+
+	// FrontendIPConfigurations
+	if source.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded, len(source.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded
+			err := frontendIPConfiguration.Initialize_From_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&frontendIPConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field FrontendIPConfigurations")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		}
+		balancer.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		balancer.FrontendIPConfigurations = nil
+	}
+
+	// InboundNatPools
+	if source.InboundNatPools != nil {
+		inboundNatPoolList := make([]InboundNatPool, len(source.InboundNatPools))
+		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatPoolItem := inboundNatPoolItem
+			var inboundNatPool InboundNatPool
+			err := inboundNatPool.Initialize_From_InboundNatPool_STATUS(&inboundNatPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_InboundNatPool_STATUS() to populate field InboundNatPools")
+			}
+			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
+		}
+		balancer.InboundNatPools = inboundNatPoolList
+	} else {
+		balancer.InboundNatPools = nil
+	}
+
+	// InboundNatRules
+	if source.InboundNatRules != nil {
+		inboundNatRuleList := make([]InboundNatRule_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
+		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatRuleItem := inboundNatRuleItem
+			var inboundNatRule InboundNatRule_LoadBalancer_SubResourceEmbedded
+			err := inboundNatRule.Initialize_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(&inboundNatRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded() to populate field InboundNatRules")
+			}
+			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
+		}
+		balancer.InboundNatRules = inboundNatRuleList
+	} else {
+		balancer.InboundNatRules = nil
+	}
+
+	// LoadBalancingRules
+	if source.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]LoadBalancingRule, len(source.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule LoadBalancingRule
+			err := loadBalancingRule.Initialize_From_LoadBalancingRule_STATUS(&loadBalancingRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_LoadBalancingRule_STATUS() to populate field LoadBalancingRules")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		}
+		balancer.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		balancer.LoadBalancingRules = nil
+	}
+
+	// Location
+	balancer.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OutboundRules
+	if source.OutboundRules != nil {
+		outboundRuleList := make([]OutboundRule, len(source.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule OutboundRule
+			err := outboundRule.Initialize_From_OutboundRule_STATUS(&outboundRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_OutboundRule_STATUS() to populate field OutboundRules")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
+		}
+		balancer.OutboundRules = outboundRuleList
+	} else {
+		balancer.OutboundRules = nil
+	}
+
+	// Probes
+	if source.Probes != nil {
+		probeList := make([]Probe, len(source.Probes))
+		for probeIndex, probeItem := range source.Probes {
+			// Shadow the loop variable to avoid aliasing
+			probeItem := probeItem
+			var probe Probe
+			err := probe.Initialize_From_Probe_STATUS(&probeItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Probe_STATUS() to populate field Probes")
+			}
+			probeList[probeIndex] = probe
+		}
+		balancer.Probes = probeList
+	} else {
+		balancer.Probes = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku LoadBalancerSku
+		err := sku.Initialize_From_LoadBalancerSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_LoadBalancerSku_STATUS() to populate field Sku")
+		}
+		balancer.Sku = &sku
+	} else {
+		balancer.Sku = nil
+	}
+
+	// Tags
+	balancer.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (balancer *LoadBalancer_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1882,6 +2056,34 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) AssignPrope
 	return nil
 }
 
+// Initialize_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded populates our BackendAddressPool_LoadBalancer_SubResourceEmbedded from the provided source BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded
+func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) Initialize_From_BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded(source *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) error {
+
+	// LoadBalancerBackendAddresses
+	if source.LoadBalancerBackendAddresses != nil {
+		loadBalancerBackendAddressList := make([]LoadBalancerBackendAddress, len(source.LoadBalancerBackendAddresses))
+		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range source.LoadBalancerBackendAddresses {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
+			var loadBalancerBackendAddress LoadBalancerBackendAddress
+			err := loadBalancerBackendAddress.Initialize_From_LoadBalancerBackendAddress_STATUS(&loadBalancerBackendAddressItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_LoadBalancerBackendAddress_STATUS() to populate field LoadBalancerBackendAddresses")
+			}
+			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
+		}
+		embedded.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
+	} else {
+		embedded.LoadBalancerBackendAddresses = nil
+	}
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
 // Pool of backend IP addresses.
 type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	// BackendIPConfigurations: An array of references to IP addresses defined in network interfaces.
@@ -2371,6 +2573,24 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
+
+	// Name
+	location.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	if source.Type != nil {
+		typeVar := ExtendedLocationType(*source.Type)
+		location.Type = &typeVar
+	} else {
+		location.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
 // ExtendedLocation complex type.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
@@ -2787,6 +3007,74 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Assign
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded populates our FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded from the provided source FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
+func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Initialize_From_FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(source *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded) error {
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrivateIPAddress
+	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
+
+	// PrivateIPAddressVersion
+	if source.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
+		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
+	} else {
+		embedded.PrivateIPAddressVersion = nil
+	}
+
+	// PrivateIPAllocationMethod
+	if source.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
+		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	} else {
+		embedded.PrivateIPAllocationMethod = nil
+	}
+
+	// PublicIPAddress
+	if source.PublicIPAddress != nil {
+		var publicIPAddress PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded
+		err := publicIPAddress.Initialize_From_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(source.PublicIPAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded() to populate field PublicIPAddress")
+		}
+		embedded.PublicIPAddress = &publicIPAddress
+	} else {
+		embedded.PublicIPAddress = nil
+	}
+
+	// PublicIPPrefix
+	if source.PublicIPPrefix != nil {
+		var publicIPPrefix SubResource
+		err := publicIPPrefix.Initialize_From_SubResource_STATUS(source.PublicIPPrefix)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field PublicIPPrefix")
+		}
+		embedded.PublicIPPrefix = &publicIPPrefix
+	} else {
+		embedded.PublicIPPrefix = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet Subnet_LoadBalancer_SubResourceEmbedded
+		err := subnet.Initialize_From_Subnet_STATUS_LoadBalancer_SubResourceEmbedded(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Subnet_STATUS_LoadBalancer_SubResourceEmbedded() to populate field Subnet")
+		}
+		embedded.Subnet = &subnet
+	} else {
+		embedded.Subnet = nil
+	}
+
+	// Zones
+	embedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -3674,6 +3962,64 @@ func (pool *InboundNatPool) AssignProperties_To_InboundNatPool(destination *v202
 	return nil
 }
 
+// Initialize_From_InboundNatPool_STATUS populates our InboundNatPool from the provided source InboundNatPool_STATUS
+func (pool *InboundNatPool) Initialize_From_InboundNatPool_STATUS(source *InboundNatPool_STATUS) error {
+
+	// BackendPort
+	pool.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
+
+	// EnableFloatingIP
+	if source.EnableFloatingIP != nil {
+		enableFloatingIP := *source.EnableFloatingIP
+		pool.EnableFloatingIP = &enableFloatingIP
+	} else {
+		pool.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if source.EnableTcpReset != nil {
+		enableTcpReset := *source.EnableTcpReset
+		pool.EnableTcpReset = &enableTcpReset
+	} else {
+		pool.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfiguration
+	if source.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration SubResource
+		err := frontendIPConfiguration.Initialize_From_SubResource_STATUS(source.FrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field FrontendIPConfiguration")
+		}
+		pool.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		pool.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPortRangeEnd
+	pool.FrontendPortRangeEnd = genruntime.ClonePointerToInt(source.FrontendPortRangeEnd)
+
+	// FrontendPortRangeStart
+	pool.FrontendPortRangeStart = genruntime.ClonePointerToInt(source.FrontendPortRangeStart)
+
+	// IdleTimeoutInMinutes
+	pool.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// Name
+	pool.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := TransportProtocol(*source.Protocol)
+		pool.Protocol = &protocol
+	} else {
+		pool.Protocol = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Inbound NAT pool of the load balancer.
 type InboundNatPool_STATUS struct {
 	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
@@ -4312,6 +4658,61 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignPropertie
 	return nil
 }
 
+// Initialize_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded populates our InboundNatRule_LoadBalancer_SubResourceEmbedded from the provided source InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
+func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) Initialize_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(source *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) error {
+
+	// BackendPort
+	embedded.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
+
+	// EnableFloatingIP
+	if source.EnableFloatingIP != nil {
+		enableFloatingIP := *source.EnableFloatingIP
+		embedded.EnableFloatingIP = &enableFloatingIP
+	} else {
+		embedded.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if source.EnableTcpReset != nil {
+		enableTcpReset := *source.EnableTcpReset
+		embedded.EnableTcpReset = &enableTcpReset
+	} else {
+		embedded.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfiguration
+	if source.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration SubResource
+		err := frontendIPConfiguration.Initialize_From_SubResource_STATUS(source.FrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field FrontendIPConfiguration")
+		}
+		embedded.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		embedded.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPort
+	embedded.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
+
+	// IdleTimeoutInMinutes
+	embedded.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// Name
+	embedded.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := TransportProtocol(*source.Protocol)
+		embedded.Protocol = &protocol
+	} else {
+		embedded.Protocol = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Inbound NAT rule of the load balancer.
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
 	// BackendIPConfiguration: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the
@@ -4780,6 +5181,29 @@ func (balancerSku *LoadBalancerSku) AssignProperties_To_LoadBalancerSku(destinat
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_LoadBalancerSku_STATUS populates our LoadBalancerSku from the provided source LoadBalancerSku_STATUS
+func (balancerSku *LoadBalancerSku) Initialize_From_LoadBalancerSku_STATUS(source *LoadBalancerSku_STATUS) error {
+
+	// Name
+	if source.Name != nil {
+		name := LoadBalancerSku_Name(*source.Name)
+		balancerSku.Name = &name
+	} else {
+		balancerSku.Name = nil
+	}
+
+	// Tier
+	if source.Tier != nil {
+		tier := LoadBalancerSku_Tier(*source.Tier)
+		balancerSku.Tier = &tier
+	} else {
+		balancerSku.Tier = nil
 	}
 
 	// No error
@@ -5347,6 +5771,101 @@ func (rule *LoadBalancingRule) AssignProperties_To_LoadBalancingRule(destination
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_LoadBalancingRule_STATUS populates our LoadBalancingRule from the provided source LoadBalancingRule_STATUS
+func (rule *LoadBalancingRule) Initialize_From_LoadBalancingRule_STATUS(source *LoadBalancingRule_STATUS) error {
+
+	// BackendAddressPool
+	if source.BackendAddressPool != nil {
+		var backendAddressPool SubResource
+		err := backendAddressPool.Initialize_From_SubResource_STATUS(source.BackendAddressPool)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field BackendAddressPool")
+		}
+		rule.BackendAddressPool = &backendAddressPool
+	} else {
+		rule.BackendAddressPool = nil
+	}
+
+	// BackendPort
+	rule.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
+
+	// DisableOutboundSnat
+	if source.DisableOutboundSnat != nil {
+		disableOutboundSnat := *source.DisableOutboundSnat
+		rule.DisableOutboundSnat = &disableOutboundSnat
+	} else {
+		rule.DisableOutboundSnat = nil
+	}
+
+	// EnableFloatingIP
+	if source.EnableFloatingIP != nil {
+		enableFloatingIP := *source.EnableFloatingIP
+		rule.EnableFloatingIP = &enableFloatingIP
+	} else {
+		rule.EnableFloatingIP = nil
+	}
+
+	// EnableTcpReset
+	if source.EnableTcpReset != nil {
+		enableTcpReset := *source.EnableTcpReset
+		rule.EnableTcpReset = &enableTcpReset
+	} else {
+		rule.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfiguration
+	if source.FrontendIPConfiguration != nil {
+		var frontendIPConfiguration SubResource
+		err := frontendIPConfiguration.Initialize_From_SubResource_STATUS(source.FrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field FrontendIPConfiguration")
+		}
+		rule.FrontendIPConfiguration = &frontendIPConfiguration
+	} else {
+		rule.FrontendIPConfiguration = nil
+	}
+
+	// FrontendPort
+	rule.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
+
+	// IdleTimeoutInMinutes
+	rule.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// LoadDistribution
+	if source.LoadDistribution != nil {
+		loadDistribution := LoadBalancingRulePropertiesFormat_LoadDistribution(*source.LoadDistribution)
+		rule.LoadDistribution = &loadDistribution
+	} else {
+		rule.LoadDistribution = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Probe
+	if source.Probe != nil {
+		var probe SubResource
+		err := probe.Initialize_From_SubResource_STATUS(source.Probe)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Probe")
+		}
+		rule.Probe = &probe
+	} else {
+		rule.Probe = nil
+	}
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := TransportProtocol(*source.Protocol)
+		rule.Protocol = &protocol
+	} else {
+		rule.Protocol = nil
 	}
 
 	// No error
@@ -6117,6 +6636,68 @@ func (rule *OutboundRule) AssignProperties_To_OutboundRule(destination *v2020110
 	return nil
 }
 
+// Initialize_From_OutboundRule_STATUS populates our OutboundRule from the provided source OutboundRule_STATUS
+func (rule *OutboundRule) Initialize_From_OutboundRule_STATUS(source *OutboundRule_STATUS) error {
+
+	// AllocatedOutboundPorts
+	rule.AllocatedOutboundPorts = genruntime.ClonePointerToInt(source.AllocatedOutboundPorts)
+
+	// BackendAddressPool
+	if source.BackendAddressPool != nil {
+		var backendAddressPool SubResource
+		err := backendAddressPool.Initialize_From_SubResource_STATUS(source.BackendAddressPool)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field BackendAddressPool")
+		}
+		rule.BackendAddressPool = &backendAddressPool
+	} else {
+		rule.BackendAddressPool = nil
+	}
+
+	// EnableTcpReset
+	if source.EnableTcpReset != nil {
+		enableTcpReset := *source.EnableTcpReset
+		rule.EnableTcpReset = &enableTcpReset
+	} else {
+		rule.EnableTcpReset = nil
+	}
+
+	// FrontendIPConfigurations
+	if source.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]SubResource, len(source.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration SubResource
+			err := frontendIPConfiguration.Initialize_From_SubResource_STATUS(&frontendIPConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field FrontendIPConfigurations")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		}
+		rule.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		rule.FrontendIPConfigurations = nil
+	}
+
+	// IdleTimeoutInMinutes
+	rule.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := OutboundRulePropertiesFormat_Protocol(*source.Protocol)
+		rule.Protocol = &protocol
+	} else {
+		rule.Protocol = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Outbound rule of the load balancer.
 type OutboundRule_STATUS struct {
 	// AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
@@ -6645,6 +7226,36 @@ func (probe *Probe) AssignProperties_To_Probe(destination *v20201101s.Probe) err
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Probe_STATUS populates our Probe from the provided source Probe_STATUS
+func (probe *Probe) Initialize_From_Probe_STATUS(source *Probe_STATUS) error {
+
+	// IntervalInSeconds
+	probe.IntervalInSeconds = genruntime.ClonePointerToInt(source.IntervalInSeconds)
+
+	// Name
+	probe.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NumberOfProbes
+	probe.NumberOfProbes = genruntime.ClonePointerToInt(source.NumberOfProbes)
+
+	// Port
+	probe.Port = genruntime.ClonePointerToInt(source.Port)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := ProbePropertiesFormat_Protocol(*source.Protocol)
+		probe.Protocol = &protocol
+	} else {
+		probe.Protocol = nil
+	}
+
+	// RequestPath
+	probe.RequestPath = genruntime.ClonePointerToString(source.RequestPath)
 
 	// No error
 	return nil
@@ -7203,6 +7814,55 @@ func (address *LoadBalancerBackendAddress) AssignProperties_To_LoadBalancerBacke
 	return nil
 }
 
+// Initialize_From_LoadBalancerBackendAddress_STATUS populates our LoadBalancerBackendAddress from the provided source LoadBalancerBackendAddress_STATUS
+func (address *LoadBalancerBackendAddress) Initialize_From_LoadBalancerBackendAddress_STATUS(source *LoadBalancerBackendAddress_STATUS) error {
+
+	// IpAddress
+	address.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
+
+	// LoadBalancerFrontendIPConfiguration
+	if source.LoadBalancerFrontendIPConfiguration != nil {
+		var loadBalancerFrontendIPConfiguration SubResource
+		err := loadBalancerFrontendIPConfiguration.Initialize_From_SubResource_STATUS(source.LoadBalancerFrontendIPConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field LoadBalancerFrontendIPConfiguration")
+		}
+		address.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
+	} else {
+		address.LoadBalancerFrontendIPConfiguration = nil
+	}
+
+	// Name
+	address.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet SubResource
+		err := subnet.Initialize_From_SubResource_STATUS(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Subnet")
+		}
+		address.Subnet = &subnet
+	} else {
+		address.Subnet = nil
+	}
+
+	// VirtualNetwork
+	if source.VirtualNetwork != nil {
+		var virtualNetwork SubResource
+		err := virtualNetwork.Initialize_From_SubResource_STATUS(source.VirtualNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
+		}
+		address.VirtualNetwork = &virtualNetwork
+	} else {
+		address.VirtualNetwork = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Load balancer backend addresses.
 type LoadBalancerBackendAddress_STATUS struct {
 	// IpAddress: IP Address belonging to the referenced virtual network.
@@ -7697,6 +8357,21 @@ func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) AssignProp
 	return nil
 }
 
+// Initialize_From_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded populates our PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded
+func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) Initialize_From_PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded(source *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Subnet in a virtual network resource.
 type Subnet_LoadBalancer_SubResourceEmbedded struct {
 	// Reference: Resource ID.
@@ -7775,6 +8450,21 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) AssignProperties_To_Sub
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Subnet_STATUS_LoadBalancer_SubResourceEmbedded populates our Subnet_LoadBalancer_SubResourceEmbedded from the provided source Subnet_STATUS_LoadBalancer_SubResourceEmbedded
+func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) Initialize_From_Subnet_STATUS_LoadBalancer_SubResourceEmbedded(source *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
 	}
 
 	// No error

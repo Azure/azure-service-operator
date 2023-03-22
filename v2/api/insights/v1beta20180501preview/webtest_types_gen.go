@@ -91,6 +91,17 @@ func (webtest *Webtest) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Webtest resource
 func (webtest *Webtest) defaultImpl() { webtest.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Webtest{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (webtest *Webtest) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Webtest_STATUS); ok {
+		return webtest.Spec.Initialize_From_Webtest_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Webtest_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Webtest{}
 
 // AzureName returns the Azure name of the resource
@@ -952,6 +963,112 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *v2018
 	return nil
 }
 
+// Initialize_From_Webtest_STATUS populates our Webtest_Spec from the provided source Webtest_STATUS
+func (webtest *Webtest_Spec) Initialize_From_Webtest_STATUS(source *Webtest_STATUS) error {
+
+	// Configuration
+	if source.Configuration != nil {
+		var configuration WebTestProperties_Configuration
+		err := configuration.Initialize_From_WebTestProperties_Configuration_STATUS(source.Configuration)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_Configuration_STATUS() to populate field Configuration")
+		}
+		webtest.Configuration = &configuration
+	} else {
+		webtest.Configuration = nil
+	}
+
+	// Description
+	webtest.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		webtest.Enabled = &enabled
+	} else {
+		webtest.Enabled = nil
+	}
+
+	// Frequency
+	webtest.Frequency = genruntime.ClonePointerToInt(source.Frequency)
+
+	// Kind
+	if source.Kind != nil {
+		kind := WebTestProperties_Kind(*source.Kind)
+		webtest.Kind = &kind
+	} else {
+		webtest.Kind = nil
+	}
+
+	// Location
+	webtest.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Locations
+	if source.Locations != nil {
+		locationList := make([]WebTestGeolocation, len(source.Locations))
+		for locationIndex, locationItem := range source.Locations {
+			// Shadow the loop variable to avoid aliasing
+			locationItem := locationItem
+			var location WebTestGeolocation
+			err := location.Initialize_From_WebTestGeolocation_STATUS(&locationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_WebTestGeolocation_STATUS() to populate field Locations")
+			}
+			locationList[locationIndex] = location
+		}
+		webtest.Locations = locationList
+	} else {
+		webtest.Locations = nil
+	}
+
+	// Name
+	webtest.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Request
+	if source.Request != nil {
+		var request WebTestProperties_Request
+		err := request.Initialize_From_WebTestProperties_Request_STATUS(source.Request)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_Request_STATUS() to populate field Request")
+		}
+		webtest.Request = &request
+	} else {
+		webtest.Request = nil
+	}
+
+	// RetryEnabled
+	if source.RetryEnabled != nil {
+		retryEnabled := *source.RetryEnabled
+		webtest.RetryEnabled = &retryEnabled
+	} else {
+		webtest.RetryEnabled = nil
+	}
+
+	// SyntheticMonitorId
+	webtest.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
+
+	// Tags
+	webtest.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Timeout
+	webtest.Timeout = genruntime.ClonePointerToInt(source.Timeout)
+
+	// ValidationRules
+	if source.ValidationRules != nil {
+		var validationRule WebTestProperties_ValidationRules
+		err := validationRule.Initialize_From_WebTestProperties_ValidationRules_STATUS(source.ValidationRules)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
+		}
+		webtest.ValidationRules = &validationRule
+	} else {
+		webtest.ValidationRules = nil
+	}
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (webtest *Webtest_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1585,6 +1702,16 @@ func (geolocation *WebTestGeolocation) AssignProperties_To_WebTestGeolocation(de
 	return nil
 }
 
+// Initialize_From_WebTestGeolocation_STATUS populates our WebTestGeolocation from the provided source WebTestGeolocation_STATUS
+func (geolocation *WebTestGeolocation) Initialize_From_WebTestGeolocation_STATUS(source *WebTestGeolocation_STATUS) error {
+
+	// Id
+	geolocation.Id = genruntime.ClonePointerToString(source.Id)
+
+	// No error
+	return nil
+}
+
 // Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 type WebTestGeolocation_STATUS struct {
 	// Id: Location ID for the WebTest to run from.
@@ -1712,6 +1839,16 @@ func (configuration *WebTestProperties_Configuration) AssignProperties_To_WebTes
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_WebTestProperties_Configuration_STATUS populates our WebTestProperties_Configuration from the provided source WebTestProperties_Configuration_STATUS
+func (configuration *WebTestProperties_Configuration) Initialize_From_WebTestProperties_Configuration_STATUS(source *WebTestProperties_Configuration_STATUS) error {
+
+	// WebTest
+	configuration.WebTest = genruntime.ClonePointerToString(source.WebTest)
 
 	// No error
 	return nil
@@ -2024,6 +2161,56 @@ func (request *WebTestProperties_Request) AssignProperties_To_WebTestProperties_
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_WebTestProperties_Request_STATUS populates our WebTestProperties_Request from the provided source WebTestProperties_Request_STATUS
+func (request *WebTestProperties_Request) Initialize_From_WebTestProperties_Request_STATUS(source *WebTestProperties_Request_STATUS) error {
+
+	// FollowRedirects
+	if source.FollowRedirects != nil {
+		followRedirect := *source.FollowRedirects
+		request.FollowRedirects = &followRedirect
+	} else {
+		request.FollowRedirects = nil
+	}
+
+	// Headers
+	if source.Headers != nil {
+		headerList := make([]HeaderField, len(source.Headers))
+		for headerIndex, headerItem := range source.Headers {
+			// Shadow the loop variable to avoid aliasing
+			headerItem := headerItem
+			var header HeaderField
+			err := header.Initialize_From_HeaderField_STATUS(&headerItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_HeaderField_STATUS() to populate field Headers")
+			}
+			headerList[headerIndex] = header
+		}
+		request.Headers = headerList
+	} else {
+		request.Headers = nil
+	}
+
+	// HttpVerb
+	request.HttpVerb = genruntime.ClonePointerToString(source.HttpVerb)
+
+	// ParseDependentRequests
+	if source.ParseDependentRequests != nil {
+		parseDependentRequest := *source.ParseDependentRequests
+		request.ParseDependentRequests = &parseDependentRequest
+	} else {
+		request.ParseDependentRequests = nil
+	}
+
+	// RequestBody
+	request.RequestBody = genruntime.ClonePointerToString(source.RequestBody)
+
+	// RequestUrl
+	request.RequestUrl = genruntime.ClonePointerToString(source.RequestUrl)
 
 	// No error
 	return nil
@@ -2421,6 +2608,47 @@ func (rules *WebTestProperties_ValidationRules) AssignProperties_To_WebTestPrope
 	return nil
 }
 
+// Initialize_From_WebTestProperties_ValidationRules_STATUS populates our WebTestProperties_ValidationRules from the provided source WebTestProperties_ValidationRules_STATUS
+func (rules *WebTestProperties_ValidationRules) Initialize_From_WebTestProperties_ValidationRules_STATUS(source *WebTestProperties_ValidationRules_STATUS) error {
+
+	// ContentValidation
+	if source.ContentValidation != nil {
+		var contentValidation WebTestProperties_ValidationRules_ContentValidation
+		err := contentValidation.Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(source.ContentValidation)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
+		}
+		rules.ContentValidation = &contentValidation
+	} else {
+		rules.ContentValidation = nil
+	}
+
+	// ExpectedHttpStatusCode
+	rules.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(source.ExpectedHttpStatusCode)
+
+	// IgnoreHttpsStatusCode
+	if source.IgnoreHttpsStatusCode != nil {
+		ignoreHttpsStatusCode := *source.IgnoreHttpsStatusCode
+		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
+	} else {
+		rules.IgnoreHttpsStatusCode = nil
+	}
+
+	// SSLCertRemainingLifetimeCheck
+	rules.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(source.SSLCertRemainingLifetimeCheck)
+
+	// SSLCheck
+	if source.SSLCheck != nil {
+		sslCheck := *source.SSLCheck
+		rules.SSLCheck = &sslCheck
+	} else {
+		rules.SSLCheck = nil
+	}
+
+	// No error
+	return nil
+}
+
 type WebTestProperties_ValidationRules_STATUS struct {
 	// ContentValidation: The collection of content validation properties
 	ContentValidation *WebTestProperties_ValidationRules_ContentValidation_STATUS `json:"ContentValidation,omitempty"`
@@ -2678,6 +2906,19 @@ func (field *HeaderField) AssignProperties_To_HeaderField(destination *v20180501
 	return nil
 }
 
+// Initialize_From_HeaderField_STATUS populates our HeaderField from the provided source HeaderField_STATUS
+func (field *HeaderField) Initialize_From_HeaderField_STATUS(source *HeaderField_STATUS) error {
+
+	// Key
+	field.Key = genruntime.ClonePointerToString(source.Key)
+
+	// Value
+	field.Value = genruntime.ClonePointerToString(source.Value)
+
+	// No error
+	return nil
+}
+
 // A header to add to the WebTest.
 type HeaderField_STATUS struct {
 	// Key: The name of the header.
@@ -2882,6 +3123,32 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignPro
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS populates our WebTestProperties_ValidationRules_ContentValidation from the provided source WebTestProperties_ValidationRules_ContentValidation_STATUS
+func (validation *WebTestProperties_ValidationRules_ContentValidation) Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(source *WebTestProperties_ValidationRules_ContentValidation_STATUS) error {
+
+	// ContentMatch
+	validation.ContentMatch = genruntime.ClonePointerToString(source.ContentMatch)
+
+	// IgnoreCase
+	if source.IgnoreCase != nil {
+		ignoreCase := *source.IgnoreCase
+		validation.IgnoreCase = &ignoreCase
+	} else {
+		validation.IgnoreCase = nil
+	}
+
+	// PassIfTextFound
+	if source.PassIfTextFound != nil {
+		passIfTextFound := *source.PassIfTextFound
+		validation.PassIfTextFound = &passIfTextFound
+	} else {
+		validation.PassIfTextFound = nil
 	}
 
 	// No error

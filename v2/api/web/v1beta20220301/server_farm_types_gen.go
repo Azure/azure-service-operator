@@ -91,6 +91,17 @@ func (farm *ServerFarm) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the ServerFarm resource
 func (farm *ServerFarm) defaultImpl() { farm.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &ServerFarm{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (farm *ServerFarm) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Serverfarm_STATUS); ok {
+		return farm.Spec.Initialize_From_Serverfarm_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Serverfarm_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &ServerFarm{}
 
 // AzureName returns the Azure name of the resource
@@ -1112,6 +1123,144 @@ func (serverfarm *Serverfarm_Spec) AssignProperties_To_Serverfarm_Spec(destinati
 	return nil
 }
 
+// Initialize_From_Serverfarm_STATUS populates our Serverfarm_Spec from the provided source Serverfarm_STATUS
+func (serverfarm *Serverfarm_Spec) Initialize_From_Serverfarm_STATUS(source *Serverfarm_STATUS) error {
+
+	// ElasticScaleEnabled
+	if source.ElasticScaleEnabled != nil {
+		elasticScaleEnabled := *source.ElasticScaleEnabled
+		serverfarm.ElasticScaleEnabled = &elasticScaleEnabled
+	} else {
+		serverfarm.ElasticScaleEnabled = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		serverfarm.ExtendedLocation = &extendedLocation
+	} else {
+		serverfarm.ExtendedLocation = nil
+	}
+
+	// FreeOfferExpirationTime
+	serverfarm.FreeOfferExpirationTime = genruntime.ClonePointerToString(source.FreeOfferExpirationTime)
+
+	// HostingEnvironmentProfile
+	if source.HostingEnvironmentProfile != nil {
+		var hostingEnvironmentProfile HostingEnvironmentProfile
+		err := hostingEnvironmentProfile.Initialize_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
+		}
+		serverfarm.HostingEnvironmentProfile = &hostingEnvironmentProfile
+	} else {
+		serverfarm.HostingEnvironmentProfile = nil
+	}
+
+	// HyperV
+	if source.HyperV != nil {
+		hyperV := *source.HyperV
+		serverfarm.HyperV = &hyperV
+	} else {
+		serverfarm.HyperV = nil
+	}
+
+	// IsSpot
+	if source.IsSpot != nil {
+		isSpot := *source.IsSpot
+		serverfarm.IsSpot = &isSpot
+	} else {
+		serverfarm.IsSpot = nil
+	}
+
+	// IsXenon
+	if source.IsXenon != nil {
+		isXenon := *source.IsXenon
+		serverfarm.IsXenon = &isXenon
+	} else {
+		serverfarm.IsXenon = nil
+	}
+
+	// Kind
+	serverfarm.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// KubeEnvironmentProfile
+	if source.KubeEnvironmentProfile != nil {
+		var kubeEnvironmentProfile KubeEnvironmentProfile
+		err := kubeEnvironmentProfile.Initialize_From_KubeEnvironmentProfile_STATUS(source.KubeEnvironmentProfile)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_KubeEnvironmentProfile_STATUS() to populate field KubeEnvironmentProfile")
+		}
+		serverfarm.KubeEnvironmentProfile = &kubeEnvironmentProfile
+	} else {
+		serverfarm.KubeEnvironmentProfile = nil
+	}
+
+	// Location
+	serverfarm.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MaximumElasticWorkerCount
+	serverfarm.MaximumElasticWorkerCount = genruntime.ClonePointerToInt(source.MaximumElasticWorkerCount)
+
+	// PerSiteScaling
+	if source.PerSiteScaling != nil {
+		perSiteScaling := *source.PerSiteScaling
+		serverfarm.PerSiteScaling = &perSiteScaling
+	} else {
+		serverfarm.PerSiteScaling = nil
+	}
+
+	// Reserved
+	if source.Reserved != nil {
+		reserved := *source.Reserved
+		serverfarm.Reserved = &reserved
+	} else {
+		serverfarm.Reserved = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku SkuDescription
+		err := sku.Initialize_From_SkuDescription_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SkuDescription_STATUS() to populate field Sku")
+		}
+		serverfarm.Sku = &sku
+	} else {
+		serverfarm.Sku = nil
+	}
+
+	// SpotExpirationTime
+	serverfarm.SpotExpirationTime = genruntime.ClonePointerToString(source.SpotExpirationTime)
+
+	// Tags
+	serverfarm.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// TargetWorkerCount
+	serverfarm.TargetWorkerCount = genruntime.ClonePointerToInt(source.TargetWorkerCount)
+
+	// TargetWorkerSizeId
+	serverfarm.TargetWorkerSizeId = genruntime.ClonePointerToInt(source.TargetWorkerSizeId)
+
+	// WorkerTierName
+	serverfarm.WorkerTierName = genruntime.ClonePointerToString(source.WorkerTierName)
+
+	// ZoneRedundant
+	if source.ZoneRedundant != nil {
+		zoneRedundant := *source.ZoneRedundant
+		serverfarm.ZoneRedundant = &zoneRedundant
+	} else {
+		serverfarm.ZoneRedundant = nil
+	}
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (serverfarm *Serverfarm_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -2019,6 +2168,16 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
+// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
+
+	// Name
+	location.Name = genruntime.ClonePointerToString(source.Name)
+
+	// No error
+	return nil
+}
+
 // Extended Location.
 type ExtendedLocation_STATUS struct {
 	// Name: Name of extended location.
@@ -2171,6 +2330,21 @@ func (profile *HostingEnvironmentProfile) AssignProperties_To_HostingEnvironment
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_HostingEnvironmentProfile_STATUS populates our HostingEnvironmentProfile from the provided source HostingEnvironmentProfile_STATUS
+func (profile *HostingEnvironmentProfile) Initialize_From_HostingEnvironmentProfile_STATUS(source *HostingEnvironmentProfile_STATUS) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		profile.Reference = &reference
+	} else {
+		profile.Reference = nil
 	}
 
 	// No error
@@ -2344,6 +2518,21 @@ func (profile *KubeEnvironmentProfile) AssignProperties_To_KubeEnvironmentProfil
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_KubeEnvironmentProfile_STATUS populates our KubeEnvironmentProfile from the provided source KubeEnvironmentProfile_STATUS
+func (profile *KubeEnvironmentProfile) Initialize_From_KubeEnvironmentProfile_STATUS(source *KubeEnvironmentProfile_STATUS) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		profile.Reference = &reference
+	} else {
+		profile.Reference = nil
 	}
 
 	// No error
@@ -2740,6 +2929,61 @@ func (description *SkuDescription) AssignProperties_To_SkuDescription(destinatio
 	return nil
 }
 
+// Initialize_From_SkuDescription_STATUS populates our SkuDescription from the provided source SkuDescription_STATUS
+func (description *SkuDescription) Initialize_From_SkuDescription_STATUS(source *SkuDescription_STATUS) error {
+
+	// Capabilities
+	if source.Capabilities != nil {
+		capabilityList := make([]Capability, len(source.Capabilities))
+		for capabilityIndex, capabilityItem := range source.Capabilities {
+			// Shadow the loop variable to avoid aliasing
+			capabilityItem := capabilityItem
+			var capability Capability
+			err := capability.Initialize_From_Capability_STATUS(&capabilityItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Capability_STATUS() to populate field Capabilities")
+			}
+			capabilityList[capabilityIndex] = capability
+		}
+		description.Capabilities = capabilityList
+	} else {
+		description.Capabilities = nil
+	}
+
+	// Capacity
+	description.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+
+	// Family
+	description.Family = genruntime.ClonePointerToString(source.Family)
+
+	// Locations
+	description.Locations = genruntime.CloneSliceOfString(source.Locations)
+
+	// Name
+	description.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Size
+	description.Size = genruntime.ClonePointerToString(source.Size)
+
+	// SkuCapacity
+	if source.SkuCapacity != nil {
+		var skuCapacity SkuCapacity
+		err := skuCapacity.Initialize_From_SkuCapacity_STATUS(source.SkuCapacity)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SkuCapacity_STATUS() to populate field SkuCapacity")
+		}
+		description.SkuCapacity = &skuCapacity
+	} else {
+		description.SkuCapacity = nil
+	}
+
+	// Tier
+	description.Tier = genruntime.ClonePointerToString(source.Tier)
+
+	// No error
+	return nil
+}
+
 // Description of a SKU for a scalable resource.
 type SkuDescription_STATUS struct {
 	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
@@ -3076,6 +3320,22 @@ func (capability *Capability) AssignProperties_To_Capability(destination *v20220
 	return nil
 }
 
+// Initialize_From_Capability_STATUS populates our Capability from the provided source Capability_STATUS
+func (capability *Capability) Initialize_From_Capability_STATUS(source *Capability_STATUS) error {
+
+	// Name
+	capability.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Reason
+	capability.Reason = genruntime.ClonePointerToString(source.Reason)
+
+	// Value
+	capability.Value = genruntime.ClonePointerToString(source.Value)
+
+	// No error
+	return nil
+}
+
 // Describes the capabilities/features allowed for a specific SKU.
 type Capability_STATUS struct {
 	// Name: Name of the SKU capability.
@@ -3318,6 +3578,28 @@ func (capacity *SkuCapacity) AssignProperties_To_SkuCapacity(destination *v20220
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SkuCapacity_STATUS populates our SkuCapacity from the provided source SkuCapacity_STATUS
+func (capacity *SkuCapacity) Initialize_From_SkuCapacity_STATUS(source *SkuCapacity_STATUS) error {
+
+	// Default
+	capacity.Default = genruntime.ClonePointerToInt(source.Default)
+
+	// ElasticMaximum
+	capacity.ElasticMaximum = genruntime.ClonePointerToInt(source.ElasticMaximum)
+
+	// Maximum
+	capacity.Maximum = genruntime.ClonePointerToInt(source.Maximum)
+
+	// Minimum
+	capacity.Minimum = genruntime.ClonePointerToInt(source.Minimum)
+
+	// ScaleType
+	capacity.ScaleType = genruntime.ClonePointerToString(source.ScaleType)
 
 	// No error
 	return nil

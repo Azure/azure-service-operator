@@ -19,9 +19,3 @@ spec:
         ports:
         - containerPort: 8443
           name: https
-      - name: manager
-        args:
-        - "--metrics-addr=:8080"
-        - "--health-addr=:8081"
-        - "--enable-leader-election"
-        - "--v=2"

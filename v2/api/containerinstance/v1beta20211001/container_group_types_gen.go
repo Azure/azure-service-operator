@@ -92,6 +92,17 @@ func (group *ContainerGroup) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the ContainerGroup resource
 func (group *ContainerGroup) defaultImpl() { group.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &ContainerGroup{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (group *ContainerGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*ContainerGroup_STATUS); ok {
+		return group.Spec.Initialize_From_ContainerGroup_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type ContainerGroup_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &ContainerGroup{}
 
 // AzureName returns the Azure name of the resource
@@ -937,18 +948,18 @@ func (group *ContainerGroup_Spec) AssignProperties_From_ContainerGroup_Spec(sour
 
 	// SubnetIds
 	if source.SubnetIds != nil {
-		subnetIDList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
-		for subnetIDIndex, subnetIDItem := range source.SubnetIds {
+		subnetIdList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
+		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
 			// Shadow the loop variable to avoid aliasing
-			subnetIDItem := subnetIDItem
-			var subnetID ContainerGroupSubnetId
-			err := subnetID.AssignProperties_From_ContainerGroupSubnetId(&subnetIDItem)
+			subnetIdItem := subnetIdItem
+			var subnetId ContainerGroupSubnetId
+			err := subnetId.AssignProperties_From_ContainerGroupSubnetId(&subnetIdItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupSubnetId() to populate field SubnetIds")
 			}
-			subnetIDList[subnetIDIndex] = subnetID
+			subnetIdList[subnetIdIndex] = subnetId
 		}
-		group.SubnetIds = subnetIDList
+		group.SubnetIds = subnetIdList
 	} else {
 		group.SubnetIds = nil
 	}
@@ -1143,18 +1154,18 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 
 	// SubnetIds
 	if group.SubnetIds != nil {
-		subnetIDList := make([]v20211001s.ContainerGroupSubnetId, len(group.SubnetIds))
-		for subnetIDIndex, subnetIDItem := range group.SubnetIds {
+		subnetIdList := make([]v20211001s.ContainerGroupSubnetId, len(group.SubnetIds))
+		for subnetIdIndex, subnetIdItem := range group.SubnetIds {
 			// Shadow the loop variable to avoid aliasing
-			subnetIDItem := subnetIDItem
-			var subnetID v20211001s.ContainerGroupSubnetId
-			err := subnetIDItem.AssignProperties_To_ContainerGroupSubnetId(&subnetID)
+			subnetIdItem := subnetIdItem
+			var subnetId v20211001s.ContainerGroupSubnetId
+			err := subnetIdItem.AssignProperties_To_ContainerGroupSubnetId(&subnetId)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupSubnetId() to populate field SubnetIds")
 			}
-			subnetIDList[subnetIDIndex] = subnetID
+			subnetIdList[subnetIdIndex] = subnetId
 		}
-		destination.SubnetIds = subnetIDList
+		destination.SubnetIds = subnetIdList
 	} else {
 		destination.SubnetIds = nil
 	}
@@ -1189,6 +1200,196 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ContainerGroup_STATUS populates our ContainerGroup_Spec from the provided source ContainerGroup_STATUS
+func (group *ContainerGroup_Spec) Initialize_From_ContainerGroup_STATUS(source *ContainerGroup_STATUS) error {
+
+	// Containers
+	if source.Containers != nil {
+		containerList := make([]Container, len(source.Containers))
+		for containerIndex, containerItem := range source.Containers {
+			// Shadow the loop variable to avoid aliasing
+			containerItem := containerItem
+			var container Container
+			err := container.Initialize_From_Container_STATUS(&containerItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Container_STATUS() to populate field Containers")
+			}
+			containerList[containerIndex] = container
+		}
+		group.Containers = containerList
+	} else {
+		group.Containers = nil
+	}
+
+	// Diagnostics
+	if source.Diagnostics != nil {
+		var diagnostic ContainerGroupDiagnostics
+		err := diagnostic.Initialize_From_ContainerGroupDiagnostics_STATUS(source.Diagnostics)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ContainerGroupDiagnostics_STATUS() to populate field Diagnostics")
+		}
+		group.Diagnostics = &diagnostic
+	} else {
+		group.Diagnostics = nil
+	}
+
+	// DnsConfig
+	if source.DnsConfig != nil {
+		var dnsConfig DnsConfiguration
+		err := dnsConfig.Initialize_From_DnsConfiguration_STATUS(source.DnsConfig)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_DnsConfiguration_STATUS() to populate field DnsConfig")
+		}
+		group.DnsConfig = &dnsConfig
+	} else {
+		group.DnsConfig = nil
+	}
+
+	// EncryptionProperties
+	if source.EncryptionProperties != nil {
+		var encryptionProperty EncryptionProperties
+		err := encryptionProperty.Initialize_From_EncryptionProperties_STATUS(source.EncryptionProperties)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_EncryptionProperties_STATUS() to populate field EncryptionProperties")
+		}
+		group.EncryptionProperties = &encryptionProperty
+	} else {
+		group.EncryptionProperties = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity ContainerGroupIdentity
+		err := identity.Initialize_From_ContainerGroupIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ContainerGroupIdentity_STATUS() to populate field Identity")
+		}
+		group.Identity = &identity
+	} else {
+		group.Identity = nil
+	}
+
+	// ImageRegistryCredentials
+	if source.ImageRegistryCredentials != nil {
+		imageRegistryCredentialList := make([]ImageRegistryCredential, len(source.ImageRegistryCredentials))
+		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range source.ImageRegistryCredentials {
+			// Shadow the loop variable to avoid aliasing
+			imageRegistryCredentialItem := imageRegistryCredentialItem
+			var imageRegistryCredential ImageRegistryCredential
+			err := imageRegistryCredential.Initialize_From_ImageRegistryCredential_STATUS(&imageRegistryCredentialItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_ImageRegistryCredential_STATUS() to populate field ImageRegistryCredentials")
+			}
+			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
+		}
+		group.ImageRegistryCredentials = imageRegistryCredentialList
+	} else {
+		group.ImageRegistryCredentials = nil
+	}
+
+	// InitContainers
+	if source.InitContainers != nil {
+		initContainerList := make([]InitContainerDefinition, len(source.InitContainers))
+		for initContainerIndex, initContainerItem := range source.InitContainers {
+			// Shadow the loop variable to avoid aliasing
+			initContainerItem := initContainerItem
+			var initContainer InitContainerDefinition
+			err := initContainer.Initialize_From_InitContainerDefinition_STATUS(&initContainerItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_InitContainerDefinition_STATUS() to populate field InitContainers")
+			}
+			initContainerList[initContainerIndex] = initContainer
+		}
+		group.InitContainers = initContainerList
+	} else {
+		group.InitContainers = nil
+	}
+
+	// IpAddress
+	if source.IpAddress != nil {
+		var ipAddress IpAddress
+		err := ipAddress.Initialize_From_IpAddress_STATUS(source.IpAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_IpAddress_STATUS() to populate field IpAddress")
+		}
+		group.IpAddress = &ipAddress
+	} else {
+		group.IpAddress = nil
+	}
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OsType
+	if source.OsType != nil {
+		osType := ContainerGroup_Properties_OsType_Spec(*source.OsType)
+		group.OsType = &osType
+	} else {
+		group.OsType = nil
+	}
+
+	// RestartPolicy
+	if source.RestartPolicy != nil {
+		restartPolicy := ContainerGroup_Properties_RestartPolicy_Spec(*source.RestartPolicy)
+		group.RestartPolicy = &restartPolicy
+	} else {
+		group.RestartPolicy = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		sku := ContainerGroupSku(*source.Sku)
+		group.Sku = &sku
+	} else {
+		group.Sku = nil
+	}
+
+	// SubnetIds
+	if source.SubnetIds != nil {
+		subnetIdList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
+		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
+			// Shadow the loop variable to avoid aliasing
+			subnetIdItem := subnetIdItem
+			var subnetId ContainerGroupSubnetId
+			err := subnetId.Initialize_From_ContainerGroupSubnetId_STATUS(&subnetIdItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_ContainerGroupSubnetId_STATUS() to populate field SubnetIds")
+			}
+			subnetIdList[subnetIdIndex] = subnetId
+		}
+		group.SubnetIds = subnetIdList
+	} else {
+		group.SubnetIds = nil
+	}
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Volumes
+	if source.Volumes != nil {
+		volumeList := make([]Volume, len(source.Volumes))
+		for volumeIndex, volumeItem := range source.Volumes {
+			// Shadow the loop variable to avoid aliasing
+			volumeItem := volumeItem
+			var volume Volume
+			err := volume.Initialize_From_Volume_STATUS(&volumeItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Volume_STATUS() to populate field Volumes")
+			}
+			volumeList[volumeIndex] = volume
+		}
+		group.Volumes = volumeList
+	} else {
+		group.Volumes = nil
+	}
+
+	// Zones
+	group.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1733,18 +1934,18 @@ func (group *ContainerGroup_STATUS) AssignProperties_From_ContainerGroup_STATUS(
 
 	// SubnetIds
 	if source.SubnetIds != nil {
-		subnetIDList := make([]ContainerGroupSubnetId_STATUS, len(source.SubnetIds))
-		for subnetIDIndex, subnetIDItem := range source.SubnetIds {
+		subnetIdList := make([]ContainerGroupSubnetId_STATUS, len(source.SubnetIds))
+		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
 			// Shadow the loop variable to avoid aliasing
-			subnetIDItem := subnetIDItem
-			var subnetID ContainerGroupSubnetId_STATUS
-			err := subnetID.AssignProperties_From_ContainerGroupSubnetId_STATUS(&subnetIDItem)
+			subnetIdItem := subnetIdItem
+			var subnetId ContainerGroupSubnetId_STATUS
+			err := subnetId.AssignProperties_From_ContainerGroupSubnetId_STATUS(&subnetIdItem)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_ContainerGroupSubnetId_STATUS() to populate field SubnetIds")
 			}
-			subnetIDList[subnetIDIndex] = subnetID
+			subnetIdList[subnetIdIndex] = subnetId
 		}
-		group.SubnetIds = subnetIDList
+		group.SubnetIds = subnetIdList
 	} else {
 		group.SubnetIds = nil
 	}
@@ -1952,18 +2153,18 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 
 	// SubnetIds
 	if group.SubnetIds != nil {
-		subnetIDList := make([]v20211001s.ContainerGroupSubnetId_STATUS, len(group.SubnetIds))
-		for subnetIDIndex, subnetIDItem := range group.SubnetIds {
+		subnetIdList := make([]v20211001s.ContainerGroupSubnetId_STATUS, len(group.SubnetIds))
+		for subnetIdIndex, subnetIdItem := range group.SubnetIds {
 			// Shadow the loop variable to avoid aliasing
-			subnetIDItem := subnetIDItem
-			var subnetID v20211001s.ContainerGroupSubnetId_STATUS
-			err := subnetIDItem.AssignProperties_To_ContainerGroupSubnetId_STATUS(&subnetID)
+			subnetIdItem := subnetIdItem
+			var subnetId v20211001s.ContainerGroupSubnetId_STATUS
+			err := subnetIdItem.AssignProperties_To_ContainerGroupSubnetId_STATUS(&subnetId)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_ContainerGroupSubnetId_STATUS() to populate field SubnetIds")
 			}
-			subnetIDList[subnetIDIndex] = subnetID
+			subnetIdList[subnetIdIndex] = subnetId
 		}
-		destination.SubnetIds = subnetIDList
+		destination.SubnetIds = subnetIdList
 	} else {
 		destination.SubnetIds = nil
 	}
@@ -2455,6 +2656,112 @@ func (container *Container) AssignProperties_To_Container(destination *v20211001
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Container_STATUS populates our Container from the provided source Container_STATUS
+func (container *Container) Initialize_From_Container_STATUS(source *Container_STATUS) error {
+
+	// Command
+	container.Command = genruntime.CloneSliceOfString(source.Command)
+
+	// EnvironmentVariables
+	if source.EnvironmentVariables != nil {
+		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
+		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
+			// Shadow the loop variable to avoid aliasing
+			environmentVariableItem := environmentVariableItem
+			var environmentVariable EnvironmentVariable
+			err := environmentVariable.Initialize_From_EnvironmentVariable_STATUS(&environmentVariableItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_EnvironmentVariable_STATUS() to populate field EnvironmentVariables")
+			}
+			environmentVariableList[environmentVariableIndex] = environmentVariable
+		}
+		container.EnvironmentVariables = environmentVariableList
+	} else {
+		container.EnvironmentVariables = nil
+	}
+
+	// Image
+	container.Image = genruntime.ClonePointerToString(source.Image)
+
+	// LivenessProbe
+	if source.LivenessProbe != nil {
+		var livenessProbe ContainerProbe
+		err := livenessProbe.Initialize_From_ContainerProbe_STATUS(source.LivenessProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ContainerProbe_STATUS() to populate field LivenessProbe")
+		}
+		container.LivenessProbe = &livenessProbe
+	} else {
+		container.LivenessProbe = nil
+	}
+
+	// Name
+	container.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Ports
+	if source.Ports != nil {
+		portList := make([]ContainerPort, len(source.Ports))
+		for portIndex, portItem := range source.Ports {
+			// Shadow the loop variable to avoid aliasing
+			portItem := portItem
+			var port ContainerPort
+			err := port.Initialize_From_ContainerPort_STATUS(&portItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_ContainerPort_STATUS() to populate field Ports")
+			}
+			portList[portIndex] = port
+		}
+		container.Ports = portList
+	} else {
+		container.Ports = nil
+	}
+
+	// ReadinessProbe
+	if source.ReadinessProbe != nil {
+		var readinessProbe ContainerProbe
+		err := readinessProbe.Initialize_From_ContainerProbe_STATUS(source.ReadinessProbe)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ContainerProbe_STATUS() to populate field ReadinessProbe")
+		}
+		container.ReadinessProbe = &readinessProbe
+	} else {
+		container.ReadinessProbe = nil
+	}
+
+	// Resources
+	if source.Resources != nil {
+		var resource ResourceRequirements
+		err := resource.Initialize_From_ResourceRequirements_STATUS(source.Resources)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ResourceRequirements_STATUS() to populate field Resources")
+		}
+		container.Resources = &resource
+	} else {
+		container.Resources = nil
+	}
+
+	// VolumeMounts
+	if source.VolumeMounts != nil {
+		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
+		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
+			// Shadow the loop variable to avoid aliasing
+			volumeMountItem := volumeMountItem
+			var volumeMount VolumeMount
+			err := volumeMount.Initialize_From_VolumeMount_STATUS(&volumeMountItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_VolumeMount_STATUS() to populate field VolumeMounts")
+			}
+			volumeMountList[volumeMountIndex] = volumeMount
+		}
+		container.VolumeMounts = volumeMountList
+	} else {
+		container.VolumeMounts = nil
 	}
 
 	// No error
@@ -3115,6 +3422,25 @@ func (diagnostics *ContainerGroupDiagnostics) AssignProperties_To_ContainerGroup
 	return nil
 }
 
+// Initialize_From_ContainerGroupDiagnostics_STATUS populates our ContainerGroupDiagnostics from the provided source ContainerGroupDiagnostics_STATUS
+func (diagnostics *ContainerGroupDiagnostics) Initialize_From_ContainerGroupDiagnostics_STATUS(source *ContainerGroupDiagnostics_STATUS) error {
+
+	// LogAnalytics
+	if source.LogAnalytics != nil {
+		var logAnalytic LogAnalytics
+		err := logAnalytic.Initialize_From_LogAnalytics_STATUS(source.LogAnalytics)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_LogAnalytics_STATUS() to populate field LogAnalytics")
+		}
+		diagnostics.LogAnalytics = &logAnalytic
+	} else {
+		diagnostics.LogAnalytics = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Container group diagnostic information.
 type ContainerGroupDiagnostics_STATUS struct {
 	// LogAnalytics: Container group log analytics information.
@@ -3277,6 +3603,21 @@ func (identity *ContainerGroupIdentity) AssignProperties_To_ContainerGroupIdenti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ContainerGroupIdentity_STATUS populates our ContainerGroupIdentity from the provided source ContainerGroupIdentity_STATUS
+func (identity *ContainerGroupIdentity) Initialize_From_ContainerGroupIdentity_STATUS(source *ContainerGroupIdentity_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := ContainerGroupIdentity_Type(*source.Type)
+		identity.Type = &typeVar
+	} else {
+		identity.Type = nil
 	}
 
 	// No error
@@ -3561,6 +3902,24 @@ func (subnetId *ContainerGroupSubnetId) AssignProperties_To_ContainerGroupSubnet
 	return nil
 }
 
+// Initialize_From_ContainerGroupSubnetId_STATUS populates our ContainerGroupSubnetId from the provided source ContainerGroupSubnetId_STATUS
+func (subnetId *ContainerGroupSubnetId) Initialize_From_ContainerGroupSubnetId_STATUS(source *ContainerGroupSubnetId_STATUS) error {
+
+	// Name
+	subnetId.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		subnetId.Reference = &reference
+	} else {
+		subnetId.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Container group subnet information.
 type ContainerGroupSubnetId_STATUS struct {
 	// Id: Resource ID of virtual network and subnet.
@@ -3745,6 +4104,22 @@ func (configuration *DnsConfiguration) AssignProperties_To_DnsConfiguration(dest
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_DnsConfiguration_STATUS populates our DnsConfiguration from the provided source DnsConfiguration_STATUS
+func (configuration *DnsConfiguration) Initialize_From_DnsConfiguration_STATUS(source *DnsConfiguration_STATUS) error {
+
+	// NameServers
+	configuration.NameServers = genruntime.CloneSliceOfString(source.NameServers)
+
+	// Options
+	configuration.Options = genruntime.ClonePointerToString(source.Options)
+
+	// SearchDomains
+	configuration.SearchDomains = genruntime.ClonePointerToString(source.SearchDomains)
 
 	// No error
 	return nil
@@ -3952,6 +4327,22 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_EncryptionProperties_STATUS populates our EncryptionProperties from the provided source EncryptionProperties_STATUS
+func (properties *EncryptionProperties) Initialize_From_EncryptionProperties_STATUS(source *EncryptionProperties_STATUS) error {
+
+	// KeyName
+	properties.KeyName = genruntime.ClonePointerToString(source.KeyName)
+
+	// KeyVersion
+	properties.KeyVersion = genruntime.ClonePointerToString(source.KeyVersion)
+
+	// VaultBaseUrl
+	properties.VaultBaseUrl = genruntime.ClonePointerToString(source.VaultBaseUrl)
 
 	// No error
 	return nil
@@ -4210,6 +4601,25 @@ func (credential *ImageRegistryCredential) AssignProperties_To_ImageRegistryCred
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ImageRegistryCredential_STATUS populates our ImageRegistryCredential from the provided source ImageRegistryCredential_STATUS
+func (credential *ImageRegistryCredential) Initialize_From_ImageRegistryCredential_STATUS(source *ImageRegistryCredential_STATUS) error {
+
+	// Identity
+	credential.Identity = genruntime.ClonePointerToString(source.Identity)
+
+	// IdentityUrl
+	credential.IdentityUrl = genruntime.ClonePointerToString(source.IdentityUrl)
+
+	// Server
+	credential.Server = genruntime.ClonePointerToString(source.Server)
+
+	// Username
+	credential.Username = genruntime.ClonePointerToString(source.Username)
 
 	// No error
 	return nil
@@ -4556,6 +4966,58 @@ func (definition *InitContainerDefinition) AssignProperties_To_InitContainerDefi
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_InitContainerDefinition_STATUS populates our InitContainerDefinition from the provided source InitContainerDefinition_STATUS
+func (definition *InitContainerDefinition) Initialize_From_InitContainerDefinition_STATUS(source *InitContainerDefinition_STATUS) error {
+
+	// Command
+	definition.Command = genruntime.CloneSliceOfString(source.Command)
+
+	// EnvironmentVariables
+	if source.EnvironmentVariables != nil {
+		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
+		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
+			// Shadow the loop variable to avoid aliasing
+			environmentVariableItem := environmentVariableItem
+			var environmentVariable EnvironmentVariable
+			err := environmentVariable.Initialize_From_EnvironmentVariable_STATUS(&environmentVariableItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_EnvironmentVariable_STATUS() to populate field EnvironmentVariables")
+			}
+			environmentVariableList[environmentVariableIndex] = environmentVariable
+		}
+		definition.EnvironmentVariables = environmentVariableList
+	} else {
+		definition.EnvironmentVariables = nil
+	}
+
+	// Image
+	definition.Image = genruntime.ClonePointerToString(source.Image)
+
+	// Name
+	definition.Name = genruntime.ClonePointerToString(source.Name)
+
+	// VolumeMounts
+	if source.VolumeMounts != nil {
+		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
+		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
+			// Shadow the loop variable to avoid aliasing
+			volumeMountItem := volumeMountItem
+			var volumeMount VolumeMount
+			err := volumeMount.Initialize_From_VolumeMount_STATUS(&volumeMountItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_VolumeMount_STATUS() to populate field VolumeMounts")
+			}
+			volumeMountList[volumeMountIndex] = volumeMount
+		}
+		definition.VolumeMounts = volumeMountList
+	} else {
+		definition.VolumeMounts = nil
 	}
 
 	// No error
@@ -5024,6 +5486,53 @@ func (address *IpAddress) AssignProperties_To_IpAddress(destination *v20211001s.
 	return nil
 }
 
+// Initialize_From_IpAddress_STATUS populates our IpAddress from the provided source IpAddress_STATUS
+func (address *IpAddress) Initialize_From_IpAddress_STATUS(source *IpAddress_STATUS) error {
+
+	// AutoGeneratedDomainNameLabelScope
+	if source.AutoGeneratedDomainNameLabelScope != nil {
+		autoGeneratedDomainNameLabelScope := IpAddress_AutoGeneratedDomainNameLabelScope(*source.AutoGeneratedDomainNameLabelScope)
+		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
+	} else {
+		address.AutoGeneratedDomainNameLabelScope = nil
+	}
+
+	// DnsNameLabel
+	address.DnsNameLabel = genruntime.ClonePointerToString(source.DnsNameLabel)
+
+	// Ip
+	address.Ip = genruntime.ClonePointerToString(source.Ip)
+
+	// Ports
+	if source.Ports != nil {
+		portList := make([]Port, len(source.Ports))
+		for portIndex, portItem := range source.Ports {
+			// Shadow the loop variable to avoid aliasing
+			portItem := portItem
+			var port Port
+			err := port.Initialize_From_Port_STATUS(&portItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_Port_STATUS() to populate field Ports")
+			}
+			portList[portIndex] = port
+		}
+		address.Ports = portList
+	} else {
+		address.Ports = nil
+	}
+
+	// Type
+	if source.Type != nil {
+		typeVar := IpAddress_Type(*source.Type)
+		address.Type = &typeVar
+	} else {
+		address.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
 // IP address for the container group.
 type IpAddress_STATUS struct {
 	// AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
@@ -5459,6 +5968,56 @@ func (volume *Volume) AssignProperties_To_Volume(destination *v20211001s.Volume)
 	return nil
 }
 
+// Initialize_From_Volume_STATUS populates our Volume from the provided source Volume_STATUS
+func (volume *Volume) Initialize_From_Volume_STATUS(source *Volume_STATUS) error {
+
+	// AzureFile
+	if source.AzureFile != nil {
+		var azureFile AzureFileVolume
+		err := azureFile.Initialize_From_AzureFileVolume_STATUS(source.AzureFile)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_AzureFileVolume_STATUS() to populate field AzureFile")
+		}
+		volume.AzureFile = &azureFile
+	} else {
+		volume.AzureFile = nil
+	}
+
+	// EmptyDir
+	if source.EmptyDir != nil {
+		emptyDirMap := make(map[string]v1.JSON, len(source.EmptyDir))
+		for emptyDirKey, emptyDirValue := range source.EmptyDir {
+			// Shadow the loop variable to avoid aliasing
+			emptyDirValue := emptyDirValue
+			emptyDirMap[emptyDirKey] = *emptyDirValue.DeepCopy()
+		}
+		volume.EmptyDir = emptyDirMap
+	} else {
+		volume.EmptyDir = nil
+	}
+
+	// GitRepo
+	if source.GitRepo != nil {
+		var gitRepo GitRepoVolume
+		err := gitRepo.Initialize_From_GitRepoVolume_STATUS(source.GitRepo)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_GitRepoVolume_STATUS() to populate field GitRepo")
+		}
+		volume.GitRepo = &gitRepo
+	} else {
+		volume.GitRepo = nil
+	}
+
+	// Name
+	volume.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Secret
+	volume.Secret = genruntime.CloneMapOfStringToString(source.Secret)
+
+	// No error
+	return nil
+}
+
 // The properties of the volume.
 type Volume_STATUS struct {
 	// AzureFile: The Azure File volume.
@@ -5797,6 +6356,30 @@ func (volume *AzureFileVolume) AssignProperties_To_AzureFileVolume(destination *
 	return nil
 }
 
+// Initialize_From_AzureFileVolume_STATUS populates our AzureFileVolume from the provided source AzureFileVolume_STATUS
+func (volume *AzureFileVolume) Initialize_From_AzureFileVolume_STATUS(source *AzureFileVolume_STATUS) error {
+
+	// ReadOnly
+	if source.ReadOnly != nil {
+		readOnly := *source.ReadOnly
+		volume.ReadOnly = &readOnly
+	} else {
+		volume.ReadOnly = nil
+	}
+
+	// ShareName
+	volume.ShareName = genruntime.ClonePointerToString(source.ShareName)
+
+	// StorageAccountKey
+	volume.StorageAccountKey = genruntime.ClonePointerToString(source.StorageAccountKey)
+
+	// StorageAccountName
+	volume.StorageAccountName = genruntime.ClonePointerToString(source.StorageAccountName)
+
+	// No error
+	return nil
+}
+
 // The properties of the Azure File volume. Azure File shares are mounted as volumes.
 type AzureFileVolume_STATUS struct {
 	// ReadOnly: The flag indicating whether the Azure File shared mounted as a volume is read-only.
@@ -6011,6 +6594,24 @@ func (port *ContainerPort) AssignProperties_To_ContainerPort(destination *v20211
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ContainerPort_STATUS populates our ContainerPort from the provided source ContainerPort_STATUS
+func (port *ContainerPort) Initialize_From_ContainerPort_STATUS(source *ContainerPort_STATUS) error {
+
+	// Port
+	port.Port = genruntime.ClonePointerToInt(source.Port)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := ContainerPort_Protocol(*source.Protocol)
+		port.Protocol = &protocol
+	} else {
+		port.Protocol = nil
 	}
 
 	// No error
@@ -6350,6 +6951,52 @@ func (probe *ContainerProbe) AssignProperties_To_ContainerProbe(destination *v20
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ContainerProbe_STATUS populates our ContainerProbe from the provided source ContainerProbe_STATUS
+func (probe *ContainerProbe) Initialize_From_ContainerProbe_STATUS(source *ContainerProbe_STATUS) error {
+
+	// Exec
+	if source.Exec != nil {
+		var exec ContainerExec
+		err := exec.Initialize_From_ContainerExec_STATUS(source.Exec)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ContainerExec_STATUS() to populate field Exec")
+		}
+		probe.Exec = &exec
+	} else {
+		probe.Exec = nil
+	}
+
+	// FailureThreshold
+	probe.FailureThreshold = genruntime.ClonePointerToInt(source.FailureThreshold)
+
+	// HttpGet
+	if source.HttpGet != nil {
+		var httpGet ContainerHttpGet
+		err := httpGet.Initialize_From_ContainerHttpGet_STATUS(source.HttpGet)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ContainerHttpGet_STATUS() to populate field HttpGet")
+		}
+		probe.HttpGet = &httpGet
+	} else {
+		probe.HttpGet = nil
+	}
+
+	// InitialDelaySeconds
+	probe.InitialDelaySeconds = genruntime.ClonePointerToInt(source.InitialDelaySeconds)
+
+	// PeriodSeconds
+	probe.PeriodSeconds = genruntime.ClonePointerToInt(source.PeriodSeconds)
+
+	// SuccessThreshold
+	probe.SuccessThreshold = genruntime.ClonePointerToInt(source.SuccessThreshold)
+
+	// TimeoutSeconds
+	probe.TimeoutSeconds = genruntime.ClonePointerToInt(source.TimeoutSeconds)
 
 	// No error
 	return nil
@@ -6860,6 +7507,19 @@ func (variable *EnvironmentVariable) AssignProperties_To_EnvironmentVariable(des
 	return nil
 }
 
+// Initialize_From_EnvironmentVariable_STATUS populates our EnvironmentVariable from the provided source EnvironmentVariable_STATUS
+func (variable *EnvironmentVariable) Initialize_From_EnvironmentVariable_STATUS(source *EnvironmentVariable_STATUS) error {
+
+	// Name
+	variable.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Value
+	variable.Value = genruntime.ClonePointerToString(source.Value)
+
+	// No error
+	return nil
+}
+
 // The environment variable to set within the container instance.
 type EnvironmentVariable_STATUS struct {
 	// Name: The name of the environment variable.
@@ -7182,6 +7842,22 @@ func (volume *GitRepoVolume) AssignProperties_To_GitRepoVolume(destination *v202
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_GitRepoVolume_STATUS populates our GitRepoVolume from the provided source GitRepoVolume_STATUS
+func (volume *GitRepoVolume) Initialize_From_GitRepoVolume_STATUS(source *GitRepoVolume_STATUS) error {
+
+	// Directory
+	volume.Directory = genruntime.ClonePointerToString(source.Directory)
+
+	// Repository
+	volume.Repository = genruntime.ClonePointerToString(source.Repository)
+
+	// Revision
+	volume.Revision = genruntime.ClonePointerToString(source.Revision)
 
 	// No error
 	return nil
@@ -7683,6 +8359,27 @@ func (analytics *LogAnalytics) AssignProperties_To_LogAnalytics(destination *v20
 	return nil
 }
 
+// Initialize_From_LogAnalytics_STATUS populates our LogAnalytics from the provided source LogAnalytics_STATUS
+func (analytics *LogAnalytics) Initialize_From_LogAnalytics_STATUS(source *LogAnalytics_STATUS) error {
+
+	// LogType
+	if source.LogType != nil {
+		logType := LogAnalytics_LogType(*source.LogType)
+		analytics.LogType = &logType
+	} else {
+		analytics.LogType = nil
+	}
+
+	// Metadata
+	analytics.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+
+	// WorkspaceId
+	analytics.WorkspaceId = genruntime.ClonePointerToString(source.WorkspaceId)
+
+	// No error
+	return nil
+}
+
 // Container group log analytics information.
 type LogAnalytics_STATUS struct {
 	// LogType: The log type to be used.
@@ -7884,6 +8581,24 @@ func (port *Port) AssignProperties_To_Port(destination *v20211001s.Port) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Port_STATUS populates our Port from the provided source Port_STATUS
+func (port *Port) Initialize_From_Port_STATUS(source *Port_STATUS) error {
+
+	// Port
+	port.Port = genruntime.ClonePointerToInt(source.Port)
+
+	// Protocol
+	if source.Protocol != nil {
+		protocol := Port_Protocol(*source.Protocol)
+		port.Protocol = &protocol
+	} else {
+		port.Protocol = nil
 	}
 
 	// No error
@@ -8118,6 +8833,37 @@ func (requirements *ResourceRequirements) AssignProperties_To_ResourceRequiremen
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ResourceRequirements_STATUS populates our ResourceRequirements from the provided source ResourceRequirements_STATUS
+func (requirements *ResourceRequirements) Initialize_From_ResourceRequirements_STATUS(source *ResourceRequirements_STATUS) error {
+
+	// Limits
+	if source.Limits != nil {
+		var limit ResourceLimits
+		err := limit.Initialize_From_ResourceLimits_STATUS(source.Limits)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ResourceLimits_STATUS() to populate field Limits")
+		}
+		requirements.Limits = &limit
+	} else {
+		requirements.Limits = nil
+	}
+
+	// Requests
+	if source.Requests != nil {
+		var request ResourceRequests
+		err := request.Initialize_From_ResourceRequests_STATUS(source.Requests)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ResourceRequests_STATUS() to populate field Requests")
+		}
+		requirements.Requests = &request
+	} else {
+		requirements.Requests = nil
 	}
 
 	// No error
@@ -8448,6 +9194,27 @@ func (mount *VolumeMount) AssignProperties_To_VolumeMount(destination *v20211001
 	return nil
 }
 
+// Initialize_From_VolumeMount_STATUS populates our VolumeMount from the provided source VolumeMount_STATUS
+func (mount *VolumeMount) Initialize_From_VolumeMount_STATUS(source *VolumeMount_STATUS) error {
+
+	// MountPath
+	mount.MountPath = genruntime.ClonePointerToString(source.MountPath)
+
+	// Name
+	mount.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ReadOnly
+	if source.ReadOnly != nil {
+		readOnly := *source.ReadOnly
+		mount.ReadOnly = &readOnly
+	} else {
+		mount.ReadOnly = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The properties of the volume mount.
 type VolumeMount_STATUS struct {
 	// MountPath: The path within the container where the volume should be mounted. Must not contain colon (:).
@@ -8614,6 +9381,16 @@ func (exec *ContainerExec) AssignProperties_To_ContainerExec(destination *v20211
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ContainerExec_STATUS populates our ContainerExec from the provided source ContainerExec_STATUS
+func (exec *ContainerExec) Initialize_From_ContainerExec_STATUS(source *ContainerExec_STATUS) error {
+
+	// Command
+	exec.Command = genruntime.CloneSliceOfString(source.Command)
 
 	// No error
 	return nil
@@ -8856,6 +9633,45 @@ func (httpGet *ContainerHttpGet) AssignProperties_To_ContainerHttpGet(destinatio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ContainerHttpGet_STATUS populates our ContainerHttpGet from the provided source ContainerHttpGet_STATUS
+func (httpGet *ContainerHttpGet) Initialize_From_ContainerHttpGet_STATUS(source *ContainerHttpGet_STATUS) error {
+
+	// HttpHeaders
+	if source.HttpHeaders != nil {
+		httpHeaderList := make([]HttpHeader, len(source.HttpHeaders))
+		for httpHeaderIndex, httpHeaderItem := range source.HttpHeaders {
+			// Shadow the loop variable to avoid aliasing
+			httpHeaderItem := httpHeaderItem
+			var httpHeader HttpHeader
+			err := httpHeader.Initialize_From_HttpHeader_STATUS(&httpHeaderItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_HttpHeader_STATUS() to populate field HttpHeaders")
+			}
+			httpHeaderList[httpHeaderIndex] = httpHeader
+		}
+		httpGet.HttpHeaders = httpHeaderList
+	} else {
+		httpGet.HttpHeaders = nil
+	}
+
+	// Path
+	httpGet.Path = genruntime.ClonePointerToString(source.Path)
+
+	// Port
+	httpGet.Port = genruntime.ClonePointerToInt(source.Port)
+
+	// Scheme
+	if source.Scheme != nil {
+		scheme := ContainerHttpGet_Scheme(*source.Scheme)
+		httpGet.Scheme = &scheme
+	} else {
+		httpGet.Scheme = nil
 	}
 
 	// No error
@@ -9337,6 +10153,41 @@ func (limits *ResourceLimits) AssignProperties_To_ResourceLimits(destination *v2
 	return nil
 }
 
+// Initialize_From_ResourceLimits_STATUS populates our ResourceLimits from the provided source ResourceLimits_STATUS
+func (limits *ResourceLimits) Initialize_From_ResourceLimits_STATUS(source *ResourceLimits_STATUS) error {
+
+	// Cpu
+	if source.Cpu != nil {
+		cpu := *source.Cpu
+		limits.Cpu = &cpu
+	} else {
+		limits.Cpu = nil
+	}
+
+	// Gpu
+	if source.Gpu != nil {
+		var gpu GpuResource
+		err := gpu.Initialize_From_GpuResource_STATUS(source.Gpu)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_GpuResource_STATUS() to populate field Gpu")
+		}
+		limits.Gpu = &gpu
+	} else {
+		limits.Gpu = nil
+	}
+
+	// MemoryInGB
+	if source.MemoryInGB != nil {
+		memoryInGB := *source.MemoryInGB
+		limits.MemoryInGB = &memoryInGB
+	} else {
+		limits.MemoryInGB = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The resource limits.
 type ResourceLimits_STATUS struct {
 	// Cpu: The CPU limit of this container instance.
@@ -9634,6 +10485,41 @@ func (requests *ResourceRequests) AssignProperties_To_ResourceRequests(destinati
 	return nil
 }
 
+// Initialize_From_ResourceRequests_STATUS populates our ResourceRequests from the provided source ResourceRequests_STATUS
+func (requests *ResourceRequests) Initialize_From_ResourceRequests_STATUS(source *ResourceRequests_STATUS) error {
+
+	// Cpu
+	if source.Cpu != nil {
+		cpu := *source.Cpu
+		requests.Cpu = &cpu
+	} else {
+		requests.Cpu = nil
+	}
+
+	// Gpu
+	if source.Gpu != nil {
+		var gpu GpuResource
+		err := gpu.Initialize_From_GpuResource_STATUS(source.Gpu)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_GpuResource_STATUS() to populate field Gpu")
+		}
+		requests.Gpu = &gpu
+	} else {
+		requests.Gpu = nil
+	}
+
+	// MemoryInGB
+	if source.MemoryInGB != nil {
+		memoryInGB := *source.MemoryInGB
+		requests.MemoryInGB = &memoryInGB
+	} else {
+		requests.MemoryInGB = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The resource requests.
 type ResourceRequests_STATUS struct {
 	// Cpu: The CPU request of this container instance.
@@ -9888,6 +10774,24 @@ func (resource *GpuResource) AssignProperties_To_GpuResource(destination *v20211
 	return nil
 }
 
+// Initialize_From_GpuResource_STATUS populates our GpuResource from the provided source GpuResource_STATUS
+func (resource *GpuResource) Initialize_From_GpuResource_STATUS(source *GpuResource_STATUS) error {
+
+	// Count
+	resource.Count = genruntime.ClonePointerToInt(source.Count)
+
+	// Sku
+	if source.Sku != nil {
+		sku := GpuResource_Sku(*source.Sku)
+		resource.Sku = &sku
+	} else {
+		resource.Sku = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The GPU resource.
 type GpuResource_STATUS struct {
 	// Count: The count of the GPU resource.
@@ -10062,6 +10966,19 @@ func (header *HttpHeader) AssignProperties_To_HttpHeader(destination *v20211001s
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_HttpHeader_STATUS populates our HttpHeader from the provided source HttpHeader_STATUS
+func (header *HttpHeader) Initialize_From_HttpHeader_STATUS(source *HttpHeader_STATUS) error {
+
+	// Name
+	header.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Value
+	header.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil

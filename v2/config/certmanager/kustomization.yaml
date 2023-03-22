@@ -1,3 +1,5 @@
+namePrefix: azureserviceoperator-
+
 resources:
 - certificate.yaml
 

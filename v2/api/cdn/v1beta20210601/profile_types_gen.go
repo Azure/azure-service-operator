@@ -91,6 +91,17 @@ func (profile *Profile) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Profile resource
 func (profile *Profile) defaultImpl() { profile.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &Profile{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (profile *Profile) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Profile_STATUS); ok {
+		return profile.Spec.Initialize_From_Profile_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Profile_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &Profile{}
 
 // AzureName returns the Azure name of the resource
@@ -608,6 +619,39 @@ func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *v2021
 	return nil
 }
 
+// Initialize_From_Profile_STATUS populates our Profile_Spec from the provided source Profile_STATUS
+func (profile *Profile_Spec) Initialize_From_Profile_STATUS(source *Profile_STATUS) error {
+
+	// Location
+	profile.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OriginResponseTimeoutSeconds
+	if source.OriginResponseTimeoutSeconds != nil {
+		originResponseTimeoutSecond := *source.OriginResponseTimeoutSeconds
+		profile.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
+	} else {
+		profile.OriginResponseTimeoutSeconds = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.Initialize_From_Sku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
+		}
+		profile.Sku = &sku
+	} else {
+		profile.Sku = nil
+	}
+
+	// Tags
+	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (profile *Profile_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1103,6 +1147,21 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210601s.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
+func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
+
+	// Name
+	if source.Name != nil {
+		name := Sku_Name(*source.Name)
+		sku.Name = &name
+	} else {
+		sku.Name = nil
 	}
 
 	// No error

@@ -91,6 +91,17 @@ func (topic *DomainsTopic) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the DomainsTopic resource
 func (topic *DomainsTopic) defaultImpl() { topic.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &DomainsTopic{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (topic *DomainsTopic) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*Domains_Topic_STATUS); ok {
+		return topic.Spec.Initialize_From_Domains_Topic_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type Domains_Topic_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &DomainsTopic{}
 
 // AzureName returns the Azure name of the resource
@@ -462,6 +473,13 @@ func (topic *Domains_Topic_Spec) AssignProperties_To_Domains_Topic_Spec(destinat
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Domains_Topic_STATUS populates our Domains_Topic_Spec from the provided source Domains_Topic_STATUS
+func (topic *Domains_Topic_Spec) Initialize_From_Domains_Topic_STATUS(source *Domains_Topic_STATUS) error {
 
 	// No error
 	return nil

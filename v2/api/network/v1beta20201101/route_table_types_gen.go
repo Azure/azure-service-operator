@@ -91,6 +91,17 @@ func (table *RouteTable) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the RouteTable resource
 func (table *RouteTable) defaultImpl() { table.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &RouteTable{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (table *RouteTable) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*RouteTable_STATUS); ok {
+		return table.Spec.Initialize_From_RouteTable_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type RouteTable_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &RouteTable{}
 
 // AzureName returns the Azure name of the resource
@@ -545,6 +556,27 @@ func (table *RouteTable_Spec) AssignProperties_To_RouteTable_Spec(destination *v
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_RouteTable_STATUS populates our RouteTable_Spec from the provided source RouteTable_STATUS
+func (table *RouteTable_Spec) Initialize_From_RouteTable_STATUS(source *RouteTable_STATUS) error {
+
+	// DisableBgpRoutePropagation
+	if source.DisableBgpRoutePropagation != nil {
+		disableBgpRoutePropagation := *source.DisableBgpRoutePropagation
+		table.DisableBgpRoutePropagation = &disableBgpRoutePropagation
+	} else {
+		table.DisableBgpRoutePropagation = nil
+	}
+
+	// Location
+	table.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Tags
+	table.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
