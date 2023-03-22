@@ -16,7 +16,7 @@ Azure Service Operator supports four different styles of authentication today. E
 ### Prerequisites
 1. An existing Azure Service Principal.
 
-To use Service Principal authentication via **client secret**, specify an `aso-controller-settings` secret with the `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` keys set.
+To use Service Principal authentication with **client secret**, specify an `aso-controller-settings` secret with the `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` keys set.
 
 For more information about Service Principals, see [creating an Azure Service Principal using the Azure CLI](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication).
 The `AZURE_CLIENT_ID` is sometimes also called the App ID. The `AZURE_CLIENT_SECRET` is the "password" returned by the command in the previously linked documentation.
