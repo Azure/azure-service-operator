@@ -138,8 +138,8 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	tc.DeleteResourcesAndWait(acct, rg)
 }
 
-func newClientSecretCredential(subscriptionID, tenantID, name, namespaceName string) (*v1.Secret, error) {
-	secret := newCredentialSecret(subscriptionID, tenantID, name, namespaceName)
+func newClientSecretCredential(subscriptionID, tenantID, name, namespace string) (*v1.Secret, error) {
+	secret := newCredentialSecret(subscriptionID, tenantID, name, namespace)
 
 	clientSecret := os.Getenv(AzureClientSecretMultitenantVar)
 	if clientSecret == "" {
@@ -157,8 +157,8 @@ func newClientSecretCredential(subscriptionID, tenantID, name, namespaceName str
 	return secret, nil
 }
 
-func newClientCertificateCredential(subscriptionID, tenantID, name, namespaceName string) (*v1.Secret, error) {
-	secret := newCredentialSecret(subscriptionID, tenantID, name, namespaceName)
+func newClientCertificateCredential(subscriptionID, tenantID, name, namespace string) (*v1.Secret, error) {
+	secret := newCredentialSecret(subscriptionID, tenantID, name, namespace)
 
 	clientCert := os.Getenv(AzureClientCertificateMultitenantVar)
 	if clientCert == "" {
@@ -176,7 +176,7 @@ func newClientCertificateCredential(subscriptionID, tenantID, name, namespaceNam
 	return secret, nil
 }
 
-func newCredentialSecret(subscriptionID, tenantID, name, namespaceName string) *v1.Secret {
+func newCredentialSecret(subscriptionID, tenantID, name, namespace string) *v1.Secret {
 	secretData := make(map[string][]byte)
 
 	secretData[config.TenantIDVar] = []byte(tenantID)
@@ -185,7 +185,7 @@ func newCredentialSecret(subscriptionID, tenantID, name, namespaceName string) *
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
-			Namespace: namespaceName,
+			Namespace: namespace,
 		},
 		Data: secretData,
 	}

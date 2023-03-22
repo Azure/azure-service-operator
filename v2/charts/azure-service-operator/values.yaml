@@ -13,10 +13,10 @@ azureClientID: ""
 # This is required when using Service Principal authentication.
 azureClientSecret: ""
 
-#  A PEM or PKCS12 certificate file including the private key for Azure Credential Authentication. The certificate must not be password-protected.
+#  A PEM or PKCS12 certificate string including the private key for Azure Credential Authentication. If certificate is password protected,  use 'azureClientCertificatePassword' for password.
 azureClientCertificate: ""
 
-# Password used to protect the client certificate.
+# Password used to protect the client certificate(Optional).
 azureClientCertificatePassword: ""
 
 # [Deprecated] Managed Identity (aad-pod-identity) Authentication

@@ -183,8 +183,7 @@ func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.
 		certPassword := os.Getenv(config.ClientCertificatePasswordVar)
 		credential, err = identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
 		if err != nil {
-			setupLog.Error(err, "unable to get client certificate credential")
-			os.Exit(1)
+			return nil, errors.Wrapf(err, "unable to get client certificate credential")
 		}
 	} else {
 		credential, err = azidentity.NewDefaultAzureCredential(nil)
