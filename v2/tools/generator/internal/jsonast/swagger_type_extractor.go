@@ -18,6 +18,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/names"
 )
 
 type SwaggerTypeExtractor struct {
@@ -657,7 +658,7 @@ func (extractor *SwaggerTypeExtractor) inferNameFromURLPath(operationPath string
 	}
 
 	// Now singularize last part of name:
-	nameParts[len(nameParts)-1] = astmodel.Singularize(nameParts[len(nameParts)-1], extractor.idFactory)
+	nameParts[len(nameParts)-1] = names.Singularize(nameParts[len(nameParts)-1])
 
 	name := strings.Join(nameParts, "_")
 

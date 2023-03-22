@@ -15,7 +15,7 @@ require (
 	github.com/devigned/tab v0.1.1
 	github.com/go-openapi/jsonpointer v0.19.5
 	github.com/go-openapi/spec v0.20.4
-	github.com/gobuffalo/flect v1.0.0
+	github.com/gobuffalo/flect v1.0.2
 	github.com/google/go-cmp v0.5.9
 	github.com/hbollon/go-edlib v1.6.0
 	github.com/kr/pretty v0.3.0

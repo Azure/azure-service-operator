@@ -99,6 +99,15 @@ func Test_KnownLocalsSet_CreateSingularLocal_ReturnsExpectedResult(t *testing.T)
 	g.Expect(locals.CreateSingularLocal("SubnetIDs")).To(Equal("subnetID"))
 }
 
+func Test_KnownLocalsSet_CreateSingularLocalWithSuffix_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	locals := NewKnownLocalsSet(NewIdentifierFactory())
+
+	g.Expect(locals.CreateSingularLocal("SubnetIds", "Item")).To(Equal("subnetIdItem"))
+	g.Expect(locals.CreateSingularLocal("SubnetIds", "Index")).To(Equal("subnetIdIndex"))
+}
+
 func Test_KnownLocalsSet_CreatePluralLocal_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
