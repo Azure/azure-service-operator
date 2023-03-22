@@ -91,6 +91,17 @@ func (group *PrivateEndpointsPrivateDnsZoneGroup) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the PrivateEndpointsPrivateDnsZoneGroup resource
 func (group *PrivateEndpointsPrivateDnsZoneGroup) defaultImpl() { group.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &PrivateEndpointsPrivateDnsZoneGroup{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (group *PrivateEndpointsPrivateDnsZoneGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*PrivateEndpoints_PrivateDnsZoneGroup_STATUS); ok {
+		return group.Spec.Initialize_From_PrivateEndpoints_PrivateDnsZoneGroup_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type PrivateEndpoints_PrivateDnsZoneGroup_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &PrivateEndpointsPrivateDnsZoneGroup{}
 
 // AzureName returns the Azure name of the resource
@@ -531,6 +542,31 @@ func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) AssignProperties_To_Priv
 	return nil
 }
 
+// Initialize_From_PrivateEndpoints_PrivateDnsZoneGroup_STATUS populates our PrivateEndpoints_PrivateDnsZoneGroup_Spec from the provided source PrivateEndpoints_PrivateDnsZoneGroup_STATUS
+func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) Initialize_From_PrivateEndpoints_PrivateDnsZoneGroup_STATUS(source *PrivateEndpoints_PrivateDnsZoneGroup_STATUS) error {
+
+	// PrivateDnsZoneConfigs
+	if source.PrivateDnsZoneConfigs != nil {
+		privateDnsZoneConfigList := make([]PrivateDnsZoneConfig, len(source.PrivateDnsZoneConfigs))
+		for privateDnsZoneConfigIndex, privateDnsZoneConfigItem := range source.PrivateDnsZoneConfigs {
+			// Shadow the loop variable to avoid aliasing
+			privateDnsZoneConfigItem := privateDnsZoneConfigItem
+			var privateDnsZoneConfig PrivateDnsZoneConfig
+			err := privateDnsZoneConfig.Initialize_From_PrivateDnsZoneConfig_STATUS(&privateDnsZoneConfigItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_PrivateDnsZoneConfig_STATUS() to populate field PrivateDnsZoneConfigs")
+			}
+			privateDnsZoneConfigList[privateDnsZoneConfigIndex] = privateDnsZoneConfig
+		}
+		group.PrivateDnsZoneConfigs = privateDnsZoneConfigList
+	} else {
+		group.PrivateDnsZoneConfigs = nil
+	}
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (group *PrivateEndpoints_PrivateDnsZoneGroup_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -872,6 +908,24 @@ func (config *PrivateDnsZoneConfig) AssignProperties_To_PrivateDnsZoneConfig(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_PrivateDnsZoneConfig_STATUS populates our PrivateDnsZoneConfig from the provided source PrivateDnsZoneConfig_STATUS
+func (config *PrivateDnsZoneConfig) Initialize_From_PrivateDnsZoneConfig_STATUS(source *PrivateDnsZoneConfig_STATUS) error {
+
+	// Name
+	config.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrivateDnsZoneReference
+	if source.PrivateDnsZoneId != nil {
+		privateDnsZoneReference := genruntime.CreateResourceReferenceFromARMID(*source.PrivateDnsZoneId)
+		config.PrivateDnsZoneReference = &privateDnsZoneReference
+	} else {
+		config.PrivateDnsZoneReference = nil
 	}
 
 	// No error

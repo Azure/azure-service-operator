@@ -96,6 +96,17 @@ func (service *PrivateLinkService) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the PrivateLinkService resource
 func (service *PrivateLinkService) defaultImpl() { service.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &PrivateLinkService{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (service *PrivateLinkService) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded); ok {
+		return service.Spec.Initialize_From_PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(s)
+	}
+
+	return fmt.Errorf("expected Status of type PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded but received %T instead", status)
+}
+
 var _ genruntime.KubernetesExporter = &PrivateLinkService{}
 
 // ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
@@ -909,6 +920,102 @@ func (service *PrivateLinkService_Spec) AssignProperties_To_PrivateLinkService_S
 	return nil
 }
 
+// Initialize_From_PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded populates our PrivateLinkService_Spec from the provided source PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded
+func (service *PrivateLinkService_Spec) Initialize_From_PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded(source *PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded) error {
+
+	// AutoApproval
+	if source.AutoApproval != nil {
+		var autoApproval ResourceSet
+		err := autoApproval.Initialize_From_ResourceSet_STATUS(source.AutoApproval)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ResourceSet_STATUS() to populate field AutoApproval")
+		}
+		service.AutoApproval = &autoApproval
+	} else {
+		service.AutoApproval = nil
+	}
+
+	// EnableProxyProtocol
+	if source.EnableProxyProtocol != nil {
+		enableProxyProtocol := *source.EnableProxyProtocol
+		service.EnableProxyProtocol = &enableProxyProtocol
+	} else {
+		service.EnableProxyProtocol = nil
+	}
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		service.ExtendedLocation = &extendedLocation
+	} else {
+		service.ExtendedLocation = nil
+	}
+
+	// Fqdns
+	service.Fqdns = genruntime.CloneSliceOfString(source.Fqdns)
+
+	// IpConfigurations
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]PrivateLinkServiceIpConfiguration, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration PrivateLinkServiceIpConfiguration
+			err := ipConfiguration.Initialize_From_PrivateLinkServiceIpConfiguration_STATUS(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_PrivateLinkServiceIpConfiguration_STATUS() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		service.IpConfigurations = ipConfigurationList
+	} else {
+		service.IpConfigurations = nil
+	}
+
+	// LoadBalancerFrontendIpConfigurations
+	if source.LoadBalancerFrontendIpConfigurations != nil {
+		loadBalancerFrontendIpConfigurationList := make([]FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded, len(source.LoadBalancerFrontendIpConfigurations))
+		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range source.LoadBalancerFrontendIpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerFrontendIpConfigurationItem := loadBalancerFrontendIpConfigurationItem
+			var loadBalancerFrontendIpConfiguration FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
+			err := loadBalancerFrontendIpConfiguration.Initialize_From_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded(&loadBalancerFrontendIpConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded() to populate field LoadBalancerFrontendIpConfigurations")
+			}
+			loadBalancerFrontendIpConfigurationList[loadBalancerFrontendIpConfigurationIndex] = loadBalancerFrontendIpConfiguration
+		}
+		service.LoadBalancerFrontendIpConfigurations = loadBalancerFrontendIpConfigurationList
+	} else {
+		service.LoadBalancerFrontendIpConfigurations = nil
+	}
+
+	// Location
+	service.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Tags
+	service.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Visibility
+	if source.Visibility != nil {
+		var visibility ResourceSet
+		err := visibility.Initialize_From_ResourceSet_STATUS(source.Visibility)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ResourceSet_STATUS() to populate field Visibility")
+		}
+		service.Visibility = &visibility
+	} else {
+		service.Visibility = nil
+	}
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (service *PrivateLinkService_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1617,6 +1724,21 @@ func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) 
 	return nil
 }
 
+// Initialize_From_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded populates our FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded from the provided source FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded
+func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) Initialize_From_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded(source *FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Frontend IP address of the load balancer.
 type FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded struct {
 	// Id: Resource ID.
@@ -2044,6 +2166,55 @@ func (configuration *PrivateLinkServiceIpConfiguration) AssignProperties_To_Priv
 	return nil
 }
 
+// Initialize_From_PrivateLinkServiceIpConfiguration_STATUS populates our PrivateLinkServiceIpConfiguration from the provided source PrivateLinkServiceIpConfiguration_STATUS
+func (configuration *PrivateLinkServiceIpConfiguration) Initialize_From_PrivateLinkServiceIpConfiguration_STATUS(source *PrivateLinkServiceIpConfiguration_STATUS) error {
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configuration.Primary = &primary
+	} else {
+		configuration.Primary = nil
+	}
+
+	// PrivateIPAddress
+	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
+
+	// PrivateIPAddressVersion
+	if source.PrivateIPAddressVersion != nil {
+		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
+		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
+	} else {
+		configuration.PrivateIPAddressVersion = nil
+	}
+
+	// PrivateIPAllocationMethod
+	if source.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	} else {
+		configuration.PrivateIPAllocationMethod = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet Subnet_PrivateLinkService_SubResourceEmbedded
+		err := subnet.Initialize_From_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded() to populate field Subnet")
+		}
+		configuration.Subnet = &subnet
+	} else {
+		configuration.Subnet = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The private link service ip configuration.
 type PrivateLinkServiceIpConfiguration_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
@@ -2444,6 +2615,16 @@ func (resourceSet *ResourceSet) AssignProperties_To_ResourceSet(destination *v20
 	return nil
 }
 
+// Initialize_From_ResourceSet_STATUS populates our ResourceSet from the provided source ResourceSet_STATUS
+func (resourceSet *ResourceSet) Initialize_From_ResourceSet_STATUS(source *ResourceSet_STATUS) error {
+
+	// Subscriptions
+	resourceSet.Subscriptions = genruntime.CloneSliceOfString(source.Subscriptions)
+
+	// No error
+	return nil
+}
+
 // The base resource set for visibility and auto-approval.
 type ResourceSet_STATUS struct {
 	// Subscriptions: The list of subscriptions.
@@ -2658,6 +2839,21 @@ func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) AssignProperties_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded populates our Subnet_PrivateLinkService_SubResourceEmbedded from the provided source Subnet_STATUS_PrivateLinkService_SubResourceEmbedded
+func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) Initialize_From_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded(source *Subnet_STATUS_PrivateLinkService_SubResourceEmbedded) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
 	}
 
 	// No error

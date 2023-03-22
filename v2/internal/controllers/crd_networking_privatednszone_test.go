@@ -44,7 +44,7 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Test_Recordset_CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				PrivateDNSZone_Recordset_TypeCNAME(tc, zone, rg)
+				PrivateDNSZones_CNAME_Record_Test(tc, zone)
 			},
 		},
 	)
@@ -61,9 +61,8 @@ func Test_Networking_PrivateDnsZone_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func PrivateDNSZone_Recordset_TypeCNAME(tc *testcommon.KubePerTestContext, zone *network.PrivateDnsZone, rg *resources.ResourceGroup) {
-
-	record := &network20200601.PrivateDnsZonesRecordsetTypeCNAME{
+func PrivateDNSZones_CNAME_Record_Test(tc *testcommon.KubePerTestContext, zone *network.PrivateDnsZone) {
+	record := &network20200601.PrivateDnsZonesCNAMERecord{
 		ObjectMeta: tc.MakeObjectMetaWithName("record"),
 		Spec: network20200601.PrivateDnsZones_CNAME_Spec{
 			CnameRecord: &network20200601.CnameRecord{Cname: to.StringPtr("asotest.com")},

@@ -91,6 +91,17 @@ func (endpoint *PrivateEndpoint) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the PrivateEndpoint resource
 func (endpoint *PrivateEndpoint) defaultImpl() { endpoint.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &PrivateEndpoint{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (endpoint *PrivateEndpoint) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded); ok {
+		return endpoint.Spec.Initialize_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(s)
+	}
+
+	return fmt.Errorf("expected Status of type PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &PrivateEndpoint{}
 
 // AzureName returns the Azure name of the resource
@@ -945,6 +956,136 @@ func (endpoint *PrivateEndpoint_Spec) AssignProperties_To_PrivateEndpoint_Spec(d
 	return nil
 }
 
+// Initialize_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded populates our PrivateEndpoint_Spec from the provided source PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded
+func (endpoint *PrivateEndpoint_Spec) Initialize_From_PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded(source *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+
+	// ApplicationSecurityGroups
+	if source.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var applicationSecurityGroup ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
+			err := applicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&applicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		}
+		endpoint.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		endpoint.ApplicationSecurityGroups = nil
+	}
+
+	// CustomDnsConfigs
+	if source.CustomDnsConfigs != nil {
+		customDnsConfigList := make([]CustomDnsConfigPropertiesFormat, len(source.CustomDnsConfigs))
+		for customDnsConfigIndex, customDnsConfigItem := range source.CustomDnsConfigs {
+			// Shadow the loop variable to avoid aliasing
+			customDnsConfigItem := customDnsConfigItem
+			var customDnsConfig CustomDnsConfigPropertiesFormat
+			err := customDnsConfig.Initialize_From_CustomDnsConfigPropertiesFormat_STATUS(&customDnsConfigItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_CustomDnsConfigPropertiesFormat_STATUS() to populate field CustomDnsConfigs")
+			}
+			customDnsConfigList[customDnsConfigIndex] = customDnsConfig
+		}
+		endpoint.CustomDnsConfigs = customDnsConfigList
+	} else {
+		endpoint.CustomDnsConfigs = nil
+	}
+
+	// CustomNetworkInterfaceName
+	endpoint.CustomNetworkInterfaceName = genruntime.ClonePointerToString(source.CustomNetworkInterfaceName)
+
+	// ExtendedLocation
+	if source.ExtendedLocation != nil {
+		var extendedLocation ExtendedLocation
+		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
+		}
+		endpoint.ExtendedLocation = &extendedLocation
+	} else {
+		endpoint.ExtendedLocation = nil
+	}
+
+	// IpConfigurations
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]PrivateEndpointIPConfiguration, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration PrivateEndpointIPConfiguration
+			err := ipConfiguration.Initialize_From_PrivateEndpointIPConfiguration_STATUS(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_PrivateEndpointIPConfiguration_STATUS() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		endpoint.IpConfigurations = ipConfigurationList
+	} else {
+		endpoint.IpConfigurations = nil
+	}
+
+	// Location
+	endpoint.Location = genruntime.ClonePointerToString(source.Location)
+
+	// ManualPrivateLinkServiceConnections
+	if source.ManualPrivateLinkServiceConnections != nil {
+		manualPrivateLinkServiceConnectionList := make([]PrivateLinkServiceConnection, len(source.ManualPrivateLinkServiceConnections))
+		for manualPrivateLinkServiceConnectionIndex, manualPrivateLinkServiceConnectionItem := range source.ManualPrivateLinkServiceConnections {
+			// Shadow the loop variable to avoid aliasing
+			manualPrivateLinkServiceConnectionItem := manualPrivateLinkServiceConnectionItem
+			var manualPrivateLinkServiceConnection PrivateLinkServiceConnection
+			err := manualPrivateLinkServiceConnection.Initialize_From_PrivateLinkServiceConnection_STATUS(&manualPrivateLinkServiceConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_PrivateLinkServiceConnection_STATUS() to populate field ManualPrivateLinkServiceConnections")
+			}
+			manualPrivateLinkServiceConnectionList[manualPrivateLinkServiceConnectionIndex] = manualPrivateLinkServiceConnection
+		}
+		endpoint.ManualPrivateLinkServiceConnections = manualPrivateLinkServiceConnectionList
+	} else {
+		endpoint.ManualPrivateLinkServiceConnections = nil
+	}
+
+	// PrivateLinkServiceConnections
+	if source.PrivateLinkServiceConnections != nil {
+		privateLinkServiceConnectionList := make([]PrivateLinkServiceConnection, len(source.PrivateLinkServiceConnections))
+		for privateLinkServiceConnectionIndex, privateLinkServiceConnectionItem := range source.PrivateLinkServiceConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateLinkServiceConnectionItem := privateLinkServiceConnectionItem
+			var privateLinkServiceConnection PrivateLinkServiceConnection
+			err := privateLinkServiceConnection.Initialize_From_PrivateLinkServiceConnection_STATUS(&privateLinkServiceConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling Initialize_From_PrivateLinkServiceConnection_STATUS() to populate field PrivateLinkServiceConnections")
+			}
+			privateLinkServiceConnectionList[privateLinkServiceConnectionIndex] = privateLinkServiceConnection
+		}
+		endpoint.PrivateLinkServiceConnections = privateLinkServiceConnectionList
+	} else {
+		endpoint.PrivateLinkServiceConnections = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet Subnet_PrivateEndpoint_SubResourceEmbedded
+		err := subnet.Initialize_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(source.Subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded() to populate field Subnet")
+		}
+		endpoint.Subnet = &subnet
+	} else {
+		endpoint.Subnet = nil
+	}
+
+	// Tags
+	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (endpoint *PrivateEndpoint_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1742,6 +1883,21 @@ func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 	return nil
 }
 
+// Initialize_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded populates our ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
+func (embedded *ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded) Initialize_From_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(source *ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Contains custom Dns resolution configuration from customer.
 type CustomDnsConfigPropertiesFormat struct {
 	// Fqdn: Fqdn that resolves to private endpoint ip address.
@@ -1830,6 +1986,19 @@ func (format *CustomDnsConfigPropertiesFormat) AssignProperties_To_CustomDnsConf
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_CustomDnsConfigPropertiesFormat_STATUS populates our CustomDnsConfigPropertiesFormat from the provided source CustomDnsConfigPropertiesFormat_STATUS
+func (format *CustomDnsConfigPropertiesFormat) Initialize_From_CustomDnsConfigPropertiesFormat_STATUS(source *CustomDnsConfigPropertiesFormat_STATUS) error {
+
+	// Fqdn
+	format.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
+
+	// IpAddresses
+	format.IpAddresses = genruntime.CloneSliceOfString(source.IpAddresses)
 
 	// No error
 	return nil
@@ -2007,6 +2176,24 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
+
+	// Name
+	location.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Type
+	if source.Type != nil {
+		typeVar := ExtendedLocationType(*source.Type)
+		location.Type = &typeVar
+	} else {
+		location.Type = nil
 	}
 
 	// No error
@@ -2298,6 +2485,25 @@ func (configuration *PrivateEndpointIPConfiguration) AssignProperties_To_Private
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_PrivateEndpointIPConfiguration_STATUS populates our PrivateEndpointIPConfiguration from the provided source PrivateEndpointIPConfiguration_STATUS
+func (configuration *PrivateEndpointIPConfiguration) Initialize_From_PrivateEndpointIPConfiguration_STATUS(source *PrivateEndpointIPConfiguration_STATUS) error {
+
+	// GroupId
+	configuration.GroupId = genruntime.ClonePointerToString(source.GroupId)
+
+	// MemberName
+	configuration.MemberName = genruntime.ClonePointerToString(source.MemberName)
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrivateIPAddress
+	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// No error
 	return nil
@@ -2650,6 +2856,42 @@ func (connection *PrivateLinkServiceConnection) AssignProperties_To_PrivateLinkS
 	return nil
 }
 
+// Initialize_From_PrivateLinkServiceConnection_STATUS populates our PrivateLinkServiceConnection from the provided source PrivateLinkServiceConnection_STATUS
+func (connection *PrivateLinkServiceConnection) Initialize_From_PrivateLinkServiceConnection_STATUS(source *PrivateLinkServiceConnection_STATUS) error {
+
+	// GroupIds
+	connection.GroupIds = genruntime.CloneSliceOfString(source.GroupIds)
+
+	// Name
+	connection.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrivateLinkServiceConnectionState
+	if source.PrivateLinkServiceConnectionState != nil {
+		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState
+		err := privateLinkServiceConnectionState.Initialize_From_PrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
+		}
+		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
+	} else {
+		connection.PrivateLinkServiceConnectionState = nil
+	}
+
+	// PrivateLinkServiceReference
+	if source.PrivateLinkServiceId != nil {
+		privateLinkServiceReference := genruntime.CreateResourceReferenceFromARMID(*source.PrivateLinkServiceId)
+		connection.PrivateLinkServiceReference = &privateLinkServiceReference
+	} else {
+		connection.PrivateLinkServiceReference = nil
+	}
+
+	// RequestMessage
+	connection.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
+
+	// No error
+	return nil
+}
+
 // PrivateLinkServiceConnection resource.
 type PrivateLinkServiceConnection_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
@@ -2962,6 +3204,21 @@ func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) AssignProperties_To_
 	return nil
 }
 
+// Initialize_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded populates our Subnet_PrivateEndpoint_SubResourceEmbedded from the provided source Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
+func (embedded *Subnet_PrivateEndpoint_SubResourceEmbedded) Initialize_From_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(source *Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Subnet in a virtual network resource.
 type Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded struct {
 	// Id: Resource ID.
@@ -3132,6 +3389,22 @@ func (state *PrivateLinkServiceConnectionState) AssignProperties_To_PrivateLinkS
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_PrivateLinkServiceConnectionState_STATUS populates our PrivateLinkServiceConnectionState from the provided source PrivateLinkServiceConnectionState_STATUS
+func (state *PrivateLinkServiceConnectionState) Initialize_From_PrivateLinkServiceConnectionState_STATUS(source *PrivateLinkServiceConnectionState_STATUS) error {
+
+	// ActionsRequired
+	state.ActionsRequired = genruntime.ClonePointerToString(source.ActionsRequired)
+
+	// Description
+	state.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Status
+	state.Status = genruntime.ClonePointerToString(source.Status)
 
 	// No error
 	return nil

@@ -1242,27 +1242,26 @@ objectModelConfiguration:
       PrivateDnsZones_VirtualNetworkLink:
         $exportAs: PrivateDnsZonesVirtualNetworkLink
         $supportedFrom: v2.0.0
-        $importable: false
       PrivateDnsZones_A:
-        $exportAs: PrivateDnsZonesRecordsetTypeA
+        $exportAs: PrivateDnsZonesARecord
         $supportedFrom: v2.0.0
       PrivateDnsZones_AAAA:
-        $exportAs: PrivateDnsZonesRecordsetTypeAAAA
+        $exportAs: PrivateDnsZonesAAAARecord
         $supportedFrom: v2.0.0
       PrivateDnsZones_CNAME:
-        $exportAs: PrivateDnsZonesRecordsetTypeCNAME
+        $exportAs: PrivateDnsZonesCNAMERecord
         $supportedFrom: v2.0.0
       PrivateDnsZones_MX:
-        $exportAs: PrivateDnsZonesRecordsetTypeMX
+        $exportAs: PrivateDnsZonesMXRecord
         $supportedFrom: v2.0.0
       PrivateDnsZones_SRV:
-        $exportAs: PrivateDnsZonesRecordsetTypeSRV
+        $exportAs: PrivateDnsZonesSRVRecord
         $supportedFrom: v2.0.0
       PrivateDnsZones_PTR:
-        $exportAs: PrivateDnsZonesRecordsetTypePTR
+        $exportAs: PrivateDnsZonesPTRRecord
         $supportedFrom: v2.0.0
       PrivateDnsZones_TXT:
-        $exportAs: PrivateDnsZonesRecordsetTypeTXT
+        $exportAs: PrivateDnsZonesTXTRecord
         $supportedFrom: v2.0.0
     2020-11-01:
       BackendAddressPool:
@@ -1389,11 +1388,9 @@ objectModelConfiguration:
       PrivateEndpoint:
         $export: true
         $supportedFrom: v2.0.0
-        $importable: false
       PrivateLinkService:
         $export: true
         $supportedFrom: v2.0.0
-        $importable: false
       PrivateLinkServiceConnection:
         $resourceEmbeddedInParent: PrivateEndpoint
       PrivateLinkServiceConnection_STATUS:
@@ -1411,7 +1408,6 @@ objectModelConfiguration:
       PrivateEndpoints_PrivateDnsZoneGroup:
         $exportAs: PrivateEndpointsPrivateDnsZoneGroup
         $supportedFrom: v2.0.0
-        $importable: false
       PrivateDnsZonePropertiesFormat:
         PrivateDnsZoneId:
           $armReference: true

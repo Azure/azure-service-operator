@@ -1,7 +1,7 @@
 github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage
 ├── APIVersion: Enum (1 value)
 │   └── "2020-06-01"
-├── PrivateDnsZonesRecordsetTypeA: Resource
+├── PrivateDnsZonesAAAARecord: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601.PrivateDnsZone
 │   ├── Spec: Object (15 properties)
 │   │   ├── ARecords: Object (2 properties)[]
@@ -90,7 +90,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Value: string[]
 │       └── Type: *string
-├── PrivateDnsZonesRecordsetTypeAAAA: Resource
+├── PrivateDnsZonesARecord: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601.PrivateDnsZone
 │   ├── Spec: Object (15 properties)
 │   │   ├── ARecords: Object (2 properties)[]
@@ -179,7 +179,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Value: string[]
 │       └── Type: *string
-├── PrivateDnsZonesRecordsetTypeCNAME: Resource
+├── PrivateDnsZonesCNAMERecord: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601.PrivateDnsZone
 │   ├── Spec: Object (15 properties)
 │   │   ├── ARecords: Object (2 properties)[]
@@ -268,7 +268,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Value: string[]
 │       └── Type: *string
-├── PrivateDnsZonesRecordsetTypeMX: Resource
+├── PrivateDnsZonesMXRecord: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601.PrivateDnsZone
 │   ├── Spec: Object (15 properties)
 │   │   ├── ARecords: Object (2 properties)[]
@@ -357,7 +357,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Value: string[]
 │       └── Type: *string
-├── PrivateDnsZonesRecordsetTypePTR: Resource
+├── PrivateDnsZonesPTRRecord: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601.PrivateDnsZone
 │   ├── Spec: Object (15 properties)
 │   │   ├── ARecords: Object (2 properties)[]
@@ -446,7 +446,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Value: string[]
 │       └── Type: *string
-├── PrivateDnsZonesRecordsetTypeSRV: Resource
+├── PrivateDnsZonesSRVRecord: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601.PrivateDnsZone
 │   ├── Spec: Object (15 properties)
 │   │   ├── ARecords: Object (2 properties)[]
@@ -535,7 +535,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   └── Value: string[]
 │       └── Type: *string
-├── PrivateDnsZonesRecordsetTypeTXT: Resource
+├── PrivateDnsZonesTXTRecord: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601.PrivateDnsZone
 │   ├── Spec: Object (15 properties)
 │   │   ├── ARecords: Object (2 properties)[]

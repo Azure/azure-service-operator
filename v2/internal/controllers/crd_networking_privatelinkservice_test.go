@@ -97,7 +97,6 @@ func Test_Networking_PrivateLinkService_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
-
 }
 
 func newLoadBalancerForPLS(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, subnet *network20201101.VirtualNetworksSubnet) (*network20201101.LoadBalancer, string) {

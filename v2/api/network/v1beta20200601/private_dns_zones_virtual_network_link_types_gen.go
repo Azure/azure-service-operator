@@ -91,6 +91,17 @@ func (link *PrivateDnsZonesVirtualNetworkLink) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the PrivateDnsZonesVirtualNetworkLink resource
 func (link *PrivateDnsZonesVirtualNetworkLink) defaultImpl() { link.defaultAzureName() }
 
+var _ genruntime.ImportableResource = &PrivateDnsZonesVirtualNetworkLink{}
+
+// InitializeSpec initializes the spec for this resource from the given status
+func (link *PrivateDnsZonesVirtualNetworkLink) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*PrivateDnsZones_VirtualNetworkLink_STATUS); ok {
+		return link.Spec.Initialize_From_PrivateDnsZones_VirtualNetworkLink_STATUS(s)
+	}
+
+	return fmt.Errorf("expected Status of type PrivateDnsZones_VirtualNetworkLink_STATUS but received %T instead", status)
+}
+
 var _ genruntime.KubernetesResource = &PrivateDnsZonesVirtualNetworkLink{}
 
 // AzureName returns the Azure name of the resource
@@ -621,6 +632,42 @@ func (link *PrivateDnsZones_VirtualNetworkLink_Spec) AssignProperties_To_Private
 	return nil
 }
 
+// Initialize_From_PrivateDnsZones_VirtualNetworkLink_STATUS populates our PrivateDnsZones_VirtualNetworkLink_Spec from the provided source PrivateDnsZones_VirtualNetworkLink_STATUS
+func (link *PrivateDnsZones_VirtualNetworkLink_Spec) Initialize_From_PrivateDnsZones_VirtualNetworkLink_STATUS(source *PrivateDnsZones_VirtualNetworkLink_STATUS) error {
+
+	// Etag
+	link.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Location
+	link.Location = genruntime.ClonePointerToString(source.Location)
+
+	// RegistrationEnabled
+	if source.RegistrationEnabled != nil {
+		registrationEnabled := *source.RegistrationEnabled
+		link.RegistrationEnabled = &registrationEnabled
+	} else {
+		link.RegistrationEnabled = nil
+	}
+
+	// Tags
+	link.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// VirtualNetwork
+	if source.VirtualNetwork != nil {
+		var virtualNetwork SubResource
+		err := virtualNetwork.Initialize_From_SubResource_STATUS(source.VirtualNetwork)
+		if err != nil {
+			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
+		}
+		link.VirtualNetwork = &virtualNetwork
+	} else {
+		link.VirtualNetwork = nil
+	}
+
+	// No error
+	return nil
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (link *PrivateDnsZones_VirtualNetworkLink_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1034,6 +1081,21 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *v20200
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
+func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
+
+	// Reference
+	if source.Id != nil {
+		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
+		resource.Reference = &reference
+	} else {
+		resource.Reference = nil
 	}
 
 	// No error
