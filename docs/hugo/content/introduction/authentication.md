@@ -11,7 +11,7 @@ Azure Service Operator supports four different styles of authentication today. E
 4. [Deprecated] aad-pod-identity authentication (Managed Identity)
 
 
-## Service Principal using Client Secret
+## Service Principal using a Client Secret
 
 ### Prerequisites
 1. An existing Azure Service Principal.
