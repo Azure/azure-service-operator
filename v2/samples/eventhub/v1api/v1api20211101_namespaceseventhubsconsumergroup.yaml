@@ -1,0 +1,9 @@
+apiVersion: eventhub.azure.com/v1api20211101
+kind: NamespacesEventhubsConsumerGroup
+metadata:
+  name: sample-consumergroup
+  namespace: default
+spec:
+  owner:
+    name: sample-eventhub
+  userMetadata: Some interesting metadata

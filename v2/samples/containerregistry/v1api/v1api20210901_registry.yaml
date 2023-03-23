@@ -1,0 +1,13 @@
+apiVersion: containerregistry.azure.com/v1api20210901
+kind: Registry
+metadata:
+  name: sampleregistry
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  publicNetworkAccess: Enabled
+  sku:
+    name: Basic
+  zoneRedundancy: Disabled

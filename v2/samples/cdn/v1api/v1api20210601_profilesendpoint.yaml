@@ -1,0 +1,17 @@
+apiVersion: cdn.azure.com/v1api20210601
+kind: ProfilesEndpoint
+metadata:
+  name: samplecdnprofileendpoint
+  namespace: default
+spec:
+  owner:
+    name: samplecdnprofile
+  location: Global
+  isCompressionEnabled: true
+  contentTypesToCompress:
+  - application/json
+  isHttpAllowed: false
+  isHttpsAllowed: true
+  origins:
+  - name: source
+    hostName: example.com

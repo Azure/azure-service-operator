@@ -232,6 +232,7 @@ func CreateScheme() *runtime.Scheme {
 	_ = mysqlbeta.AddToScheme(scheme)
 	_ = mysqlv1.AddToScheme(scheme)
 
+	scheme.AllKnownTypes()
 	return scheme
 }
 

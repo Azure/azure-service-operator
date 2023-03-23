@@ -1,0 +1,11 @@
+apiVersion: dbforpostgresql.azure.com/v1api20210601
+kind: FlexibleServersConfiguration
+metadata:
+  name: pgaudit
+  namespace: default
+spec:
+  owner:
+    name: samplepostgresql
+  azureName: pgaudit.log
+  source: user-override
+  value: READ

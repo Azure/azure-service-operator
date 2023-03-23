@@ -1,0 +1,9 @@
+apiVersion: eventgrid.azure.com/v1api20200601
+kind: Topic
+metadata:
+  name: sample-topic
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
