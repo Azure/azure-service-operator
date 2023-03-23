@@ -45,7 +45,7 @@ stringData:
 EOF
 ```
 
-## Service Principal using Client Certificate
+## Service Principal using a Client Certificate
 
 ### Prerequisites
 1. An existing Azure Service Principal.
