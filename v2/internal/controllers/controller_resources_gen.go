@@ -57,6 +57,10 @@ import (
 	containerservice_alpha20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage"
 	containerservice_v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
 	containerservice_v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
+	containerservice_v20230201 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230201"
+	containerservice_v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230201storage"
+	containerservice_v20230202p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230202preview"
+	containerservice_v20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230202previewstorage"
 	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
 	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601"
 	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
@@ -245,8 +249,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20210901s.Registry)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20210501s.ManagedCluster)})
-	result = append(result, &registration.StorageType{Obj: new(containerservice_v20210501s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230201s.ManagedCluster)})
+	result = append(result, &registration.StorageType{Obj: new(containerservice_v20230201s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v20180601s.Configuration)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v20180601s.Database)})
 	result = append(result, &registration.StorageType{
@@ -534,6 +538,10 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerservice_alpha20210501s.ManagedCluster), new(containerservice_alpha20210501s.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501.ManagedCluster), new(containerservice_v20210501.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501s.ManagedCluster), new(containerservice_v20210501s.ManagedClustersAgentPool))
+	result = append(result, new(containerservice_v20230201.ManagedCluster), new(containerservice_v20230201.ManagedClustersAgentPool))
+	result = append(result, new(containerservice_v20230201s.ManagedCluster), new(containerservice_v20230201s.ManagedClustersAgentPool))
+	result = append(result, new(containerservice_v20230202p.ManagedCluster), new(containerservice_v20230202p.ManagedClustersAgentPool))
+	result = append(result, new(containerservice_v20230202ps.ManagedCluster), new(containerservice_v20230202ps.ManagedClustersAgentPool))
 	result = append(
 		result,
 		new(dbformariadb_v20180601.Configuration),
@@ -909,6 +917,10 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_alpha20210501s.AddToScheme(scheme)
 	_ = containerservice_v20210501.AddToScheme(scheme)
 	_ = containerservice_v20210501s.AddToScheme(scheme)
+	_ = containerservice_v20230201.AddToScheme(scheme)
+	_ = containerservice_v20230201s.AddToScheme(scheme)
+	_ = containerservice_v20230202p.AddToScheme(scheme)
+	_ = containerservice_v20230202ps.AddToScheme(scheme)
 	_ = dbformariadb_v20180601.AddToScheme(scheme)
 	_ = dbformariadb_v20180601s.AddToScheme(scheme)
 	_ = dbformysql_alpha20210501.AddToScheme(scheme)

@@ -1,0 +1,18 @@
+apiVersion: containerservice.azure.com/v1beta20230202preview
+kind: ManagedCluster
+metadata:
+  name: samplemanagedcluster202221preview
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-rg
+  dnsPrefix: aso
+  agentPoolProfiles:
+    - name: pool1
+      count: 1
+      vmSize: Standard_DS2_v2
+      osType: Linux
+      mode: System
+  identity:
+    type: SystemAssigned

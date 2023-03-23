@@ -11,12 +11,13 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230202preview"
+
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
+func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -71,8 +72,8 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	armId := *cluster.Status.Id
 
 	// Perform a simple patch
-	skuName := aks.ManagedClusterSKU_Name_Basic
-	skuTier := aks.ManagedClusterSKU_Tier_Paid
+	skuName := aks.ManagedClusterSKU_Name_Base
+	skuTier := aks.ManagedClusterSKU_Tier_Standard
 	old := cluster.DeepCopy()
 	cluster.Spec.Sku = &aks.ManagedClusterSKU{
 		Name: &skuName,
@@ -81,23 +82,23 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, cluster)
 	tc.Expect(cluster.Status.Sku).ToNot(BeNil())
 	tc.Expect(cluster.Status.Sku.Name).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKU_Name_STATUS_Basic))
+	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKU_Name_STATUS_Base))
 	tc.Expect(cluster.Status.Sku.Tier).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKU_Tier_STATUS_Paid))
+	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKU_Tier_STATUS_Standard))
 
 	// Run sub tests
 	tc.RunSubtests(
 		testcommon.Subtest{
 			Name: "AKS KubeConfig secret CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_Kubeconfig_Secrets(tc, cluster)
+				AKS_ManagedCluster_Kubeconfig_20230102Preview_Secrets(tc, cluster)
 			},
 		})
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_AgentPool_CRUD(tc, cluster)
+				AKS_ManagedCluster_AgentPool_20230102Preview_CRUD(tc, cluster)
 			},
 		},
 	)
@@ -111,7 +112,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+func AKS_ManagedCluster_AgentPool_20230102Preview_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	osType := aks.OSType_Linux
 	agentPoolMode := aks.AgentPoolMode_System
 
@@ -149,7 +150,7 @@ func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluste
 	tc.Expect(agentPool.Status.NodeLabels).To(HaveKey("mylabel"))
 }
 
-func AKS_ManagedCluster_Kubeconfig_Secrets(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+func AKS_ManagedCluster_Kubeconfig_20230102Preview_Secrets(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	old := cluster.DeepCopy()
 	secret := "kubeconfig"
 	cluster.Spec.OperatorSpec = &aks.ManagedClusterOperatorSpec{
