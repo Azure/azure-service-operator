@@ -16,7 +16,7 @@ azureClientSecret: ""
 #  A PEM or PKCS12 certificate string including the private key for Azure Credential Authentication. If certificate is password protected,  use 'azureClientCertificatePassword' for password.
 azureClientCertificate: ""
 
-# Password used to protect the client certificate(Optional).
+# Password used to protect the client certificate (optional).
 azureClientCertificatePassword: ""
 
 # [Deprecated] Managed Identity (aad-pod-identity) Authentication
