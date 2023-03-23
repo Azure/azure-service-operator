@@ -53,7 +53,7 @@ For example, here's the log from an ASO controller that was launched with some r
 To configure the log level for ASO, edit the `azureserviceoperator-controller-manager` deployment and 
 set the `--v=2` parameter to a different log level.
 
-See [levels.go](/v2/internal/logging/levels.go) for a list of levels that we log at. Other components used
+See [levels.go](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/logging/levels.go) for a list of levels that we log at. Other components used
 by ASO (such as controller-runtime) may log at different levels, so there may be value in raising the log level
 above the highest level we use. Be aware that this might produce a **lot** of logs.
 
