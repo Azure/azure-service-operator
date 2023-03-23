@@ -5,8 +5,8 @@ linktitle: Authentication
 
 Azure Service Operator supports four different styles of authentication today. Each of these options can be used either as a global credential applied to all resources created by the operator (as shown below), or as a per-resource or per-namespace credential as documented in [single-operator-multitenancy](https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/#single-operator-multitenancy-default).
 
-1. Service Principal using Client Secret
-2. Service Principal using Client Certificate
+1. Service Principal using a Client Secret
+2. Service Principal using a Client Certificate
 3. [Azure-Workload-Identity](https://github.com/Azure/azure-workload-identity) authentication (OIDC + Managed Identity or Service Principal)
 4. [Deprecated] aad-pod-identity authentication (Managed Identity)
 
