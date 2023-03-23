@@ -58,6 +58,11 @@ typeFilters:
     because: We want to export this particular preview version
 
   - action: include
+    group: containerservice
+    version: v*20230202preview
+    because: We want to export this particular preview version
+
+  - action: include
     group: insights
     version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
@@ -844,13 +849,39 @@ objectModelConfiguration:
           - UserCredentials
       ManagedClusterAgentPoolProfile:
         ProximityPlacementGroupID:
-          $armReference: false  # TODO[breaking]: Delete this and let the ARM value win
+          $armReference: false  # This is true in the next version and we have custom conversion to make round-tripping work
       ManagedClusters_AgentPool:
         $exportAs: ManagedClustersAgentPool
         $supportedFrom: v2.0.0-alpha.1
       ManagedClusterAgentPoolProfileProperties:
         ProximityPlacementGroupID:
-          $armReference: false # TODO[breaking]: Delete this and let the ARM value win
+          $armReference: false # This is true in the next version and we have custom conversion to make round-tripping work
+      PrivateLinkResource:
+        Id:
+          $armReference: true
+    2023-02-01:
+      ManagedCluster:
+        $export: true
+        $supportedFrom: v2.0.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.0.0
+      PrivateLinkResource:
+        Id:
+          $armReference: true
+    2023-02-02-preview:
+      ManagedCluster:
+        $export: true
+        $supportedFrom: v2.0.0
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
+      ManagedClusters_AgentPool:
+        $exportAs: ManagedClustersAgentPool
+        $supportedFrom: v2.0.0
       PrivateLinkResource:
         Id:
           $armReference: true
