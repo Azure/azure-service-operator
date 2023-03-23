@@ -54,7 +54,7 @@ EOF
 To use Service Principal authentication via client certificate, specify an `aso-controller-settings` secret with the `AZURE_CLIENT_ID`, `AZURE_CLIENT_CERTIFICATE` and `AZURE_CLIENT_CERTIFICATE_PASSWORD`(optional) keys set.
 
 For more information about Service Principals, see [creating an Azure Service Principal using the Azure CLI](https://learn.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#certificate-based-authentication).
-The `AZURE_CLIENT_ID` is sometimes also called the App ID. The `AZURE_CLIENT_CERTIFICATE` is the "certificate" returned by the command in the previously linked documentation.
+The `AZURE_CLIENT_ID` is sometimes also called the App ID. The `AZURE_CLIENT_CERTIFICATE` is the _certificate_ returned by the command in the previously linked documentation.
 
 Use the following Bash script to set the environment variables for the `aso-controller-settings` secret:
 ```bash
