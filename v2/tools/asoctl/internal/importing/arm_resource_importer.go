@@ -8,25 +8,23 @@ package importing
 import (
 	"context"
 	"net/http"
-	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/klog/v2"
 
+	armruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm/runtime"
+	azruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/names"
-
-	armruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm/runtime"
-	azruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 )
 
 // ARMResourceImporter is an importer for ARM based resources.
@@ -172,40 +170,27 @@ func (ri *ARMResourceImporter) createBlankObjectFromID(armID *arm.ResourceID) (r
 
 // groupVersionKindFromID returns the GroupVersionKind for the resource we're importing
 func (ri *ARMResourceImporter) groupVersionKindFromID(id *arm.ResourceID) (schema.GroupVersionKind, error) {
-	gk := ri.groupKindFromID(id)
+	gk, err := ri.groupKindFromID(id)
+	if err != nil {
+		return schema.GroupVersionKind{}, err
+	}
+
 	return ri.selectVersionFromGK(gk)
 }
 
 // groupKindFromID parses a GroupKind from the resource URL, allowing us to look up the actual resource
-func (ri *ARMResourceImporter) groupKindFromID(id *arm.ResourceID) schema.GroupKind {
-	return schema.GroupKind{
-		Group: ri.groupFromID(id),
-		Kind:  ri.kindFromID(id),
-	}
-}
-
-// groupFromID extracts an ASO group name from the ARM ID
-func (*ARMResourceImporter) groupFromID(id *arm.ResourceID) string {
-	parts := strings.Split(id.ResourceType.Namespace, ".")
-	last := len(parts) - 1
-	group := strings.ToLower(parts[last]) + ".azure.com"
-	klog.V(3).Infof("Group: %s", group)
-	return group
-}
-
-// kindFromID extracts an ASO kind from the ARM ID
-func (*ARMResourceImporter) kindFromID(id *arm.ResourceID) string {
-	if len(id.ResourceType.Types) != 1 {
-		panic("Don't currently know how to handle nested resources")
+func (ri *ARMResourceImporter) groupKindFromID(id *arm.ResourceID) (schema.GroupKind, error) {
+	t := id.ResourceType.String()
+	if t == "" {
+		return schema.GroupKind{}, errors.Errorf("unable to determine resource type from ID %s", id)
 	}
 
-	kind := names.Singularize(id.ResourceType.Types[0])
+	gk, ok := typesToGK[t]
+	if !ok {
+		return schema.GroupKind{}, errors.Errorf("unable to determine resource type from ID %s", id)
+	}
 
-	// Ensure the first character is uppercase
-	kind = strings.ToUpper(kind[0:1]) + kind[1:]
-
-	klog.V(3).Infof("Kind: %s", kind)
-	return kind
+	return gk, nil
 }
 
 func (ri *ARMResourceImporter) nameFromID(id *arm.ResourceID) string {
@@ -232,4 +217,26 @@ func CreateARMClient(cloudConfig cloud.Configuration) (*azruntime.Pipeline, erro
 
 	pipeline, err := armruntime.NewPipeline("generic", version.BuildVersion, creds, azruntime.PipelineOptions{}, opts)
 	return &pipeline, err
+}
+
+var typesToGK map[string]schema.GroupKind
+
+func init() {
+	typesToGK = make(map[string]schema.GroupKind)
+	scheme := api.CreateScheme()
+	for gvk := range scheme.AllKnownTypes() {
+		// Create an instance of the type to get the type name
+		obj, err := scheme.New(gvk)
+		if err != nil {
+			// Should never happen, so panic
+			panic(err)
+		}
+
+		rsrc, ok := obj.(genruntime.KubernetesResource)
+		if !ok {
+			continue
+		}
+
+		typesToGK[rsrc.GetType()] = gvk.GroupKind()
+	}
 }
