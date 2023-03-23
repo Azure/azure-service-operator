@@ -211,24 +211,28 @@ func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.
 		return nil, nil
 	}
 
-	var credential azcore.TokenCredential
-	var err error
 	if cfg.UseWorkloadIdentityAuth {
-		credential, err = identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
+		credential, err := identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to get workload identity credential")
 		}
-	} else if cert := os.Getenv(config.ClientCertificateVar); cert != "" {
+
+		return credential, nil
+	}
+
+	if cert := os.Getenv(config.ClientCertificateVar); cert != "" {
 		certPassword := os.Getenv(config.ClientCertificatePasswordVar)
-		credential, err = identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
+		credential, err := identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to get client certificate credential")
 		}
-	} else {
-		credential, err = azidentity.NewDefaultAzureCredential(nil)
-		if err != nil {
-			return nil, errors.Wrapf(err, "unable to get default azure credential")
-		}
+
+		return credential, nil
+	}
+
+	credential, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get default azure credential")
 	}
 
 	return credential, err

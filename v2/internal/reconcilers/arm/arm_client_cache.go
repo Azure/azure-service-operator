@@ -198,24 +198,22 @@ func (c *ARMClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, 
 
 func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types.NamespacedName) (azcore.TokenCredential, string, error) {
 	var errs []error
-	var err error
-	var credential azcore.TokenCredential
 
 	subscriptionID, ok := secret.Data[config.SubscriptionIDVar]
 	if !ok {
-		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.SubscriptionIDVar))
 		errs = append(errs, err)
 	}
 
 	tenantID, ok := secret.Data[config.TenantIDVar]
 	if !ok {
-		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.TenantIDVar))
 		errs = append(errs, err)
 	}
 
 	clientID, ok := secret.Data[config.ClientIDVar]
 	if !ok {
-		err = core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.ClientIDVar))
+		err := core.NewSecretNotFoundError(nsName, errors.Errorf("credential Secret %q does not contain key %q", nsName.String(), config.ClientIDVar))
 		errs = append(errs, err)
 	}
 
@@ -225,33 +223,39 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 	}
 
 	if clientSecret, hasClientSecret := secret.Data[config.ClientSecretVar]; hasClientSecret {
-		credential, err = azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
+		credential, err := azidentity.NewClientSecretCredential(string(tenantID), string(clientID), string(clientSecret), nil)
 		if err != nil {
 			return nil, "", errors.Wrap(err, errors.Errorf("invalid Client Secret Credential for %q encountered", nsName.String()).Error())
 		}
-	} else if clientCert, hasClientCert := secret.Data[config.ClientCertificateVar]; hasClientCert {
+
+		return credential, string(subscriptionID), nil
+	}
+
+	if clientCert, hasClientCert := secret.Data[config.ClientCertificateVar]; hasClientCert {
 		var clientCertPassword []byte
 		if p, hasClientCertPassword := secret.Data[config.ClientCertificatePasswordVar]; hasClientCertPassword {
 			clientCertPassword = p
 		}
 
-		credential, err = identity.NewClientCertificateCredential(string(tenantID), string(clientID), clientCert, clientCertPassword)
+		credential, err := identity.NewClientCertificateCredential(string(tenantID), string(clientID), clientCert, clientCertPassword)
 		if err != nil {
 			return nil, "", errors.Wrap(err, errors.Errorf("invalid Client Certificate Credential for %q encountered", nsName.String()).Error())
 		}
-	} else {
-		// Here we check for workload identity if client secret is not provided.
-		credential, err = identity.NewWorkloadIdentityCredential(string(tenantID), string(clientID))
-		if err != nil {
-			err = errors.Wrapf(
-				err,
-				"credential secret %q does not contain key %q and failed to get workload identity credential for clientID %q from %q ",
-				nsName.String(),
-				config.ClientSecretVar,
-				string(clientID),
-				identity.TokenFile)
-			return nil, "", err
-		}
+
+		return credential, string(subscriptionID), nil
+	}
+
+	// Here we check for workload identity if client secret is not provided.
+	credential, err := identity.NewWorkloadIdentityCredential(string(tenantID), string(clientID))
+	if err != nil {
+		err = errors.Wrapf(
+			err,
+			"credential secret %q does not contain key %q and failed to get workload identity credential for clientID %q from %q ",
+			nsName.String(),
+			config.ClientSecretVar,
+			string(clientID),
+			identity.TokenFile)
+		return nil, "", err
 	}
 
 	return credential, string(subscriptionID), nil
