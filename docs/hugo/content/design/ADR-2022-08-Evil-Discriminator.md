@@ -194,7 +194,7 @@ We handle this by synthesizing a discriminator property for each derived type th
 
 Not every "ancestor" of a OneOf will necessarily itself be a OneOf; they may also be a regular object type or an AllOf type. 
 
-![Non-OneOf Ancestors](images/adr-2022-08-non-oneof-ancestors.png)
+TODO: IMAGE HERE
 
 When we walk the parents of a leaf OneOf to find all the potential properties, we need to walk these references as well.
 
