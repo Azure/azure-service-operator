@@ -48,7 +48,8 @@ func NewTestARMClientCache(client kubeclient.Client) (*ARMClientCache, error) {
 		return nil, err
 	}
 
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, metrics.NewARMClientMetrics())
+	options := &genericarmclient.GenericClientOptions{Metrics: metrics.NewARMClientMetrics()}
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, cfg.SubscriptionID, options)
 	if err != nil {
 		return nil, err
 	}

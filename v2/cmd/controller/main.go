@@ -257,7 +257,10 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		return nil, errors.Wrap(err, "error while fetching default global credential")
 	}
 
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, armMetrics)
+	clientOptions := &genericarmclient.GenericClientOptions{
+		Metrics: armMetrics,
+	}
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, clientOptions)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get new genericArmClient")
 	}

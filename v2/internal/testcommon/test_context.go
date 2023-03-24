@@ -114,7 +114,11 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	}
 
 	var globalARMClient *genericarmclient.GenericClient
-	globalARMClient, err = genericarmclient.NewGenericClientFromHTTPClient(cfg.Cloud(), details.creds, httpClient, details.ids.subscriptionID, metrics.NewARMClientMetrics())
+	options := &genericarmclient.GenericClientOptions{
+		Metrics:    metrics.NewARMClientMetrics(),
+		HttpClient: httpClient,
+	}
+	globalARMClient, err = genericarmclient.NewGenericClient(cfg.Cloud(), details.creds, details.ids.subscriptionID, options)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "failed to create generic ARM client")
 	}

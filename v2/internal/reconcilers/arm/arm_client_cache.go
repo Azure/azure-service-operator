@@ -186,7 +186,11 @@ func (c *ARMClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, 
 		return nil, err
 	}
 
-	newClient, err := genericarmclient.NewGenericClientFromHTTPClient(c.cloudConfig, credential, c.httpClient, subscriptionID, c.armMetrics)
+	options := &genericarmclient.GenericClientOptions{
+		HttpClient: c.httpClient,
+		Metrics:    c.armMetrics,
+	}
+	newClient, err := genericarmclient.NewGenericClient(c.cloudConfig, credential, subscriptionID, options)
 	if err != nil {
 		return nil, err
 	}
