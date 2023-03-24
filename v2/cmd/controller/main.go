@@ -260,15 +260,22 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	clientOptions := &genericarmclient.GenericClientOptions{
 		Metrics: armMetrics,
 	}
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, clientOptions)
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, clientOptions)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get new genericArmClient")
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil, armMetrics)
+	armClientCache := armreconciler.NewARMClientCache(
+		globalARMClient,
+		cfg.SubscriptionID,
+		cfg.PodNamespace,
+		kubeClient,
+		cfg.Cloud(),
+		nil,
+		armMetrics)
 
-	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
+	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*armreconciler.Connection, error) {
 		return armClientCache.GetClient(ctx, obj)
 	}
 

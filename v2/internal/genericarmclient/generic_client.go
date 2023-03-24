@@ -32,11 +32,10 @@ const DeletePollerID = "GenericClient.DeleteByID"
 // which was then moved to here: https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/resourcemanager/resources/armresources/zz_generated_client.go
 
 type GenericClient struct {
-	endpoint       string
-	pl             runtime.Pipeline
-	subscriptionID string
-	creds          azcore.TokenCredential
-	opts           *arm.ClientOptions
+	endpoint string
+	pl       runtime.Pipeline
+	creds    azcore.TokenCredential
+	opts     *arm.ClientOptions
 }
 
 // TODO: Need to do retryAfter detection in each call?
@@ -47,7 +46,7 @@ type GenericClientOptions struct {
 }
 
 // NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, subscriptionID string, options *GenericClientOptions) (*GenericClient, error) {
+func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, options *GenericClientOptions) (*GenericClient, error) {
 	rmConfig, ok := cloudCfg.Services[cloud.ResourceManager]
 	if !ok {
 		return nil, errors.Errorf("provided cloud missing %q entry", cloud.ResourceManager)
@@ -101,18 +100,12 @@ func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential
 	}
 
 	return &GenericClient{
-		endpoint:       rmConfig.Endpoint,
-		pl:             pipeline,
-		creds:          creds,
-		subscriptionID: subscriptionID,
-		opts:           opts,
+		endpoint: rmConfig.Endpoint,
+		pl:       pipeline,
+		creds:    creds,
+		opts:     opts,
 	}, nil
 
-}
-
-// SubscriptionID returns the subscription the client is configured for
-func (client *GenericClient) SubscriptionID() string {
-	return client.subscriptionID
 }
 
 // Creds returns the credentials used by this client
