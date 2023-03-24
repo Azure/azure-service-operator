@@ -10,16 +10,17 @@ import (
 	"os"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
-	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/v2/api"
 
 	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/importing"
 )
 
 func newImportAzureResourceCommand() *cobra.Command {
-	var output *string
+	var outputPath *string
 
 	cmd := &cobra.Command{
 		Use:   "azure-resource <ARM/ID/of/resource>",
@@ -28,11 +29,11 @@ func newImportAzureResourceCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			armID := args[0]
 			ctx := cmd.Context()
-			return importAzureResource(ctx, armID, output)
+			return importAzureResource(ctx, armID, outputPath)
 		},
 	}
 
-	output = cmd.Flags().StringP(
+	outputPath = cmd.Flags().StringP(
 		"output",
 		"o",
 		"",
@@ -41,8 +42,10 @@ func newImportAzureResourceCommand() *cobra.Command {
 	return cmd
 }
 
-// TODO: importing azure resource logic goes here
-func importAzureResource(ctx context.Context, armID string, output *string) error {
+// importAzureResource imports an ARM resource and writes the YAML to stdout or a file
+func importAzureResource(ctx context.Context, armID string, outputPath *string) error {
+	//TODO: Support other clouds
+
 	activeCloud := cloud.AzurePublic
 	client, err := importing.CreateARMClient(activeCloud)
 	if err != nil {
@@ -59,17 +62,16 @@ func importAzureResource(ctx context.Context, armID string, output *string) erro
 		return errors.Wrapf(err, "failed to import resource %s:", armID)
 	}
 
-	if output == nil || *output == "" {
+	if outputPath == nil || *outputPath == "" {
 		err := result.SaveToWriter(os.Stdout)
 		if err != nil {
 			klog.Errorf("failed to write to stdout")
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	} else {
-		err := result.SaveToFile(*output)
+		err := result.SaveToFile(*outputPath)
 		if err != nil {
-			klog.Errorf("failed to write to file %s", *output)
-			return errors.Wrapf(err, "failed to write to file %s", *output)
+			return errors.Wrapf(err, "failed to write to file %s", *outputPath)
 		}
 	}
 
