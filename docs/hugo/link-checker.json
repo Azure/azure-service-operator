@@ -1,7 +1,7 @@
 {
   "ignorePatterns": [
     {
-      "pattern": "^(?!http).*"
+      "pattern": "^(?!http|images|\\./images).*"
     },
     {
       "pattern": "https://github.com/Azure/azure-resource-manager-rpc.*",
