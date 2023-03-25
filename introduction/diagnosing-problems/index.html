@@ -580,7 +580,7 @@ with the following command:
 <h3 id="log-levels">Log levels</h3>
 <p>To configure the log level for ASO, edit the <code>azureserviceoperator-controller-manager</code> deployment and
 set the <code>--v=2</code> parameter to a different log level.</p>
-<p>See <a href="/v2/internal/logging/levels.go">levels.go</a> for a list of levels that we log at. Other components used
+<p>See <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/logging/levels.go">levels.go</a> for a list of levels that we log at. Other components used
 by ASO (such as controller-runtime) may log at different levels, so there may be value in raising the log level
 above the highest level we use. Be aware that this might produce a <strong>lot</strong> of logs.</p>
 <h3 id="logging-aggregator">Logging aggregator</h3>

@@ -33,7 +33,7 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
 <meta itemprop="description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
 Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.">
 
-<meta itemprop="wordCount" content="272">
+<meta itemprop="wordCount" content="875">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Upgrading"/>
 <meta name="twitter:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
@@ -478,6 +478,11 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
       </ul>
     </li>
     <li><a href="#supported-versions">Supported Versions</a></li>
+    <li><a href="#downgrading">Downgrading</a>
+      <ul>
+        <li><a href="#preparation-for-downgrading">Preparation for downgrading</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       </div>
@@ -569,7 +574,7 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
 </ul>
 <h2 id="upgrading">Upgrading</h2>
 <p>We recommend that you upgrade ASO using the same tool you installed it with.</p>
-<p><strong>Note:</strong> The instructions below all assume you&rsquo;re upgrading from the previous version to the latest version. Please follow
+<p><strong>Note:</strong> The instructions below all assume you&rsquo;re upgrading from the previous version (N-1) to the latest version (vN). Please follow
 the <a href="#recommended-upgrade-pattern">Recommended upgrade pattern</a> for upgrading multiple versions.</p>
 <h3 id="kubectl-apply">kubectl apply</h3>
 <p>The operator can be upgraded simply by running the same command you used to install it:</p>
@@ -585,6 +590,22 @@ helm upgrade --devel --version v2.0.0-beta.3 aso2 aso2/azure-service-operator <s
 </span><span style="color:#ae81ff"></span>        --set azureClientSecret<span style="color:#f92672">=</span>$AZURE_CLIENT_SECRET
 </code></pre></div><h2 id="supported-versions">Supported Versions</h2>
 <p>We provide best effort support via GitHub for ASO, focusing on the latest version and the previous version. If you&rsquo;re running an older version, we may ask you to upgrade to the latest release before we can help you.</p>
+<h2 id="downgrading">Downgrading</h2>
+<p>If you encounter an issue after an upgrade of ASO that can&rsquo;t be addressed by any other means, you may want to downgrade to the prior version. This isn&rsquo;t an officially supported scenario, we recommend rolling forward to a newer version if at all possible, but we&rsquo;ll try to provide some guidance here.</p>
+<p>Summary: If the new version of ASO didn&rsquo;t change the stored version of your resource, then you should be able to downgrade without issue. If the new version of ASO did change the stored version of your resource, then you will need to manually fix things up.</p>
+<p>To determine whether the new version of ASO changed the stored version of your resource, consult both the <a href="https://github.com/Azure/azure-service-operator/releases">release notes</a> for that version and the list of <a href="https://azure.github.io/azure-service-operator/reference/">supported resources</a>.</p>
+<p>Each ASO resource is stored within the cluster using a canonical storage (or hub) version, regardless of the actual version used for interaction with the cluster or with Azure. These stored versions are based on the latest Stable Azure API version of that resource. (See <a href="https://azure.github.io/azure-service-operator/design/versioning/">Resource Versioning</a> for all the background on this design decision.)</p>
+<p>When a new version of ASO adds support for a later version of an already supported resource (say, adding support for the latest release of Azure Redis, <code>v1api20220601</code>, in addition to the existing support for <code>v1api20211201</code>), then the new version of ASO will use the newer API version of the resource as the storage version. In this situation, downgrading ASO to the prior version will orphan the resource, as the older version of ASO is unaware of the newer storage version and is unable to interact with it. This means that any resources created with, or modified by, the newer version of ASO will be unable to be managed by the older version of ASO. They will also be inaccessible via <code>kubectl</code> or any other tool.</p>
+<p>These orphaned resources can be recovered by reapplying the resource (using <code>kubectl apply</code>) and overwriting the resource with a new revision after the downgrade. Alternatively, if you are going to be re-upgrading to ASO soon, you can leave those resources in place. The older version of ASO will ignore them, and any newer version should pick them up and start reconciliation automatically.
+These orphaned resources can be recovered by reapplying the resource (using <code>kubectl apply</code>) and overwriting the resource with a new version after the downgrade. Alternatively, if you are going to be re-upgrading to ASO soon, you can leave those resources in place. The older version of ASO will ignore them, and any newer version should pick them up and start reconciliation automatically.</p>
+<p>When a new version of ASO does not change the stored version of a resource (say, adding support for an old version of Azure Redis, <code>v1api20201201</code>, in addition fo the existing support for <code>v1api20211201</code>) then the new version of ASO will be using the same API version of the resource as the prior release. In this situation, downgrading ASO to the prior version should work without issue.</p>
+<p>Given that it&rsquo;s unusual for a release of ASO to upgrade all resources, it&rsquo;s likely that you&rsquo;ll find both of the above scenarios in your cluster, depending on the variety of ASO supported resource types in play.</p>
+<h3 id="preparation-for-downgrading">Preparation for downgrading</h3>
+<p>For each ASO managed resource in your cluster</p>
+<ul>
+<li>Check the <a href="https://github.com/Azure/azure-service-operator/releases">ASO release notes</a> and the list of <a href="https://azure.github.io/azure-service-operator/reference/">supported resources</a> to identify whether the ASO upgrade added a new version for that resource type.</li>
+<li>Ensure you have the required YAML definition to recreate the resource in your cluster. If necessary, download the YAML definition for the resource using <code>kubectl get</code>.</li>
+</ul>
 
 	
 	

@@ -20,11 +20,11 @@
 
 <title>Deploying Azure Service Operator v2 in multi-tenant mode | Azure Service Operator</title>
 <meta name="description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
-Single operator multitenancy (default) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
+Single operator multitenancy (default, recommended) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
  Single global credential aso-controller-settings deployed as part of operator deployment in operator&amp;rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential.">
 <meta property="og:title" content="Deploying Azure Service Operator v2 in multi-tenant mode" />
 <meta property="og:description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
-Single operator multitenancy (default) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
+Single operator multitenancy (default, recommended) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
  Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" /><meta property="article:section" content="introduction" />
@@ -33,14 +33,14 @@ Single operator multitenancy (default) Single operator deployed in the azureserv
 
 <meta itemprop="name" content="Deploying Azure Service Operator v2 in multi-tenant mode">
 <meta itemprop="description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
-Single operator multitenancy (default) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
+Single operator multitenancy (default, recommended) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
  Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential.">
 
-<meta itemprop="wordCount" content="1164">
+<meta itemprop="wordCount" content="1160">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Service Operator v2 in multi-tenant mode"/>
 <meta name="twitter:description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
-Single operator multitenancy (default) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
+Single operator multitenancy (default, recommended) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
  Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential."/>
 
 
@@ -473,7 +473,7 @@ Single operator multitenancy (default) Single operator deployed in the azureserv
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#single-operator-multitenancy-default">Single operator multitenancy (default)</a>
+    <li><a href="#single-operator-multitenancy-default-recommended">Single operator multitenancy (default, recommended)</a>
       <ul>
         <li><a href="#deployment-using-service-principal">Deployment using Service Principal</a></li>
         <li><a href="#example-secret">Example Secret</a></li>
@@ -549,7 +549,7 @@ Single operator multitenancy (default) Single operator deployed in the azureserv
 		
 	</header>    
 	<p>Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.</p>
-<h2 id="single-operator-multitenancy-default">Single operator multitenancy (default)</h2>
+<h2 id="single-operator-multitenancy-default-recommended">Single operator multitenancy (default, recommended)</h2>
 <p>Single operator deployed in the <code>azureserviceoperator-system</code> namespace.
 This operator can be configured to manage resources with multiple different identities:</p>
 <ul>
@@ -688,11 +688,7 @@ secret/default-token-mqmpb       kubernetes.io/service-account-token   <span sty
 </code></pre><pre tabindex="0"><code>helm upgrade --install --devel aso2 aso2/azure-service-operator \
    --create-namespace \
    --namespace=azureserviceoperator-system \
-   --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-   --set azureTenantID=$AZURE_TENANT_ID \
-   --set azureClientID=$AZURE_CLIENT_ID \
-   --set azureClientSecret=$AZURE_CLIENT_SECRET
-   --set multitenant.enable=true
+   --set multitenant.enable=true \
    --set azureOperatorMode=webhooks
 </code></pre></li>
 <li>
@@ -700,12 +696,13 @@ secret/default-token-mqmpb       kubernetes.io/service-account-token   <span sty
 <pre tabindex="0"><code>helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
 </code></pre><pre tabindex="0"><code>helm upgrade --install --devel aso2 aso2/azure-service-operator \
    --create-namespace \
-   --namespace=azureserviceoperator-system \
+   --namespace=tenant1-system \
    --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
    --set azureTenantID=$AZURE_TENANT_ID \
    --set azureClientID=$AZURE_CLIENT_ID \
-   --set azureClientSecret=$AZURE_CLIENT_SECRET
-   --set multitenant.enable=true
+   --set azureClientSecret=$AZURE_CLIENT_SECRET \
+   --set multitenant.enable=true \
+   --set azureTargetNamespaces='{ns1,ns2,ns3}' \
    --set azureOperatorMode=watchers
 </code></pre></li>
 </ol>

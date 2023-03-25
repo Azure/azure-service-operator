@@ -485,6 +485,7 @@
     <li><a href="#resources">Resources</a></li>
     <li><a href="#servicebus">Servicebus</a></li>
     <li><a href="#signalrservice">Signalrservice</a></li>
+    <li><a href="#sql">Sql</a></li>
     <li><a href="#storage">Storage</a></li>
     <li><a href="#subscription">Subscription</a></li>
     <li><a href="#web">Web</a></li>
@@ -925,11 +926,25 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>ManagedCluster</td>
+<td>2023-02-02-preview</td>
+<td>v1beta20230202preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20230202preview/v1beta20230202preview_managedcluster.yaml">View</a></td>
+</tr>
+<tr>
+<td>ManagedCluster</td>
+<td>2023-02-01</td>
+<td>v1beta20230201</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20230201/v1beta20230201_managedcluster.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/#containerservice.azure.com/v1beta20210501.ManagedCluster">ManagedCluster</a></td>
 <td>2021-05-01</td>
 <td>v1beta20210501</td>
 <td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta/v1beta20210501_managedcluster.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20210501/v1beta20210501_managedcluster.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1alpha1api20210501/#containerservice.azure.com/v1alpha1api20210501.ManagedCluster">ManagedCluster</a></td>
@@ -939,11 +954,25 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1alpha1api/v1alpha1api20210501_managedcluster.yaml">View</a></td>
 </tr>
 <tr>
+<td>ManagedClustersAgentPool</td>
+<td>2023-02-02-preview</td>
+<td>v1beta20230202preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20230202preview/v1beta20230202preview_managedclustersagentpool.yaml">View</a></td>
+</tr>
+<tr>
+<td>ManagedClustersAgentPool</td>
+<td>2023-02-01</td>
+<td>v1beta20230201</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20230201/v1beta20230201_managedclustersagentpool.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/#containerservice.azure.com/v1beta20210501.ManagedClustersAgentPool">ManagedClustersAgentPool</a></td>
 <td>2021-05-01</td>
 <td>v1beta20210501</td>
 <td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta/v1beta20210501_managedclustersagentpool.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20210501/v1beta20210501_managedclustersagentpool.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1alpha1api20210501/#containerservice.azure.com/v1alpha1api20210501.ManagedClustersAgentPool">ManagedClustersAgentPool</a></td>
@@ -1948,6 +1977,175 @@ grouped by the originating ARM service.
 <td>v1alpha1api20211001</td>
 <td>v2.0.0-alpha.4</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1alpha1api/v1alpha1api20211001_signalr.yaml">View</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="sql">Sql</h2>
+<p>Supporting 22 resources: Server, ServersAdministrator, ServersAdvancedThreatProtectionSetting, ServersAuditingSetting, ServersAzureADOnlyAuthentication, ServersConnectionPolicy, ServersDatabase, ServersDatabasesAdvancedThreatProtectionSetting, ServersDatabasesAuditingSetting, ServersDatabasesBackupLongTermRetentionPolicy, ServersDatabasesBackupShortTermRetentionPolicy, ServersDatabasesSecurityAlertPolicy, ServersDatabasesTransparentDataEncryption, ServersDatabasesVulnerabilityAssessment, ServersElasticPool, ServersFailoverGroup, ServersFirewallRule, ServersIPV6FirewallRule, ServersOutboundFirewallRule, ServersSecurityAlertPolicy, ServersVirtualNetworkRule, ServersVulnerabilityAssessment</p>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>ARM Version</th>
+<th>CRD Version</th>
+<th>Supported From</th>
+<th>Sample</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_server.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersAdministrator</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversadministrator.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersAdvancedThreatProtectionSetting</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversadvancedthreatprotectionsetting.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersAuditingSetting</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversauditingsetting.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersAzureADOnlyAuthentication</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversazureadonlyauthentication.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersConnectionPolicy</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversconnectionpolicy.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersDatabase</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabase.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersDatabasesAdvancedThreatProtectionSetting</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesadvancedthreatprotectionsetting.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersDatabasesAuditingSetting</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesauditingsetting.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersDatabasesBackupLongTermRetentionPolicy</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesbackuplongtermretentionpolicy.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersDatabasesBackupShortTermRetentionPolicy</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesbackupshorttermretentionpolicy.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersDatabasesSecurityAlertPolicy</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasessecurityalertpolicy.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersDatabasesTransparentDataEncryption</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasestransparentdataencryption.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersDatabasesVulnerabilityAssessment</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesvulnerabilityassessment.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersElasticPool</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serverselasticpool.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersFailoverGroup</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversfailovergroup.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersFirewallRule</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversfirewallrule.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersIPV6FirewallRule</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversipv6firewallrule.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersOutboundFirewallRule</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversoutboundfirewallrule.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersSecurityAlertPolicy</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serverssecurityalertpolicy.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersVirtualNetworkRule</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversvirtualnetworkrule.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServersVulnerabilityAssessment</td>
+<td>2021-11-01</td>
+<td>v1beta20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversvulnerabilityassessment.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
