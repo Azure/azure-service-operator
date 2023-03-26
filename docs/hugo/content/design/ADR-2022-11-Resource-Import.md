@@ -82,7 +82,7 @@ $ asoctl export resource http://management.azure.com/subscriptions/00000000-0000
 
 The process of generating the YAML for a given resource can be simplified to the following flow:
 
-![Data Flow](images/adr-2022-11-import-flow.png)
+![Data Flow](../images/adr-2022-11-import-flow.png)
 
 1. The user specified URL is used to ***GET*** the resource from Azure in its native ARM format.
 2. We apply a ***conversion*** to obtain a Status object for the relevant custom resource.

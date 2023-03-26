@@ -147,11 +147,11 @@ Complicating the situation, definitions can form a hierarchy, with multiple leve
 
 We can depict these relationships visually:
 
-![Media Codecs](images/adr-2022-08-swagger-heirarchy.png)
+![Media Codecs](../images/adr-2022-08-swagger-heirarchy.png)
 
 In order for the rest of the ASO code generator to operate normally, we need to transform this structure into one that matches the form available in the original JSON Schema:
 
-![Transformed Codecs](images/adr-2022-08-post-transform.png)
+![Transformed Codecs](../images/adr-2022-08-post-transform.png)
 
 The changes here are:
 
@@ -194,7 +194,7 @@ We handle this by synthesizing a discriminator property for each derived type th
 
 Not every "ancestor" of a OneOf will necessarily itself be a OneOf; they may also be a regular object type or an AllOf type. 
 
-TODO: IMAGE HERE
+![AllOf as Ancestor](../images/adr-2022-08-allof-ancestors.png)
 
 When we walk the parents of a leaf OneOf to find all the potential properties, we need to walk these references as well.
 
