@@ -33,7 +33,7 @@ Context When parsing a JSON Schema and populating our abstract-syntax-model (ast
 <meta itemprop="description" content="Coined in frustration by the ASO project team, the phrase evil discriminator identifies the fundamental differences in the way polymorphic API payloads are defined in Swagger, as compared to the JSON Schema on which ASO was originally based.
 Context When parsing a JSON Schema and populating our abstract-syntax-model (astmodel), all of the available options for a OneOf are available as children of a single node. This makes processing relatively simple, and greatly influenced our object model during the original development of ASO.">
 
-<meta itemprop="wordCount" content="931">
+<meta itemprop="wordCount" content="928">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2022-08 Evil Discriminator"/>
 <meta name="twitter:description" content="Coined in frustration by the ASO project team, the phrase evil discriminator identifies the fundamental differences in the way polymorphic API payloads are defined in Swagger, as compared to the JSON Schema on which ASO was originally based.
@@ -656,9 +656,9 @@ Context When parsing a JSON Schema and populating our abstract-syntax-model (ast
   <span style="color:#f92672">&#34;description&#34;</span>: <span style="color:#e6db74">&#34;Describes Advanced Audio Codec (AAC) audio encoding settings.&#34;</span>
 }<span style="color:#960050;background-color:#1e0010">,</span>
 </code></pre></div><p>We can depict these relationships visually:</p>
-<p><img src="images/adr-2022-08-swagger-heirarchy.png" alt="Media Codecs"></p>
+<p><img src="../images/adr-2022-08-swagger-heirarchy.png" alt="Media Codecs"></p>
 <p>In order for the rest of the ASO code generator to operate normally, we need to transform this structure into one that matches the form available in the original JSON Schema:</p>
-<p><img src="images/adr-2022-08-post-transform.png" alt="Transformed Codecs"></p>
+<p><img src="../images/adr-2022-08-post-transform.png" alt="Transformed Codecs"></p>
 <p>The changes here are:</p>
 <ul>
 <li>All references are reversed, so that <code>Codec</code> references each potential derivation.</li>
@@ -683,7 +683,7 @@ Context When parsing a JSON Schema and populating our abstract-syntax-model (ast
 <p>We handle this by synthesizing a discriminator property for each derived type that doesn&rsquo;t have one. The single value of the enumeration is the discriminator value for the type.</p>
 <h3 id="challenge-non-oneof-ancestors">Challenge: Non-OneOf ancestors</h3>
 <p>Not every &ldquo;ancestor&rdquo; of a OneOf will necessarily itself be a OneOf; they may also be a regular object type or an AllOf type.</p>
-<p>TODO: IMAGE HERE</p>
+<p><img src="../images/adr-2022-08-allof-ancestors.png" alt="AllOf as Ancestor"></p>
 <p>When we walk the parents of a leaf OneOf to find all the potential properties, we need to walk these references as well.</p>
 <p>For example, in the above diagram, we need to hoist properties from multiple levels to the leaf <code>MLTableData</code>:</p>
 <ul>

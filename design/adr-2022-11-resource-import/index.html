@@ -605,7 +605,7 @@ Version Integration We would add new hand-written resources into ASO v2 with the
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl export resource http://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1
 </code></pre></div><h3 id="data-flow">Data Flow</h3>
 <p>The process of generating the YAML for a given resource can be simplified to the following flow:</p>
-<p><img src="images/adr-2022-11-import-flow.png" alt="Data Flow"></p>
+<p><img src="../images/adr-2022-11-import-flow.png" alt="Data Flow"></p>
 <ol>
 <li>The user specified URL is used to <em><strong>GET</strong></em> the resource from Azure in its native ARM format.</li>
 <li>We apply a <em><strong>conversion</strong></em> to obtain a Status object for the relevant custom resource.</li>
