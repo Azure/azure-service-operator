@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-package v1beta1
+package v1
 
 import (
-	"fmt"
-
-	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
-	v1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -26,6 +22,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
+// +kubebuilder:storageversion
 // User is a MySQL user
 type User struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -46,7 +43,7 @@ func (user *User) SetConditions(conditions conditions.Conditions) {
 	user.Status.Conditions = conditions
 }
 
-// +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1beta1-user,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=users,verbs=create;update,versions=v1beta1,name=default.v1beta1.users.dbformysql.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1-user,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=users,verbs=create;update,versions=v1,name=default.v1.users.dbformysql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &User{}
 
@@ -86,7 +83,7 @@ func (user *User) Owner() *genruntime.ResourceReference {
 	}
 }
 
-// +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1beta1-user,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=users,verbs=create;update,versions=v1beta1,name=validate.v1beta1.users.dbformysql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1-user,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=users,verbs=create;update,versions=v1,name=validate.v1.users.dbformysql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &User{}
 
@@ -156,76 +153,10 @@ func (user *User) updateValidations() []func(old runtime.Object) error {
 	return nil
 }
 
-var _ conversion.Convertible = &User{}
+var _ conversion.Hub = &User{}
 
-// ConvertFrom populates our ConfigurationStore from the provided hub ConfigurationStore
-func (user *User) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1.User)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1/User but received %T instead", hub)
-	}
-
-	return user.AssignProperties_From_User(source)
-}
-
-// ConvertTo populates the provided hub ConfigurationStore from our ConfigurationStore
-func (user *User) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1.User)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1/User but received %T instead", hub)
-	}
-
-	return user.AssignProperties_To_User(destination)
-}
-
-// AssignProperties_To_User populates the provided destination User from our User
-func (user *User) AssignProperties_To_User(destination *v1.User) error {
-	// ObjectMeta
-	destination.ObjectMeta = *user.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec v1.UserSpec
-	err := user.Spec.AssignProperties_To_UserSpec(&spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_User_Spec() to populate field Spec")
-	}
-	destination.Spec = spec
-
-	// Status
-	var status v1.UserStatus
-	err = user.Status.AssignProperties_To_UserStatus(&status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_To_User_Status() to populate field Status")
-	}
-	destination.Status = status
-
-	// No error
-	return nil
-}
-
-func (user *User) AssignProperties_From_User(source *v1.User) error {
-	// ObjectMeta
-	user.ObjectMeta = *source.ObjectMeta.DeepCopy()
-
-	// Spec
-	var spec UserSpec
-	err := spec.AssignProperties_From_UserSpec(&source.Spec)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_UserSpec() to populate field Spec")
-	}
-	user.Spec = spec
-
-	// Status
-	var status UserStatus
-	err = status.AssignProperties_From_UserStatus(&source.Status)
-	if err != nil {
-		return errors.Wrap(err, "calling AssignProperties_From_UserStatus() to populate field Status")
-	}
-	user.Status = status
-
-	// No error
-	return nil
-}
+// Hub marks that this userSpec is the hub type for conversion
+func (user *User) Hub() {}
 
 // +kubebuilder:object:root=true
 type UserList struct {
@@ -266,88 +197,6 @@ type UserSpec struct {
 	LocalUser *LocalUserSpec `json:"localUser,omitempty"`
 }
 
-func (userSpec *UserSpec) AssignProperties_To_UserSpec(destination *v1.UserSpec) error {
-	// AzureName
-	destination.AzureName = userSpec.AzureName
-
-	// Owner
-	if userSpec.Owner != nil {
-		owner := userSpec.Owner.Copy()
-		destination.Owner = &owner
-	} else {
-		destination.Owner = nil
-	}
-
-	// Hostname
-	destination.Hostname = userSpec.Hostname
-
-	// Privileges
-	destination.Privileges = genruntime.CloneSliceOfString(userSpec.Privileges)
-
-	// DatabasePrivileges
-	if userSpec.DatabasePrivileges != nil {
-		result := make(map[string][]string, len(userSpec.DatabasePrivileges))
-		for k, v := range userSpec.DatabasePrivileges {
-			result[k] = genruntime.CloneSliceOfString(v)
-		}
-
-		destination.DatabasePrivileges = result
-	}
-
-	// LocalUser
-	if userSpec.LocalUser != nil {
-		destination.LocalUser = &v1.LocalUserSpec{
-			ServerAdminUsername: userSpec.LocalUser.ServerAdminUsername,
-			Password:            userSpec.LocalUser.Password.DeepCopy(),
-			ServerAdminPassword: userSpec.LocalUser.ServerAdminPassword.DeepCopy(),
-		}
-	}
-
-	// No error
-	return nil
-}
-
-func (userSpec *UserSpec) AssignProperties_From_UserSpec(source *v1.UserSpec) error {
-	// AzureName
-	userSpec.AzureName = source.AzureName
-
-	// Owner
-	if source.Owner != nil {
-		owner := source.Owner.Copy()
-		userSpec.Owner = &owner
-	} else {
-		userSpec.Owner = nil
-	}
-
-	// Hostname
-	userSpec.Hostname = source.Hostname
-
-	// Privileges
-	userSpec.Privileges = genruntime.CloneSliceOfString(source.Privileges)
-
-	// DatabasePrivileges
-	if source.DatabasePrivileges != nil {
-		result := make(map[string][]string, len(source.DatabasePrivileges))
-		for k, v := range source.DatabasePrivileges {
-			result[k] = genruntime.CloneSliceOfString(v)
-		}
-
-		userSpec.DatabasePrivileges = result
-	}
-
-	// LocalUser
-	if source.LocalUser != nil {
-		userSpec.LocalUser = &LocalUserSpec{
-			ServerAdminUsername: source.LocalUser.ServerAdminUsername,
-			Password:            source.LocalUser.Password.DeepCopy(),
-			ServerAdminPassword: source.LocalUser.ServerAdminPassword.DeepCopy(),
-		}
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (userSpec *UserSpec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -355,6 +204,26 @@ func (userSpec *UserSpec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (userSpec *UserSpec) SetAzureName(azureName string) { userSpec.AzureName = azureName }
+
+//var _ genruntime.ConvertibleSpec = &UserSpec{}
+//
+//// ConvertSpecFrom populates our ConfigurationStore_Spec from the provided source
+//func (userSpec *UserSpec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+//	if source == userSpec {
+//		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+//	}
+//
+//	return source.ConvertSpecTo(userSpec)
+//}
+//
+//// ConvertSpecTo populates the provided destination from our ConfigurationStore_Spec
+//func (userSpec *UserSpec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+//	if destination == userSpec {
+//		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+//	}
+//
+//	return destination.ConvertSpecFrom(userSpec)
+//}
 
 type LocalUserSpec struct {
 	// +kubebuilder:validation:Required
@@ -375,19 +244,26 @@ type UserStatus struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 }
 
-func (userSpec *UserStatus) AssignProperties_To_UserStatus(destination *v1.UserStatus) error {
-	destination.Conditions = genruntime.CloneSliceOfCondition(userSpec.Conditions)
-
-	// No error
-	return nil
-}
-
-func (userSpec *UserStatus) AssignProperties_From_UserStatus(source *v1.UserStatus) error {
-	userSpec.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// No error
-	return nil
-}
+// TODO: Where are these (and the spec flavors) called? Or are these just placehodlers for if/when there's a newer version?
+//var _ genruntime.ConvertibleStatus = &UserStatus{}
+//
+//// ConvertStatusFrom populates our ConfigurationStore_STATUS from the provided source
+//func (userStatus *UserStatus) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+//	if source == userStatus {
+//		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+//	}
+//
+//	return source.ConvertStatusTo(userStatus)
+//}
+//
+//// ConvertStatusTo populates the provided destination from our ConfigurationStore_STATUS
+//func (userStatus *UserStatus) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+//	if destination == userStatus {
+//		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+//	}
+//
+//	return destination.ConvertStatusFrom(userStatus)
+//}
 
 func init() {
 	SchemeBuilder.Register(&User{}, &UserList{})

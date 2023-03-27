@@ -16,8 +16,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	asomysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	dbformysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
-	asomysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"

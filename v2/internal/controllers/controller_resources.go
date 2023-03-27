@@ -11,26 +11,25 @@ import (
 	"reflect"
 	"time"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/conversion"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 	"sigs.k8s.io/controller-runtime/pkg/source"
 
-	"github.com/go-logr/logr"
-	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
-	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/handler"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
-
+	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
+	mysqlbeta "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
-
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
@@ -69,7 +68,7 @@ func GetKnownStorageTypes(
 	knownStorageTypes = append(
 		knownStorageTypes,
 		&registration.StorageType{
-			Obj:  &mysql.User{},
+			Obj:  &mysqlv1.User{},
 			Name: "UserController",
 			Reconciler: mysqlreconciler.NewMySQLUserReconciler(
 				kubeClient,
@@ -86,7 +85,7 @@ func GetKnownStorageTypes(
 			Watches: []registration.Watch{
 				{
 					Src:              &source.Kind{Type: &corev1.Secret{}},
-					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &mysql.UserList{}),
+					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &mysqlv1.UserList{}),
 				},
 			},
 		})
@@ -222,14 +221,16 @@ func GetKnownTypes() []client.Object {
 
 	knownTypes = append(
 		knownTypes,
-		&mysql.User{})
+		&mysqlbeta.User{},
+		&mysqlv1.User{})
 
 	return knownTypes
 }
 
 func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
-	_ = mysql.AddToScheme(scheme)
+	_ = mysqlbeta.AddToScheme(scheme)
+	_ = mysqlv1.AddToScheme(scheme)
 
 	return scheme
 }

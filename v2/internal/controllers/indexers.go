@@ -8,7 +8,7 @@ package controllers
 import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 )
 
 // indexMySQLUserPassword an index function for mysql user passwords
