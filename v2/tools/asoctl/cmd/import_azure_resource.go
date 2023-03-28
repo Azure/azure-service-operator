@@ -29,11 +29,10 @@ func newImportAzureResourceCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "azure-resource <ARM/ID/of/resource>",
 		Short: "imports an ARM resource as a CR",
-		Args:  cobra.ExactArgs(1),
+		Args:  cobra.ArbitraryArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			armID := args[0]
 			ctx := cmd.Context()
-			return importAzureResource(ctx, armID, outputPath)
+			return importAzureResource(ctx, args, outputPath)
 		},
 	}
 
@@ -47,7 +46,7 @@ func newImportAzureResourceCommand() *cobra.Command {
 }
 
 // importAzureResource imports an ARM resource and writes the YAML to stdout or a file
-func importAzureResource(ctx context.Context, armID string, outputPath *string) error {
+func importAzureResource(ctx context.Context, armIDs []string, outputPath *string) error {
 	//TODO: Support other clouds
 
 	activeCloud := cloud.AzurePublic
@@ -66,11 +65,13 @@ func importAzureResource(ctx context.Context, armID string, outputPath *string) 
 	}
 
 	importer := importing.NewResourceImporter(api.CreateScheme(), client)
-	importer.AddARMID(armID)
+	for _, armID := range armIDs {
+		importer.AddARMID(armID)
+	}
 
 	result, err := importer.Import(ctx)
 	if err != nil {
-		return errors.Wrapf(err, "failed to import resource %s:", armID)
+		return errors.Wrap(err, "failed to import resources")
 	}
 
 	if outputPath == nil || *outputPath == "" {
