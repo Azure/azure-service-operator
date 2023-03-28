@@ -10,9 +10,11 @@ import (
 	"io"
 	"os"
 
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 	"sigs.k8s.io/yaml"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // ResourceImportResult represents the result of an import operation
@@ -30,6 +32,26 @@ func (r *ResourceImportResult) SaveToWriter(destination io.Writer) error {
 	if err != nil {
 		return errors.Wrap(err, "unable to save to writer")
 	}
+
+	// Sort objects into a deterministic order
+	slices.SortFunc(r.resources, func(left genruntime.MetaObject, right genruntime.MetaObject) bool {
+		leftGVK := left.GetObjectKind().GroupVersionKind()
+		rightGVK := right.GetObjectKind().GroupVersionKind()
+
+		if leftGVK.Group != rightGVK.Group {
+			return leftGVK.Group < rightGVK.Group
+		}
+
+		if leftGVK.Version != rightGVK.Version {
+			return leftGVK.Version < rightGVK.Version
+		}
+
+		if leftGVK.Kind != rightGVK.Kind {
+			return leftGVK.Kind < rightGVK.Kind
+		}
+
+		return left.GetName() < right.GetName()
+	})
 
 	for _, resource := range r.resources {
 		data, err := yaml.Marshal(resource)

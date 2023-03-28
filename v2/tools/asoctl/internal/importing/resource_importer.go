@@ -6,121 +6,77 @@
 package importing
 
 import (
-	"strings"
+	"context"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/versions"
 	"github.com/pkg/errors"
-	"golang.org/x/exp/slices"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/klog/v2"
 
-	azruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
 // ResourceImporter is the entry point for importing resources.
 // Factory methods here provide ways to instantiate importers for different kinds of resources.
 type ResourceImporter struct {
-	// scheme is a reference to the scheme used by asoctl
-	scheme *runtime.Scheme
+	scheme    *runtime.Scheme                 // a reference to the scheme used by asoctl
+	client    *genericarmclient.GenericClient // Client to use when talking to ARM
+	pending   []ImportableResource            // A set of importers that are pending import
+	completed map[string]ImportableResource   // A set of importers that have been imported
 }
 
 // NewResourceImporter creates a new factory with the scheme baked in
-func NewResourceImporter(scheme *runtime.Scheme) *ResourceImporter {
+func NewResourceImporter(
+	scheme *runtime.Scheme,
+	client *genericarmclient.GenericClient,
+) *ResourceImporter {
 	return &ResourceImporter{
-		scheme: scheme,
+		scheme:    scheme,
+		client:    client,
+		completed: make(map[string]ImportableResource),
 	}
 }
 
-// CreateARMImporter creates an ARMResourceImporter with the given client and service configuration.
-func (f *ResourceImporter) CreateARMImporter(
-	client *azruntime.Pipeline,
-	serviceConfig cloud.ServiceConfiguration,
-) *ARMResourceImporter {
-	return &ARMResourceImporter{
-		ResourceImporter:     *f,
-		client:               client,
-		serviceConfiguration: serviceConfig,
-	}
+// Add adds an importer to the list of resources to import.
+func (ri *ResourceImporter) Add(importer ImportableResource) {
+	ri.pending = append(ri.pending, importer)
 }
 
-// Scheme returns the scheme used by the importer.
-func (f *ResourceImporter) Scheme() *runtime.Scheme {
-	return f.scheme
+// AddARMID adds an ARM ID to the list of resources to import.
+func (ri *ResourceImporter) AddARMID(armID string) {
+	importer := NewImportableARMResource(armID, ri.client, ri.scheme)
+	ri.Add(importer)
 }
 
-// createBlankObjectFromGVK is a helper function to create a blank object of from a given GVK.
-func (f *ResourceImporter) createBlankObjectFromGVK(gvk schema.GroupVersionKind) (runtime.Object, error) {
-	obj, err := f.scheme.New(gvk)
-	if err != nil {
-		return nil, errors.Wrap(err, "unable to create blank resource")
-	}
+// Import imports all the resources that have been added to the importer
+func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, error) {
+	for len(ri.pending) > 0 {
+		// Remove the first pending importer
+		importer := ri.pending[0]
+		ri.pending = ri.pending[1:]
 
-	obj.GetObjectKind().SetGroupVersionKind(gvk)
-	return obj, nil
-}
-
-// selectVersionFromGK is a helper function to select the latest version of a given GroupKind.
-// The latest stable version will be selected if it exists, otherwise the latest preview version will be selected.
-func (f *ResourceImporter) selectVersionFromGK(gk schema.GroupKind) (schema.GroupVersionKind, error) {
-	knownVersions := f.scheme.VersionsForGroupKind(gk)
-	if len(knownVersions) == 0 {
-		return schema.GroupVersionKind{},
-			errors.Errorf(
-				"no known versions for Group %s, Kind %s",
-				gk.Group,
-				gk.Kind)
-	}
-
-	return f.selectLatestVersion(gk, knownVersions), nil
-}
-
-// selectLatestVersion is a helper function to select the latest from a slice of GroupVersions
-// The latest stable version will be selected if it exists, otherwise the latest preview version will be selected.
-func (*ResourceImporter) selectLatestVersion(
-	gk schema.GroupKind,
-	knownVersions []schema.GroupVersion,
-) schema.GroupVersionKind {
-	// Sort the versions the same way we do in the generator, for consistency.
-	// The versions.Compare() function used to sort the versions is the one exported by the generator.
-	slices.SortFunc(
-		knownVersions,
-		func(left schema.GroupVersion, right schema.GroupVersion) bool {
-			return versions.Compare(left.Version, right.Version)
-		})
-
-	isStorageVersion := func(version string) bool {
-		return strings.HasSuffix(version, "storage")
-	}
-
-	// Ideally we want to find the latest stable version, but if there isn't one we'll take the latest preview.
-	// Preview versions might introduce odd behaviour, so we err on the side of caution.
-	// Storage versions need to be skipped though, as they don't have a fixed OriginalVersion()
-	var previewVersion schema.GroupVersion
-	var stableVersion schema.GroupVersion
-	for _, gv := range knownVersions {
-		if isStorageVersion(gv.Version) {
-			// Skip storage versions
+		// If we've already handled this resource, skip it
+		if _, ok := ri.completed[importer.Name()]; ok {
 			continue
 		}
 
-		if versions.IsPreview(gv.Version) {
-			previewVersion = gv
-		} else {
-			stableVersion = gv
+		// Import it
+		pending, err := importer.Import(ctx)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed during import of %s", importer.Name())
 		}
+
+		ri.completed[importer.Name()] = importer
+		ri.pending = append(ri.pending, pending...)
 	}
 
-	var result schema.GroupVersionKind
-	if !stableVersion.Empty() {
-		result = stableVersion.WithKind(gk.Kind)
-	} else {
-		result = previewVersion.WithKind(gk.Kind)
+	// Now we've imported everything, return the resources
+	resources := make([]genruntime.MetaObject, 0, len(ri.completed))
+	for _, importer := range ri.completed {
+		resources = append(resources, importer.Resource())
 	}
 
-	// Only need to log version as Group and Kind will have been logged elsewhere
-	klog.V(3).Infof("Version: %s", result.Version)
-
-	return result
+	return &ResourceImportResult{
+		resources: resources,
+	}, nil
 }

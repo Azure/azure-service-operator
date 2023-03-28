@@ -10,9 +10,13 @@ import (
 	"os"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/version"
 
 	"github.com/Azure/azure-service-operator/v2/api"
 
@@ -47,17 +51,24 @@ func importAzureResource(ctx context.Context, armID string, outputPath *string) 
 	//TODO: Support other clouds
 
 	activeCloud := cloud.AzurePublic
-	client, err := importing.CreateARMClient(activeCloud)
+	creds, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return errors.Wrap(err, "unable to get default azure credential")
+	}
+
+	options := &genericarmclient.GenericClientOptions{
+		UserAgent: "asoctl/" + version.BuildVersion,
+	}
+
+	client, err := genericarmclient.NewGenericClient(activeCloud, creds, options)
 	if err != nil {
 		return errors.Wrapf(err, "failed to create ARM client")
 	}
 
-	importer := importing.NewResourceImporter(api.CreateScheme())
-	armImporter := importer.CreateARMImporter(
-		client,
-		activeCloud.Services[cloud.ResourceManager])
+	importer := importing.NewResourceImporter(api.CreateScheme(), client)
+	importer.AddARMID(armID)
 
-	result, err := armImporter.Import(ctx, armID)
+	result, err := importer.Import(ctx)
 	if err != nil {
 		return errors.Wrapf(err, "failed to import resource %s:", armID)
 	}
