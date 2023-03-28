@@ -68,7 +68,7 @@ Key folders of note include:
 * [`pkg`](https://github.com/Azure/azure-service-operator/tree/main/v2/pkg) contains the package `genruntime` which is provides infrastructure for our generated resources.
 * [`internal`](https://github.com/Azure/azure-service-operator/tree/main/v2/internal) contains packages used by our generic controller.
 
-![Overview](./images/aso-v2-structure.svg)
+![Overview](images/aso-v2-structure.svg)
 
 The size of each dot reflects the size of the file; the legend in the corner shows the meaning of colour.
 
