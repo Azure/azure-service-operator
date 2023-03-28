@@ -6,20 +6,11 @@
 package metrics
 
 import (
-	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"sigs.k8s.io/controller-runtime/pkg/metrics"
-)
-
-type HTTPMethod string
-
-const (
-	HttpPut    HTTPMethod = http.MethodPut
-	HttpDelete HTTPMethod = http.MethodDelete
-	HttpGet    HTTPMethod = http.MethodGet
 )
 
 type ARMClientMetrics struct {
@@ -60,16 +51,16 @@ func (a *ARMClientMetrics) RegisterMetrics() {
 }
 
 // RecordAzureSuccessRequestsTotal records the total successful number requests to ARM by increasing the counter.
-func (a *ARMClientMetrics) RecordAzureSuccessRequestsTotal(resourceName string, statusCode int, method HTTPMethod) {
-	a.azureSuccessfulRequestsTotal.WithLabelValues(resourceName, string(method), strconv.Itoa(statusCode)).Inc()
+func (a *ARMClientMetrics) RecordAzureSuccessRequestsTotal(resourceName string, statusCode int, method string) {
+	a.azureSuccessfulRequestsTotal.WithLabelValues(resourceName, method, strconv.Itoa(statusCode)).Inc()
 }
 
 // RecordAzureFailedRequestsTotal records the number of failed requests to ARM.
-func (a *ARMClientMetrics) RecordAzureFailedRequestsTotal(resourceName string, method HTTPMethod) {
-	a.azureFailedRequestsTotal.WithLabelValues(resourceName, string(method)).Inc()
+func (a *ARMClientMetrics) RecordAzureFailedRequestsTotal(resourceName string, method string) {
+	a.azureFailedRequestsTotal.WithLabelValues(resourceName, method).Inc()
 }
 
 // RecordAzureRequestsTime records the round-trip time taken by the request to ARM.
-func (a ARMClientMetrics) RecordAzureRequestsTime(resourceName string, requestTime time.Duration, method HTTPMethod) {
-	a.azureRequestsTime.WithLabelValues(resourceName, string(method)).Observe(requestTime.Seconds())
+func (a ARMClientMetrics) RecordAzureRequestsTime(resourceName string, requestTime time.Duration, method string) {
+	a.azureRequestsTime.WithLabelValues(resourceName, method).Observe(requestTime.Seconds())
 }

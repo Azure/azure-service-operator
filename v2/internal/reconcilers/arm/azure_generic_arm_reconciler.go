@@ -105,15 +105,15 @@ func (r *AzureDeploymentReconciler) makeInstance(
 	// Augment Log with ARM specific stuff
 	log = log.WithValues("azureName", typedObj.AzureName())
 
-	armClient, credentialFrom, err := r.ARMClientFactory(ctx, typedObj)
+	clientDetails, err := r.ARMClientFactory(ctx, typedObj)
 	if err != nil {
 		return nil, err
 	}
 
-	eventRecorder.Eventf(obj, v1.EventTypeNormal, "CredentialFrom", "Using credential from %q", credentialFrom)
+	eventRecorder.Eventf(obj, v1.EventTypeNormal, "CredentialFrom", "Using credential from %q", clientDetails.CredentialFrom.String())
 
 	// TODO: The line between AzureDeploymentReconciler and azureDeploymentReconcilerInstance is still pretty blurry
-	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, armClient, *r), nil
+	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, clientDetails, *r), nil
 }
 
 func (r *AzureDeploymentReconciler) CreateOrUpdate(

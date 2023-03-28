@@ -32,29 +32,31 @@ const DeletePollerID = "GenericClient.DeleteByID"
 // which was then moved to here: https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/resourcemanager/resources/armresources/zz_generated_client.go
 
 type GenericClient struct {
-	endpoint       string
-	pl             runtime.Pipeline
-	subscriptionID string
-	creds          azcore.TokenCredential
-	opts           *arm.ClientOptions
-	metrics        *metrics.ARMClientMetrics
+	endpoint string
+	pl       runtime.Pipeline
+	creds    azcore.TokenCredential
+	opts     *arm.ClientOptions
 }
 
 // TODO: Need to do retryAfter detection in each call?
 
-// NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, subscriptionID string, metrics *metrics.ARMClientMetrics) (*GenericClient, error) {
-	return NewGenericClientFromHTTPClient(cloudCfg, creds, nil, subscriptionID, metrics)
+type GenericClientOptions struct {
+	HttpClient *http.Client
+	Metrics    *metrics.ARMClientMetrics
 }
 
-// NewGenericClientFromHTTPClient creates a new instance of GenericClient from the provided connection.
-func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics *metrics.ARMClientMetrics) (*GenericClient, error) {
+// NewGenericClient creates a new instance of GenericClient
+func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, options *GenericClientOptions) (*GenericClient, error) {
 	rmConfig, ok := cloudCfg.Services[cloud.ResourceManager]
 	if !ok {
 		return nil, errors.Errorf("provided cloud missing %q entry", cloud.ResourceManager)
 	}
 	if rmConfig.Endpoint == "" {
 		return nil, errors.New("provided cloud missing resourceManager.Endpoint entry")
+	}
+
+	if options == nil {
+		options = &GenericClientOptions{}
 	}
 
 	opts := &arm.ClientOptions{
@@ -82,33 +84,28 @@ func NewGenericClientFromHTTPClient(cloudCfg cloud.Configuration, creds azcore.T
 	// We assign this HTTPClient like this because if we actually set it to nil, due to the way
 	// go interfaces wrap values, the subsequent if httpClient == nil check returns false (even though
 	// the value IN the interface IS nil).
-	if httpClient != nil {
-		opts.Transport = httpClient
+	if options.HttpClient != nil {
+		opts.Transport = options.HttpClient
 	} else {
 		opts.Transport = defaultHttpClient
 	}
 
 	opts.PerCallPolicies = append([]policy.Policy{rpRegistrationPolicy}, opts.PerCallPolicies...)
-
+	if options.Metrics != nil {
+		opts.PerCallPolicies = append(opts.PerCallPolicies, metrics.NewMetricsPolicy(options.Metrics))
+	}
 	pipeline, err := armruntime.NewPipeline("generic", version.BuildVersion, creds, runtime.PipelineOptions{}, opts)
 	if err != nil {
 		return nil, err
 	}
 
 	return &GenericClient{
-		endpoint:       rmConfig.Endpoint,
-		pl:             pipeline,
-		creds:          creds,
-		subscriptionID: subscriptionID,
-		opts:           opts,
-		metrics:        metrics,
+		endpoint: rmConfig.Endpoint,
+		pl:       pipeline,
+		creds:    creds,
+		opts:     opts,
 	}, nil
 
-}
-
-// SubscriptionID returns the subscription the client is configured for
-func (client *GenericClient) SubscriptionID() string {
-	return client.subscriptionID
 }
 
 // Creds returns the credentials used by this client
@@ -160,19 +157,10 @@ func (client *GenericClient) createOrUpdateByID(
 		return nil, err
 	}
 
-	requestStartTime := time.Now()
 	resp, err := client.pl.Do(req)
-
-	// Ignoring error here as resourceID would always be correct at this stage.
-	resourceType := metrics.GetTypeFromResourceID(resourceID)
-
-	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpPut)
-
 	if err != nil {
-		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpPut)
-		return nil, err
+		return resp, err
 	}
-	client.metrics.RecordAzureSuccessRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
 
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusCreated, http.StatusAccepted) {
 		return nil, client.handleError(resp)
@@ -293,19 +281,10 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 		return nil, err
 	}
 
-	requestStartTime := time.Now()
 	resp, err := client.pl.Do(req)
-
-	// Ignoring error here as resourceID would always be correct at this stage.
-	resourceType := metrics.GetTypeFromResourceID(resourceID)
-
-	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpDelete)
-
 	if err != nil {
-		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpDelete)
-		return nil, err
+		return resp, err
 	}
-	client.metrics.RecordAzureSuccessRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
 
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusAccepted, http.StatusNoContent) {
 		return nil, runtime.NewResponseError(resp)
