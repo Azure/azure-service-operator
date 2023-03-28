@@ -8,7 +8,7 @@ The current behaviour of Azure Service Operator (ASO) is to set the `Ready` stat
 
 For some resources, this is not sufficient as there may be additional steps required after initial creation of the resource. We need the ability to check the status of a created resource post reconciliation and set a condition accordingly. 
 
-An example of this is `PrivateEndpoints` with `ConnectionState` of `Approved`, `Rejected` or `Pending`.
+An example of this is `PrivateEndpoints` with `ConnectionState` of `Approved`, `Rejected` or `Pending`. We don't want a `PrivateEndpoint` to go to condition `Ready` until the connection is approved.
 
 We need a way to extend the operator to handle the above case, an extension point to be called post reconciliation allowing handwritten code to set a custom condition on the resource based on the status we've received from ARM.
 
