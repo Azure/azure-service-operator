@@ -12,7 +12,7 @@ An example of this:
 
 - `PrivateEndpoints` with `ConnectionState` of `Approved`, `Rejected` or `Pending`.
 
-We need a way to allow the operator to handle the above case in a way where we can write an extension point to be called post reconciliation. Which allows the operator to set a custom condition on the resource based on the status we've received from ARM.
+We need a way to extend the operator to handle the above case, an extension point to be called post reconciliation allowing handwritten code to set a custom condition on the resource based on the status we've received from ARM.
 
 ## Decision
 
