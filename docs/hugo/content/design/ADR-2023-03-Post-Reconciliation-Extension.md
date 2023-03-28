@@ -26,8 +26,8 @@ The extension point will receive the following parameters:
 
 The return will be one of three possibilities:
 
-- `Success` as `PostReconcileResult` if the post reconcile check is met. Nothing to do, the existing reconciler behaviour applies here.  
-- `Failure` as `PostReconcileResult` if the post reconcile check is not met. In this case, `NewReadyConditionImpactingError` would be set on the resource by the reconciler.
+- `Success` as `PostReconcileCheckResult` if the post reconcile check is met. Nothing to do, the existing reconciler behaviour applies here.  
+- `Failure` as `PostReconcileCheckResult` if the post reconcile check is not met. In this case, `NewReadyConditionImpactingError` would be set on the resource by the reconciler.
 - `error` if something went wrong.
 
 ## Status
