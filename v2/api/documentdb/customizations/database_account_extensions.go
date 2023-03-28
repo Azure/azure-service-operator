@@ -9,7 +9,6 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos"
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
@@ -19,6 +18,7 @@ import (
 	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -113,11 +113,11 @@ func secretsToWrite(obj *documentdb.DatabaseAccount, accessKeys armcosmos.Databa
 	}
 
 	collector := secrets.NewCollector(obj.Namespace)
-	collector.AddValue(operatorSpecSecrets.PrimaryMasterKey, to.String(accessKeys.PrimaryMasterKey))
-	collector.AddValue(operatorSpecSecrets.SecondaryMasterKey, to.String(accessKeys.SecondaryMasterKey))
-	collector.AddValue(operatorSpecSecrets.PrimaryReadonlyMasterKey, to.String(accessKeys.PrimaryReadonlyMasterKey))
-	collector.AddValue(operatorSpecSecrets.SecondaryReadonlyMasterKey, to.String(accessKeys.SecondaryReadonlyMasterKey))
-	collector.AddValue(operatorSpecSecrets.DocumentEndpoint, to.String(obj.Status.DocumentEndpoint))
+	collector.AddValue(operatorSpecSecrets.PrimaryMasterKey, to.Value(accessKeys.PrimaryMasterKey))
+	collector.AddValue(operatorSpecSecrets.SecondaryMasterKey, to.Value(accessKeys.SecondaryMasterKey))
+	collector.AddValue(operatorSpecSecrets.PrimaryReadonlyMasterKey, to.Value(accessKeys.PrimaryReadonlyMasterKey))
+	collector.AddValue(operatorSpecSecrets.SecondaryReadonlyMasterKey, to.Value(accessKeys.SecondaryReadonlyMasterKey))
+	collector.AddValue(operatorSpecSecrets.DocumentEndpoint, to.Value(obj.Status.DocumentEndpoint))
 
 	return collector.Values()
 }

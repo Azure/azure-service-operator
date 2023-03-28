@@ -8,11 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Compute_Snapshot_CRUD(t *testing.T) {
@@ -30,7 +30,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 			CreationData: &compute.CreationData{
 				CreateOption: &createOption,
 			},
-			DiskSizeGB: to.IntPtr(32),
+			DiskSizeGB: to.Ptr(32),
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),
 		},
@@ -45,7 +45,7 @@ func Test_Compute_Snapshot_CRUD(t *testing.T) {
 	// Perform a simple patch to resize the disk
 	tc.LogSection("Patch Snapshot")
 	old := snapshot.DeepCopy()
-	snapshot.Spec.DiskSizeGB = to.IntPtr(64)
+	snapshot.Spec.DiskSizeGB = to.Ptr(64)
 	tc.PatchResourceAndWait(old, snapshot)
 
 	tc.Expect(snapshot.Status.DiskSizeGB).ToNot(BeNil())

@@ -10,10 +10,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/go-autorest/autorest/to"
-
 	cdn "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 // Note: if re-recording, CRD resources require registration.
@@ -29,7 +28,7 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 	profile := &cdn.Profile{
 		ObjectMeta: tc.MakeObjectMeta("cdnprofile"),
 		Spec: cdn.Profile_Spec{
-			Location: to.StringPtr("Global"),
+			Location: to.Ptr("Global"),
 			Owner:    testcommon.AsOwner(rg),
 			Sku:      &cdn.Sku{Name: &sku},
 		},
@@ -62,15 +61,15 @@ func Endpoint_CRUD(tc *testcommon.KubePerTestContext, profile *cdn.Profile) {
 		ObjectMeta: tc.MakeObjectMeta("cdn-endpoint"),
 		Spec: cdn.Profiles_Endpoint_Spec{
 			Owner:                  testcommon.AsOwner(profile),
-			Location:               to.StringPtr("Global"),
-			IsCompressionEnabled:   to.BoolPtr(true),
+			Location:               to.Ptr("Global"),
+			IsCompressionEnabled:   to.Ptr(true),
 			ContentTypesToCompress: []string{"application/json"},
-			IsHttpAllowed:          to.BoolPtr(false),
-			IsHttpsAllowed:         to.BoolPtr(true),
+			IsHttpAllowed:          to.Ptr(false),
+			IsHttpsAllowed:         to.Ptr(true),
 			Origins: []cdn.DeepCreatedOrigin{
 				{
-					Name:     to.StringPtr("source"),
-					HostName: to.StringPtr("example.com"),
+					Name:     to.Ptr("source"),
+					HostName: to.Ptr("example.com"),
 				},
 			},
 		},

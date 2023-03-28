@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
@@ -17,6 +16,7 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -43,33 +43,33 @@ func newVMSS20220301(
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute2022.Sku{
-				Name:     to.StringPtr("STANDARD_D1_v2"),
-				Capacity: to.IntPtr(1),
+				Name:     to.Ptr("STANDARD_D1_v2"),
+				Capacity: to.Ptr(1),
 			},
-			PlatformFaultDomainCount: to.IntPtr(3),
-			SinglePlacementGroup:     to.BoolPtr(false),
+			PlatformFaultDomainCount: to.Ptr(3),
+			SinglePlacementGroup:     to.Ptr(false),
 			UpgradePolicy: &compute2022.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
 			VirtualMachineProfile: &compute2022.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute2022.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute2022.ImageReference{
-						Publisher: to.StringPtr("Canonical"),
-						Offer:     to.StringPtr("UbuntuServer"),
-						Sku:       to.StringPtr("18.04-lts"),
-						Version:   to.StringPtr("latest"),
+						Publisher: to.Ptr("Canonical"),
+						Offer:     to.Ptr("UbuntuServer"),
+						Sku:       to.Ptr("18.04-lts"),
+						Version:   to.Ptr("latest"),
 					},
 				},
 				OsProfile: &compute2022.VirtualMachineScaleSetOSProfile{
-					ComputerNamePrefix: to.StringPtr("computer"),
+					ComputerNamePrefix: to.Ptr("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute2022.LinuxConfiguration{
-						DisablePasswordAuthentication: to.BoolPtr(true),
+						DisablePasswordAuthentication: to.Ptr(true),
 						Ssh: &compute2022.SshConfiguration{
 							PublicKeys: []compute2022.SshPublicKeySpec{
 								{
 									KeyData: sshPublicKey,
-									Path:    to.StringPtr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
+									Path:    to.Ptr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
 								},
 							},
 						},
@@ -78,11 +78,11 @@ func newVMSS20220301(
 				NetworkProfile: &compute2022.VirtualMachineScaleSetNetworkProfile{
 					NetworkInterfaceConfigurations: []compute2022.VirtualMachineScaleSetNetworkConfiguration{
 						{
-							Name:    to.StringPtr("mynicconfig"),
-							Primary: to.BoolPtr(true),
+							Name:    to.Ptr("mynicconfig"),
+							Primary: to.Ptr(true),
 							IpConfigurations: []compute2022.VirtualMachineScaleSetIPConfiguration{
 								{
-									Name: to.StringPtr("myipconfiguration"),
+									Name: to.Ptr("myipconfiguration"),
 									Subnet: &compute2022.ApiEntityReference{
 										Reference: tc.MakeReferenceFromResource(subnet),
 									},
@@ -106,7 +106,7 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	// Move to a different reason where we have quota
-	tc.AzureRegion = to.StringPtr("westeurope")
+	tc.AzureRegion = to.Ptr("westeurope")
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
@@ -131,9 +131,9 @@ func Test_Compute_VMSS_20220301_CRUD(t *testing.T) {
 		Extensions: []compute2022.VirtualMachineScaleSetExtension{
 			{
 				Name:               &extensionName,
-				Publisher:          to.StringPtr("Microsoft.Azure.Extensions"),
-				Type:               to.StringPtr("CustomScript"),
-				TypeHandlerVersion: to.StringPtr("2.0"),
+				Publisher:          to.Ptr("Microsoft.Azure.Extensions"),
+				Type:               to.Ptr("CustomScript"),
+				TypeHandlerVersion: to.Ptr("2.0"),
 				Settings: map[string]v1.JSON{
 					"commandToExecute": {
 						Raw: []byte(`"/bin/bash -c \"echo hello\""`),

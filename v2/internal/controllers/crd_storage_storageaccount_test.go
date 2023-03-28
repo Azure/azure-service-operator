@@ -8,15 +8,14 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
-
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -237,7 +236,7 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 							Actions: &storage.ManagementPolicyAction{
 								Version: &storage.ManagementPolicyVersion{
 									Delete: &storage.DateAfterCreation{
-										DaysAfterCreationGreaterThan: to.IntPtr(30),
+										DaysAfterCreationGreaterThan: to.Ptr(30),
 									},
 								},
 							},
@@ -246,8 +245,8 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 								PrefixMatch: []string{"sample-container/blob1"},
 							},
 						},
-						Enabled: to.BoolPtr(true),
-						Name:    to.StringPtr("test-rule"),
+						Enabled: to.Ptr(true),
+						Name:    to.Ptr("test-rule"),
 						Type:    &ruleType,
 					},
 				},
