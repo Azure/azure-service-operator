@@ -43,6 +43,7 @@ type GenericClient struct {
 type GenericClientOptions struct {
 	HttpClient *http.Client
 	Metrics    *metrics.ARMClientMetrics
+	UserAgent string
 }
 
 // NewGenericClient creates a new instance of GenericClient
@@ -59,6 +60,11 @@ func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential
 		options = &GenericClientOptions{}
 	}
 
+	ua := options.UserAgent
+	if ua == "" {
+		ua = userAgent
+	}
+
 	opts := &arm.ClientOptions{
 		ClientOptions: policy.ClientOptions{
 			Cloud: cloudCfg,
@@ -66,7 +72,7 @@ func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential
 				MaxRetries: -1, // Have to use a value less than 0 means no retries (0 does NOT, 0 gets you 3...)
 			},
 			PerCallPolicies: []policy.Policy{
-				NewUserAgentPolicy(userAgent),
+				NewUserAgentPolicy(ua),
 			},
 		},
 		// Disabled here because we don't want the default configuration, it polls for 5+ minutes which is
