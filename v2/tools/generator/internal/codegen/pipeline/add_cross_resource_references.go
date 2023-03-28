@@ -65,8 +65,8 @@ func TransformCrossResourceReferences(configuration *config.Configuration, idFac
 						// trust the Swagger.
 						crossResourceReferenceErrs = append(
 							crossResourceReferenceErrs,
-							errors.Wrapf(
-								err,
+							// Don't wrap the existing error here because it adds a lot of extra boilerplate text we don't want
+							errors.Errorf(
 								"%s.%s looks like a resource reference but was not labelled as one; You may need to add it to the 'objectModelConfiguration' section of the config file",
 								typeName,
 								prop.PropertyName()))

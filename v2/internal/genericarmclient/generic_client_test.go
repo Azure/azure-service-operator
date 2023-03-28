@@ -184,7 +184,8 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 	subscriptionId := "12345"
 
 	metrics := asometrics.NewARMClientMetrics()
-	client, err := genericarmclient.NewGenericClient(cfg, testcommon.MockTokenCredential{}, subscriptionId, metrics)
+	options := &genericarmclient.GenericClientOptions{Metrics: metrics}
+	client, err := genericarmclient.NewGenericClient(cfg, testcommon.MockTokenCredential{}, options)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	resourceURI := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Fake/fakeResource/fake", subscriptionId, "myrg")

@@ -1,0 +1,9 @@
+apiVersion: sql.azure.com/v1beta20211101
+kind: ServersConnectionPolicy
+metadata:
+  name: aso-sample-connpolicy
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-sqlserver
+  connectionType: Default
