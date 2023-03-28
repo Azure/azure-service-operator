@@ -14,7 +14,7 @@ We need a way to extend the operator to handle the above case, an extension poin
 
 ## Decision
 
-We'll define a new extension called `PostReconciliationChecker` in similar way to our `PreReconciliationChecker` extension point. 
+We'll define a new extension called `PostReconciliationChecker` in similar way to our `PreReconciliationChecker` extension point to handle post reconciliation operations on a resource. 
 
 The extension point will receive the following parameters:
 
