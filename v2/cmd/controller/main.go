@@ -211,18 +211,28 @@ func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.
 		return nil, nil
 	}
 
-	var credential azcore.TokenCredential
-	var err error
 	if cfg.UseWorkloadIdentityAuth {
-		credential, err = identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
+		credential, err := identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to get workload identity credential")
 		}
-	} else {
-		credential, err = azidentity.NewDefaultAzureCredential(nil)
+
+		return credential, nil
+	}
+
+	if cert := os.Getenv(config.ClientCertificateVar); cert != "" {
+		certPassword := os.Getenv(config.ClientCertificatePasswordVar)
+		credential, err := identity.NewClientCertificateCredential(cfg.TenantID, cfg.ClientID, []byte(cert), []byte(certPassword))
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to get default azure credential")
+			return nil, errors.Wrapf(err, "unable to get client certificate credential")
 		}
+
+		return credential, nil
+	}
+
+	credential, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, errors.Wrapf(err, "unable to get default azure credential")
 	}
 
 	return credential, err
@@ -247,15 +257,25 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		return nil, errors.Wrap(err, "error while fetching default global credential")
 	}
 
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, cfg.SubscriptionID, armMetrics)
+	clientOptions := &genericarmclient.GenericClientOptions{
+		Metrics: armMetrics,
+	}
+	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, clientOptions)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get new genericArmClient")
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	armClientCache := armreconciler.NewARMClientCache(globalARMClient, cfg.PodNamespace, kubeClient, cfg.Cloud(), nil, armMetrics)
+	armClientCache := armreconciler.NewARMClientCache(
+		globalARMClient,
+		cfg.SubscriptionID,
+		cfg.PodNamespace,
+		kubeClient,
+		cfg.Cloud(),
+		nil,
+		armMetrics)
 
-	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
+	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*armreconciler.Connection, error) {
 		return armClientCache.GetClient(ctx, obj)
 	}
 

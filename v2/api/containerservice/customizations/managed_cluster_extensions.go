@@ -58,7 +58,7 @@ func (ext *ManagedClusterExtension) ExportKubernetesResources(
 		return nil, err
 	}
 
-	subscription := armClient.SubscriptionID()
+	subscription := id.SubscriptionID
 	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 	// connection each time through
 	var mcClient *armcontainerservice.ManagedClustersClient

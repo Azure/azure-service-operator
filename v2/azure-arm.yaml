@@ -142,7 +142,6 @@ typeTransformers:
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
-
   - group: cache
     name: RedisProperties_Status
     property: AccessKeys
@@ -608,6 +607,12 @@ status:
 #     The value should be the name of the parent resource which owns the lifecycle of the
 #     sub-resource.
 #
+# $importConfigMapMode: <optional|required>
+#     Specifies that the property can be imported from a config map.
+#     Optional: The property may be specified as string or imported from a config map.
+#               To achieve this in a non-breaking way, a new property is added to the object living alongside
+#               the existing property. The new property is called <propName>FromConfig.
+#     Required: The property must be specified from a config map, it cannot be given as a raw string.
 objectModelConfiguration:
   appconfiguration:
     2022-05-01:
@@ -657,6 +662,10 @@ objectModelConfiguration:
           - HostName
           - Port
           - SSLPort
+# TODO: Does this need to be uncommented
+#      RedisCreateProperties:
+#        SubnetId:
+#          $armReference: true
       Redis_FirewallRule:
         $exportAs: RedisFirewallRule
         $supportedFrom: v2.0.0-alpha.4
@@ -1354,6 +1363,123 @@ objectModelConfiguration:
       SignalR:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
+  sql:
+    2021-11-01:
+      # Note that there are a few commented out resources which we are not exporting for sql. They're commented out as
+      # they seem of questionable value to users, but if we get an ask for them we can add them in.
+      Server:
+        $export: true
+        $supportedFrom: v2.0.0
+      Server_STATUS:
+        FullyQualifiedDomainName:
+          $exportAsConfigMapPropertyName: FullyQualifiedDomainName
+      Servers_Administrator:
+        $exportAs: ServersAdministrator
+        $supportedFrom: v2.0.0
+      AdministratorProperties:
+        Sid:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
+      Servers_SecurityAlertPolicy:
+        $exportAs: ServersSecurityAlertPolicy
+        $supportedFrom: v2.0.0
+      Servers_AdvancedThreatProtectionSetting:
+        $exportAs: ServersAdvancedThreatProtectionSetting
+        $supportedFrom: v2.0.0
+      Servers_AuditingSetting:
+        $exportAs: ServersAuditingSetting
+        $supportedFrom: v2.0.0
+      Servers_AzureADOnlyAuthentication:
+        $exportAs: ServersAzureADOnlyAuthentication
+        $supportedFrom: v2.0.0
+      Servers_ConnectionPolicy:
+        $exportAs: ServersConnectionPolicy
+        $supportedFrom: v2.0.0
+#      Servers_DnsAliase: # TODO: Not sure how this works - it has no properties but name?
+#        $exportAs: ServersDnsAliases
+#        $supportedFrom: v2.0.0
+      Servers_ElasticPool:
+        $exportAs: ServersElasticPool
+        $supportedFrom: v2.0.0
+      Servers_FailoverGroup:
+        $exportAs: ServersFailoverGroup
+        $supportedFrom: v2.0.0
+      Servers_FirewallRule:
+        $exportAs: ServersFirewallRule
+        $supportedFrom: v2.0.0
+      Servers_Ipv6FirewallRule:
+        $exportAs: ServersIPV6FirewallRule
+        $supportedFrom: v2.0.0
+#      Servers_JobAgent:
+#        $exportAs: ServersJobAgent
+#        $supportedFrom: v2.0.0
+      Servers_OutboundFirewallRule:
+        $exportAs: ServersOutboundFirewallRule
+        $supportedFrom: v2.0.0
+#      Servers_SyncAgent:
+#        $exportAs: ServersSyncAgent
+#        $supportedFrom: v2.0.0
+      Servers_VirtualNetworkRule:
+        $exportAs: ServersVirtualNetworkRule
+        $supportedFrom: v2.0.0
+      Servers_VulnerabilityAssessment:
+        $exportAs: ServersVulnerabilityAssessment
+        $supportedFrom: v2.0.0
+      ServerVulnerabilityAssessmentProperties:
+        StorageContainerPath:
+          $importConfigMapMode: optional
+      Servers_Database:
+        $exportAs: ServersDatabase
+        $supportedFrom: v2.0.0
+      Servers_Databases_BackupLongTermRetentionPolicy:
+        $exportAs: ServersDatabasesBackupLongTermRetentionPolicy
+        $supportedFrom: v2.0.0
+      Servers_Databases_BackupShortTermRetentionPolicy:
+        $exportAs: ServersDatabasesBackupShortTermRetentionPolicy
+        $supportedFrom: v2.0.0
+      Servers_Databases_AdvancedThreatProtectionSetting:
+        $exportAs: ServersDatabasesAdvancedThreatProtectionSetting
+        $supportedFrom: v2.0.0
+      Servers_Databases_AuditingSetting:
+        $exportAs: ServersDatabasesAuditingSetting
+        $supportedFrom: v2.0.0
+#      Servers_Databases_DataMaskingPolicy: # there's also a "Rules" subresource here
+#        $exportAs: ServersDatabasesDataMaskingPolicy
+#        $supportedFrom: v2.0.0
+#      Servers_Databases_ExtendedAuditingSetting: # TODO: Not sure what the difference is between this and the normal auditing setting
+#        $exportAs: ServersDatabasesExtendedAuditingSetting
+#        $supportedFrom: v2.0.0
+#      Servers_Databases_GeoBackupPolicy:  # TODO: Not actually supported in ARM at the moment
+#        $exportAs: ServersDatabasesGeoBackupPolicy
+#        $supportedFrom: v2.0.0
+#      Servers_Databases_MaintenanceWindow: # TODO: Seems to have name Servers_Databases_MaintenanceWindows_Current, not sure why
+#        $exportAs: ServersDatabasesMaintenanceWindow
+#        $supportedFrom: v2.0.0
+      Servers_Databases_SecurityAlertPolicy:
+        $exportAs: ServersDatabasesSecurityAlertPolicy
+        $supportedFrom: v2.0.0
+#      Servers_Databases_SyncGroup:
+#        $exportAs: ServersDatabasesSyncGroups
+#        $supportedFrom: v2.0.0
+#      Servers_Databases_SyncGroups_SyncMember:
+#        $exportAs: ServersDatabasesSyncGroupsSyncMember
+#        $supportedFrom: v2.0.0
+      Servers_Databases_TransparentDataEncryption:
+        $exportAs: ServersDatabasesTransparentDataEncryption
+        $supportedFrom: v2.0.0
+      Servers_Databases_VulnerabilityAssessment:
+        $exportAs: ServersDatabasesVulnerabilityAssessment
+        $supportedFrom: v2.0.0
+      DatabaseVulnerabilityAssessmentsDatabaseVulnerabilityAssessmentProperties:
+        StorageContainerPath:
+          $importConfigMapMode: optional
+#      Servers_Databases_WorkloadGroup:
+#        $exportAs: ServersDatabasesWorkloadGroup
+#        $supportedFrom: v2.0.0
+#      Servers_Databases_WorkloadGroups_WorkloadClassifier:
+#        $exportAs: ServersDatabasesWorkloadGroupsWorkloadClassifier
+#        $supportedFrom: v2.0.0
   storage:
     2021-04-01:
       EncryptionIdentity:

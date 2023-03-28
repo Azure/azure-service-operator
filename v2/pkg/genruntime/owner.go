@@ -99,8 +99,8 @@ func ApplyObjsAndEnsureOwner(ctx context.Context, client client.Client, owner cl
 	var errs []error
 	results := make([]controllerutil.OperationResult, 0, len(objs))
 
-	for _, secret := range objs {
-		result, err := ApplyObjAndEnsureOwner(ctx, client, owner, secret)
+	for _, obj := range objs {
+		result, err := ApplyObjAndEnsureOwner(ctx, client, owner, obj)
 		if err != nil {
 			errs = append(errs, err)
 			continue
