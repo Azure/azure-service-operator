@@ -6,7 +6,7 @@ title: '2023-03: Post Reconciliation Extensions'
 
 The current behaviour of Azure Service Operator (ASO) is to set the `Ready` status on a resource by default after a successful creation of a resource. 
 
-For some resources, this is not ideal as we need to check the status of a created resource post reconciliation and set a condition accordingly. 
+For some resources, this is not sufficient as there may be additional steps required after initial creation of the resource. We need the ability to check the status of a created resource post reconciliation and set a condition accordingly. 
 
 An example of this:
 
