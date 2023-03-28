@@ -9,8 +9,9 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
-	"github.com/Azure/azure-service-operator/v2/api"
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/api"
 )
 
 func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
@@ -68,12 +69,12 @@ func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
 
 			g := NewGomegaWithT(t)
 
-			factory := ARMResourceImporter{}
+			rsrc := importableARMResource{}
 
 			id, err := arm.ParseResourceID(c.armId)
 			g.Expect(err).To(BeNil())
 
-			gk := factory.groupKindFromID(id)
+			gk, err := rsrc.groupKindFromID(id)
 			g.Expect(gk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gk.Kind).To(Equal(c.expectedKind))
 		})
@@ -113,8 +114,8 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 		},
 	}
 
-	factory := ARMResourceImporter{
-		ResourceImporter: ResourceImporter{
+	factory := importableARMResource{
+		importableResource: importableResource{
 			scheme: api.CreateScheme(),
 		},
 	}
