@@ -75,6 +75,7 @@ func Test_ARMResourceImporter_GroupKindFromARMID(t *testing.T) {
 			g.Expect(err).To(BeNil())
 
 			gk, err := rsrc.groupKindFromID(id)
+			g.Expect(err).To(BeNil())
 			g.Expect(gk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gk.Kind).To(Equal(c.expectedKind))
 		})
@@ -133,7 +134,7 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			gvk, err := factory.groupVersionKindFromID(id)
 			g.Expect(err).To(BeNil())
 
-			// If these asserts fail, check to see whether we've introduced a new version of the resource
+			// If the asserts fail, check to see whether we've introduced a new version of the resource
 			// specified by the ARM ID. If so, update the expected version in the test case.
 			g.Expect(gvk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gvk.Kind).To(Equal(c.expectedKind))
