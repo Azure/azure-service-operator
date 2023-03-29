@@ -110,7 +110,7 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.ContainerService/managedClusters/aso-cluster",
 			expectedGroup:   "containerservice.azure.com",
 			expectedKind:    "ManagedCluster",
-			expectedVersion: "v1beta20210501",
+			expectedVersion: "v1beta20230201",
 		},
 	}
 
@@ -132,6 +132,9 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 
 			gvk, err := factory.groupVersionKindFromID(id)
 			g.Expect(err).To(BeNil())
+
+			// If these asserts fail, check to see whether we've introduced a new version of the resource
+			// specified by the ARM ID. If so, update the expected version in the test case.
 			g.Expect(gvk.Group).To(Equal(c.expectedGroup))
 			g.Expect(gvk.Kind).To(Equal(c.expectedKind))
 			g.Expect(gvk.Version).To(Equal(c.expectedVersion))
