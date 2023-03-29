@@ -275,6 +275,12 @@ typeTransformers:
     #  4. Live with it.
     remove: true
     because: We don't handle this very well right now, manually remove until TODO above has been done
+  - group: network
+    version: "*"
+    name: PrivateEndpointProperties
+    property: CustomDnsConfigs
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
 
   - name: EventHubProperties;Namespaces_Eventhub_Properties_Spec
     group: eventhub
@@ -1213,6 +1219,31 @@ objectModelConfiguration:
       PrivateDnsZone:
         $export: true
         $supportedFrom: v2.0.0-beta.2
+    2020-06-01:
+      PrivateDnsZones_VirtualNetworkLink:
+        $exportAs: PrivateDnsZonesVirtualNetworkLink
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_A:
+        $exportAs: PrivateDnsZonesARecord
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_AAAA:
+        $exportAs: PrivateDnsZonesAAAARecord
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_CNAME:
+        $exportAs: PrivateDnsZonesCNAMERecord
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_MX:
+        $exportAs: PrivateDnsZonesMXRecord
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_SRV:
+        $exportAs: PrivateDnsZonesSRVRecord
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_PTR:
+        $exportAs: PrivateDnsZonesPTRRecord
+        $supportedFrom: v2.0.0
+      PrivateDnsZones_TXT:
+        $exportAs: PrivateDnsZonesTXTRecord
+        $supportedFrom: v2.0.0
     2020-11-01:
       BackendAddressPool:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
@@ -1323,6 +1354,33 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
+    2022-07-01:
+      PrivateEndpoint:
+        $export: true
+        $supportedFrom: v2.0.0
+      PrivateLinkService:
+        $export: true
+        $supportedFrom: v2.0.0
+      PrivateLinkServiceConnection:
+        $resourceEmbeddedInParent: PrivateEndpoint
+      PrivateLinkServiceConnection_STATUS:
+        $resourceEmbeddedInParent: PrivateEndpoint
+      PrivateLinkServiceConnectionProperties:
+        PrivateLinkServiceId:
+          $armReference: true
+      PrivateLinkServiceIpConfiguration:
+        $resourceEmbeddedInParent: PrivateLinkService
+      PrivateLinkServiceIpConfiguration_STATUS:
+        $resourceEmbeddedInParent: PrivateLinkService
+      PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded:
+        Alias:
+          $exportAsConfigMapPropertyName: Alias
+      PrivateEndpoints_PrivateDnsZoneGroup:
+        $exportAs: PrivateEndpointsPrivateDnsZoneGroup
+        $supportedFrom: v2.0.0
+      PrivateDnsZonePropertiesFormat:
+        PrivateDnsZoneId:
+          $armReference: true
   operationalinsights:
     2021-06-01:
       Workspace:

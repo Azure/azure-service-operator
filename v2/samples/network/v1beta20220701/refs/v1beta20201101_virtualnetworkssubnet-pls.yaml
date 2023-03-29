@@ -1,0 +1,10 @@
+apiVersion: network.azure.com/v1beta20201101
+kind: VirtualNetworksSubnet
+metadata:
+  name: aso-sample-subnet
+  namespace: default
+spec:
+  addressPrefix: 10.0.0.0/24
+  owner:
+    name: aso-sample-vn
+  privateLinkServiceNetworkPolicies: Disabled

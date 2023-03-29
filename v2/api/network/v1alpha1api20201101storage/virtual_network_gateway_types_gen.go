@@ -5,6 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"fmt"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -383,10 +384,15 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_From_VirtualNetworkG
 
 	// GatewayDefaultSite
 	if source.GatewayDefaultSite != nil {
-		var gatewayDefaultSite SubResource
-		err := gatewayDefaultSite.AssignProperties_From_SubResource(source.GatewayDefaultSite)
+		var subResourceStash v20200601s.SubResource
+		err := subResourceStash.AssignProperties_From_SubResource(source.GatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field GatewayDefaultSite")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from GatewayDefaultSite")
+		}
+		var gatewayDefaultSite SubResource
+		err = gatewayDefaultSite.AssignProperties_From_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field GatewayDefaultSite from SubResourceStash")
 		}
 		gateway.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -567,10 +573,15 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_To_VirtualNetworkGat
 
 	// GatewayDefaultSite
 	if gateway.GatewayDefaultSite != nil {
-		var gatewayDefaultSite v20201101s.SubResource
-		err := gateway.GatewayDefaultSite.AssignProperties_To_SubResource(&gatewayDefaultSite)
+		var subResourceStash v20200601s.SubResource
+		err := gateway.GatewayDefaultSite.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field GatewayDefaultSite")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from GatewayDefaultSite")
+		}
+		var gatewayDefaultSite v20201101s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&gatewayDefaultSite)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field GatewayDefaultSite from SubResourceStash")
 		}
 		destination.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -835,10 +846,15 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_From_VirtualNetwor
 
 	// GatewayDefaultSite
 	if source.GatewayDefaultSite != nil {
-		var gatewayDefaultSite SubResource_STATUS
-		err := gatewayDefaultSite.AssignProperties_From_SubResource_STATUS(source.GatewayDefaultSite)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.GatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field GatewayDefaultSite")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from GatewayDefaultSite")
+		}
+		var gatewayDefaultSite SubResource_STATUS
+		err = gatewayDefaultSite.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field GatewayDefaultSite from SubResource_STATUSStash")
 		}
 		gateway.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -1024,10 +1040,15 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkG
 
 	// GatewayDefaultSite
 	if gateway.GatewayDefaultSite != nil {
-		var gatewayDefaultSite v20201101s.SubResource_STATUS
-		err := gateway.GatewayDefaultSite.AssignProperties_To_SubResource_STATUS(&gatewayDefaultSite)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := gateway.GatewayDefaultSite.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field GatewayDefaultSite")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from GatewayDefaultSite")
+		}
+		var gatewayDefaultSite v20201101s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&gatewayDefaultSite)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field GatewayDefaultSite from SubResource_STATUSStash")
 		}
 		destination.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -1413,10 +1434,15 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_From
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
-		var publicIPAddress SubResource
-		err := publicIPAddress.AssignProperties_From_SubResource(source.PublicIPAddress)
+		var subResourceStash v20200601s.SubResource
+		err := subResourceStash.AssignProperties_From_SubResource(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from PublicIPAddress")
+		}
+		var publicIPAddress SubResource
+		err = publicIPAddress.AssignProperties_From_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPAddress from SubResourceStash")
 		}
 		configuration.PublicIPAddress = &publicIPAddress
 	} else {
@@ -1425,10 +1451,15 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_From
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet SubResource
-		err := subnet.AssignProperties_From_SubResource(source.Subnet)
+		var subResourceStash v20200601s.SubResource
+		err := subResourceStash.AssignProperties_From_SubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from Subnet")
+		}
+		var subnet SubResource
+		err = subnet.AssignProperties_From_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet from SubResourceStash")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -1468,10 +1499,15 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_To_V
 
 	// PublicIPAddress
 	if configuration.PublicIPAddress != nil {
-		var publicIPAddress v20201101s.SubResource
-		err := configuration.PublicIPAddress.AssignProperties_To_SubResource(&publicIPAddress)
+		var subResourceStash v20200601s.SubResource
+		err := configuration.PublicIPAddress.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from PublicIPAddress")
+		}
+		var publicIPAddress v20201101s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&publicIPAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPAddress from SubResourceStash")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -1480,10 +1516,15 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_To_V
 
 	// Subnet
 	if configuration.Subnet != nil {
-		var subnet v20201101s.SubResource
-		err := configuration.Subnet.AssignProperties_To_SubResource(&subnet)
+		var subResourceStash v20200601s.SubResource
+		err := configuration.Subnet.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from Subnet")
+		}
+		var subnet v20201101s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet from SubResourceStash")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -1549,10 +1590,15 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
-		var publicIPAddress SubResource_STATUS
-		err := publicIPAddress.AssignProperties_From_SubResource_STATUS(source.PublicIPAddress)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPAddress")
+		}
+		var publicIPAddress SubResource_STATUS
+		err = publicIPAddress.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field PublicIPAddress from SubResource_STATUSStash")
 		}
 		configuration.PublicIPAddress = &publicIPAddress
 	} else {
@@ -1561,10 +1607,15 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 
 	// Subnet
 	if source.Subnet != nil {
-		var subnet SubResource_STATUS
-		err := subnet.AssignProperties_From_SubResource_STATUS(source.Subnet)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from Subnet")
+		}
+		var subnet SubResource_STATUS
+		err = subnet.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Subnet from SubResource_STATUSStash")
 		}
 		configuration.Subnet = &subnet
 	} else {
@@ -1616,10 +1667,15 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 
 	// PublicIPAddress
 	if configuration.PublicIPAddress != nil {
-		var publicIPAddress v20201101s.SubResource_STATUS
-		err := configuration.PublicIPAddress.AssignProperties_To_SubResource_STATUS(&publicIPAddress)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := configuration.PublicIPAddress.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field PublicIPAddress")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPAddress")
+		}
+		var publicIPAddress v20201101s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&publicIPAddress)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field PublicIPAddress from SubResource_STATUSStash")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -1628,10 +1684,15 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 
 	// Subnet
 	if configuration.Subnet != nil {
-		var subnet v20201101s.SubResource_STATUS
-		err := configuration.Subnet.AssignProperties_To_SubResource_STATUS(&subnet)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := configuration.Subnet.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Subnet")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from Subnet")
+		}
+		var subnet v20201101s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subnet)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Subnet from SubResource_STATUSStash")
 		}
 		destination.Subnet = &subnet
 	} else {

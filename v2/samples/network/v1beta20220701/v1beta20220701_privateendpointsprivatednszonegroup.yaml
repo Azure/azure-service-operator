@@ -1,0 +1,14 @@
+apiVersion: network.azure.com/v1beta20220701
+kind: PrivateEndpointsPrivateDnsZoneGroup
+metadata:
+  name: aso-sample-dnszonegroup
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-privateendpoint
+  privateDnsZoneConfigs:
+    - name: config
+      privateDnsZoneReference:
+        group: network.azure.com
+        kind: PrivateDnsZone
+        name: privatelink.blob.core.windows.net
