@@ -429,6 +429,26 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 		return ctrl.Result{}, errors.Wrapf(err, "error updating status")
 	}
 
+	check, err := r.postReconciliationCheck(ctx)
+	if err != nil {
+		impactingError, ok := conditions.AsReadyConditionImpactingError(err)
+		if !ok {
+			impactingError = conditions.NewReadyConditionImpactingError(
+				err,
+				conditions.ConditionSeverityWarning,
+				conditions.ReasonFailed)
+		}
+
+		return ctrl.Result{}, impactingError
+	}
+
+	// If post reconcile check is failed, we return ReadyConditionImpactingError here to update the Ready
+	// condition is updated so the user can see why we're not setting ready condition now.
+	if check.ReconciliationFailure() {
+		r.Log.V(Status).Info("Extension post-reconcile check failure", "message", check.Message())
+		return ctrl.Result{}, check.CreateConditionError()
+	}
+
 	err = r.saveAssociatedKubernetesResources(ctx)
 	if err != nil {
 		if _, ok := core.AsNotOwnedError(err); ok {
@@ -446,6 +466,31 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 
 	ClearPollerResumeToken(r.Obj)
 	return ctrl.Result{}, nil
+}
+
+func (r *azureDeploymentReconcilerInstance) postReconciliationCheck(ctx context.Context) (extensions.PostReconcileCheckResult, error) {
+	// Create a checker for access to the extension point, if required
+	checker, extensionFound := extensions.CreatePostReconciliationChecker(r.Extension)
+	if !extensionFound {
+		// No extension found, nothing to do
+		return extensions.PostReconcileCheckResultSuccess(), nil
+	}
+
+	// We also need to have our owner, it too with an up-to-date status
+	owner, ownerErr := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
+	if ownerErr != nil {
+		// We can't obtain the owner, so we can't run the extension
+		return extensions.PostReconcileCheckResult{}, ownerErr
+	}
+
+	// Run our pre-reconciliation checker
+	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMClientDetails.Client, r.Log)
+	if checkErr != nil {
+		// Something went wrong running the check.
+		return extensions.PostReconcileCheckResult{}, checkErr
+	}
+
+	return check, nil
 }
 
 func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.Context) (ctrl.Result, error) {
