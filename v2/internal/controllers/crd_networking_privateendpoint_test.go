@@ -18,6 +18,8 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
+// Example is from https://learn.microsoft.com/en-us/azure/private-link/create-private-endpoint-bicep?tabs=CLI#review-the-bicep-file
+// We've replaced SQLServers with StorageAccount in the test.
 func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 	t.Parallel()
 
