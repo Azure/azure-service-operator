@@ -30,6 +30,95 @@ The return will be one of three possibilities:
 - `Failure` as `PostReconcileCheckResult` if the post reconcile check is not met. In this case, `NewReadyConditionImpactingError` would be set on the resource by the reconciler.
 - `error` if something went wrong.
 
+## Example
+
+To allow post reconciliation check for PrivateEndpoints, we'll introduce a PostReconciliationChecker extension point.
+
+We create the required extension interface in the package genruntime/extensions:
+
+``` go
+// postreconciliation_checker.go
+
+package extensions
+
+type PostReconciliationChecker interface {
+	// PostReconcileCheck does a post-reconcile check to see if the resource is in a state to set 'Ready' condition.
+	// ARM resources should implement this to avoid reconciliation attempts that cannot possibly succeed.
+	// Returns PostReconcileCheckResultSuccess if the reconciliation is successful.
+	// Returns PostReconcileCheckResultFailure and a human-readable reason if the reconciliation should put a condition on resource.
+	// ctx is the current operation context.
+	// obj is the resource about to be reconciled. The resource's State will be freshly updated.
+	// kubeClient allows access to the cluster for any required queries.
+	// armClient allows access to ARM for any required queries.
+	// log is the logger for the current operation.
+	// next is the next (nested) implementation to call.
+	PostReconcileCheck(
+		ctx context.Context,
+		obj genruntime.MetaObject,
+		owner genruntime.MetaObject,
+		kubeClient kubeclient.Client,
+		armClient *genericarmclient.GenericClient,
+		log logr.Logger,
+		next PostReconcileCheckFunc,
+	) (PostReconcileCheckResult, error)
+}
+
+```
+
+The type `PostReconcileCheckResult` contains the information of the result with a message and conditions from `PostReconcileCheck` method to indicate the reconciler on the action to be taken.
+
+``` go
+// postreconciliation_checker.go
+
+package extensions
+
+type PostReconcileCheckResult struct {
+	action   postReconcileCheckResultType
+	severity conditions.ConditionSeverity
+	reason   conditions.Reason
+	message  string
+}
+
+```
+
+To implement the above, we need to write a manual extension on `PrivateEndpoint` type `customisation` which implements the above `PostReconciliationChecker` interface like:
+
+``` go
+
+// private_endpoint_extensions.go
+
+package customization
+
+var _ extensions.PostReconciliationChecker = &PrivateEndpointExtension{}
+
+func (extension *PrivateEndpointExtension) PostReconcileCheck(
+	_ context.Context,
+	obj genruntime.MetaObject,
+	_ genruntime.MetaObject,
+	_ kubeclient.Client,
+	_ *genericarmclient.GenericClient,
+	_ logr.Logger
+	_ PostReconcileCheckFunc,) (extensions.PostReconcileCheckResult, error) {
+
+	if endpoint, ok := obj.(*network.PrivateEndpoint); ok && endpoint.Status.PrivateLinkServiceConnections != nil {
+
+		for _, connection := range endpoint.Status.PrivateLinkServiceConnections {
+			if *connection.PrivateLinkServiceConnectionState.Status != "Approved" {
+				// Returns 'conditions.NewReadyConditionImpactingError' error
+				return extensions.PostReconcileCheckResultFailure(
+					fmt.Sprintf(
+						"Private connection '%s' to the endpoint requires approval %q",
+						*connection.Id,
+						*connection.PrivateLinkServiceConnectionState)), nil
+			}
+		}
+	}
+
+	return extensions.PostReconcileCheckResultSuccess(), nil
+}
+
+```
+
 ## Status
 
 TBC
