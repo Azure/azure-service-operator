@@ -71,7 +71,7 @@ func Test_ImportableResource_SelectLatestVersion(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			importer := importableResource{}
-			
+
 			gk := schema.GroupKind{Group: c.group, Kind: c.kind}
 			gvk := importer.selectLatestVersion(gk, c.knownVersions)
 			g.Expect(gvk.Group).To(Equal(gk.Group))
