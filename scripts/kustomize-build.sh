@@ -44,7 +44,7 @@ if [[ -n "$DESTINATION" ]]; then
   # envsubst on all the files
   for file in $(find "$DESTINATION" -type f); do
     tmp=$(mktemp)
-    cp --attributes-only --preserve $file $tmp
+    cp -p $file $tmp
     cat $file | envsubst $ENVSUBST_VARS > $tmp
     mv $tmp $file
   done
