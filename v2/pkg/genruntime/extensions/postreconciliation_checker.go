@@ -37,6 +37,7 @@ type PostReconciliationChecker interface {
 		kubeClient kubeclient.Client,
 		armClient *genericarmclient.GenericClient,
 		log logr.Logger,
+		next PostReconcileCheckFunc,
 	) (PostReconcileCheckResult, error)
 }
 
@@ -123,7 +124,7 @@ func CreatePostReconciliationChecker(
 	) (PostReconcileCheckResult, error) {
 		log.V(Status).Info("Extension post-reconcile check running")
 
-		result, err := impl.PostReconcileCheck(ctx, obj, owner, kubeClient, armClient, log)
+		result, err := impl.PostReconcileCheck(ctx, obj, owner, kubeClient, armClient, log, alwaysSucceed)
 		if err != nil {
 			log.V(Status).Info(
 				"Extension post-reconcile check failed",
@@ -140,4 +141,18 @@ func CreatePostReconciliationChecker(
 
 		return result, nil
 	}, true
+}
+
+// alwaysSucceed is a PostReconciliationChecker that always indicates a reconciliation is successful.
+// We have this here so we can set up a chain, even if it's only one link long.
+// When we start doing proper comparisons between Spec and Status, we'll have an actual chain of checkers.
+func alwaysSucceed(
+	_ context.Context,
+	_ genruntime.MetaObject,
+	_ genruntime.MetaObject,
+	_ kubeclient.Client,
+	_ *genericarmclient.GenericClient,
+	_ logr.Logger,
+) (PostReconcileCheckResult, error) {
+	return PostReconcileCheckResultSuccess(), nil
 }
