@@ -63,6 +63,10 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 			continue
 		}
 
+		thisResource := len(ri.completed) + 1
+		pendingResources := len(ri.pending)
+		klog.Infof("Importing %d/%d: %s", thisResource, thisResource+pendingResources, importer.Name())
+
 		// Import it
 		pending, err := importer.Import(ctx)
 		if err != nil {

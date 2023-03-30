@@ -68,8 +68,6 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 		return nil, err // arm.ParseResourceID already returns a good error, no need to wrap
 	}
 
-	klog.Infof("Importing %s: %s", id.ResourceType, id.Name)
-
 	if because, skip := IsSystemResource(id); skip {
 		klog.Infof("Skipping %s: %s because %s", id.ResourceType, id.Name, because)
 		return nil, NewNotImportableError(id.ResourceType.String(), id.Name, because)
