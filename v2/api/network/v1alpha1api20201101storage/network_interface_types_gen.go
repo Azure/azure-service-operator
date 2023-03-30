@@ -5,6 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"fmt"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -660,10 +661,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 
 	// DscpConfiguration
 	if source.DscpConfiguration != nil {
-		var dscpConfiguration SubResource_STATUS
-		err := dscpConfiguration.AssignProperties_From_SubResource_STATUS(source.DscpConfiguration)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.DscpConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DscpConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DscpConfiguration")
+		}
+		var dscpConfiguration SubResource_STATUS
+		err = dscpConfiguration.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DscpConfiguration from SubResource_STATUSStash")
 		}
 		embedded.DscpConfiguration = &dscpConfiguration
 	} else {
@@ -816,10 +822,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 
 	// VirtualMachine
 	if source.VirtualMachine != nil {
-		var virtualMachine SubResource_STATUS
-		err := virtualMachine.AssignProperties_From_SubResource_STATUS(source.VirtualMachine)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.VirtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualMachine")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualMachine")
+		}
+		var virtualMachine SubResource_STATUS
+		err = virtualMachine.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualMachine from SubResource_STATUSStash")
 		}
 		embedded.VirtualMachine = &virtualMachine
 	} else {
@@ -868,10 +879,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 
 	// DscpConfiguration
 	if embedded.DscpConfiguration != nil {
-		var dscpConfiguration v20201101s.SubResource_STATUS
-		err := embedded.DscpConfiguration.AssignProperties_To_SubResource_STATUS(&dscpConfiguration)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := embedded.DscpConfiguration.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DscpConfiguration")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DscpConfiguration")
+		}
+		var dscpConfiguration v20201101s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&dscpConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DscpConfiguration from SubResource_STATUSStash")
 		}
 		destination.DscpConfiguration = &dscpConfiguration
 	} else {
@@ -1024,10 +1040,15 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 
 	// VirtualMachine
 	if embedded.VirtualMachine != nil {
-		var virtualMachine v20201101s.SubResource_STATUS
-		err := embedded.VirtualMachine.AssignProperties_To_SubResource_STATUS(&virtualMachine)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := embedded.VirtualMachine.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualMachine")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualMachine")
+		}
+		var virtualMachine v20201101s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&virtualMachine)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualMachine from SubResource_STATUSStash")
 		}
 		destination.VirtualMachine = &virtualMachine
 	} else {
@@ -2356,7 +2377,7 @@ type SubResource_STATUS struct {
 }
 
 // AssignProperties_From_SubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
-func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *v20201101s.SubResource_STATUS) error {
+func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(source *v20200601s.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2384,7 +2405,7 @@ func (resource *SubResource_STATUS) AssignProperties_From_SubResource_STATUS(sou
 }
 
 // AssignProperties_To_SubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
-func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *v20201101s.SubResource_STATUS) error {
+func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(destination *v20200601s.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -2734,8 +2755,8 @@ type augmentConversionForPrivateLinkServiceSpec interface {
 }
 
 type augmentConversionForSubResource_STATUS interface {
-	AssignPropertiesFrom(src *v20201101s.SubResource_STATUS) error
-	AssignPropertiesTo(dst *v20201101s.SubResource_STATUS) error
+	AssignPropertiesFrom(src *v20200601s.SubResource_STATUS) error
+	AssignPropertiesTo(dst *v20200601s.SubResource_STATUS) error
 }
 
 // Storage version of v1alpha1api20201101.BackendAddressPool_NetworkInterface_SubResourceEmbedded

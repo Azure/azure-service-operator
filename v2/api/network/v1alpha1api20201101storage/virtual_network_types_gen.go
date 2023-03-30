@@ -5,6 +5,7 @@ package v1alpha1api20201101storage
 
 import (
 	"fmt"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20200601storage"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -332,10 +333,15 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 
 	// DdosProtectionPlan
 	if source.DdosProtectionPlan != nil {
-		var ddosProtectionPlan SubResource
-		err := ddosProtectionPlan.AssignProperties_From_SubResource(source.DdosProtectionPlan)
+		var subResourceStash v20200601s.SubResource
+		err := subResourceStash.AssignProperties_From_SubResource(source.DdosProtectionPlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DdosProtectionPlan")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from DdosProtectionPlan")
+		}
+		var ddosProtectionPlan SubResource
+		err = ddosProtectionPlan.AssignProperties_From_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DdosProtectionPlan from SubResourceStash")
 		}
 		network.DdosProtectionPlan = &ddosProtectionPlan
 	} else {
@@ -388,10 +394,15 @@ func (network *VirtualNetwork_Spec) AssignProperties_From_VirtualNetwork_Spec(so
 		for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
-			var ipAllocation SubResource
-			err := ipAllocation.AssignProperties_From_SubResource(&ipAllocationItem)
+			var subResourceStash v20200601s.SubResource
+			err := subResourceStash.AssignProperties_From_SubResource(&ipAllocationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field IpAllocations")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from IpAllocations")
+			}
+			var ipAllocation SubResource
+			err = ipAllocation.AssignProperties_From_SubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field IpAllocations from SubResourceStash")
 			}
 			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
@@ -471,10 +482,15 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 
 	// DdosProtectionPlan
 	if network.DdosProtectionPlan != nil {
-		var ddosProtectionPlan v20201101s.SubResource
-		err := network.DdosProtectionPlan.AssignProperties_To_SubResource(&ddosProtectionPlan)
+		var subResourceStash v20200601s.SubResource
+		err := network.DdosProtectionPlan.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DdosProtectionPlan")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from DdosProtectionPlan")
+		}
+		var ddosProtectionPlan v20201101s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&ddosProtectionPlan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DdosProtectionPlan from SubResourceStash")
 		}
 		destination.DdosProtectionPlan = &ddosProtectionPlan
 	} else {
@@ -527,10 +543,15 @@ func (network *VirtualNetwork_Spec) AssignProperties_To_VirtualNetwork_Spec(dest
 		for ipAllocationIndex, ipAllocationItem := range network.IpAllocations {
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
-			var ipAllocation v20201101s.SubResource
-			err := ipAllocationItem.AssignProperties_To_SubResource(&ipAllocation)
+			var subResourceStash v20200601s.SubResource
+			err := ipAllocationItem.AssignProperties_To_SubResource(&subResourceStash)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field IpAllocations")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from IpAllocations")
+			}
+			var ipAllocation v20201101s.SubResource
+			err = subResourceStash.AssignProperties_To_SubResource(&ipAllocation)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field IpAllocations from SubResourceStash")
 			}
 			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
@@ -683,10 +704,15 @@ func (network *VirtualNetwork_STATUS) AssignProperties_From_VirtualNetwork_STATU
 
 	// DdosProtectionPlan
 	if source.DdosProtectionPlan != nil {
-		var ddosProtectionPlan SubResource_STATUS
-		err := ddosProtectionPlan.AssignProperties_From_SubResource_STATUS(source.DdosProtectionPlan)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.DdosProtectionPlan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DdosProtectionPlan")
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DdosProtectionPlan")
+		}
+		var ddosProtectionPlan SubResource_STATUS
+		err = ddosProtectionPlan.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DdosProtectionPlan from SubResource_STATUSStash")
 		}
 		network.DdosProtectionPlan = &ddosProtectionPlan
 	} else {
@@ -745,10 +771,15 @@ func (network *VirtualNetwork_STATUS) AssignProperties_From_VirtualNetwork_STATU
 		for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
-			var ipAllocation SubResource_STATUS
-			err := ipAllocation.AssignProperties_From_SubResource_STATUS(&ipAllocationItem)
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
+			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&ipAllocationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field IpAllocations")
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from IpAllocations")
+			}
+			var ipAllocation SubResource_STATUS
+			err = ipAllocation.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field IpAllocations from SubResource_STATUSStash")
 			}
 			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
@@ -829,10 +860,15 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 
 	// DdosProtectionPlan
 	if network.DdosProtectionPlan != nil {
-		var ddosProtectionPlan v20201101s.SubResource_STATUS
-		err := network.DdosProtectionPlan.AssignProperties_To_SubResource_STATUS(&ddosProtectionPlan)
+		var subResourceSTATUSStash v20200601s.SubResource_STATUS
+		err := network.DdosProtectionPlan.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DdosProtectionPlan")
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DdosProtectionPlan")
+		}
+		var ddosProtectionPlan v20201101s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&ddosProtectionPlan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DdosProtectionPlan from SubResource_STATUSStash")
 		}
 		destination.DdosProtectionPlan = &ddosProtectionPlan
 	} else {
@@ -891,10 +927,15 @@ func (network *VirtualNetwork_STATUS) AssignProperties_To_VirtualNetwork_STATUS(
 		for ipAllocationIndex, ipAllocationItem := range network.IpAllocations {
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
-			var ipAllocation v20201101s.SubResource_STATUS
-			err := ipAllocationItem.AssignProperties_To_SubResource_STATUS(&ipAllocation)
+			var subResourceSTATUSStash v20200601s.SubResource_STATUS
+			err := ipAllocationItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field IpAllocations")
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from IpAllocations")
+			}
+			var ipAllocation v20201101s.SubResource_STATUS
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&ipAllocation)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field IpAllocations from SubResource_STATUSStash")
 			}
 			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}

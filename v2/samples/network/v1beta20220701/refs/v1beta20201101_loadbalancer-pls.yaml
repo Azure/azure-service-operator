@@ -1,0 +1,28 @@
+apiVersion: network.azure.com/v1beta20201101
+kind: LoadBalancer
+metadata:
+  name: aso-sample-loadbalancer
+  namespace: default
+spec:
+  frontendIPConfigurations:
+  - name: LoadBalancerFrontend
+    privateIPAllocationMethod: Dynamic
+    subnet:
+      reference:
+        group: network.azure.com
+        kind: VirtualNetworksSubnet
+        name: aso-sample-subnet
+  inboundNatPools:
+  - backendPort: 22
+    frontendIPConfiguration:
+      reference:
+        armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend
+    frontendPortRangeEnd: 51000
+    frontendPortRangeStart: 50000
+    name: MyFancyNatPool
+    protocol: Tcp
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  sku:
+    name: Standard

@@ -1011,50 +1011,52 @@ github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage
 │       │   ├── ProvisioningState: *string
 │       │   └── Service: *string
 │       └── Type: *string
-└── VirtualNetworksVirtualNetworkPeering: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101.VirtualNetwork
-    ├── Spec: Object (13 properties)
-    │   ├── AllowForwardedTraffic: *bool
-    │   ├── AllowGatewayTransit: *bool
-    │   ├── AllowVirtualNetworkAccess: *bool
-    │   ├── AzureName: string
-    │   ├── DoNotVerifyRemoteGateways: *bool
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PeeringState: *string
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── RemoteAddressSpace: *Object (2 properties)
-    │   │   ├── AddressPrefixes: string[]
-    │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── RemoteBgpCommunities: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── VirtualNetworkCommunity: *string
-    │   ├── RemoteVirtualNetwork: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Reference: *genruntime.ResourceReference
-    │   └── UseRemoteGateways: *bool
-    └── Status: Object (17 properties)
-        ├── AllowForwardedTraffic: *bool
-        ├── AllowGatewayTransit: *bool
-        ├── AllowVirtualNetworkAccess: *bool
-        ├── Conditions: conditions.Condition[]
-        ├── DoNotVerifyRemoteGateways: *bool
-        ├── Etag: *string
-        ├── Id: *string
-        ├── Name: *string
-        ├── PeeringState: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── ProvisioningState: *string
-        ├── RemoteAddressSpace: *Object (2 properties)
-        │   ├── AddressPrefixes: string[]
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── RemoteBgpCommunities: *Object (3 properties)
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── RegionalCommunity: *string
-        │   └── VirtualNetworkCommunity: *string
-        ├── RemoteVirtualNetwork: *Object (2 properties)
-        │   ├── Id: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        ├── ResourceGuid: *string
-        ├── Type: *string
-        └── UseRemoteGateways: *bool
+├── VirtualNetworksVirtualNetworkPeering: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101.VirtualNetwork
+│   ├── Spec: Object (13 properties)
+│   │   ├── AllowForwardedTraffic: *bool
+│   │   ├── AllowGatewayTransit: *bool
+│   │   ├── AllowVirtualNetworkAccess: *bool
+│   │   ├── AzureName: string
+│   │   ├── DoNotVerifyRemoteGateways: *bool
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PeeringState: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RemoteAddressSpace: *Object (2 properties)
+│   │   │   ├── AddressPrefixes: string[]
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── RemoteBgpCommunities: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── VirtualNetworkCommunity: *string
+│   │   ├── RemoteVirtualNetwork: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   └── UseRemoteGateways: *bool
+│   └── Status: Object (17 properties)
+│       ├── AllowForwardedTraffic: *bool
+│       ├── AllowGatewayTransit: *bool
+│       ├── AllowVirtualNetworkAccess: *bool
+│       ├── Conditions: conditions.Condition[]
+│       ├── DoNotVerifyRemoteGateways: *bool
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PeeringState: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── RemoteAddressSpace: *Object (2 properties)
+│       │   ├── AddressPrefixes: string[]
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── RemoteBgpCommunities: *Object (3 properties)
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RegionalCommunity: *string
+│       │   └── VirtualNetworkCommunity: *string
+│       ├── RemoteVirtualNetwork: *Object (2 properties)
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ResourceGuid: *string
+│       ├── Type: *string
+│       └── UseRemoteGateways: *bool
+├── augmentConversionForExtendedLocation: Interface
+└── augmentConversionForExtendedLocation_STATUS: Interface
