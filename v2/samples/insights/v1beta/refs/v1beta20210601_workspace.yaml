@@ -1,0 +1,11 @@
+apiVersion: operationalinsights.azure.com/v1beta20210601
+kind: Workspace
+metadata:
+  name: sampleworkspace
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  sku:
+    name: Standalone
