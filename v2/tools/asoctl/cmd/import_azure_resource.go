@@ -13,7 +13,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
@@ -77,7 +76,6 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 	if outputPath == nil || *outputPath == "" {
 		err := result.SaveToWriter(os.Stdout)
 		if err != nil {
-			klog.Errorf("failed to write to stdout")
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	} else {
