@@ -14,8 +14,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/names"
-
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/versions"
@@ -93,7 +91,7 @@ func (i *importableResource) selectLatestVersion(
 	var stableVersion schema.GroupVersion
 	for _, gv := range knownVersions {
 		// IsStorageVersion() is exported from the generator to ensure we use the same logic here
-		if names.IsStorageVersion(gv.Version) {
+		if versions.IsStorage(gv.Version) {
 			// Skip storage versions
 			continue
 		}
