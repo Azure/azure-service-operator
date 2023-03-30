@@ -1,0 +1,10 @@
+apiVersion: network.azure.com/v1api20201101
+kind: VirtualNetworksSubnet
+metadata:
+  name: samplesubnetvmss
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: samplevnetvmss
+  addressPrefix: 10.0.0.0/24

@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/queue.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default
+// Deprecated version of StorageAccountsQueueService. Use v1api20210401.StorageAccountsQueueService instead
 type StorageAccountsQueueService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &StorageAccountsQueueService{}
 
 // ConvertFrom populates our StorageAccountsQueueService from the provided hub StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210401s.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210401s.StorageAccountsQueueService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsQueueService(source)
+	err = service.AssignProperties_From_StorageAccountsQueueService(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsQueueService from our StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210401s.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210401s.StorageAccountsQueueService
+	err := service.AssignProperties_To_StorageAccountsQueueService(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsQueueService(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1beta20210401-storageaccountsqueueservice,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsqueueservices,verbs=create;update,versions=v1beta20210401,name=default.v1beta20210401.storageaccountsqueueservices.storage.azure.com,admissionReviewVersions=v1
@@ -316,9 +328,7 @@ func (service *StorageAccountsQueueService) OriginalGVK() *schema.GroupVersionKi
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/queue.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default
+// Deprecated version of StorageAccountsQueueService. Use v1api20210401.StorageAccountsQueueService instead
 type StorageAccountsQueueServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -326,9 +336,6 @@ type StorageAccountsQueueServiceList struct {
 }
 
 type StorageAccounts_QueueService_Spec struct {
-	// Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
-	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-	// Queue service.
 	Cors *CorsRules `json:"cors,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -538,24 +545,14 @@ func (service *StorageAccounts_QueueService_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
+// Deprecated version of StorageAccounts_QueueService_STATUS. Use v1api20210401.StorageAccounts_QueueService_STATUS instead
 type StorageAccounts_QueueService_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
-	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-	// Queue service.
-	Cors *CorsRules_STATUS `json:"cors,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Cors       *CorsRules_STATUS      `json:"cors,omitempty"`
+	Id         *string                `json:"id,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccounts_QueueService_STATUS{}

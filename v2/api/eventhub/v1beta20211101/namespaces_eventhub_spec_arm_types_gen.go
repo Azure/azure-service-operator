@@ -5,10 +5,9 @@ package v1beta20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Namespaces_Eventhub_Spec. Use v1api20211101.Namespaces_Eventhub_Spec instead
 type Namespaces_Eventhub_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties supplied to the Create Or Update Event Hub operation.
+	Name       string                                   `json:"name,omitempty"`
 	Properties *Namespaces_Eventhub_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
@@ -29,66 +28,35 @@ func (eventhub *Namespaces_Eventhub_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs"
 }
 
+// Deprecated version of Namespaces_Eventhub_Properties_Spec. Use v1api20211101.Namespaces_Eventhub_Properties_Spec instead
 type Namespaces_Eventhub_Properties_Spec_ARM struct {
-	// CaptureDescription: Properties of capture description
-	CaptureDescription *CaptureDescription_ARM `json:"captureDescription,omitempty"`
-
-	// MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
-	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
-
-	// PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
-	PartitionCount *int `json:"partitionCount,omitempty"`
+	CaptureDescription     *CaptureDescription_ARM `json:"captureDescription,omitempty"`
+	MessageRetentionInDays *int                    `json:"messageRetentionInDays,omitempty"`
+	PartitionCount         *int                    `json:"partitionCount,omitempty"`
 }
 
-// Properties to configure capture description for eventhub
+// Deprecated version of CaptureDescription. Use v1api20211101.CaptureDescription instead
 type CaptureDescription_ARM struct {
-	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
-	Destination *Destination_ARM `json:"destination,omitempty"`
-
-	// Enabled: A value that indicates whether capture description is enabled.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
-	// deprecated in New API Version
-	Encoding *CaptureDescription_Encoding `json:"encoding,omitempty"`
-
-	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
-	// value should between 60 to 900 seconds
-	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
-
-	// SizeLimitInBytes: The size window defines the amount of data built up in your Event Hub before an capture operation,
-	// value should be between 10485760 to 524288000 bytes
-	SizeLimitInBytes *int `json:"sizeLimitInBytes,omitempty"`
-
-	// SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
-	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
+	Destination       *Destination_ARM             `json:"destination,omitempty"`
+	Enabled           *bool                        `json:"enabled,omitempty"`
+	Encoding          *CaptureDescription_Encoding `json:"encoding,omitempty"`
+	IntervalInSeconds *int                         `json:"intervalInSeconds,omitempty"`
+	SizeLimitInBytes  *int                         `json:"sizeLimitInBytes,omitempty"`
+	SkipEmptyArchives *bool                        `json:"skipEmptyArchives,omitempty"`
 }
 
-// Capture storage details for capture description
+// Deprecated version of Destination. Use v1api20211101.Destination instead
 type Destination_ARM struct {
-	// Name: Name for capture destination
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties describing the storage account, blob container and archive name format for capture destination
+	Name       *string                     `json:"name,omitempty"`
 	Properties *Destination_Properties_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of Destination_Properties. Use v1api20211101.Destination_Properties instead
 type Destination_Properties_ARM struct {
-	// ArchiveNameFormat: Blob naming convention for archive, e.g.
-	// {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
-	// (Namespace,EventHub .. etc) are mandatory irrespective of order
-	ArchiveNameFormat *string `json:"archiveNameFormat,omitempty"`
-
-	// BlobContainer: Blob container Name
-	BlobContainer *string `json:"blobContainer,omitempty"`
-
-	// DataLakeAccountName: The Azure Data Lake Store name for the captured events
-	DataLakeAccountName *string `json:"dataLakeAccountName,omitempty"`
-
-	// DataLakeFolderPath: The destination folder path for the captured events
-	DataLakeFolderPath *string `json:"dataLakeFolderPath,omitempty"`
-
-	// DataLakeSubscriptionId: Subscription Id of Azure Data Lake Store
+	ArchiveNameFormat        *string `json:"archiveNameFormat,omitempty"`
+	BlobContainer            *string `json:"blobContainer,omitempty"`
+	DataLakeAccountName      *string `json:"dataLakeAccountName,omitempty"`
+	DataLakeFolderPath       *string `json:"dataLakeFolderPath,omitempty"`
 	DataLakeSubscriptionId   *string `json:"dataLakeSubscriptionId,omitempty"`
 	StorageAccountResourceId *string `json:"storageAccountResourceId,omitempty"`
 }

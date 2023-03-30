@@ -6,18 +6,18 @@ Licensed under the MIT license.
 package testcommon
 
 import (
-	"github.com/Azure/go-autorest/autorest/to"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func CreateDummyResource() *v1beta20210101.BatchAccount {
-	return &v1beta20210101.BatchAccount{
-		Spec: v1beta20210101.BatchAccount_Spec{
+func CreateDummyResource() *batch.BatchAccount {
+	return &batch.BatchAccount{
+		Spec: batch.BatchAccount_Spec{
 			AzureName: "azureName",
-			Location:  to.StringPtr("westus"),
+			Location:  to.Ptr("westus"),
 			Owner: &genruntime.KnownResourceReference{
 				Name: "myrg",
 			},

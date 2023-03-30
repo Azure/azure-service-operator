@@ -5,16 +5,12 @@ package v1beta20180501preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Webtest_Spec. Use v1api20180501preview.Webtest_Spec instead
 type Webtest_Spec_ARM struct {
-	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Metadata describing a web test for an Azure resource.
+	Location   *string                `json:"location,omitempty"`
+	Name       string                 `json:"name,omitempty"`
 	Properties *WebTestProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string      `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Webtest_Spec_ARM{}
@@ -34,112 +30,60 @@ func (webtest *Webtest_Spec_ARM) GetType() string {
 	return "Microsoft.Insights/webtests"
 }
 
-// Metadata describing a web test for an Azure resource.
+// Deprecated version of WebTestProperties. Use v1api20180501preview.WebTestProperties instead
 type WebTestProperties_ARM struct {
-	// Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestProperties_Configuration_ARM `json:"Configuration,omitempty"`
-
-	// Description: User defined description for this WebTest.
-	Description *string `json:"Description,omitempty"`
-
-	// Enabled: Is the test actively being monitored.
-	Enabled *bool `json:"Enabled,omitempty"`
-
-	// Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.
-	Frequency *int `json:"Frequency,omitempty"`
-
-	// Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind *WebTestProperties_Kind `json:"Kind,omitempty"`
-
-	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-	// application.
-	Locations []WebTestGeolocation_ARM `json:"Locations,omitempty"`
-
-	// Name: User defined name if this WebTest.
-	Name *string `json:"Name,omitempty"`
-
-	// Request: The collection of request properties
-	Request *WebTestProperties_Request_ARM `json:"Request,omitempty"`
-
-	// RetryEnabled: Allow for retries should this WebTest fail.
-	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
-
-	// SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
-	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
-
-	// Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
-	Timeout *int `json:"Timeout,omitempty"`
-
-	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestProperties_ValidationRules_ARM `json:"ValidationRules,omitempty"`
+	Configuration      *WebTestProperties_Configuration_ARM   `json:"Configuration,omitempty"`
+	Description        *string                                `json:"Description,omitempty"`
+	Enabled            *bool                                  `json:"Enabled,omitempty"`
+	Frequency          *int                                   `json:"Frequency,omitempty"`
+	Kind               *WebTestProperties_Kind                `json:"Kind,omitempty"`
+	Locations          []WebTestGeolocation_ARM               `json:"Locations,omitempty"`
+	Name               *string                                `json:"Name,omitempty"`
+	Request            *WebTestProperties_Request_ARM         `json:"Request,omitempty"`
+	RetryEnabled       *bool                                  `json:"RetryEnabled,omitempty"`
+	SyntheticMonitorId *string                                `json:"SyntheticMonitorId,omitempty"`
+	Timeout            *int                                   `json:"Timeout,omitempty"`
+	ValidationRules    *WebTestProperties_ValidationRules_ARM `json:"ValidationRules,omitempty"`
 }
 
-// Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
+// Deprecated version of WebTestGeolocation. Use v1api20180501preview.WebTestGeolocation instead
 type WebTestGeolocation_ARM struct {
-	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
 
+// Deprecated version of WebTestProperties_Configuration. Use v1api20180501preview.WebTestProperties_Configuration instead
 type WebTestProperties_Configuration_ARM struct {
-	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
+// Deprecated version of WebTestProperties_Request. Use v1api20180501preview.WebTestProperties_Request instead
 type WebTestProperties_Request_ARM struct {
-	// FollowRedirects: Follow redirects for this web test.
-	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
-
-	// Headers: List of headers and their values to add to the WebTest call.
-	Headers []HeaderField_ARM `json:"Headers,omitempty"`
-
-	// HttpVerb: Http verb to use for this web test.
-	HttpVerb *string `json:"HttpVerb,omitempty"`
-
-	// ParseDependentRequests: Parse Dependent request for this WebTest.
-	ParseDependentRequests *bool `json:"ParseDependentRequests,omitempty"`
-
-	// RequestBody: Base64 encoded string body to send with this web test.
-	RequestBody *string `json:"RequestBody,omitempty"`
-
-	// RequestUrl: Url location to test.
-	RequestUrl *string `json:"RequestUrl,omitempty"`
+	FollowRedirects        *bool             `json:"FollowRedirects,omitempty"`
+	Headers                []HeaderField_ARM `json:"Headers,omitempty"`
+	HttpVerb               *string           `json:"HttpVerb,omitempty"`
+	ParseDependentRequests *bool             `json:"ParseDependentRequests,omitempty"`
+	RequestBody            *string           `json:"RequestBody,omitempty"`
+	RequestUrl             *string           `json:"RequestUrl,omitempty"`
 }
 
+// Deprecated version of WebTestProperties_ValidationRules. Use v1api20180501preview.WebTestProperties_ValidationRules instead
 type WebTestProperties_ValidationRules_ARM struct {
-	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestProperties_ValidationRules_ContentValidation_ARM `json:"ContentValidation,omitempty"`
-
-	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
-	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
-
-	// IgnoreHttpsStatusCode: When set, validation will ignore the status code.
-	IgnoreHttpsStatusCode *bool `json:"IgnoreHttpsStatusCode,omitempty"`
-
-	// SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-	// must be positive and the SSLCheck must be set to true.
-	SSLCertRemainingLifetimeCheck *int `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-
-	// SSLCheck: Checks to see if the SSL cert is still valid.
-	SSLCheck *bool `json:"SSLCheck,omitempty"`
+	ContentValidation             *WebTestProperties_ValidationRules_ContentValidation_ARM `json:"ContentValidation,omitempty"`
+	ExpectedHttpStatusCode        *int                                                     `json:"ExpectedHttpStatusCode,omitempty"`
+	IgnoreHttpsStatusCode         *bool                                                    `json:"IgnoreHttpsStatusCode,omitempty"`
+	SSLCertRemainingLifetimeCheck *int                                                     `json:"SSLCertRemainingLifetimeCheck,omitempty"`
+	SSLCheck                      *bool                                                    `json:"SSLCheck,omitempty"`
 }
 
-// A header to add to the WebTest.
+// Deprecated version of HeaderField. Use v1api20180501preview.HeaderField instead
 type HeaderField_ARM struct {
-	// Key: The name of the header.
-	Key *string `json:"key,omitempty"`
-
-	// Value: The value of the header.
+	Key   *string `json:"key,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
+// Deprecated version of WebTestProperties_ValidationRules_ContentValidation. Use v1api20180501preview.WebTestProperties_ValidationRules_ContentValidation instead
 type WebTestProperties_ValidationRules_ContentValidation_ARM struct {
-	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
-	ContentMatch *string `json:"ContentMatch,omitempty"`
-
-	// IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.
-	IgnoreCase *bool `json:"IgnoreCase,omitempty"`
-
-	// PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-	// will fail if there is a match
-	PassIfTextFound *bool `json:"PassIfTextFound,omitempty"`
+	ContentMatch    *string `json:"ContentMatch,omitempty"`
+	IgnoreCase      *bool   `json:"IgnoreCase,omitempty"`
+	PassIfTextFound *bool   `json:"PassIfTextFound,omitempty"`
 }

@@ -12,7 +12,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -23,6 +22,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func newFakeKubeClient(s *runtime.Scheme) kubeclient.Client {
@@ -134,6 +134,8 @@ func Test_FindMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *testing
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	var port int32 = 443
+
 	existingCRD := makeBasicCRD("test")
 	existingCRD.Spec.Conversion = &apiextensions.CustomResourceConversion{
 		Strategy: apiextensions.WebhookConverter,
@@ -142,8 +144,8 @@ func Test_FindMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *testing
 				Service: &apiextensions.ServiceReference{
 					Name:      "azureserviceoperator-webhook-service",
 					Namespace: "azureserviceoperator-system",
-					Path:      to.StringPtr("/convert"),
-					Port:      to.Int32Ptr(443),
+					Path:      to.Ptr("/convert"),
+					Port:      to.Ptr(port),
 				},
 				CABundle: makeFakeCABundle(),
 			},
@@ -158,8 +160,8 @@ func Test_FindMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *testing
 				Service: &apiextensions.ServiceReference{
 					Name:      "azureserviceoperator-webhook-service",
 					Namespace: "azureserviceoperator-system",
-					Path:      to.StringPtr("/convert"),
-					Port:      to.Int32Ptr(443),
+					Path:      to.Ptr("/convert"),
+					Port:      to.Ptr(port),
 				},
 			},
 		},
@@ -213,6 +215,8 @@ func Test_FindNonMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *test
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
+	var port int32 = 443
+
 	existingCRD := makeBasicCRD("test")
 	existingCRD.Spec.Conversion = &apiextensions.CustomResourceConversion{
 		Strategy: apiextensions.WebhookConverter,
@@ -221,8 +225,8 @@ func Test_FindNonMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *test
 				Service: &apiextensions.ServiceReference{
 					Name:      "azureserviceoperator-webhook-service",
 					Namespace: "azureserviceoperator-system",
-					Path:      to.StringPtr("/convert"),
-					Port:      to.Int32Ptr(443),
+					Path:      to.Ptr("/convert"),
+					Port:      to.Ptr(port),
 				},
 				CABundle: makeFakeCABundle(),
 			},
@@ -237,8 +241,8 @@ func Test_FindNonMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *test
 				Service: &apiextensions.ServiceReference{
 					Name:      "azureserviceoperator-webhook-service",
 					Namespace: "azureserviceoperator-system",
-					Path:      to.StringPtr("/convert"),
-					Port:      to.Int32Ptr(443),
+					Path:      to.Ptr("/convert"),
+					Port:      to.Ptr(port),
 				},
 			},
 		},

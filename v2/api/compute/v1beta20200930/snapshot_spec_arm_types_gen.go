@@ -5,23 +5,14 @@ package v1beta20200930
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Snapshot_Spec. Use v1api20200930.Snapshot_Spec instead
 type Snapshot_Spec_ARM struct {
-	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
-	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
-
-	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Snapshot resource properties.
-	Properties *SnapshotProperties_ARM `json:"properties,omitempty"`
-
-	// Sku: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for
-	// incremental  snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
-	Sku *SnapshotSku_ARM `json:"sku,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM   `json:"extendedLocation,omitempty"`
+	Location         *string                 `json:"location,omitempty"`
+	Name             string                  `json:"name,omitempty"`
+	Properties       *SnapshotProperties_ARM `json:"properties,omitempty"`
+	Sku              *SnapshotSku_ARM        `json:"sku,omitempty"`
+	Tags             map[string]string       `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Snapshot_Spec_ARM{}
@@ -41,51 +32,27 @@ func (snapshot *Snapshot_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/snapshots"
 }
 
-// Snapshot resource properties.
+// Deprecated version of SnapshotProperties. Use v1api20200930.SnapshotProperties instead
 type SnapshotProperties_ARM struct {
-	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
-	CreationData *CreationData_ARM `json:"creationData,omitempty"`
-	DiskAccessId *string           `json:"diskAccessId,omitempty"`
-
-	// DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
-	// create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
-	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// DiskState: The state of the snapshot.
-	DiskState *DiskState `json:"diskState,omitempty"`
-
-	// Encryption: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
-	Encryption *Encryption_ARM `json:"encryption,omitempty"`
-
-	// EncryptionSettingsCollection: Encryption settings collection used be Azure Disk Encryption, can contain multiple
-	// encryption settings per disk or snapshot.
-	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM `json:"encryptionSettingsCollection,omitempty"`
-
-	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
-	HyperVGeneration *SnapshotProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-
-	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
-	// snapshots and can be diffed.
-	Incremental *bool `json:"incremental,omitempty"`
-
-	// NetworkAccessPolicy: Policy for accessing the disk via network.
-	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
-
-	// OsType: The Operating System type.
-	OsType *SnapshotProperties_OsType `json:"osType,omitempty"`
-
-	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
-	PurchasePlan *PurchasePlan_ARM `json:"purchasePlan,omitempty"`
+	CreationData                 *CreationData_ARM                    `json:"creationData,omitempty"`
+	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
+	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
+	DiskState                    *DiskState                           `json:"diskState,omitempty"`
+	Encryption                   *Encryption_ARM                      `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_ARM    `json:"encryptionSettingsCollection,omitempty"`
+	HyperVGeneration             *SnapshotProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
+	Incremental                  *bool                                `json:"incremental,omitempty"`
+	NetworkAccessPolicy          *NetworkAccessPolicy                 `json:"networkAccessPolicy,omitempty"`
+	OsType                       *SnapshotProperties_OsType           `json:"osType,omitempty"`
+	PurchasePlan                 *PurchasePlan_ARM                    `json:"purchasePlan,omitempty"`
 }
 
-// The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental
-// snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
+// Deprecated version of SnapshotSku. Use v1api20200930.SnapshotSku instead
 type SnapshotSku_ARM struct {
-	// Name: The sku name.
 	Name *SnapshotSku_Name `json:"name,omitempty"`
 }
 
+// Deprecated version of SnapshotSku_Name. Use v1api20200930.SnapshotSku_Name instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Standard_LRS","Standard_ZRS"}
 type SnapshotSku_Name string
 

@@ -5,10 +5,9 @@ package v1beta20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Namespaces_Queue_Spec. Use v1api20210101preview.Namespaces_Queue_Spec instead
 type Namespaces_Queue_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Queue Properties
+	Name       string                 `json:"name,omitempty"`
 	Properties *SBQueueProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,56 +28,20 @@ func (queue *Namespaces_Queue_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/queues"
 }
 
-// The Queue Properties definition.
+// Deprecated version of SBQueueProperties. Use v1api20210101preview.SBQueueProperties instead
 type SBQueueProperties_ARM struct {
-	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-	// is 5 minutes.
-	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
-
-	// DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-	// expires.
-	DeadLetteringOnMessageExpiration *bool `json:"deadLetteringOnMessageExpiration,omitempty"`
-
-	// DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-	// set on a message itself.
-	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
-
-	// DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-	// history. The default value is 10 minutes.
+	AutoDeleteOnIdle                    *string `json:"autoDeleteOnIdle,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-
-	// EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
-	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
-
-	// EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-	// temporarily before writing it to persistent storage.
-	EnableExpress *bool `json:"enableExpress,omitempty"`
-
-	// EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.
-	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
-
-	// ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
-	ForwardDeadLetteredMessagesTo *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-
-	// ForwardTo: Queue/Topic name to forward the messages
-	ForwardTo *string `json:"forwardTo,omitempty"`
-
-	// LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-	// other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.
-	LockDuration *string `json:"lockDuration,omitempty"`
-
-	// MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-	// default value is 10.
-	MaxDeliveryCount *int `json:"maxDeliveryCount,omitempty"`
-
-	// MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-	// Default is 1024.
-	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
-
-	// RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.
-	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
-
-	// RequiresSession: A value that indicates whether the queue supports the concept of sessions.
-	RequiresSession *bool `json:"requiresSession,omitempty"`
+	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string `json:"forwardTo,omitempty"`
+	LockDuration                        *string `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
+	RequiresDuplicateDetection          *bool   `json:"requiresDuplicateDetection,omitempty"`
+	RequiresSession                     *bool   `json:"requiresSession,omitempty"`
 }

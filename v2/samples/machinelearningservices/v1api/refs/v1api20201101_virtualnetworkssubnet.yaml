@@ -1,0 +1,10 @@
+apiVersion: network.azure.com/v1api20201101
+kind: VirtualNetworksSubnet
+metadata:
+  name: workspacescomputesubnet
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: workspacescomputevnet
+  addressPrefix: 10.0.0.0/24

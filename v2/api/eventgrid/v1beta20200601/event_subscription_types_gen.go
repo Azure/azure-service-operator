@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
-// - ARM URI: /{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}
+// Deprecated version of EventSubscription. Use v1api20200601.EventSubscription instead
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &EventSubscription{}
 
 // ConvertFrom populates our EventSubscription from the provided hub EventSubscription
 func (subscription *EventSubscription) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200601s.EventSubscription)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1beta20200601storage/EventSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20200601s.EventSubscription
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return subscription.AssignProperties_From_EventSubscription(source)
+	err = subscription.AssignProperties_From_EventSubscription(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to subscription")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub EventSubscription from our EventSubscription
 func (subscription *EventSubscription) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200601s.EventSubscription)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1beta20200601storage/EventSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20200601s.EventSubscription
+	err := subscription.AssignProperties_To_EventSubscription(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from subscription")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return subscription.AssignProperties_To_EventSubscription(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1beta20200601-eventsubscription,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=eventsubscriptions,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.eventsubscriptions.eventgrid.azure.com,admissionReviewVersions=v1
@@ -322,9 +334,7 @@ func (subscription *EventSubscription) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
-// - ARM URI: /{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}
+// Deprecated version of EventSubscription. Use v1api20200601.EventSubscription instead
 type EventSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -334,35 +344,20 @@ type EventSubscriptionList struct {
 type EventSubscription_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DeadLetterDestination: The DeadLetter destination of the event subscription.
-	DeadLetterDestination *DeadLetterDestination `json:"deadLetterDestination,omitempty"`
-
-	// Destination: Information about the destination where events have to be delivered for the event subscription.
-	Destination *EventSubscriptionDestination `json:"destination,omitempty"`
-
-	// EventDeliverySchema: The event delivery schema for the event subscription.
-	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
-
-	// ExpirationTimeUtc: Expiration time of the event subscription.
-	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
-
-	// Filter: Information about the filter for the event subscription.
-	Filter *EventSubscriptionFilter `json:"filter,omitempty"`
-
-	// Labels: List of user defined labels.
-	Labels []string `json:"labels,omitempty"`
+	AzureName             string                                           `json:"azureName,omitempty"`
+	DeadLetterDestination *DeadLetterDestination                           `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination                    `json:"destination,omitempty"`
+	EventDeliverySchema   *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                                          `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter                         `json:"filter,omitempty"`
+	Labels                []string                                         `json:"labels,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
 	// extension resource, which means that any other Azure resource can be its owner.
-	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
-
-	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
-	// live for events.
-	RetryPolicy *RetryPolicy `json:"retryPolicy,omitempty"`
+	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
+	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EventSubscription_Spec{}
@@ -838,50 +833,23 @@ func (subscription *EventSubscription_Spec) SetAzureName(azureName string) {
 	subscription.AzureName = azureName
 }
 
-// Event Subscription
+// Deprecated version of EventSubscription_STATUS. Use v1api20200601.EventSubscription_STATUS instead
 type EventSubscription_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DeadLetterDestination: The DeadLetter destination of the event subscription.
-	DeadLetterDestination *DeadLetterDestination_STATUS `json:"deadLetterDestination,omitempty"`
-
-	// Destination: Information about the destination where events have to be delivered for the event subscription.
-	Destination *EventSubscriptionDestination_STATUS `json:"destination,omitempty"`
-
-	// EventDeliverySchema: The event delivery schema for the event subscription.
-	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema_STATUS `json:"eventDeliverySchema,omitempty"`
-
-	// ExpirationTimeUtc: Expiration time of the event subscription.
-	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
-
-	// Filter: Information about the filter for the event subscription.
-	Filter *EventSubscriptionFilter_STATUS `json:"filter,omitempty"`
-
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
-	// Labels: List of user defined labels.
-	Labels []string `json:"labels,omitempty"`
-
-	// Name: Name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: Provisioning state of the event subscription.
-	ProvisioningState *EventSubscriptionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
-	// live for events.
-	RetryPolicy *RetryPolicy_STATUS `json:"retryPolicy,omitempty"`
-
-	// SystemData: The system metadata relating to Event Subscription resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Topic: Name of the topic of the event subscription.
-	Topic *string `json:"topic,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	Conditions            []conditions.Condition                                  `json:"conditions,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_STATUS                           `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_STATUS                    `json:"destination,omitempty"`
+	EventDeliverySchema   *EventSubscriptionProperties_EventDeliverySchema_STATUS `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                                                 `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter_STATUS                         `json:"filter,omitempty"`
+	Id                    *string                                                 `json:"id,omitempty"`
+	Labels                []string                                                `json:"labels,omitempty"`
+	Name                  *string                                                 `json:"name,omitempty"`
+	ProvisioningState     *EventSubscriptionProperties_ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
+	RetryPolicy           *RetryPolicy_STATUS                                     `json:"retryPolicy,omitempty"`
+	SystemData            *SystemData_STATUS                                      `json:"systemData,omitempty"`
+	Topic                 *string                                                 `json:"topic,omitempty"`
+	Type                  *string                                                 `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
@@ -1300,8 +1268,8 @@ func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscript
 	return nil
 }
 
+// Deprecated version of DeadLetterDestination. Use v1api20200601.DeadLetterDestination instead
 type DeadLetterDestination struct {
-	// StorageBlob: Mutually exclusive with all other properties
 	StorageBlob *StorageBlobDeadLetterDestination `json:"storageBlob,omitempty"`
 }
 
@@ -1419,8 +1387,8 @@ func (destination *DeadLetterDestination) Initialize_From_DeadLetterDestination_
 	return nil
 }
 
+// Deprecated version of DeadLetterDestination_STATUS. Use v1api20200601.DeadLetterDestination_STATUS instead
 type DeadLetterDestination_STATUS struct {
-	// StorageBlob: Mutually exclusive with all other properties
 	StorageBlob *StorageBlobDeadLetterDestination_STATUS `json:"storageBlob,omitempty"`
 }
 
@@ -1500,27 +1468,15 @@ func (destination *DeadLetterDestination_STATUS) AssignProperties_To_DeadLetterD
 	return nil
 }
 
+// Deprecated version of EventSubscriptionDestination. Use v1api20200601.EventSubscriptionDestination instead
 type EventSubscriptionDestination struct {
-	// AzureFunction: Mutually exclusive with all other properties
-	AzureFunction *AzureFunctionEventSubscriptionDestination `json:"azureFunction,omitempty"`
-
-	// EventHub: Mutually exclusive with all other properties
-	EventHub *EventHubEventSubscriptionDestination `json:"eventHub,omitempty"`
-
-	// HybridConnection: Mutually exclusive with all other properties
+	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHub,omitempty"`
 	HybridConnection *HybridConnectionEventSubscriptionDestination `json:"hybridConnection,omitempty"`
-
-	// ServiceBusQueue: Mutually exclusive with all other properties
-	ServiceBusQueue *ServiceBusQueueEventSubscriptionDestination `json:"serviceBusQueue,omitempty"`
-
-	// ServiceBusTopic: Mutually exclusive with all other properties
-	ServiceBusTopic *ServiceBusTopicEventSubscriptionDestination `json:"serviceBusTopic,omitempty"`
-
-	// StorageQueue: Mutually exclusive with all other properties
-	StorageQueue *StorageQueueEventSubscriptionDestination `json:"storageQueue,omitempty"`
-
-	// WebHook: Mutually exclusive with all other properties
-	WebHook *WebHookEventSubscriptionDestination `json:"webHook,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination          `json:"webHook,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EventSubscriptionDestination{}
@@ -1979,27 +1935,15 @@ func (destination *EventSubscriptionDestination) Initialize_From_EventSubscripti
 	return nil
 }
 
+// Deprecated version of EventSubscriptionDestination_STATUS. Use v1api20200601.EventSubscriptionDestination_STATUS instead
 type EventSubscriptionDestination_STATUS struct {
-	// AzureFunction: Mutually exclusive with all other properties
-	AzureFunction *AzureFunctionEventSubscriptionDestination_STATUS `json:"azureFunction,omitempty"`
-
-	// EventHub: Mutually exclusive with all other properties
-	EventHub *EventHubEventSubscriptionDestination_STATUS `json:"eventHub,omitempty"`
-
-	// HybridConnection: Mutually exclusive with all other properties
+	AzureFunction    *AzureFunctionEventSubscriptionDestination_STATUS    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination_STATUS         `json:"eventHub,omitempty"`
 	HybridConnection *HybridConnectionEventSubscriptionDestination_STATUS `json:"hybridConnection,omitempty"`
-
-	// ServiceBusQueue: Mutually exclusive with all other properties
-	ServiceBusQueue *ServiceBusQueueEventSubscriptionDestination_STATUS `json:"serviceBusQueue,omitempty"`
-
-	// ServiceBusTopic: Mutually exclusive with all other properties
-	ServiceBusTopic *ServiceBusTopicEventSubscriptionDestination_STATUS `json:"serviceBusTopic,omitempty"`
-
-	// StorageQueue: Mutually exclusive with all other properties
-	StorageQueue *StorageQueueEventSubscriptionDestination_STATUS `json:"storageQueue,omitempty"`
-
-	// WebHook: Mutually exclusive with all other properties
-	WebHook *WebHookEventSubscriptionDestination_STATUS `json:"webHook,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_STATUS  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_STATUS  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination_STATUS     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination_STATUS          `json:"webHook,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EventSubscriptionDestination_STATUS{}
@@ -2288,27 +2232,13 @@ func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_Even
 	return nil
 }
 
-// Filter for the Event Subscription.
+// Deprecated version of EventSubscriptionFilter. Use v1api20200601.EventSubscriptionFilter instead
 type EventSubscriptionFilter struct {
-	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
-	AdvancedFilters []AdvancedFilter `json:"advancedFilters,omitempty"`
-
-	// IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
-	// subscribe to all default event types, set the IncludedEventTypes to null.
-	IncludedEventTypes []string `json:"includedEventTypes,omitempty"`
-
-	// IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-	// should be compared in a case sensitive manner.
-	IsSubjectCaseSensitive *bool `json:"isSubjectCaseSensitive,omitempty"`
-
-	// SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
-	// The format of this depends on the publisher of the events.
-	// Wildcard characters are not supported in this path.
-	SubjectBeginsWith *string `json:"subjectBeginsWith,omitempty"`
-
-	// SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
-	// Wildcard characters are not supported in this path.
-	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
+	AdvancedFilters        []AdvancedFilter `json:"advancedFilters,omitempty"`
+	IncludedEventTypes     []string         `json:"includedEventTypes,omitempty"`
+	IsSubjectCaseSensitive *bool            `json:"isSubjectCaseSensitive,omitempty"`
+	SubjectBeginsWith      *string          `json:"subjectBeginsWith,omitempty"`
+	SubjectEndsWith        *string          `json:"subjectEndsWith,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EventSubscriptionFilter{}
@@ -2538,27 +2468,13 @@ func (filter *EventSubscriptionFilter) Initialize_From_EventSubscriptionFilter_S
 	return nil
 }
 
-// Filter for the Event Subscription.
+// Deprecated version of EventSubscriptionFilter_STATUS. Use v1api20200601.EventSubscriptionFilter_STATUS instead
 type EventSubscriptionFilter_STATUS struct {
-	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
-	AdvancedFilters []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
-
-	// IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
-	// subscribe to all default event types, set the IncludedEventTypes to null.
-	IncludedEventTypes []string `json:"includedEventTypes,omitempty"`
-
-	// IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-	// should be compared in a case sensitive manner.
-	IsSubjectCaseSensitive *bool `json:"isSubjectCaseSensitive,omitempty"`
-
-	// SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
-	// The format of this depends on the publisher of the events.
-	// Wildcard characters are not supported in this path.
-	SubjectBeginsWith *string `json:"subjectBeginsWith,omitempty"`
-
-	// SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
-	// Wildcard characters are not supported in this path.
-	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
+	AdvancedFilters        []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
+	IncludedEventTypes     []string                `json:"includedEventTypes,omitempty"`
+	IsSubjectCaseSensitive *bool                   `json:"isSubjectCaseSensitive,omitempty"`
+	SubjectBeginsWith      *string                 `json:"subjectBeginsWith,omitempty"`
+	SubjectEndsWith        *string                 `json:"subjectEndsWith,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EventSubscriptionFilter_STATUS{}
@@ -2705,6 +2621,8 @@ func (filter *EventSubscriptionFilter_STATUS) AssignProperties_To_EventSubscript
 	return nil
 }
 
+// Deprecated version of EventSubscriptionProperties_EventDeliverySchema. Use
+// v1api20200601.EventSubscriptionProperties_EventDeliverySchema instead
 // +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomInputSchema","EventGridSchema"}
 type EventSubscriptionProperties_EventDeliverySchema string
 
@@ -2714,6 +2632,8 @@ const (
 	EventSubscriptionProperties_EventDeliverySchema_EventGridSchema      = EventSubscriptionProperties_EventDeliverySchema("EventGridSchema")
 )
 
+// Deprecated version of EventSubscriptionProperties_EventDeliverySchema_STATUS. Use
+// v1api20200601.EventSubscriptionProperties_EventDeliverySchema_STATUS instead
 type EventSubscriptionProperties_EventDeliverySchema_STATUS string
 
 const (
@@ -2722,6 +2642,8 @@ const (
 	EventSubscriptionProperties_EventDeliverySchema_STATUS_EventGridSchema      = EventSubscriptionProperties_EventDeliverySchema_STATUS("EventGridSchema")
 )
 
+// Deprecated version of EventSubscriptionProperties_ProvisioningState_STATUS. Use
+// v1api20200601.EventSubscriptionProperties_ProvisioningState_STATUS instead
 type EventSubscriptionProperties_ProvisioningState_STATUS string
 
 const (
@@ -2734,13 +2656,10 @@ const (
 	EventSubscriptionProperties_ProvisioningState_STATUS_Updating             = EventSubscriptionProperties_ProvisioningState_STATUS("Updating")
 )
 
-// Information about the retry policy for an event subscription.
+// Deprecated version of RetryPolicy. Use v1api20200601.RetryPolicy instead
 type RetryPolicy struct {
-	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
-
-	// MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.
-	MaxDeliveryAttempts *int `json:"maxDeliveryAttempts,omitempty"`
+	MaxDeliveryAttempts      *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RetryPolicy{}
@@ -2842,13 +2761,10 @@ func (policy *RetryPolicy) Initialize_From_RetryPolicy_STATUS(source *RetryPolic
 	return nil
 }
 
-// Information about the retry policy for an event subscription.
+// Deprecated version of RetryPolicy_STATUS. Use v1api20200601.RetryPolicy_STATUS instead
 type RetryPolicy_STATUS struct {
-	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
-
-	// MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.
-	MaxDeliveryAttempts *int `json:"maxDeliveryAttempts,omitempty"`
+	MaxDeliveryAttempts      *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RetryPolicy_STATUS{}
@@ -2916,42 +2832,20 @@ func (policy *RetryPolicy_STATUS) AssignProperties_To_RetryPolicy_STATUS(destina
 	return nil
 }
 
+// Deprecated version of AdvancedFilter. Use v1api20200601.AdvancedFilter instead
 type AdvancedFilter struct {
-	// BoolEquals: Mutually exclusive with all other properties
-	BoolEquals *BoolEqualsAdvancedFilter `json:"boolEquals,omitempty"`
-
-	// NumberGreaterThan: Mutually exclusive with all other properties
-	NumberGreaterThan *NumberGreaterThanAdvancedFilter `json:"numberGreaterThan,omitempty"`
-
-	// NumberGreaterThanOrEquals: Mutually exclusive with all other properties
+	BoolEquals                *BoolEqualsAdvancedFilter                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter         `json:"numberGreaterThan,omitempty"`
 	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter `json:"numberGreaterThanOrEquals,omitempty"`
-
-	// NumberIn: Mutually exclusive with all other properties
-	NumberIn *NumberInAdvancedFilter `json:"numberIn,omitempty"`
-
-	// NumberLessThan: Mutually exclusive with all other properties
-	NumberLessThan *NumberLessThanAdvancedFilter `json:"numberLessThan,omitempty"`
-
-	// NumberLessThanOrEquals: Mutually exclusive with all other properties
-	NumberLessThanOrEquals *NumberLessThanOrEqualsAdvancedFilter `json:"numberLessThanOrEquals,omitempty"`
-
-	// NumberNotIn: Mutually exclusive with all other properties
-	NumberNotIn *NumberNotInAdvancedFilter `json:"numberNotIn,omitempty"`
-
-	// StringBeginsWith: Mutually exclusive with all other properties
-	StringBeginsWith *StringBeginsWithAdvancedFilter `json:"stringBeginsWith,omitempty"`
-
-	// StringContains: Mutually exclusive with all other properties
-	StringContains *StringContainsAdvancedFilter `json:"stringContains,omitempty"`
-
-	// StringEndsWith: Mutually exclusive with all other properties
-	StringEndsWith *StringEndsWithAdvancedFilter `json:"stringEndsWith,omitempty"`
-
-	// StringIn: Mutually exclusive with all other properties
-	StringIn *StringInAdvancedFilter `json:"stringIn,omitempty"`
-
-	// StringNotIn: Mutually exclusive with all other properties
-	StringNotIn *StringNotInAdvancedFilter `json:"stringNotIn,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter               `json:"numberNotIn,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter               `json:"stringNotIn,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AdvancedFilter{}
@@ -3695,42 +3589,20 @@ func (filter *AdvancedFilter) Initialize_From_AdvancedFilter_STATUS(source *Adva
 	return nil
 }
 
+// Deprecated version of AdvancedFilter_STATUS. Use v1api20200601.AdvancedFilter_STATUS instead
 type AdvancedFilter_STATUS struct {
-	// BoolEquals: Mutually exclusive with all other properties
-	BoolEquals *BoolEqualsAdvancedFilter_STATUS `json:"boolEquals,omitempty"`
-
-	// NumberGreaterThan: Mutually exclusive with all other properties
-	NumberGreaterThan *NumberGreaterThanAdvancedFilter_STATUS `json:"numberGreaterThan,omitempty"`
-
-	// NumberGreaterThanOrEquals: Mutually exclusive with all other properties
+	BoolEquals                *BoolEqualsAdvancedFilter_STATUS                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_STATUS         `json:"numberGreaterThan,omitempty"`
 	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_STATUS `json:"numberGreaterThanOrEquals,omitempty"`
-
-	// NumberIn: Mutually exclusive with all other properties
-	NumberIn *NumberInAdvancedFilter_STATUS `json:"numberIn,omitempty"`
-
-	// NumberLessThan: Mutually exclusive with all other properties
-	NumberLessThan *NumberLessThanAdvancedFilter_STATUS `json:"numberLessThan,omitempty"`
-
-	// NumberLessThanOrEquals: Mutually exclusive with all other properties
-	NumberLessThanOrEquals *NumberLessThanOrEqualsAdvancedFilter_STATUS `json:"numberLessThanOrEquals,omitempty"`
-
-	// NumberNotIn: Mutually exclusive with all other properties
-	NumberNotIn *NumberNotInAdvancedFilter_STATUS `json:"numberNotIn,omitempty"`
-
-	// StringBeginsWith: Mutually exclusive with all other properties
-	StringBeginsWith *StringBeginsWithAdvancedFilter_STATUS `json:"stringBeginsWith,omitempty"`
-
-	// StringContains: Mutually exclusive with all other properties
-	StringContains *StringContainsAdvancedFilter_STATUS `json:"stringContains,omitempty"`
-
-	// StringEndsWith: Mutually exclusive with all other properties
-	StringEndsWith *StringEndsWithAdvancedFilter_STATUS `json:"stringEndsWith,omitempty"`
-
-	// StringIn: Mutually exclusive with all other properties
-	StringIn *StringInAdvancedFilter_STATUS `json:"stringIn,omitempty"`
-
-	// StringNotIn: Mutually exclusive with all other properties
-	StringNotIn *StringNotInAdvancedFilter_STATUS `json:"stringNotIn,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter_STATUS                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter_STATUS            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter_STATUS    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter_STATUS               `json:"numberNotIn,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter_STATUS          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter_STATUS            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter_STATUS            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter_STATUS                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter_STATUS               `json:"stringNotIn,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AdvancedFilter_STATUS{}
@@ -4194,20 +4066,13 @@ func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(d
 	return nil
 }
 
+// Deprecated version of AzureFunctionEventSubscriptionDestination. Use v1api20200601.AzureFunctionEventSubscriptionDestination instead
 type AzureFunctionEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *AzureFunctionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// MaxEventsPerBatch: Maximum number of events per batch.
-	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
-
-	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
-	PreferredBatchSizeInKilobytes *int `json:"preferredBatchSizeInKilobytes,omitempty"`
-
-	// ResourceReference: The Azure Resource Id that represents the endpoint of the Azure Function destination of an event
-	// subscription.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	EndpointType                  *AzureFunctionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	MaxEventsPerBatch             *int                                                    `json:"maxEventsPerBatch,omitempty"`
+	PreferredBatchSizeInKilobytes *int                                                    `json:"preferredBatchSizeInKilobytes,omitempty"`
+	ResourceReference             *genruntime.ResourceReference                           `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AzureFunctionEventSubscriptionDestination{}
@@ -4384,19 +4249,12 @@ func (destination *AzureFunctionEventSubscriptionDestination) Initialize_From_Az
 	return nil
 }
 
+// Deprecated version of AzureFunctionEventSubscriptionDestination_STATUS. Use v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS instead
 type AzureFunctionEventSubscriptionDestination_STATUS struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *AzureFunctionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-
-	// MaxEventsPerBatch: Maximum number of events per batch.
-	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
-
-	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
-	PreferredBatchSizeInKilobytes *int `json:"preferredBatchSizeInKilobytes,omitempty"`
-
-	// ResourceId: The Azure Resource Id that represents the endpoint of the Azure Function destination of an event
-	// subscription.
-	ResourceId *string `json:"resourceId,omitempty"`
+	EndpointType                  *AzureFunctionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	MaxEventsPerBatch             *int                                                           `json:"maxEventsPerBatch,omitempty"`
+	PreferredBatchSizeInKilobytes *int                                                           `json:"preferredBatchSizeInKilobytes,omitempty"`
+	ResourceId                    *string                                                        `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AzureFunctionEventSubscriptionDestination_STATUS{}
@@ -4504,14 +4362,11 @@ func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignPrope
 	return nil
 }
 
+// Deprecated version of EventHubEventSubscriptionDestination. Use v1api20200601.EventHubEventSubscriptionDestination instead
 type EventHubEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *EventHubEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// ResourceReference: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event
-	// subscription.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	EndpointType      *EventHubEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	ResourceReference *genruntime.ResourceReference                      `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EventHubEventSubscriptionDestination{}
@@ -4642,12 +4497,10 @@ func (destination *EventHubEventSubscriptionDestination) Initialize_From_EventHu
 	return nil
 }
 
+// Deprecated version of EventHubEventSubscriptionDestination_STATUS. Use v1api20200601.EventHubEventSubscriptionDestination_STATUS instead
 type EventHubEventSubscriptionDestination_STATUS struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
 	EndpointType *EventHubEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-
-	// ResourceId: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription.
-	ResourceId *string `json:"resourceId,omitempty"`
+	ResourceId   *string                                                   `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EventHubEventSubscriptionDestination_STATUS{}
@@ -4725,13 +4578,11 @@ func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties
 	return nil
 }
 
+// Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1api20200601.HybridConnectionEventSubscriptionDestination instead
 type HybridConnectionEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *HybridConnectionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// ResourceReference: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	EndpointType      *HybridConnectionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	ResourceReference *genruntime.ResourceReference                              `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HybridConnectionEventSubscriptionDestination{}
@@ -4862,12 +4713,10 @@ func (destination *HybridConnectionEventSubscriptionDestination) Initialize_From
 	return nil
 }
 
+// Deprecated version of HybridConnectionEventSubscriptionDestination_STATUS. Use v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS instead
 type HybridConnectionEventSubscriptionDestination_STATUS struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
 	EndpointType *HybridConnectionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-
-	// ResourceId: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
-	ResourceId *string `json:"resourceId,omitempty"`
+	ResourceId   *string                                                           `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HybridConnectionEventSubscriptionDestination_STATUS{}
@@ -4945,14 +4794,11 @@ func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignPr
 	return nil
 }
 
+// Deprecated version of ServiceBusQueueEventSubscriptionDestination. Use v1api20200601.ServiceBusQueueEventSubscriptionDestination instead
 type ServiceBusQueueEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *ServiceBusQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
-	// subscription.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	EndpointType      *ServiceBusQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	ResourceReference *genruntime.ResourceReference                             `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServiceBusQueueEventSubscriptionDestination{}
@@ -5083,12 +4929,10 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) Initialize_From_
 	return nil
 }
 
+// Deprecated version of ServiceBusQueueEventSubscriptionDestination_STATUS. Use v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS instead
 type ServiceBusQueueEventSubscriptionDestination_STATUS struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
 	EndpointType *ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-
-	// ResourceId: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription.
-	ResourceId *string `json:"resourceId,omitempty"`
+	ResourceId   *string                                                          `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ServiceBusQueueEventSubscriptionDestination_STATUS{}
@@ -5166,14 +5010,11 @@ func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignPro
 	return nil
 }
 
+// Deprecated version of ServiceBusTopicEventSubscriptionDestination. Use v1api20200601.ServiceBusTopicEventSubscriptionDestination instead
 type ServiceBusTopicEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *ServiceBusTopicEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
-	// subscription.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	EndpointType      *ServiceBusTopicEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	ResourceReference *genruntime.ResourceReference                             `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServiceBusTopicEventSubscriptionDestination{}
@@ -5304,13 +5145,10 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) Initialize_From_
 	return nil
 }
 
+// Deprecated version of ServiceBusTopicEventSubscriptionDestination_STATUS. Use v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS instead
 type ServiceBusTopicEventSubscriptionDestination_STATUS struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
 	EndpointType *ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-
-	// ResourceId: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
-	// subscription.
-	ResourceId *string `json:"resourceId,omitempty"`
+	ResourceId   *string                                                          `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ServiceBusTopicEventSubscriptionDestination_STATUS{}
@@ -5388,16 +5226,13 @@ func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignPro
 	return nil
 }
 
+// Deprecated version of StorageBlobDeadLetterDestination. Use v1api20200601.StorageBlobDeadLetterDestination instead
 type StorageBlobDeadLetterDestination struct {
-	// BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
 	BlobContainerName *string `json:"blobContainerName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType *StorageBlobDeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// ResourceReference: The Azure Resource ID of the storage account that is the destination of the deadletter events
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	EndpointType      *StorageBlobDeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
+	ResourceReference *genruntime.ResourceReference                  `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageBlobDeadLetterDestination{}
@@ -5550,15 +5385,11 @@ func (destination *StorageBlobDeadLetterDestination) Initialize_From_StorageBlob
 	return nil
 }
 
+// Deprecated version of StorageBlobDeadLetterDestination_STATUS. Use v1api20200601.StorageBlobDeadLetterDestination_STATUS instead
 type StorageBlobDeadLetterDestination_STATUS struct {
-	// BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
-	BlobContainerName *string `json:"blobContainerName,omitempty"`
-
-	// EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType *StorageBlobDeadLetterDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-
-	// ResourceId: The Azure Resource ID of the storage account that is the destination of the deadletter events
-	ResourceId *string `json:"resourceId,omitempty"`
+	BlobContainerName *string                                               `json:"blobContainerName,omitempty"`
+	EndpointType      *StorageBlobDeadLetterDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	ResourceId        *string                                               `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StorageBlobDeadLetterDestination_STATUS{}
@@ -5651,17 +5482,12 @@ func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_To_
 	return nil
 }
 
+// Deprecated version of StorageQueueEventSubscriptionDestination. Use v1api20200601.StorageQueueEventSubscriptionDestination instead
 type StorageQueueEventSubscriptionDestination struct {
 	// +kubebuilder:validation:Required
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *StorageQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
-	QueueName *string `json:"queueName,omitempty"`
-
-	// ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
-	// event subscription.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	EndpointType      *StorageQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	QueueName         *string                                                `json:"queueName,omitempty"`
+	ResourceReference *genruntime.ResourceReference                          `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageQueueEventSubscriptionDestination{}
@@ -5814,16 +5640,11 @@ func (destination *StorageQueueEventSubscriptionDestination) Initialize_From_Sto
 	return nil
 }
 
+// Deprecated version of StorageQueueEventSubscriptionDestination_STATUS. Use v1api20200601.StorageQueueEventSubscriptionDestination_STATUS instead
 type StorageQueueEventSubscriptionDestination_STATUS struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
 	EndpointType *StorageQueueEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-
-	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
-	QueueName *string `json:"queueName,omitempty"`
-
-	// ResourceId: The Azure Resource ID of the storage account that contains the queue that is the destination of an event
-	// subscription.
-	ResourceId *string `json:"resourceId,omitempty"`
+	QueueName    *string                                                       `json:"queueName,omitempty"`
+	ResourceId   *string                                                       `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StorageQueueEventSubscriptionDestination_STATUS{}
@@ -5916,27 +5737,16 @@ func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProper
 	return nil
 }
 
+// Deprecated version of WebHookEventSubscriptionDestination. Use v1api20200601.WebHookEventSubscriptionDestination instead
 type WebHookEventSubscriptionDestination struct {
-	// AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
-	// will be included as the bearer token in delivery requests.
 	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
-
-	// AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
-	// bearer token in delivery requests.
-	AzureActiveDirectoryTenantId *string `json:"azureActiveDirectoryTenantId,omitempty"`
+	AzureActiveDirectoryTenantId           *string `json:"azureActiveDirectoryTenantId,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *WebHookEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// EndpointUrl: The URL that represents the endpoint of the destination of an event subscription.
-	EndpointUrl *genruntime.SecretReference `json:"endpointUrl,omitempty"`
-
-	// MaxEventsPerBatch: Maximum number of events per batch.
-	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
-
-	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
-	PreferredBatchSizeInKilobytes *int `json:"preferredBatchSizeInKilobytes,omitempty"`
+	EndpointType                  *WebHookEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
+	EndpointUrl                   *genruntime.SecretReference                       `json:"endpointUrl,omitempty"`
+	MaxEventsPerBatch             *int                                              `json:"maxEventsPerBatch,omitempty"`
+	PreferredBatchSizeInKilobytes *int                                              `json:"preferredBatchSizeInKilobytes,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WebHookEventSubscriptionDestination{}
@@ -6151,26 +5961,14 @@ func (destination *WebHookEventSubscriptionDestination) Initialize_From_WebHookE
 	return nil
 }
 
+// Deprecated version of WebHookEventSubscriptionDestination_STATUS. Use v1api20200601.WebHookEventSubscriptionDestination_STATUS instead
 type WebHookEventSubscriptionDestination_STATUS struct {
-	// AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
-	// will be included as the bearer token in delivery requests.
-	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
-
-	// AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
-	// bearer token in delivery requests.
-	AzureActiveDirectoryTenantId *string `json:"azureActiveDirectoryTenantId,omitempty"`
-
-	// EndpointBaseUrl: The base URL that represents the endpoint of the destination of an event subscription.
-	EndpointBaseUrl *string `json:"endpointBaseUrl,omitempty"`
-
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType *WebHookEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
-
-	// MaxEventsPerBatch: Maximum number of events per batch.
-	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
-
-	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
-	PreferredBatchSizeInKilobytes *int `json:"preferredBatchSizeInKilobytes,omitempty"`
+	AzureActiveDirectoryApplicationIdOrUri *string                                                  `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
+	AzureActiveDirectoryTenantId           *string                                                  `json:"azureActiveDirectoryTenantId,omitempty"`
+	EndpointBaseUrl                        *string                                                  `json:"endpointBaseUrl,omitempty"`
+	EndpointType                           *WebHookEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
+	MaxEventsPerBatch                      *int                                                     `json:"maxEventsPerBatch,omitempty"`
+	PreferredBatchSizeInKilobytes          *int                                                     `json:"preferredBatchSizeInKilobytes,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WebHookEventSubscriptionDestination_STATUS{}
@@ -6308,25 +6106,26 @@ func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_
 	return nil
 }
 
+// Deprecated version of AzureFunctionEventSubscriptionDestination_EndpointType. Use
+// v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType instead
 // +kubebuilder:validation:Enum={"AzureFunction"}
 type AzureFunctionEventSubscriptionDestination_EndpointType string
 
 const AzureFunctionEventSubscriptionDestination_EndpointType_AzureFunction = AzureFunctionEventSubscriptionDestination_EndpointType("AzureFunction")
 
+// Deprecated version of AzureFunctionEventSubscriptionDestination_EndpointType_STATUS. Use
+// v1api20200601.AzureFunctionEventSubscriptionDestination_EndpointType_STATUS instead
 type AzureFunctionEventSubscriptionDestination_EndpointType_STATUS string
 
 const AzureFunctionEventSubscriptionDestination_EndpointType_STATUS_AzureFunction = AzureFunctionEventSubscriptionDestination_EndpointType_STATUS("AzureFunction")
 
+// Deprecated version of BoolEqualsAdvancedFilter. Use v1api20200601.BoolEqualsAdvancedFilter instead
 type BoolEqualsAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *BoolEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The boolean filter value.
-	Value *bool `json:"value,omitempty"`
+	Value        *bool                                  `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BoolEqualsAdvancedFilter{}
@@ -6475,15 +6274,11 @@ func (filter *BoolEqualsAdvancedFilter) Initialize_From_BoolEqualsAdvancedFilter
 	return nil
 }
 
+// Deprecated version of BoolEqualsAdvancedFilter_STATUS. Use v1api20200601.BoolEqualsAdvancedFilter_STATUS instead
 type BoolEqualsAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                       `json:"key,omitempty"`
 	OperatorType *BoolEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Value: The boolean filter value.
-	Value *bool `json:"value,omitempty"`
+	Value        *bool                                         `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BoolEqualsAdvancedFilter_STATUS{}
@@ -6580,34 +6375,39 @@ func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_To_BoolEqualsAdv
 	return nil
 }
 
+// Deprecated version of EventHubEventSubscriptionDestination_EndpointType. Use
+// v1api20200601.EventHubEventSubscriptionDestination_EndpointType instead
 // +kubebuilder:validation:Enum={"EventHub"}
 type EventHubEventSubscriptionDestination_EndpointType string
 
 const EventHubEventSubscriptionDestination_EndpointType_EventHub = EventHubEventSubscriptionDestination_EndpointType("EventHub")
 
+// Deprecated version of EventHubEventSubscriptionDestination_EndpointType_STATUS. Use
+// v1api20200601.EventHubEventSubscriptionDestination_EndpointType_STATUS instead
 type EventHubEventSubscriptionDestination_EndpointType_STATUS string
 
 const EventHubEventSubscriptionDestination_EndpointType_STATUS_EventHub = EventHubEventSubscriptionDestination_EndpointType_STATUS("EventHub")
 
+// Deprecated version of HybridConnectionEventSubscriptionDestination_EndpointType. Use
+// v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType instead
 // +kubebuilder:validation:Enum={"HybridConnection"}
 type HybridConnectionEventSubscriptionDestination_EndpointType string
 
 const HybridConnectionEventSubscriptionDestination_EndpointType_HybridConnection = HybridConnectionEventSubscriptionDestination_EndpointType("HybridConnection")
 
+// Deprecated version of HybridConnectionEventSubscriptionDestination_EndpointType_STATUS. Use
+// v1api20200601.HybridConnectionEventSubscriptionDestination_EndpointType_STATUS instead
 type HybridConnectionEventSubscriptionDestination_EndpointType_STATUS string
 
 const HybridConnectionEventSubscriptionDestination_EndpointType_STATUS_HybridConnection = HybridConnectionEventSubscriptionDestination_EndpointType_STATUS("HybridConnection")
 
+// Deprecated version of NumberGreaterThanAdvancedFilter. Use v1api20200601.NumberGreaterThanAdvancedFilter instead
 type NumberGreaterThanAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *NumberGreaterThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                      `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NumberGreaterThanAdvancedFilter{}
@@ -6756,15 +6556,11 @@ func (filter *NumberGreaterThanAdvancedFilter) Initialize_From_NumberGreaterThan
 	return nil
 }
 
+// Deprecated version of NumberGreaterThanAdvancedFilter_STATUS. Use v1api20200601.NumberGreaterThanAdvancedFilter_STATUS instead
 type NumberGreaterThanAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                              `json:"key,omitempty"`
 	OperatorType *NumberGreaterThanAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                             `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NumberGreaterThanAdvancedFilter_STATUS{}
@@ -6861,16 +6657,13 @@ func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_To_Number
 	return nil
 }
 
+// Deprecated version of NumberGreaterThanOrEqualsAdvancedFilter. Use v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter instead
 type NumberGreaterThanOrEqualsAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *NumberGreaterThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                              `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NumberGreaterThanOrEqualsAdvancedFilter{}
@@ -7019,15 +6812,11 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) Initialize_From_NumberGre
 	return nil
 }
 
+// Deprecated version of NumberGreaterThanOrEqualsAdvancedFilter_STATUS. Use v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS instead
 type NumberGreaterThanOrEqualsAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                                      `json:"key,omitempty"`
 	OperatorType *NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                                     `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NumberGreaterThanOrEqualsAdvancedFilter_STATUS{}
@@ -7124,16 +6913,13 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_T
 	return nil
 }
 
+// Deprecated version of NumberInAdvancedFilter. Use v1api20200601.NumberInAdvancedFilter instead
 type NumberInAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *NumberInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []float64 `json:"values,omitempty"`
+	Values       []float64                            `json:"values,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NumberInAdvancedFilter{}
@@ -7295,15 +7081,11 @@ func (filter *NumberInAdvancedFilter) Initialize_From_NumberInAdvancedFilter_STA
 	return nil
 }
 
+// Deprecated version of NumberInAdvancedFilter_STATUS. Use v1api20200601.NumberInAdvancedFilter_STATUS instead
 type NumberInAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                     `json:"key,omitempty"`
 	OperatorType *NumberInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []float64 `json:"values,omitempty"`
+	Values       []float64                                   `json:"values,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NumberInAdvancedFilter_STATUS{}
@@ -7409,16 +7191,13 @@ func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_To_NumberInAdvance
 	return nil
 }
 
+// Deprecated version of NumberLessThanAdvancedFilter. Use v1api20200601.NumberLessThanAdvancedFilter instead
 type NumberLessThanAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *NumberLessThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                   `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NumberLessThanAdvancedFilter{}
@@ -7567,15 +7346,11 @@ func (filter *NumberLessThanAdvancedFilter) Initialize_From_NumberLessThanAdvanc
 	return nil
 }
 
+// Deprecated version of NumberLessThanAdvancedFilter_STATUS. Use v1api20200601.NumberLessThanAdvancedFilter_STATUS instead
 type NumberLessThanAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                           `json:"key,omitempty"`
 	OperatorType *NumberLessThanAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                          `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NumberLessThanAdvancedFilter_STATUS{}
@@ -7672,16 +7447,13 @@ func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_To_NumberLes
 	return nil
 }
 
+// Deprecated version of NumberLessThanOrEqualsAdvancedFilter. Use v1api20200601.NumberLessThanOrEqualsAdvancedFilter instead
 type NumberLessThanOrEqualsAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *NumberLessThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                           `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NumberLessThanOrEqualsAdvancedFilter{}
@@ -7830,15 +7602,11 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) Initialize_From_NumberLessTh
 	return nil
 }
 
+// Deprecated version of NumberLessThanOrEqualsAdvancedFilter_STATUS. Use v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS instead
 type NumberLessThanOrEqualsAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                                   `json:"key,omitempty"`
 	OperatorType *NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                                  `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NumberLessThanOrEqualsAdvancedFilter_STATUS{}
@@ -7935,16 +7703,13 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_To_N
 	return nil
 }
 
+// Deprecated version of NumberNotInAdvancedFilter. Use v1api20200601.NumberNotInAdvancedFilter instead
 type NumberNotInAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *NumberNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []float64 `json:"values,omitempty"`
+	Values       []float64                               `json:"values,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NumberNotInAdvancedFilter{}
@@ -8106,15 +7871,11 @@ func (filter *NumberNotInAdvancedFilter) Initialize_From_NumberNotInAdvancedFilt
 	return nil
 }
 
+// Deprecated version of NumberNotInAdvancedFilter_STATUS. Use v1api20200601.NumberNotInAdvancedFilter_STATUS instead
 type NumberNotInAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                        `json:"key,omitempty"`
 	OperatorType *NumberNotInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []float64 `json:"values,omitempty"`
+	Values       []float64                                      `json:"values,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NumberNotInAdvancedFilter_STATUS{}
@@ -8220,52 +7981,65 @@ func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_To_NumberNotInA
 	return nil
 }
 
+// Deprecated version of ServiceBusQueueEventSubscriptionDestination_EndpointType. Use
+// v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType instead
 // +kubebuilder:validation:Enum={"ServiceBusQueue"}
 type ServiceBusQueueEventSubscriptionDestination_EndpointType string
 
 const ServiceBusQueueEventSubscriptionDestination_EndpointType_ServiceBusQueue = ServiceBusQueueEventSubscriptionDestination_EndpointType("ServiceBusQueue")
 
+// Deprecated version of ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS. Use
+// v1api20200601.ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS instead
 type ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS string
 
 const ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS_ServiceBusQueue = ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS("ServiceBusQueue")
 
+// Deprecated version of ServiceBusTopicEventSubscriptionDestination_EndpointType. Use
+// v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType instead
 // +kubebuilder:validation:Enum={"ServiceBusTopic"}
 type ServiceBusTopicEventSubscriptionDestination_EndpointType string
 
 const ServiceBusTopicEventSubscriptionDestination_EndpointType_ServiceBusTopic = ServiceBusTopicEventSubscriptionDestination_EndpointType("ServiceBusTopic")
 
+// Deprecated version of ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS. Use
+// v1api20200601.ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS instead
 type ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS string
 
 const ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS_ServiceBusTopic = ServiceBusTopicEventSubscriptionDestination_EndpointType_STATUS("ServiceBusTopic")
 
+// Deprecated version of StorageBlobDeadLetterDestination_EndpointType. Use
+// v1api20200601.StorageBlobDeadLetterDestination_EndpointType instead
 // +kubebuilder:validation:Enum={"StorageBlob"}
 type StorageBlobDeadLetterDestination_EndpointType string
 
 const StorageBlobDeadLetterDestination_EndpointType_StorageBlob = StorageBlobDeadLetterDestination_EndpointType("StorageBlob")
 
+// Deprecated version of StorageBlobDeadLetterDestination_EndpointType_STATUS. Use
+// v1api20200601.StorageBlobDeadLetterDestination_EndpointType_STATUS instead
 type StorageBlobDeadLetterDestination_EndpointType_STATUS string
 
 const StorageBlobDeadLetterDestination_EndpointType_STATUS_StorageBlob = StorageBlobDeadLetterDestination_EndpointType_STATUS("StorageBlob")
 
+// Deprecated version of StorageQueueEventSubscriptionDestination_EndpointType. Use
+// v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType instead
 // +kubebuilder:validation:Enum={"StorageQueue"}
 type StorageQueueEventSubscriptionDestination_EndpointType string
 
 const StorageQueueEventSubscriptionDestination_EndpointType_StorageQueue = StorageQueueEventSubscriptionDestination_EndpointType("StorageQueue")
 
+// Deprecated version of StorageQueueEventSubscriptionDestination_EndpointType_STATUS. Use
+// v1api20200601.StorageQueueEventSubscriptionDestination_EndpointType_STATUS instead
 type StorageQueueEventSubscriptionDestination_EndpointType_STATUS string
 
 const StorageQueueEventSubscriptionDestination_EndpointType_STATUS_StorageQueue = StorageQueueEventSubscriptionDestination_EndpointType_STATUS("StorageQueue")
 
+// Deprecated version of StringBeginsWithAdvancedFilter. Use v1api20200601.StringBeginsWithAdvancedFilter instead
 type StringBeginsWithAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *StringBeginsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                     `json:"values,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StringBeginsWithAdvancedFilter{}
@@ -8397,15 +8171,11 @@ func (filter *StringBeginsWithAdvancedFilter) Initialize_From_StringBeginsWithAd
 	return nil
 }
 
+// Deprecated version of StringBeginsWithAdvancedFilter_STATUS. Use v1api20200601.StringBeginsWithAdvancedFilter_STATUS instead
 type StringBeginsWithAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                             `json:"key,omitempty"`
 	OperatorType *StringBeginsWithAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                            `json:"values,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StringBeginsWithAdvancedFilter_STATUS{}
@@ -8491,16 +8261,13 @@ func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_To_StringB
 	return nil
 }
 
+// Deprecated version of StringContainsAdvancedFilter. Use v1api20200601.StringContainsAdvancedFilter instead
 type StringContainsAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *StringContainsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                   `json:"values,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StringContainsAdvancedFilter{}
@@ -8632,15 +8399,11 @@ func (filter *StringContainsAdvancedFilter) Initialize_From_StringContainsAdvanc
 	return nil
 }
 
+// Deprecated version of StringContainsAdvancedFilter_STATUS. Use v1api20200601.StringContainsAdvancedFilter_STATUS instead
 type StringContainsAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                           `json:"key,omitempty"`
 	OperatorType *StringContainsAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                          `json:"values,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StringContainsAdvancedFilter_STATUS{}
@@ -8726,16 +8489,13 @@ func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_To_StringCon
 	return nil
 }
 
+// Deprecated version of StringEndsWithAdvancedFilter. Use v1api20200601.StringEndsWithAdvancedFilter instead
 type StringEndsWithAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *StringEndsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                   `json:"values,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StringEndsWithAdvancedFilter{}
@@ -8867,15 +8627,11 @@ func (filter *StringEndsWithAdvancedFilter) Initialize_From_StringEndsWithAdvanc
 	return nil
 }
 
+// Deprecated version of StringEndsWithAdvancedFilter_STATUS. Use v1api20200601.StringEndsWithAdvancedFilter_STATUS instead
 type StringEndsWithAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                           `json:"key,omitempty"`
 	OperatorType *StringEndsWithAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                          `json:"values,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StringEndsWithAdvancedFilter_STATUS{}
@@ -8961,16 +8717,13 @@ func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_To_StringEnd
 	return nil
 }
 
+// Deprecated version of StringInAdvancedFilter. Use v1api20200601.StringInAdvancedFilter instead
 type StringInAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *StringInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                             `json:"values,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StringInAdvancedFilter{}
@@ -9102,15 +8855,11 @@ func (filter *StringInAdvancedFilter) Initialize_From_StringInAdvancedFilter_STA
 	return nil
 }
 
+// Deprecated version of StringInAdvancedFilter_STATUS. Use v1api20200601.StringInAdvancedFilter_STATUS instead
 type StringInAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                     `json:"key,omitempty"`
 	OperatorType *StringInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                    `json:"values,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StringInAdvancedFilter_STATUS{}
@@ -9196,16 +8945,13 @@ func (filter *StringInAdvancedFilter_STATUS) AssignProperties_To_StringInAdvance
 	return nil
 }
 
+// Deprecated version of StringNotInAdvancedFilter. Use v1api20200601.StringNotInAdvancedFilter instead
 type StringNotInAdvancedFilter struct {
-	// Key: The field/property in the event based on which you want to filter.
 	Key *string `json:"key,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
 	OperatorType *StringNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                `json:"values,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StringNotInAdvancedFilter{}
@@ -9337,15 +9083,11 @@ func (filter *StringNotInAdvancedFilter) Initialize_From_StringNotInAdvancedFilt
 	return nil
 }
 
+// Deprecated version of StringNotInAdvancedFilter_STATUS. Use v1api20200601.StringNotInAdvancedFilter_STATUS instead
 type StringNotInAdvancedFilter_STATUS struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                        `json:"key,omitempty"`
 	OperatorType *StringNotInAdvancedFilter_OperatorType_STATUS `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                       `json:"values,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StringNotInAdvancedFilter_STATUS{}
@@ -9431,119 +9173,169 @@ func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_To_StringNotInA
 	return nil
 }
 
+// Deprecated version of WebHookEventSubscriptionDestination_EndpointType. Use
+// v1api20200601.WebHookEventSubscriptionDestination_EndpointType instead
 // +kubebuilder:validation:Enum={"WebHook"}
 type WebHookEventSubscriptionDestination_EndpointType string
 
 const WebHookEventSubscriptionDestination_EndpointType_WebHook = WebHookEventSubscriptionDestination_EndpointType("WebHook")
 
+// Deprecated version of WebHookEventSubscriptionDestination_EndpointType_STATUS. Use
+// v1api20200601.WebHookEventSubscriptionDestination_EndpointType_STATUS instead
 type WebHookEventSubscriptionDestination_EndpointType_STATUS string
 
 const WebHookEventSubscriptionDestination_EndpointType_STATUS_WebHook = WebHookEventSubscriptionDestination_EndpointType_STATUS("WebHook")
 
+// Deprecated version of BoolEqualsAdvancedFilter_OperatorType. Use v1api20200601.BoolEqualsAdvancedFilter_OperatorType
+// instead
 // +kubebuilder:validation:Enum={"BoolEquals"}
 type BoolEqualsAdvancedFilter_OperatorType string
 
 const BoolEqualsAdvancedFilter_OperatorType_BoolEquals = BoolEqualsAdvancedFilter_OperatorType("BoolEquals")
 
+// Deprecated version of BoolEqualsAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.BoolEqualsAdvancedFilter_OperatorType_STATUS instead
 type BoolEqualsAdvancedFilter_OperatorType_STATUS string
 
 const BoolEqualsAdvancedFilter_OperatorType_STATUS_BoolEquals = BoolEqualsAdvancedFilter_OperatorType_STATUS("BoolEquals")
 
+// Deprecated version of NumberGreaterThanAdvancedFilter_OperatorType. Use
+// v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType instead
 // +kubebuilder:validation:Enum={"NumberGreaterThan"}
 type NumberGreaterThanAdvancedFilter_OperatorType string
 
 const NumberGreaterThanAdvancedFilter_OperatorType_NumberGreaterThan = NumberGreaterThanAdvancedFilter_OperatorType("NumberGreaterThan")
 
+// Deprecated version of NumberGreaterThanAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.NumberGreaterThanAdvancedFilter_OperatorType_STATUS instead
 type NumberGreaterThanAdvancedFilter_OperatorType_STATUS string
 
 const NumberGreaterThanAdvancedFilter_OperatorType_STATUS_NumberGreaterThan = NumberGreaterThanAdvancedFilter_OperatorType_STATUS("NumberGreaterThan")
 
+// Deprecated version of NumberGreaterThanOrEqualsAdvancedFilter_OperatorType. Use
+// v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType instead
 // +kubebuilder:validation:Enum={"NumberGreaterThanOrEquals"}
 type NumberGreaterThanOrEqualsAdvancedFilter_OperatorType string
 
 const NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_NumberGreaterThanOrEquals = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType("NumberGreaterThanOrEquals")
 
+// Deprecated version of NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS instead
 type NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS string
 
 const NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS_NumberGreaterThanOrEquals = NumberGreaterThanOrEqualsAdvancedFilter_OperatorType_STATUS("NumberGreaterThanOrEquals")
 
+// Deprecated version of NumberInAdvancedFilter_OperatorType. Use v1api20200601.NumberInAdvancedFilter_OperatorType instead
 // +kubebuilder:validation:Enum={"NumberIn"}
 type NumberInAdvancedFilter_OperatorType string
 
 const NumberInAdvancedFilter_OperatorType_NumberIn = NumberInAdvancedFilter_OperatorType("NumberIn")
 
+// Deprecated version of NumberInAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.NumberInAdvancedFilter_OperatorType_STATUS instead
 type NumberInAdvancedFilter_OperatorType_STATUS string
 
 const NumberInAdvancedFilter_OperatorType_STATUS_NumberIn = NumberInAdvancedFilter_OperatorType_STATUS("NumberIn")
 
+// Deprecated version of NumberLessThanAdvancedFilter_OperatorType. Use
+// v1api20200601.NumberLessThanAdvancedFilter_OperatorType instead
 // +kubebuilder:validation:Enum={"NumberLessThan"}
 type NumberLessThanAdvancedFilter_OperatorType string
 
 const NumberLessThanAdvancedFilter_OperatorType_NumberLessThan = NumberLessThanAdvancedFilter_OperatorType("NumberLessThan")
 
+// Deprecated version of NumberLessThanAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.NumberLessThanAdvancedFilter_OperatorType_STATUS instead
 type NumberLessThanAdvancedFilter_OperatorType_STATUS string
 
 const NumberLessThanAdvancedFilter_OperatorType_STATUS_NumberLessThan = NumberLessThanAdvancedFilter_OperatorType_STATUS("NumberLessThan")
 
+// Deprecated version of NumberLessThanOrEqualsAdvancedFilter_OperatorType. Use
+// v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType instead
 // +kubebuilder:validation:Enum={"NumberLessThanOrEquals"}
 type NumberLessThanOrEqualsAdvancedFilter_OperatorType string
 
 const NumberLessThanOrEqualsAdvancedFilter_OperatorType_NumberLessThanOrEquals = NumberLessThanOrEqualsAdvancedFilter_OperatorType("NumberLessThanOrEquals")
 
+// Deprecated version of NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS instead
 type NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS string
 
 const NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS_NumberLessThanOrEquals = NumberLessThanOrEqualsAdvancedFilter_OperatorType_STATUS("NumberLessThanOrEquals")
 
+// Deprecated version of NumberNotInAdvancedFilter_OperatorType. Use v1api20200601.NumberNotInAdvancedFilter_OperatorType
+// instead
 // +kubebuilder:validation:Enum={"NumberNotIn"}
 type NumberNotInAdvancedFilter_OperatorType string
 
 const NumberNotInAdvancedFilter_OperatorType_NumberNotIn = NumberNotInAdvancedFilter_OperatorType("NumberNotIn")
 
+// Deprecated version of NumberNotInAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.NumberNotInAdvancedFilter_OperatorType_STATUS instead
 type NumberNotInAdvancedFilter_OperatorType_STATUS string
 
 const NumberNotInAdvancedFilter_OperatorType_STATUS_NumberNotIn = NumberNotInAdvancedFilter_OperatorType_STATUS("NumberNotIn")
 
+// Deprecated version of StringBeginsWithAdvancedFilter_OperatorType. Use
+// v1api20200601.StringBeginsWithAdvancedFilter_OperatorType instead
 // +kubebuilder:validation:Enum={"StringBeginsWith"}
 type StringBeginsWithAdvancedFilter_OperatorType string
 
 const StringBeginsWithAdvancedFilter_OperatorType_StringBeginsWith = StringBeginsWithAdvancedFilter_OperatorType("StringBeginsWith")
 
+// Deprecated version of StringBeginsWithAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.StringBeginsWithAdvancedFilter_OperatorType_STATUS instead
 type StringBeginsWithAdvancedFilter_OperatorType_STATUS string
 
 const StringBeginsWithAdvancedFilter_OperatorType_STATUS_StringBeginsWith = StringBeginsWithAdvancedFilter_OperatorType_STATUS("StringBeginsWith")
 
+// Deprecated version of StringContainsAdvancedFilter_OperatorType. Use
+// v1api20200601.StringContainsAdvancedFilter_OperatorType instead
 // +kubebuilder:validation:Enum={"StringContains"}
 type StringContainsAdvancedFilter_OperatorType string
 
 const StringContainsAdvancedFilter_OperatorType_StringContains = StringContainsAdvancedFilter_OperatorType("StringContains")
 
+// Deprecated version of StringContainsAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.StringContainsAdvancedFilter_OperatorType_STATUS instead
 type StringContainsAdvancedFilter_OperatorType_STATUS string
 
 const StringContainsAdvancedFilter_OperatorType_STATUS_StringContains = StringContainsAdvancedFilter_OperatorType_STATUS("StringContains")
 
+// Deprecated version of StringEndsWithAdvancedFilter_OperatorType. Use
+// v1api20200601.StringEndsWithAdvancedFilter_OperatorType instead
 // +kubebuilder:validation:Enum={"StringEndsWith"}
 type StringEndsWithAdvancedFilter_OperatorType string
 
 const StringEndsWithAdvancedFilter_OperatorType_StringEndsWith = StringEndsWithAdvancedFilter_OperatorType("StringEndsWith")
 
+// Deprecated version of StringEndsWithAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.StringEndsWithAdvancedFilter_OperatorType_STATUS instead
 type StringEndsWithAdvancedFilter_OperatorType_STATUS string
 
 const StringEndsWithAdvancedFilter_OperatorType_STATUS_StringEndsWith = StringEndsWithAdvancedFilter_OperatorType_STATUS("StringEndsWith")
 
+// Deprecated version of StringInAdvancedFilter_OperatorType. Use v1api20200601.StringInAdvancedFilter_OperatorType instead
 // +kubebuilder:validation:Enum={"StringIn"}
 type StringInAdvancedFilter_OperatorType string
 
 const StringInAdvancedFilter_OperatorType_StringIn = StringInAdvancedFilter_OperatorType("StringIn")
 
+// Deprecated version of StringInAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.StringInAdvancedFilter_OperatorType_STATUS instead
 type StringInAdvancedFilter_OperatorType_STATUS string
 
 const StringInAdvancedFilter_OperatorType_STATUS_StringIn = StringInAdvancedFilter_OperatorType_STATUS("StringIn")
 
+// Deprecated version of StringNotInAdvancedFilter_OperatorType. Use v1api20200601.StringNotInAdvancedFilter_OperatorType
+// instead
 // +kubebuilder:validation:Enum={"StringNotIn"}
 type StringNotInAdvancedFilter_OperatorType string
 
 const StringNotInAdvancedFilter_OperatorType_StringNotIn = StringNotInAdvancedFilter_OperatorType("StringNotIn")
 
+// Deprecated version of StringNotInAdvancedFilter_OperatorType_STATUS. Use
+// v1api20200601.StringNotInAdvancedFilter_OperatorType_STATUS instead
 type StringNotInAdvancedFilter_OperatorType_STATUS string
 
 const StringNotInAdvancedFilter_OperatorType_STATUS_StringNotIn = StringNotInAdvancedFilter_OperatorType_STATUS("StringNotIn")

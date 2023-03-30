@@ -5,19 +5,13 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of NetworkInterface_Spec. Use v1api20201101.NetworkInterface_Spec instead
 type NetworkInterface_Spec_ARM struct {
-	// ExtendedLocation: The extended location of the network interface.
-	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties of the network interface.
-	Properties *NetworkInterfacePropertiesFormat_ARM `json:"properties,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	ExtendedLocation *ExtendedLocation_ARM                 `json:"extendedLocation,omitempty"`
+	Location         *string                               `json:"location,omitempty"`
+	Name             string                                `json:"name,omitempty"`
+	Properties       *NetworkInterfacePropertiesFormat_ARM `json:"properties,omitempty"`
+	Tags             map[string]string                     `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkInterface_Spec_ARM{}
@@ -37,127 +31,85 @@ func (networkInterface *NetworkInterface_Spec_ARM) GetType() string {
 	return "Microsoft.Network/networkInterfaces"
 }
 
-// NetworkInterface properties.
+// Deprecated version of NetworkInterfacePropertiesFormat. Use v1api20201101.NetworkInterfacePropertiesFormat instead
 type NetworkInterfacePropertiesFormat_ARM struct {
-	// DnsSettings: The DNS settings in network interface.
-	DnsSettings *NetworkInterfaceDnsSettings_ARM `json:"dnsSettings,omitempty"`
-
-	// EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	// EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
-
-	// IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_ARM `json:"ipConfigurations,omitempty"`
-
-	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"networkSecurityGroup,omitempty"`
-
-	// NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormat_NicType `json:"nicType,omitempty"`
-
-	// PrivateLinkService: Privatelinkservice of the network interface resource.
-	PrivateLinkService *PrivateLinkServiceSpec_ARM `json:"privateLinkService,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings_ARM                                           `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                      `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                                                      `json:"enableIPForwarding,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_ARM `json:"ipConfigurations,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM         `json:"networkSecurityGroup,omitempty"`
+	NicType                     *NetworkInterfacePropertiesFormat_NicType                                  `json:"nicType,omitempty"`
+	PrivateLinkService          *PrivateLinkServiceSpec_ARM                                                `json:"privateLinkService,omitempty"`
 }
 
-// DNS settings of a network interface.
+// Deprecated version of NetworkInterfaceDnsSettings. Use v1api20201101.NetworkInterfaceDnsSettings instead
 type NetworkInterfaceDnsSettings_ARM struct {
-	// DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
-	// 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
-	DnsServers []string `json:"dnsServers,omitempty"`
-
-	// InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
-	// network.
-	InternalDnsNameLabel *string `json:"internalDnsNameLabel,omitempty"`
+	DnsServers           []string `json:"dnsServers,omitempty"`
+	InternalDnsNameLabel *string  `json:"internalDnsNameLabel,omitempty"`
 }
 
-// IPConfiguration in a network interface.
+// Deprecated version of NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded. Use v1api20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_ARM struct {
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Network interface IP configuration properties.
+	Name       *string                                              `json:"name,omitempty"`
 	Properties *NetworkInterfaceIPConfigurationPropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
-// NetworkSecurityGroup resource.
+// Deprecated version of NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded. Use v1api20201101.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded instead
 type NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Private link service resource.
+// Deprecated version of PrivateLinkServiceSpec. Use v1api20201101.PrivateLinkServiceSpec instead
 type PrivateLinkServiceSpec_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Properties of IP configuration.
+// Deprecated version of NetworkInterfaceIPConfigurationPropertiesFormat. Use v1api20201101.NetworkInterfaceIPConfigurationPropertiesFormat instead
 type NetworkInterfaceIPConfigurationPropertiesFormat_ARM struct {
-	// ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	// ApplicationSecurityGroups: Application security groups in which the IP configuration is included.
-	ApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"applicationSecurityGroups,omitempty"`
-
-	// LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.
-	LoadBalancerBackendAddressPools []BackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM `json:"loadBalancerBackendAddressPools,omitempty"`
-
-	// LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
-	LoadBalancerInboundNatRules []InboundNatRule_NetworkInterface_SubResourceEmbedded_ARM `json:"loadBalancerInboundNatRules,omitempty"`
-
-	// Primary: Whether this is a primary customer address on the network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	// PrivateIPAddress: Private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
-
-	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-
-	// PublicIPAddress: Public IP address bound to the IP configuration.
-	PublicIPAddress *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"publicIPAddress,omitempty"`
-
-	// Subnet: Subnet bound to the IP configuration.
-	Subnet *Subnet_NetworkInterface_SubResourceEmbedded_ARM `json:"subnet,omitempty"`
-
-	// VirtualNetworkTaps: The reference to Virtual Network Taps.
-	VirtualNetworkTaps []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_ARM `json:"virtualNetworkTaps,omitempty"`
+	ApplicationSecurityGroups             []ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM         `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []BackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM                   `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []InboundNatRule_NetworkInterface_SubResourceEmbedded_ARM                       `json:"loadBalancerInboundNatRules,omitempty"`
+	Primary                               *bool                                                                           `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                                                                         `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *IPVersion                                                                      `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *IPAllocationMethod                                                             `json:"privateIPAllocationMethod,omitempty"`
+	PublicIPAddress                       *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_ARM                   `json:"publicIPAddress,omitempty"`
+	Subnet                                *Subnet_NetworkInterface_SubResourceEmbedded_ARM                                `json:"subnet,omitempty"`
+	VirtualNetworkTaps                    []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_ARM                `json:"virtualNetworkTaps,omitempty"`
 }
 
-// Backend Address Pool of an application gateway.
+// Deprecated version of ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded. Use v1api20201101.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded instead
 type ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// An application security group in a resource group.
+// Deprecated version of ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded. Use v1api20201101.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded instead
 type ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Pool of backend IP addresses.
+// Deprecated version of BackendAddressPool_NetworkInterface_SubResourceEmbedded. Use v1api20201101.BackendAddressPool_NetworkInterface_SubResourceEmbedded instead
 type BackendAddressPool_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Inbound NAT rule of the load balancer.
+// Deprecated version of InboundNatRule_NetworkInterface_SubResourceEmbedded. Use v1api20201101.InboundNatRule_NetworkInterface_SubResourceEmbedded instead
 type InboundNatRule_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Public IP address resource.
+// Deprecated version of PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded. Use v1api20201101.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded instead
 type PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Subnet in a virtual network resource.
+// Deprecated version of Subnet_NetworkInterface_SubResourceEmbedded. Use v1api20201101.Subnet_NetworkInterface_SubResourceEmbedded instead
 type Subnet_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Virtual Network Tap resource.
+// Deprecated version of VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded. Use v1api20201101.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded instead
 type VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }

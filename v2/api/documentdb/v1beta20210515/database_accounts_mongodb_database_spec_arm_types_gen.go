@@ -5,12 +5,10 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of DatabaseAccounts_MongodbDatabase_Spec. Use v1api20210515.DatabaseAccounts_MongodbDatabase_Spec instead
 type DatabaseAccounts_MongodbDatabase_Spec_ARM struct {
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties to create and update Azure Cosmos DB MongoDB database.
+	Location   *string                                    `json:"location,omitempty"`
+	Name       string                                     `json:"name,omitempty"`
 	Properties *MongoDBDatabaseCreateUpdateProperties_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                          `json:"tags,omitempty"`
 }
@@ -32,33 +30,24 @@ func (database *DatabaseAccounts_MongodbDatabase_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
-// Properties to create and update Azure Cosmos DB MongoDB database.
+// Deprecated version of MongoDBDatabaseCreateUpdateProperties. Use v1api20210515.MongoDBDatabaseCreateUpdateProperties instead
 type MongoDBDatabaseCreateUpdateProperties_ARM struct {
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a MongoDB database
+	Options  *CreateUpdateOptions_ARM     `json:"options,omitempty"`
 	Resource *MongoDBDatabaseResource_ARM `json:"resource,omitempty"`
 }
 
-// CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-// "If-None-Match", "Session-Token" and "Throughput"
+// Deprecated version of CreateUpdateOptions. Use v1api20210515.CreateUpdateOptions instead
 type CreateUpdateOptions_ARM struct {
-	// AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_ARM `json:"autoscaleSettings,omitempty"`
-
-	// Throughput: Request Units per second. For example, "throughput": 10000.
-	Throughput *int `json:"throughput,omitempty"`
+	Throughput        *int                   `json:"throughput,omitempty"`
 }
 
-// Cosmos DB MongoDB database resource object
+// Deprecated version of MongoDBDatabaseResource. Use v1api20210515.MongoDBDatabaseResource instead
 type MongoDBDatabaseResource_ARM struct {
-	// Id: Name of the Cosmos DB MongoDB database
 	Id *string `json:"id,omitempty"`
 }
 
+// Deprecated version of AutoscaleSettings. Use v1api20210515.AutoscaleSettings instead
 type AutoscaleSettings_ARM struct {
-	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }

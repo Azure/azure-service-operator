@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 ├── APIVersion: Enum (1 value)
 │   └── "2021-01-01-preview"
 ├── Namespace: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (11 properties)
 │   │   ├── AzureName: string
 │   │   ├── Encryption: *Object (4 properties)
@@ -261,72 +261,109 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Type: *string
 │       └── UpdatedAt: *string
-└── NamespacesTopicsSubscriptionsRule: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.NamespacesTopicsSubscription
-    ├── Spec: Object (8 properties)
-    │   ├── Action: *Object (4 properties)
-    │   │   ├── CompatibilityLevel: *int
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── RequiresPreprocessing: *bool
-    │   │   └── SqlExpression: *string
-    │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: MaxLength: 50
-    │   │   └── Rule 1: MinLength: 1
-    │   ├── CorrelationFilter: *Object (11 properties)
-    │   │   ├── ContentType: *string
-    │   │   ├── CorrelationId: *string
-    │   │   ├── Label: *string
-    │   │   ├── MessageId: *string
-    │   │   ├── Properties: map[string]string
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   ├── ReplyTo: *string
-    │   │   ├── ReplyToSessionId: *string
-    │   │   ├── RequiresPreprocessing: *bool
-    │   │   ├── SessionId: *string
-    │   │   └── To: *string
-    │   ├── FilterType: *string
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── SqlFilter: *Object (4 properties)
-    │       ├── CompatibilityLevel: *int
-    │       ├── PropertyBag: genruntime.PropertyBag
-    │       ├── RequiresPreprocessing: *bool
-    │       └── SqlExpression: *string
-    └── Status: Object (10 properties)
-        ├── Action: *Object (4 properties)
-        │   ├── CompatibilityLevel: *int
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── RequiresPreprocessing: *bool
-        │   └── SqlExpression: *string
-        ├── Conditions: conditions.Condition[]
-        ├── CorrelationFilter: *Object (11 properties)
-        │   ├── ContentType: *string
-        │   ├── CorrelationId: *string
-        │   ├── Label: *string
-        │   ├── MessageId: *string
-        │   ├── Properties: map[string]string
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── ReplyTo: *string
-        │   ├── ReplyToSessionId: *string
-        │   ├── RequiresPreprocessing: *bool
-        │   ├── SessionId: *string
-        │   └── To: *string
-        ├── FilterType: *string
-        ├── Id: *string
-        ├── Name: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── SqlFilter: *Object (4 properties)
-        │   ├── CompatibilityLevel: *int
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── RequiresPreprocessing: *bool
-        │   └── SqlExpression: *string
-        ├── SystemData: *Object (7 properties)
-        │   ├── CreatedAt: *string
-        │   ├── CreatedBy: *string
-        │   ├── CreatedByType: *string
-        │   ├── LastModifiedAt: *string
-        │   ├── LastModifiedBy: *string
-        │   ├── LastModifiedByType: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        └── Type: *string
+├── NamespacesTopicsSubscriptionsRule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.NamespacesTopicsSubscription
+│   ├── Spec: Object (8 properties)
+│   │   ├── Action: *Object (4 properties)
+│   │   │   ├── CompatibilityLevel: *int
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   └── SqlExpression: *string
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── CorrelationFilter: *Object (11 properties)
+│   │   │   ├── ContentType: *string
+│   │   │   ├── CorrelationId: *string
+│   │   │   ├── Label: *string
+│   │   │   ├── MessageId: *string
+│   │   │   ├── Properties: map[string]string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   ├── ReplyTo: *string
+│   │   │   ├── ReplyToSessionId: *string
+│   │   │   ├── RequiresPreprocessing: *bool
+│   │   │   ├── SessionId: *string
+│   │   │   └── To: *string
+│   │   ├── FilterType: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SqlFilter: *Object (4 properties)
+│   │       ├── CompatibilityLevel: *int
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       ├── RequiresPreprocessing: *bool
+│   │       └── SqlExpression: *string
+│   └── Status: Object (10 properties)
+│       ├── Action: *Object (4 properties)
+│       │   ├── CompatibilityLevel: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RequiresPreprocessing: *bool
+│       │   └── SqlExpression: *string
+│       ├── Conditions: conditions.Condition[]
+│       ├── CorrelationFilter: *Object (11 properties)
+│       │   ├── ContentType: *string
+│       │   ├── CorrelationId: *string
+│       │   ├── Label: *string
+│       │   ├── MessageId: *string
+│       │   ├── Properties: map[string]string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ReplyTo: *string
+│       │   ├── ReplyToSessionId: *string
+│       │   ├── RequiresPreprocessing: *bool
+│       │   ├── SessionId: *string
+│       │   └── To: *string
+│       ├── FilterType: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── SqlFilter: *Object (4 properties)
+│       │   ├── CompatibilityLevel: *int
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── RequiresPreprocessing: *bool
+│       │   └── SqlExpression: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── augmentConversionForAction: Interface
+├── augmentConversionForAction_STATUS: Interface
+├── augmentConversionForCorrelationFilter: Interface
+├── augmentConversionForCorrelationFilter_STATUS: Interface
+├── augmentConversionForDictionaryValue_STATUS: Interface
+├── augmentConversionForEncryption: Interface
+├── augmentConversionForEncryption_STATUS: Interface
+├── augmentConversionForIdentity: Interface
+├── augmentConversionForIdentity_STATUS: Interface
+├── augmentConversionForKeyVaultProperties: Interface
+├── augmentConversionForKeyVaultProperties_STATUS: Interface
+├── augmentConversionForMessageCountDetails_STATUS: Interface
+├── augmentConversionForNamespace: Interface
+├── augmentConversionForNamespaceOperatorSecrets: Interface
+├── augmentConversionForNamespaceOperatorSpec: Interface
+├── augmentConversionForNamespace_STATUS: Interface
+├── augmentConversionForNamespace_Spec: Interface
+├── augmentConversionForNamespacesQueue: Interface
+├── augmentConversionForNamespacesTopic: Interface
+├── augmentConversionForNamespacesTopicsSubscription: Interface
+├── augmentConversionForNamespacesTopicsSubscriptionsRule: Interface
+├── augmentConversionForNamespaces_Queue_STATUS: Interface
+├── augmentConversionForNamespaces_Queue_Spec: Interface
+├── augmentConversionForNamespaces_Topic_STATUS: Interface
+├── augmentConversionForNamespaces_Topic_Spec: Interface
+├── augmentConversionForNamespaces_Topics_Subscription_STATUS: Interface
+├── augmentConversionForNamespaces_Topics_Subscription_Spec: Interface
+├── augmentConversionForNamespaces_Topics_Subscriptions_Rule_STATUS: Interface
+├── augmentConversionForNamespaces_Topics_Subscriptions_Rule_Spec: Interface
+├── augmentConversionForPrivateEndpointConnection_STATUS: Interface
+├── augmentConversionForSBSku: Interface
+├── augmentConversionForSBSku_STATUS: Interface
+├── augmentConversionForSqlFilter: Interface
+├── augmentConversionForSqlFilter_STATUS: Interface
+├── augmentConversionForSystemData_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityProperties: Interface
+└── augmentConversionForUserAssignedIdentityProperties_STATUS: Interface

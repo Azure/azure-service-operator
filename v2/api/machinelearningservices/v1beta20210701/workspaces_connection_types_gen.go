@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/machineLearningServices.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}
+// Deprecated version of WorkspacesConnection. Use v1api20210701.WorkspacesConnection instead
 type WorkspacesConnection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &WorkspacesConnection{}
 
 // ConvertFrom populates our WorkspacesConnection from the provided hub WorkspacesConnection
 func (connection *WorkspacesConnection) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210701s.WorkspacesConnection)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/WorkspacesConnection but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210701s.WorkspacesConnection
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return connection.AssignProperties_From_WorkspacesConnection(source)
+	err = connection.AssignProperties_From_WorkspacesConnection(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to connection")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub WorkspacesConnection from our WorkspacesConnection
 func (connection *WorkspacesConnection) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210701s.WorkspacesConnection)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/WorkspacesConnection but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210701s.WorkspacesConnection
+	err := connection.AssignProperties_To_WorkspacesConnection(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from connection")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return connection.AssignProperties_To_WorkspacesConnection(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1beta20210701-workspacesconnection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspacesconnections,verbs=create;update,versions=v1beta20210701,name=default.v1beta20210701.workspacesconnections.machinelearningservices.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (connection *WorkspacesConnection) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/machineLearningServices.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}
+// Deprecated version of WorkspacesConnection. Use v1api20210701.WorkspacesConnection instead
 type WorkspacesConnectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -333,29 +343,20 @@ type WorkspacesConnectionList struct {
 }
 
 type Workspaces_Connection_Spec struct {
-	// AuthType: Authorization type of the workspace connection.
 	AuthType *string `json:"authType,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Category: Category of the workspace connection.
-	Category *string `json:"category,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Category  *string `json:"category,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a machinelearningservices.azure.com/Workspace resource
-	Owner *genruntime.KnownResourceReference `group:"machinelearningservices.azure.com" json:"owner,omitempty" kind:"Workspace"`
-
-	// Target: Target of the workspace connection.
-	Target *string `json:"target,omitempty"`
-
-	// Value: Value details of the workspace connection.
-	Value *string `json:"value,omitempty"`
-
-	// ValueFormat: format for the workspace connection value
+	Owner       *genruntime.KnownResourceReference    `group:"machinelearningservices.azure.com" json:"owner,omitempty" kind:"Workspace"`
+	Target      *string                               `json:"target,omitempty"`
+	Value       *string                               `json:"value,omitempty"`
 	ValueFormat *WorkspaceConnectionProps_ValueFormat `json:"valueFormat,omitempty"`
 }
 
@@ -644,32 +645,18 @@ func (connection *Workspaces_Connection_Spec) SetAzureName(azureName string) {
 	connection.AzureName = azureName
 }
 
+// Deprecated version of Workspaces_Connection_STATUS. Use v1api20210701.Workspaces_Connection_STATUS instead
 type Workspaces_Connection_STATUS struct {
-	// AuthType: Authorization type of the workspace connection.
 	AuthType *string `json:"authType,omitempty"`
-
-	// Category: Category of the workspace connection.
 	Category *string `json:"category,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: ResourceId of the workspace connection.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Friendly name of the workspace connection.
-	Name *string `json:"name,omitempty"`
-
-	// Target: Target of the workspace connection.
-	Target *string `json:"target,omitempty"`
-
-	// Type: Resource type of workspace connection.
-	Type *string `json:"type,omitempty"`
-
-	// Value: Value details of the workspace connection.
-	Value *string `json:"value,omitempty"`
-
-	// ValueFormat: format for the workspace connection value
+	Conditions  []conditions.Condition                       `json:"conditions,omitempty"`
+	Id          *string                                      `json:"id,omitempty"`
+	Name        *string                                      `json:"name,omitempty"`
+	Target      *string                                      `json:"target,omitempty"`
+	Type        *string                                      `json:"type,omitempty"`
+	Value       *string                                      `json:"value,omitempty"`
 	ValueFormat *WorkspaceConnectionProps_ValueFormat_STATUS `json:"valueFormat,omitempty"`
 }
 
@@ -893,11 +880,15 @@ func (connection *Workspaces_Connection_STATUS) AssignProperties_To_Workspaces_C
 	return nil
 }
 
+// Deprecated version of WorkspaceConnectionProps_ValueFormat. Use v1api20210701.WorkspaceConnectionProps_ValueFormat
+// instead
 // +kubebuilder:validation:Enum={"JSON"}
 type WorkspaceConnectionProps_ValueFormat string
 
 const WorkspaceConnectionProps_ValueFormat_JSON = WorkspaceConnectionProps_ValueFormat("JSON")
 
+// Deprecated version of WorkspaceConnectionProps_ValueFormat_STATUS. Use
+// v1api20210701.WorkspaceConnectionProps_ValueFormat_STATUS instead
 type WorkspaceConnectionProps_ValueFormat_STATUS string
 
 const WorkspaceConnectionProps_ValueFormat_STATUS_JSON = WorkspaceConnectionProps_ValueFormat_STATUS("JSON")

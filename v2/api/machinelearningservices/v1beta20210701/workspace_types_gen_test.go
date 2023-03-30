@@ -5,6 +5,7 @@ package v1beta20210701
 
 import (
 	"encoding/json"
+	v1api20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
 	v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForWorkspace(subject Workspace) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210701s.Workspace
+	var hub v1api20210701s.Workspace
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

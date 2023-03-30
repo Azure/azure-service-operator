@@ -5,16 +5,12 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of RouteTable_Spec. Use v1api20201101.RouteTable_Spec instead
 type RouteTable_Spec_ARM struct {
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties of the route table.
+	Location   *string                         `json:"location,omitempty"`
+	Name       string                          `json:"name,omitempty"`
 	Properties *RouteTablePropertiesFormat_ARM `json:"properties,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string               `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &RouteTable_Spec_ARM{}
@@ -34,25 +30,16 @@ func (table *RouteTable_Spec_ARM) GetType() string {
 	return "Microsoft.Network/routeTables"
 }
 
-// Route Table resource.
+// Deprecated version of RouteTablePropertiesFormat. Use v1api20201101.RouteTablePropertiesFormat instead
 type RouteTablePropertiesFormat_ARM struct {
-	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
-	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
-
-	// Routes: Collection of routes contained within a route table.
-	Routes []Route_ARM `json:"routes,omitempty"`
+	DisableBgpRoutePropagation *bool       `json:"disableBgpRoutePropagation,omitempty"`
+	Routes                     []Route_ARM `json:"routes,omitempty"`
 }
 
-// Route resource.
+// Deprecated version of Route. Use v1api20201101.Route instead
 type Route_ARM struct {
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the route.
+	Id         *string                    `json:"id,omitempty"`
+	Name       *string                    `json:"name,omitempty"`
 	Properties *RoutePropertiesFormat_ARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
+	Type       *string                    `json:"type,omitempty"`
 }

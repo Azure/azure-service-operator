@@ -5,6 +5,7 @@ package v1beta20220131previewstorage
 
 import (
 	"encoding/json"
+	v1api20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_FederatedIdentityCredential_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FederatedIdentityCredential to hub returns original",
+		prop.ForAll(RunResourceConversionTestForFederatedIdentityCredential, FederatedIdentityCredentialGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForFederatedIdentityCredential tests if a specific instance of FederatedIdentityCredential round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForFederatedIdentityCredential(subject FederatedIdentityCredential) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20220131ps.FederatedIdentityCredential
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual FederatedIdentityCredential
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_FederatedIdentityCredential_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FederatedIdentityCredential to FederatedIdentityCredential via AssignProperties_To_FederatedIdentityCredential & AssignProperties_From_FederatedIdentityCredential returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFederatedIdentityCredential, FederatedIdentityCredentialGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFederatedIdentityCredential tests if a specific instance of FederatedIdentityCredential can be assigned to v1api20220131previewstorage and back losslessly
+func RunPropertyAssignmentTestForFederatedIdentityCredential(subject FederatedIdentityCredential) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220131ps.FederatedIdentityCredential
+	err := copied.AssignProperties_To_FederatedIdentityCredential(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FederatedIdentityCredential
+	err = actual.AssignProperties_From_FederatedIdentityCredential(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_FederatedIdentityCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func FederatedIdentityCredentialGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForFederatedIdentityCredential(gens map[string]gopter.Gen) {
 	gens["Spec"] = UserAssignedIdentities_FederatedIdentityCredential_SpecGenerator()
 	gens["Status"] = UserAssignedIdentities_FederatedIdentityCredential_STATUSGenerator()
+}
+
+func Test_UserAssignedIdentities_FederatedIdentityCredential_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from UserAssignedIdentities_FederatedIdentityCredential_Spec to UserAssignedIdentities_FederatedIdentityCredential_Spec via AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec & AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_Spec, UserAssignedIdentities_FederatedIdentityCredential_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_Spec tests if a specific instance of UserAssignedIdentities_FederatedIdentityCredential_Spec can be assigned to v1api20220131previewstorage and back losslessly
+func RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_Spec(subject UserAssignedIdentities_FederatedIdentityCredential_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec
+	err := copied.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual UserAssignedIdentities_FederatedIdentityCredential_Spec
+	err = actual.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_UserAssignedIdentities_FederatedIdentityCredential_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -142,6 +270,48 @@ func AddIndependentPropertyGeneratorsForUserAssignedIdentities_FederatedIdentity
 	gens["Issuer"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Subject"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_UserAssignedIdentities_FederatedIdentityCredential_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from UserAssignedIdentities_FederatedIdentityCredential_STATUS to UserAssignedIdentities_FederatedIdentityCredential_STATUS via AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS & AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_STATUS, UserAssignedIdentities_FederatedIdentityCredential_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_STATUS tests if a specific instance of UserAssignedIdentities_FederatedIdentityCredential_STATUS can be assigned to v1api20220131previewstorage and back losslessly
+func RunPropertyAssignmentTestForUserAssignedIdentities_FederatedIdentityCredential_STATUS(subject UserAssignedIdentities_FederatedIdentityCredential_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	err := copied.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	err = actual.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_UserAssignedIdentities_FederatedIdentityCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

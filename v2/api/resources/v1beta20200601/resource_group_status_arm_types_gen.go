@@ -3,33 +3,18 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
-// Resource group information.
+// Deprecated version of ResourceGroup_STATUS. Use v1api20200601.ResourceGroup_STATUS instead
 type ResourceGroup_STATUS_ARM struct {
-	// Id: The ID of the resource group.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group. It cannot be changed after the resource group has been created. It must be
-	// one of the supported Azure locations.
-	Location *string `json:"location,omitempty"`
-
-	// ManagedBy: The ID of the resource that manages this resource group.
-	ManagedBy *string `json:"managedBy,omitempty"`
-
-	// Name: The name of the resource group.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The resource group properties.
+	Id         *string                             `json:"id,omitempty"`
+	Location   *string                             `json:"location,omitempty"`
+	ManagedBy  *string                             `json:"managedBy,omitempty"`
+	Name       *string                             `json:"name,omitempty"`
 	Properties *ResourceGroupProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Tags: The tags attached to the resource group.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource group.
-	Type *string `json:"type,omitempty"`
+	Tags       map[string]string                   `json:"tags,omitempty"`
+	Type       *string                             `json:"type,omitempty"`
 }
 
-// The resource group properties.
+// Deprecated version of ResourceGroupProperties_STATUS. Use v1api20200601.ResourceGroupProperties_STATUS instead
 type ResourceGroupProperties_STATUS_ARM struct {
-	// ProvisioningState: The provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }

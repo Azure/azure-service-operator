@@ -5,6 +5,7 @@ package v1beta20210101previewstorage
 
 import (
 	"encoding/json"
+	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_NamespacesTopicsSubscriptionsRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesTopicsSubscriptionsRule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForNamespacesTopicsSubscriptionsRule, NamespacesTopicsSubscriptionsRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForNamespacesTopicsSubscriptionsRule tests if a specific instance of NamespacesTopicsSubscriptionsRule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForNamespacesTopicsSubscriptionsRule(subject NamespacesTopicsSubscriptionsRule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20210101ps.NamespacesTopicsSubscriptionsRule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual NamespacesTopicsSubscriptionsRule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NamespacesTopicsSubscriptionsRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NamespacesTopicsSubscriptionsRule to NamespacesTopicsSubscriptionsRule via AssignProperties_To_NamespacesTopicsSubscriptionsRule & AssignProperties_From_NamespacesTopicsSubscriptionsRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesTopicsSubscriptionsRule, NamespacesTopicsSubscriptionsRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespacesTopicsSubscriptionsRule tests if a specific instance of NamespacesTopicsSubscriptionsRule can be assigned to v1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespacesTopicsSubscriptionsRule(subject NamespacesTopicsSubscriptionsRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210101ps.NamespacesTopicsSubscriptionsRule
+	err := copied.AssignProperties_To_NamespacesTopicsSubscriptionsRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NamespacesTopicsSubscriptionsRule
+	err = actual.AssignProperties_From_NamespacesTopicsSubscriptionsRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_NamespacesTopicsSubscriptionsRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func NamespacesTopicsSubscriptionsRuleGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = Namespaces_Topics_Subscriptions_Rule_SpecGenerator()
 	gens["Status"] = Namespaces_Topics_Subscriptions_Rule_STATUSGenerator()
+}
+
+func Test_Namespaces_Topics_Subscriptions_Rule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Namespaces_Topics_Subscriptions_Rule_Spec to Namespaces_Topics_Subscriptions_Rule_Spec via AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec & AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_Spec, Namespaces_Topics_Subscriptions_Rule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_Spec tests if a specific instance of Namespaces_Topics_Subscriptions_Rule_Spec can be assigned to v1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_Spec(subject Namespaces_Topics_Subscriptions_Rule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_Spec
+	err := copied.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Namespaces_Topics_Subscriptions_Rule_Spec
+	err = actual.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Namespaces_Topics_Subscriptions_Rule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -156,6 +284,48 @@ func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_Spec(ge
 	gens["Action"] = gen.PtrOf(ActionGenerator())
 	gens["CorrelationFilter"] = gen.PtrOf(CorrelationFilterGenerator())
 	gens["SqlFilter"] = gen.PtrOf(SqlFilterGenerator())
+}
+
+func Test_Namespaces_Topics_Subscriptions_Rule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Namespaces_Topics_Subscriptions_Rule_STATUS to Namespaces_Topics_Subscriptions_Rule_STATUS via AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS & AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_STATUS, Namespaces_Topics_Subscriptions_Rule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_STATUS tests if a specific instance of Namespaces_Topics_Subscriptions_Rule_STATUS can be assigned to v1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespaces_Topics_Subscriptions_Rule_STATUS(subject Namespaces_Topics_Subscriptions_Rule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210101ps.Namespaces_Topics_Subscriptions_Rule_STATUS
+	err := copied.AssignProperties_To_Namespaces_Topics_Subscriptions_Rule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Namespaces_Topics_Subscriptions_Rule_STATUS
+	err = actual.AssignProperties_From_Namespaces_Topics_Subscriptions_Rule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Namespaces_Topics_Subscriptions_Rule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -239,6 +409,48 @@ func AddRelatedPropertyGeneratorsForNamespaces_Topics_Subscriptions_Rule_STATUS(
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+func Test_Action_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Action to Action via AssignProperties_To_Action & AssignProperties_From_Action returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAction, ActionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAction tests if a specific instance of Action can be assigned to v1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForAction(subject Action) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210101ps.Action
+	err := copied.AssignProperties_To_Action(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Action
+	err = actual.AssignProperties_From_Action(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Action_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -301,6 +513,48 @@ func AddIndependentPropertyGeneratorsForAction(gens map[string]gopter.Gen) {
 	gens["SqlExpression"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Action_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Action_STATUS to Action_STATUS via AssignProperties_To_Action_STATUS & AssignProperties_From_Action_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAction_STATUS, Action_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAction_STATUS tests if a specific instance of Action_STATUS can be assigned to v1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForAction_STATUS(subject Action_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210101ps.Action_STATUS
+	err := copied.AssignProperties_To_Action_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Action_STATUS
+	err = actual.AssignProperties_From_Action_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Action_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -361,6 +615,48 @@ func AddIndependentPropertyGeneratorsForAction_STATUS(gens map[string]gopter.Gen
 	gens["CompatibilityLevel"] = gen.PtrOf(gen.Int())
 	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())
 	gens["SqlExpression"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_CorrelationFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CorrelationFilter to CorrelationFilter via AssignProperties_To_CorrelationFilter & AssignProperties_From_CorrelationFilter returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCorrelationFilter, CorrelationFilterGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCorrelationFilter tests if a specific instance of CorrelationFilter can be assigned to v1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForCorrelationFilter(subject CorrelationFilter) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210101ps.CorrelationFilter
+	err := copied.AssignProperties_To_CorrelationFilter(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CorrelationFilter
+	err = actual.AssignProperties_From_CorrelationFilter(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CorrelationFilter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -430,6 +726,48 @@ func AddIndependentPropertyGeneratorsForCorrelationFilter(gens map[string]gopter
 	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())
 	gens["SessionId"] = gen.PtrOf(gen.AlphaString())
 	gens["To"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_CorrelationFilter_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CorrelationFilter_STATUS to CorrelationFilter_STATUS via AssignProperties_To_CorrelationFilter_STATUS & AssignProperties_From_CorrelationFilter_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCorrelationFilter_STATUS, CorrelationFilter_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCorrelationFilter_STATUS tests if a specific instance of CorrelationFilter_STATUS can be assigned to v1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForCorrelationFilter_STATUS(subject CorrelationFilter_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210101ps.CorrelationFilter_STATUS
+	err := copied.AssignProperties_To_CorrelationFilter_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CorrelationFilter_STATUS
+	err = actual.AssignProperties_From_CorrelationFilter_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CorrelationFilter_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -502,6 +840,48 @@ func AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS(gens map[string
 	gens["To"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SqlFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlFilter to SqlFilter via AssignProperties_To_SqlFilter & AssignProperties_From_SqlFilter returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlFilter, SqlFilterGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlFilter tests if a specific instance of SqlFilter can be assigned to v1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForSqlFilter(subject SqlFilter) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210101ps.SqlFilter
+	err := copied.AssignProperties_To_SqlFilter(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlFilter
+	err = actual.AssignProperties_From_SqlFilter(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SqlFilter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -562,6 +942,48 @@ func AddIndependentPropertyGeneratorsForSqlFilter(gens map[string]gopter.Gen) {
 	gens["CompatibilityLevel"] = gen.PtrOf(gen.Int())
 	gens["RequiresPreprocessing"] = gen.PtrOf(gen.Bool())
 	gens["SqlExpression"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SqlFilter_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlFilter_STATUS to SqlFilter_STATUS via AssignProperties_To_SqlFilter_STATUS & AssignProperties_From_SqlFilter_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlFilter_STATUS, SqlFilter_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlFilter_STATUS tests if a specific instance of SqlFilter_STATUS can be assigned to v1api20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForSqlFilter_STATUS(subject SqlFilter_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210101ps.SqlFilter_STATUS
+	err := copied.AssignProperties_To_SqlFilter_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlFilter_STATUS
+	err = actual.AssignProperties_From_SqlFilter_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SqlFilter_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

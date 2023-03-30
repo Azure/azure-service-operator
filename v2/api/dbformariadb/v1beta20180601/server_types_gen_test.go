@@ -5,6 +5,7 @@ package v1beta20180601
 
 import (
 	"encoding/json"
+	v1api20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
 	v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForServer(subject Server) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20180601s.Server
+	var hub v1api20180601s.Server
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

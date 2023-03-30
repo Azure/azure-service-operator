@@ -1,8 +1,0 @@
-apiVersion: servicebus.azure.com/v1alpha1api20210101preview
-kind: NamespacesTopic
-metadata:
-  name: sampletopic
-  namespace: default
-spec:
-  owner:
-    name: aso-namespace

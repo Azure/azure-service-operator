@@ -1,0 +1,12 @@
+apiVersion: network.azure.com/v1api20201101
+kind: VirtualNetworksSubnet
+metadata:
+  name: samplesqlsubnet
+  namespace: default
+spec:
+  location: eastus
+  owner:
+    name: samplesqlvnet
+  addressPrefix: 10.0.0.0/24
+  serviceEndpoints:
+    - service: Microsoft.Sql

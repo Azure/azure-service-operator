@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}
+// Deprecated version of PrivateDnsZone. Use v1api20180901.PrivateDnsZone instead
 type PrivateDnsZone struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &PrivateDnsZone{}
 
 // ConvertFrom populates our PrivateDnsZone from the provided hub PrivateDnsZone
 func (zone *PrivateDnsZone) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20180901s.PrivateDnsZone)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20180901storage/PrivateDnsZone but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20180901s.PrivateDnsZone
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return zone.AssignProperties_From_PrivateDnsZone(source)
+	err = zone.AssignProperties_From_PrivateDnsZone(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to zone")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PrivateDnsZone from our PrivateDnsZone
 func (zone *PrivateDnsZone) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20180901s.PrivateDnsZone)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20180901storage/PrivateDnsZone but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20180901s.PrivateDnsZone
+	err := zone.AssignProperties_To_PrivateDnsZone(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from zone")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return zone.AssignProperties_To_PrivateDnsZone(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20180901-privatednszone,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=privatednszones,verbs=create;update,versions=v1beta20180901,name=default.v1beta20180901.privatednszones.network.azure.com,admissionReviewVersions=v1
@@ -323,15 +335,14 @@ func (zone *PrivateDnsZone) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /privatedns/resource-manager/Microsoft.Network/stable/2018-09-01/privatedns.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateZoneName}
+// Deprecated version of PrivateDnsZone. Use v1api20180901.PrivateDnsZone instead
 type PrivateDnsZoneList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []PrivateDnsZone `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20180901.APIVersion instead
 // +kubebuilder:validation:Enum={"2018-09-01"}
 type APIVersion string
 
@@ -340,22 +351,16 @@ const APIVersion_Value = APIVersion("2018-09-01")
 type PrivateDnsZone_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Etag: The ETag of the zone.
-	Etag *string `json:"etag,omitempty"`
-
-	// Location: The Azure Region where the resource lives
-	Location *string `json:"location,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Etag      *string `json:"etag,omitempty"`
+	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PrivateDnsZone_Spec{}
@@ -574,57 +579,23 @@ func (zone *PrivateDnsZone_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (zone *PrivateDnsZone_Spec) SetAzureName(azureName string) { zone.AzureName = azureName }
 
+// Deprecated version of PrivateDnsZone_STATUS. Use v1api20180901.PrivateDnsZone_STATUS instead
 type PrivateDnsZone_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Etag: The ETag of the zone.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Fully qualified resource Id for the resource. Example -
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateDnsZones/{privateDnsZoneName}'.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The Azure Region where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// MaxNumberOfRecordSets: The maximum number of record sets that can be created in this Private DNS zone. This is a
-	// read-only property and any attempt to set this value will be ignored.
-	MaxNumberOfRecordSets *int `json:"maxNumberOfRecordSets,omitempty"`
-
-	// MaxNumberOfVirtualNetworkLinks: The maximum number of virtual networks that can be linked to this Private DNS zone. This
-	// is a read-only property and any attempt to set this value will be ignored.
-	MaxNumberOfVirtualNetworkLinks *int `json:"maxNumberOfVirtualNetworkLinks,omitempty"`
-
-	// MaxNumberOfVirtualNetworkLinksWithRegistration: The maximum number of virtual networks that can be linked to this
-	// Private DNS zone with registration enabled. This is a read-only property and any attempt to set this value will be
-	// ignored.
-	MaxNumberOfVirtualNetworkLinksWithRegistration *int `json:"maxNumberOfVirtualNetworkLinksWithRegistration,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// NumberOfRecordSets: The current number of record sets in this Private DNS zone. This is a read-only property and any
-	// attempt to set this value will be ignored.
-	NumberOfRecordSets *int `json:"numberOfRecordSets,omitempty"`
-
-	// NumberOfVirtualNetworkLinks: The current number of virtual networks that are linked to this Private DNS zone. This is a
-	// read-only property and any attempt to set this value will be ignored.
-	NumberOfVirtualNetworkLinks *int `json:"numberOfVirtualNetworkLinks,omitempty"`
-
-	// NumberOfVirtualNetworkLinksWithRegistration: The current number of virtual networks that are linked to this Private DNS
-	// zone with registration enabled. This is a read-only property and any attempt to set this value will be ignored.
-	NumberOfVirtualNetworkLinksWithRegistration *int `json:"numberOfVirtualNetworkLinksWithRegistration,omitempty"`
-
-	// ProvisioningState: The provisioning state of the resource. This is a read-only property and any attempt to set this
-	// value will be ignored.
-	ProvisioningState *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. Example - 'Microsoft.Network/privateDnsZones'.
-	Type *string `json:"type,omitempty"`
+	Conditions                                     []conditions.Condition                          `json:"conditions,omitempty"`
+	Etag                                           *string                                         `json:"etag,omitempty"`
+	Id                                             *string                                         `json:"id,omitempty"`
+	Location                                       *string                                         `json:"location,omitempty"`
+	MaxNumberOfRecordSets                          *int                                            `json:"maxNumberOfRecordSets,omitempty"`
+	MaxNumberOfVirtualNetworkLinks                 *int                                            `json:"maxNumberOfVirtualNetworkLinks,omitempty"`
+	MaxNumberOfVirtualNetworkLinksWithRegistration *int                                            `json:"maxNumberOfVirtualNetworkLinksWithRegistration,omitempty"`
+	Name                                           *string                                         `json:"name,omitempty"`
+	NumberOfRecordSets                             *int                                            `json:"numberOfRecordSets,omitempty"`
+	NumberOfVirtualNetworkLinks                    *int                                            `json:"numberOfVirtualNetworkLinks,omitempty"`
+	NumberOfVirtualNetworkLinksWithRegistration    *int                                            `json:"numberOfVirtualNetworkLinksWithRegistration,omitempty"`
+	ProvisioningState                              *PrivateZoneProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	Tags                                           map[string]string                               `json:"tags,omitempty"`
+	Type                                           *string                                         `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &PrivateDnsZone_STATUS{}
@@ -915,6 +886,8 @@ func (zone *PrivateDnsZone_STATUS) AssignProperties_To_PrivateDnsZone_STATUS(des
 	return nil
 }
 
+// Deprecated version of PrivateZoneProperties_ProvisioningState_STATUS. Use
+// v1api20180901.PrivateZoneProperties_ProvisioningState_STATUS instead
 type PrivateZoneProperties_ProvisioningState_STATUS string
 
 const (

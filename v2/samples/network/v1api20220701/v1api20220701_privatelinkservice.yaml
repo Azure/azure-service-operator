@@ -1,0 +1,32 @@
+apiVersion: network.azure.com/v1api20220701
+kind: PrivateLinkService
+metadata:
+  name: aso-sample-pls
+  namespace: default
+spec:
+  autoApproval:
+    subscriptions:
+    - 00000000-0000-0000-0000-000000000000
+  ipConfigurations:
+  - name: config
+    privateIPAddressVersion: IPv4
+    privateIPAllocationMethod: Dynamic
+    subnet:
+      reference:
+        group: network.azure.com
+        kind: VirtualNetworksSubnet
+        name: aso-sample-subnet
+  loadBalancerFrontendIpConfigurations:
+  - reference:
+      armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/aso-sample-loadbalancer/frontendIPConfigurations/LoadBalancerFrontend
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  visibility:
+    subscriptions:
+    - 00000000-0000-0000-0000-000000000000
+  operatorSpec:
+    configMaps:
+      alias:
+        name: plsconfig
+        key: alias

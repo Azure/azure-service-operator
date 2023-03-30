@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
+// Deprecated version of FlexibleServersConfiguration. Use v1api20220120preview.FlexibleServersConfiguration instead
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -337,9 +335,7 @@ func (configuration *FlexibleServersConfiguration) OriginalGVK() *schema.GroupVe
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/configurations/{configurationName}
+// Deprecated version of FlexibleServersConfiguration. Use v1api20220120preview.FlexibleServersConfiguration instead
 type FlexibleServersConfigurationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -355,13 +351,9 @@ type FlexibleServers_Configuration_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a dbforpostgresql.azure.com/FlexibleServer resource
-	Owner *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
-
-	// Source: Source of the configuration.
-	Source *string `json:"source,omitempty"`
-
-	// Value: Value of the configuration.
-	Value *string `json:"value,omitempty"`
+	Owner  *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
+	Source *string                            `json:"source,omitempty"`
+	Value  *string                            `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServers_Configuration_Spec{}
@@ -564,55 +556,26 @@ func (configuration *FlexibleServers_Configuration_Spec) SetAzureName(azureName 
 	configuration.AzureName = azureName
 }
 
+// Deprecated version of FlexibleServers_Configuration_STATUS. Use v1api20220120preview.FlexibleServers_Configuration_STATUS instead
 type FlexibleServers_Configuration_STATUS struct {
-	// AllowedValues: Allowed values of the configuration.
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DataType: Data type of the configuration.
-	DataType *ConfigurationProperties_DataType_STATUS `json:"dataType,omitempty"`
-
-	// DefaultValue: Default value of the configuration.
-	DefaultValue *string `json:"defaultValue,omitempty"`
-
-	// Description: Description of the configuration.
-	Description *string `json:"description,omitempty"`
-
-	// DocumentationLink: Configuration documentation link.
-	DocumentationLink *string `json:"documentationLink,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// IsConfigPendingRestart: Configuration is pending restart or not.
-	IsConfigPendingRestart *bool `json:"isConfigPendingRestart,omitempty"`
-
-	// IsDynamicConfig: Configuration dynamic or static.
-	IsDynamicConfig *bool `json:"isDynamicConfig,omitempty"`
-
-	// IsReadOnly: Configuration read-only or not.
-	IsReadOnly *bool `json:"isReadOnly,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Source: Source of the configuration.
-	Source *string `json:"source,omitempty"`
-
-	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// Unit: Configuration unit.
-	Unit *string `json:"unit,omitempty"`
-
-	// Value: Value of the configuration.
-	Value *string `json:"value,omitempty"`
+	Conditions             []conditions.Condition                   `json:"conditions,omitempty"`
+	DataType               *ConfigurationProperties_DataType_STATUS `json:"dataType,omitempty"`
+	DefaultValue           *string                                  `json:"defaultValue,omitempty"`
+	Description            *string                                  `json:"description,omitempty"`
+	DocumentationLink      *string                                  `json:"documentationLink,omitempty"`
+	Id                     *string                                  `json:"id,omitempty"`
+	IsConfigPendingRestart *bool                                    `json:"isConfigPendingRestart,omitempty"`
+	IsDynamicConfig        *bool                                    `json:"isDynamicConfig,omitempty"`
+	IsReadOnly             *bool                                    `json:"isReadOnly,omitempty"`
+	Name                   *string                                  `json:"name,omitempty"`
+	Source                 *string                                  `json:"source,omitempty"`
+	SystemData             *SystemData_STATUS                       `json:"systemData,omitempty"`
+	Type                   *string                                  `json:"type,omitempty"`
+	Unit                   *string                                  `json:"unit,omitempty"`
+	Value                  *string                                  `json:"value,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &FlexibleServers_Configuration_STATUS{}
@@ -990,6 +953,8 @@ func (configuration *FlexibleServers_Configuration_STATUS) AssignProperties_To_F
 	return nil
 }
 
+// Deprecated version of ConfigurationProperties_DataType_STATUS. Use
+// v1api20220120preview.ConfigurationProperties_DataType_STATUS instead
 type ConfigurationProperties_DataType_STATUS string
 
 const (

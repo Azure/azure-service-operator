@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/eventhubs.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}
+// Deprecated version of NamespacesEventhub. Use v1api20211101.NamespacesEventhub instead
 type NamespacesEventhub struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &NamespacesEventhub{}
 
 // ConvertFrom populates our NamespacesEventhub from the provided hub NamespacesEventhub
 func (eventhub *NamespacesEventhub) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.NamespacesEventhub)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1beta20211101storage/NamespacesEventhub but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20211101s.NamespacesEventhub
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return eventhub.AssignProperties_From_NamespacesEventhub(source)
+	err = eventhub.AssignProperties_From_NamespacesEventhub(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to eventhub")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesEventhub from our NamespacesEventhub
 func (eventhub *NamespacesEventhub) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.NamespacesEventhub)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1beta20211101storage/NamespacesEventhub but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20211101s.NamespacesEventhub
+	err := eventhub.AssignProperties_To_NamespacesEventhub(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from eventhub")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return eventhub.AssignProperties_To_NamespacesEventhub(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1beta20211101-namespaceseventhub,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubs,verbs=create;update,versions=v1beta20211101,name=default.v1beta20211101.namespaceseventhubs.eventhub.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (eventhub *NamespacesEventhub) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/eventhubs.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}
+// Deprecated version of NamespacesEventhub. Use v1api20211101.NamespacesEventhub instead
 type NamespacesEventhubList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -337,13 +347,10 @@ type Namespaces_Eventhub_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// CaptureDescription: Properties of capture description
+	AzureName          string              `json:"azureName,omitempty"`
 	CaptureDescription *CaptureDescription `json:"captureDescription,omitempty"`
 
 	// +kubebuilder:validation:Minimum=1
-	// MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -353,7 +360,6 @@ type Namespaces_Eventhub_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	// +kubebuilder:validation:Minimum=1
-	// PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
 	PartitionCount *int `json:"partitionCount,omitempty"`
 }
 
@@ -647,46 +653,23 @@ func (eventhub *Namespaces_Eventhub_Spec) SetAzureName(azureName string) {
 	eventhub.AzureName = azureName
 }
 
+// Deprecated version of Namespaces_Eventhub_STATUS. Use v1api20211101.Namespaces_Eventhub_STATUS instead
 type Namespaces_Eventhub_STATUS struct {
-	// CaptureDescription: Properties of capture description
 	CaptureDescription *CaptureDescription_STATUS `json:"captureDescription,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CreatedAt: Exact time the Event Hub was created.
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
-	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
-	PartitionCount *int `json:"partitionCount,omitempty"`
-
-	// PartitionIds: Current number of shards on the Event Hub.
-	PartitionIds []string `json:"partitionIds,omitempty"`
-
-	// Status: Enumerates the possible values for the status of the Event Hub.
-	Status *Namespaces_Eventhub_Properties_Status_STATUS `json:"status,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
-	Type *string `json:"type,omitempty"`
-
-	// UpdatedAt: The exact time the message was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
+	Conditions             []conditions.Condition                        `json:"conditions,omitempty"`
+	CreatedAt              *string                                       `json:"createdAt,omitempty"`
+	Id                     *string                                       `json:"id,omitempty"`
+	Location               *string                                       `json:"location,omitempty"`
+	MessageRetentionInDays *int                                          `json:"messageRetentionInDays,omitempty"`
+	Name                   *string                                       `json:"name,omitempty"`
+	PartitionCount         *int                                          `json:"partitionCount,omitempty"`
+	PartitionIds           []string                                      `json:"partitionIds,omitempty"`
+	Status                 *Namespaces_Eventhub_Properties_Status_STATUS `json:"status,omitempty"`
+	SystemData             *SystemData_STATUS                            `json:"systemData,omitempty"`
+	Type                   *string                                       `json:"type,omitempty"`
+	UpdatedAt              *string                                       `json:"updatedAt,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Namespaces_Eventhub_STATUS{}
@@ -1008,28 +991,14 @@ func (eventhub *Namespaces_Eventhub_STATUS) AssignProperties_To_Namespaces_Event
 	return nil
 }
 
-// Properties to configure capture description for eventhub
+// Deprecated version of CaptureDescription. Use v1api20211101.CaptureDescription instead
 type CaptureDescription struct {
-	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
-	Destination *Destination `json:"destination,omitempty"`
-
-	// Enabled: A value that indicates whether capture description is enabled.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
-	// deprecated in New API Version
-	Encoding *CaptureDescription_Encoding `json:"encoding,omitempty"`
-
-	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
-	// value should between 60 to 900 seconds
-	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
-
-	// SizeLimitInBytes: The size window defines the amount of data built up in your Event Hub before an capture operation,
-	// value should be between 10485760 to 524288000 bytes
-	SizeLimitInBytes *int `json:"sizeLimitInBytes,omitempty"`
-
-	// SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
-	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
+	Destination       *Destination                 `json:"destination,omitempty"`
+	Enabled           *bool                        `json:"enabled,omitempty"`
+	Encoding          *CaptureDescription_Encoding `json:"encoding,omitempty"`
+	IntervalInSeconds *int                         `json:"intervalInSeconds,omitempty"`
+	SizeLimitInBytes  *int                         `json:"sizeLimitInBytes,omitempty"`
+	SkipEmptyArchives *bool                        `json:"skipEmptyArchives,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CaptureDescription{}
@@ -1296,28 +1265,14 @@ func (description *CaptureDescription) Initialize_From_CaptureDescription_STATUS
 	return nil
 }
 
-// Properties to configure capture description for eventhub
+// Deprecated version of CaptureDescription_STATUS. Use v1api20211101.CaptureDescription_STATUS instead
 type CaptureDescription_STATUS struct {
-	// Destination: Properties of Destination where capture will be stored. (Storage Account, Blob Names)
-	Destination *Destination_STATUS `json:"destination,omitempty"`
-
-	// Enabled: A value that indicates whether capture description is enabled.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// Encoding: Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be
-	// deprecated in New API Version
-	Encoding *CaptureDescription_Encoding_STATUS `json:"encoding,omitempty"`
-
-	// IntervalInSeconds: The time window allows you to set the frequency with which the capture to Azure Blobs will happen,
-	// value should between 60 to 900 seconds
-	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
-
-	// SizeLimitInBytes: The size window defines the amount of data built up in your Event Hub before an capture operation,
-	// value should be between 10485760 to 524288000 bytes
-	SizeLimitInBytes *int `json:"sizeLimitInBytes,omitempty"`
-
-	// SkipEmptyArchives: A value that indicates whether to Skip Empty Archives
-	SkipEmptyArchives *bool `json:"skipEmptyArchives,omitempty"`
+	Destination       *Destination_STATUS                 `json:"destination,omitempty"`
+	Enabled           *bool                               `json:"enabled,omitempty"`
+	Encoding          *CaptureDescription_Encoding_STATUS `json:"encoding,omitempty"`
+	IntervalInSeconds *int                                `json:"intervalInSeconds,omitempty"`
+	SizeLimitInBytes  *int                                `json:"sizeLimitInBytes,omitempty"`
+	SkipEmptyArchives *bool                               `json:"skipEmptyArchives,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CaptureDescription_STATUS{}
@@ -1486,6 +1441,8 @@ func (description *CaptureDescription_STATUS) AssignProperties_To_CaptureDescrip
 	return nil
 }
 
+// Deprecated version of Namespaces_Eventhub_Properties_Status_STATUS. Use
+// v1api20211101.Namespaces_Eventhub_Properties_Status_STATUS instead
 type Namespaces_Eventhub_Properties_Status_STATUS string
 
 const (
@@ -1500,6 +1457,7 @@ const (
 	Namespaces_Eventhub_Properties_Status_STATUS_Unknown         = Namespaces_Eventhub_Properties_Status_STATUS("Unknown")
 )
 
+// Deprecated version of CaptureDescription_Encoding. Use v1api20211101.CaptureDescription_Encoding instead
 // +kubebuilder:validation:Enum={"Avro","AvroDeflate"}
 type CaptureDescription_Encoding string
 
@@ -1508,6 +1466,7 @@ const (
 	CaptureDescription_Encoding_AvroDeflate = CaptureDescription_Encoding("AvroDeflate")
 )
 
+// Deprecated version of CaptureDescription_Encoding_STATUS. Use v1api20211101.CaptureDescription_Encoding_STATUS instead
 type CaptureDescription_Encoding_STATUS string
 
 const (
@@ -1515,30 +1474,16 @@ const (
 	CaptureDescription_Encoding_STATUS_AvroDeflate = CaptureDescription_Encoding_STATUS("AvroDeflate")
 )
 
-// Capture storage details for capture description
+// Deprecated version of Destination. Use v1api20211101.Destination instead
 type Destination struct {
-	// ArchiveNameFormat: Blob naming convention for archive, e.g.
-	// {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
-	// (Namespace,EventHub .. etc) are mandatory irrespective of order
-	ArchiveNameFormat *string `json:"archiveNameFormat,omitempty"`
-
-	// BlobContainer: Blob container Name
-	BlobContainer *string `json:"blobContainer,omitempty"`
-
-	// DataLakeAccountName: The Azure Data Lake Store name for the captured events
+	ArchiveNameFormat   *string `json:"archiveNameFormat,omitempty"`
+	BlobContainer       *string `json:"blobContainer,omitempty"`
 	DataLakeAccountName *string `json:"dataLakeAccountName,omitempty"`
-
-	// DataLakeFolderPath: The destination folder path for the captured events
-	DataLakeFolderPath *string `json:"dataLakeFolderPath,omitempty"`
+	DataLakeFolderPath  *string `json:"dataLakeFolderPath,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
-	// DataLakeSubscriptionId: Subscription Id of Azure Data Lake Store
-	DataLakeSubscriptionId *string `json:"dataLakeSubscriptionId,omitempty"`
-
-	// Name: Name for capture destination
-	Name *string `json:"name,omitempty"`
-
-	// StorageAccountResourceReference: Resource id of the storage account to be used to create the blobs
+	DataLakeSubscriptionId          *string                       `json:"dataLakeSubscriptionId,omitempty"`
+	Name                            *string                       `json:"name,omitempty"`
 	StorageAccountResourceReference *genruntime.ResourceReference `armReference:"StorageAccountResourceId" json:"storageAccountResourceReference,omitempty"`
 }
 
@@ -1789,29 +1734,14 @@ func (destination *Destination) Initialize_From_Destination_STATUS(source *Desti
 	return nil
 }
 
-// Capture storage details for capture description
+// Deprecated version of Destination_STATUS. Use v1api20211101.Destination_STATUS instead
 type Destination_STATUS struct {
-	// ArchiveNameFormat: Blob naming convention for archive, e.g.
-	// {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters
-	// (Namespace,EventHub .. etc) are mandatory irrespective of order
-	ArchiveNameFormat *string `json:"archiveNameFormat,omitempty"`
-
-	// BlobContainer: Blob container Name
-	BlobContainer *string `json:"blobContainer,omitempty"`
-
-	// DataLakeAccountName: The Azure Data Lake Store name for the captured events
-	DataLakeAccountName *string `json:"dataLakeAccountName,omitempty"`
-
-	// DataLakeFolderPath: The destination folder path for the captured events
-	DataLakeFolderPath *string `json:"dataLakeFolderPath,omitempty"`
-
-	// DataLakeSubscriptionId: Subscription Id of Azure Data Lake Store
-	DataLakeSubscriptionId *string `json:"dataLakeSubscriptionId,omitempty"`
-
-	// Name: Name for capture destination
-	Name *string `json:"name,omitempty"`
-
-	// StorageAccountResourceId: Resource id of the storage account to be used to create the blobs
+	ArchiveNameFormat        *string `json:"archiveNameFormat,omitempty"`
+	BlobContainer            *string `json:"blobContainer,omitempty"`
+	DataLakeAccountName      *string `json:"dataLakeAccountName,omitempty"`
+	DataLakeFolderPath       *string `json:"dataLakeFolderPath,omitempty"`
+	DataLakeSubscriptionId   *string `json:"dataLakeSubscriptionId,omitempty"`
+	Name                     *string `json:"name,omitempty"`
 	StorageAccountResourceId *string `json:"storageAccountResourceId,omitempty"`
 }
 

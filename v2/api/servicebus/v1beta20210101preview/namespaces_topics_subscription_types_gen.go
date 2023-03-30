@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}
+// Deprecated version of NamespacesTopicsSubscription. Use v1api20210101preview.NamespacesTopicsSubscription instead
 type NamespacesTopicsSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &NamespacesTopicsSubscription{}
 
 // ConvertFrom populates our NamespacesTopicsSubscription from the provided hub NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210101ps.NamespacesTopicsSubscription)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesTopicsSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210101ps.NamespacesTopicsSubscription
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return subscription.AssignProperties_From_NamespacesTopicsSubscription(source)
+	err = subscription.AssignProperties_From_NamespacesTopicsSubscription(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to subscription")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesTopicsSubscription from our NamespacesTopicsSubscription
 func (subscription *NamespacesTopicsSubscription) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210101ps.NamespacesTopicsSubscription)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesTopicsSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210101ps.NamespacesTopicsSubscription
+	err := subscription.AssignProperties_To_NamespacesTopicsSubscription(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from subscription")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return subscription.AssignProperties_To_NamespacesTopicsSubscription(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1beta20210101preview-namespacestopicssubscription,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopicssubscriptions,verbs=create;update,versions=v1beta20210101preview,name=default.v1beta20210101preview.namespacestopicssubscriptions.servicebus.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (subscription *NamespacesTopicsSubscription) OriginalGVK() *schema.GroupVer
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/subscriptions.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}
+// Deprecated version of NamespacesTopicsSubscription. Use v1api20210101preview.NamespacesTopicsSubscription instead
 type NamespacesTopicsSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -333,56 +343,29 @@ type NamespacesTopicsSubscriptionList struct {
 }
 
 type Namespaces_Topics_Subscription_Spec struct {
-	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration
-	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DeadLetteringOnFilterEvaluationExceptions: Value that indicates whether a subscription has dead letter support on filter
-	// evaluation exceptions.
-	DeadLetteringOnFilterEvaluationExceptions *bool `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
-
-	// DeadLetteringOnMessageExpiration: Value that indicates whether a subscription has dead letter support when a message
-	// expires.
-	DeadLetteringOnMessageExpiration *bool `json:"deadLetteringOnMessageExpiration,omitempty"`
-
-	// DefaultMessageTimeToLive: ISO 8061 Default message timespan to live value. This is the duration after which the message
-	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-	// set on a message itself.
-	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
-
-	// DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-	// history. The default value is 10 minutes.
-	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-
-	// EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
-	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
-
-	// ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
-	ForwardDeadLetteredMessagesTo *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-
-	// ForwardTo: Queue/Topic name to forward the messages
-	ForwardTo *string `json:"forwardTo,omitempty"`
-
-	// LockDuration: ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.
-	LockDuration *string `json:"lockDuration,omitempty"`
-
-	// MaxDeliveryCount: Number of maximum deliveries.
-	MaxDeliveryCount *int `json:"maxDeliveryCount,omitempty"`
+	AzureName                                 string  `json:"azureName,omitempty"`
+	DeadLetteringOnFilterEvaluationExceptions *bool   `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
+	DeadLetteringOnMessageExpiration          *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive                  *string `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow       *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations                   *bool   `json:"enableBatchedOperations,omitempty"`
+	ForwardDeadLetteredMessagesTo             *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                                 *string `json:"forwardTo,omitempty"`
+	LockDuration                              *string `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                          *int    `json:"maxDeliveryCount,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a servicebus.azure.com/NamespacesTopic resource
-	Owner *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"NamespacesTopic"`
-
-	// RequiresSession: Value indicating if a subscription supports the concept of sessions.
-	RequiresSession *bool `json:"requiresSession,omitempty"`
+	Owner           *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"NamespacesTopic"`
+	RequiresSession *bool                              `json:"requiresSession,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Namespaces_Topics_Subscription_Spec{}
@@ -853,78 +836,32 @@ func (subscription *Namespaces_Topics_Subscription_Spec) SetAzureName(azureName 
 	subscription.AzureName = azureName
 }
 
+// Deprecated version of Namespaces_Topics_Subscription_STATUS. Use v1api20210101preview.Namespaces_Topics_Subscription_STATUS instead
 type Namespaces_Topics_Subscription_STATUS struct {
-	// AccessedAt: Last time there was a receive request to this subscription.
-	AccessedAt *string `json:"accessedAt,omitempty"`
-
-	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration
-	// is 5 minutes.
+	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CountDetails: Message count details
-	CountDetails *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
-
-	// CreatedAt: Exact time the message was created.
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// DeadLetteringOnFilterEvaluationExceptions: Value that indicates whether a subscription has dead letter support on filter
-	// evaluation exceptions.
-	DeadLetteringOnFilterEvaluationExceptions *bool `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
-
-	// DeadLetteringOnMessageExpiration: Value that indicates whether a subscription has dead letter support when a message
-	// expires.
-	DeadLetteringOnMessageExpiration *bool `json:"deadLetteringOnMessageExpiration,omitempty"`
-
-	// DefaultMessageTimeToLive: ISO 8061 Default message timespan to live value. This is the duration after which the message
-	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-	// set on a message itself.
-	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
-
-	// DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-	// history. The default value is 10 minutes.
-	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-
-	// EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
-	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
-
-	// ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
-	ForwardDeadLetteredMessagesTo *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-
-	// ForwardTo: Queue/Topic name to forward the messages
-	ForwardTo *string `json:"forwardTo,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// LockDuration: ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.
-	LockDuration *string `json:"lockDuration,omitempty"`
-
-	// MaxDeliveryCount: Number of maximum deliveries.
-	MaxDeliveryCount *int `json:"maxDeliveryCount,omitempty"`
-
-	// MessageCount: Number of messages.
-	MessageCount *int `json:"messageCount,omitempty"`
-
-	// Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	// RequiresSession: Value indicating if a subscription supports the concept of sessions.
-	RequiresSession *bool `json:"requiresSession,omitempty"`
-
-	// Status: Enumerates the possible values for the status of a messaging entity.
-	Status *EntityStatus_STATUS `json:"status,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	// UpdatedAt: The exact time the message was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
+	Conditions                                []conditions.Condition      `json:"conditions,omitempty"`
+	CountDetails                              *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
+	CreatedAt                                 *string                     `json:"createdAt,omitempty"`
+	DeadLetteringOnFilterEvaluationExceptions *bool                       `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
+	DeadLetteringOnMessageExpiration          *bool                       `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive                  *string                     `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow       *string                     `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations                   *bool                       `json:"enableBatchedOperations,omitempty"`
+	ForwardDeadLetteredMessagesTo             *string                     `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                                 *string                     `json:"forwardTo,omitempty"`
+	Id                                        *string                     `json:"id,omitempty"`
+	LockDuration                              *string                     `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                          *int                        `json:"maxDeliveryCount,omitempty"`
+	MessageCount                              *int                        `json:"messageCount,omitempty"`
+	Name                                      *string                     `json:"name,omitempty"`
+	RequiresSession                           *bool                       `json:"requiresSession,omitempty"`
+	Status                                    *EntityStatus_STATUS        `json:"status,omitempty"`
+	SystemData                                *SystemData_STATUS          `json:"systemData,omitempty"`
+	Type                                      *string                     `json:"type,omitempty"`
+	UpdatedAt                                 *string                     `json:"updatedAt,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscription_STATUS{}

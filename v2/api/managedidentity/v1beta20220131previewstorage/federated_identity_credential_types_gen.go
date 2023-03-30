@@ -4,27 +4,24 @@
 package v1beta20220131previewstorage
 
 import (
+	"fmt"
+	v1api20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=managedidentity.azure.com,resources=federatedidentitycredentials,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=managedidentity.azure.com,resources={federatedidentitycredentials/status,federatedidentitycredentials/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20220131preview.FederatedIdentityCredential
-// Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
+// Deprecated version of FederatedIdentityCredential. Use v1api20220131preview.FederatedIdentityCredential instead
 type FederatedIdentityCredential struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -42,6 +39,28 @@ func (credential *FederatedIdentityCredential) GetConditions() conditions.Condit
 // SetConditions sets the conditions on the resource status
 func (credential *FederatedIdentityCredential) SetConditions(conditions conditions.Conditions) {
 	credential.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &FederatedIdentityCredential{}
+
+// ConvertFrom populates our FederatedIdentityCredential from the provided hub FederatedIdentityCredential
+func (credential *FederatedIdentityCredential) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1api20220131ps.FederatedIdentityCredential)
+	if !ok {
+		return fmt.Errorf("expected managedidentity/v1api20220131previewstorage/FederatedIdentityCredential but received %T instead", hub)
+	}
+
+	return credential.AssignProperties_From_FederatedIdentityCredential(source)
+}
+
+// ConvertTo populates the provided hub FederatedIdentityCredential from our FederatedIdentityCredential
+func (credential *FederatedIdentityCredential) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1api20220131ps.FederatedIdentityCredential)
+	if !ok {
+		return fmt.Errorf("expected managedidentity/v1api20220131previewstorage/FederatedIdentityCredential but received %T instead", hub)
+	}
+
+	return credential.AssignProperties_To_FederatedIdentityCredential(destination)
 }
 
 var _ genruntime.KubernetesResource = &FederatedIdentityCredential{}
@@ -110,8 +129,75 @@ func (credential *FederatedIdentityCredential) SetStatus(status genruntime.Conve
 	return nil
 }
 
-// Hub marks that this FederatedIdentityCredential is the hub type for conversion
-func (credential *FederatedIdentityCredential) Hub() {}
+// AssignProperties_From_FederatedIdentityCredential populates our FederatedIdentityCredential from the provided source FederatedIdentityCredential
+func (credential *FederatedIdentityCredential) AssignProperties_From_FederatedIdentityCredential(source *v1api20220131ps.FederatedIdentityCredential) error {
+
+	// ObjectMeta
+	credential.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec UserAssignedIdentities_FederatedIdentityCredential_Spec
+	err := spec.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec() to populate field Spec")
+	}
+	credential.Spec = spec
+
+	// Status
+	var status UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	err = status.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS() to populate field Status")
+	}
+	credential.Status = status
+
+	// Invoke the augmentConversionForFederatedIdentityCredential interface (if implemented) to customize the conversion
+	var credentialAsAny any = credential
+	if augmentedCredential, ok := credentialAsAny.(augmentConversionForFederatedIdentityCredential); ok {
+		err := augmentedCredential.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FederatedIdentityCredential populates the provided destination FederatedIdentityCredential from our FederatedIdentityCredential
+func (credential *FederatedIdentityCredential) AssignProperties_To_FederatedIdentityCredential(destination *v1api20220131ps.FederatedIdentityCredential) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *credential.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec
+	err := credential.Spec.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS
+	err = credential.Status.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForFederatedIdentityCredential interface (if implemented) to customize the conversion
+	var credentialAsAny any = credential
+	if augmentedCredential, ok := credentialAsAny.(augmentConversionForFederatedIdentityCredential); ok {
+		err := augmentedCredential.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (credential *FederatedIdentityCredential) OriginalGVK() *schema.GroupVersionKind {
@@ -124,9 +210,7 @@ func (credential *FederatedIdentityCredential) OriginalGVK() *schema.GroupVersio
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20220131preview.FederatedIdentityCredential
-// Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
+// Deprecated version of FederatedIdentityCredential. Use v1api20220131preview.FederatedIdentityCredential instead
 type FederatedIdentityCredentialList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -134,10 +218,16 @@ type FederatedIdentityCredentialList struct {
 }
 
 // Storage version of v1beta20220131preview.APIVersion
+// Deprecated version of APIVersion. Use v1api20220131preview.APIVersion instead
 // +kubebuilder:validation:Enum={"2022-01-31-preview"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2022-01-31-preview")
+
+type augmentConversionForFederatedIdentityCredential interface {
+	AssignPropertiesFrom(src *v1api20220131ps.FederatedIdentityCredential) error
+	AssignPropertiesTo(dst *v1api20220131ps.FederatedIdentityCredential) error
+}
 
 // Storage version of v1beta20220131preview.UserAssignedIdentities_FederatedIdentityCredential_Spec
 type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
@@ -162,23 +252,150 @@ var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_FederatedIdentityCred
 
 // ConvertSpecFrom populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == credential {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec)
+	if ok {
+		// Populate our instance from source
+		return credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(src)
 	}
 
-	return source.ConvertSpecTo(credential)
+	// Convert to an intermediate form
+	src = &v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_Spec
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == credential {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec)
+	if ok {
+		// Populate destination from our instance
+		return credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(credential)
+	// Convert to an intermediate form
+	dst = &v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec{}
+	err := credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source UserAssignedIdentities_FederatedIdentityCredential_Spec
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_Spec(source *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Audiences
+	credential.Audiences = genruntime.CloneSliceOfString(source.Audiences)
+
+	// AzureName
+	credential.AzureName = source.AzureName
+
+	// Issuer
+	credential.Issuer = genruntime.ClonePointerToString(source.Issuer)
+
+	// OriginalVersion
+	credential.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		credential.Owner = &owner
+	} else {
+		credential.Owner = nil
+	}
+
+	// Subject
+	credential.Subject = genruntime.ClonePointerToString(source.Subject)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		credential.PropertyBag = propertyBag
+	} else {
+		credential.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_Spec interface (if implemented) to customize the conversion
+	var credentialAsAny any = credential
+	if augmentedCredential, ok := credentialAsAny.(augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_Spec); ok {
+		err := augmentedCredential.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec populates the provided destination UserAssignedIdentities_FederatedIdentityCredential_Spec from our UserAssignedIdentities_FederatedIdentityCredential_Spec
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_Spec(destination *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(credential.PropertyBag)
+
+	// Audiences
+	destination.Audiences = genruntime.CloneSliceOfString(credential.Audiences)
+
+	// AzureName
+	destination.AzureName = credential.AzureName
+
+	// Issuer
+	destination.Issuer = genruntime.ClonePointerToString(credential.Issuer)
+
+	// OriginalVersion
+	destination.OriginalVersion = credential.OriginalVersion
+
+	// Owner
+	if credential.Owner != nil {
+		owner := credential.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Subject
+	destination.Subject = genruntime.ClonePointerToString(credential.Subject)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_Spec interface (if implemented) to customize the conversion
+	var credentialAsAny any = credential
+	if augmentedCredential, ok := credentialAsAny.(augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_Spec); ok {
+		err := augmentedCredential.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS
+// Deprecated version of UserAssignedIdentities_FederatedIdentityCredential_STATUS. Use v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS instead
 type UserAssignedIdentities_FederatedIdentityCredential_STATUS struct {
 	Audiences   []string               `json:"audiences,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
@@ -194,20 +411,152 @@ var _ genruntime.ConvertibleStatus = &UserAssignedIdentities_FederatedIdentityCr
 
 // ConvertStatusFrom populates our UserAssignedIdentities_FederatedIdentityCredential_STATUS from the provided source
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == credential {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS)
+	if ok {
+		// Populate our instance from source
+		return credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(credential)
+	// Convert to an intermediate form
+	src = &v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = credential.AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our UserAssignedIdentities_FederatedIdentityCredential_STATUS
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == credential {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(credential)
+	// Convert to an intermediate form
+	dst = &v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS{}
+	err := credential.AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS populates our UserAssignedIdentities_FederatedIdentityCredential_STATUS from the provided source UserAssignedIdentities_FederatedIdentityCredential_STATUS
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) AssignProperties_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(source *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Audiences
+	credential.Audiences = genruntime.CloneSliceOfString(source.Audiences)
+
+	// Conditions
+	credential.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	credential.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Issuer
+	credential.Issuer = genruntime.ClonePointerToString(source.Issuer)
+
+	// Name
+	credential.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Subject
+	credential.Subject = genruntime.ClonePointerToString(source.Subject)
+
+	// Type
+	credential.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		credential.PropertyBag = propertyBag
+	} else {
+		credential.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_STATUS interface (if implemented) to customize the conversion
+	var credentialAsAny any = credential
+	if augmentedCredential, ok := credentialAsAny.(augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_STATUS); ok {
+		err := augmentedCredential.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS populates the provided destination UserAssignedIdentities_FederatedIdentityCredential_STATUS from our UserAssignedIdentities_FederatedIdentityCredential_STATUS
+func (credential *UserAssignedIdentities_FederatedIdentityCredential_STATUS) AssignProperties_To_UserAssignedIdentities_FederatedIdentityCredential_STATUS(destination *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(credential.PropertyBag)
+
+	// Audiences
+	destination.Audiences = genruntime.CloneSliceOfString(credential.Audiences)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(credential.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(credential.Id)
+
+	// Issuer
+	destination.Issuer = genruntime.ClonePointerToString(credential.Issuer)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(credential.Name)
+
+	// Subject
+	destination.Subject = genruntime.ClonePointerToString(credential.Subject)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(credential.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_STATUS interface (if implemented) to customize the conversion
+	var credentialAsAny any = credential
+	if augmentedCredential, ok := credentialAsAny.(augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_STATUS); ok {
+		err := augmentedCredential.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_Spec interface {
+	AssignPropertiesFrom(src *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error
+	AssignPropertiesTo(dst *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_Spec) error
+}
+
+type augmentConversionForUserAssignedIdentities_FederatedIdentityCredential_STATUS interface {
+	AssignPropertiesFrom(src *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error
+	AssignPropertiesTo(dst *v1api20220131ps.UserAssignedIdentities_FederatedIdentityCredential_STATUS) error
 }
 
 func init() {

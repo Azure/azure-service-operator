@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/namespace-preview.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
+// Deprecated version of Namespace. Use v1api20210101preview.Namespace instead
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Namespace{}
 
 // ConvertFrom populates our Namespace from the provided hub Namespace
 func (namespace *Namespace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210101ps.Namespace)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210101ps.Namespace
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return namespace.AssignProperties_From_Namespace(source)
+	err = namespace.AssignProperties_From_Namespace(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to namespace")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Namespace from our Namespace
 func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210101ps.Namespace)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/Namespace but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210101ps.Namespace
+	err := namespace.AssignProperties_To_Namespace(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from namespace")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return namespace.AssignProperties_To_Namespace(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1beta20210101preview-namespace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1beta20210101preview,name=default.v1beta20210101preview.namespaces.servicebus.azure.com,admissionReviewVersions=v1
@@ -341,15 +353,14 @@ func (namespace *Namespace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/namespace-preview.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}
+// Deprecated version of Namespace. Use v1api20210101preview.Namespace instead
 type NamespaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Namespace `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20210101preview.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-01-01-preview"}
 type APIVersion string
 
@@ -358,16 +369,11 @@ const APIVersion_Value = APIVersion("2021-01-01-preview")
 type Namespace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Encryption: Properties of BYOK Encryption description
+	AzureName  string      `json:"azureName,omitempty"`
 	Encryption *Encryption `json:"encryption,omitempty"`
-
-	// Identity: Properties of BYOK Identity description
-	Identity *Identity `json:"identity,omitempty"`
+	Identity   *Identity   `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: The Geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -378,16 +384,10 @@ type Namespace_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Sku: Properties of SKU
-	Sku *SBSku `json:"sku,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Sku           *SBSku                             `json:"sku,omitempty"`
+	Tags          map[string]string                  `json:"tags,omitempty"`
+	ZoneRedundant *bool                              `json:"zoneRedundant,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Namespace_Spec{}
@@ -825,60 +825,27 @@ func (namespace *Namespace_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (namespace *Namespace_Spec) SetAzureName(azureName string) { namespace.AzureName = azureName }
 
+// Deprecated version of Namespace_STATUS. Use v1api20210101preview.Namespace_STATUS instead
 type Namespace_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CreatedAt: The time the namespace was created
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// Encryption: Properties of BYOK Encryption description
-	Encryption *Encryption_STATUS `json:"encryption,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Identity: Properties of BYOK Identity description
-	Identity *Identity_STATUS `json:"identity,omitempty"`
-
-	// Location: The Geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// MetricId: Identifier for Azure Insights metrics
-	MetricId *string `json:"metricId,omitempty"`
-
-	// Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections.
+	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
+	CreatedAt                  *string                            `json:"createdAt,omitempty"`
+	Encryption                 *Encryption_STATUS                 `json:"encryption,omitempty"`
+	Id                         *string                            `json:"id,omitempty"`
+	Identity                   *Identity_STATUS                   `json:"identity,omitempty"`
+	Location                   *string                            `json:"location,omitempty"`
+	MetricId                   *string                            `json:"metricId,omitempty"`
+	Name                       *string                            `json:"name,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the namespace.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.
-	ServiceBusEndpoint *string `json:"serviceBusEndpoint,omitempty"`
-
-	// Sku: Properties of SKU
-	Sku *SBSku_STATUS `json:"sku,omitempty"`
-
-	// Status: Status of the namespace.
-	Status *string `json:"status,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	// UpdatedAt: The time the namespace was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
-
-	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
+	ServiceBusEndpoint         *string                            `json:"serviceBusEndpoint,omitempty"`
+	Sku                        *SBSku_STATUS                      `json:"sku,omitempty"`
+	Status                     *string                            `json:"status,omitempty"`
+	SystemData                 *SystemData_STATUS                 `json:"systemData,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
+	Type                       *string                            `json:"type,omitempty"`
+	UpdatedAt                  *string                            `json:"updatedAt,omitempty"`
+	ZoneRedundant              *bool                              `json:"zoneRedundant,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Namespace_STATUS{}
@@ -1349,16 +1316,11 @@ func (namespace *Namespace_STATUS) AssignProperties_To_Namespace_STATUS(destinat
 	return nil
 }
 
-// Properties to configure Encryption
+// Deprecated version of Encryption. Use v1api20210101preview.Encryption instead
 type Encryption struct {
-	// KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
-
-	// KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultProperties `json:"keyVaultProperties,omitempty"`
-
-	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
+	KeySource                       *Encryption_KeySource `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties  `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                 `json:"requireInfrastructureEncryption,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Encryption{}
@@ -1563,16 +1525,11 @@ func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encrypti
 	return nil
 }
 
-// Properties to configure Encryption
+// Deprecated version of Encryption_STATUS. Use v1api20210101preview.Encryption_STATUS instead
 type Encryption_STATUS struct {
-	// KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
-
-	// KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
-
-	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
+	KeySource                       *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties_STATUS  `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                        `json:"requireInfrastructureEncryption,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Encryption_STATUS{}
@@ -1706,9 +1663,8 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 	return nil
 }
 
-// Properties to configure User Assigned Identities for Bring your Own Keys
+// Deprecated version of Identity. Use v1api20210101preview.Identity instead
 type Identity struct {
-	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
@@ -1805,18 +1761,11 @@ func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATU
 	return nil
 }
 
-// Properties to configure User Assigned Identities for Bring your Own Keys
+// Deprecated version of Identity_STATUS. Use v1api20210101preview.Identity_STATUS instead
 type Identity_STATUS struct {
-	// PrincipalId: ObjectId from the KeyVault
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: TenantId from the KeyVault
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: Type of managed service identity.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: Properties for User Assigned Identities
+	PrincipalId            *string                           `json:"principalId,omitempty"`
+	TenantId               *string                           `json:"tenantId,omitempty"`
+	Type                   *Identity_Type_STATUS             `json:"type,omitempty"`
 	UserAssignedIdentities map[string]DictionaryValue_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2009,9 +1958,8 @@ func (operator *NamespaceOperatorSpec) AssignProperties_To_NamespaceOperatorSpec
 	return nil
 }
 
-// Properties of the PrivateEndpointConnection.
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1api20210101preview.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
-	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 }
 
@@ -2068,16 +2016,12 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
-// SKU of the namespace.
+// Deprecated version of SBSku. Use v1api20210101preview.SBSku instead
 type SBSku struct {
-	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: Name of this SKU.
 	Name *SBSku_Name `json:"name,omitempty"`
-
-	// Tier: The billing tier of this particular SKU.
 	Tier *SBSku_Tier `json:"tier,omitempty"`
 }
 
@@ -2231,16 +2175,11 @@ func (sbSku *SBSku) Initialize_From_SBSku_STATUS(source *SBSku_STATUS) error {
 	return nil
 }
 
-// SKU of the namespace.
+// Deprecated version of SBSku_STATUS. Use v1api20210101preview.SBSku_STATUS instead
 type SBSku_STATUS struct {
-	// Capacity: The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Name: Name of this SKU.
-	Name *SBSku_Name_STATUS `json:"name,omitempty"`
-
-	// Tier: The billing tier of this particular SKU.
-	Tier *SBSku_Tier_STATUS `json:"tier,omitempty"`
+	Capacity *int               `json:"capacity,omitempty"`
+	Name     *SBSku_Name_STATUS `json:"name,omitempty"`
+	Tier     *SBSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SBSku_STATUS{}
@@ -2340,24 +2279,13 @@ func (sbSku *SBSku_STATUS) AssignProperties_To_SBSku_STATUS(destination *v202101
 	return nil
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20210101preview.SystemData_STATUS instead
 type SystemData_STATUS struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The type of identity that last modified the resource.
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
@@ -2494,12 +2422,9 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
-// Recognized Dictionary value.
+// Deprecated version of DictionaryValue_STATUS. Use v1api20210101preview.DictionaryValue_STATUS instead
 type DictionaryValue_STATUS struct {
-	// ClientId: Client Id of user assigned identity
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: Principal Id of user assigned identity
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -2568,27 +2493,23 @@ func (value *DictionaryValue_STATUS) AssignProperties_To_DictionaryValue_STATUS(
 	return nil
 }
 
+// Deprecated version of Encryption_KeySource. Use v1api20210101preview.Encryption_KeySource instead
 // +kubebuilder:validation:Enum={"Microsoft.KeyVault"}
 type Encryption_KeySource string
 
 const Encryption_KeySource_MicrosoftKeyVault = Encryption_KeySource("Microsoft.KeyVault")
 
+// Deprecated version of Encryption_KeySource_STATUS. Use v1api20210101preview.Encryption_KeySource_STATUS instead
 type Encryption_KeySource_STATUS string
 
 const Encryption_KeySource_STATUS_MicrosoftKeyVault = Encryption_KeySource_STATUS("Microsoft.KeyVault")
 
-// Properties to configure keyVault Properties
+// Deprecated version of KeyVaultProperties. Use v1api20210101preview.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	Identity *UserAssignedIdentityProperties `json:"identity,omitempty"`
-
-	// KeyName: Name of the Key from KeyVault
-	KeyName *string `json:"keyName,omitempty"`
-
-	// KeyVaultUri: Uri of KeyVault
-	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
-
-	// KeyVersion: Version of KeyVault
-	KeyVersion *string `json:"keyVersion,omitempty"`
+	Identity    *UserAssignedIdentityProperties `json:"identity,omitempty"`
+	KeyName     *string                         `json:"keyName,omitempty"`
+	KeyVaultUri *string                         `json:"keyVaultUri,omitempty"`
+	KeyVersion  *string                         `json:"keyVersion,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
@@ -2768,18 +2689,12 @@ func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(
 	return nil
 }
 
-// Properties to configure keyVault Properties
+// Deprecated version of KeyVaultProperties_STATUS. Use v1api20210101preview.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUS struct {
-	Identity *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
-
-	// KeyName: Name of the Key from KeyVault
-	KeyName *string `json:"keyName,omitempty"`
-
-	// KeyVaultUri: Uri of KeyVault
-	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
-
-	// KeyVersion: Version of KeyVault
-	KeyVersion *string `json:"keyVersion,omitempty"`
+	Identity    *UserAssignedIdentityProperties_STATUS `json:"identity,omitempty"`
+	KeyName     *string                                `json:"keyName,omitempty"`
+	KeyVaultUri *string                                `json:"keyVaultUri,omitempty"`
+	KeyVersion  *string                                `json:"keyVersion,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultProperties_STATUS{}
@@ -2938,8 +2853,8 @@ func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSe
 	return nil
 }
 
+// Deprecated version of UserAssignedIdentityProperties. Use v1api20210101preview.UserAssignedIdentityProperties instead
 type UserAssignedIdentityProperties struct {
-	// UserAssignedIdentityReference: ARM ID of user Identity selected for encryption
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
@@ -3028,8 +2943,8 @@ func (properties *UserAssignedIdentityProperties) Initialize_From_UserAssignedId
 	return nil
 }
 
+// Deprecated version of UserAssignedIdentityProperties_STATUS. Use v1api20210101preview.UserAssignedIdentityProperties_STATUS instead
 type UserAssignedIdentityProperties_STATUS struct {
-	// UserAssignedIdentity: ARM ID of user Identity selected for encryption
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 

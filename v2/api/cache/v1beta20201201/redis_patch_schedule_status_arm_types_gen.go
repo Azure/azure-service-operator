@@ -3,38 +3,23 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
+// Deprecated version of Redis_PatchSchedule_STATUS. Use v1api20201201.Redis_PatchSchedule_STATUS instead
 type Redis_PatchSchedule_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: List of patch schedules for a Redis cache.
+	Id         *string                     `json:"id,omitempty"`
+	Location   *string                     `json:"location,omitempty"`
+	Name       *string                     `json:"name,omitempty"`
 	Properties *ScheduleEntries_STATUS_ARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type       *string                     `json:"type,omitempty"`
 }
 
-// List of patch schedules for a Redis cache.
+// Deprecated version of ScheduleEntries_STATUS. Use v1api20201201.ScheduleEntries_STATUS instead
 type ScheduleEntries_STATUS_ARM struct {
-	// ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_STATUS_ARM `json:"scheduleEntries,omitempty"`
 }
 
-// Patch schedule entry for a Premium Redis Cache.
+// Deprecated version of ScheduleEntry_STATUS. Use v1api20201201.ScheduleEntry_STATUS instead
 type ScheduleEntry_STATUS_ARM struct {
-	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
-
-	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
-	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
-
-	// StartHourUtc: Start hour after which cache patching can start.
-	StartHourUtc *int `json:"startHourUtc,omitempty"`
+	DayOfWeek         *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
+	MaintenanceWindow *string                         `json:"maintenanceWindow,omitempty"`
+	StartHourUtc      *int                            `json:"startHourUtc,omitempty"`
 }

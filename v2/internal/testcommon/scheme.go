@@ -8,18 +8,18 @@ package testcommon
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	"github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
-	"github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 )
 
 func CreateScheme() (*runtime.Scheme, error) {
 	scheme := runtime.NewScheme()
-	err := v1beta20210101.AddToScheme(scheme)
+	err := batch.AddToScheme(scheme)
 	if err != nil {
 		return nil, err
 	}
 
-	err = v1beta20200601.AddToScheme(scheme)
+	err = resources.AddToScheme(scheme)
 	if err != nil {
 		return nil, err
 	}

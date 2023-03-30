@@ -41,6 +41,16 @@ func MakeTypeDefinitionSet(types map[TypeName]Type) TypeDefinitionSet {
 	return result
 }
 
+// MakeTypeDefinitionSetFromDefinitions makes it easier to declare a TypeDefinitionSet from a collection of definitions
+func MakeTypeDefinitionSetFromDefinitions(definitions ...TypeDefinition) TypeDefinitionSet {
+	result := make(TypeDefinitionSet, len(definitions))
+	for _, def := range definitions {
+		result.Add(def)
+	}
+
+	return result
+}
+
 // MustGetDefinition looks up a type definition and panics if it cannot be found
 func (set TypeDefinitionSet) MustGetDefinition(name TypeName) TypeDefinition {
 	result, ok := set[name]

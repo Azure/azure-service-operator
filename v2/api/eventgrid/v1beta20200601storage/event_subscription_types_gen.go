@@ -4,27 +4,24 @@
 package v1beta20200601storage
 
 import (
+	"fmt"
+	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=eventgrid.azure.com,resources=eventsubscriptions,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=eventgrid.azure.com,resources={eventsubscriptions/status,eventsubscriptions/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200601.EventSubscription
-// Generator information:
-// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
-// - ARM URI: /{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}
+// Deprecated version of EventSubscription. Use v1api20200601.EventSubscription instead
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -42,6 +39,28 @@ func (subscription *EventSubscription) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (subscription *EventSubscription) SetConditions(conditions conditions.Conditions) {
 	subscription.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &EventSubscription{}
+
+// ConvertFrom populates our EventSubscription from the provided hub EventSubscription
+func (subscription *EventSubscription) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1api20200601s.EventSubscription)
+	if !ok {
+		return fmt.Errorf("expected eventgrid/v1api20200601storage/EventSubscription but received %T instead", hub)
+	}
+
+	return subscription.AssignProperties_From_EventSubscription(source)
+}
+
+// ConvertTo populates the provided hub EventSubscription from our EventSubscription
+func (subscription *EventSubscription) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1api20200601s.EventSubscription)
+	if !ok {
+		return fmt.Errorf("expected eventgrid/v1api20200601storage/EventSubscription but received %T instead", hub)
+	}
+
+	return subscription.AssignProperties_To_EventSubscription(destination)
 }
 
 var _ genruntime.KubernetesResource = &EventSubscription{}
@@ -109,8 +128,75 @@ func (subscription *EventSubscription) SetStatus(status genruntime.ConvertibleSt
 	return nil
 }
 
-// Hub marks that this EventSubscription is the hub type for conversion
-func (subscription *EventSubscription) Hub() {}
+// AssignProperties_From_EventSubscription populates our EventSubscription from the provided source EventSubscription
+func (subscription *EventSubscription) AssignProperties_From_EventSubscription(source *v1api20200601s.EventSubscription) error {
+
+	// ObjectMeta
+	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec EventSubscription_Spec
+	err := spec.AssignProperties_From_EventSubscription_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_EventSubscription_Spec() to populate field Spec")
+	}
+	subscription.Spec = spec
+
+	// Status
+	var status EventSubscription_STATUS
+	err = status.AssignProperties_From_EventSubscription_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_EventSubscription_STATUS() to populate field Status")
+	}
+	subscription.Status = status
+
+	// Invoke the augmentConversionForEventSubscription interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription); ok {
+		err := augmentedSubscription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventSubscription populates the provided destination EventSubscription from our EventSubscription
+func (subscription *EventSubscription) AssignProperties_To_EventSubscription(destination *v1api20200601s.EventSubscription) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1api20200601s.EventSubscription_Spec
+	err := subscription.Spec.AssignProperties_To_EventSubscription_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_EventSubscription_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1api20200601s.EventSubscription_STATUS
+	err = subscription.Status.AssignProperties_To_EventSubscription_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_EventSubscription_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForEventSubscription interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription); ok {
+		err := augmentedSubscription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (subscription *EventSubscription) OriginalGVK() *schema.GroupVersionKind {
@@ -123,13 +209,16 @@ func (subscription *EventSubscription) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200601.EventSubscription
-// Generator information:
-// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
-// - ARM URI: /{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}
+// Deprecated version of EventSubscription. Use v1api20200601.EventSubscription instead
 type EventSubscriptionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []EventSubscription `json:"items"`
+}
+
+type augmentConversionForEventSubscription interface {
+	AssignPropertiesFrom(src *v1api20200601s.EventSubscription) error
+	AssignPropertiesTo(dst *v1api20200601s.EventSubscription) error
 }
 
 // Storage version of v1beta20200601.EventSubscription_Spec
@@ -158,24 +247,246 @@ var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
 
 // ConvertSpecFrom populates our EventSubscription_Spec from the provided source
 func (subscription *EventSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1api20200601s.EventSubscription_Spec)
+	if ok {
+		// Populate our instance from source
+		return subscription.AssignProperties_From_EventSubscription_Spec(src)
 	}
 
-	return source.ConvertSpecTo(subscription)
+	// Convert to an intermediate form
+	src = &v1api20200601s.EventSubscription_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = subscription.AssignProperties_From_EventSubscription_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our EventSubscription_Spec
 func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1api20200601s.EventSubscription_Spec)
+	if ok {
+		// Populate destination from our instance
+		return subscription.AssignProperties_To_EventSubscription_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(subscription)
+	// Convert to an intermediate form
+	dst = &v1api20200601s.EventSubscription_Spec{}
+	err := subscription.AssignProperties_To_EventSubscription_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_EventSubscription_Spec populates our EventSubscription_Spec from the provided source EventSubscription_Spec
+func (subscription *EventSubscription_Spec) AssignProperties_From_EventSubscription_Spec(source *v1api20200601s.EventSubscription_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	subscription.AzureName = source.AzureName
+
+	// DeadLetterDestination
+	if source.DeadLetterDestination != nil {
+		var deadLetterDestination DeadLetterDestination
+		err := deadLetterDestination.AssignProperties_From_DeadLetterDestination(source.DeadLetterDestination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DeadLetterDestination() to populate field DeadLetterDestination")
+		}
+		subscription.DeadLetterDestination = &deadLetterDestination
+	} else {
+		subscription.DeadLetterDestination = nil
+	}
+
+	// Destination
+	if source.Destination != nil {
+		var destination EventSubscriptionDestination
+		err := destination.AssignProperties_From_EventSubscriptionDestination(source.Destination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptionDestination() to populate field Destination")
+		}
+		subscription.Destination = &destination
+	} else {
+		subscription.Destination = nil
+	}
+
+	// EventDeliverySchema
+	subscription.EventDeliverySchema = genruntime.ClonePointerToString(source.EventDeliverySchema)
+
+	// ExpirationTimeUtc
+	subscription.ExpirationTimeUtc = genruntime.ClonePointerToString(source.ExpirationTimeUtc)
+
+	// Filter
+	if source.Filter != nil {
+		var filter EventSubscriptionFilter
+		err := filter.AssignProperties_From_EventSubscriptionFilter(source.Filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptionFilter() to populate field Filter")
+		}
+		subscription.Filter = &filter
+	} else {
+		subscription.Filter = nil
+	}
+
+	// Labels
+	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
+
+	// OriginalVersion
+	subscription.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		subscription.Owner = &owner
+	} else {
+		subscription.Owner = nil
+	}
+
+	// RetryPolicy
+	if source.RetryPolicy != nil {
+		var retryPolicy RetryPolicy
+		err := retryPolicy.AssignProperties_From_RetryPolicy(source.RetryPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RetryPolicy() to populate field RetryPolicy")
+		}
+		subscription.RetryPolicy = &retryPolicy
+	} else {
+		subscription.RetryPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		subscription.PropertyBag = propertyBag
+	} else {
+		subscription.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscription_Spec interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription_Spec); ok {
+		err := augmentedSubscription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventSubscription_Spec populates the provided destination EventSubscription_Spec from our EventSubscription_Spec
+func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscription_Spec(destination *v1api20200601s.EventSubscription_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
+
+	// AzureName
+	destination.AzureName = subscription.AzureName
+
+	// DeadLetterDestination
+	if subscription.DeadLetterDestination != nil {
+		var deadLetterDestination v1api20200601s.DeadLetterDestination
+		err := subscription.DeadLetterDestination.AssignProperties_To_DeadLetterDestination(&deadLetterDestination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DeadLetterDestination() to populate field DeadLetterDestination")
+		}
+		destination.DeadLetterDestination = &deadLetterDestination
+	} else {
+		destination.DeadLetterDestination = nil
+	}
+
+	// Destination
+	if subscription.Destination != nil {
+		var destinationLocal v1api20200601s.EventSubscriptionDestination
+		err := subscription.Destination.AssignProperties_To_EventSubscriptionDestination(&destinationLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionDestination() to populate field Destination")
+		}
+		destination.Destination = &destinationLocal
+	} else {
+		destination.Destination = nil
+	}
+
+	// EventDeliverySchema
+	destination.EventDeliverySchema = genruntime.ClonePointerToString(subscription.EventDeliverySchema)
+
+	// ExpirationTimeUtc
+	destination.ExpirationTimeUtc = genruntime.ClonePointerToString(subscription.ExpirationTimeUtc)
+
+	// Filter
+	if subscription.Filter != nil {
+		var filter v1api20200601s.EventSubscriptionFilter
+		err := subscription.Filter.AssignProperties_To_EventSubscriptionFilter(&filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionFilter() to populate field Filter")
+		}
+		destination.Filter = &filter
+	} else {
+		destination.Filter = nil
+	}
+
+	// Labels
+	destination.Labels = genruntime.CloneSliceOfString(subscription.Labels)
+
+	// OriginalVersion
+	destination.OriginalVersion = subscription.OriginalVersion
+
+	// Owner
+	if subscription.Owner != nil {
+		owner := subscription.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RetryPolicy
+	if subscription.RetryPolicy != nil {
+		var retryPolicy v1api20200601s.RetryPolicy
+		err := subscription.RetryPolicy.AssignProperties_To_RetryPolicy(&retryPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RetryPolicy() to populate field RetryPolicy")
+		}
+		destination.RetryPolicy = &retryPolicy
+	} else {
+		destination.RetryPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscription_Spec interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription_Spec); ok {
+		err := augmentedSubscription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20200601.EventSubscription_STATUS
-// Event Subscription
+// Deprecated version of EventSubscription_STATUS. Use v1api20200601.EventSubscription_STATUS instead
 type EventSubscription_STATUS struct {
 	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
 	DeadLetterDestination *DeadLetterDestination_STATUS        `json:"deadLetterDestination,omitempty"`
@@ -198,35 +509,450 @@ var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
 
 // ConvertStatusFrom populates our EventSubscription_STATUS from the provided source
 func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1api20200601s.EventSubscription_STATUS)
+	if ok {
+		// Populate our instance from source
+		return subscription.AssignProperties_From_EventSubscription_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(subscription)
+	// Convert to an intermediate form
+	src = &v1api20200601s.EventSubscription_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = subscription.AssignProperties_From_EventSubscription_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our EventSubscription_STATUS
 func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == subscription {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1api20200601s.EventSubscription_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return subscription.AssignProperties_To_EventSubscription_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(subscription)
+	// Convert to an intermediate form
+	dst = &v1api20200601s.EventSubscription_STATUS{}
+	err := subscription.AssignProperties_To_EventSubscription_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_EventSubscription_STATUS populates our EventSubscription_STATUS from the provided source EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) AssignProperties_From_EventSubscription_STATUS(source *v1api20200601s.EventSubscription_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	subscription.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DeadLetterDestination
+	if source.DeadLetterDestination != nil {
+		var deadLetterDestination DeadLetterDestination_STATUS
+		err := deadLetterDestination.AssignProperties_From_DeadLetterDestination_STATUS(source.DeadLetterDestination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_DeadLetterDestination_STATUS() to populate field DeadLetterDestination")
+		}
+		subscription.DeadLetterDestination = &deadLetterDestination
+	} else {
+		subscription.DeadLetterDestination = nil
+	}
+
+	// Destination
+	if source.Destination != nil {
+		var destination EventSubscriptionDestination_STATUS
+		err := destination.AssignProperties_From_EventSubscriptionDestination_STATUS(source.Destination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptionDestination_STATUS() to populate field Destination")
+		}
+		subscription.Destination = &destination
+	} else {
+		subscription.Destination = nil
+	}
+
+	// EventDeliverySchema
+	subscription.EventDeliverySchema = genruntime.ClonePointerToString(source.EventDeliverySchema)
+
+	// ExpirationTimeUtc
+	subscription.ExpirationTimeUtc = genruntime.ClonePointerToString(source.ExpirationTimeUtc)
+
+	// Filter
+	if source.Filter != nil {
+		var filter EventSubscriptionFilter_STATUS
+		err := filter.AssignProperties_From_EventSubscriptionFilter_STATUS(source.Filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EventSubscriptionFilter_STATUS() to populate field Filter")
+		}
+		subscription.Filter = &filter
+	} else {
+		subscription.Filter = nil
+	}
+
+	// Id
+	subscription.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Labels
+	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
+
+	// Name
+	subscription.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	subscription.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// RetryPolicy
+	if source.RetryPolicy != nil {
+		var retryPolicy RetryPolicy_STATUS
+		err := retryPolicy.AssignProperties_From_RetryPolicy_STATUS(source.RetryPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_RetryPolicy_STATUS() to populate field RetryPolicy")
+		}
+		subscription.RetryPolicy = &retryPolicy
+	} else {
+		subscription.RetryPolicy = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		subscription.SystemData = &systemDatum
+	} else {
+		subscription.SystemData = nil
+	}
+
+	// Topic
+	subscription.Topic = genruntime.ClonePointerToString(source.Topic)
+
+	// Type
+	subscription.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		subscription.PropertyBag = propertyBag
+	} else {
+		subscription.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscription_STATUS interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription_STATUS); ok {
+		err := augmentedSubscription.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventSubscription_STATUS populates the provided destination EventSubscription_STATUS from our EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) AssignProperties_To_EventSubscription_STATUS(destination *v1api20200601s.EventSubscription_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(subscription.Conditions)
+
+	// DeadLetterDestination
+	if subscription.DeadLetterDestination != nil {
+		var deadLetterDestination v1api20200601s.DeadLetterDestination_STATUS
+		err := subscription.DeadLetterDestination.AssignProperties_To_DeadLetterDestination_STATUS(&deadLetterDestination)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_DeadLetterDestination_STATUS() to populate field DeadLetterDestination")
+		}
+		destination.DeadLetterDestination = &deadLetterDestination
+	} else {
+		destination.DeadLetterDestination = nil
+	}
+
+	// Destination
+	if subscription.Destination != nil {
+		var destinationLocal v1api20200601s.EventSubscriptionDestination_STATUS
+		err := subscription.Destination.AssignProperties_To_EventSubscriptionDestination_STATUS(&destinationLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionDestination_STATUS() to populate field Destination")
+		}
+		destination.Destination = &destinationLocal
+	} else {
+		destination.Destination = nil
+	}
+
+	// EventDeliverySchema
+	destination.EventDeliverySchema = genruntime.ClonePointerToString(subscription.EventDeliverySchema)
+
+	// ExpirationTimeUtc
+	destination.ExpirationTimeUtc = genruntime.ClonePointerToString(subscription.ExpirationTimeUtc)
+
+	// Filter
+	if subscription.Filter != nil {
+		var filter v1api20200601s.EventSubscriptionFilter_STATUS
+		err := subscription.Filter.AssignProperties_To_EventSubscriptionFilter_STATUS(&filter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EventSubscriptionFilter_STATUS() to populate field Filter")
+		}
+		destination.Filter = &filter
+	} else {
+		destination.Filter = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(subscription.Id)
+
+	// Labels
+	destination.Labels = genruntime.CloneSliceOfString(subscription.Labels)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(subscription.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(subscription.ProvisioningState)
+
+	// RetryPolicy
+	if subscription.RetryPolicy != nil {
+		var retryPolicy v1api20200601s.RetryPolicy_STATUS
+		err := subscription.RetryPolicy.AssignProperties_To_RetryPolicy_STATUS(&retryPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_RetryPolicy_STATUS() to populate field RetryPolicy")
+		}
+		destination.RetryPolicy = &retryPolicy
+	} else {
+		destination.RetryPolicy = nil
+	}
+
+	// SystemData
+	if subscription.SystemData != nil {
+		var systemDatum v1api20200601s.SystemData_STATUS
+		err := subscription.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Topic
+	destination.Topic = genruntime.ClonePointerToString(subscription.Topic)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(subscription.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscription_STATUS interface (if implemented) to customize the conversion
+	var subscriptionAsAny any = subscription
+	if augmentedSubscription, ok := subscriptionAsAny.(augmentConversionForEventSubscription_STATUS); ok {
+		err := augmentedSubscription.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForEventSubscription_Spec interface {
+	AssignPropertiesFrom(src *v1api20200601s.EventSubscription_Spec) error
+	AssignPropertiesTo(dst *v1api20200601s.EventSubscription_Spec) error
+}
+
+type augmentConversionForEventSubscription_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.EventSubscription_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.EventSubscription_STATUS) error
 }
 
 // Storage version of v1beta20200601.DeadLetterDestination
+// Deprecated version of DeadLetterDestination. Use v1api20200601.DeadLetterDestination instead
 type DeadLetterDestination struct {
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	StorageBlob *StorageBlobDeadLetterDestination `json:"storageBlob,omitempty"`
 }
 
+// AssignProperties_From_DeadLetterDestination populates our DeadLetterDestination from the provided source DeadLetterDestination
+func (destination *DeadLetterDestination) AssignProperties_From_DeadLetterDestination(source *v1api20200601s.DeadLetterDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// StorageBlob
+	if source.StorageBlob != nil {
+		var storageBlob StorageBlobDeadLetterDestination
+		err := storageBlob.AssignProperties_From_StorageBlobDeadLetterDestination(source.StorageBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination() to populate field StorageBlob")
+		}
+		destination.StorageBlob = &storageBlob
+	} else {
+		destination.StorageBlob = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeadLetterDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDeadLetterDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeadLetterDestination populates the provided destination DeadLetterDestination from our DeadLetterDestination
+func (destination *DeadLetterDestination) AssignProperties_To_DeadLetterDestination(target *v1api20200601s.DeadLetterDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// StorageBlob
+	if destination.StorageBlob != nil {
+		var storageBlob v1api20200601s.StorageBlobDeadLetterDestination
+		err := destination.StorageBlob.AssignProperties_To_StorageBlobDeadLetterDestination(&storageBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination() to populate field StorageBlob")
+		}
+		target.StorageBlob = &storageBlob
+	} else {
+		target.StorageBlob = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeadLetterDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDeadLetterDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.DeadLetterDestination_STATUS
+// Deprecated version of DeadLetterDestination_STATUS. Use v1api20200601.DeadLetterDestination_STATUS instead
 type DeadLetterDestination_STATUS struct {
 	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
 	StorageBlob *StorageBlobDeadLetterDestination_STATUS `json:"storageBlob,omitempty"`
 }
 
+// AssignProperties_From_DeadLetterDestination_STATUS populates our DeadLetterDestination_STATUS from the provided source DeadLetterDestination_STATUS
+func (destination *DeadLetterDestination_STATUS) AssignProperties_From_DeadLetterDestination_STATUS(source *v1api20200601s.DeadLetterDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// StorageBlob
+	if source.StorageBlob != nil {
+		var storageBlob StorageBlobDeadLetterDestination_STATUS
+		err := storageBlob.AssignProperties_From_StorageBlobDeadLetterDestination_STATUS(source.StorageBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageBlobDeadLetterDestination_STATUS() to populate field StorageBlob")
+		}
+		destination.StorageBlob = &storageBlob
+	} else {
+		destination.StorageBlob = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeadLetterDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDeadLetterDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeadLetterDestination_STATUS populates the provided destination DeadLetterDestination_STATUS from our DeadLetterDestination_STATUS
+func (destination *DeadLetterDestination_STATUS) AssignProperties_To_DeadLetterDestination_STATUS(target *v1api20200601s.DeadLetterDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// StorageBlob
+	if destination.StorageBlob != nil {
+		var storageBlob v1api20200601s.StorageBlobDeadLetterDestination_STATUS
+		err := destination.StorageBlob.AssignProperties_To_StorageBlobDeadLetterDestination_STATUS(&storageBlob)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageBlobDeadLetterDestination_STATUS() to populate field StorageBlob")
+		}
+		target.StorageBlob = &storageBlob
+	} else {
+		target.StorageBlob = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeadLetterDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForDeadLetterDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.EventSubscriptionDestination
+// Deprecated version of EventSubscriptionDestination. Use v1api20200601.EventSubscriptionDestination instead
 type EventSubscriptionDestination struct {
 	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunction,omitempty"`
 	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHub,omitempty"`
@@ -238,7 +964,226 @@ type EventSubscriptionDestination struct {
 	WebHook          *WebHookEventSubscriptionDestination          `json:"webHook,omitempty"`
 }
 
+// AssignProperties_From_EventSubscriptionDestination populates our EventSubscriptionDestination from the provided source EventSubscriptionDestination
+func (destination *EventSubscriptionDestination) AssignProperties_From_EventSubscriptionDestination(source *v1api20200601s.EventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureFunction
+	if source.AzureFunction != nil {
+		var azureFunction AzureFunctionEventSubscriptionDestination
+		err := azureFunction.AssignProperties_From_AzureFunctionEventSubscriptionDestination(source.AzureFunction)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AzureFunctionEventSubscriptionDestination() to populate field AzureFunction")
+		}
+		destination.AzureFunction = &azureFunction
+	} else {
+		destination.AzureFunction = nil
+	}
+
+	// EventHub
+	if source.EventHub != nil {
+		var eventHub EventHubEventSubscriptionDestination
+		err := eventHub.AssignProperties_From_EventHubEventSubscriptionDestination(source.EventHub)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EventHubEventSubscriptionDestination() to populate field EventHub")
+		}
+		destination.EventHub = &eventHub
+	} else {
+		destination.EventHub = nil
+	}
+
+	// HybridConnection
+	if source.HybridConnection != nil {
+		var hybridConnection HybridConnectionEventSubscriptionDestination
+		err := hybridConnection.AssignProperties_From_HybridConnectionEventSubscriptionDestination(source.HybridConnection)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_HybridConnectionEventSubscriptionDestination() to populate field HybridConnection")
+		}
+		destination.HybridConnection = &hybridConnection
+	} else {
+		destination.HybridConnection = nil
+	}
+
+	// ServiceBusQueue
+	if source.ServiceBusQueue != nil {
+		var serviceBusQueue ServiceBusQueueEventSubscriptionDestination
+		err := serviceBusQueue.AssignProperties_From_ServiceBusQueueEventSubscriptionDestination(source.ServiceBusQueue)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServiceBusQueueEventSubscriptionDestination() to populate field ServiceBusQueue")
+		}
+		destination.ServiceBusQueue = &serviceBusQueue
+	} else {
+		destination.ServiceBusQueue = nil
+	}
+
+	// ServiceBusTopic
+	if source.ServiceBusTopic != nil {
+		var serviceBusTopic ServiceBusTopicEventSubscriptionDestination
+		err := serviceBusTopic.AssignProperties_From_ServiceBusTopicEventSubscriptionDestination(source.ServiceBusTopic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServiceBusTopicEventSubscriptionDestination() to populate field ServiceBusTopic")
+		}
+		destination.ServiceBusTopic = &serviceBusTopic
+	} else {
+		destination.ServiceBusTopic = nil
+	}
+
+	// StorageQueue
+	if source.StorageQueue != nil {
+		var storageQueue StorageQueueEventSubscriptionDestination
+		err := storageQueue.AssignProperties_From_StorageQueueEventSubscriptionDestination(source.StorageQueue)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageQueueEventSubscriptionDestination() to populate field StorageQueue")
+		}
+		destination.StorageQueue = &storageQueue
+	} else {
+		destination.StorageQueue = nil
+	}
+
+	// WebHook
+	if source.WebHook != nil {
+		var webHook WebHookEventSubscriptionDestination
+		err := webHook.AssignProperties_From_WebHookEventSubscriptionDestination(source.WebHook)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WebHookEventSubscriptionDestination() to populate field WebHook")
+		}
+		destination.WebHook = &webHook
+	} else {
+		destination.WebHook = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventSubscriptionDestination populates the provided destination EventSubscriptionDestination from our EventSubscriptionDestination
+func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscriptionDestination(target *v1api20200601s.EventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// AzureFunction
+	if destination.AzureFunction != nil {
+		var azureFunction v1api20200601s.AzureFunctionEventSubscriptionDestination
+		err := destination.AzureFunction.AssignProperties_To_AzureFunctionEventSubscriptionDestination(&azureFunction)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AzureFunctionEventSubscriptionDestination() to populate field AzureFunction")
+		}
+		target.AzureFunction = &azureFunction
+	} else {
+		target.AzureFunction = nil
+	}
+
+	// EventHub
+	if destination.EventHub != nil {
+		var eventHub v1api20200601s.EventHubEventSubscriptionDestination
+		err := destination.EventHub.AssignProperties_To_EventHubEventSubscriptionDestination(&eventHub)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EventHubEventSubscriptionDestination() to populate field EventHub")
+		}
+		target.EventHub = &eventHub
+	} else {
+		target.EventHub = nil
+	}
+
+	// HybridConnection
+	if destination.HybridConnection != nil {
+		var hybridConnection v1api20200601s.HybridConnectionEventSubscriptionDestination
+		err := destination.HybridConnection.AssignProperties_To_HybridConnectionEventSubscriptionDestination(&hybridConnection)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_HybridConnectionEventSubscriptionDestination() to populate field HybridConnection")
+		}
+		target.HybridConnection = &hybridConnection
+	} else {
+		target.HybridConnection = nil
+	}
+
+	// ServiceBusQueue
+	if destination.ServiceBusQueue != nil {
+		var serviceBusQueue v1api20200601s.ServiceBusQueueEventSubscriptionDestination
+		err := destination.ServiceBusQueue.AssignProperties_To_ServiceBusQueueEventSubscriptionDestination(&serviceBusQueue)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServiceBusQueueEventSubscriptionDestination() to populate field ServiceBusQueue")
+		}
+		target.ServiceBusQueue = &serviceBusQueue
+	} else {
+		target.ServiceBusQueue = nil
+	}
+
+	// ServiceBusTopic
+	if destination.ServiceBusTopic != nil {
+		var serviceBusTopic v1api20200601s.ServiceBusTopicEventSubscriptionDestination
+		err := destination.ServiceBusTopic.AssignProperties_To_ServiceBusTopicEventSubscriptionDestination(&serviceBusTopic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServiceBusTopicEventSubscriptionDestination() to populate field ServiceBusTopic")
+		}
+		target.ServiceBusTopic = &serviceBusTopic
+	} else {
+		target.ServiceBusTopic = nil
+	}
+
+	// StorageQueue
+	if destination.StorageQueue != nil {
+		var storageQueue v1api20200601s.StorageQueueEventSubscriptionDestination
+		err := destination.StorageQueue.AssignProperties_To_StorageQueueEventSubscriptionDestination(&storageQueue)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageQueueEventSubscriptionDestination() to populate field StorageQueue")
+		}
+		target.StorageQueue = &storageQueue
+	} else {
+		target.StorageQueue = nil
+	}
+
+	// WebHook
+	if destination.WebHook != nil {
+		var webHook v1api20200601s.WebHookEventSubscriptionDestination
+		err := destination.WebHook.AssignProperties_To_WebHookEventSubscriptionDestination(&webHook)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WebHookEventSubscriptionDestination() to populate field WebHook")
+		}
+		target.WebHook = &webHook
+	} else {
+		target.WebHook = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.EventSubscriptionDestination_STATUS
+// Deprecated version of EventSubscriptionDestination_STATUS. Use v1api20200601.EventSubscriptionDestination_STATUS instead
 type EventSubscriptionDestination_STATUS struct {
 	AzureFunction    *AzureFunctionEventSubscriptionDestination_STATUS    `json:"azureFunction,omitempty"`
 	EventHub         *EventHubEventSubscriptionDestination_STATUS         `json:"eventHub,omitempty"`
@@ -250,8 +1195,226 @@ type EventSubscriptionDestination_STATUS struct {
 	WebHook          *WebHookEventSubscriptionDestination_STATUS          `json:"webHook,omitempty"`
 }
 
+// AssignProperties_From_EventSubscriptionDestination_STATUS populates our EventSubscriptionDestination_STATUS from the provided source EventSubscriptionDestination_STATUS
+func (destination *EventSubscriptionDestination_STATUS) AssignProperties_From_EventSubscriptionDestination_STATUS(source *v1api20200601s.EventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureFunction
+	if source.AzureFunction != nil {
+		var azureFunction AzureFunctionEventSubscriptionDestination_STATUS
+		err := azureFunction.AssignProperties_From_AzureFunctionEventSubscriptionDestination_STATUS(source.AzureFunction)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_AzureFunctionEventSubscriptionDestination_STATUS() to populate field AzureFunction")
+		}
+		destination.AzureFunction = &azureFunction
+	} else {
+		destination.AzureFunction = nil
+	}
+
+	// EventHub
+	if source.EventHub != nil {
+		var eventHub EventHubEventSubscriptionDestination_STATUS
+		err := eventHub.AssignProperties_From_EventHubEventSubscriptionDestination_STATUS(source.EventHub)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_EventHubEventSubscriptionDestination_STATUS() to populate field EventHub")
+		}
+		destination.EventHub = &eventHub
+	} else {
+		destination.EventHub = nil
+	}
+
+	// HybridConnection
+	if source.HybridConnection != nil {
+		var hybridConnection HybridConnectionEventSubscriptionDestination_STATUS
+		err := hybridConnection.AssignProperties_From_HybridConnectionEventSubscriptionDestination_STATUS(source.HybridConnection)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_HybridConnectionEventSubscriptionDestination_STATUS() to populate field HybridConnection")
+		}
+		destination.HybridConnection = &hybridConnection
+	} else {
+		destination.HybridConnection = nil
+	}
+
+	// ServiceBusQueue
+	if source.ServiceBusQueue != nil {
+		var serviceBusQueue ServiceBusQueueEventSubscriptionDestination_STATUS
+		err := serviceBusQueue.AssignProperties_From_ServiceBusQueueEventSubscriptionDestination_STATUS(source.ServiceBusQueue)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServiceBusQueueEventSubscriptionDestination_STATUS() to populate field ServiceBusQueue")
+		}
+		destination.ServiceBusQueue = &serviceBusQueue
+	} else {
+		destination.ServiceBusQueue = nil
+	}
+
+	// ServiceBusTopic
+	if source.ServiceBusTopic != nil {
+		var serviceBusTopic ServiceBusTopicEventSubscriptionDestination_STATUS
+		err := serviceBusTopic.AssignProperties_From_ServiceBusTopicEventSubscriptionDestination_STATUS(source.ServiceBusTopic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ServiceBusTopicEventSubscriptionDestination_STATUS() to populate field ServiceBusTopic")
+		}
+		destination.ServiceBusTopic = &serviceBusTopic
+	} else {
+		destination.ServiceBusTopic = nil
+	}
+
+	// StorageQueue
+	if source.StorageQueue != nil {
+		var storageQueue StorageQueueEventSubscriptionDestination_STATUS
+		err := storageQueue.AssignProperties_From_StorageQueueEventSubscriptionDestination_STATUS(source.StorageQueue)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageQueueEventSubscriptionDestination_STATUS() to populate field StorageQueue")
+		}
+		destination.StorageQueue = &storageQueue
+	} else {
+		destination.StorageQueue = nil
+	}
+
+	// WebHook
+	if source.WebHook != nil {
+		var webHook WebHookEventSubscriptionDestination_STATUS
+		err := webHook.AssignProperties_From_WebHookEventSubscriptionDestination_STATUS(source.WebHook)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_WebHookEventSubscriptionDestination_STATUS() to populate field WebHook")
+		}
+		destination.WebHook = &webHook
+	} else {
+		destination.WebHook = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventSubscriptionDestination_STATUS populates the provided destination EventSubscriptionDestination_STATUS from our EventSubscriptionDestination_STATUS
+func (destination *EventSubscriptionDestination_STATUS) AssignProperties_To_EventSubscriptionDestination_STATUS(target *v1api20200601s.EventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// AzureFunction
+	if destination.AzureFunction != nil {
+		var azureFunction v1api20200601s.AzureFunctionEventSubscriptionDestination_STATUS
+		err := destination.AzureFunction.AssignProperties_To_AzureFunctionEventSubscriptionDestination_STATUS(&azureFunction)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_AzureFunctionEventSubscriptionDestination_STATUS() to populate field AzureFunction")
+		}
+		target.AzureFunction = &azureFunction
+	} else {
+		target.AzureFunction = nil
+	}
+
+	// EventHub
+	if destination.EventHub != nil {
+		var eventHub v1api20200601s.EventHubEventSubscriptionDestination_STATUS
+		err := destination.EventHub.AssignProperties_To_EventHubEventSubscriptionDestination_STATUS(&eventHub)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_EventHubEventSubscriptionDestination_STATUS() to populate field EventHub")
+		}
+		target.EventHub = &eventHub
+	} else {
+		target.EventHub = nil
+	}
+
+	// HybridConnection
+	if destination.HybridConnection != nil {
+		var hybridConnection v1api20200601s.HybridConnectionEventSubscriptionDestination_STATUS
+		err := destination.HybridConnection.AssignProperties_To_HybridConnectionEventSubscriptionDestination_STATUS(&hybridConnection)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_HybridConnectionEventSubscriptionDestination_STATUS() to populate field HybridConnection")
+		}
+		target.HybridConnection = &hybridConnection
+	} else {
+		target.HybridConnection = nil
+	}
+
+	// ServiceBusQueue
+	if destination.ServiceBusQueue != nil {
+		var serviceBusQueue v1api20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS
+		err := destination.ServiceBusQueue.AssignProperties_To_ServiceBusQueueEventSubscriptionDestination_STATUS(&serviceBusQueue)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServiceBusQueueEventSubscriptionDestination_STATUS() to populate field ServiceBusQueue")
+		}
+		target.ServiceBusQueue = &serviceBusQueue
+	} else {
+		target.ServiceBusQueue = nil
+	}
+
+	// ServiceBusTopic
+	if destination.ServiceBusTopic != nil {
+		var serviceBusTopic v1api20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS
+		err := destination.ServiceBusTopic.AssignProperties_To_ServiceBusTopicEventSubscriptionDestination_STATUS(&serviceBusTopic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ServiceBusTopicEventSubscriptionDestination_STATUS() to populate field ServiceBusTopic")
+		}
+		target.ServiceBusTopic = &serviceBusTopic
+	} else {
+		target.ServiceBusTopic = nil
+	}
+
+	// StorageQueue
+	if destination.StorageQueue != nil {
+		var storageQueue v1api20200601s.StorageQueueEventSubscriptionDestination_STATUS
+		err := destination.StorageQueue.AssignProperties_To_StorageQueueEventSubscriptionDestination_STATUS(&storageQueue)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageQueueEventSubscriptionDestination_STATUS() to populate field StorageQueue")
+		}
+		target.StorageQueue = &storageQueue
+	} else {
+		target.StorageQueue = nil
+	}
+
+	// WebHook
+	if destination.WebHook != nil {
+		var webHook v1api20200601s.WebHookEventSubscriptionDestination_STATUS
+		err := destination.WebHook.AssignProperties_To_WebHookEventSubscriptionDestination_STATUS(&webHook)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_WebHookEventSubscriptionDestination_STATUS() to populate field WebHook")
+		}
+		target.WebHook = &webHook
+	} else {
+		target.WebHook = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.EventSubscriptionFilter
-// Filter for the Event Subscription.
+// Deprecated version of EventSubscriptionFilter. Use v1api20200601.EventSubscriptionFilter instead
 type EventSubscriptionFilter struct {
 	AdvancedFilters        []AdvancedFilter       `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string               `json:"includedEventTypes,omitempty"`
@@ -261,8 +1424,128 @@ type EventSubscriptionFilter struct {
 	SubjectEndsWith        *string                `json:"subjectEndsWith,omitempty"`
 }
 
+// AssignProperties_From_EventSubscriptionFilter populates our EventSubscriptionFilter from the provided source EventSubscriptionFilter
+func (filter *EventSubscriptionFilter) AssignProperties_From_EventSubscriptionFilter(source *v1api20200601s.EventSubscriptionFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdvancedFilters
+	if source.AdvancedFilters != nil {
+		advancedFilterList := make([]AdvancedFilter, len(source.AdvancedFilters))
+		for advancedFilterIndex, advancedFilterItem := range source.AdvancedFilters {
+			// Shadow the loop variable to avoid aliasing
+			advancedFilterItem := advancedFilterItem
+			var advancedFilter AdvancedFilter
+			err := advancedFilter.AssignProperties_From_AdvancedFilter(&advancedFilterItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_AdvancedFilter() to populate field AdvancedFilters")
+			}
+			advancedFilterList[advancedFilterIndex] = advancedFilter
+		}
+		filter.AdvancedFilters = advancedFilterList
+	} else {
+		filter.AdvancedFilters = nil
+	}
+
+	// IncludedEventTypes
+	filter.IncludedEventTypes = genruntime.CloneSliceOfString(source.IncludedEventTypes)
+
+	// IsSubjectCaseSensitive
+	if source.IsSubjectCaseSensitive != nil {
+		isSubjectCaseSensitive := *source.IsSubjectCaseSensitive
+		filter.IsSubjectCaseSensitive = &isSubjectCaseSensitive
+	} else {
+		filter.IsSubjectCaseSensitive = nil
+	}
+
+	// SubjectBeginsWith
+	filter.SubjectBeginsWith = genruntime.ClonePointerToString(source.SubjectBeginsWith)
+
+	// SubjectEndsWith
+	filter.SubjectEndsWith = genruntime.ClonePointerToString(source.SubjectEndsWith)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscriptionFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForEventSubscriptionFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventSubscriptionFilter populates the provided destination EventSubscriptionFilter from our EventSubscriptionFilter
+func (filter *EventSubscriptionFilter) AssignProperties_To_EventSubscriptionFilter(destination *v1api20200601s.EventSubscriptionFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// AdvancedFilters
+	if filter.AdvancedFilters != nil {
+		advancedFilterList := make([]v1api20200601s.AdvancedFilter, len(filter.AdvancedFilters))
+		for advancedFilterIndex, advancedFilterItem := range filter.AdvancedFilters {
+			// Shadow the loop variable to avoid aliasing
+			advancedFilterItem := advancedFilterItem
+			var advancedFilter v1api20200601s.AdvancedFilter
+			err := advancedFilterItem.AssignProperties_To_AdvancedFilter(&advancedFilter)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_AdvancedFilter() to populate field AdvancedFilters")
+			}
+			advancedFilterList[advancedFilterIndex] = advancedFilter
+		}
+		destination.AdvancedFilters = advancedFilterList
+	} else {
+		destination.AdvancedFilters = nil
+	}
+
+	// IncludedEventTypes
+	destination.IncludedEventTypes = genruntime.CloneSliceOfString(filter.IncludedEventTypes)
+
+	// IsSubjectCaseSensitive
+	if filter.IsSubjectCaseSensitive != nil {
+		isSubjectCaseSensitive := *filter.IsSubjectCaseSensitive
+		destination.IsSubjectCaseSensitive = &isSubjectCaseSensitive
+	} else {
+		destination.IsSubjectCaseSensitive = nil
+	}
+
+	// SubjectBeginsWith
+	destination.SubjectBeginsWith = genruntime.ClonePointerToString(filter.SubjectBeginsWith)
+
+	// SubjectEndsWith
+	destination.SubjectEndsWith = genruntime.ClonePointerToString(filter.SubjectEndsWith)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscriptionFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForEventSubscriptionFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.EventSubscriptionFilter_STATUS
-// Filter for the Event Subscription.
+// Deprecated version of EventSubscriptionFilter_STATUS. Use v1api20200601.EventSubscriptionFilter_STATUS instead
 type EventSubscriptionFilter_STATUS struct {
 	AdvancedFilters        []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string                `json:"includedEventTypes,omitempty"`
@@ -272,23 +1555,268 @@ type EventSubscriptionFilter_STATUS struct {
 	SubjectEndsWith        *string                 `json:"subjectEndsWith,omitempty"`
 }
 
+// AssignProperties_From_EventSubscriptionFilter_STATUS populates our EventSubscriptionFilter_STATUS from the provided source EventSubscriptionFilter_STATUS
+func (filter *EventSubscriptionFilter_STATUS) AssignProperties_From_EventSubscriptionFilter_STATUS(source *v1api20200601s.EventSubscriptionFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdvancedFilters
+	if source.AdvancedFilters != nil {
+		advancedFilterList := make([]AdvancedFilter_STATUS, len(source.AdvancedFilters))
+		for advancedFilterIndex, advancedFilterItem := range source.AdvancedFilters {
+			// Shadow the loop variable to avoid aliasing
+			advancedFilterItem := advancedFilterItem
+			var advancedFilter AdvancedFilter_STATUS
+			err := advancedFilter.AssignProperties_From_AdvancedFilter_STATUS(&advancedFilterItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_AdvancedFilter_STATUS() to populate field AdvancedFilters")
+			}
+			advancedFilterList[advancedFilterIndex] = advancedFilter
+		}
+		filter.AdvancedFilters = advancedFilterList
+	} else {
+		filter.AdvancedFilters = nil
+	}
+
+	// IncludedEventTypes
+	filter.IncludedEventTypes = genruntime.CloneSliceOfString(source.IncludedEventTypes)
+
+	// IsSubjectCaseSensitive
+	if source.IsSubjectCaseSensitive != nil {
+		isSubjectCaseSensitive := *source.IsSubjectCaseSensitive
+		filter.IsSubjectCaseSensitive = &isSubjectCaseSensitive
+	} else {
+		filter.IsSubjectCaseSensitive = nil
+	}
+
+	// SubjectBeginsWith
+	filter.SubjectBeginsWith = genruntime.ClonePointerToString(source.SubjectBeginsWith)
+
+	// SubjectEndsWith
+	filter.SubjectEndsWith = genruntime.ClonePointerToString(source.SubjectEndsWith)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscriptionFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForEventSubscriptionFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventSubscriptionFilter_STATUS populates the provided destination EventSubscriptionFilter_STATUS from our EventSubscriptionFilter_STATUS
+func (filter *EventSubscriptionFilter_STATUS) AssignProperties_To_EventSubscriptionFilter_STATUS(destination *v1api20200601s.EventSubscriptionFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// AdvancedFilters
+	if filter.AdvancedFilters != nil {
+		advancedFilterList := make([]v1api20200601s.AdvancedFilter_STATUS, len(filter.AdvancedFilters))
+		for advancedFilterIndex, advancedFilterItem := range filter.AdvancedFilters {
+			// Shadow the loop variable to avoid aliasing
+			advancedFilterItem := advancedFilterItem
+			var advancedFilter v1api20200601s.AdvancedFilter_STATUS
+			err := advancedFilterItem.AssignProperties_To_AdvancedFilter_STATUS(&advancedFilter)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_AdvancedFilter_STATUS() to populate field AdvancedFilters")
+			}
+			advancedFilterList[advancedFilterIndex] = advancedFilter
+		}
+		destination.AdvancedFilters = advancedFilterList
+	} else {
+		destination.AdvancedFilters = nil
+	}
+
+	// IncludedEventTypes
+	destination.IncludedEventTypes = genruntime.CloneSliceOfString(filter.IncludedEventTypes)
+
+	// IsSubjectCaseSensitive
+	if filter.IsSubjectCaseSensitive != nil {
+		isSubjectCaseSensitive := *filter.IsSubjectCaseSensitive
+		destination.IsSubjectCaseSensitive = &isSubjectCaseSensitive
+	} else {
+		destination.IsSubjectCaseSensitive = nil
+	}
+
+	// SubjectBeginsWith
+	destination.SubjectBeginsWith = genruntime.ClonePointerToString(filter.SubjectBeginsWith)
+
+	// SubjectEndsWith
+	destination.SubjectEndsWith = genruntime.ClonePointerToString(filter.SubjectEndsWith)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventSubscriptionFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForEventSubscriptionFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.RetryPolicy
-// Information about the retry policy for an event subscription.
+// Deprecated version of RetryPolicy. Use v1api20200601.RetryPolicy instead
 type RetryPolicy struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_RetryPolicy populates our RetryPolicy from the provided source RetryPolicy
+func (policy *RetryPolicy) AssignProperties_From_RetryPolicy(source *v1api20200601s.RetryPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EventTimeToLiveInMinutes
+	policy.EventTimeToLiveInMinutes = genruntime.ClonePointerToInt(source.EventTimeToLiveInMinutes)
+
+	// MaxDeliveryAttempts
+	policy.MaxDeliveryAttempts = genruntime.ClonePointerToInt(source.MaxDeliveryAttempts)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRetryPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForRetryPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RetryPolicy populates the provided destination RetryPolicy from our RetryPolicy
+func (policy *RetryPolicy) AssignProperties_To_RetryPolicy(destination *v1api20200601s.RetryPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// EventTimeToLiveInMinutes
+	destination.EventTimeToLiveInMinutes = genruntime.ClonePointerToInt(policy.EventTimeToLiveInMinutes)
+
+	// MaxDeliveryAttempts
+	destination.MaxDeliveryAttempts = genruntime.ClonePointerToInt(policy.MaxDeliveryAttempts)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRetryPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForRetryPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.RetryPolicy_STATUS
-// Information about the retry policy for an event subscription.
+// Deprecated version of RetryPolicy_STATUS. Use v1api20200601.RetryPolicy_STATUS instead
 type RetryPolicy_STATUS struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_RetryPolicy_STATUS populates our RetryPolicy_STATUS from the provided source RetryPolicy_STATUS
+func (policy *RetryPolicy_STATUS) AssignProperties_From_RetryPolicy_STATUS(source *v1api20200601s.RetryPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EventTimeToLiveInMinutes
+	policy.EventTimeToLiveInMinutes = genruntime.ClonePointerToInt(source.EventTimeToLiveInMinutes)
+
+	// MaxDeliveryAttempts
+	policy.MaxDeliveryAttempts = genruntime.ClonePointerToInt(source.MaxDeliveryAttempts)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRetryPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForRetryPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RetryPolicy_STATUS populates the provided destination RetryPolicy_STATUS from our RetryPolicy_STATUS
+func (policy *RetryPolicy_STATUS) AssignProperties_To_RetryPolicy_STATUS(destination *v1api20200601s.RetryPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// EventTimeToLiveInMinutes
+	destination.EventTimeToLiveInMinutes = genruntime.ClonePointerToInt(policy.EventTimeToLiveInMinutes)
+
+	// MaxDeliveryAttempts
+	destination.MaxDeliveryAttempts = genruntime.ClonePointerToInt(policy.MaxDeliveryAttempts)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRetryPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForRetryPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.AdvancedFilter
+// Deprecated version of AdvancedFilter. Use v1api20200601.AdvancedFilter instead
 type AdvancedFilter struct {
 	BoolEquals                *BoolEqualsAdvancedFilter                `json:"boolEquals,omitempty"`
 	NumberGreaterThan         *NumberGreaterThanAdvancedFilter         `json:"numberGreaterThan,omitempty"`
@@ -305,7 +1833,346 @@ type AdvancedFilter struct {
 	StringNotIn               *StringNotInAdvancedFilter               `json:"stringNotIn,omitempty"`
 }
 
+// AssignProperties_From_AdvancedFilter populates our AdvancedFilter from the provided source AdvancedFilter
+func (filter *AdvancedFilter) AssignProperties_From_AdvancedFilter(source *v1api20200601s.AdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BoolEquals
+	if source.BoolEquals != nil {
+		var boolEqual BoolEqualsAdvancedFilter
+		err := boolEqual.AssignProperties_From_BoolEqualsAdvancedFilter(source.BoolEquals)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_BoolEqualsAdvancedFilter() to populate field BoolEquals")
+		}
+		filter.BoolEquals = &boolEqual
+	} else {
+		filter.BoolEquals = nil
+	}
+
+	// NumberGreaterThan
+	if source.NumberGreaterThan != nil {
+		var numberGreaterThan NumberGreaterThanAdvancedFilter
+		err := numberGreaterThan.AssignProperties_From_NumberGreaterThanAdvancedFilter(source.NumberGreaterThan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberGreaterThanAdvancedFilter() to populate field NumberGreaterThan")
+		}
+		filter.NumberGreaterThan = &numberGreaterThan
+	} else {
+		filter.NumberGreaterThan = nil
+	}
+
+	// NumberGreaterThanOrEquals
+	if source.NumberGreaterThanOrEquals != nil {
+		var numberGreaterThanOrEqual NumberGreaterThanOrEqualsAdvancedFilter
+		err := numberGreaterThanOrEqual.AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter(source.NumberGreaterThanOrEquals)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter() to populate field NumberGreaterThanOrEquals")
+		}
+		filter.NumberGreaterThanOrEquals = &numberGreaterThanOrEqual
+	} else {
+		filter.NumberGreaterThanOrEquals = nil
+	}
+
+	// NumberIn
+	if source.NumberIn != nil {
+		var numberIn NumberInAdvancedFilter
+		err := numberIn.AssignProperties_From_NumberInAdvancedFilter(source.NumberIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberInAdvancedFilter() to populate field NumberIn")
+		}
+		filter.NumberIn = &numberIn
+	} else {
+		filter.NumberIn = nil
+	}
+
+	// NumberLessThan
+	if source.NumberLessThan != nil {
+		var numberLessThan NumberLessThanAdvancedFilter
+		err := numberLessThan.AssignProperties_From_NumberLessThanAdvancedFilter(source.NumberLessThan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberLessThanAdvancedFilter() to populate field NumberLessThan")
+		}
+		filter.NumberLessThan = &numberLessThan
+	} else {
+		filter.NumberLessThan = nil
+	}
+
+	// NumberLessThanOrEquals
+	if source.NumberLessThanOrEquals != nil {
+		var numberLessThanOrEqual NumberLessThanOrEqualsAdvancedFilter
+		err := numberLessThanOrEqual.AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter(source.NumberLessThanOrEquals)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter() to populate field NumberLessThanOrEquals")
+		}
+		filter.NumberLessThanOrEquals = &numberLessThanOrEqual
+	} else {
+		filter.NumberLessThanOrEquals = nil
+	}
+
+	// NumberNotIn
+	if source.NumberNotIn != nil {
+		var numberNotIn NumberNotInAdvancedFilter
+		err := numberNotIn.AssignProperties_From_NumberNotInAdvancedFilter(source.NumberNotIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberNotInAdvancedFilter() to populate field NumberNotIn")
+		}
+		filter.NumberNotIn = &numberNotIn
+	} else {
+		filter.NumberNotIn = nil
+	}
+
+	// StringBeginsWith
+	if source.StringBeginsWith != nil {
+		var stringBeginsWith StringBeginsWithAdvancedFilter
+		err := stringBeginsWith.AssignProperties_From_StringBeginsWithAdvancedFilter(source.StringBeginsWith)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringBeginsWithAdvancedFilter() to populate field StringBeginsWith")
+		}
+		filter.StringBeginsWith = &stringBeginsWith
+	} else {
+		filter.StringBeginsWith = nil
+	}
+
+	// StringContains
+	if source.StringContains != nil {
+		var stringContain StringContainsAdvancedFilter
+		err := stringContain.AssignProperties_From_StringContainsAdvancedFilter(source.StringContains)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringContainsAdvancedFilter() to populate field StringContains")
+		}
+		filter.StringContains = &stringContain
+	} else {
+		filter.StringContains = nil
+	}
+
+	// StringEndsWith
+	if source.StringEndsWith != nil {
+		var stringEndsWith StringEndsWithAdvancedFilter
+		err := stringEndsWith.AssignProperties_From_StringEndsWithAdvancedFilter(source.StringEndsWith)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringEndsWithAdvancedFilter() to populate field StringEndsWith")
+		}
+		filter.StringEndsWith = &stringEndsWith
+	} else {
+		filter.StringEndsWith = nil
+	}
+
+	// StringIn
+	if source.StringIn != nil {
+		var stringIn StringInAdvancedFilter
+		err := stringIn.AssignProperties_From_StringInAdvancedFilter(source.StringIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringInAdvancedFilter() to populate field StringIn")
+		}
+		filter.StringIn = &stringIn
+	} else {
+		filter.StringIn = nil
+	}
+
+	// StringNotIn
+	if source.StringNotIn != nil {
+		var stringNotIn StringNotInAdvancedFilter
+		err := stringNotIn.AssignProperties_From_StringNotInAdvancedFilter(source.StringNotIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringNotInAdvancedFilter() to populate field StringNotIn")
+		}
+		filter.StringNotIn = &stringNotIn
+	} else {
+		filter.StringNotIn = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AdvancedFilter populates the provided destination AdvancedFilter from our AdvancedFilter
+func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v1api20200601s.AdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// BoolEquals
+	if filter.BoolEquals != nil {
+		var boolEqual v1api20200601s.BoolEqualsAdvancedFilter
+		err := filter.BoolEquals.AssignProperties_To_BoolEqualsAdvancedFilter(&boolEqual)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_BoolEqualsAdvancedFilter() to populate field BoolEquals")
+		}
+		destination.BoolEquals = &boolEqual
+	} else {
+		destination.BoolEquals = nil
+	}
+
+	// NumberGreaterThan
+	if filter.NumberGreaterThan != nil {
+		var numberGreaterThan v1api20200601s.NumberGreaterThanAdvancedFilter
+		err := filter.NumberGreaterThan.AssignProperties_To_NumberGreaterThanAdvancedFilter(&numberGreaterThan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberGreaterThanAdvancedFilter() to populate field NumberGreaterThan")
+		}
+		destination.NumberGreaterThan = &numberGreaterThan
+	} else {
+		destination.NumberGreaterThan = nil
+	}
+
+	// NumberGreaterThanOrEquals
+	if filter.NumberGreaterThanOrEquals != nil {
+		var numberGreaterThanOrEqual v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter
+		err := filter.NumberGreaterThanOrEquals.AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter(&numberGreaterThanOrEqual)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter() to populate field NumberGreaterThanOrEquals")
+		}
+		destination.NumberGreaterThanOrEquals = &numberGreaterThanOrEqual
+	} else {
+		destination.NumberGreaterThanOrEquals = nil
+	}
+
+	// NumberIn
+	if filter.NumberIn != nil {
+		var numberIn v1api20200601s.NumberInAdvancedFilter
+		err := filter.NumberIn.AssignProperties_To_NumberInAdvancedFilter(&numberIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberInAdvancedFilter() to populate field NumberIn")
+		}
+		destination.NumberIn = &numberIn
+	} else {
+		destination.NumberIn = nil
+	}
+
+	// NumberLessThan
+	if filter.NumberLessThan != nil {
+		var numberLessThan v1api20200601s.NumberLessThanAdvancedFilter
+		err := filter.NumberLessThan.AssignProperties_To_NumberLessThanAdvancedFilter(&numberLessThan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberLessThanAdvancedFilter() to populate field NumberLessThan")
+		}
+		destination.NumberLessThan = &numberLessThan
+	} else {
+		destination.NumberLessThan = nil
+	}
+
+	// NumberLessThanOrEquals
+	if filter.NumberLessThanOrEquals != nil {
+		var numberLessThanOrEqual v1api20200601s.NumberLessThanOrEqualsAdvancedFilter
+		err := filter.NumberLessThanOrEquals.AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter(&numberLessThanOrEqual)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter() to populate field NumberLessThanOrEquals")
+		}
+		destination.NumberLessThanOrEquals = &numberLessThanOrEqual
+	} else {
+		destination.NumberLessThanOrEquals = nil
+	}
+
+	// NumberNotIn
+	if filter.NumberNotIn != nil {
+		var numberNotIn v1api20200601s.NumberNotInAdvancedFilter
+		err := filter.NumberNotIn.AssignProperties_To_NumberNotInAdvancedFilter(&numberNotIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberNotInAdvancedFilter() to populate field NumberNotIn")
+		}
+		destination.NumberNotIn = &numberNotIn
+	} else {
+		destination.NumberNotIn = nil
+	}
+
+	// StringBeginsWith
+	if filter.StringBeginsWith != nil {
+		var stringBeginsWith v1api20200601s.StringBeginsWithAdvancedFilter
+		err := filter.StringBeginsWith.AssignProperties_To_StringBeginsWithAdvancedFilter(&stringBeginsWith)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringBeginsWithAdvancedFilter() to populate field StringBeginsWith")
+		}
+		destination.StringBeginsWith = &stringBeginsWith
+	} else {
+		destination.StringBeginsWith = nil
+	}
+
+	// StringContains
+	if filter.StringContains != nil {
+		var stringContain v1api20200601s.StringContainsAdvancedFilter
+		err := filter.StringContains.AssignProperties_To_StringContainsAdvancedFilter(&stringContain)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringContainsAdvancedFilter() to populate field StringContains")
+		}
+		destination.StringContains = &stringContain
+	} else {
+		destination.StringContains = nil
+	}
+
+	// StringEndsWith
+	if filter.StringEndsWith != nil {
+		var stringEndsWith v1api20200601s.StringEndsWithAdvancedFilter
+		err := filter.StringEndsWith.AssignProperties_To_StringEndsWithAdvancedFilter(&stringEndsWith)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringEndsWithAdvancedFilter() to populate field StringEndsWith")
+		}
+		destination.StringEndsWith = &stringEndsWith
+	} else {
+		destination.StringEndsWith = nil
+	}
+
+	// StringIn
+	if filter.StringIn != nil {
+		var stringIn v1api20200601s.StringInAdvancedFilter
+		err := filter.StringIn.AssignProperties_To_StringInAdvancedFilter(&stringIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringInAdvancedFilter() to populate field StringIn")
+		}
+		destination.StringIn = &stringIn
+	} else {
+		destination.StringIn = nil
+	}
+
+	// StringNotIn
+	if filter.StringNotIn != nil {
+		var stringNotIn v1api20200601s.StringNotInAdvancedFilter
+		err := filter.StringNotIn.AssignProperties_To_StringNotInAdvancedFilter(&stringNotIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringNotInAdvancedFilter() to populate field StringNotIn")
+		}
+		destination.StringNotIn = &stringNotIn
+	} else {
+		destination.StringNotIn = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.AdvancedFilter_STATUS
+// Deprecated version of AdvancedFilter_STATUS. Use v1api20200601.AdvancedFilter_STATUS instead
 type AdvancedFilter_STATUS struct {
 	BoolEquals                *BoolEqualsAdvancedFilter_STATUS                `json:"boolEquals,omitempty"`
 	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_STATUS         `json:"numberGreaterThan,omitempty"`
@@ -322,19 +2189,480 @@ type AdvancedFilter_STATUS struct {
 	StringNotIn               *StringNotInAdvancedFilter_STATUS               `json:"stringNotIn,omitempty"`
 }
 
-// Storage version of v1beta20200601.AzureFunctionEventSubscriptionDestination
-type AzureFunctionEventSubscriptionDestination struct {
-	EndpointType                  *string                `json:"endpointType,omitempty"`
-	MaxEventsPerBatch             *int                   `json:"maxEventsPerBatch,omitempty"`
-	PreferredBatchSizeInKilobytes *int                   `json:"preferredBatchSizeInKilobytes,omitempty"`
-	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignProperties_From_AdvancedFilter_STATUS populates our AdvancedFilter_STATUS from the provided source AdvancedFilter_STATUS
+func (filter *AdvancedFilter_STATUS) AssignProperties_From_AdvancedFilter_STATUS(source *v1api20200601s.AdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ResourceReference: The Azure Resource Id that represents the endpoint of the Azure Function destination of an event
-	// subscription.
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	// BoolEquals
+	if source.BoolEquals != nil {
+		var boolEqual BoolEqualsAdvancedFilter_STATUS
+		err := boolEqual.AssignProperties_From_BoolEqualsAdvancedFilter_STATUS(source.BoolEquals)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_BoolEqualsAdvancedFilter_STATUS() to populate field BoolEquals")
+		}
+		filter.BoolEquals = &boolEqual
+	} else {
+		filter.BoolEquals = nil
+	}
+
+	// NumberGreaterThan
+	if source.NumberGreaterThan != nil {
+		var numberGreaterThan NumberGreaterThanAdvancedFilter_STATUS
+		err := numberGreaterThan.AssignProperties_From_NumberGreaterThanAdvancedFilter_STATUS(source.NumberGreaterThan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberGreaterThanAdvancedFilter_STATUS() to populate field NumberGreaterThan")
+		}
+		filter.NumberGreaterThan = &numberGreaterThan
+	} else {
+		filter.NumberGreaterThan = nil
+	}
+
+	// NumberGreaterThanOrEquals
+	if source.NumberGreaterThanOrEquals != nil {
+		var numberGreaterThanOrEqual NumberGreaterThanOrEqualsAdvancedFilter_STATUS
+		err := numberGreaterThanOrEqual.AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(source.NumberGreaterThanOrEquals)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS() to populate field NumberGreaterThanOrEquals")
+		}
+		filter.NumberGreaterThanOrEquals = &numberGreaterThanOrEqual
+	} else {
+		filter.NumberGreaterThanOrEquals = nil
+	}
+
+	// NumberIn
+	if source.NumberIn != nil {
+		var numberIn NumberInAdvancedFilter_STATUS
+		err := numberIn.AssignProperties_From_NumberInAdvancedFilter_STATUS(source.NumberIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberInAdvancedFilter_STATUS() to populate field NumberIn")
+		}
+		filter.NumberIn = &numberIn
+	} else {
+		filter.NumberIn = nil
+	}
+
+	// NumberLessThan
+	if source.NumberLessThan != nil {
+		var numberLessThan NumberLessThanAdvancedFilter_STATUS
+		err := numberLessThan.AssignProperties_From_NumberLessThanAdvancedFilter_STATUS(source.NumberLessThan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberLessThanAdvancedFilter_STATUS() to populate field NumberLessThan")
+		}
+		filter.NumberLessThan = &numberLessThan
+	} else {
+		filter.NumberLessThan = nil
+	}
+
+	// NumberLessThanOrEquals
+	if source.NumberLessThanOrEquals != nil {
+		var numberLessThanOrEqual NumberLessThanOrEqualsAdvancedFilter_STATUS
+		err := numberLessThanOrEqual.AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter_STATUS(source.NumberLessThanOrEquals)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter_STATUS() to populate field NumberLessThanOrEquals")
+		}
+		filter.NumberLessThanOrEquals = &numberLessThanOrEqual
+	} else {
+		filter.NumberLessThanOrEquals = nil
+	}
+
+	// NumberNotIn
+	if source.NumberNotIn != nil {
+		var numberNotIn NumberNotInAdvancedFilter_STATUS
+		err := numberNotIn.AssignProperties_From_NumberNotInAdvancedFilter_STATUS(source.NumberNotIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_NumberNotInAdvancedFilter_STATUS() to populate field NumberNotIn")
+		}
+		filter.NumberNotIn = &numberNotIn
+	} else {
+		filter.NumberNotIn = nil
+	}
+
+	// StringBeginsWith
+	if source.StringBeginsWith != nil {
+		var stringBeginsWith StringBeginsWithAdvancedFilter_STATUS
+		err := stringBeginsWith.AssignProperties_From_StringBeginsWithAdvancedFilter_STATUS(source.StringBeginsWith)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringBeginsWithAdvancedFilter_STATUS() to populate field StringBeginsWith")
+		}
+		filter.StringBeginsWith = &stringBeginsWith
+	} else {
+		filter.StringBeginsWith = nil
+	}
+
+	// StringContains
+	if source.StringContains != nil {
+		var stringContain StringContainsAdvancedFilter_STATUS
+		err := stringContain.AssignProperties_From_StringContainsAdvancedFilter_STATUS(source.StringContains)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringContainsAdvancedFilter_STATUS() to populate field StringContains")
+		}
+		filter.StringContains = &stringContain
+	} else {
+		filter.StringContains = nil
+	}
+
+	// StringEndsWith
+	if source.StringEndsWith != nil {
+		var stringEndsWith StringEndsWithAdvancedFilter_STATUS
+		err := stringEndsWith.AssignProperties_From_StringEndsWithAdvancedFilter_STATUS(source.StringEndsWith)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringEndsWithAdvancedFilter_STATUS() to populate field StringEndsWith")
+		}
+		filter.StringEndsWith = &stringEndsWith
+	} else {
+		filter.StringEndsWith = nil
+	}
+
+	// StringIn
+	if source.StringIn != nil {
+		var stringIn StringInAdvancedFilter_STATUS
+		err := stringIn.AssignProperties_From_StringInAdvancedFilter_STATUS(source.StringIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringInAdvancedFilter_STATUS() to populate field StringIn")
+		}
+		filter.StringIn = &stringIn
+	} else {
+		filter.StringIn = nil
+	}
+
+	// StringNotIn
+	if source.StringNotIn != nil {
+		var stringNotIn StringNotInAdvancedFilter_STATUS
+		err := stringNotIn.AssignProperties_From_StringNotInAdvancedFilter_STATUS(source.StringNotIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StringNotInAdvancedFilter_STATUS() to populate field StringNotIn")
+		}
+		filter.StringNotIn = &stringNotIn
+	} else {
+		filter.StringNotIn = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AdvancedFilter_STATUS populates the provided destination AdvancedFilter_STATUS from our AdvancedFilter_STATUS
+func (filter *AdvancedFilter_STATUS) AssignProperties_To_AdvancedFilter_STATUS(destination *v1api20200601s.AdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// BoolEquals
+	if filter.BoolEquals != nil {
+		var boolEqual v1api20200601s.BoolEqualsAdvancedFilter_STATUS
+		err := filter.BoolEquals.AssignProperties_To_BoolEqualsAdvancedFilter_STATUS(&boolEqual)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_BoolEqualsAdvancedFilter_STATUS() to populate field BoolEquals")
+		}
+		destination.BoolEquals = &boolEqual
+	} else {
+		destination.BoolEquals = nil
+	}
+
+	// NumberGreaterThan
+	if filter.NumberGreaterThan != nil {
+		var numberGreaterThan v1api20200601s.NumberGreaterThanAdvancedFilter_STATUS
+		err := filter.NumberGreaterThan.AssignProperties_To_NumberGreaterThanAdvancedFilter_STATUS(&numberGreaterThan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberGreaterThanAdvancedFilter_STATUS() to populate field NumberGreaterThan")
+		}
+		destination.NumberGreaterThan = &numberGreaterThan
+	} else {
+		destination.NumberGreaterThan = nil
+	}
+
+	// NumberGreaterThanOrEquals
+	if filter.NumberGreaterThanOrEquals != nil {
+		var numberGreaterThanOrEqual v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS
+		err := filter.NumberGreaterThanOrEquals.AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(&numberGreaterThanOrEqual)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter_STATUS() to populate field NumberGreaterThanOrEquals")
+		}
+		destination.NumberGreaterThanOrEquals = &numberGreaterThanOrEqual
+	} else {
+		destination.NumberGreaterThanOrEquals = nil
+	}
+
+	// NumberIn
+	if filter.NumberIn != nil {
+		var numberIn v1api20200601s.NumberInAdvancedFilter_STATUS
+		err := filter.NumberIn.AssignProperties_To_NumberInAdvancedFilter_STATUS(&numberIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberInAdvancedFilter_STATUS() to populate field NumberIn")
+		}
+		destination.NumberIn = &numberIn
+	} else {
+		destination.NumberIn = nil
+	}
+
+	// NumberLessThan
+	if filter.NumberLessThan != nil {
+		var numberLessThan v1api20200601s.NumberLessThanAdvancedFilter_STATUS
+		err := filter.NumberLessThan.AssignProperties_To_NumberLessThanAdvancedFilter_STATUS(&numberLessThan)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberLessThanAdvancedFilter_STATUS() to populate field NumberLessThan")
+		}
+		destination.NumberLessThan = &numberLessThan
+	} else {
+		destination.NumberLessThan = nil
+	}
+
+	// NumberLessThanOrEquals
+	if filter.NumberLessThanOrEquals != nil {
+		var numberLessThanOrEqual v1api20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS
+		err := filter.NumberLessThanOrEquals.AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter_STATUS(&numberLessThanOrEqual)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter_STATUS() to populate field NumberLessThanOrEquals")
+		}
+		destination.NumberLessThanOrEquals = &numberLessThanOrEqual
+	} else {
+		destination.NumberLessThanOrEquals = nil
+	}
+
+	// NumberNotIn
+	if filter.NumberNotIn != nil {
+		var numberNotIn v1api20200601s.NumberNotInAdvancedFilter_STATUS
+		err := filter.NumberNotIn.AssignProperties_To_NumberNotInAdvancedFilter_STATUS(&numberNotIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_NumberNotInAdvancedFilter_STATUS() to populate field NumberNotIn")
+		}
+		destination.NumberNotIn = &numberNotIn
+	} else {
+		destination.NumberNotIn = nil
+	}
+
+	// StringBeginsWith
+	if filter.StringBeginsWith != nil {
+		var stringBeginsWith v1api20200601s.StringBeginsWithAdvancedFilter_STATUS
+		err := filter.StringBeginsWith.AssignProperties_To_StringBeginsWithAdvancedFilter_STATUS(&stringBeginsWith)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringBeginsWithAdvancedFilter_STATUS() to populate field StringBeginsWith")
+		}
+		destination.StringBeginsWith = &stringBeginsWith
+	} else {
+		destination.StringBeginsWith = nil
+	}
+
+	// StringContains
+	if filter.StringContains != nil {
+		var stringContain v1api20200601s.StringContainsAdvancedFilter_STATUS
+		err := filter.StringContains.AssignProperties_To_StringContainsAdvancedFilter_STATUS(&stringContain)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringContainsAdvancedFilter_STATUS() to populate field StringContains")
+		}
+		destination.StringContains = &stringContain
+	} else {
+		destination.StringContains = nil
+	}
+
+	// StringEndsWith
+	if filter.StringEndsWith != nil {
+		var stringEndsWith v1api20200601s.StringEndsWithAdvancedFilter_STATUS
+		err := filter.StringEndsWith.AssignProperties_To_StringEndsWithAdvancedFilter_STATUS(&stringEndsWith)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringEndsWithAdvancedFilter_STATUS() to populate field StringEndsWith")
+		}
+		destination.StringEndsWith = &stringEndsWith
+	} else {
+		destination.StringEndsWith = nil
+	}
+
+	// StringIn
+	if filter.StringIn != nil {
+		var stringIn v1api20200601s.StringInAdvancedFilter_STATUS
+		err := filter.StringIn.AssignProperties_To_StringInAdvancedFilter_STATUS(&stringIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringInAdvancedFilter_STATUS() to populate field StringIn")
+		}
+		destination.StringIn = &stringIn
+	} else {
+		destination.StringIn = nil
+	}
+
+	// StringNotIn
+	if filter.StringNotIn != nil {
+		var stringNotIn v1api20200601s.StringNotInAdvancedFilter_STATUS
+		err := filter.StringNotIn.AssignProperties_To_StringNotInAdvancedFilter_STATUS(&stringNotIn)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StringNotInAdvancedFilter_STATUS() to populate field StringNotIn")
+		}
+		destination.StringNotIn = &stringNotIn
+	} else {
+		destination.StringNotIn = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDeadLetterDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.DeadLetterDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.DeadLetterDestination) error
+}
+
+type augmentConversionForDeadLetterDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.DeadLetterDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.DeadLetterDestination_STATUS) error
+}
+
+type augmentConversionForEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.EventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.EventSubscriptionDestination) error
+}
+
+type augmentConversionForEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.EventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.EventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForEventSubscriptionFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.EventSubscriptionFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.EventSubscriptionFilter) error
+}
+
+type augmentConversionForEventSubscriptionFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.EventSubscriptionFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.EventSubscriptionFilter_STATUS) error
+}
+
+type augmentConversionForRetryPolicy interface {
+	AssignPropertiesFrom(src *v1api20200601s.RetryPolicy) error
+	AssignPropertiesTo(dst *v1api20200601s.RetryPolicy) error
+}
+
+type augmentConversionForRetryPolicy_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.RetryPolicy_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.RetryPolicy_STATUS) error
+}
+
+// Storage version of v1beta20200601.AzureFunctionEventSubscriptionDestination
+// Deprecated version of AzureFunctionEventSubscriptionDestination. Use v1api20200601.AzureFunctionEventSubscriptionDestination instead
+type AzureFunctionEventSubscriptionDestination struct {
+	EndpointType                  *string                       `json:"endpointType,omitempty"`
+	MaxEventsPerBatch             *int                          `json:"maxEventsPerBatch,omitempty"`
+	PreferredBatchSizeInKilobytes *int                          `json:"preferredBatchSizeInKilobytes,omitempty"`
+	PropertyBag                   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	ResourceReference             *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+}
+
+// AssignProperties_From_AzureFunctionEventSubscriptionDestination populates our AzureFunctionEventSubscriptionDestination from the provided source AzureFunctionEventSubscriptionDestination
+func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_From_AzureFunctionEventSubscriptionDestination(source *v1api20200601s.AzureFunctionEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// MaxEventsPerBatch
+	destination.MaxEventsPerBatch = genruntime.ClonePointerToInt(source.MaxEventsPerBatch)
+
+	// PreferredBatchSizeInKilobytes
+	destination.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(source.PreferredBatchSizeInKilobytes)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAzureFunctionEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForAzureFunctionEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AzureFunctionEventSubscriptionDestination populates the provided destination AzureFunctionEventSubscriptionDestination from our AzureFunctionEventSubscriptionDestination
+func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_To_AzureFunctionEventSubscriptionDestination(target *v1api20200601s.AzureFunctionEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// MaxEventsPerBatch
+	target.MaxEventsPerBatch = genruntime.ClonePointerToInt(destination.MaxEventsPerBatch)
+
+	// PreferredBatchSizeInKilobytes
+	target.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(destination.PreferredBatchSizeInKilobytes)
+
+	// ResourceReference
+	if destination.ResourceReference != nil {
+		resourceReference := destination.ResourceReference.Copy()
+		target.ResourceReference = &resourceReference
+	} else {
+		target.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAzureFunctionEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForAzureFunctionEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20200601.AzureFunctionEventSubscriptionDestination_STATUS
+// Deprecated version of AzureFunctionEventSubscriptionDestination_STATUS. Use v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS instead
 type AzureFunctionEventSubscriptionDestination_STATUS struct {
 	EndpointType                  *string                `json:"endpointType,omitempty"`
 	MaxEventsPerBatch             *int                   `json:"maxEventsPerBatch,omitempty"`
@@ -343,84 +2671,769 @@ type AzureFunctionEventSubscriptionDestination_STATUS struct {
 	ResourceId                    *string                `json:"resourceId,omitempty"`
 }
 
-// Storage version of v1beta20200601.EventHubEventSubscriptionDestination
-type EventHubEventSubscriptionDestination struct {
-	EndpointType *string                `json:"endpointType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignProperties_From_AzureFunctionEventSubscriptionDestination_STATUS populates our AzureFunctionEventSubscriptionDestination_STATUS from the provided source AzureFunctionEventSubscriptionDestination_STATUS
+func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignProperties_From_AzureFunctionEventSubscriptionDestination_STATUS(source *v1api20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ResourceReference: The Azure Resource Id that represents the endpoint of an Event Hub destination of an event
-	// subscription.
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// MaxEventsPerBatch
+	destination.MaxEventsPerBatch = genruntime.ClonePointerToInt(source.MaxEventsPerBatch)
+
+	// PreferredBatchSizeInKilobytes
+	destination.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(source.PreferredBatchSizeInKilobytes)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAzureFunctionEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForAzureFunctionEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AzureFunctionEventSubscriptionDestination_STATUS populates the provided destination AzureFunctionEventSubscriptionDestination_STATUS from our AzureFunctionEventSubscriptionDestination_STATUS
+func (destination *AzureFunctionEventSubscriptionDestination_STATUS) AssignProperties_To_AzureFunctionEventSubscriptionDestination_STATUS(target *v1api20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// MaxEventsPerBatch
+	target.MaxEventsPerBatch = genruntime.ClonePointerToInt(destination.MaxEventsPerBatch)
+
+	// PreferredBatchSizeInKilobytes
+	target.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(destination.PreferredBatchSizeInKilobytes)
+
+	// ResourceId
+	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAzureFunctionEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForAzureFunctionEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1beta20200601.EventHubEventSubscriptionDestination
+// Deprecated version of EventHubEventSubscriptionDestination. Use v1api20200601.EventHubEventSubscriptionDestination instead
+type EventHubEventSubscriptionDestination struct {
+	EndpointType      *string                       `json:"endpointType,omitempty"`
+	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
+// AssignProperties_From_EventHubEventSubscriptionDestination populates our EventHubEventSubscriptionDestination from the provided source EventHubEventSubscriptionDestination
+func (destination *EventHubEventSubscriptionDestination) AssignProperties_From_EventHubEventSubscriptionDestination(source *v1api20200601s.EventHubEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventHubEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventHubEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventHubEventSubscriptionDestination populates the provided destination EventHubEventSubscriptionDestination from our EventHubEventSubscriptionDestination
+func (destination *EventHubEventSubscriptionDestination) AssignProperties_To_EventHubEventSubscriptionDestination(target *v1api20200601s.EventHubEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceReference
+	if destination.ResourceReference != nil {
+		resourceReference := destination.ResourceReference.Copy()
+		target.ResourceReference = &resourceReference
+	} else {
+		target.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventHubEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventHubEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.EventHubEventSubscriptionDestination_STATUS
+// Deprecated version of EventHubEventSubscriptionDestination_STATUS. Use v1api20200601.EventHubEventSubscriptionDestination_STATUS instead
 type EventHubEventSubscriptionDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId   *string                `json:"resourceId,omitempty"`
 }
 
-// Storage version of v1beta20200601.HybridConnectionEventSubscriptionDestination
-type HybridConnectionEventSubscriptionDestination struct {
-	EndpointType *string                `json:"endpointType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignProperties_From_EventHubEventSubscriptionDestination_STATUS populates our EventHubEventSubscriptionDestination_STATUS from the provided source EventHubEventSubscriptionDestination_STATUS
+func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties_From_EventHubEventSubscriptionDestination_STATUS(source *v1api20200601s.EventHubEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ResourceReference: The Azure Resource ID of an hybrid connection that is the destination of an event subscription.
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventHubEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventHubEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventHubEventSubscriptionDestination_STATUS populates the provided destination EventHubEventSubscriptionDestination_STATUS from our EventHubEventSubscriptionDestination_STATUS
+func (destination *EventHubEventSubscriptionDestination_STATUS) AssignProperties_To_EventHubEventSubscriptionDestination_STATUS(target *v1api20200601s.EventHubEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceId
+	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventHubEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForEventHubEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1beta20200601.HybridConnectionEventSubscriptionDestination
+// Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1api20200601.HybridConnectionEventSubscriptionDestination instead
+type HybridConnectionEventSubscriptionDestination struct {
+	EndpointType      *string                       `json:"endpointType,omitempty"`
+	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
+// AssignProperties_From_HybridConnectionEventSubscriptionDestination populates our HybridConnectionEventSubscriptionDestination from the provided source HybridConnectionEventSubscriptionDestination
+func (destination *HybridConnectionEventSubscriptionDestination) AssignProperties_From_HybridConnectionEventSubscriptionDestination(source *v1api20200601s.HybridConnectionEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHybridConnectionEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForHybridConnectionEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HybridConnectionEventSubscriptionDestination populates the provided destination HybridConnectionEventSubscriptionDestination from our HybridConnectionEventSubscriptionDestination
+func (destination *HybridConnectionEventSubscriptionDestination) AssignProperties_To_HybridConnectionEventSubscriptionDestination(target *v1api20200601s.HybridConnectionEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceReference
+	if destination.ResourceReference != nil {
+		resourceReference := destination.ResourceReference.Copy()
+		target.ResourceReference = &resourceReference
+	} else {
+		target.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHybridConnectionEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForHybridConnectionEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.HybridConnectionEventSubscriptionDestination_STATUS
+// Deprecated version of HybridConnectionEventSubscriptionDestination_STATUS. Use v1api20200601.HybridConnectionEventSubscriptionDestination_STATUS instead
 type HybridConnectionEventSubscriptionDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId   *string                `json:"resourceId,omitempty"`
 }
 
-// Storage version of v1beta20200601.ServiceBusQueueEventSubscriptionDestination
-type ServiceBusQueueEventSubscriptionDestination struct {
-	EndpointType *string                `json:"endpointType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignProperties_From_HybridConnectionEventSubscriptionDestination_STATUS populates our HybridConnectionEventSubscriptionDestination_STATUS from the provided source HybridConnectionEventSubscriptionDestination_STATUS
+func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignProperties_From_HybridConnectionEventSubscriptionDestination_STATUS(source *v1api20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus destination of an event
-	// subscription.
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHybridConnectionEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForHybridConnectionEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HybridConnectionEventSubscriptionDestination_STATUS populates the provided destination HybridConnectionEventSubscriptionDestination_STATUS from our HybridConnectionEventSubscriptionDestination_STATUS
+func (destination *HybridConnectionEventSubscriptionDestination_STATUS) AssignProperties_To_HybridConnectionEventSubscriptionDestination_STATUS(target *v1api20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceId
+	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHybridConnectionEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForHybridConnectionEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1beta20200601.ServiceBusQueueEventSubscriptionDestination
+// Deprecated version of ServiceBusQueueEventSubscriptionDestination. Use v1api20200601.ServiceBusQueueEventSubscriptionDestination instead
+type ServiceBusQueueEventSubscriptionDestination struct {
+	EndpointType      *string                       `json:"endpointType,omitempty"`
+	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
+// AssignProperties_From_ServiceBusQueueEventSubscriptionDestination populates our ServiceBusQueueEventSubscriptionDestination from the provided source ServiceBusQueueEventSubscriptionDestination
+func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties_From_ServiceBusQueueEventSubscriptionDestination(source *v1api20200601s.ServiceBusQueueEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServiceBusQueueEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusQueueEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServiceBusQueueEventSubscriptionDestination populates the provided destination ServiceBusQueueEventSubscriptionDestination from our ServiceBusQueueEventSubscriptionDestination
+func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties_To_ServiceBusQueueEventSubscriptionDestination(target *v1api20200601s.ServiceBusQueueEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceReference
+	if destination.ResourceReference != nil {
+		resourceReference := destination.ResourceReference.Copy()
+		target.ResourceReference = &resourceReference
+	} else {
+		target.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServiceBusQueueEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusQueueEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.ServiceBusQueueEventSubscriptionDestination_STATUS
+// Deprecated version of ServiceBusQueueEventSubscriptionDestination_STATUS. Use v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS instead
 type ServiceBusQueueEventSubscriptionDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId   *string                `json:"resourceId,omitempty"`
 }
 
-// Storage version of v1beta20200601.ServiceBusTopicEventSubscriptionDestination
-type ServiceBusTopicEventSubscriptionDestination struct {
-	EndpointType *string                `json:"endpointType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignProperties_From_ServiceBusQueueEventSubscriptionDestination_STATUS populates our ServiceBusQueueEventSubscriptionDestination_STATUS from the provided source ServiceBusQueueEventSubscriptionDestination_STATUS
+func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignProperties_From_ServiceBusQueueEventSubscriptionDestination_STATUS(source *v1api20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ResourceReference: The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event
-	// subscription.
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServiceBusQueueEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusQueueEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServiceBusQueueEventSubscriptionDestination_STATUS populates the provided destination ServiceBusQueueEventSubscriptionDestination_STATUS from our ServiceBusQueueEventSubscriptionDestination_STATUS
+func (destination *ServiceBusQueueEventSubscriptionDestination_STATUS) AssignProperties_To_ServiceBusQueueEventSubscriptionDestination_STATUS(target *v1api20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceId
+	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServiceBusQueueEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusQueueEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1beta20200601.ServiceBusTopicEventSubscriptionDestination
+// Deprecated version of ServiceBusTopicEventSubscriptionDestination. Use v1api20200601.ServiceBusTopicEventSubscriptionDestination instead
+type ServiceBusTopicEventSubscriptionDestination struct {
+	EndpointType      *string                       `json:"endpointType,omitempty"`
+	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
+// AssignProperties_From_ServiceBusTopicEventSubscriptionDestination populates our ServiceBusTopicEventSubscriptionDestination from the provided source ServiceBusTopicEventSubscriptionDestination
+func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties_From_ServiceBusTopicEventSubscriptionDestination(source *v1api20200601s.ServiceBusTopicEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServiceBusTopicEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusTopicEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServiceBusTopicEventSubscriptionDestination populates the provided destination ServiceBusTopicEventSubscriptionDestination from our ServiceBusTopicEventSubscriptionDestination
+func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties_To_ServiceBusTopicEventSubscriptionDestination(target *v1api20200601s.ServiceBusTopicEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceReference
+	if destination.ResourceReference != nil {
+		resourceReference := destination.ResourceReference.Copy()
+		target.ResourceReference = &resourceReference
+	} else {
+		target.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServiceBusTopicEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusTopicEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.ServiceBusTopicEventSubscriptionDestination_STATUS
+// Deprecated version of ServiceBusTopicEventSubscriptionDestination_STATUS. Use v1api20200601.ServiceBusTopicEventSubscriptionDestination_STATUS instead
 type ServiceBusTopicEventSubscriptionDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId   *string                `json:"resourceId,omitempty"`
 }
 
-// Storage version of v1beta20200601.StorageBlobDeadLetterDestination
-type StorageBlobDeadLetterDestination struct {
-	BlobContainerName *string                `json:"blobContainerName,omitempty"`
-	EndpointType      *string                `json:"endpointType,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// AssignProperties_From_ServiceBusTopicEventSubscriptionDestination_STATUS populates our ServiceBusTopicEventSubscriptionDestination_STATUS from the provided source ServiceBusTopicEventSubscriptionDestination_STATUS
+func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignProperties_From_ServiceBusTopicEventSubscriptionDestination_STATUS(source *v1api20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ResourceReference: The Azure Resource ID of the storage account that is the destination of the deadletter events
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServiceBusTopicEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusTopicEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServiceBusTopicEventSubscriptionDestination_STATUS populates the provided destination ServiceBusTopicEventSubscriptionDestination_STATUS from our ServiceBusTopicEventSubscriptionDestination_STATUS
+func (destination *ServiceBusTopicEventSubscriptionDestination_STATUS) AssignProperties_To_ServiceBusTopicEventSubscriptionDestination_STATUS(target *v1api20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceId
+	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServiceBusTopicEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForServiceBusTopicEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1beta20200601.StorageBlobDeadLetterDestination
+// Deprecated version of StorageBlobDeadLetterDestination. Use v1api20200601.StorageBlobDeadLetterDestination instead
+type StorageBlobDeadLetterDestination struct {
+	BlobContainerName *string                       `json:"blobContainerName,omitempty"`
+	EndpointType      *string                       `json:"endpointType,omitempty"`
+	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
+// AssignProperties_From_StorageBlobDeadLetterDestination populates our StorageBlobDeadLetterDestination from the provided source StorageBlobDeadLetterDestination
+func (destination *StorageBlobDeadLetterDestination) AssignProperties_From_StorageBlobDeadLetterDestination(source *v1api20200601s.StorageBlobDeadLetterDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobContainerName
+	destination.BlobContainerName = genruntime.ClonePointerToString(source.BlobContainerName)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageBlobDeadLetterDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageBlobDeadLetterDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageBlobDeadLetterDestination populates the provided destination StorageBlobDeadLetterDestination from our StorageBlobDeadLetterDestination
+func (destination *StorageBlobDeadLetterDestination) AssignProperties_To_StorageBlobDeadLetterDestination(target *v1api20200601s.StorageBlobDeadLetterDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// BlobContainerName
+	target.BlobContainerName = genruntime.ClonePointerToString(destination.BlobContainerName)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceReference
+	if destination.ResourceReference != nil {
+		resourceReference := destination.ResourceReference.Copy()
+		target.ResourceReference = &resourceReference
+	} else {
+		target.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageBlobDeadLetterDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageBlobDeadLetterDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StorageBlobDeadLetterDestination_STATUS
+// Deprecated version of StorageBlobDeadLetterDestination_STATUS. Use v1api20200601.StorageBlobDeadLetterDestination_STATUS instead
 type StorageBlobDeadLetterDestination_STATUS struct {
 	BlobContainerName *string                `json:"blobContainerName,omitempty"`
 	EndpointType      *string                `json:"endpointType,omitempty"`
@@ -428,18 +3441,163 @@ type StorageBlobDeadLetterDestination_STATUS struct {
 	ResourceId        *string                `json:"resourceId,omitempty"`
 }
 
-// Storage version of v1beta20200601.StorageQueueEventSubscriptionDestination
-type StorageQueueEventSubscriptionDestination struct {
-	EndpointType *string                `json:"endpointType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	QueueName    *string                `json:"queueName,omitempty"`
+// AssignProperties_From_StorageBlobDeadLetterDestination_STATUS populates our StorageBlobDeadLetterDestination_STATUS from the provided source StorageBlobDeadLetterDestination_STATUS
+func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_From_StorageBlobDeadLetterDestination_STATUS(source *v1api20200601s.StorageBlobDeadLetterDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
-	// event subscription.
+	// BlobContainerName
+	destination.BlobContainerName = genruntime.ClonePointerToString(source.BlobContainerName)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageBlobDeadLetterDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageBlobDeadLetterDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageBlobDeadLetterDestination_STATUS populates the provided destination StorageBlobDeadLetterDestination_STATUS from our StorageBlobDeadLetterDestination_STATUS
+func (destination *StorageBlobDeadLetterDestination_STATUS) AssignProperties_To_StorageBlobDeadLetterDestination_STATUS(target *v1api20200601s.StorageBlobDeadLetterDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// BlobContainerName
+	target.BlobContainerName = genruntime.ClonePointerToString(destination.BlobContainerName)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// ResourceId
+	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageBlobDeadLetterDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageBlobDeadLetterDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1beta20200601.StorageQueueEventSubscriptionDestination
+// Deprecated version of StorageQueueEventSubscriptionDestination. Use v1api20200601.StorageQueueEventSubscriptionDestination instead
+type StorageQueueEventSubscriptionDestination struct {
+	EndpointType      *string                       `json:"endpointType,omitempty"`
+	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	QueueName         *string                       `json:"queueName,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
+// AssignProperties_From_StorageQueueEventSubscriptionDestination populates our StorageQueueEventSubscriptionDestination from the provided source StorageQueueEventSubscriptionDestination
+func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_From_StorageQueueEventSubscriptionDestination(source *v1api20200601s.StorageQueueEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// QueueName
+	destination.QueueName = genruntime.ClonePointerToString(source.QueueName)
+
+	// ResourceReference
+	if source.ResourceReference != nil {
+		resourceReference := source.ResourceReference.Copy()
+		destination.ResourceReference = &resourceReference
+	} else {
+		destination.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageQueueEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageQueueEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageQueueEventSubscriptionDestination populates the provided destination StorageQueueEventSubscriptionDestination from our StorageQueueEventSubscriptionDestination
+func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_To_StorageQueueEventSubscriptionDestination(target *v1api20200601s.StorageQueueEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// QueueName
+	target.QueueName = genruntime.ClonePointerToString(destination.QueueName)
+
+	// ResourceReference
+	if destination.ResourceReference != nil {
+		resourceReference := destination.ResourceReference.Copy()
+		target.ResourceReference = &resourceReference
+	} else {
+		target.ResourceReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageQueueEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageQueueEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StorageQueueEventSubscriptionDestination_STATUS
+// Deprecated version of StorageQueueEventSubscriptionDestination_STATUS. Use v1api20200601.StorageQueueEventSubscriptionDestination_STATUS instead
 type StorageQueueEventSubscriptionDestination_STATUS struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -447,7 +3605,76 @@ type StorageQueueEventSubscriptionDestination_STATUS struct {
 	ResourceId   *string                `json:"resourceId,omitempty"`
 }
 
+// AssignProperties_From_StorageQueueEventSubscriptionDestination_STATUS populates our StorageQueueEventSubscriptionDestination_STATUS from the provided source StorageQueueEventSubscriptionDestination_STATUS
+func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProperties_From_StorageQueueEventSubscriptionDestination_STATUS(source *v1api20200601s.StorageQueueEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// QueueName
+	destination.QueueName = genruntime.ClonePointerToString(source.QueueName)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageQueueEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageQueueEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageQueueEventSubscriptionDestination_STATUS populates the provided destination StorageQueueEventSubscriptionDestination_STATUS from our StorageQueueEventSubscriptionDestination_STATUS
+func (destination *StorageQueueEventSubscriptionDestination_STATUS) AssignProperties_To_StorageQueueEventSubscriptionDestination_STATUS(target *v1api20200601s.StorageQueueEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// QueueName
+	target.QueueName = genruntime.ClonePointerToString(destination.QueueName)
+
+	// ResourceId
+	target.ResourceId = genruntime.ClonePointerToString(destination.ResourceId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStorageQueueEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForStorageQueueEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.WebHookEventSubscriptionDestination
+// Deprecated version of WebHookEventSubscriptionDestination. Use v1api20200601.WebHookEventSubscriptionDestination instead
 type WebHookEventSubscriptionDestination struct {
 	AzureActiveDirectoryApplicationIdOrUri *string                     `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
 	AzureActiveDirectoryTenantId           *string                     `json:"azureActiveDirectoryTenantId,omitempty"`
@@ -458,7 +3685,104 @@ type WebHookEventSubscriptionDestination struct {
 	PropertyBag                            genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_WebHookEventSubscriptionDestination populates our WebHookEventSubscriptionDestination from the provided source WebHookEventSubscriptionDestination
+func (destination *WebHookEventSubscriptionDestination) AssignProperties_From_WebHookEventSubscriptionDestination(source *v1api20200601s.WebHookEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureActiveDirectoryApplicationIdOrUri
+	destination.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(source.AzureActiveDirectoryApplicationIdOrUri)
+
+	// AzureActiveDirectoryTenantId
+	destination.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(source.AzureActiveDirectoryTenantId)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// EndpointUrl
+	if source.EndpointUrl != nil {
+		endpointUrl := source.EndpointUrl.Copy()
+		destination.EndpointUrl = &endpointUrl
+	} else {
+		destination.EndpointUrl = nil
+	}
+
+	// MaxEventsPerBatch
+	destination.MaxEventsPerBatch = genruntime.ClonePointerToInt(source.MaxEventsPerBatch)
+
+	// PreferredBatchSizeInKilobytes
+	destination.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(source.PreferredBatchSizeInKilobytes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWebHookEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForWebHookEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebHookEventSubscriptionDestination populates the provided destination WebHookEventSubscriptionDestination from our WebHookEventSubscriptionDestination
+func (destination *WebHookEventSubscriptionDestination) AssignProperties_To_WebHookEventSubscriptionDestination(target *v1api20200601s.WebHookEventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// AzureActiveDirectoryApplicationIdOrUri
+	target.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(destination.AzureActiveDirectoryApplicationIdOrUri)
+
+	// AzureActiveDirectoryTenantId
+	target.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(destination.AzureActiveDirectoryTenantId)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// EndpointUrl
+	if destination.EndpointUrl != nil {
+		endpointUrl := destination.EndpointUrl.Copy()
+		target.EndpointUrl = &endpointUrl
+	} else {
+		target.EndpointUrl = nil
+	}
+
+	// MaxEventsPerBatch
+	target.MaxEventsPerBatch = genruntime.ClonePointerToInt(destination.MaxEventsPerBatch)
+
+	// PreferredBatchSizeInKilobytes
+	target.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(destination.PreferredBatchSizeInKilobytes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWebHookEventSubscriptionDestination interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForWebHookEventSubscriptionDestination); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.WebHookEventSubscriptionDestination_STATUS
+// Deprecated version of WebHookEventSubscriptionDestination_STATUS. Use v1api20200601.WebHookEventSubscriptionDestination_STATUS instead
 type WebHookEventSubscriptionDestination_STATUS struct {
 	AzureActiveDirectoryApplicationIdOrUri *string                `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
 	AzureActiveDirectoryTenantId           *string                `json:"azureActiveDirectoryTenantId,omitempty"`
@@ -469,7 +3793,184 @@ type WebHookEventSubscriptionDestination_STATUS struct {
 	PropertyBag                            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_WebHookEventSubscriptionDestination_STATUS populates our WebHookEventSubscriptionDestination_STATUS from the provided source WebHookEventSubscriptionDestination_STATUS
+func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_From_WebHookEventSubscriptionDestination_STATUS(source *v1api20200601s.WebHookEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureActiveDirectoryApplicationIdOrUri
+	destination.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(source.AzureActiveDirectoryApplicationIdOrUri)
+
+	// AzureActiveDirectoryTenantId
+	destination.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(source.AzureActiveDirectoryTenantId)
+
+	// EndpointBaseUrl
+	destination.EndpointBaseUrl = genruntime.ClonePointerToString(source.EndpointBaseUrl)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// MaxEventsPerBatch
+	destination.MaxEventsPerBatch = genruntime.ClonePointerToInt(source.MaxEventsPerBatch)
+
+	// PreferredBatchSizeInKilobytes
+	destination.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(source.PreferredBatchSizeInKilobytes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWebHookEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForWebHookEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_WebHookEventSubscriptionDestination_STATUS populates the provided destination WebHookEventSubscriptionDestination_STATUS from our WebHookEventSubscriptionDestination_STATUS
+func (destination *WebHookEventSubscriptionDestination_STATUS) AssignProperties_To_WebHookEventSubscriptionDestination_STATUS(target *v1api20200601s.WebHookEventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// AzureActiveDirectoryApplicationIdOrUri
+	target.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(destination.AzureActiveDirectoryApplicationIdOrUri)
+
+	// AzureActiveDirectoryTenantId
+	target.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(destination.AzureActiveDirectoryTenantId)
+
+	// EndpointBaseUrl
+	target.EndpointBaseUrl = genruntime.ClonePointerToString(destination.EndpointBaseUrl)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// MaxEventsPerBatch
+	target.MaxEventsPerBatch = genruntime.ClonePointerToInt(destination.MaxEventsPerBatch)
+
+	// PreferredBatchSizeInKilobytes
+	target.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(destination.PreferredBatchSizeInKilobytes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForWebHookEventSubscriptionDestination_STATUS interface (if implemented) to customize the conversion
+	var destinationAsAny any = destination
+	if augmentedDestination, ok := destinationAsAny.(augmentConversionForWebHookEventSubscriptionDestination_STATUS); ok {
+		err := augmentedDestination.AssignPropertiesTo(target)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.AdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.AdvancedFilter) error
+}
+
+type augmentConversionForAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.AdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.AdvancedFilter_STATUS) error
+}
+
+type augmentConversionForAzureFunctionEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.AzureFunctionEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.AzureFunctionEventSubscriptionDestination) error
+}
+
+type augmentConversionForAzureFunctionEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.AzureFunctionEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForEventHubEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.EventHubEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.EventHubEventSubscriptionDestination) error
+}
+
+type augmentConversionForEventHubEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.EventHubEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.EventHubEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForHybridConnectionEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.HybridConnectionEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.HybridConnectionEventSubscriptionDestination) error
+}
+
+type augmentConversionForHybridConnectionEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.HybridConnectionEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForServiceBusQueueEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.ServiceBusQueueEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.ServiceBusQueueEventSubscriptionDestination) error
+}
+
+type augmentConversionForServiceBusQueueEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.ServiceBusQueueEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForServiceBusTopicEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.ServiceBusTopicEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.ServiceBusTopicEventSubscriptionDestination) error
+}
+
+type augmentConversionForServiceBusTopicEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.ServiceBusTopicEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForStorageBlobDeadLetterDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.StorageBlobDeadLetterDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.StorageBlobDeadLetterDestination) error
+}
+
+type augmentConversionForStorageBlobDeadLetterDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.StorageBlobDeadLetterDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.StorageBlobDeadLetterDestination_STATUS) error
+}
+
+type augmentConversionForStorageQueueEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.StorageQueueEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.StorageQueueEventSubscriptionDestination) error
+}
+
+type augmentConversionForStorageQueueEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.StorageQueueEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.StorageQueueEventSubscriptionDestination_STATUS) error
+}
+
+type augmentConversionForWebHookEventSubscriptionDestination interface {
+	AssignPropertiesFrom(src *v1api20200601s.WebHookEventSubscriptionDestination) error
+	AssignPropertiesTo(dst *v1api20200601s.WebHookEventSubscriptionDestination) error
+}
+
+type augmentConversionForWebHookEventSubscriptionDestination_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.WebHookEventSubscriptionDestination_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.WebHookEventSubscriptionDestination_STATUS) error
+}
+
 // Storage version of v1beta20200601.BoolEqualsAdvancedFilter
+// Deprecated version of BoolEqualsAdvancedFilter. Use v1api20200601.BoolEqualsAdvancedFilter instead
 type BoolEqualsAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -477,7 +3978,86 @@ type BoolEqualsAdvancedFilter struct {
 	Value        *bool                  `json:"value,omitempty"`
 }
 
+// AssignProperties_From_BoolEqualsAdvancedFilter populates our BoolEqualsAdvancedFilter from the provided source BoolEqualsAdvancedFilter
+func (filter *BoolEqualsAdvancedFilter) AssignProperties_From_BoolEqualsAdvancedFilter(source *v1api20200601s.BoolEqualsAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBoolEqualsAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForBoolEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BoolEqualsAdvancedFilter populates the provided destination BoolEqualsAdvancedFilter from our BoolEqualsAdvancedFilter
+func (filter *BoolEqualsAdvancedFilter) AssignProperties_To_BoolEqualsAdvancedFilter(destination *v1api20200601s.BoolEqualsAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBoolEqualsAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForBoolEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.BoolEqualsAdvancedFilter_STATUS
+// Deprecated version of BoolEqualsAdvancedFilter_STATUS. Use v1api20200601.BoolEqualsAdvancedFilter_STATUS instead
 type BoolEqualsAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -485,7 +4065,86 @@ type BoolEqualsAdvancedFilter_STATUS struct {
 	Value        *bool                  `json:"value,omitempty"`
 }
 
+// AssignProperties_From_BoolEqualsAdvancedFilter_STATUS populates our BoolEqualsAdvancedFilter_STATUS from the provided source BoolEqualsAdvancedFilter_STATUS
+func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_From_BoolEqualsAdvancedFilter_STATUS(source *v1api20200601s.BoolEqualsAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBoolEqualsAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForBoolEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BoolEqualsAdvancedFilter_STATUS populates the provided destination BoolEqualsAdvancedFilter_STATUS from our BoolEqualsAdvancedFilter_STATUS
+func (filter *BoolEqualsAdvancedFilter_STATUS) AssignProperties_To_BoolEqualsAdvancedFilter_STATUS(destination *v1api20200601s.BoolEqualsAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForBoolEqualsAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForBoolEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberGreaterThanAdvancedFilter
+// Deprecated version of NumberGreaterThanAdvancedFilter. Use v1api20200601.NumberGreaterThanAdvancedFilter instead
 type NumberGreaterThanAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -493,7 +4152,86 @@ type NumberGreaterThanAdvancedFilter struct {
 	Value        *float64               `json:"value,omitempty"`
 }
 
+// AssignProperties_From_NumberGreaterThanAdvancedFilter populates our NumberGreaterThanAdvancedFilter from the provided source NumberGreaterThanAdvancedFilter
+func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_From_NumberGreaterThanAdvancedFilter(source *v1api20200601s.NumberGreaterThanAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberGreaterThanAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberGreaterThanAdvancedFilter populates the provided destination NumberGreaterThanAdvancedFilter from our NumberGreaterThanAdvancedFilter
+func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_To_NumberGreaterThanAdvancedFilter(destination *v1api20200601s.NumberGreaterThanAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberGreaterThanAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberGreaterThanAdvancedFilter_STATUS
+// Deprecated version of NumberGreaterThanAdvancedFilter_STATUS. Use v1api20200601.NumberGreaterThanAdvancedFilter_STATUS instead
 type NumberGreaterThanAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -501,7 +4239,86 @@ type NumberGreaterThanAdvancedFilter_STATUS struct {
 	Value        *float64               `json:"value,omitempty"`
 }
 
+// AssignProperties_From_NumberGreaterThanAdvancedFilter_STATUS populates our NumberGreaterThanAdvancedFilter_STATUS from the provided source NumberGreaterThanAdvancedFilter_STATUS
+func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_From_NumberGreaterThanAdvancedFilter_STATUS(source *v1api20200601s.NumberGreaterThanAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberGreaterThanAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberGreaterThanAdvancedFilter_STATUS populates the provided destination NumberGreaterThanAdvancedFilter_STATUS from our NumberGreaterThanAdvancedFilter_STATUS
+func (filter *NumberGreaterThanAdvancedFilter_STATUS) AssignProperties_To_NumberGreaterThanAdvancedFilter_STATUS(destination *v1api20200601s.NumberGreaterThanAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberGreaterThanAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberGreaterThanOrEqualsAdvancedFilter
+// Deprecated version of NumberGreaterThanOrEqualsAdvancedFilter. Use v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter instead
 type NumberGreaterThanOrEqualsAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -509,7 +4326,86 @@ type NumberGreaterThanOrEqualsAdvancedFilter struct {
 	Value        *float64               `json:"value,omitempty"`
 }
 
+// AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter populates our NumberGreaterThanOrEqualsAdvancedFilter from the provided source NumberGreaterThanOrEqualsAdvancedFilter
+func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter(source *v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter populates the provided destination NumberGreaterThanOrEqualsAdvancedFilter from our NumberGreaterThanOrEqualsAdvancedFilter
+func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter(destination *v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS
+// Deprecated version of NumberGreaterThanOrEqualsAdvancedFilter_STATUS. Use v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter_STATUS instead
 type NumberGreaterThanOrEqualsAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -517,7 +4413,86 @@ type NumberGreaterThanOrEqualsAdvancedFilter_STATUS struct {
 	Value        *float64               `json:"value,omitempty"`
 }
 
+// AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS populates our NumberGreaterThanOrEqualsAdvancedFilter_STATUS from the provided source NumberGreaterThanOrEqualsAdvancedFilter_STATUS
+func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(source *v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter_STATUS populates the provided destination NumberGreaterThanOrEqualsAdvancedFilter_STATUS from our NumberGreaterThanOrEqualsAdvancedFilter_STATUS
+func (filter *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) AssignProperties_To_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(destination *v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberInAdvancedFilter
+// Deprecated version of NumberInAdvancedFilter. Use v1api20200601.NumberInAdvancedFilter instead
 type NumberInAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -525,7 +4500,96 @@ type NumberInAdvancedFilter struct {
 	Values       []float64              `json:"values,omitempty"`
 }
 
+// AssignProperties_From_NumberInAdvancedFilter populates our NumberInAdvancedFilter from the provided source NumberInAdvancedFilter
+func (filter *NumberInAdvancedFilter) AssignProperties_From_NumberInAdvancedFilter(source *v1api20200601s.NumberInAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	if source.Values != nil {
+		valueList := make([]float64, len(source.Values))
+		for valueIndex, valueItem := range source.Values {
+			// Shadow the loop variable to avoid aliasing
+			valueItem := valueItem
+			valueList[valueIndex] = valueItem
+		}
+		filter.Values = valueList
+	} else {
+		filter.Values = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberInAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberInAdvancedFilter populates the provided destination NumberInAdvancedFilter from our NumberInAdvancedFilter
+func (filter *NumberInAdvancedFilter) AssignProperties_To_NumberInAdvancedFilter(destination *v1api20200601s.NumberInAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	if filter.Values != nil {
+		valueList := make([]float64, len(filter.Values))
+		for valueIndex, valueItem := range filter.Values {
+			// Shadow the loop variable to avoid aliasing
+			valueItem := valueItem
+			valueList[valueIndex] = valueItem
+		}
+		destination.Values = valueList
+	} else {
+		destination.Values = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberInAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberInAdvancedFilter_STATUS
+// Deprecated version of NumberInAdvancedFilter_STATUS. Use v1api20200601.NumberInAdvancedFilter_STATUS instead
 type NumberInAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -533,7 +4597,96 @@ type NumberInAdvancedFilter_STATUS struct {
 	Values       []float64              `json:"values,omitempty"`
 }
 
+// AssignProperties_From_NumberInAdvancedFilter_STATUS populates our NumberInAdvancedFilter_STATUS from the provided source NumberInAdvancedFilter_STATUS
+func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_From_NumberInAdvancedFilter_STATUS(source *v1api20200601s.NumberInAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	if source.Values != nil {
+		valueList := make([]float64, len(source.Values))
+		for valueIndex, valueItem := range source.Values {
+			// Shadow the loop variable to avoid aliasing
+			valueItem := valueItem
+			valueList[valueIndex] = valueItem
+		}
+		filter.Values = valueList
+	} else {
+		filter.Values = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberInAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberInAdvancedFilter_STATUS populates the provided destination NumberInAdvancedFilter_STATUS from our NumberInAdvancedFilter_STATUS
+func (filter *NumberInAdvancedFilter_STATUS) AssignProperties_To_NumberInAdvancedFilter_STATUS(destination *v1api20200601s.NumberInAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	if filter.Values != nil {
+		valueList := make([]float64, len(filter.Values))
+		for valueIndex, valueItem := range filter.Values {
+			// Shadow the loop variable to avoid aliasing
+			valueItem := valueItem
+			valueList[valueIndex] = valueItem
+		}
+		destination.Values = valueList
+	} else {
+		destination.Values = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberInAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberLessThanAdvancedFilter
+// Deprecated version of NumberLessThanAdvancedFilter. Use v1api20200601.NumberLessThanAdvancedFilter instead
 type NumberLessThanAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -541,7 +4694,86 @@ type NumberLessThanAdvancedFilter struct {
 	Value        *float64               `json:"value,omitempty"`
 }
 
+// AssignProperties_From_NumberLessThanAdvancedFilter populates our NumberLessThanAdvancedFilter from the provided source NumberLessThanAdvancedFilter
+func (filter *NumberLessThanAdvancedFilter) AssignProperties_From_NumberLessThanAdvancedFilter(source *v1api20200601s.NumberLessThanAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberLessThanAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberLessThanAdvancedFilter populates the provided destination NumberLessThanAdvancedFilter from our NumberLessThanAdvancedFilter
+func (filter *NumberLessThanAdvancedFilter) AssignProperties_To_NumberLessThanAdvancedFilter(destination *v1api20200601s.NumberLessThanAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberLessThanAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberLessThanAdvancedFilter_STATUS
+// Deprecated version of NumberLessThanAdvancedFilter_STATUS. Use v1api20200601.NumberLessThanAdvancedFilter_STATUS instead
 type NumberLessThanAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -549,7 +4781,86 @@ type NumberLessThanAdvancedFilter_STATUS struct {
 	Value        *float64               `json:"value,omitempty"`
 }
 
+// AssignProperties_From_NumberLessThanAdvancedFilter_STATUS populates our NumberLessThanAdvancedFilter_STATUS from the provided source NumberLessThanAdvancedFilter_STATUS
+func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_From_NumberLessThanAdvancedFilter_STATUS(source *v1api20200601s.NumberLessThanAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberLessThanAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberLessThanAdvancedFilter_STATUS populates the provided destination NumberLessThanAdvancedFilter_STATUS from our NumberLessThanAdvancedFilter_STATUS
+func (filter *NumberLessThanAdvancedFilter_STATUS) AssignProperties_To_NumberLessThanAdvancedFilter_STATUS(destination *v1api20200601s.NumberLessThanAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberLessThanAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberLessThanOrEqualsAdvancedFilter
+// Deprecated version of NumberLessThanOrEqualsAdvancedFilter. Use v1api20200601.NumberLessThanOrEqualsAdvancedFilter instead
 type NumberLessThanOrEqualsAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -557,7 +4868,86 @@ type NumberLessThanOrEqualsAdvancedFilter struct {
 	Value        *float64               `json:"value,omitempty"`
 }
 
+// AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter populates our NumberLessThanOrEqualsAdvancedFilter from the provided source NumberLessThanOrEqualsAdvancedFilter
+func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter(source *v1api20200601s.NumberLessThanOrEqualsAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberLessThanOrEqualsAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanOrEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter populates the provided destination NumberLessThanOrEqualsAdvancedFilter from our NumberLessThanOrEqualsAdvancedFilter
+func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter(destination *v1api20200601s.NumberLessThanOrEqualsAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberLessThanOrEqualsAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanOrEqualsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS
+// Deprecated version of NumberLessThanOrEqualsAdvancedFilter_STATUS. Use v1api20200601.NumberLessThanOrEqualsAdvancedFilter_STATUS instead
 type NumberLessThanOrEqualsAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -565,7 +4955,86 @@ type NumberLessThanOrEqualsAdvancedFilter_STATUS struct {
 	Value        *float64               `json:"value,omitempty"`
 }
 
+// AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter_STATUS populates our NumberLessThanOrEqualsAdvancedFilter_STATUS from the provided source NumberLessThanOrEqualsAdvancedFilter_STATUS
+func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_From_NumberLessThanOrEqualsAdvancedFilter_STATUS(source *v1api20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Value
+	if source.Value != nil {
+		value := *source.Value
+		filter.Value = &value
+	} else {
+		filter.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberLessThanOrEqualsAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanOrEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter_STATUS populates the provided destination NumberLessThanOrEqualsAdvancedFilter_STATUS from our NumberLessThanOrEqualsAdvancedFilter_STATUS
+func (filter *NumberLessThanOrEqualsAdvancedFilter_STATUS) AssignProperties_To_NumberLessThanOrEqualsAdvancedFilter_STATUS(destination *v1api20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Value
+	if filter.Value != nil {
+		value := *filter.Value
+		destination.Value = &value
+	} else {
+		destination.Value = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberLessThanOrEqualsAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberLessThanOrEqualsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberNotInAdvancedFilter
+// Deprecated version of NumberNotInAdvancedFilter. Use v1api20200601.NumberNotInAdvancedFilter instead
 type NumberNotInAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -573,7 +5042,96 @@ type NumberNotInAdvancedFilter struct {
 	Values       []float64              `json:"values,omitempty"`
 }
 
+// AssignProperties_From_NumberNotInAdvancedFilter populates our NumberNotInAdvancedFilter from the provided source NumberNotInAdvancedFilter
+func (filter *NumberNotInAdvancedFilter) AssignProperties_From_NumberNotInAdvancedFilter(source *v1api20200601s.NumberNotInAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	if source.Values != nil {
+		valueList := make([]float64, len(source.Values))
+		for valueIndex, valueItem := range source.Values {
+			// Shadow the loop variable to avoid aliasing
+			valueItem := valueItem
+			valueList[valueIndex] = valueItem
+		}
+		filter.Values = valueList
+	} else {
+		filter.Values = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberNotInAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberNotInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberNotInAdvancedFilter populates the provided destination NumberNotInAdvancedFilter from our NumberNotInAdvancedFilter
+func (filter *NumberNotInAdvancedFilter) AssignProperties_To_NumberNotInAdvancedFilter(destination *v1api20200601s.NumberNotInAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	if filter.Values != nil {
+		valueList := make([]float64, len(filter.Values))
+		for valueIndex, valueItem := range filter.Values {
+			// Shadow the loop variable to avoid aliasing
+			valueItem := valueItem
+			valueList[valueIndex] = valueItem
+		}
+		destination.Values = valueList
+	} else {
+		destination.Values = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberNotInAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberNotInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.NumberNotInAdvancedFilter_STATUS
+// Deprecated version of NumberNotInAdvancedFilter_STATUS. Use v1api20200601.NumberNotInAdvancedFilter_STATUS instead
 type NumberNotInAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -581,7 +5139,96 @@ type NumberNotInAdvancedFilter_STATUS struct {
 	Values       []float64              `json:"values,omitempty"`
 }
 
+// AssignProperties_From_NumberNotInAdvancedFilter_STATUS populates our NumberNotInAdvancedFilter_STATUS from the provided source NumberNotInAdvancedFilter_STATUS
+func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_From_NumberNotInAdvancedFilter_STATUS(source *v1api20200601s.NumberNotInAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	if source.Values != nil {
+		valueList := make([]float64, len(source.Values))
+		for valueIndex, valueItem := range source.Values {
+			// Shadow the loop variable to avoid aliasing
+			valueItem := valueItem
+			valueList[valueIndex] = valueItem
+		}
+		filter.Values = valueList
+	} else {
+		filter.Values = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberNotInAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberNotInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_NumberNotInAdvancedFilter_STATUS populates the provided destination NumberNotInAdvancedFilter_STATUS from our NumberNotInAdvancedFilter_STATUS
+func (filter *NumberNotInAdvancedFilter_STATUS) AssignProperties_To_NumberNotInAdvancedFilter_STATUS(destination *v1api20200601s.NumberNotInAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	if filter.Values != nil {
+		valueList := make([]float64, len(filter.Values))
+		for valueIndex, valueItem := range filter.Values {
+			// Shadow the loop variable to avoid aliasing
+			valueItem := valueItem
+			valueList[valueIndex] = valueItem
+		}
+		destination.Values = valueList
+	} else {
+		destination.Values = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForNumberNotInAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForNumberNotInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringBeginsWithAdvancedFilter
+// Deprecated version of StringBeginsWithAdvancedFilter. Use v1api20200601.StringBeginsWithAdvancedFilter instead
 type StringBeginsWithAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -589,7 +5236,76 @@ type StringBeginsWithAdvancedFilter struct {
 	Values       []string               `json:"values,omitempty"`
 }
 
+// AssignProperties_From_StringBeginsWithAdvancedFilter populates our StringBeginsWithAdvancedFilter from the provided source StringBeginsWithAdvancedFilter
+func (filter *StringBeginsWithAdvancedFilter) AssignProperties_From_StringBeginsWithAdvancedFilter(source *v1api20200601s.StringBeginsWithAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringBeginsWithAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringBeginsWithAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringBeginsWithAdvancedFilter populates the provided destination StringBeginsWithAdvancedFilter from our StringBeginsWithAdvancedFilter
+func (filter *StringBeginsWithAdvancedFilter) AssignProperties_To_StringBeginsWithAdvancedFilter(destination *v1api20200601s.StringBeginsWithAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringBeginsWithAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringBeginsWithAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringBeginsWithAdvancedFilter_STATUS
+// Deprecated version of StringBeginsWithAdvancedFilter_STATUS. Use v1api20200601.StringBeginsWithAdvancedFilter_STATUS instead
 type StringBeginsWithAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -597,7 +5313,76 @@ type StringBeginsWithAdvancedFilter_STATUS struct {
 	Values       []string               `json:"values,omitempty"`
 }
 
+// AssignProperties_From_StringBeginsWithAdvancedFilter_STATUS populates our StringBeginsWithAdvancedFilter_STATUS from the provided source StringBeginsWithAdvancedFilter_STATUS
+func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_From_StringBeginsWithAdvancedFilter_STATUS(source *v1api20200601s.StringBeginsWithAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringBeginsWithAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringBeginsWithAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringBeginsWithAdvancedFilter_STATUS populates the provided destination StringBeginsWithAdvancedFilter_STATUS from our StringBeginsWithAdvancedFilter_STATUS
+func (filter *StringBeginsWithAdvancedFilter_STATUS) AssignProperties_To_StringBeginsWithAdvancedFilter_STATUS(destination *v1api20200601s.StringBeginsWithAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringBeginsWithAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringBeginsWithAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringContainsAdvancedFilter
+// Deprecated version of StringContainsAdvancedFilter. Use v1api20200601.StringContainsAdvancedFilter instead
 type StringContainsAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -605,7 +5390,76 @@ type StringContainsAdvancedFilter struct {
 	Values       []string               `json:"values,omitempty"`
 }
 
+// AssignProperties_From_StringContainsAdvancedFilter populates our StringContainsAdvancedFilter from the provided source StringContainsAdvancedFilter
+func (filter *StringContainsAdvancedFilter) AssignProperties_From_StringContainsAdvancedFilter(source *v1api20200601s.StringContainsAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringContainsAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringContainsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringContainsAdvancedFilter populates the provided destination StringContainsAdvancedFilter from our StringContainsAdvancedFilter
+func (filter *StringContainsAdvancedFilter) AssignProperties_To_StringContainsAdvancedFilter(destination *v1api20200601s.StringContainsAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringContainsAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringContainsAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringContainsAdvancedFilter_STATUS
+// Deprecated version of StringContainsAdvancedFilter_STATUS. Use v1api20200601.StringContainsAdvancedFilter_STATUS instead
 type StringContainsAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -613,7 +5467,76 @@ type StringContainsAdvancedFilter_STATUS struct {
 	Values       []string               `json:"values,omitempty"`
 }
 
+// AssignProperties_From_StringContainsAdvancedFilter_STATUS populates our StringContainsAdvancedFilter_STATUS from the provided source StringContainsAdvancedFilter_STATUS
+func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_From_StringContainsAdvancedFilter_STATUS(source *v1api20200601s.StringContainsAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringContainsAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringContainsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringContainsAdvancedFilter_STATUS populates the provided destination StringContainsAdvancedFilter_STATUS from our StringContainsAdvancedFilter_STATUS
+func (filter *StringContainsAdvancedFilter_STATUS) AssignProperties_To_StringContainsAdvancedFilter_STATUS(destination *v1api20200601s.StringContainsAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringContainsAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringContainsAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringEndsWithAdvancedFilter
+// Deprecated version of StringEndsWithAdvancedFilter. Use v1api20200601.StringEndsWithAdvancedFilter instead
 type StringEndsWithAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -621,7 +5544,76 @@ type StringEndsWithAdvancedFilter struct {
 	Values       []string               `json:"values,omitempty"`
 }
 
+// AssignProperties_From_StringEndsWithAdvancedFilter populates our StringEndsWithAdvancedFilter from the provided source StringEndsWithAdvancedFilter
+func (filter *StringEndsWithAdvancedFilter) AssignProperties_From_StringEndsWithAdvancedFilter(source *v1api20200601s.StringEndsWithAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringEndsWithAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringEndsWithAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringEndsWithAdvancedFilter populates the provided destination StringEndsWithAdvancedFilter from our StringEndsWithAdvancedFilter
+func (filter *StringEndsWithAdvancedFilter) AssignProperties_To_StringEndsWithAdvancedFilter(destination *v1api20200601s.StringEndsWithAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringEndsWithAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringEndsWithAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringEndsWithAdvancedFilter_STATUS
+// Deprecated version of StringEndsWithAdvancedFilter_STATUS. Use v1api20200601.StringEndsWithAdvancedFilter_STATUS instead
 type StringEndsWithAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -629,7 +5621,76 @@ type StringEndsWithAdvancedFilter_STATUS struct {
 	Values       []string               `json:"values,omitempty"`
 }
 
+// AssignProperties_From_StringEndsWithAdvancedFilter_STATUS populates our StringEndsWithAdvancedFilter_STATUS from the provided source StringEndsWithAdvancedFilter_STATUS
+func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_From_StringEndsWithAdvancedFilter_STATUS(source *v1api20200601s.StringEndsWithAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringEndsWithAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringEndsWithAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringEndsWithAdvancedFilter_STATUS populates the provided destination StringEndsWithAdvancedFilter_STATUS from our StringEndsWithAdvancedFilter_STATUS
+func (filter *StringEndsWithAdvancedFilter_STATUS) AssignProperties_To_StringEndsWithAdvancedFilter_STATUS(destination *v1api20200601s.StringEndsWithAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringEndsWithAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringEndsWithAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringInAdvancedFilter
+// Deprecated version of StringInAdvancedFilter. Use v1api20200601.StringInAdvancedFilter instead
 type StringInAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -637,7 +5698,76 @@ type StringInAdvancedFilter struct {
 	Values       []string               `json:"values,omitempty"`
 }
 
+// AssignProperties_From_StringInAdvancedFilter populates our StringInAdvancedFilter from the provided source StringInAdvancedFilter
+func (filter *StringInAdvancedFilter) AssignProperties_From_StringInAdvancedFilter(source *v1api20200601s.StringInAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringInAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringInAdvancedFilter populates the provided destination StringInAdvancedFilter from our StringInAdvancedFilter
+func (filter *StringInAdvancedFilter) AssignProperties_To_StringInAdvancedFilter(destination *v1api20200601s.StringInAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringInAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringInAdvancedFilter_STATUS
+// Deprecated version of StringInAdvancedFilter_STATUS. Use v1api20200601.StringInAdvancedFilter_STATUS instead
 type StringInAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -645,7 +5775,76 @@ type StringInAdvancedFilter_STATUS struct {
 	Values       []string               `json:"values,omitempty"`
 }
 
+// AssignProperties_From_StringInAdvancedFilter_STATUS populates our StringInAdvancedFilter_STATUS from the provided source StringInAdvancedFilter_STATUS
+func (filter *StringInAdvancedFilter_STATUS) AssignProperties_From_StringInAdvancedFilter_STATUS(source *v1api20200601s.StringInAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringInAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringInAdvancedFilter_STATUS populates the provided destination StringInAdvancedFilter_STATUS from our StringInAdvancedFilter_STATUS
+func (filter *StringInAdvancedFilter_STATUS) AssignProperties_To_StringInAdvancedFilter_STATUS(destination *v1api20200601s.StringInAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringInAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringNotInAdvancedFilter
+// Deprecated version of StringNotInAdvancedFilter. Use v1api20200601.StringNotInAdvancedFilter instead
 type StringNotInAdvancedFilter struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
@@ -653,12 +5852,269 @@ type StringNotInAdvancedFilter struct {
 	Values       []string               `json:"values,omitempty"`
 }
 
+// AssignProperties_From_StringNotInAdvancedFilter populates our StringNotInAdvancedFilter from the provided source StringNotInAdvancedFilter
+func (filter *StringNotInAdvancedFilter) AssignProperties_From_StringNotInAdvancedFilter(source *v1api20200601s.StringNotInAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringNotInAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringNotInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringNotInAdvancedFilter populates the provided destination StringNotInAdvancedFilter from our StringNotInAdvancedFilter
+func (filter *StringNotInAdvancedFilter) AssignProperties_To_StringNotInAdvancedFilter(destination *v1api20200601s.StringNotInAdvancedFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringNotInAdvancedFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringNotInAdvancedFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200601.StringNotInAdvancedFilter_STATUS
+// Deprecated version of StringNotInAdvancedFilter_STATUS. Use v1api20200601.StringNotInAdvancedFilter_STATUS instead
 type StringNotInAdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Values       []string               `json:"values,omitempty"`
+}
+
+// AssignProperties_From_StringNotInAdvancedFilter_STATUS populates our StringNotInAdvancedFilter_STATUS from the provided source StringNotInAdvancedFilter_STATUS
+func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_From_StringNotInAdvancedFilter_STATUS(source *v1api20200601s.StringNotInAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key
+	filter.Key = genruntime.ClonePointerToString(source.Key)
+
+	// OperatorType
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
+
+	// Values
+	filter.Values = genruntime.CloneSliceOfString(source.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringNotInAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringNotInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StringNotInAdvancedFilter_STATUS populates the provided destination StringNotInAdvancedFilter_STATUS from our StringNotInAdvancedFilter_STATUS
+func (filter *StringNotInAdvancedFilter_STATUS) AssignProperties_To_StringNotInAdvancedFilter_STATUS(destination *v1api20200601s.StringNotInAdvancedFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
+
+	// OperatorType
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
+
+	// Values
+	destination.Values = genruntime.CloneSliceOfString(filter.Values)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForStringNotInAdvancedFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForStringNotInAdvancedFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForBoolEqualsAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.BoolEqualsAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.BoolEqualsAdvancedFilter) error
+}
+
+type augmentConversionForBoolEqualsAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.BoolEqualsAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.BoolEqualsAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberGreaterThanAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberGreaterThanAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberGreaterThanAdvancedFilter) error
+}
+
+type augmentConversionForNumberGreaterThanAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberGreaterThanAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberGreaterThanAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter) error
+}
+
+type augmentConversionForNumberGreaterThanOrEqualsAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberInAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberInAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberInAdvancedFilter) error
+}
+
+type augmentConversionForNumberInAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberInAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberInAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberLessThanAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberLessThanAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberLessThanAdvancedFilter) error
+}
+
+type augmentConversionForNumberLessThanAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberLessThanAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberLessThanAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberLessThanOrEqualsAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberLessThanOrEqualsAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberLessThanOrEqualsAdvancedFilter) error
+}
+
+type augmentConversionForNumberLessThanOrEqualsAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberLessThanOrEqualsAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForNumberNotInAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberNotInAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberNotInAdvancedFilter) error
+}
+
+type augmentConversionForNumberNotInAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.NumberNotInAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.NumberNotInAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringBeginsWithAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringBeginsWithAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.StringBeginsWithAdvancedFilter) error
+}
+
+type augmentConversionForStringBeginsWithAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringBeginsWithAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.StringBeginsWithAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringContainsAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringContainsAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.StringContainsAdvancedFilter) error
+}
+
+type augmentConversionForStringContainsAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringContainsAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.StringContainsAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringEndsWithAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringEndsWithAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.StringEndsWithAdvancedFilter) error
+}
+
+type augmentConversionForStringEndsWithAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringEndsWithAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.StringEndsWithAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringInAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringInAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.StringInAdvancedFilter) error
+}
+
+type augmentConversionForStringInAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringInAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.StringInAdvancedFilter_STATUS) error
+}
+
+type augmentConversionForStringNotInAdvancedFilter interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringNotInAdvancedFilter) error
+	AssignPropertiesTo(dst *v1api20200601s.StringNotInAdvancedFilter) error
+}
+
+type augmentConversionForStringNotInAdvancedFilter_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.StringNotInAdvancedFilter_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.StringNotInAdvancedFilter_STATUS) error
 }
 
 func init() {

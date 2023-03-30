@@ -3,102 +3,50 @@
 // Licensed under the MIT license.
 package v1beta20180601
 
-// Represents a server.
+// Deprecated version of Server_STATUS. Use v1api20180601.Server_STATUS instead
 type Server_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the server.
+	Id         *string                      `json:"id,omitempty"`
+	Location   *string                      `json:"location,omitempty"`
+	Name       *string                      `json:"name,omitempty"`
 	Properties *ServerProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Sku        *Sku_STATUS_ARM              `json:"sku,omitempty"`
+	Tags       map[string]string            `json:"tags,omitempty"`
+	Type       *string                      `json:"type,omitempty"`
 }
 
-// The properties of a server.
+// Deprecated version of ServerProperties_STATUS. Use v1api20180601.ServerProperties_STATUS instead
 type ServerProperties_STATUS_ARM struct {
-	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	// (and is required for creation).
-	AdministratorLogin *string `json:"administratorLogin,omitempty"`
-
-	// EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)
-	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
-
-	// FullyQualifiedDomainName: The fully qualified domain name of a server.
-	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
-
-	// MasterServerId: The master server id of a replica server.
-	MasterServerId *string `json:"masterServerId,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion_STATUS `json:"minimalTlsVersion,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections on a server
+	AdministratorLogin         *string                                      `json:"administratorLogin,omitempty"`
+	EarliestRestoreDate        *string                                      `json:"earliestRestoreDate,omitempty"`
+	FullyQualifiedDomainName   *string                                      `json:"fullyQualifiedDomainName,omitempty"`
+	MasterServerId             *string                                      `json:"masterServerId,omitempty"`
+	MinimalTlsVersion          *MinimalTlsVersion_STATUS                    `json:"minimalTlsVersion,omitempty"`
 	PrivateEndpointConnections []ServerPrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-
-	// ReplicaCapacity: The maximum number of replicas that a master server can have.
-	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
-
-	// ReplicationRole: The replication role of the server.
-	ReplicationRole *string `json:"replicationRole,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement_STATUS `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile_STATUS_ARM `json:"storageProfile,omitempty"`
-
-	// UserVisibleState: A state of a server that is visible to user.
-	UserVisibleState *ServerProperties_UserVisibleState_STATUS `json:"userVisibleState,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
+	PublicNetworkAccess        *PublicNetworkAccess_STATUS                  `json:"publicNetworkAccess,omitempty"`
+	ReplicaCapacity            *int                                         `json:"replicaCapacity,omitempty"`
+	ReplicationRole            *string                                      `json:"replicationRole,omitempty"`
+	SslEnforcement             *SslEnforcement_STATUS                       `json:"sslEnforcement,omitempty"`
+	StorageProfile             *StorageProfile_STATUS_ARM                   `json:"storageProfile,omitempty"`
+	UserVisibleState           *ServerProperties_UserVisibleState_STATUS    `json:"userVisibleState,omitempty"`
+	Version                    *ServerVersion_STATUS                        `json:"version,omitempty"`
 }
 
-// Billing information related properties of a server.
+// Deprecated version of Sku_STATUS. Use v1api20180601.Sku_STATUS instead
 type Sku_STATUS_ARM struct {
-	// Capacity: The scale up/out capacity, representing server's compute units.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: The family of hardware.
-	Family *string `json:"family,omitempty"`
-
-	// Name: The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
-	Name *string `json:"name,omitempty"`
-
-	// Size: The size code, to be interpreted by resource as appropriate.
-	Size *string `json:"size,omitempty"`
-
-	// Tier: The tier of the particular SKU, e.g. Basic.
-	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
+	Capacity *int             `json:"capacity,omitempty"`
+	Family   *string          `json:"family,omitempty"`
+	Name     *string          `json:"name,omitempty"`
+	Size     *string          `json:"size,omitempty"`
+	Tier     *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-// A private endpoint connection under a server
+// Deprecated version of ServerPrivateEndpointConnection_STATUS. Use v1api20180601.ServerPrivateEndpointConnection_STATUS instead
 type ServerPrivateEndpointConnection_STATUS_ARM struct {
-	// Id: Resource Id of the private endpoint connection.
-	Id *string `json:"id,omitempty"`
-
-	// Properties: Private endpoint connection properties
+	Id         *string                                               `json:"id,omitempty"`
 	Properties *ServerPrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of Sku_Tier_STATUS. Use v1api20180601.Sku_Tier_STATUS instead
 type Sku_Tier_STATUS string
 
 const (
@@ -107,45 +55,29 @@ const (
 	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
-// Storage Profile properties of a server
+// Deprecated version of StorageProfile_STATUS. Use v1api20180601.StorageProfile_STATUS instead
 type StorageProfile_STATUS_ARM struct {
-	// BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfile_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
-
-	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfile_StorageAutogrow_STATUS `json:"storageAutogrow,omitempty"`
-
-	// StorageMB: Max storage allowed for a server.
-	StorageMB *int `json:"storageMB,omitempty"`
+	BackupRetentionDays *int                                      `json:"backupRetentionDays,omitempty"`
+	GeoRedundantBackup  *StorageProfile_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
+	StorageAutogrow     *StorageProfile_StorageAutogrow_STATUS    `json:"storageAutogrow,omitempty"`
+	StorageMB           *int                                      `json:"storageMB,omitempty"`
 }
 
-// Properties of a private endpoint connection.
+// Deprecated version of ServerPrivateEndpointConnectionProperties_STATUS. Use v1api20180601.ServerPrivateEndpointConnectionProperties_STATUS instead
 type ServerPrivateEndpointConnectionProperties_STATUS_ARM struct {
-	// PrivateEndpoint: Private endpoint which the connection belongs to.
-	PrivateEndpoint *PrivateEndpointProperty_STATUS_ARM `json:"privateEndpoint,omitempty"`
-
-	// PrivateLinkServiceConnectionState: Connection state of the private endpoint connection.
-	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM `json:"privateLinkServiceConnectionState,omitempty"`
-
-	// ProvisioningState: State of the private endpoint connection.
-	ProvisioningState *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	PrivateEndpoint                   *PrivateEndpointProperty_STATUS_ARM                                 `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM         `json:"privateLinkServiceConnectionState,omitempty"`
+	ProvisioningState                 *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
+// Deprecated version of PrivateEndpointProperty_STATUS. Use v1api20180601.PrivateEndpointProperty_STATUS instead
 type PrivateEndpointProperty_STATUS_ARM struct {
-	// Id: Resource id of the private endpoint.
 	Id *string `json:"id,omitempty"`
 }
 
+// Deprecated version of ServerPrivateLinkServiceConnectionStateProperty_STATUS. Use v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS instead
 type ServerPrivateLinkServiceConnectionStateProperty_STATUS_ARM struct {
-	// ActionsRequired: The actions required for private link service connection.
 	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
-
-	// Description: The private link service connection description.
-	Description *string `json:"description,omitempty"`
-
-	// Status: The private link service connection status.
-	Status *ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS `json:"status,omitempty"`
+	Description     *string                                                                 `json:"description,omitempty"`
+	Status          *ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS          `json:"status,omitempty"`
 }

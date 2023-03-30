@@ -3,56 +3,37 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
+// Deprecated version of DatabaseAccounts_MongodbDatabase_STATUS. Use v1api20210515.DatabaseAccounts_MongodbDatabase_STATUS instead
 type DatabaseAccounts_MongodbDatabase_STATUS_ARM struct {
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties of an Azure Cosmos DB MongoDB database
+	Id         *string                                  `json:"id,omitempty"`
+	Location   *string                                  `json:"location,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
 	Properties *MongoDBDatabaseGetProperties_STATUS_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                        `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Type       *string                                  `json:"type,omitempty"`
 }
 
-// The properties of an Azure Cosmos DB MongoDB database
+// Deprecated version of MongoDBDatabaseGetProperties_STATUS. Use v1api20210515.MongoDBDatabaseGetProperties_STATUS instead
 type MongoDBDatabaseGetProperties_STATUS_ARM struct {
-	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS_ARM                       `json:"options,omitempty"`
 	Resource *MongoDBDatabaseGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
+// Deprecated version of MongoDBDatabaseGetProperties_Resource_STATUS. Use v1api20210515.MongoDBDatabaseGetProperties_Resource_STATUS instead
 type MongoDBDatabaseGetProperties_Resource_STATUS_ARM struct {
-	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	// Id: Name of the Cosmos DB MongoDB database
-	Id *string `json:"id,omitempty"`
-
-	// Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	// Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	Etag *string  `json:"_etag,omitempty"`
+	Id   *string  `json:"id,omitempty"`
+	Rid  *string  `json:"_rid,omitempty"`
+	Ts   *float64 `json:"_ts,omitempty"`
 }
 
-// Cosmos DB options resource object
+// Deprecated version of OptionsResource_STATUS. Use v1api20210515.OptionsResource_STATUS instead
 type OptionsResource_STATUS_ARM struct {
-	// AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_STATUS_ARM `json:"autoscaleSettings,omitempty"`
-
-	// Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
-	// retrieving offer details.
-	Throughput *int `json:"throughput,omitempty"`
+	Throughput        *int                          `json:"throughput,omitempty"`
 }
 
+// Deprecated version of AutoscaleSettings_STATUS. Use v1api20210515.AutoscaleSettings_STATUS instead
 type AutoscaleSettings_STATUS_ARM struct {
-	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }

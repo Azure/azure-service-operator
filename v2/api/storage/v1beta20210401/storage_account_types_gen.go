@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
+// Deprecated version of StorageAccount. Use v1api20210401.StorageAccount instead
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &StorageAccount{}
 
 // ConvertFrom populates our StorageAccount from the provided hub StorageAccount
 func (account *StorageAccount) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210401s.StorageAccount)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210401s.StorageAccount
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return account.AssignProperties_From_StorageAccount(source)
+	err = account.AssignProperties_From_StorageAccount(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to account")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccount from our StorageAccount
 func (account *StorageAccount) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210401s.StorageAccount)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210401s.StorageAccount
+	err := account.AssignProperties_To_StorageAccount(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from account")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return account.AssignProperties_To_StorageAccount(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1beta20210401-storageaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccounts,verbs=create;update,versions=v1beta20210401,name=default.v1beta20210401.storageaccounts.storage.azure.com,admissionReviewVersions=v1
@@ -348,89 +360,47 @@ func (account *StorageAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}
+// Deprecated version of StorageAccount. Use v1api20210401.StorageAccount instead
 type StorageAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccount `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20210401.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-04-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-04-01")
 
 type StorageAccount_Spec struct {
-	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
-	AccessTier *StorageAccountPropertiesCreateParameters_AccessTier `json:"accessTier,omitempty"`
-
-	// AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
-	// interpretation is true for this property.
-	AllowBlobPublicAccess *bool `json:"allowBlobPublicAccess,omitempty"`
-
-	// AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
-	// for this property.
-	AllowCrossTenantReplication *bool `json:"allowCrossTenantReplication,omitempty"`
-
-	// AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
-	// key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
-	// Active Directory (Azure AD). The default value is null, which is equivalent to true.
-	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess,omitempty"`
-
-	// AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.
-	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+	AccessTier                            *StorageAccountPropertiesCreateParameters_AccessTier `json:"accessTier,omitempty"`
+	AllowBlobPublicAccess                 *bool                                                `json:"allowBlobPublicAccess,omitempty"`
+	AllowCrossTenantReplication           *bool                                                `json:"allowCrossTenantReplication,omitempty"`
+	AllowSharedKeyAccess                  *bool                                                `json:"allowSharedKeyAccess,omitempty"`
+	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication               `json:"azureFilesIdentityBasedAuthentication,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=24
 	// +kubebuilder:validation:MinLength=3
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// CustomDomain: User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported
-	// per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name
-	// property.
-	CustomDomain *CustomDomain `json:"customDomain,omitempty"`
-
-	// Encryption: Not applicable. Azure Storage encryption is enabled for all storage accounts and cannot be disabled.
-	Encryption *Encryption `json:"encryption,omitempty"`
-
-	// ExtendedLocation: Optional. Set the extended location of the resource. If not set, the storage account will be created
-	// in Azure main region. Otherwise it will be created in the specified extended location
+	AzureName        string            `json:"azureName,omitempty"`
+	CustomDomain     *CustomDomain     `json:"customDomain,omitempty"`
+	Encryption       *Encryption       `json:"encryption,omitempty"`
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity `json:"identity,omitempty"`
-
-	// IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.
-	IsHnsEnabled *bool `json:"isHnsEnabled,omitempty"`
-
-	// IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.
-	IsNfsV3Enabled *bool `json:"isNfsV3Enabled,omitempty"`
-
-	// KeyPolicy: KeyPolicy assigned to the storage account.
-	KeyPolicy *KeyPolicy `json:"keyPolicy,omitempty"`
+	Identity         *Identity         `json:"identity,omitempty"`
+	IsHnsEnabled     *bool             `json:"isHnsEnabled,omitempty"`
+	IsNfsV3Enabled   *bool             `json:"isNfsV3Enabled,omitempty"`
+	KeyPolicy        *KeyPolicy        `json:"keyPolicy,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Kind: Required. Indicates the type of storage account.
-	Kind *StorageAccount_Kind_Spec `json:"kind,omitempty"`
-
-	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
+	Kind                 *StorageAccount_Kind_Spec                                      `json:"kind,omitempty"`
 	LargeFileSharesState *StorageAccountPropertiesCreateParameters_LargeFileSharesState `json:"largeFileSharesState,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
-	// Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
-	// created, but if an identical geo region is specified on update, the request will succeed.
-	Location *string `json:"location,omitempty"`
-
-	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-	// 1.0 for this property.
+	Location          *string                                                     `json:"location,omitempty"`
 	MinimumTlsVersion *StorageAccountPropertiesCreateParameters_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-
-	// NetworkAcls: Network rule set
-	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
+	NetworkAcls       *NetworkRuleSet                                             `json:"networkAcls,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
@@ -440,26 +410,14 @@ type StorageAccount_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// RoutingPreference: Maintains information about the network routing choice opted by the user for data transfer
-	RoutingPreference *RoutingPreference `json:"routingPreference,omitempty"`
-
-	// SasPolicy: SasPolicy assigned to the storage account.
-	SasPolicy *SasPolicy `json:"sasPolicy,omitempty"`
+	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	RoutingPreference *RoutingPreference                 `json:"routingPreference,omitempty"`
+	SasPolicy         *SasPolicy                         `json:"sasPolicy,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Sku: Required. Gets or sets the SKU name.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true. The default value is true since
-	// API version 2019-04-01.
-	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
-
-	// Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping
-	// this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key
-	// with a length no greater than 128 characters and a value with a length no greater than 256 characters.
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku                      *Sku              `json:"sku,omitempty"`
+	SupportsHttpsTrafficOnly *bool             `json:"supportsHttpsTrafficOnly,omitempty"`
+	Tags                     map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccount_Spec{}
@@ -1649,140 +1607,50 @@ func (account *StorageAccount_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (account *StorageAccount_Spec) SetAzureName(azureName string) { account.AzureName = azureName }
 
-// The storage account.
+// Deprecated version of StorageAccount_STATUS. Use v1api20210401.StorageAccount_STATUS instead
 type StorageAccount_STATUS struct {
-	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
-	AccessTier *StorageAccountProperties_AccessTier_STATUS `json:"accessTier,omitempty"`
-
-	// AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
-	// interpretation is true for this property.
-	AllowBlobPublicAccess *bool `json:"allowBlobPublicAccess,omitempty"`
-
-	// AllowCrossTenantReplication: Allow or disallow cross AAD tenant object replication. The default interpretation is true
-	// for this property.
-	AllowCrossTenantReplication *bool `json:"allowCrossTenantReplication,omitempty"`
-
-	// AllowSharedKeyAccess: Indicates whether the storage account permits requests to be authorized with the account access
-	// key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure
-	// Active Directory (Azure AD). The default value is null, which is equivalent to true.
-	AllowSharedKeyAccess *bool `json:"allowSharedKeyAccess,omitempty"`
-
-	// AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.
+	AccessTier                            *StorageAccountProperties_AccessTier_STATUS   `json:"accessTier,omitempty"`
+	AllowBlobPublicAccess                 *bool                                         `json:"allowBlobPublicAccess,omitempty"`
+	AllowCrossTenantReplication           *bool                                         `json:"allowCrossTenantReplication,omitempty"`
+	AllowSharedKeyAccess                  *bool                                         `json:"allowSharedKeyAccess,omitempty"`
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS `json:"azureFilesIdentityBasedAuthentication,omitempty"`
-
-	// BlobRestoreStatus: Blob restore status
-	BlobRestoreStatus *BlobRestoreStatus_STATUS `json:"blobRestoreStatus,omitempty"`
+	BlobRestoreStatus                     *BlobRestoreStatus_STATUS                     `json:"blobRestoreStatus,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CreationTime: Gets the creation date and time of the storage account in UTC.
-	CreationTime *string `json:"creationTime,omitempty"`
-
-	// CustomDomain: Gets the custom domain the user assigned to this storage account.
-	CustomDomain *CustomDomain_STATUS `json:"customDomain,omitempty"`
-
-	// Encryption: Gets the encryption settings on the account. If unspecified, the account is unencrypted.
-	Encryption *Encryption_STATUS `json:"encryption,omitempty"`
-
-	// ExtendedLocation: The extendedLocation of the resource.
-	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
-
-	// FailoverInProgress: If the failover is in progress, the value will be true, otherwise, it will be null.
-	FailoverInProgress *bool `json:"failoverInProgress,omitempty"`
-
-	// GeoReplicationStats: Geo Replication Stats
-	GeoReplicationStats *GeoReplicationStats_STATUS `json:"geoReplicationStats,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity_STATUS `json:"identity,omitempty"`
-
-	// IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.
-	IsHnsEnabled *bool `json:"isHnsEnabled,omitempty"`
-
-	// IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.
-	IsNfsV3Enabled *bool `json:"isNfsV3Enabled,omitempty"`
-
-	// KeyCreationTime: Storage account keys creation time.
-	KeyCreationTime *KeyCreationTime_STATUS `json:"keyCreationTime,omitempty"`
-
-	// KeyPolicy: KeyPolicy assigned to the storage account.
-	KeyPolicy *KeyPolicy_STATUS `json:"keyPolicy,omitempty"`
-
-	// Kind: Gets the Kind.
-	Kind *StorageAccount_Kind_STATUS `json:"kind,omitempty"`
-
-	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
-	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
-
-	// LastGeoFailoverTime: Gets the timestamp of the most recent instance of a failover to the secondary location. Only the
-	// most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only
-	// available if the accountType is Standard_GRS or Standard_RAGRS.
-	LastGeoFailoverTime *string `json:"lastGeoFailoverTime,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
-	// 1.0 for this property.
-	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// NetworkAcls: Network rule set
-	NetworkAcls *NetworkRuleSet_STATUS `json:"networkAcls,omitempty"`
-
-	// PrimaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object. Note that
-	// Standard_ZRS and Premium_LRS accounts only return the blob endpoint.
-	PrimaryEndpoints *Endpoints_STATUS `json:"primaryEndpoints,omitempty"`
-
-	// PrimaryLocation: Gets the location of the primary data center for the storage account.
-	PrimaryLocation *string `json:"primaryLocation,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connection associated with the specified storage account
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Gets the status of the storage account at the time the operation was called.
-	ProvisioningState *StorageAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// RoutingPreference: Maintains information about the network routing choice opted by the user for data transfer
-	RoutingPreference *RoutingPreference_STATUS `json:"routingPreference,omitempty"`
-
-	// SasPolicy: SasPolicy assigned to the storage account.
-	SasPolicy *SasPolicy_STATUS `json:"sasPolicy,omitempty"`
-
-	// SecondaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the
-	// secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.
-	SecondaryEndpoints *Endpoints_STATUS `json:"secondaryEndpoints,omitempty"`
-
-	// SecondaryLocation: Gets the location of the geo-replicated secondary for the storage account. Only available if the
-	// accountType is Standard_GRS or Standard_RAGRS.
-	SecondaryLocation *string `json:"secondaryLocation,omitempty"`
-
-	// Sku: Gets the SKU.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// StatusOfPrimary: Gets the status indicating whether the primary location of the storage account is available or
-	// unavailable.
-	StatusOfPrimary *StorageAccountProperties_StatusOfPrimary_STATUS `json:"statusOfPrimary,omitempty"`
-
-	// StatusOfSecondary: Gets the status indicating whether the secondary location of the storage account is available or
-	// unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS.
-	StatusOfSecondary *StorageAccountProperties_StatusOfSecondary_STATUS `json:"statusOfSecondary,omitempty"`
-
-	// SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true.
-	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions                 []conditions.Condition                                `json:"conditions,omitempty"`
+	CreationTime               *string                                               `json:"creationTime,omitempty"`
+	CustomDomain               *CustomDomain_STATUS                                  `json:"customDomain,omitempty"`
+	Encryption                 *Encryption_STATUS                                    `json:"encryption,omitempty"`
+	ExtendedLocation           *ExtendedLocation_STATUS                              `json:"extendedLocation,omitempty"`
+	FailoverInProgress         *bool                                                 `json:"failoverInProgress,omitempty"`
+	GeoReplicationStats        *GeoReplicationStats_STATUS                           `json:"geoReplicationStats,omitempty"`
+	Id                         *string                                               `json:"id,omitempty"`
+	Identity                   *Identity_STATUS                                      `json:"identity,omitempty"`
+	IsHnsEnabled               *bool                                                 `json:"isHnsEnabled,omitempty"`
+	IsNfsV3Enabled             *bool                                                 `json:"isNfsV3Enabled,omitempty"`
+	KeyCreationTime            *KeyCreationTime_STATUS                               `json:"keyCreationTime,omitempty"`
+	KeyPolicy                  *KeyPolicy_STATUS                                     `json:"keyPolicy,omitempty"`
+	Kind                       *StorageAccount_Kind_STATUS                           `json:"kind,omitempty"`
+	LargeFileSharesState       *StorageAccountProperties_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
+	LastGeoFailoverTime        *string                                               `json:"lastGeoFailoverTime,omitempty"`
+	Location                   *string                                               `json:"location,omitempty"`
+	MinimumTlsVersion          *StorageAccountProperties_MinimumTlsVersion_STATUS    `json:"minimumTlsVersion,omitempty"`
+	Name                       *string                                               `json:"name,omitempty"`
+	NetworkAcls                *NetworkRuleSet_STATUS                                `json:"networkAcls,omitempty"`
+	PrimaryEndpoints           *Endpoints_STATUS                                     `json:"primaryEndpoints,omitempty"`
+	PrimaryLocation            *string                                               `json:"primaryLocation,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS                    `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *StorageAccountProperties_ProvisioningState_STATUS    `json:"provisioningState,omitempty"`
+	RoutingPreference          *RoutingPreference_STATUS                             `json:"routingPreference,omitempty"`
+	SasPolicy                  *SasPolicy_STATUS                                     `json:"sasPolicy,omitempty"`
+	SecondaryEndpoints         *Endpoints_STATUS                                     `json:"secondaryEndpoints,omitempty"`
+	SecondaryLocation          *string                                               `json:"secondaryLocation,omitempty"`
+	Sku                        *Sku_STATUS                                           `json:"sku,omitempty"`
+	StatusOfPrimary            *StorageAccountProperties_StatusOfPrimary_STATUS      `json:"statusOfPrimary,omitempty"`
+	StatusOfSecondary          *StorageAccountProperties_StatusOfSecondary_STATUS    `json:"statusOfSecondary,omitempty"`
+	SupportsHttpsTrafficOnly   *bool                                                 `json:"supportsHttpsTrafficOnly,omitempty"`
+	Tags                       map[string]string                                     `json:"tags,omitempty"`
+	Type                       *string                                               `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccount_STATUS{}
@@ -2963,16 +2831,12 @@ func (account *StorageAccount_STATUS) AssignProperties_To_StorageAccount_STATUS(
 	return nil
 }
 
-// Settings for Azure Files identity based authentication.
+// Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1api20210401.AzureFilesIdentityBasedAuthentication instead
 type AzureFilesIdentityBasedAuthentication struct {
-	// ActiveDirectoryProperties: Required if choose AD.
-	ActiveDirectoryProperties *ActiveDirectoryProperties `json:"activeDirectoryProperties,omitempty"`
-
-	// DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission `json:"defaultSharePermission,omitempty"`
+	ActiveDirectoryProperties *ActiveDirectoryProperties                                    `json:"activeDirectoryProperties,omitempty"`
+	DefaultSharePermission    *AzureFilesIdentityBasedAuthentication_DefaultSharePermission `json:"defaultSharePermission,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// DirectoryServiceOptions: Indicates the directory service used.
 	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions `json:"directoryServiceOptions,omitempty"`
 }
 
@@ -3162,16 +3026,11 @@ func (authentication *AzureFilesIdentityBasedAuthentication) Initialize_From_Azu
 	return nil
 }
 
-// Settings for Azure Files identity based authentication.
+// Deprecated version of AzureFilesIdentityBasedAuthentication_STATUS. Use v1api20210401.AzureFilesIdentityBasedAuthentication_STATUS instead
 type AzureFilesIdentityBasedAuthentication_STATUS struct {
-	// ActiveDirectoryProperties: Required if choose AD.
-	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS `json:"activeDirectoryProperties,omitempty"`
-
-	// DefaultSharePermission: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
-	DefaultSharePermission *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS `json:"defaultSharePermission,omitempty"`
-
-	// DirectoryServiceOptions: Indicates the directory service used.
-	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS `json:"directoryServiceOptions,omitempty"`
+	ActiveDirectoryProperties *ActiveDirectoryProperties_STATUS                                     `json:"activeDirectoryProperties,omitempty"`
+	DefaultSharePermission    *AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS  `json:"defaultSharePermission,omitempty"`
+	DirectoryServiceOptions   *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS `json:"directoryServiceOptions,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AzureFilesIdentityBasedAuthentication_STATUS{}
@@ -3294,20 +3153,12 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) AssignProper
 	return nil
 }
 
-// Blob restore status.
+// Deprecated version of BlobRestoreStatus_STATUS. Use v1api20210401.BlobRestoreStatus_STATUS instead
 type BlobRestoreStatus_STATUS struct {
-	// FailureReason: Failure reason when blob restore is failed.
-	FailureReason *string `json:"failureReason,omitempty"`
-
-	// Parameters: Blob restore request parameters.
-	Parameters *BlobRestoreParameters_STATUS `json:"parameters,omitempty"`
-
-	// RestoreId: Id for tracking blob restore request.
-	RestoreId *string `json:"restoreId,omitempty"`
-
-	// Status: The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing.
-	// - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.
-	Status *BlobRestoreStatus_Status_STATUS `json:"status,omitempty"`
+	FailureReason *string                          `json:"failureReason,omitempty"`
+	Parameters    *BlobRestoreParameters_STATUS    `json:"parameters,omitempty"`
+	RestoreId     *string                          `json:"restoreId,omitempty"`
+	Status        *BlobRestoreStatus_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BlobRestoreStatus_STATUS{}
@@ -3432,15 +3283,11 @@ func (status *BlobRestoreStatus_STATUS) AssignProperties_To_BlobRestoreStatus_ST
 	return nil
 }
 
-// The custom domain assigned to this storage account. This can be set via Update.
+// Deprecated version of CustomDomain. Use v1api20210401.CustomDomain instead
 type CustomDomain struct {
 	// +kubebuilder:validation:Required
-	// Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
-	Name *string `json:"name,omitempty"`
-
-	// UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
-	// set on updates.
-	UseSubDomainName *bool `json:"useSubDomainName,omitempty"`
+	Name             *string `json:"name,omitempty"`
+	UseSubDomainName *bool   `json:"useSubDomainName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CustomDomain{}
@@ -3557,14 +3404,10 @@ func (domain *CustomDomain) Initialize_From_CustomDomain_STATUS(source *CustomDo
 	return nil
 }
 
-// The custom domain assigned to this storage account. This can be set via Update.
+// Deprecated version of CustomDomain_STATUS. Use v1api20210401.CustomDomain_STATUS instead
 type CustomDomain_STATUS struct {
-	// Name: Gets or sets the custom domain name assigned to the storage account. Name is the CNAME source.
-	Name *string `json:"name,omitempty"`
-
-	// UseSubDomainName: Indicates whether indirect CName validation is enabled. Default value is false. This should only be
-	// set on updates.
-	UseSubDomainName *bool `json:"useSubDomainName,omitempty"`
+	Name             *string `json:"name,omitempty"`
+	UseSubDomainName *bool   `json:"useSubDomainName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CustomDomain_STATUS{}
@@ -3642,25 +3485,15 @@ func (domain *CustomDomain_STATUS) AssignProperties_To_CustomDomain_STATUS(desti
 	return nil
 }
 
-// The encryption settings on the storage account.
+// Deprecated version of Encryption. Use v1api20210401.Encryption instead
 type Encryption struct {
-	// Identity: The identity to be used with service-side encryption at rest.
 	Identity *EncryptionIdentity `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
-	// Microsoft.Keyvault
-	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
-
-	// Keyvaultproperties: Properties provided by key vault.
-	Keyvaultproperties *KeyVaultProperties `json:"keyvaultproperties,omitempty"`
-
-	// RequireInfrastructureEncryption: A boolean indicating whether or not the service applies a secondary layer of encryption
-	// with platform managed keys for data at rest.
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
-
-	// Services: List of services which support encryption.
-	Services *EncryptionServices `json:"services,omitempty"`
+	KeySource                       *Encryption_KeySource `json:"keySource,omitempty"`
+	Keyvaultproperties              *KeyVaultProperties   `json:"keyvaultproperties,omitempty"`
+	RequireInfrastructureEncryption *bool                 `json:"requireInfrastructureEncryption,omitempty"`
+	Services                        *EncryptionServices   `json:"services,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Encryption{}
@@ -3963,24 +3796,13 @@ func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encrypti
 	return nil
 }
 
-// The encryption settings on the storage account.
+// Deprecated version of Encryption_STATUS. Use v1api20210401.Encryption_STATUS instead
 type Encryption_STATUS struct {
-	// Identity: The identity to be used with service-side encryption at rest.
-	Identity *EncryptionIdentity_STATUS `json:"identity,omitempty"`
-
-	// KeySource: The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage,
-	// Microsoft.Keyvault
-	KeySource *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
-
-	// Keyvaultproperties: Properties provided by key vault.
-	Keyvaultproperties *KeyVaultProperties_STATUS `json:"keyvaultproperties,omitempty"`
-
-	// RequireInfrastructureEncryption: A boolean indicating whether or not the service applies a secondary layer of encryption
-	// with platform managed keys for data at rest.
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
-
-	// Services: List of services which support encryption.
-	Services *EncryptionServices_STATUS `json:"services,omitempty"`
+	Identity                        *EncryptionIdentity_STATUS   `json:"identity,omitempty"`
+	KeySource                       *Encryption_KeySource_STATUS `json:"keySource,omitempty"`
+	Keyvaultproperties              *KeyVaultProperties_STATUS   `json:"keyvaultproperties,omitempty"`
+	RequireInfrastructureEncryption *bool                        `json:"requireInfrastructureEncryption,omitempty"`
+	Services                        *EncryptionServices_STATUS   `json:"services,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Encryption_STATUS{}
@@ -4173,31 +3995,16 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 	return nil
 }
 
-// The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object.
+// Deprecated version of Endpoints_STATUS. Use v1api20210401.Endpoints_STATUS instead
 type Endpoints_STATUS struct {
-	// Blob: Gets the blob endpoint.
-	Blob *string `json:"blob,omitempty"`
-
-	// Dfs: Gets the dfs endpoint.
-	Dfs *string `json:"dfs,omitempty"`
-
-	// File: Gets the file endpoint.
-	File *string `json:"file,omitempty"`
-
-	// InternetEndpoints: Gets the internet routing storage endpoints
-	InternetEndpoints *StorageAccountInternetEndpoints_STATUS `json:"internetEndpoints,omitempty"`
-
-	// MicrosoftEndpoints: Gets the microsoft routing storage endpoints.
+	Blob               *string                                  `json:"blob,omitempty"`
+	Dfs                *string                                  `json:"dfs,omitempty"`
+	File               *string                                  `json:"file,omitempty"`
+	InternetEndpoints  *StorageAccountInternetEndpoints_STATUS  `json:"internetEndpoints,omitempty"`
 	MicrosoftEndpoints *StorageAccountMicrosoftEndpoints_STATUS `json:"microsoftEndpoints,omitempty"`
-
-	// Queue: Gets the queue endpoint.
-	Queue *string `json:"queue,omitempty"`
-
-	// Table: Gets the table endpoint.
-	Table *string `json:"table,omitempty"`
-
-	// Web: Gets the web endpoint.
-	Web *string `json:"web,omitempty"`
+	Queue              *string                                  `json:"queue,omitempty"`
+	Table              *string                                  `json:"table,omitempty"`
+	Web                *string                                  `json:"web,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Endpoints_STATUS{}
@@ -4383,12 +4190,9 @@ func (endpoints *Endpoints_STATUS) AssignProperties_To_Endpoints_STATUS(destinat
 	return nil
 }
 
-// The complex type of the extended location.
+// Deprecated version of ExtendedLocation. Use v1api20210401.ExtendedLocation instead
 type ExtendedLocation struct {
-	// Name: The name of the extended location.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the extended location.
+	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
@@ -4506,12 +4310,9 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 	return nil
 }
 
-// The complex type of the extended location.
+// Deprecated version of ExtendedLocation_STATUS. Use v1api20210401.ExtendedLocation_STATUS instead
 type ExtendedLocation_STATUS struct {
-	// Name: The name of the extended location.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the extended location.
+	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
@@ -4590,22 +4391,11 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
-// Statistics related to replication for storage account's Blob, Table, Queue and File services. It is only available when
-// geo-redundant replication is enabled for the storage account.
+// Deprecated version of GeoReplicationStats_STATUS. Use v1api20210401.GeoReplicationStats_STATUS instead
 type GeoReplicationStats_STATUS struct {
-	// CanFailover: A boolean flag which indicates whether or not account failover is supported for the account.
-	CanFailover *bool `json:"canFailover,omitempty"`
-
-	// LastSyncTime: All primary writes preceding this UTC date/time value are guaranteed to be available for read operations.
-	// Primary writes following this point in time may or may not be available for reads. Element may be default value if value
-	// of LastSyncTime is not available, this can happen if secondary is offline or we are in bootstrap.
-	LastSyncTime *string `json:"lastSyncTime,omitempty"`
-
-	// Status: The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is
-	// active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary
-	// location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the
-	// secondary location is temporarily unavailable.
-	Status *GeoReplicationStats_Status_STATUS `json:"status,omitempty"`
+	CanFailover  *bool                              `json:"canFailover,omitempty"`
+	LastSyncTime *string                            `json:"lastSyncTime,omitempty"`
+	Status       *GeoReplicationStats_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &GeoReplicationStats_STATUS{}
@@ -4705,10 +4495,9 @@ func (stats *GeoReplicationStats_STATUS) AssignProperties_To_GeoReplicationStats
 	return nil
 }
 
-// Identity for the resource.
+// Deprecated version of Identity. Use v1api20210401.Identity instead
 type Identity struct {
 	// +kubebuilder:validation:Required
-	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
@@ -4805,20 +4594,11 @@ func (identity *Identity) Initialize_From_Identity_STATUS(source *Identity_STATU
 	return nil
 }
 
-// Identity for the resource.
+// Deprecated version of Identity_STATUS. Use v1api20210401.Identity_STATUS instead
 type Identity_STATUS struct {
-	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The identity type.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: Gets or sets a list of key value pairs that describe the set of User Assigned identities that
-	// will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned
-	// identity is permitted here.
+	PrincipalId            *string                                `json:"principalId,omitempty"`
+	TenantId               *string                                `json:"tenantId,omitempty"`
+	Type                   *Identity_Type_STATUS                  `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -4958,7 +4738,7 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
-// Storage account keys creation time.
+// Deprecated version of KeyCreationTime_STATUS. Use v1api20210401.KeyCreationTime_STATUS instead
 type KeyCreationTime_STATUS struct {
 	Key1 *string `json:"key1,omitempty"`
 	Key2 *string `json:"key2,omitempty"`
@@ -5029,10 +4809,9 @@ func (time *KeyCreationTime_STATUS) AssignProperties_To_KeyCreationTime_STATUS(d
 	return nil
 }
 
-// KeyPolicy assigned to the storage account.
+// Deprecated version of KeyPolicy. Use v1api20210401.KeyPolicy instead
 type KeyPolicy struct {
 	// +kubebuilder:validation:Required
-	// KeyExpirationPeriodInDays: The key expiration period in days.
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
@@ -5114,9 +4893,8 @@ func (policy *KeyPolicy) Initialize_From_KeyPolicy_STATUS(source *KeyPolicy_STAT
 	return nil
 }
 
-// KeyPolicy assigned to the storage account.
+// Deprecated version of KeyPolicy_STATUS. Use v1api20210401.KeyPolicy_STATUS instead
 type KeyPolicy_STATUS struct {
-	// KeyExpirationPeriodInDays: The key expiration period in days.
 	KeyExpirationPeriodInDays *int `json:"keyExpirationPeriodInDays,omitempty"`
 }
 
@@ -5173,24 +4951,15 @@ func (policy *KeyPolicy_STATUS) AssignProperties_To_KeyPolicy_STATUS(destination
 	return nil
 }
 
-// Network rule set
+// Deprecated version of NetworkRuleSet. Use v1api20210401.NetworkRuleSet instead
 type NetworkRuleSet struct {
-	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
-	// Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
 	Bypass *NetworkRuleSet_Bypass `json:"bypass,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// DefaultAction: Specifies the default action of allow or deny when no other rules match.
-	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
-
-	// IpRules: Sets the IP ACL rules
-	IpRules []IPRule `json:"ipRules,omitempty"`
-
-	// ResourceAccessRules: Sets the resource access rules
-	ResourceAccessRules []ResourceAccessRule `json:"resourceAccessRules,omitempty"`
-
-	// VirtualNetworkRules: Sets the virtual network rules
-	VirtualNetworkRules []VirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
+	DefaultAction       *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
+	IpRules             []IPRule                      `json:"ipRules,omitempty"`
+	ResourceAccessRules []ResourceAccessRule          `json:"resourceAccessRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule          `json:"virtualNetworkRules,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkRuleSet{}
@@ -5541,23 +5310,13 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 	return nil
 }
 
-// Network rule set
+// Deprecated version of NetworkRuleSet_STATUS. Use v1api20210401.NetworkRuleSet_STATUS instead
 type NetworkRuleSet_STATUS struct {
-	// Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of
-	// Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
-	Bypass *NetworkRuleSet_Bypass_STATUS `json:"bypass,omitempty"`
-
-	// DefaultAction: Specifies the default action of allow or deny when no other rules match.
-	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
-
-	// IpRules: Sets the IP ACL rules
-	IpRules []IPRule_STATUS `json:"ipRules,omitempty"`
-
-	// ResourceAccessRules: Sets the resource access rules
-	ResourceAccessRules []ResourceAccessRule_STATUS `json:"resourceAccessRules,omitempty"`
-
-	// VirtualNetworkRules: Sets the virtual network rules
-	VirtualNetworkRules []VirtualNetworkRule_STATUS `json:"virtualNetworkRules,omitempty"`
+	Bypass              *NetworkRuleSet_Bypass_STATUS        `json:"bypass,omitempty"`
+	DefaultAction       *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+	IpRules             []IPRule_STATUS                      `json:"ipRules,omitempty"`
+	ResourceAccessRules []ResourceAccessRule_STATUS          `json:"resourceAccessRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_STATUS          `json:"virtualNetworkRules,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkRuleSet_STATUS{}
@@ -5783,10 +5542,8 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	return nil
 }
 
-// The Private Endpoint Connection resource.
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1api20210401.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
@@ -5843,17 +5600,11 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
-// Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user
-// data, the default option is microsoft routing
+// Deprecated version of RoutingPreference. Use v1api20210401.RoutingPreference instead
 type RoutingPreference struct {
-	// PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published
-	PublishInternetEndpoints *bool `json:"publishInternetEndpoints,omitempty"`
-
-	// PublishMicrosoftEndpoints: A boolean flag which indicates whether microsoft routing storage endpoints are to be published
-	PublishMicrosoftEndpoints *bool `json:"publishMicrosoftEndpoints,omitempty"`
-
-	// RoutingChoice: Routing Choice defines the kind of network routing opted by the user.
-	RoutingChoice *RoutingPreference_RoutingChoice `json:"routingChoice,omitempty"`
+	PublishInternetEndpoints  *bool                            `json:"publishInternetEndpoints,omitempty"`
+	PublishMicrosoftEndpoints *bool                            `json:"publishMicrosoftEndpoints,omitempty"`
+	RoutingChoice             *RoutingPreference_RoutingChoice `json:"routingChoice,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RoutingPreference{}
@@ -6021,17 +5772,11 @@ func (preference *RoutingPreference) Initialize_From_RoutingPreference_STATUS(so
 	return nil
 }
 
-// Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user
-// data, the default option is microsoft routing
+// Deprecated version of RoutingPreference_STATUS. Use v1api20210401.RoutingPreference_STATUS instead
 type RoutingPreference_STATUS struct {
-	// PublishInternetEndpoints: A boolean flag which indicates whether internet routing storage endpoints are to be published
-	PublishInternetEndpoints *bool `json:"publishInternetEndpoints,omitempty"`
-
-	// PublishMicrosoftEndpoints: A boolean flag which indicates whether microsoft routing storage endpoints are to be published
-	PublishMicrosoftEndpoints *bool `json:"publishMicrosoftEndpoints,omitempty"`
-
-	// RoutingChoice: Routing Choice defines the kind of network routing opted by the user.
-	RoutingChoice *RoutingPreference_RoutingChoice_STATUS `json:"routingChoice,omitempty"`
+	PublishInternetEndpoints  *bool                                   `json:"publishInternetEndpoints,omitempty"`
+	PublishMicrosoftEndpoints *bool                                   `json:"publishMicrosoftEndpoints,omitempty"`
+	RoutingChoice             *RoutingPreference_RoutingChoice_STATUS `json:"routingChoice,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RoutingPreference_STATUS{}
@@ -6141,14 +5886,12 @@ func (preference *RoutingPreference_STATUS) AssignProperties_To_RoutingPreferenc
 	return nil
 }
 
-// SasPolicy assigned to the storage account.
+// Deprecated version of SasPolicy. Use v1api20210401.SasPolicy instead
 type SasPolicy struct {
 	// +kubebuilder:validation:Required
-	// ExpirationAction: The SAS expiration action. Can only be Log.
 	ExpirationAction *SasPolicy_ExpirationAction `json:"expirationAction,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
 	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
 }
 
@@ -6266,13 +6009,10 @@ func (policy *SasPolicy) Initialize_From_SasPolicy_STATUS(source *SasPolicy_STAT
 	return nil
 }
 
-// SasPolicy assigned to the storage account.
+// Deprecated version of SasPolicy_STATUS. Use v1api20210401.SasPolicy_STATUS instead
 type SasPolicy_STATUS struct {
-	// ExpirationAction: The SAS expiration action. Can only be Log.
-	ExpirationAction *SasPolicy_ExpirationAction_STATUS `json:"expirationAction,omitempty"`
-
-	// SasExpirationPeriod: The SAS expiration period, DD.HH:MM:SS.
-	SasExpirationPeriod *string `json:"sasExpirationPeriod,omitempty"`
+	ExpirationAction    *SasPolicy_ExpirationAction_STATUS `json:"expirationAction,omitempty"`
+	SasExpirationPeriod *string                            `json:"sasExpirationPeriod,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SasPolicy_STATUS{}
@@ -6350,15 +6090,11 @@ func (policy *SasPolicy_STATUS) AssignProperties_To_SasPolicy_STATUS(destination
 	return nil
 }
 
-// The SKU of the storage account.
+// Deprecated version of Sku. Use v1api20210401.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
-	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
-	//  accountType.
 	Name *SkuName `json:"name,omitempty"`
-
-	// Tier: The SKU tier. This is based on the SKU name.
-	Tier *Tier `json:"tier,omitempty"`
+	Tier *Tier    `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -6490,14 +6226,10 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 	return nil
 }
 
-// The SKU of the storage account.
+// Deprecated version of Sku_STATUS. Use v1api20210401.Sku_STATUS instead
 type Sku_STATUS struct {
-	// Name: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called
-	//  accountType.
 	Name *SkuName_STATUS `json:"name,omitempty"`
-
-	// Tier: The SKU tier. This is based on the SKU name.
-	Tier *Tier_STATUS `json:"tier,omitempty"`
+	Tier *Tier_STATUS    `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -6638,6 +6370,8 @@ func (operator *StorageAccountOperatorSpec) AssignProperties_To_StorageAccountOp
 	return nil
 }
 
+// Deprecated version of StorageAccountProperties_AccessTier_STATUS. Use
+// v1api20210401.StorageAccountProperties_AccessTier_STATUS instead
 type StorageAccountProperties_AccessTier_STATUS string
 
 const (
@@ -6645,6 +6379,8 @@ const (
 	StorageAccountProperties_AccessTier_STATUS_Hot  = StorageAccountProperties_AccessTier_STATUS("Hot")
 )
 
+// Deprecated version of StorageAccountProperties_LargeFileSharesState_STATUS. Use
+// v1api20210401.StorageAccountProperties_LargeFileSharesState_STATUS instead
 type StorageAccountProperties_LargeFileSharesState_STATUS string
 
 const (
@@ -6652,6 +6388,8 @@ const (
 	StorageAccountProperties_LargeFileSharesState_STATUS_Enabled  = StorageAccountProperties_LargeFileSharesState_STATUS("Enabled")
 )
 
+// Deprecated version of StorageAccountProperties_MinimumTlsVersion_STATUS. Use
+// v1api20210401.StorageAccountProperties_MinimumTlsVersion_STATUS instead
 type StorageAccountProperties_MinimumTlsVersion_STATUS string
 
 const (
@@ -6660,6 +6398,8 @@ const (
 	StorageAccountProperties_MinimumTlsVersion_STATUS_TLS1_2 = StorageAccountProperties_MinimumTlsVersion_STATUS("TLS1_2")
 )
 
+// Deprecated version of StorageAccountProperties_ProvisioningState_STATUS. Use
+// v1api20210401.StorageAccountProperties_ProvisioningState_STATUS instead
 type StorageAccountProperties_ProvisioningState_STATUS string
 
 const (
@@ -6668,6 +6408,8 @@ const (
 	StorageAccountProperties_ProvisioningState_STATUS_Succeeded    = StorageAccountProperties_ProvisioningState_STATUS("Succeeded")
 )
 
+// Deprecated version of StorageAccountProperties_StatusOfPrimary_STATUS. Use
+// v1api20210401.StorageAccountProperties_StatusOfPrimary_STATUS instead
 type StorageAccountProperties_StatusOfPrimary_STATUS string
 
 const (
@@ -6675,6 +6417,8 @@ const (
 	StorageAccountProperties_StatusOfPrimary_STATUS_Unavailable = StorageAccountProperties_StatusOfPrimary_STATUS("unavailable")
 )
 
+// Deprecated version of StorageAccountProperties_StatusOfSecondary_STATUS. Use
+// v1api20210401.StorageAccountProperties_StatusOfSecondary_STATUS instead
 type StorageAccountProperties_StatusOfSecondary_STATUS string
 
 const (
@@ -6682,6 +6426,8 @@ const (
 	StorageAccountProperties_StatusOfSecondary_STATUS_Unavailable = StorageAccountProperties_StatusOfSecondary_STATUS("unavailable")
 )
 
+// Deprecated version of StorageAccountPropertiesCreateParameters_AccessTier. Use
+// v1api20210401.StorageAccountPropertiesCreateParameters_AccessTier instead
 // +kubebuilder:validation:Enum={"Cool","Hot"}
 type StorageAccountPropertiesCreateParameters_AccessTier string
 
@@ -6690,6 +6436,8 @@ const (
 	StorageAccountPropertiesCreateParameters_AccessTier_Hot  = StorageAccountPropertiesCreateParameters_AccessTier("Hot")
 )
 
+// Deprecated version of StorageAccountPropertiesCreateParameters_LargeFileSharesState. Use
+// v1api20210401.StorageAccountPropertiesCreateParameters_LargeFileSharesState instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageAccountPropertiesCreateParameters_LargeFileSharesState string
 
@@ -6698,6 +6446,8 @@ const (
 	StorageAccountPropertiesCreateParameters_LargeFileSharesState_Enabled  = StorageAccountPropertiesCreateParameters_LargeFileSharesState("Enabled")
 )
 
+// Deprecated version of StorageAccountPropertiesCreateParameters_MinimumTlsVersion. Use
+// v1api20210401.StorageAccountPropertiesCreateParameters_MinimumTlsVersion instead
 // +kubebuilder:validation:Enum={"TLS1_0","TLS1_1","TLS1_2"}
 type StorageAccountPropertiesCreateParameters_MinimumTlsVersion string
 
@@ -6707,30 +6457,24 @@ const (
 	StorageAccountPropertiesCreateParameters_MinimumTlsVersion_TLS1_2 = StorageAccountPropertiesCreateParameters_MinimumTlsVersion("TLS1_2")
 )
 
-// Settings properties for Active Directory (AD).
+// Deprecated version of ActiveDirectoryProperties. Use v1api20210401.ActiveDirectoryProperties instead
 type ActiveDirectoryProperties struct {
 	// +kubebuilder:validation:Required
-	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
 	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// DomainGuid: Specifies the domain GUID.
 	DomainGuid *string `json:"domainGuid,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
 	DomainName *string `json:"domainName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// DomainSid: Specifies the security identifier (SID).
 	DomainSid *string `json:"domainSid,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ForestName: Specifies the Active Directory forest to get.
 	ForestName *string `json:"forestName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// NetBiosDomainName: Specifies the NetBIOS domain name.
 	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
@@ -6917,24 +6661,13 @@ func (properties *ActiveDirectoryProperties) Initialize_From_ActiveDirectoryProp
 	return nil
 }
 
-// Settings properties for Active Directory (AD).
+// Deprecated version of ActiveDirectoryProperties_STATUS. Use v1api20210401.ActiveDirectoryProperties_STATUS instead
 type ActiveDirectoryProperties_STATUS struct {
-	// AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
-	AzureStorageSid *string `json:"azureStorageSid,omitempty"`
-
-	// DomainGuid: Specifies the domain GUID.
-	DomainGuid *string `json:"domainGuid,omitempty"`
-
-	// DomainName: Specifies the primary domain that the AD DNS server is authoritative for.
-	DomainName *string `json:"domainName,omitempty"`
-
-	// DomainSid: Specifies the security identifier (SID).
-	DomainSid *string `json:"domainSid,omitempty"`
-
-	// ForestName: Specifies the Active Directory forest to get.
-	ForestName *string `json:"forestName,omitempty"`
-
-	// NetBiosDomainName: Specifies the NetBIOS domain name.
+	AzureStorageSid   *string `json:"azureStorageSid,omitempty"`
+	DomainGuid        *string `json:"domainGuid,omitempty"`
+	DomainName        *string `json:"domainName,omitempty"`
+	DomainSid         *string `json:"domainSid,omitempty"`
+	ForestName        *string `json:"forestName,omitempty"`
 	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
@@ -7051,6 +6784,8 @@ func (properties *ActiveDirectoryProperties_STATUS) AssignProperties_To_ActiveDi
 	return nil
 }
 
+// Deprecated version of AzureFilesIdentityBasedAuthentication_DefaultSharePermission. Use
+// v1api20210401.AzureFilesIdentityBasedAuthentication_DefaultSharePermission instead
 // +kubebuilder:validation:Enum={"None","StorageFileDataSmbShareContributor","StorageFileDataSmbShareElevatedContributor","StorageFileDataSmbShareOwner","StorageFileDataSmbShareReader"}
 type AzureFilesIdentityBasedAuthentication_DefaultSharePermission string
 
@@ -7062,6 +6797,8 @@ const (
 	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission("StorageFileDataSmbShareReader")
 )
 
+// Deprecated version of AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS. Use
+// v1api20210401.AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS instead
 type AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS string
 
 const (
@@ -7072,6 +6809,8 @@ const (
 	AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS_StorageFileDataSmbShareReader              = AzureFilesIdentityBasedAuthentication_DefaultSharePermission_STATUS("StorageFileDataSmbShareReader")
 )
 
+// Deprecated version of AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions. Use
+// v1api20210401.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions instead
 // +kubebuilder:validation:Enum={"AADDS","AD","None"}
 type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions string
 
@@ -7081,6 +6820,8 @@ const (
 	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_None  = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions("None")
 )
 
+// Deprecated version of AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS. Use
+// v1api20210401.AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS instead
 type AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS string
 
 const (
@@ -7089,13 +6830,10 @@ const (
 	AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS_None  = AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS("None")
 )
 
-// Blob restore parameters
+// Deprecated version of BlobRestoreParameters_STATUS. Use v1api20210401.BlobRestoreParameters_STATUS instead
 type BlobRestoreParameters_STATUS struct {
-	// BlobRanges: Blob ranges to restore.
-	BlobRanges []BlobRestoreRange_STATUS `json:"blobRanges,omitempty"`
-
-	// TimeToRestore: Restore blob to the specified time.
-	TimeToRestore *string `json:"timeToRestore,omitempty"`
+	BlobRanges    []BlobRestoreRange_STATUS `json:"blobRanges,omitempty"`
+	TimeToRestore *string                   `json:"timeToRestore,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BlobRestoreParameters_STATUS{}
@@ -7197,6 +6935,7 @@ func (parameters *BlobRestoreParameters_STATUS) AssignProperties_To_BlobRestoreP
 	return nil
 }
 
+// Deprecated version of BlobRestoreStatus_Status_STATUS. Use v1api20210401.BlobRestoreStatus_Status_STATUS instead
 type BlobRestoreStatus_Status_STATUS string
 
 const (
@@ -7205,6 +6944,7 @@ const (
 	BlobRestoreStatus_Status_STATUS_InProgress = BlobRestoreStatus_Status_STATUS("InProgress")
 )
 
+// Deprecated version of Encryption_KeySource. Use v1api20210401.Encryption_KeySource instead
 // +kubebuilder:validation:Enum={"Microsoft.Keyvault","Microsoft.Storage"}
 type Encryption_KeySource string
 
@@ -7213,6 +6953,7 @@ const (
 	Encryption_KeySource_MicrosoftStorage  = Encryption_KeySource("Microsoft.Storage")
 )
 
+// Deprecated version of Encryption_KeySource_STATUS. Use v1api20210401.Encryption_KeySource_STATUS instead
 type Encryption_KeySource_STATUS string
 
 const (
@@ -7220,10 +6961,8 @@ const (
 	Encryption_KeySource_STATUS_MicrosoftStorage  = Encryption_KeySource_STATUS("Microsoft.Storage")
 )
 
-// Encryption identity for the storage account.
+// Deprecated version of EncryptionIdentity. Use v1api20210401.EncryptionIdentity instead
 type EncryptionIdentity struct {
-	// UserAssignedIdentityReference: Resource identifier of the UserAssigned identity to be associated with server-side
-	// encryption on the storage account.
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
@@ -7312,10 +7051,8 @@ func (identity *EncryptionIdentity) Initialize_From_EncryptionIdentity_STATUS(so
 	return nil
 }
 
-// Encryption identity for the storage account.
+// Deprecated version of EncryptionIdentity_STATUS. Use v1api20210401.EncryptionIdentity_STATUS instead
 type EncryptionIdentity_STATUS struct {
-	// UserAssignedIdentity: Resource identifier of the UserAssigned identity to be associated with server-side encryption on
-	// the storage account.
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
@@ -7372,18 +7109,11 @@ func (identity *EncryptionIdentity_STATUS) AssignProperties_To_EncryptionIdentit
 	return nil
 }
 
-// A list of services that support encryption.
+// Deprecated version of EncryptionServices. Use v1api20210401.EncryptionServices instead
 type EncryptionServices struct {
-	// Blob: The encryption function of the blob storage service.
-	Blob *EncryptionService `json:"blob,omitempty"`
-
-	// File: The encryption function of the file storage service.
-	File *EncryptionService `json:"file,omitempty"`
-
-	// Queue: The encryption function of the queue storage service.
+	Blob  *EncryptionService `json:"blob,omitempty"`
+	File  *EncryptionService `json:"file,omitempty"`
 	Queue *EncryptionService `json:"queue,omitempty"`
-
-	// Table: The encryption function of the table storage service.
 	Table *EncryptionService `json:"table,omitempty"`
 }
 
@@ -7672,18 +7402,11 @@ func (services *EncryptionServices) Initialize_From_EncryptionServices_STATUS(so
 	return nil
 }
 
-// A list of services that support encryption.
+// Deprecated version of EncryptionServices_STATUS. Use v1api20210401.EncryptionServices_STATUS instead
 type EncryptionServices_STATUS struct {
-	// Blob: The encryption function of the blob storage service.
-	Blob *EncryptionService_STATUS `json:"blob,omitempty"`
-
-	// File: The encryption function of the file storage service.
-	File *EncryptionService_STATUS `json:"file,omitempty"`
-
-	// Queue: The encryption function of the queue storage service.
+	Blob  *EncryptionService_STATUS `json:"blob,omitempty"`
+	File  *EncryptionService_STATUS `json:"file,omitempty"`
 	Queue *EncryptionService_STATUS `json:"queue,omitempty"`
-
-	// Table: The encryption function of the table storage service.
 	Table *EncryptionService_STATUS `json:"table,omitempty"`
 }
 
@@ -7868,6 +7591,7 @@ func (services *EncryptionServices_STATUS) AssignProperties_To_EncryptionService
 	return nil
 }
 
+// Deprecated version of GeoReplicationStats_Status_STATUS. Use v1api20210401.GeoReplicationStats_Status_STATUS instead
 type GeoReplicationStats_Status_STATUS string
 
 const (
@@ -7876,13 +7600,11 @@ const (
 	GeoReplicationStats_Status_STATUS_Unavailable = GeoReplicationStats_Status_STATUS("Unavailable")
 )
 
-// IP rule with specific IP or IP range in CIDR format.
+// Deprecated version of IPRule. Use v1api20210401.IPRule instead
 type IPRule struct {
-	// Action: The action of IP ACL rule.
 	Action *IPRule_Action `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
 }
 
@@ -8000,13 +7722,10 @@ func (rule *IPRule) Initialize_From_IPRule_STATUS(source *IPRule_STATUS) error {
 	return nil
 }
 
-// IP rule with specific IP or IP range in CIDR format.
+// Deprecated version of IPRule_STATUS. Use v1api20210401.IPRule_STATUS instead
 type IPRule_STATUS struct {
-	// Action: The action of IP ACL rule.
 	Action *IPRule_Action_STATUS `json:"action,omitempty"`
-
-	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value *string `json:"value,omitempty"`
+	Value  *string               `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IPRule_STATUS{}
@@ -8084,16 +7803,11 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *v20210
 	return nil
 }
 
-// Properties of key vault.
+// Deprecated version of KeyVaultProperties. Use v1api20210401.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	// Keyname: The name of KeyVault key.
-	Keyname *string `json:"keyname,omitempty"`
-
-	// Keyvaulturi: The Uri of KeyVault.
+	Keyname     *string `json:"keyname,omitempty"`
 	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
-
-	// Keyversion: The version of KeyVault key.
-	Keyversion *string `json:"keyversion,omitempty"`
+	Keyversion  *string `json:"keyversion,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
@@ -8216,22 +7930,13 @@ func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(
 	return nil
 }
 
-// Properties of key vault.
+// Deprecated version of KeyVaultProperties_STATUS. Use v1api20210401.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUS struct {
-	// CurrentVersionedKeyIdentifier: The object identifier of the current versioned Key Vault Key in use.
 	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier,omitempty"`
-
-	// Keyname: The name of KeyVault key.
-	Keyname *string `json:"keyname,omitempty"`
-
-	// Keyvaulturi: The Uri of KeyVault.
-	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
-
-	// Keyversion: The version of KeyVault key.
-	Keyversion *string `json:"keyversion,omitempty"`
-
-	// LastKeyRotationTimestamp: Timestamp of last rotation of the Key Vault Key.
-	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
+	Keyname                       *string `json:"keyname,omitempty"`
+	Keyvaulturi                   *string `json:"keyvaulturi,omitempty"`
+	Keyversion                    *string `json:"keyversion,omitempty"`
+	LastKeyRotationTimestamp      *string `json:"lastKeyRotationTimestamp,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultProperties_STATUS{}
@@ -8335,6 +8040,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	return nil
 }
 
+// Deprecated version of NetworkRuleSet_Bypass. Use v1api20210401.NetworkRuleSet_Bypass instead
 // +kubebuilder:validation:Enum={"AzureServices","Logging","Metrics","None"}
 type NetworkRuleSet_Bypass string
 
@@ -8345,6 +8051,7 @@ const (
 	NetworkRuleSet_Bypass_None          = NetworkRuleSet_Bypass("None")
 )
 
+// Deprecated version of NetworkRuleSet_Bypass_STATUS. Use v1api20210401.NetworkRuleSet_Bypass_STATUS instead
 type NetworkRuleSet_Bypass_STATUS string
 
 const (
@@ -8354,6 +8061,7 @@ const (
 	NetworkRuleSet_Bypass_STATUS_None          = NetworkRuleSet_Bypass_STATUS("None")
 )
 
+// Deprecated version of NetworkRuleSet_DefaultAction. Use v1api20210401.NetworkRuleSet_DefaultAction instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSet_DefaultAction string
 
@@ -8362,6 +8070,7 @@ const (
 	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
+// Deprecated version of NetworkRuleSet_DefaultAction_STATUS. Use v1api20210401.NetworkRuleSet_DefaultAction_STATUS instead
 type NetworkRuleSet_DefaultAction_STATUS string
 
 const (
@@ -8369,13 +8078,10 @@ const (
 	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
 
-// Resource Access Rule.
+// Deprecated version of ResourceAccessRule. Use v1api20210401.ResourceAccessRule instead
 type ResourceAccessRule struct {
-	// ResourceReference: Resource Id
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-
-	// TenantId: Tenant Id
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId          *string                       `json:"tenantId,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ResourceAccessRule{}
@@ -8492,13 +8198,10 @@ func (rule *ResourceAccessRule) Initialize_From_ResourceAccessRule_STATUS(source
 	return nil
 }
 
-// Resource Access Rule.
+// Deprecated version of ResourceAccessRule_STATUS. Use v1api20210401.ResourceAccessRule_STATUS instead
 type ResourceAccessRule_STATUS struct {
-	// ResourceId: Resource Id
 	ResourceId *string `json:"resourceId,omitempty"`
-
-	// TenantId: Tenant Id
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId   *string `json:"tenantId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ResourceAccessRule_STATUS{}
@@ -8566,6 +8269,7 @@ func (rule *ResourceAccessRule_STATUS) AssignProperties_To_ResourceAccessRule_ST
 	return nil
 }
 
+// Deprecated version of RoutingPreference_RoutingChoice. Use v1api20210401.RoutingPreference_RoutingChoice instead
 // +kubebuilder:validation:Enum={"InternetRouting","MicrosoftRouting"}
 type RoutingPreference_RoutingChoice string
 
@@ -8574,6 +8278,8 @@ const (
 	RoutingPreference_RoutingChoice_MicrosoftRouting = RoutingPreference_RoutingChoice("MicrosoftRouting")
 )
 
+// Deprecated version of RoutingPreference_RoutingChoice_STATUS. Use v1api20210401.RoutingPreference_RoutingChoice_STATUS
+// instead
 type RoutingPreference_RoutingChoice_STATUS string
 
 const (
@@ -8581,28 +8287,23 @@ const (
 	RoutingPreference_RoutingChoice_STATUS_MicrosoftRouting = RoutingPreference_RoutingChoice_STATUS("MicrosoftRouting")
 )
 
+// Deprecated version of SasPolicy_ExpirationAction. Use v1api20210401.SasPolicy_ExpirationAction instead
 // +kubebuilder:validation:Enum={"Log"}
 type SasPolicy_ExpirationAction string
 
 const SasPolicy_ExpirationAction_Log = SasPolicy_ExpirationAction("Log")
 
+// Deprecated version of SasPolicy_ExpirationAction_STATUS. Use v1api20210401.SasPolicy_ExpirationAction_STATUS instead
 type SasPolicy_ExpirationAction_STATUS string
 
 const SasPolicy_ExpirationAction_STATUS_Log = SasPolicy_ExpirationAction_STATUS("Log")
 
-// The URIs that are used to perform a retrieval of a public blob, file, web or dfs object via a internet routing endpoint.
+// Deprecated version of StorageAccountInternetEndpoints_STATUS. Use v1api20210401.StorageAccountInternetEndpoints_STATUS instead
 type StorageAccountInternetEndpoints_STATUS struct {
-	// Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
-
-	// Dfs: Gets the dfs endpoint.
-	Dfs *string `json:"dfs,omitempty"`
-
-	// File: Gets the file endpoint.
+	Dfs  *string `json:"dfs,omitempty"`
 	File *string `json:"file,omitempty"`
-
-	// Web: Gets the web endpoint.
-	Web *string `json:"web,omitempty"`
+	Web  *string `json:"web,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StorageAccountInternetEndpoints_STATUS{}
@@ -8694,26 +8395,14 @@ func (endpoints *StorageAccountInternetEndpoints_STATUS) AssignProperties_To_Sto
 	return nil
 }
 
-// The URIs that are used to perform a retrieval of a public blob, queue, table, web or dfs object via a microsoft routing
-// endpoint.
+// Deprecated version of StorageAccountMicrosoftEndpoints_STATUS. Use v1api20210401.StorageAccountMicrosoftEndpoints_STATUS instead
 type StorageAccountMicrosoftEndpoints_STATUS struct {
-	// Blob: Gets the blob endpoint.
-	Blob *string `json:"blob,omitempty"`
-
-	// Dfs: Gets the dfs endpoint.
-	Dfs *string `json:"dfs,omitempty"`
-
-	// File: Gets the file endpoint.
-	File *string `json:"file,omitempty"`
-
-	// Queue: Gets the queue endpoint.
+	Blob  *string `json:"blob,omitempty"`
+	Dfs   *string `json:"dfs,omitempty"`
+	File  *string `json:"file,omitempty"`
 	Queue *string `json:"queue,omitempty"`
-
-	// Table: Gets the table endpoint.
 	Table *string `json:"table,omitempty"`
-
-	// Web: Gets the web endpoint.
-	Web *string `json:"web,omitempty"`
+	Web   *string `json:"web,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StorageAccountMicrosoftEndpoints_STATUS{}
@@ -9012,12 +8701,9 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 	return nil
 }
 
-// UserAssignedIdentity for the resource.
+// Deprecated version of UserAssignedIdentity_STATUS. Use v1api20210401.UserAssignedIdentity_STATUS instead
 type UserAssignedIdentity_STATUS struct {
-	// ClientId: The client ID of the identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal ID of the identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -9086,18 +8772,13 @@ func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIde
 	return nil
 }
 
-// Virtual Network rule.
+// Deprecated version of VirtualNetworkRule. Use v1api20210401.VirtualNetworkRule instead
 type VirtualNetworkRule struct {
-	// Action: The action of virtual network rule.
 	Action *VirtualNetworkRule_Action `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Reference: Resource ID of a subnet, for example:
-	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
-	// State: Gets the state of virtual network rule.
-	State *VirtualNetworkRule_State `json:"state,omitempty"`
+	State     *VirtualNetworkRule_State     `json:"state,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkRule{}
@@ -9265,17 +8946,11 @@ func (rule *VirtualNetworkRule) Initialize_From_VirtualNetworkRule_STATUS(source
 	return nil
 }
 
-// Virtual Network rule.
+// Deprecated version of VirtualNetworkRule_STATUS. Use v1api20210401.VirtualNetworkRule_STATUS instead
 type VirtualNetworkRule_STATUS struct {
-	// Action: The action of virtual network rule.
 	Action *VirtualNetworkRule_Action_STATUS `json:"action,omitempty"`
-
-	// Id: Resource ID of a subnet, for example:
-	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.
-	Id *string `json:"id,omitempty"`
-
-	// State: Gets the state of virtual network rule.
-	State *VirtualNetworkRule_State_STATUS `json:"state,omitempty"`
+	Id     *string                           `json:"id,omitempty"`
+	State  *VirtualNetworkRule_State_STATUS  `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkRule_STATUS{}
@@ -9375,12 +9050,9 @@ func (rule *VirtualNetworkRule_STATUS) AssignProperties_To_VirtualNetworkRule_ST
 	return nil
 }
 
-// Blob range
+// Deprecated version of BlobRestoreRange_STATUS. Use v1api20210401.BlobRestoreRange_STATUS instead
 type BlobRestoreRange_STATUS struct {
-	// EndRange: Blob end range. This is exclusive. Empty means account end.
-	EndRange *string `json:"endRange,omitempty"`
-
-	// StartRange: Blob start range. This is inclusive. Empty means account start.
+	EndRange   *string `json:"endRange,omitempty"`
 	StartRange *string `json:"startRange,omitempty"`
 }
 
@@ -9449,13 +9121,9 @@ func (restoreRange *BlobRestoreRange_STATUS) AssignProperties_To_BlobRestoreRang
 	return nil
 }
 
-// A service that allows server-side encryption to be used.
+// Deprecated version of EncryptionService. Use v1api20210401.EncryptionService instead
 type EncryptionService struct {
-	// Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
-	// encryption key will be used. 'Service' key type implies that a default service key is used.
+	Enabled *bool                      `json:"enabled,omitempty"`
 	KeyType *EncryptionService_KeyType `json:"keyType,omitempty"`
 }
 
@@ -9588,19 +9256,11 @@ func (service *EncryptionService) Initialize_From_EncryptionService_STATUS(sourc
 	return nil
 }
 
-// A service that allows server-side encryption to be used.
+// Deprecated version of EncryptionService_STATUS. Use v1api20210401.EncryptionService_STATUS instead
 type EncryptionService_STATUS struct {
-	// Enabled: A boolean indicating whether or not the service encrypts the data as it is stored.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
-	// encryption key will be used. 'Service' key type implies that a default service key is used.
-	KeyType *EncryptionService_KeyType_STATUS `json:"keyType,omitempty"`
-
-	// LastEnabledTime: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned
-	// when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a
-	// rough estimate.
-	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
+	Enabled         *bool                             `json:"enabled,omitempty"`
+	KeyType         *EncryptionService_KeyType_STATUS `json:"keyType,omitempty"`
+	LastEnabledTime *string                           `json:"lastEnabledTime,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EncryptionService_STATUS{}
@@ -9700,24 +9360,29 @@ func (service *EncryptionService_STATUS) AssignProperties_To_EncryptionService_S
 	return nil
 }
 
+// Deprecated version of IPRule_Action. Use v1api20210401.IPRule_Action instead
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRule_Action string
 
 const IPRule_Action_Allow = IPRule_Action("Allow")
 
+// Deprecated version of IPRule_Action_STATUS. Use v1api20210401.IPRule_Action_STATUS instead
 type IPRule_Action_STATUS string
 
 const IPRule_Action_STATUS_Allow = IPRule_Action_STATUS("Allow")
 
+// Deprecated version of VirtualNetworkRule_Action. Use v1api20210401.VirtualNetworkRule_Action instead
 // +kubebuilder:validation:Enum={"Allow"}
 type VirtualNetworkRule_Action string
 
 const VirtualNetworkRule_Action_Allow = VirtualNetworkRule_Action("Allow")
 
+// Deprecated version of VirtualNetworkRule_Action_STATUS. Use v1api20210401.VirtualNetworkRule_Action_STATUS instead
 type VirtualNetworkRule_Action_STATUS string
 
 const VirtualNetworkRule_Action_STATUS_Allow = VirtualNetworkRule_Action_STATUS("Allow")
 
+// Deprecated version of VirtualNetworkRule_State. Use v1api20210401.VirtualNetworkRule_State instead
 // +kubebuilder:validation:Enum={"Deprovisioning","Failed","NetworkSourceDeleted","Provisioning","Succeeded"}
 type VirtualNetworkRule_State string
 
@@ -9729,6 +9394,7 @@ const (
 	VirtualNetworkRule_State_Succeeded            = VirtualNetworkRule_State("Succeeded")
 )
 
+// Deprecated version of VirtualNetworkRule_State_STATUS. Use v1api20210401.VirtualNetworkRule_State_STATUS instead
 type VirtualNetworkRule_State_STATUS string
 
 const (
@@ -9739,6 +9405,7 @@ const (
 	VirtualNetworkRule_State_STATUS_Succeeded            = VirtualNetworkRule_State_STATUS("Succeeded")
 )
 
+// Deprecated version of EncryptionService_KeyType. Use v1api20210401.EncryptionService_KeyType instead
 // +kubebuilder:validation:Enum={"Account","Service"}
 type EncryptionService_KeyType string
 
@@ -9747,6 +9414,7 @@ const (
 	EncryptionService_KeyType_Service = EncryptionService_KeyType("Service")
 )
 
+// Deprecated version of EncryptionService_KeyType_STATUS. Use v1api20210401.EncryptionService_KeyType_STATUS instead
 type EncryptionService_KeyType_STATUS string
 
 const (

@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	alpha20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101preview"
-	alpha20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101previewstorage"
+	v1api20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
+	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	v20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
 	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -17,8 +17,8 @@ type NamespaceExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *NamespaceExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&alpha20210101p.Namespace{},
-		&alpha20210101ps.Namespace{},
+		&v1api20210101p.Namespace{},
+		&v1api20210101ps.Namespace{},
 		&v20210101p.Namespace{},
 		&v20210101ps.Namespace{}}
 }

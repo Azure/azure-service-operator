@@ -5,16 +5,12 @@ package v1beta20210401preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Vault_Spec. Use v1api20210401preview.Vault_Spec instead
 type Vault_Spec_ARM struct {
-	// Location: The supported Azure location where the key vault should be created.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties of the vault
+	Location   *string              `json:"location,omitempty"`
+	Name       string               `json:"name,omitempty"`
 	Properties *VaultProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: The tags that will be assigned to the key vault.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags       map[string]string    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Vault_Spec_ARM{}
@@ -34,108 +30,47 @@ func (vault *Vault_Spec_ARM) GetType() string {
 	return "Microsoft.KeyVault/vaults"
 }
 
-// Properties of the vault
+// Deprecated version of VaultProperties. Use v1api20210401preview.VaultProperties instead
 type VaultProperties_ARM struct {
-	// AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
-	// the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
-	// required. Otherwise, access policies are required.
-	AccessPolicies []AccessPolicyEntry_ARM `json:"accessPolicies,omitempty"`
-
-	// CreateMode: The vault's create mode to indicate whether the vault need to be recovered or not.
-	CreateMode *VaultProperties_CreateMode `json:"createMode,omitempty"`
-
-	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
-	// property to true activates protection against purge for this vault and its content - only the Key Vault service may
-	// initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
-	// functionality is irreversible - that is, the property does not accept false as its value.
-	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
-
-	// EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
-	// Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
-	// will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
-	// stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
-	// of false. Note that management actions are always authorized with RBAC.
-	EnableRbacAuthorization *bool `json:"enableRbacAuthorization,omitempty"`
-
-	// EnableSoftDelete: Property to specify whether the 'soft delete' functionality is enabled for this key vault. If it's not
-	// set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
-	// cannot be reverted to false.
-	EnableSoftDelete *bool `json:"enableSoftDelete,omitempty"`
-
-	// EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
-	// as secrets from the key vault.
-	EnabledForDeployment *bool `json:"enabledForDeployment,omitempty"`
-
-	// EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
-	// vault and unwrap keys.
-	EnabledForDiskEncryption *bool `json:"enabledForDiskEncryption,omitempty"`
-
-	// EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
-	// the key vault.
-	EnabledForTemplateDeployment *bool `json:"enabledForTemplateDeployment,omitempty"`
-
-	// NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.
-	NetworkAcls *NetworkRuleSet_ARM `json:"networkAcls,omitempty"`
-
-	// ProvisioningState: Provisioning state of the vault.
-	ProvisioningState *VaultProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
-	// Sku: SKU details
-	Sku *Sku_ARM `json:"sku,omitempty"`
-
-	// SoftDeleteRetentionInDays: softDelete data retention days. It accepts >=7 and <=90.
-	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
-
-	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// VaultUri: The URI of the vault for performing operations on keys and secrets.
-	VaultUri *string `json:"vaultUri,omitempty"`
+	AccessPolicies               []AccessPolicyEntry_ARM            `json:"accessPolicies,omitempty"`
+	CreateMode                   *VaultProperties_CreateMode        `json:"createMode,omitempty"`
+	EnablePurgeProtection        *bool                              `json:"enablePurgeProtection,omitempty"`
+	EnableRbacAuthorization      *bool                              `json:"enableRbacAuthorization,omitempty"`
+	EnableSoftDelete             *bool                              `json:"enableSoftDelete,omitempty"`
+	EnabledForDeployment         *bool                              `json:"enabledForDeployment,omitempty"`
+	EnabledForDiskEncryption     *bool                              `json:"enabledForDiskEncryption,omitempty"`
+	EnabledForTemplateDeployment *bool                              `json:"enabledForTemplateDeployment,omitempty"`
+	NetworkAcls                  *NetworkRuleSet_ARM                `json:"networkAcls,omitempty"`
+	ProvisioningState            *VaultProperties_ProvisioningState `json:"provisioningState,omitempty"`
+	Sku                          *Sku_ARM                           `json:"sku,omitempty"`
+	SoftDeleteRetentionInDays    *int                               `json:"softDeleteRetentionInDays,omitempty"`
+	TenantId                     *string                            `json:"tenantId,omitempty"`
+	VaultUri                     *string                            `json:"vaultUri,omitempty"`
 }
 
-// An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
-// vault's tenant ID.
+// Deprecated version of AccessPolicyEntry. Use v1api20210401preview.AccessPolicyEntry instead
 type AccessPolicyEntry_ARM struct {
-	// ApplicationId:  Application ID of the client making request on behalf of a principal
-	ApplicationId *string `json:"applicationId,omitempty" optionalConfigMapPair:"ApplicationId"`
-
-	// ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
-	// vault. The object ID must be unique for the list of access policies.
-	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
-
-	// Permissions: Permissions the identity has for keys, secrets and certificates.
-	Permissions *Permissions_ARM `json:"permissions,omitempty"`
-
-	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
-	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+	ApplicationId *string          `json:"applicationId,omitempty" optionalConfigMapPair:"ApplicationId"`
+	ObjectId      *string          `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+	Permissions   *Permissions_ARM `json:"permissions,omitempty"`
+	TenantId      *string          `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
-// A set of rules governing the network accessibility of a vault.
+// Deprecated version of NetworkRuleSet. Use v1api20210401preview.NetworkRuleSet instead
 type NetworkRuleSet_ARM struct {
-	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
-	// default is 'AzureServices'.
-	Bypass *NetworkRuleSet_Bypass `json:"bypass,omitempty"`
-
-	// DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
-	// the bypass property has been evaluated.
-	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
-
-	// IpRules: The list of IP address rules.
-	IpRules []IPRule_ARM `json:"ipRules,omitempty"`
-
-	// VirtualNetworkRules: The list of virtual network rules.
-	VirtualNetworkRules []VirtualNetworkRule_ARM `json:"virtualNetworkRules,omitempty"`
+	Bypass              *NetworkRuleSet_Bypass        `json:"bypass,omitempty"`
+	DefaultAction       *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
+	IpRules             []IPRule_ARM                  `json:"ipRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_ARM      `json:"virtualNetworkRules,omitempty"`
 }
 
-// SKU details
+// Deprecated version of Sku. Use v1api20210401preview.Sku instead
 type Sku_ARM struct {
-	// Family: SKU family name
 	Family *Sku_Family `json:"family,omitempty"`
-
-	// Name: SKU name to specify whether the key vault is a standard vault or a premium vault.
-	Name *Sku_Name `json:"name,omitempty"`
+	Name   *Sku_Name   `json:"name,omitempty"`
 }
 
+// Deprecated version of VaultProperties_CreateMode. Use v1api20210401preview.VaultProperties_CreateMode instead
 // +kubebuilder:validation:Enum={"default","recover"}
 type VaultProperties_CreateMode string
 
@@ -144,6 +79,8 @@ const (
 	VaultProperties_CreateMode_Recover = VaultProperties_CreateMode("recover")
 )
 
+// Deprecated version of VaultProperties_ProvisioningState. Use v1api20210401preview.VaultProperties_ProvisioningState
+// instead
 // +kubebuilder:validation:Enum={"RegisteringDns","Succeeded"}
 type VaultProperties_ProvisioningState string
 
@@ -152,13 +89,12 @@ const (
 	VaultProperties_ProvisioningState_Succeeded      = VaultProperties_ProvisioningState("Succeeded")
 )
 
-// A rule governing the accessibility of a vault from a specific ip address or ip range.
+// Deprecated version of IPRule. Use v1api20210401preview.IPRule instead
 type IPRule_ARM struct {
-	// Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
-	// addresses that start with 124.56.78).
 	Value *string `json:"value,omitempty"`
 }
 
+// Deprecated version of NetworkRuleSet_Bypass. Use v1api20210401preview.NetworkRuleSet_Bypass instead
 // +kubebuilder:validation:Enum={"AzureServices","None"}
 type NetworkRuleSet_Bypass string
 
@@ -167,6 +103,7 @@ const (
 	NetworkRuleSet_Bypass_None          = NetworkRuleSet_Bypass("None")
 )
 
+// Deprecated version of NetworkRuleSet_DefaultAction. Use v1api20210401preview.NetworkRuleSet_DefaultAction instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSet_DefaultAction string
 
@@ -175,26 +112,21 @@ const (
 	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
-// Permissions the identity has for keys, secrets, certificates and storage.
+// Deprecated version of Permissions. Use v1api20210401preview.Permissions instead
 type Permissions_ARM struct {
-	// Certificates: Permissions to certificates
 	Certificates []Permissions_Certificates `json:"certificates,omitempty"`
-
-	// Keys: Permissions to keys
-	Keys []Permissions_Keys `json:"keys,omitempty"`
-
-	// Secrets: Permissions to secrets
-	Secrets []Permissions_Secrets `json:"secrets,omitempty"`
-
-	// Storage: Permissions to storage accounts
-	Storage []Permissions_Storage `json:"storage,omitempty"`
+	Keys         []Permissions_Keys         `json:"keys,omitempty"`
+	Secrets      []Permissions_Secrets      `json:"secrets,omitempty"`
+	Storage      []Permissions_Storage      `json:"storage,omitempty"`
 }
 
+// Deprecated version of Sku_Family. Use v1api20210401preview.Sku_Family instead
 // +kubebuilder:validation:Enum={"A"}
 type Sku_Family string
 
 const Sku_Family_A = Sku_Family("A")
 
+// Deprecated version of Sku_Name. Use v1api20210401preview.Sku_Name instead
 // +kubebuilder:validation:Enum={"premium","standard"}
 type Sku_Name string
 
@@ -203,15 +135,13 @@ const (
 	Sku_Name_Standard = Sku_Name("standard")
 )
 
-// A rule governing the accessibility of a vault from a specific virtual network.
+// Deprecated version of VirtualNetworkRule. Use v1api20210401preview.VirtualNetworkRule instead
 type VirtualNetworkRule_ARM struct {
-	Id *string `json:"id,omitempty"`
-
-	// IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
-	// serviceEndpoints configured.
-	IgnoreMissingVnetServiceEndpoint *bool `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
+	Id                               *string `json:"id,omitempty"`
+	IgnoreMissingVnetServiceEndpoint *bool   `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
 }
 
+// Deprecated version of Permissions_Certificates. Use v1api20210401preview.Permissions_Certificates instead
 // +kubebuilder:validation:Enum={"backup","create","delete","deleteissuers","get","getissuers","import","list","listissuers","managecontacts","manageissuers","purge","recover","restore","setissuers","update"}
 type Permissions_Certificates string
 
@@ -234,6 +164,7 @@ const (
 	Permissions_Certificates_Update         = Permissions_Certificates("update")
 )
 
+// Deprecated version of Permissions_Keys. Use v1api20210401preview.Permissions_Keys instead
 // +kubebuilder:validation:Enum={"backup","create","decrypt","delete","encrypt","get","import","list","purge","recover","release","restore","sign","unwrapKey","update","verify","wrapKey"}
 type Permissions_Keys string
 
@@ -257,6 +188,7 @@ const (
 	Permissions_Keys_WrapKey   = Permissions_Keys("wrapKey")
 )
 
+// Deprecated version of Permissions_Secrets. Use v1api20210401preview.Permissions_Secrets instead
 // +kubebuilder:validation:Enum={"backup","delete","get","list","purge","recover","restore","set"}
 type Permissions_Secrets string
 
@@ -271,6 +203,7 @@ const (
 	Permissions_Secrets_Set     = Permissions_Secrets("set")
 )
 
+// Deprecated version of Permissions_Storage. Use v1api20210401preview.Permissions_Storage instead
 // +kubebuilder:validation:Enum={"backup","delete","deletesas","get","getsas","list","listsas","purge","recover","regeneratekey","restore","set","setsas","update"}
 type Permissions_Storage string
 

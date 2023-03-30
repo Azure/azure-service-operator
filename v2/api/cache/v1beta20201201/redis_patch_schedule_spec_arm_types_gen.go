@@ -5,10 +5,9 @@ package v1beta20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Redis_PatchSchedule_Spec. Use v1api20201201.Redis_PatchSchedule_Spec instead
 type Redis_PatchSchedule_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: List of patch schedules for a Redis cache.
+	Name       string               `json:"name,omitempty"`
 	Properties *ScheduleEntries_ARM `json:"properties,omitempty"`
 }
 
@@ -29,20 +28,14 @@ func (schedule *Redis_PatchSchedule_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/patchSchedules"
 }
 
-// List of patch schedules for a Redis cache.
+// Deprecated version of ScheduleEntries. Use v1api20201201.ScheduleEntries instead
 type ScheduleEntries_ARM struct {
-	// ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry_ARM `json:"scheduleEntries,omitempty"`
 }
 
-// Patch schedule entry for a Premium Redis Cache.
+// Deprecated version of ScheduleEntry. Use v1api20201201.ScheduleEntry instead
 type ScheduleEntry_ARM struct {
-	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_DayOfWeek `json:"dayOfWeek,omitempty"`
-
-	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
-	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
-
-	// StartHourUtc: Start hour after which cache patching can start.
-	StartHourUtc *int `json:"startHourUtc,omitempty"`
+	DayOfWeek         *ScheduleEntry_DayOfWeek `json:"dayOfWeek,omitempty"`
+	MaintenanceWindow *string                  `json:"maintenanceWindow,omitempty"`
+	StartHourUtc      *int                     `json:"startHourUtc,omitempty"`
 }

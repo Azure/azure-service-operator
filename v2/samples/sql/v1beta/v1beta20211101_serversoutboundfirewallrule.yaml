@@ -1,9 +1,0 @@
-apiVersion: sql.azure.com/v1beta20211101
-kind: ServersOutboundFirewallRule
-metadata:
-  name: outboundrule
-  namespace: default
-spec:
-  owner:
-    name: aso-sample-sqlserver
-  azureName: server.database.windows.net

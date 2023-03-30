@@ -1,0 +1,11 @@
+apiVersion: network.azure.com/v1api20200601
+kind: PrivateDnsZonesAAAARecord
+metadata:
+  name: aso-sample-recordset-aaaa
+  namespace: default
+spec:
+  aaaaRecords:
+  - ipv6Address: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+  owner:
+    name: aso-sample-pdz.com
+  ttl: 3600

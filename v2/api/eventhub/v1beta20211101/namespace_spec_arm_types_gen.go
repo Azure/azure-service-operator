@@ -5,22 +5,14 @@ package v1beta20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Namespace_Spec. Use v1api20211101.Namespace_Spec instead
 type Namespace_Spec_ARM struct {
-	// Identity: Properties of BYOK Identity description
-	Identity *Identity_ARM `json:"identity,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Namespace properties supplied for create namespace operation.
+	Identity   *Identity_ARM                  `json:"identity,omitempty"`
+	Location   *string                        `json:"location,omitempty"`
+	Name       string                         `json:"name,omitempty"`
 	Properties *Namespace_Properties_Spec_ARM `json:"properties,omitempty"`
-
-	// Sku: Properties of sku resource
-	Sku *Sku_ARM `json:"sku,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *Sku_ARM                       `json:"sku,omitempty"`
+	Tags       map[string]string              `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespace_Spec_ARM{}
@@ -40,62 +32,38 @@ func (namespace *Namespace_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces"
 }
 
-// Properties to configure Identity for Bring your Own Keys
+// Deprecated version of Identity. Use v1api20211101.Identity instead
 type Identity_ARM struct {
-	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
+// Deprecated version of Namespace_Properties_Spec. Use v1api20211101.Namespace_Properties_Spec instead
 type Namespace_Properties_Spec_ARM struct {
-	// AlternateName: Alternate name specified when alias and namespace names are same.
-	AlternateName *string `json:"alternateName,omitempty"`
-	ClusterArmId  *string `json:"clusterArmId,omitempty"`
-
-	// DisableLocalAuth: This property disables SAS authentication for the Event Hubs namespace.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Encryption: Properties of BYOK Encryption description
-	Encryption *Encryption_ARM `json:"encryption,omitempty"`
-
-	// IsAutoInflateEnabled: Value that indicates whether AutoInflate is enabled for eventhub namespace.
-	IsAutoInflateEnabled *bool `json:"isAutoInflateEnabled,omitempty"`
-
-	// KafkaEnabled: Value that indicates whether Kafka is enabled for eventhub namespace.
-	KafkaEnabled *bool `json:"kafkaEnabled,omitempty"`
-
-	// MaximumThroughputUnits: Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20
-	// throughput units. ( '0' if AutoInflateEnabled = true)
-	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
-
-	// ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+	AlternateName          *string         `json:"alternateName,omitempty"`
+	ClusterArmId           *string         `json:"clusterArmId,omitempty"`
+	DisableLocalAuth       *bool           `json:"disableLocalAuth,omitempty"`
+	Encryption             *Encryption_ARM `json:"encryption,omitempty"`
+	IsAutoInflateEnabled   *bool           `json:"isAutoInflateEnabled,omitempty"`
+	KafkaEnabled           *bool           `json:"kafkaEnabled,omitempty"`
+	MaximumThroughputUnits *int            `json:"maximumThroughputUnits,omitempty"`
+	ZoneRedundant          *bool           `json:"zoneRedundant,omitempty"`
 }
 
-// SKU parameters supplied to the create namespace operation
+// Deprecated version of Sku. Use v1api20211101.Sku instead
 type Sku_ARM struct {
-	// Capacity: The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units.
-	// The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Name: Name of this SKU.
-	Name *Sku_Name `json:"name,omitempty"`
-
-	// Tier: The billing tier of this particular SKU.
-	Tier *Sku_Tier `json:"tier,omitempty"`
+	Capacity *int      `json:"capacity,omitempty"`
+	Name     *Sku_Name `json:"name,omitempty"`
+	Tier     *Sku_Tier `json:"tier,omitempty"`
 }
 
-// Properties to configure Encryption
+// Deprecated version of Encryption. Use v1api20211101.Encryption instead
 type Encryption_ARM struct {
-	// KeySource: Enumerates the possible value of keySource for Encryption
-	KeySource *Encryption_KeySource `json:"keySource,omitempty"`
-
-	// KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
-
-	// RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double Encryption)
-	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
+	KeySource                       *Encryption_KeySource    `json:"keySource,omitempty"`
+	KeyVaultProperties              []KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
+	RequireInfrastructureEncryption *bool                    `json:"requireInfrastructureEncryption,omitempty"`
 }
 
+// Deprecated version of Identity_Type. Use v1api20211101.Identity_Type instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type Identity_Type string
 
@@ -106,6 +74,7 @@ const (
 	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
+// Deprecated version of Sku_Name. Use v1api20211101.Sku_Name instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Name string
 
@@ -115,6 +84,7 @@ const (
 	Sku_Name_Standard = Sku_Name("Standard")
 )
 
+// Deprecated version of Sku_Tier. Use v1api20211101.Sku_Tier instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Tier string
 
@@ -124,20 +94,15 @@ const (
 	Sku_Tier_Standard = Sku_Tier("Standard")
 )
 
-// Properties to configure keyVault Properties
+// Deprecated version of KeyVaultProperties. Use v1api20211101.KeyVaultProperties instead
 type KeyVaultProperties_ARM struct {
-	Identity *UserAssignedIdentityProperties_ARM `json:"identity,omitempty"`
-
-	// KeyName: Name of the Key from KeyVault
-	KeyName *string `json:"keyName,omitempty"`
-
-	// KeyVaultUri: Uri of KeyVault
-	KeyVaultUri *string `json:"keyVaultUri,omitempty"`
-
-	// KeyVersion: Key Version
-	KeyVersion *string `json:"keyVersion,omitempty"`
+	Identity    *UserAssignedIdentityProperties_ARM `json:"identity,omitempty"`
+	KeyName     *string                             `json:"keyName,omitempty"`
+	KeyVaultUri *string                             `json:"keyVaultUri,omitempty"`
+	KeyVersion  *string                             `json:"keyVersion,omitempty"`
 }
 
+// Deprecated version of UserAssignedIdentityProperties. Use v1api20211101.UserAssignedIdentityProperties instead
 type UserAssignedIdentityProperties_ARM struct {
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }

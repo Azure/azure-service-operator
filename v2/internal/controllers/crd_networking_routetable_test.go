@@ -8,12 +8,12 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Networking_RouteTable_CRUD(t *testing.T) {
@@ -62,9 +62,9 @@ func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTab
 		ObjectMeta: tc.MakeObjectMeta("ipv6route"),
 		Spec: network.RouteTables_Route_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
-			AddressPrefix:    to.StringPtr("cab:cab::/96"),
+			AddressPrefix:    to.Ptr("cab:cab::/96"),
 			NextHopType:      &nextHopType,
-			NextHopIpAddress: to.StringPtr("ace:cab:deca:f00d::1"),
+			NextHopIpAddress: to.Ptr("ace:cab:deca:f00d::1"),
 		},
 	}
 
@@ -72,9 +72,9 @@ func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTab
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
 		Spec: network.RouteTables_Route_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
-			AddressPrefix:    to.StringPtr("Storage"),
+			AddressPrefix:    to.Ptr("Storage"),
 			NextHopType:      &nextHopType,
-			NextHopIpAddress: to.StringPtr("10.0.100.4"),
+			NextHopIpAddress: to.Ptr("10.0.100.4"),
 		},
 	}
 
@@ -90,7 +90,7 @@ func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTab
 
 	// Update the subnet
 	old := ipv4Route.DeepCopy()
-	ipv4Route.Spec.NextHopIpAddress = to.StringPtr("10.0.100.5")
+	ipv4Route.Spec.NextHopIpAddress = to.Ptr("10.0.100.5")
 	tc.Patch(old, ipv4Route)
 
 	objectKey := client.ObjectKeyFromObject(ipv4Route)
@@ -100,7 +100,7 @@ func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTab
 		updated := &network.RouteTablesRoute{}
 		tc.GetResource(objectKey, updated)
 		return updated.Status.NextHopIpAddress
-	}).Should(Equal(to.StringPtr("10.0.100.5")))
+	}).Should(Equal(to.Ptr("10.0.100.5")))
 
 	tc.DeleteResourcesAndWait(ipv4Route, ipv6Route)
 
@@ -129,9 +129,9 @@ func Test_Networking_Route_CreatedThenRouteTableUpdated_RouteStillExists(t *test
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
 		Spec: network.RouteTables_Route_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
-			AddressPrefix:    to.StringPtr("Storage"),
+			AddressPrefix:    to.Ptr("Storage"),
 			NextHopType:      &nextHopType,
-			NextHopIpAddress: to.StringPtr("10.0.100.4"),
+			NextHopIpAddress: to.Ptr("10.0.100.4"),
 		},
 	}
 

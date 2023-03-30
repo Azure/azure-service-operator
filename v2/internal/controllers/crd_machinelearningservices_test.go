@@ -6,15 +6,14 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
-
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
-	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
-	machinelearningservices "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701"
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
+	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
+	machinelearningservices "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -35,7 +34,7 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(kv)
 
 	// Have to use 'eastus' location here as 'ListKeys' API is unavailable/still broken for 'westus2'
-	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, to.StringPtr("eastus"))
+	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, to.Ptr("eastus"))
 
 	tc.CreateResourcesAndWait(workspace)
 
@@ -84,7 +83,7 @@ func Workspaces_WriteSecrets(tc *testcommon.KubePerTestContext, workspace *machi
 		"userStorageKey")
 }
 
-func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1beta20210401preview.Vault, location *string) *machinelearningservices.Workspace {
+func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1api20210401preview.Vault, location *string) *machinelearningservices.Workspace {
 	identityType := machinelearningservices.Identity_Type_SystemAssigned
 
 	workspaces := &machinelearningservices.Workspace{
@@ -93,10 +92,10 @@ func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownReso
 			Location: location,
 			Owner:    owner,
 			Sku: &machinelearningservices.Sku{
-				Name: to.StringPtr("Standard_S1"),
-				Tier: to.StringPtr("Basic"),
+				Name: to.Ptr("Standard_S1"),
+				Tier: to.Ptr("Basic"),
 			},
-			AllowPublicAccessWhenBehindVnet: to.BoolPtr(false),
+			AllowPublicAccessWhenBehindVnet: to.Ptr(false),
 			Identity: &machinelearningservices.Identity{
 				Type: &identityType,
 			},
@@ -115,10 +114,10 @@ func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *mac
 		ObjectMeta: tc.MakeObjectMeta("conn"),
 		Spec: machinelearningservices.Workspaces_Connection_Spec{
 			Owner:       testcommon.AsOwner(workspaces),
-			AuthType:    to.StringPtr("PAT"),
-			Category:    to.StringPtr("ACR"),
-			Target:      to.StringPtr("www.microsoft.com"),
-			Value:       to.StringPtr(jsonValue),
+			AuthType:    to.Ptr("PAT"),
+			Category:    to.Ptr("ACR"),
+			Target:      to.Ptr("www.microsoft.com"),
+			Value:       to.Ptr(jsonValue),
 			ValueFormat: &valueFormat,
 		},
 	}
@@ -158,7 +157,7 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 
 }
 
-func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1beta20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
+func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1api20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
 	identityType := machinelearningservices.Identity_Type_SystemAssigned
 	computeType := machinelearningservices.VirtualMachine_ComputeType_VirtualMachine
 
@@ -171,21 +170,21 @@ func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.K
 			Location: tc.AzureRegion,
 			Owner:    owner,
 			Sku: &machinelearningservices.Sku{
-				Name: to.StringPtr("Standard_S1"),
-				Tier: to.StringPtr("Basic"),
+				Name: to.Ptr("Standard_S1"),
+				Tier: to.Ptr("Basic"),
 			},
 			Properties: &machinelearningservices.Compute{
 				VirtualMachine: &machinelearningservices.VirtualMachine{
 					ComputeLocation:   tc.AzureRegion,
 					ComputeType:       &computeType,
-					DisableLocalAuth:  to.BoolPtr(true),
+					DisableLocalAuth:  to.Ptr(true),
 					ResourceReference: tc.MakeReferenceFromResource(vm),
 					Properties: &machinelearningservices.VirtualMachine_Properties{
 						AdministratorAccount: &machinelearningservices.VirtualMachineSshCredentials{
 							Password: &secret,
-							Username: to.StringPtr("bloom"),
+							Username: to.Ptr("bloom"),
 						},
-						SshPort: to.IntPtr(22),
+						SshPort: to.Ptr(22),
 					},
 				},
 			},
@@ -204,7 +203,7 @@ func newVMNetworkInterfaceWithPublicIP(tc *testcommon.KubePerTestContext, owner 
 			Location: tc.AzureRegion,
 			IpConfigurations: []network.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded{
 				{
-					Name:                      to.StringPtr("ipconfig1"),
+					Name:                      to.Ptr("ipconfig1"),
 					PrivateIPAllocationMethod: &dynamic,
 					Subnet: &network.Subnet_NetworkInterface_SubResourceEmbedded{
 						Reference: tc.MakeReferenceFromResource(subnet),
@@ -244,14 +243,14 @@ func newNetworkSecurityGroupRule(tc *testcommon.KubePerTestContext, owner *genru
 		Spec: network.NetworkSecurityGroups_SecurityRule_Spec{
 			Owner:                    owner,
 			Protocol:                 &protocol,
-			SourcePortRange:          to.StringPtr("*"),
-			DestinationPortRange:     to.StringPtr("22"),
-			SourceAddressPrefix:      to.StringPtr("*"),
-			DestinationAddressPrefix: to.StringPtr("*"),
+			SourcePortRange:          to.Ptr("*"),
+			DestinationPortRange:     to.Ptr("22"),
+			SourceAddressPrefix:      to.Ptr("*"),
+			DestinationAddressPrefix: to.Ptr("*"),
 			Access:                   &allow,
-			Priority:                 to.IntPtr(101),
+			Priority:                 to.Ptr(101),
 			Direction:                &direction,
-			Description:              to.StringPtr("The first rule of networking is don't talk about networking"),
+			Description:              to.Ptr("The first rule of networking is don't talk about networking"),
 		},
 	}
 }

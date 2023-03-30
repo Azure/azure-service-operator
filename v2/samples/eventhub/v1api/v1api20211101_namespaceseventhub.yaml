@@ -1,0 +1,10 @@
+apiVersion: eventhub.azure.com/v1api20211101
+kind: NamespacesEventhub
+metadata:
+  name: sample-eventhub
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-namespace
+  messageRetentionInDays: 7
+  partitionCount: 1

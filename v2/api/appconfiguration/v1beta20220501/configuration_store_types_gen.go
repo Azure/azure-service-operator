@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
+// Deprecated version of ConfigurationStore. Use v1api20220501.ConfigurationStore instead
 type ConfigurationStore struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &ConfigurationStore{}
 
 // ConvertFrom populates our ConfigurationStore from the provided hub ConfigurationStore
 func (store *ConfigurationStore) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220501s.ConfigurationStore)
-	if !ok {
-		return fmt.Errorf("expected appconfiguration/v1beta20220501storage/ConfigurationStore but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220501s.ConfigurationStore
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return store.AssignProperties_From_ConfigurationStore(source)
+	err = store.AssignProperties_From_ConfigurationStore(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to store")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ConfigurationStore from our ConfigurationStore
 func (store *ConfigurationStore) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220501s.ConfigurationStore)
-	if !ok {
-		return fmt.Errorf("expected appconfiguration/v1beta20220501storage/ConfigurationStore but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220501s.ConfigurationStore
+	err := store.AssignProperties_To_ConfigurationStore(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from store")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return store.AssignProperties_To_ConfigurationStore(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-appconfiguration-azure-com-v1beta20220501-configurationstore,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=appconfiguration.azure.com,resources=configurationstores,verbs=create;update,versions=v1beta20220501,name=default.v1beta20220501.configurationstores.appconfiguration.azure.com,admissionReviewVersions=v1
@@ -352,15 +364,14 @@ func (store *ConfigurationStore) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/appconfiguration.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}
+// Deprecated version of ConfigurationStore. Use v1api20220501.ConfigurationStore instead
 type ConfigurationStoreList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ConfigurationStore `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20220501.APIVersion instead
 // +kubebuilder:validation:Enum={"2022-05-01"}
 type APIVersion string
 
@@ -372,25 +383,14 @@ type ConfigurationStore_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9_-]*$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// CreateMode: Indicates whether the configuration store need to be recovered.
-	CreateMode *ConfigurationStoreProperties_CreateMode `json:"createMode,omitempty"`
-
-	// DisableLocalAuth: Disables all authentication methods other than AAD authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.
-	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
-
-	// Encryption: The encryption settings of the configuration store.
-	Encryption *EncryptionProperties `json:"encryption,omitempty"`
-
-	// Identity: The managed identity information, if configured.
-	Identity *ResourceIdentity `json:"identity,omitempty"`
+	AzureName             string                                   `json:"azureName,omitempty"`
+	CreateMode            *ConfigurationStoreProperties_CreateMode `json:"createMode,omitempty"`
+	DisableLocalAuth      *bool                                    `json:"disableLocalAuth,omitempty"`
+	EnablePurgeProtection *bool                                    `json:"enablePurgeProtection,omitempty"`
+	Encryption            *EncryptionProperties                    `json:"encryption,omitempty"`
+	Identity              *ResourceIdentity                        `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -401,25 +401,14 @@ type ConfigurationStore_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
-	// enabled.
+	Owner               *genruntime.KnownResourceReference                `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Sku: The sku of the configuration store.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
-	// deleted.
-	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
-
-	// SystemData: Resource system metadata.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku                       *Sku              `json:"sku,omitempty"`
+	SoftDeleteRetentionInDays *int              `json:"softDeleteRetentionInDays,omitempty"`
+	SystemData                *SystemData       `json:"systemData,omitempty"`
+	Tags                      map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ConfigurationStore_Spec{}
@@ -1052,68 +1041,28 @@ func (store *ConfigurationStore_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (store *ConfigurationStore_Spec) SetAzureName(azureName string) { store.AzureName = azureName }
 
-// The configuration store along with all resource properties. The Configuration Store will have all information to begin
-// utilizing it.
+// Deprecated version of ConfigurationStore_STATUS. Use v1api20220501.ConfigurationStore_STATUS instead
 type ConfigurationStore_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CreateMode: Indicates whether the configuration store need to be recovered.
-	CreateMode *ConfigurationStoreProperties_CreateMode_STATUS `json:"createMode,omitempty"`
-
-	// CreationDate: The creation date of configuration store.
-	CreationDate *string `json:"creationDate,omitempty"`
-
-	// DisableLocalAuth: Disables all authentication methods other than AAD authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.
-	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
-
-	// Encryption: The encryption settings of the configuration store.
-	Encryption *EncryptionProperties_STATUS `json:"encryption,omitempty"`
-
-	// Endpoint: The DNS endpoint where the configuration store API will be available.
-	Endpoint *string `json:"endpoint,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The managed identity information, if configured.
-	Identity *ResourceIdentity_STATUS `json:"identity,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// PrivateEndpointConnections: The list of private endpoint connections that are set up for this resource.
-	PrivateEndpointConnections []PrivateEndpointConnectionReference_STATUS `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: The provisioning state of the configuration store.
-	ProvisioningState *ConfigurationStoreProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
-	// enabled.
-	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-
-	// Sku: The sku of the configuration store.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
-	// deleted.
-	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
-
-	// SystemData: Resource system metadata.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions                 []conditions.Condition                                   `json:"conditions,omitempty"`
+	CreateMode                 *ConfigurationStoreProperties_CreateMode_STATUS          `json:"createMode,omitempty"`
+	CreationDate               *string                                                  `json:"creationDate,omitempty"`
+	DisableLocalAuth           *bool                                                    `json:"disableLocalAuth,omitempty"`
+	EnablePurgeProtection      *bool                                                    `json:"enablePurgeProtection,omitempty"`
+	Encryption                 *EncryptionProperties_STATUS                             `json:"encryption,omitempty"`
+	Endpoint                   *string                                                  `json:"endpoint,omitempty"`
+	Id                         *string                                                  `json:"id,omitempty"`
+	Identity                   *ResourceIdentity_STATUS                                 `json:"identity,omitempty"`
+	Location                   *string                                                  `json:"location,omitempty"`
+	Name                       *string                                                  `json:"name,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnectionReference_STATUS              `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *ConfigurationStoreProperties_ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *ConfigurationStoreProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	Sku                        *Sku_STATUS                                              `json:"sku,omitempty"`
+	SoftDeleteRetentionInDays  *int                                                     `json:"softDeleteRetentionInDays,omitempty"`
+	SystemData                 *SystemData_STATUS                                       `json:"systemData,omitempty"`
+	Tags                       map[string]string                                        `json:"tags,omitempty"`
+	Type                       *string                                                  `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &ConfigurationStore_STATUS{}
@@ -1692,6 +1641,8 @@ func (operator *ConfigurationStoreOperatorSpec) AssignProperties_To_Configuratio
 	return nil
 }
 
+// Deprecated version of ConfigurationStoreProperties_CreateMode. Use v1api20220501.ConfigurationStoreProperties_CreateMode
+// instead
 // +kubebuilder:validation:Enum={"Default","Recover"}
 type ConfigurationStoreProperties_CreateMode string
 
@@ -1700,6 +1651,8 @@ const (
 	ConfigurationStoreProperties_CreateMode_Recover = ConfigurationStoreProperties_CreateMode("Recover")
 )
 
+// Deprecated version of ConfigurationStoreProperties_CreateMode_STATUS. Use
+// v1api20220501.ConfigurationStoreProperties_CreateMode_STATUS instead
 type ConfigurationStoreProperties_CreateMode_STATUS string
 
 const (
@@ -1707,6 +1660,8 @@ const (
 	ConfigurationStoreProperties_CreateMode_STATUS_Recover = ConfigurationStoreProperties_CreateMode_STATUS("Recover")
 )
 
+// Deprecated version of ConfigurationStoreProperties_ProvisioningState_STATUS. Use
+// v1api20220501.ConfigurationStoreProperties_ProvisioningState_STATUS instead
 type ConfigurationStoreProperties_ProvisioningState_STATUS string
 
 const (
@@ -1718,6 +1673,8 @@ const (
 	ConfigurationStoreProperties_ProvisioningState_STATUS_Updating  = ConfigurationStoreProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of ConfigurationStoreProperties_PublicNetworkAccess. Use
+// v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type ConfigurationStoreProperties_PublicNetworkAccess string
 
@@ -1726,6 +1683,8 @@ const (
 	ConfigurationStoreProperties_PublicNetworkAccess_Enabled  = ConfigurationStoreProperties_PublicNetworkAccess("Enabled")
 )
 
+// Deprecated version of ConfigurationStoreProperties_PublicNetworkAccess_STATUS. Use
+// v1api20220501.ConfigurationStoreProperties_PublicNetworkAccess_STATUS instead
 type ConfigurationStoreProperties_PublicNetworkAccess_STATUS string
 
 const (
@@ -1733,9 +1692,8 @@ const (
 	ConfigurationStoreProperties_PublicNetworkAccess_STATUS_Enabled  = ConfigurationStoreProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
-// The encryption settings for a configuration store.
+// Deprecated version of EncryptionProperties. Use v1api20220501.EncryptionProperties instead
 type EncryptionProperties struct {
-	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
 }
 
@@ -1853,9 +1811,8 @@ func (properties *EncryptionProperties) Initialize_From_EncryptionProperties_STA
 	return nil
 }
 
-// The encryption settings for a configuration store.
+// Deprecated version of EncryptionProperties_STATUS. Use v1api20220501.EncryptionProperties_STATUS instead
 type EncryptionProperties_STATUS struct {
-	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
 }
 
@@ -1935,9 +1892,8 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 	return nil
 }
 
-// A reference to a related private endpoint connection.
+// Deprecated version of PrivateEndpointConnectionReference_STATUS. Use v1api20220501.PrivateEndpointConnectionReference_STATUS instead
 type PrivateEndpointConnectionReference_STATUS struct {
-	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1994,10 +1950,8 @@ func (reference *PrivateEndpointConnectionReference_STATUS) AssignProperties_To_
 	return nil
 }
 
-// An identity that can be associated with a resource.
+// Deprecated version of ResourceIdentity. Use v1api20220501.ResourceIdentity instead
 type ResourceIdentity struct {
-	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
-	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
 	Type *ResourceIdentity_Type `json:"type,omitempty"`
 }
 
@@ -2094,22 +2048,11 @@ func (identity *ResourceIdentity) Initialize_From_ResourceIdentity_STATUS(source
 	return nil
 }
 
-// An identity that can be associated with a resource.
+// Deprecated version of ResourceIdentity_STATUS. Use v1api20220501.ResourceIdentity_STATUS instead
 type ResourceIdentity_STATUS struct {
-	// PrincipalId: The principal id of the identity. This property will only be provided for a system-assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the resource's identity. This property will only be provided for a
-	// system-assigned identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
-	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
-	Type *ResourceIdentity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user-assigned identities associated with the resource. The user-assigned identity
-	// dictionary keys will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                        `json:"principalId,omitempty"`
+	TenantId               *string                        `json:"tenantId,omitempty"`
+	Type                   *ResourceIdentity_Type_STATUS  `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2249,10 +2192,9 @@ func (identity *ResourceIdentity_STATUS) AssignProperties_To_ResourceIdentity_ST
 	return nil
 }
 
-// Describes a configuration store SKU.
+// Deprecated version of Sku. Use v1api20220501.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
-	// Name: The SKU name of the configuration store.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -2334,9 +2276,8 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 	return nil
 }
 
-// Describes a configuration store SKU.
+// Deprecated version of Sku_STATUS. Use v1api20220501.Sku_STATUS instead
 type Sku_STATUS struct {
-	// Name: The SKU name of the configuration store.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -2393,24 +2334,13 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20220501s.Sk
 	return nil
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData. Use v1api20220501.SystemData instead
 type SystemData struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                        `json:"createdAt,omitempty"`
+	CreatedBy          *string                        `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                        `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                        `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
@@ -2627,24 +2557,13 @@ func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STA
 	return nil
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20220501.SystemData_STATUS instead
 type SystemData_STATUS struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
@@ -3046,13 +2965,10 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 	return nil
 }
 
-// Settings concerning key vault encryption for a configuration store.
+// Deprecated version of KeyVaultProperties. Use v1api20220501.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
-
-	// KeyIdentifier: The URI of the key vault key used to encrypt data.
-	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
+	KeyIdentifier    *string `json:"keyIdentifier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
@@ -3154,13 +3070,10 @@ func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(
 	return nil
 }
 
-// Settings concerning key vault encryption for a configuration store.
+// Deprecated version of KeyVaultProperties_STATUS. Use v1api20220501.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUS struct {
-	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
-
-	// KeyIdentifier: The URI of the key vault key used to encrypt data.
-	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
+	KeyIdentifier    *string `json:"keyIdentifier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultProperties_STATUS{}
@@ -3228,12 +3141,9 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	return nil
 }
 
-// A resource identity that is managed by the user of the service.
+// Deprecated version of UserIdentity_STATUS. Use v1api20220501.UserIdentity_STATUS instead
 type UserIdentity_STATUS struct {
-	// ClientId: The client ID of the user-assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal ID of the user-assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
