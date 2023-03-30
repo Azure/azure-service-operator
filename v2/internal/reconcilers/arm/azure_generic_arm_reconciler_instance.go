@@ -483,7 +483,7 @@ func (r *azureDeploymentReconcilerInstance) postReconciliationCheck(ctx context.
 		return extensions.PostReconcileCheckResult{}, ownerErr
 	}
 
-	// Run our pre-reconciliation checker
+	// Run our post-reconciliation checker
 	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMClientDetails.Client, r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.

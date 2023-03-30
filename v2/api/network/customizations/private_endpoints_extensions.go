@@ -8,8 +8,10 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
+	"github.com/pkg/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -24,18 +26,29 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 	_ genruntime.MetaObject,
 	_ kubeclient.Client,
 	_ *genericarmclient.GenericClient,
-	_ logr.Logger) (extensions.PostReconcileCheckResult, error) {
+	log logr.Logger,
+	_ extensions.PostReconcileCheckFunc) (extensions.PostReconcileCheckResult, error) {
 
-	if endpoint, ok := obj.(*network.PrivateEndpoint); ok && endpoint.Status.PrivateLinkServiceConnections != nil {
+	endpoint, ok := obj.(*network.PrivateEndpoint)
+	if !ok {
+		return extensions.PostReconcileCheckResult{},
+			errors.Errorf("cannot run on unknown resource type %T, expected *network.PrivateEndpoint", obj)
+	}
 
-		for _, connection := range endpoint.Status.PrivateLinkServiceConnections {
+	// Type assert that we are the hub type. This will fail to compile if
+	// the hub type has been changed but this extension has not
+	var _ conversion.Hub = endpoint
+
+	// We want to check `ManualPrivateLinkServiceConnections` as these are the ones which are not auto-approved.
+	if connections := endpoint.Status.ManualPrivateLinkServiceConnections; connections != nil {
+		for _, connection := range connections {
 			if *connection.PrivateLinkServiceConnectionState.Status != "Approved" {
 				// Returns 'conditions.NewReadyConditionImpactingError' error
 				return extensions.PostReconcileCheckResultFailure(
 					fmt.Sprintf(
-						"Private connection '%s' to the endpoint requires approval %q",
+						"Private connection '%s' to the PrivateEndpoint in state %q requires approval",
 						*connection.Id,
-						*connection.PrivateLinkServiceConnectionState)), nil
+						*connection.PrivateLinkServiceConnectionState.Status)), nil
 			}
 		}
 	}

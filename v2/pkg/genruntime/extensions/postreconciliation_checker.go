@@ -72,13 +72,17 @@ func PostReconcileCheckResultFailure(reason string) PostReconcileCheckResult {
 	return PostReconcileCheckResult{
 		action:   postReconcileCheckResultTypeFailure,
 		severity: conditions.ConditionSeverityWarning,
-		reason:   conditions.ReasonReconcileFailure,
+		reason:   conditions.ReasonPostReconcileFailure,
 		message:  reason,
 	}
 }
 
 func (r PostReconcileCheckResult) ReconciliationFailure() bool {
 	return r.action == postReconcileCheckResultTypeFailure
+}
+
+func (r PostReconcileCheckResult) ReconciliationSuccess() bool {
+	return r.action == postReconcileCheckResultTypeSuccess
 }
 
 func (r PostReconcileCheckResult) Message() string {
@@ -135,16 +139,14 @@ func CreatePostReconciliationChecker(
 			return PostReconcileCheckResultFailure("Extension PostReconcileCheck failed"), err
 		}
 
-		log.V(Status).Info(
-			"Extension post-reconcile check succeeded",
-			"Result", result)
+		log.V(Status).Info("Extension post-reconcile check succeeded", "Result", result)
 
 		return result, nil
 	}, true
 }
 
 // alwaysSucceed is a PostReconciliationChecker that always indicates a reconciliation is successful.
-// We have this here so we can set up a chain, even if it's only one link long.
+// We have this here, so we can set up a chain, even if it's only one link long.
 // When we start doing proper comparisons between Spec and Status, we'll have an actual chain of checkers.
 func alwaysSucceed(
 	_ context.Context,
