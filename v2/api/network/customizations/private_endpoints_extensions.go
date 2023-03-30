@@ -26,7 +26,7 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 	_ genruntime.MetaObject,
 	_ kubeclient.Client,
 	_ *genericarmclient.GenericClient,
-	log logr.Logger,
+	_ logr.Logger,
 	_ extensions.PostReconcileCheckFunc) (extensions.PostReconcileCheckResult, error) {
 
 	endpoint, ok := obj.(*network.PrivateEndpoint)
