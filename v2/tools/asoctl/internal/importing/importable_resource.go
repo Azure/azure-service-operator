@@ -7,13 +7,14 @@ package importing
 
 import (
 	"context"
-	"strings"
 
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/names"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
@@ -74,24 +75,25 @@ func (i *importableResource) selectLatestVersion(
 	knownVersions []schema.GroupVersion,
 ) schema.GroupVersionKind {
 	// Sort the versions the same way we do in the generator, for consistency.
-	// The versions.Compare() function used to sort the versions is the one exported by the generator.
+	// In the generator, we compare `astmodel.PackageReference` paths using versions.Compare() to order them
+	// consistently. Here, we're comparing `schema.GroupVersion` values instead, but we want consistent results.
 	slices.SortFunc(
 		knownVersions,
 		func(left schema.GroupVersion, right schema.GroupVersion) bool {
 			return versions.Compare(left.Version, right.Version)
 		})
 
-	isStorageVersion := func(version string) bool {
-		return strings.HasSuffix(version, "storage")
-	}
-
 	// Ideally we want to find the latest stable version, but if there isn't one we'll take the latest preview.
 	// Preview versions might introduce odd behaviour, so we err on the side of caution.
 	// Storage versions need to be skipped though, as they don't have a fixed OriginalVersion()
+	// This logic is similar to the way the storage/hub version is selected in the generator, but here we are
+	// looking for an API version (not a storage version), and we're dealing with a slice of GroupVersions
+	// instead of a slice of PackageReferences.
 	var previewVersion schema.GroupVersion
 	var stableVersion schema.GroupVersion
 	for _, gv := range knownVersions {
-		if isStorageVersion(gv.Version) {
+		// IsStorageVersion() is exported from the generator to ensure we use the same logic here
+		if names.IsStorageVersion(gv.Version) {
 			// Skip storage versions
 			continue
 		}
@@ -103,6 +105,7 @@ func (i *importableResource) selectLatestVersion(
 		}
 	}
 
+	// If we found a stable version, use that, otherwise use the preview version
 	var result schema.GroupVersionKind
 	if !stableVersion.Empty() {
 		result = stableVersion.WithKind(gk.Kind)
