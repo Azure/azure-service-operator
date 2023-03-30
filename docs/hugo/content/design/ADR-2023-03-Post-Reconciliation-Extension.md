@@ -81,7 +81,7 @@ type PostReconcileCheckResult struct {
 
 ```
 
-To implement the above, we need to write a manual extension on `PrivateEndpoint` type `customisation` which implements the above `PostReconciliationChecker` interface like:
+To implement the above, we need to write an extension manually on `PrivateEndpoint` type which implements the above `PostReconciliationChecker` interface:
 
 ``` go
 
