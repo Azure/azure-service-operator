@@ -8,11 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_SignalRService_SignalR_CRUD(t *testing.T) {
@@ -34,27 +34,27 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &signalrservice.ResourceSku{
-				Capacity: to.IntPtr(1),
-				Name:     to.StringPtr("Standard_S1"),
+				Capacity: to.Ptr(1),
+				Name:     to.Ptr("Standard_S1"),
 			},
 			Identity: &signalrservice.ManagedIdentity{
 				Type: &systemAssigned,
 			},
 			Tls: &signalrservice.SignalRTlsSettings{
-				ClientCertEnabled: to.BoolPtr(false),
+				ClientCertEnabled: to.Ptr(false),
 			},
 			Features: []signalrservice.SignalRFeature{{
 				Flag:  &serviceModeFlag,
-				Value: to.StringPtr("Classic"),
+				Value: to.Ptr("Classic"),
 			}, {
 				Flag:  &connectivityLogsFlag,
-				Value: to.StringPtr("true"),
+				Value: to.Ptr("true"),
 			}, {
 				Flag:  &enableMessagingLogsFlag,
-				Value: to.StringPtr("true"),
+				Value: to.Ptr("true"),
 			}, {
 				Flag:  &enableliveTraceFlag,
-				Value: to.StringPtr("true"),
+				Value: to.Ptr("true"),
 			}},
 			Cors: &signalrservice.SignalRCorsSettings{
 				AllowedOrigins: []string{"https://foo.com", "https://bar.com"},
@@ -67,7 +67,7 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 					},
 				},
 				PrivateEndpoints: []signalrservice.PrivateEndpointACL{{
-					Name: to.StringPtr("privateendpointname"),
+					Name: to.Ptr("privateendpointname"),
 					Allow: []signalrservice.SignalRRequestType{
 						signalrservice.SignalRRequestType_ServerConnection,
 					},
@@ -75,10 +75,10 @@ func Test_SignalRService_SignalR_CRUD(t *testing.T) {
 			},
 			Upstream: &signalrservice.ServerlessUpstreamSettings{
 				Templates: []signalrservice.UpstreamTemplate{{
-					CategoryPattern: to.StringPtr("*"),
-					EventPattern:    to.StringPtr("connect,disconnect"),
-					HubPattern:      to.StringPtr("*"),
-					UrlTemplate:     to.StringPtr("https://example.com/chat/api/connect"),
+					CategoryPattern: to.Ptr("*"),
+					EventPattern:    to.Ptr("connect,disconnect"),
+					HubPattern:      to.Ptr("*"),
+					UrlTemplate:     to.Ptr("https://example.com/chat/api/connect"),
 				}},
 			},
 		},

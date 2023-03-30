@@ -8,7 +8,6 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901"
@@ -16,6 +15,7 @@ import (
 	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -65,9 +65,9 @@ func PrivateDNSZones_CNAME_Record_Test(tc *testcommon.KubePerTestContext, zone *
 	record := &network20200601.PrivateDnsZonesCNAMERecord{
 		ObjectMeta: tc.MakeObjectMetaWithName("record"),
 		Spec: network20200601.PrivateDnsZones_CNAME_Spec{
-			CnameRecord: &network20200601.CnameRecord{Cname: to.StringPtr("asotest.com")},
+			CnameRecord: &network20200601.CnameRecord{Cname: to.Ptr("asotest.com")},
 			Owner:       testcommon.AsOwner(zone),
-			Ttl:         to.IntPtr(3600),
+			Ttl:         to.Ptr(3600),
 		},
 	}
 
@@ -107,7 +107,7 @@ func newPrivateDNSZone(tc *testcommon.KubePerTestContext, name string, rg *resou
 	zone := &network.PrivateDnsZone{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: network.PrivateDnsZone_Spec{
-			Location: to.StringPtr("global"),
+			Location: to.Ptr("global"),
 			Owner:    testcommon.AsOwner(rg),
 		},
 	}
@@ -118,10 +118,10 @@ func newVirtualNetworkLink(tc *testcommon.KubePerTestContext, dnsZone *network.P
 	links := &network20200601.PrivateDnsZonesVirtualNetworkLink{
 		ObjectMeta: tc.MakeObjectMetaWithName(dnsZone.Name + "-link"),
 		Spec: network20200601.PrivateDnsZones_VirtualNetworkLink_Spec{
-			Location:            to.StringPtr("global"),
+			Location:            to.Ptr("global"),
 			Owner:               testcommon.AsOwner(dnsZone),
 			VirtualNetwork:      &network20200601.SubResource{Reference: tc.MakeReferenceFromResource(vnet)},
-			RegistrationEnabled: to.BoolPtr(false),
+			RegistrationEnabled: to.Ptr(false),
 		},
 	}
 	return links

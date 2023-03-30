@@ -8,11 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	v1 "k8s.io/api/core/v1"
 
 	mariadb "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -40,18 +40,18 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 			Owner:     testcommon.AsOwner(rg),
 			Properties: &mariadb.ServerPropertiesForCreate{
 				Default: &mariadb.ServerPropertiesForDefaultCreate{
-					AdministratorLogin:         to.StringPtr(adminUser),
+					AdministratorLogin:         to.Ptr(adminUser),
 					AdministratorLoginPassword: adminPasswordRef,
 					CreateMode:                 &createMode,
 					PublicNetworkAccess:        &networkAccess,
 					StorageProfile: &mariadb.StorageProfile{
 						StorageAutogrow: &autogrow,
-						StorageMB:       to.IntPtr(5120),
+						StorageMB:       to.Ptr(5120),
 					},
 				},
 			},
 			Sku: &mariadb.Sku{
-				Name: to.StringPtr("GP_Gen5_2"),
+				Name: to.Ptr("GP_Gen5_2"),
 				Tier: &tier,
 			},
 			OperatorSpec: &mariadb.ServerOperatorSpec{
@@ -78,7 +78,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 		Spec: mariadb.Servers_Configuration_Spec{
 			AzureName: "query_cache_size",
 			Owner:     testcommon.AsOwner(&server),
-			Value:     to.StringPtr("102400"),
+			Value:     to.Ptr("102400"),
 		},
 	}
 
@@ -89,7 +89,7 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 	database := mariadb.Database{
 		ObjectMeta: tc.MakeObjectMetaWithName(configName),
 		Spec: mariadb.Servers_Database_Spec{
-			AzureName: *to.StringPtr("adventureworks"),
+			AzureName: *to.Ptr("adventureworks"),
 			Owner:     testcommon.AsOwner(&server),
 		},
 	}

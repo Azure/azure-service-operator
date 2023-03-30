@@ -8,11 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	operationalinsights "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
@@ -43,9 +43,9 @@ func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
 
 	// Perform a simple patch.
 	old := workspace.DeepCopy()
-	workspace.Spec.RetentionInDays = to.IntPtr(36)
+	workspace.Spec.RetentionInDays = to.Ptr(36)
 	tc.PatchResourceAndWait(old, workspace)
-	tc.Expect(workspace.Status.RetentionInDays).To(Equal(to.IntPtr(36)))
+	tc.Expect(workspace.Status.RetentionInDays).To(Equal(to.Ptr(36)))
 
 	tc.DeleteResourceAndWait(workspace)
 

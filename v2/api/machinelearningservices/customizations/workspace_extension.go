@@ -9,7 +9,6 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning"
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
@@ -19,6 +18,7 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -114,12 +114,12 @@ func secretsToWrite(obj *storage.Workspace, keysResp armmachinelearning.ListWork
 	collector.AddValue(operatorSpecSecrets.ContainerRegistryPassword, creds["password"])
 	collector.AddValue(operatorSpecSecrets.ContainerRegistryPassword2, creds["password2"])
 	collector.AddValue(operatorSpecSecrets.ContainerRegistryUserName, crUsername)
-	collector.AddValue(operatorSpecSecrets.UserStorageKey, to.String(keysResp.UserStorageKey))
-	collector.AddValue(operatorSpecSecrets.AppInsightsInstrumentationKey, to.String(keysResp.AppInsightsInstrumentationKey))
+	collector.AddValue(operatorSpecSecrets.UserStorageKey, to.Value(keysResp.UserStorageKey))
+	collector.AddValue(operatorSpecSecrets.AppInsightsInstrumentationKey, to.Value(keysResp.AppInsightsInstrumentationKey))
 
 	if keysResp.NotebookAccessKeys != nil {
-		collector.AddValue(operatorSpecSecrets.PrimaryNotebookAccessKey, to.String(keysResp.NotebookAccessKeys.PrimaryAccessKey))
-		collector.AddValue(operatorSpecSecrets.SecondaryNotebookAccessKey, to.String(keysResp.NotebookAccessKeys.SecondaryAccessKey))
+		collector.AddValue(operatorSpecSecrets.PrimaryNotebookAccessKey, to.Value(keysResp.NotebookAccessKeys.PrimaryAccessKey))
+		collector.AddValue(operatorSpecSecrets.SecondaryNotebookAccessKey, to.Value(keysResp.NotebookAccessKeys.SecondaryAccessKey))
 	}
 	if keysResp.ContainerRegistryCredentials != nil {
 	}
@@ -136,8 +136,8 @@ func getContainerRegCreds(keysResp armmachinelearning.ListWorkspaceKeysResult) (
 
 	for _, password := range keysResp.ContainerRegistryCredentials.Passwords {
 		if password.Name != nil && password.Value != nil {
-			creds[to.String(password.Name)] = to.String(password.Value)
+			creds[to.Value(password.Name)] = to.Value(password.Value)
 		}
 	}
-	return creds, to.String(keysResp.ContainerRegistryCredentials.Username)
+	return creds, to.Value(keysResp.ContainerRegistryCredentials.Username)
 }

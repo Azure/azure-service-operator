@@ -8,7 +8,6 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
@@ -16,6 +15,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 // Example is from https://learn.microsoft.com/en-us/azure/private-link/create-private-endpoint-bicep?tabs=CLI#review-the-bicep-file
@@ -77,7 +77,7 @@ func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *
 			Owner: testcommon.AsOwner(endpoint),
 			PrivateDnsZoneConfigs: []network.PrivateDnsZoneConfig{
 				{
-					Name:                    to.StringPtr("config"),
+					Name:                    to.Ptr("config"),
 					PrivateDnsZoneReference: tc.MakeReferenceFromResource(zone),
 				},
 			},
@@ -99,7 +99,7 @@ func newPrivateEndpoint(tc *testcommon.KubePerTestContext, rg *resources.Resourc
 			Owner:    testcommon.AsOwner(rg),
 			PrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name:                        to.StringPtr("testEndpoint"),
+					Name:                        to.Ptr("testEndpoint"),
 					PrivateLinkServiceReference: tc.MakeReferenceFromResource(sa),
 					GroupIds:                    []string{"blob"}, // TODO: This is a bit weird that user has to figure out the group ID(s).
 				},

@@ -10,7 +10,6 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -26,6 +25,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 const (
@@ -334,7 +334,7 @@ func newResourceGroup(namespace string) *resources.ResourceGroup {
 			Namespace: namespace,
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location:  to.StringPtr("West US"),
+			Location:  to.Ptr("West US"),
 			AzureName: "my-rg", // defaulter webhook will copy Name to AzureName
 		},
 	}

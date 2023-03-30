@@ -8,12 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202preview"
-
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -24,7 +23,7 @@ func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	region := to.StringPtr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
+	region := to.Ptr("westus3") // TODO: the default test region of westus2 doesn't allow ds2_v2 at the moment
 	//region := tc.AzureRegion
 
 	adminUsername := "adminUser"
@@ -40,12 +39,12 @@ func Test_AKS_ManagedCluster_20230202Preview_CRUD(t *testing.T) {
 		Spec: aks.ManagedCluster_Spec{
 			Location:  region,
 			Owner:     testcommon.AsOwner(rg),
-			DnsPrefix: to.StringPtr("aso"),
+			DnsPrefix: to.Ptr("aso"),
 			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
-					Name:   to.StringPtr("ap1"),
-					Count:  to.IntPtr(1),
-					VmSize: to.StringPtr("Standard_DS2_v2"),
+					Name:   to.Ptr("ap1"),
+					Count:  to.Ptr(1),
+					VmSize: to.Ptr("Standard_DS2_v2"),
 					OsType: &osType,
 					Mode:   &agentPoolMode,
 				},
@@ -120,8 +119,8 @@ func AKS_ManagedCluster_AgentPool_20230102Preview_CRUD(tc *testcommon.KubePerTes
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
 		Spec: aks.ManagedClusters_AgentPool_Spec{
 			Owner:  testcommon.AsOwner(cluster),
-			Count:  to.IntPtr(1),
-			VmSize: to.StringPtr("Standard_DS2_v2"),
+			Count:  to.Ptr(1),
+			VmSize: to.Ptr("Standard_DS2_v2"),
 			OsType: &osType,
 			Mode:   &agentPoolMode,
 		},
@@ -137,7 +136,7 @@ func AKS_ManagedCluster_AgentPool_20230102Preview_CRUD(tc *testcommon.KubePerTes
 	tc.Expect(agentPool.Status.Id).ToNot(BeNil())
 
 	// a basic assertion on a few properties
-	tc.Expect(agentPool.Status.Count).To(Equal(to.IntPtr(1)))
+	tc.Expect(agentPool.Status.Count).To(Equal(to.Ptr(1)))
 	tc.Expect(agentPool.Status.OsType).ToNot(BeNil())
 	tc.Expect(string(*agentPool.Status.OsType)).To(Equal(string(osType)))
 

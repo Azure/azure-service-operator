@@ -8,7 +8,6 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -18,6 +17,7 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
@@ -76,7 +76,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworks_Subnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.StringPtr("10.0.0.0/24"),
+			AddressPrefix: to.Ptr("10.0.0.0/24"),
 		},
 	}
 
