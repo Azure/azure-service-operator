@@ -10,6 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
@@ -48,8 +49,10 @@ func (ri *ResourceImporter) AddARMID(armID string) {
 	ri.Add(importer)
 }
 
-// Import imports all the resources that have been added to the importer
+// Import imports all the resources that have been added to the importer.
+// Partial results are returned even in the case of an error.
 func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, error) {
+	var errs []error
 	for len(ri.pending) > 0 {
 		// Remove the first pending importer
 		importer := ri.pending[0]
@@ -63,7 +66,14 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 		// Import it
 		pending, err := importer.Import(ctx)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed during import of %s", importer.Name())
+			var notImportable NotImportableError
+			if errors.As(err, &notImportable) {
+				// This is a resource we don't know how to import, but that's ok (details will already have been logged)
+				continue
+			}
+
+			errs = append(errs, errors.Wrapf(err, "failed during import of %s", importer.Name()))
+			continue
 		}
 
 		ri.completed[importer.Name()] = importer
@@ -78,5 +88,5 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 
 	return &ResourceImportResult{
 		resources: resources,
-	}, nil
+	}, kerrors.NewAggregate(errs)
 }
