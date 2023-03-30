@@ -11,6 +11,7 @@ import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
@@ -45,7 +46,9 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 
 // AddARMID adds an ARM ID to the list of resources to import.
 func (ri *ResourceImporter) AddARMID(armID string) {
-	importer := NewImportableARMResource(armID, ri.client, ri.scheme)
+	//TODO: Do we want a way to specify the owner here? Maybe a commandline switch?
+	noOwner := genruntime.ResourceReference{}
+	importer := NewImportableARMResource(armID, noOwner, ri.client, ri.scheme)
 	ri.Add(importer)
 }
 

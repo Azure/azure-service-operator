@@ -8,6 +8,7 @@ package importing
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
@@ -26,8 +27,9 @@ import (
 type importableARMResource struct {
 	importableResource
 	armID    string                           // The ARM ID of the resource to import
+	owner    genruntime.ResourceReference     // The owner of the resource we're importing
 	client   *genericarmclient.GenericClient  // client for talking to ARM
-	resource genruntime.ImportableARMResource // The resource we're importing
+	resource genruntime.ImportableARMResource // The resource we've imported
 }
 
 var _ ImportableResource = &importableARMResource{}
@@ -38,6 +40,7 @@ var _ ImportableResource = &importableARMResource{}
 // scheme is the scheme to use to create the resource.
 func NewImportableARMResource(
 	armID string,
+	owner genruntime.ResourceReference,
 	client *genericarmclient.GenericClient,
 	scheme *runtime.Scheme,
 ) ImportableResource {
@@ -46,6 +49,7 @@ func NewImportableARMResource(
 			scheme: scheme,
 		},
 		armID:  armID,
+		owner:  owner,
 		client: client,
 	}
 }
@@ -73,7 +77,8 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 		return nil, NewNotImportableError(id.ResourceType.String(), id.Name, because)
 	}
 
-	err = i.importResource(ctx, id)
+	var ref genruntime.ResourceReference
+	ref, err = i.importResource(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +86,7 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 	var result []ImportableResource
 	subTypes := FindSubTypesForType(id.ResourceType.String())
 	for _, subType := range subTypes {
-		subResources, err := i.importChildResources(ctx, id, subType)
+		subResources, err := i.importChildResources(ctx, ref, subType)
 		if err != nil {
 			return nil, errors.Wrapf(err, "importing child resources of type %s for resource %s", subType, i.armID)
 		}
@@ -92,37 +97,49 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 	return result, nil
 }
 
+// importResource imports the actual resource, returning a reference to the resource
 func (i *importableARMResource) importResource(
 	ctx context.Context,
 	id *arm.ResourceID,
-) error {
+) (genruntime.ResourceReference, error) {
 	// Create an importable blank object into which we capture the current state of the resource
-	importable, err := i.createImportableObjectFromID(id)
+	importable, err := i.createImportableObjectFromID(i.owner, id)
 	if err != nil {
 		// Error doesn't need additional context
-		return err
+		return genruntime.ResourceReference{}, err
 	}
 
 	// Get the current status of the object from ARM
 	status, err := i.getStatus(ctx, i.armID, importable)
 	if err != nil {
 		// Error doesn't need additional context
-		return err
+		return genruntime.ResourceReference{}, err
 	}
 
 	// Set up our object Spec
 	err = importable.InitializeSpec(status)
 	if err != nil {
-		return errors.Wrapf(err, "setting status on Kubernetes resource for resource %s", i.armID)
+		return genruntime.ResourceReference{},
+			errors.Wrapf(err, "setting status on Kubernetes resource for resource %s", i.armID)
 	}
 
+	gvk := importable.GetObjectKind().GroupVersionKind()
+
 	i.resource = importable
-	return nil
+
+	ref := genruntime.ResourceReference{
+		Group: gvk.Group,
+		Kind:  gvk.Kind,
+		Name:  importable.GetName(),
+		ARMID: i.armID,
+	}
+
+	return ref, nil
 }
 
 func (i *importableARMResource) importChildResources(
 	ctx context.Context,
-	id *arm.ResourceID,
+	owner genruntime.ResourceReference,
 	childResourceType string,
 ) ([]ImportableResource, error) {
 	var subResources []ImportableResource
@@ -155,14 +172,17 @@ func (i *importableARMResource) importChildResources(
 	}
 
 	for _, ref := range childResourceReferences {
-		importer := NewImportableARMResource(ref.ARMID, i.client, i.scheme)
+		importer := NewImportableARMResource(ref.ARMID, owner, i.client, i.scheme)
 		subResources = append(subResources, importer)
 	}
 
 	return subResources, nil
 }
 
-func (i *importableARMResource) createImportableObjectFromID(armID *arm.ResourceID) (genruntime.ImportableARMResource, error) {
+func (i *importableARMResource) createImportableObjectFromID(
+	owner genruntime.ResourceReference,
+	armID *arm.ResourceID,
+) (genruntime.ImportableARMResource, error) {
 	gvk, err := i.groupVersionKindFromID(armID)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to determine GVK of resource")
@@ -179,7 +199,7 @@ func (i *importableARMResource) createImportableObjectFromID(armID *arm.Resource
 			"unable to create blank resource, expected %s to identify an importable ARM object", armID)
 	}
 
-	importable.SetName(i.nameFromID(armID))
+	i.SetOwnerAndName(importable, owner, i.nameFromID(armID))
 
 	return importable, nil
 }
@@ -207,16 +227,19 @@ func (i *importableARMResource) getStatus(
 		return nil, errors.Wrapf(err, "constructing Kube status object for resource: %q", armID)
 	}
 
-	//TODO: Owner?
-	var knownOwner genruntime.ArbitraryOwnerReference
-
 	// Fill the kube status with the results from the arm status
 	s, ok := status.(genruntime.FromARMConverter)
 	if !ok {
 		return nil, errors.Errorf("expected status %T to implement genruntime.FromARMConverter", s)
 	}
 
-	err = s.PopulateFromARM(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
+	o := genruntime.ArbitraryOwnerReference{
+		Group: i.owner.Group,
+		Kind:  i.owner.Kind,
+		Name:  i.owner.Name,
+	}
+
+	err = s.PopulateFromARM(o, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
 	if err != nil {
 		return nil, errors.Wrapf(err, "converting ARM status to Kubernetes status")
 	}
@@ -257,6 +280,48 @@ func (i *importableARMResource) nameFromID(id *arm.ResourceID) string {
 func (i *importableARMResource) createContainerURI(id string, subType string) string {
 	parts := strings.Split(subType, "/")
 	return fmt.Sprintf("%s/%s", id, parts[len(parts)-1])
+}
+
+func (i *importableARMResource) SetOwnerAndName(
+	importable genruntime.ImportableARMResource,
+	owner genruntime.ResourceReference,
+	name string) {
+
+	// First set the name, so we can exit earlt once we've worked out what kind of owner we have
+	importable.SetName(name)
+
+	// Need to use reflection to set the owner, as different resources have different types for the owner
+	specField := reflect.ValueOf(importable.GetSpec()).Elem()
+	ownerField := specField.FieldByName("Owner")
+
+	// If the owner is a ResourceReference we can set it directly
+	if ownerField.Type() == reflect.PtrTo(reflect.TypeOf(genruntime.ResourceReference{})) {
+		ownerField.Set(reflect.ValueOf(&owner))
+		return
+	}
+
+	// If the owner is an ArbitraryOwnerReference we need to synthesize one
+	if ownerField.Type() == reflect.PtrTo(reflect.TypeOf(genruntime.ArbitraryOwnerReference{})) {
+		aor := genruntime.ArbitraryOwnerReference{
+			Group: owner.Group,
+			Kind:  owner.Kind,
+			Name:  owner.Name,
+		}
+
+		ownerField.Set(reflect.ValueOf(&aor))
+		return
+	}
+
+	// if the owner is a KnownResourceReference, we need to synthesize one
+	if ownerField.Type() == reflect.PtrTo(reflect.TypeOf(genruntime.KnownResourceReference{})) {
+		krr := genruntime.KnownResourceReference{
+			Name: owner.Name,
+		}
+
+		ownerField.Set(reflect.ValueOf(&krr))
+		return
+	}
+
 }
 
 type childReference struct {
