@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}
+// Deprecated version of SqlDatabaseContainerTrigger. Use v1api20210515.SqlDatabaseContainerTrigger instead
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &SqlDatabaseContainerTrigger{}
 
 // ConvertFrom populates our SqlDatabaseContainerTrigger from the provided hub SqlDatabaseContainerTrigger
 func (trigger *SqlDatabaseContainerTrigger) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210515s.SqlDatabaseContainerTrigger)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlDatabaseContainerTrigger but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210515s.SqlDatabaseContainerTrigger
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return trigger.AssignProperties_From_SqlDatabaseContainerTrigger(source)
+	err = trigger.AssignProperties_From_SqlDatabaseContainerTrigger(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to trigger")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainerTrigger from our SqlDatabaseContainerTrigger
 func (trigger *SqlDatabaseContainerTrigger) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210515s.SqlDatabaseContainerTrigger)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlDatabaseContainerTrigger but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210515s.SqlDatabaseContainerTrigger
+	err := trigger.AssignProperties_To_SqlDatabaseContainerTrigger(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from trigger")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return trigger.AssignProperties_To_SqlDatabaseContainerTrigger(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqldatabasecontainertrigger,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainertriggers,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqldatabasecontainertriggers.documentdb.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (trigger *SqlDatabaseContainerTrigger) OriginalGVK() *schema.GroupVersionKi
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}
+// Deprecated version of SqlDatabaseContainerTrigger. Use v1api20210515.SqlDatabaseContainerTrigger instead
 type SqlDatabaseContainerTriggerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -335,14 +345,9 @@ type SqlDatabaseContainerTriggerList struct {
 type DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions `json:"options,omitempty"`
+	AzureName string               `json:"azureName,omitempty"`
+	Location  *string              `json:"location,omitempty"`
+	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -351,7 +356,6 @@ type DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
 
 	// +kubebuilder:validation:Required
-	// Resource: The standard JSON format of a trigger
 	Resource *SqlTriggerResource `json:"resource,omitempty"`
 	Tags     map[string]string   `json:"tags,omitempty"`
 }
@@ -662,23 +666,16 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_Spec) SetAzureNa
 	trigger.AzureName = azureName
 }
 
+// Deprecated version of DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS. Use v1api20210515.DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS instead
 type DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name     *string                                  `json:"name,omitempty"`
-	Resource *SqlTriggerGetProperties_Resource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string                        `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                   `json:"conditions,omitempty"`
+	Id         *string                                  `json:"id,omitempty"`
+	Location   *string                                  `json:"location,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
+	Resource   *SqlTriggerGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags       map[string]string                        `json:"tags,omitempty"`
+	Type       *string                                  `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS{}
@@ -880,27 +877,15 @@ func (trigger *DatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS) AssignPr
 	return nil
 }
 
+// Deprecated version of SqlTriggerGetProperties_Resource_STATUS. Use v1api20210515.SqlTriggerGetProperties_Resource_STATUS instead
 type SqlTriggerGetProperties_Resource_STATUS struct {
-	// Body: Body of the Trigger
-	Body *string `json:"body,omitempty"`
-
-	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	// Id: Name of the Cosmos DB SQL trigger
-	Id *string `json:"id,omitempty"`
-
-	// Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	// TriggerOperation: The operation the trigger is associated with
+	Body             *string                                                   `json:"body,omitempty"`
+	Etag             *string                                                   `json:"_etag,omitempty"`
+	Id               *string                                                   `json:"id,omitempty"`
+	Rid              *string                                                   `json:"_rid,omitempty"`
 	TriggerOperation *SqlTriggerGetProperties_Resource_TriggerOperation_STATUS `json:"triggerOperation,omitempty"`
-
-	// TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerGetProperties_Resource_TriggerType_STATUS `json:"triggerType,omitempty"`
-
-	// Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	TriggerType      *SqlTriggerGetProperties_Resource_TriggerType_STATUS      `json:"triggerType,omitempty"`
+	Ts               *float64                                                  `json:"_ts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SqlTriggerGetProperties_Resource_STATUS{}
@@ -1058,20 +1043,14 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignProperties_To_Sql
 	return nil
 }
 
-// Cosmos DB SQL trigger resource object
+// Deprecated version of SqlTriggerResource. Use v1api20210515.SqlTriggerResource instead
 type SqlTriggerResource struct {
-	// Body: Body of the Trigger
 	Body *string `json:"body,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Id: Name of the Cosmos DB SQL trigger
-	Id *string `json:"id,omitempty"`
-
-	// TriggerOperation: The operation the trigger is associated with
+	Id               *string                              `json:"id,omitempty"`
 	TriggerOperation *SqlTriggerResource_TriggerOperation `json:"triggerOperation,omitempty"`
-
-	// TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerResource_TriggerType `json:"triggerType,omitempty"`
+	TriggerType      *SqlTriggerResource_TriggerType      `json:"triggerType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SqlTriggerResource{}

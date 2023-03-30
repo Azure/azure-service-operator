@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101"
+	eventhub "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

@@ -5,22 +5,14 @@ package v1beta20210301
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of RedisEnterprise_Spec. Use v1api20210301.RedisEnterprise_Spec instead
 type RedisEnterprise_Spec_ARM struct {
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Other properties of the cluster.
+	Location   *string                `json:"location,omitempty"`
+	Name       string                 `json:"name,omitempty"`
 	Properties *ClusterProperties_ARM `json:"properties,omitempty"`
-
-	// Sku: The SKU to create, which affects price, performance, and features.
-	Sku *Sku_ARM `json:"sku,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Zones: The Availability Zones where this cluster will be deployed.
-	Zones []string `json:"zones,omitempty"`
+	Sku        *Sku_ARM               `json:"sku,omitempty"`
+	Tags       map[string]string      `json:"tags,omitempty"`
+	Zones      []string               `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &RedisEnterprise_Spec_ARM{}
@@ -40,22 +32,18 @@ func (enterprise *RedisEnterprise_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise"
 }
 
-// Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
+// Deprecated version of ClusterProperties. Use v1api20210301.ClusterProperties instead
 type ClusterProperties_ARM struct {
-	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
 	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 }
 
-// SKU parameters supplied to the create RedisEnterprise operation.
+// Deprecated version of Sku. Use v1api20210301.Sku instead
 type Sku_ARM struct {
-	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
-	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
-	Name *Sku_Name `json:"name,omitempty"`
+	Capacity *int      `json:"capacity,omitempty"`
+	Name     *Sku_Name `json:"name,omitempty"`
 }
 
+// Deprecated version of Sku_Name. Use v1api20210301.Sku_Name instead
 // +kubebuilder:validation:Enum={"EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700","Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50"}
 type Sku_Name string
 

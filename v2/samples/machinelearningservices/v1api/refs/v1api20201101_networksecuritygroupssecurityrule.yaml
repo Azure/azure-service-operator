@@ -1,0 +1,18 @@
+apiVersion: network.azure.com/v1api20201101
+kind: NetworkSecurityGroupsSecurityRule
+metadata:
+  name: workspacescomputensgrule
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: workspacescomputensg
+  protocol: Tcp
+  sourcePortRange: "*"
+  destinationPortRange: "22"
+  sourceAddressPrefix: "*"
+  destinationAddressPrefix: "*"
+  access: Allow
+  priority: 101
+  direction: Inbound
+  description: Allow access to any source port

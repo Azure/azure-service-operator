@@ -1,0 +1,273 @@
+github.com/Azure/azure-service-operator/hack/crossplane/apis/sql/v1api20201101preview
+├── APIVersion: Enum (1 value)
+│   └── "2020-11-01-preview"
+├── Server: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/hack/crossplane/apis/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (1 property)
+│   │   └── ForProvider: Object (15 properties)
+│   │       ├── AdministratorLogin: *string
+│   │       ├── AdministratorLoginPassword: *string
+│   │       ├── Administrators: *Object (6 properties)
+│   │       │   ├── AdministratorType: *Enum (1 value)
+│   │       │   │   └── "ActiveDirectory"
+│   │       │   ├── AzureADOnlyAuthentication: *bool
+│   │       │   ├── Login: *string
+│   │       │   ├── PrincipalType: *Enum (3 values)
+│   │       │   │   ├── "Application"
+│   │       │   │   ├── "Group"
+│   │       │   │   └── "User"
+│   │       │   ├── Sid: Validated<*string> (1 rule)
+│   │       │   │   └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│   │       │   └── TenantId: Validated<*string> (1 rule)
+│   │       │       └── Rule 0: Pattern: "^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
+│   │       ├── Identity: *Object (1 property)
+│   │       │   └── Type: *Enum (4 values)
+│   │       │       ├── "None"
+│   │       │       ├── "SystemAssigned"
+│   │       │       ├── "SystemAssigned,UserAssigned"
+│   │       │       └── "UserAssigned"
+│   │       ├── KeyId: *string
+│   │       ├── Location: *string
+│   │       ├── MinimalTlsVersion: *string
+│   │       ├── Name: string
+│   │       ├── PrimaryUserAssignedIdentityId: *string
+│   │       ├── PublicNetworkAccess: *Enum (2 values)
+│   │       │   ├── "Disabled"
+│   │       │   └── "Enabled"
+│   │       ├── ResourceGroupName: string
+│   │       ├── ResourceGroupNameRef: *v1.Reference
+│   │       ├── ResourceGroupNameSelector: *v1.Selector
+│   │       ├── Tags: map[string]string
+│   │       └── Version: *string
+│   └── Status: Object (1 property)
+│       └── AtProvider: Object (19 properties)
+│           ├── AdministratorLogin: *string
+│           ├── AdministratorLoginPassword: *string
+│           ├── Administrators: *Object (6 properties)
+│           │   ├── AdministratorType: *Enum (1 value)
+│           │   │   └── "ActiveDirectory"
+│           │   ├── AzureADOnlyAuthentication: *bool
+│           │   ├── Login: *string
+│           │   ├── PrincipalType: *Enum (3 values)
+│           │   │   ├── "Application"
+│           │   │   ├── "Group"
+│           │   │   └── "User"
+│           │   ├── Sid: *string
+│           │   └── TenantId: *string
+│           ├── FullyQualifiedDomainName: *string
+│           ├── Id: *string
+│           ├── Identity: *Object (4 properties)
+│           │   ├── PrincipalId: *string
+│           │   ├── TenantId: *string
+│           │   ├── Type: *Enum (4 values)
+│           │   │   ├── "None"
+│           │   │   ├── "SystemAssigned"
+│           │   │   ├── "SystemAssigned,UserAssigned"
+│           │   │   └── "UserAssigned"
+│           │   └── UserAssignedIdentities: map[string]Object (2 properties)
+│           │       ├── ClientId: *string
+│           │       └── PrincipalId: *string
+│           ├── KeyId: *string
+│           ├── Kind: *string
+│           ├── Location: *string
+│           ├── MinimalTlsVersion: *string
+│           ├── Name: *string
+│           ├── PrimaryUserAssignedIdentityId: *string
+│           ├── PrivateEndpointConnections: Object (2 properties)[]
+│           │   ├── Id: *string
+│           │   └── Properties: *Object (3 properties)
+│           │       ├── PrivateEndpoint: *Object (1 property)
+│           │       │   └── Id: *string
+│           │       ├── PrivateLinkServiceConnectionState: *Object (3 properties)
+│           │       │   ├── ActionsRequired: *Enum (1 value)
+│           │       │   │   └── "None"
+│           │       │   ├── Description: *string
+│           │       │   └── Status: *Enum (4 values)
+│           │       │       ├── "Approved"
+│           │       │       ├── "Disconnected"
+│           │       │       ├── "Pending"
+│           │       │       └── "Rejected"
+│           │       └── ProvisioningState: *Enum (5 values)
+│           │           ├── "Approving"
+│           │           ├── "Dropping"
+│           │           ├── "Failed"
+│           │           ├── "Ready"
+│           │           └── "Rejecting"
+│           ├── PublicNetworkAccess: *Enum (2 values)
+│           │   ├── "Disabled"
+│           │   └── "Enabled"
+│           ├── State: *string
+│           ├── Tags: map[string]string
+│           ├── Type: *string
+│           ├── Version: *string
+│           └── WorkspaceFeature: *Enum (2 values)
+│               ├── "Connected"
+│               └── "Disconnected"
+└── Servers_Database: Resource
+    ├── Owner: Server
+    ├── Spec: Object (1 property)
+    │   └── ForProvider: Object (32 properties)
+    │       ├── AutoPauseDelay: *int
+    │       ├── CatalogCollation: *Enum (2 values)
+    │       │   ├── "DATABASE_DEFAULT"
+    │       │   └── "SQL_Latin1_General_CP1_CI_AS"
+    │       ├── Collation: *string
+    │       ├── CreateMode: *Enum (10 values)
+    │       │   ├── "Copy"
+    │       │   ├── "Default"
+    │       │   ├── "OnlineSecondary"
+    │       │   ├── "PointInTimeRestore"
+    │       │   ├── "Recovery"
+    │       │   ├── "Restore"
+    │       │   ├── "RestoreExternalBackup"
+    │       │   ├── "RestoreExternalBackupSecondary"
+    │       │   ├── "RestoreLongTermRetentionBackup"
+    │       │   └── "Secondary"
+    │       ├── ElasticPoolId: *string
+    │       ├── HighAvailabilityReplicaCount: *int
+    │       ├── LicenseType: *Enum (2 values)
+    │       │   ├── "BasePrice"
+    │       │   └── "LicenseIncluded"
+    │       ├── Location: *string
+    │       ├── LongTermRetentionBackupResourceId: *string
+    │       ├── MaintenanceConfigurationId: *string
+    │       ├── MaxSizeBytes: *int
+    │       ├── MinCapacity: *float64
+    │       ├── Name: string
+    │       ├── ReadScale: *Enum (2 values)
+    │       │   ├── "Disabled"
+    │       │   └── "Enabled"
+    │       ├── RecoverableDatabaseId: *string
+    │       ├── RecoveryServicesRecoveryPointId: *string
+    │       ├── RequestedBackupStorageRedundancy: *Enum (3 values)
+    │       │   ├── "Geo"
+    │       │   ├── "Local"
+    │       │   └── "Zone"
+    │       ├── ResourceGroupName: string
+    │       ├── ResourceGroupNameRef: *v1.Reference
+    │       ├── ResourceGroupNameSelector: *v1.Selector
+    │       ├── RestorableDroppedDatabaseId: *string
+    │       ├── RestorePointInTime: *string
+    │       ├── SampleName: *Enum (3 values)
+    │       │   ├── "AdventureWorksLT"
+    │       │   ├── "WideWorldImportersFull"
+    │       │   └── "WideWorldImportersStd"
+    │       ├── SecondaryType: *Enum (2 values)
+    │       │   ├── "Geo"
+    │       │   └── "Named"
+    │       ├── ServerName: string
+    │       ├── ServerNameRef: *v1.Reference
+    │       ├── ServerNameSelector: *v1.Selector
+    │       ├── Sku: *Object (5 properties)
+    │       │   ├── Capacity: *int
+    │       │   ├── Family: *string
+    │       │   ├── Name: *string
+    │       │   ├── Size: *string
+    │       │   └── Tier: *string
+    │       ├── SourceDatabaseDeletionDate: *string
+    │       ├── SourceDatabaseId: *string
+    │       ├── Tags: map[string]string
+    │       └── ZoneRedundant: *bool
+    └── Status: Object (1 property)
+        └── AtProvider: Object (43 properties)
+            ├── AutoPauseDelay: *int
+            ├── CatalogCollation: *Enum (2 values)
+            │   ├── "DATABASE_DEFAULT"
+            │   └── "SQL_Latin1_General_CP1_CI_AS"
+            ├── Collation: *string
+            ├── CreateMode: *Enum (10 values)
+            │   ├── "Copy"
+            │   ├── "Default"
+            │   ├── "OnlineSecondary"
+            │   ├── "PointInTimeRestore"
+            │   ├── "Recovery"
+            │   ├── "Restore"
+            │   ├── "RestoreExternalBackup"
+            │   ├── "RestoreExternalBackupSecondary"
+            │   ├── "RestoreLongTermRetentionBackup"
+            │   └── "Secondary"
+            ├── CreationDate: *string
+            ├── CurrentBackupStorageRedundancy: *Enum (3 values)
+            │   ├── "Geo"
+            │   ├── "Local"
+            │   └── "Zone"
+            ├── CurrentServiceObjectiveName: *string
+            ├── CurrentSku: *Object (5 properties)
+            │   ├── Capacity: *int
+            │   ├── Family: *string
+            │   ├── Name: *string
+            │   ├── Size: *string
+            │   └── Tier: *string
+            ├── DatabaseId: *string
+            ├── DefaultSecondaryLocation: *string
+            ├── EarliestRestoreDate: *string
+            ├── ElasticPoolId: *string
+            ├── FailoverGroupId: *string
+            ├── HighAvailabilityReplicaCount: *int
+            ├── Id: *string
+            ├── Kind: *string
+            ├── LicenseType: *Enum (2 values)
+            │   ├── "BasePrice"
+            │   └── "LicenseIncluded"
+            ├── Location: *string
+            ├── LongTermRetentionBackupResourceId: *string
+            ├── MaintenanceConfigurationId: *string
+            ├── ManagedBy: *string
+            ├── MaxLogSizeBytes: *int
+            ├── MaxSizeBytes: *int
+            ├── MinCapacity: *float64
+            ├── Name: *string
+            ├── PausedDate: *string
+            ├── ReadScale: *Enum (2 values)
+            │   ├── "Disabled"
+            │   └── "Enabled"
+            ├── RecoverableDatabaseId: *string
+            ├── RecoveryServicesRecoveryPointId: *string
+            ├── RequestedBackupStorageRedundancy: *Enum (3 values)
+            │   ├── "Geo"
+            │   ├── "Local"
+            │   └── "Zone"
+            ├── RequestedServiceObjectiveName: *string
+            ├── RestorableDroppedDatabaseId: *string
+            ├── RestorePointInTime: *string
+            ├── ResumedDate: *string
+            ├── SampleName: *Enum (3 values)
+            │   ├── "AdventureWorksLT"
+            │   ├── "WideWorldImportersFull"
+            │   └── "WideWorldImportersStd"
+            ├── SecondaryType: *Enum (2 values)
+            │   ├── "Geo"
+            │   └── "Named"
+            ├── Sku: *Object (5 properties)
+            │   ├── Capacity: *int
+            │   ├── Family: *string
+            │   ├── Name: *string
+            │   ├── Size: *string
+            │   └── Tier: *string
+            ├── SourceDatabaseDeletionDate: *string
+            ├── SourceDatabaseId: *string
+            ├── Status: *Enum (21 values)
+            │   ├── "AutoClosed"
+            │   ├── "Copying"
+            │   ├── "Creating"
+            │   ├── "Disabled"
+            │   ├── "EmergencyMode"
+            │   ├── "Inaccessible"
+            │   ├── "Offline"
+            │   ├── "OfflineChangingDwPerformanceTiers"
+            │   ├── "OfflineSecondary"
+            │   ├── "Online"
+            │   ├── "OnlineChangingDwPerformanceTiers"
+            │   ├── "Paused"
+            │   ├── "Pausing"
+            │   ├── "Recovering"
+            │   ├── "RecoveryPending"
+            │   ├── "Restoring"
+            │   ├── "Resuming"
+            │   ├── "Scaling"
+            │   ├── "Shutdown"
+            │   ├── "Standby"
+            │   └── "Suspect"
+            ├── Tags: map[string]string
+            ├── Type: *string
+            └── ZoneRedundant: *bool

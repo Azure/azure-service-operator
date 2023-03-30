@@ -3,60 +3,30 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
-// EventGrid Topic
+// Deprecated version of Topic_STATUS. Use v1api20200601.Topic_STATUS instead
 type Topic_STATUS_ARM struct {
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: Location of the resource.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the topic.
+	Id         *string                     `json:"id,omitempty"`
+	Location   *string                     `json:"location,omitempty"`
+	Name       *string                     `json:"name,omitempty"`
 	Properties *TopicProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// SystemData: The system metadata relating to Topic resource.
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
-	// Tags: Tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	SystemData *SystemData_STATUS_ARM      `json:"systemData,omitempty"`
+	Tags       map[string]string           `json:"tags,omitempty"`
+	Type       *string                     `json:"type,omitempty"`
 }
 
-// Properties of the Topic
+// Deprecated version of TopicProperties_STATUS. Use v1api20200601.TopicProperties_STATUS instead
 type TopicProperties_STATUS_ARM struct {
-	// Endpoint: Endpoint for the topic.
-	Endpoint *string `json:"endpoint,omitempty"`
-
-	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-	// only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRule_STATUS_ARM `json:"inboundIpRules,omitempty"`
-
-	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
-	InputSchema *TopicProperties_InputSchema_STATUS `json:"inputSchema,omitempty"`
-
-	// InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
-	// various properties of a source schema to various required properties of the EventGridEvent schema.
-	InputSchemaMapping *InputSchemaMapping_STATUS_ARM `json:"inputSchemaMapping,omitempty"`
-
-	// MetricResourceId: Metric resource id for the topic.
+	Endpoint                   *string                                                          `json:"endpoint,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS_ARM                                       `json:"inboundIpRules,omitempty"`
+	InputSchema                *TopicProperties_InputSchema_STATUS                              `json:"inputSchema,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS_ARM                                   `json:"inputSchemaMapping,omitempty"`
 	MetricResourceId           *string                                                          `json:"metricResourceId,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the topic.
-	ProvisioningState *TopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	// You can further restrict to specific IPs by configuring <seealso
-	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
-	PublicNetworkAccess *TopicProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	ProvisioningState          *TopicProperties_ProvisioningState_STATUS                        `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *TopicProperties_PublicNetworkAccess_STATUS                      `json:"publicNetworkAccess,omitempty"`
 }
 
+// Deprecated version of PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded. Use v1api20200601.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded instead
 type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded_ARM struct {
-	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }

@@ -8,12 +8,12 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
-	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
-	machinelearningservices "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701"
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
+	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
+	machinelearningservices "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -84,7 +84,7 @@ func Workspaces_WriteSecrets(tc *testcommon.KubePerTestContext, workspace *machi
 		"userStorageKey")
 }
 
-func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1beta20210401preview.Vault, location *string) *machinelearningservices.Workspace {
+func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1api20210401preview.Vault, location *string) *machinelearningservices.Workspace {
 	identityType := machinelearningservices.Identity_Type_SystemAssigned
 
 	workspaces := &machinelearningservices.Workspace{
@@ -158,7 +158,7 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 
 }
 
-func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1beta20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
+func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1api20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
 	identityType := machinelearningservices.Identity_Type_SystemAssigned
 	computeType := machinelearningservices.VirtualMachine_ComputeType_VirtualMachine
 

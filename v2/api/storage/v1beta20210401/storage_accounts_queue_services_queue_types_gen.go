@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/queue.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}
+// Deprecated version of StorageAccountsQueueServicesQueue. Use v1api20210401.StorageAccountsQueueServicesQueue instead
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &StorageAccountsQueueServicesQueue{}
 
 // ConvertFrom populates our StorageAccountsQueueServicesQueue from the provided hub StorageAccountsQueueServicesQueue
 func (queue *StorageAccountsQueueServicesQueue) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210401s.StorageAccountsQueueServicesQueue)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsQueueServicesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210401s.StorageAccountsQueueServicesQueue
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return queue.AssignProperties_From_StorageAccountsQueueServicesQueue(source)
+	err = queue.AssignProperties_From_StorageAccountsQueueServicesQueue(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to queue")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsQueueServicesQueue from our StorageAccountsQueueServicesQueue
 func (queue *StorageAccountsQueueServicesQueue) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210401s.StorageAccountsQueueServicesQueue)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsQueueServicesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210401s.StorageAccountsQueueServicesQueue
+	err := queue.AssignProperties_To_StorageAccountsQueueServicesQueue(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from queue")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return queue.AssignProperties_To_StorageAccountsQueueServicesQueue(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1beta20210401-storageaccountsqueueservicesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsqueueservicesqueues,verbs=create;update,versions=v1beta20210401,name=default.v1beta20210401.storageaccountsqueueservicesqueues.storage.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (queue *StorageAccountsQueueServicesQueue) OriginalGVK() *schema.GroupVersi
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/queue.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}
+// Deprecated version of StorageAccountsQueueServicesQueue. Use v1api20210401.StorageAccountsQueueServicesQueue instead
 type StorageAccountsQueueServicesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -337,10 +347,8 @@ type StorageAccounts_QueueServices_Queue_Spec struct {
 	// +kubebuilder:validation:MinLength=3
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Metadata: A name-value pair that represents queue metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	AzureName string            `json:"azureName,omitempty"`
+	Metadata  map[string]string `json:"metadata,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -531,26 +539,16 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec) SetAzureName(azureName st
 	queue.AzureName = azureName
 }
 
+// Deprecated version of StorageAccounts_QueueServices_Queue_STATUS. Use v1api20210401.StorageAccounts_QueueServices_Queue_STATUS instead
 type StorageAccounts_QueueServices_Queue_STATUS struct {
-	// ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
-	// than the actual number of messages in the queue, but could be higher.
 	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Metadata: A name-value pair that represents queue metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Id         *string                `json:"id,omitempty"`
+	Metadata   map[string]string      `json:"metadata,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccounts_QueueServices_Queue_STATUS{}

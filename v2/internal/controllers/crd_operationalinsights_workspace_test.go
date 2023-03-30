@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	operationalinsights "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta20210601"
+	operationalinsights "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

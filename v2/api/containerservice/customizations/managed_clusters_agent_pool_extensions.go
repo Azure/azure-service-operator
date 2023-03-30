@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20230201storage"
+	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"

@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202
 ├── APIVersion: Enum (1 value)
 │   └── "2020-02-02"
 ├── Component: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (20 properties)
 │   │   ├── Application_Type: *Enum (2 values)
 │   │   │   ├── "other"

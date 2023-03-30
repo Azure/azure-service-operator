@@ -1,0 +1,9 @@
+apiVersion: sql.azure.com/v1api20211101
+kind: ServersDatabasesAdvancedThreatProtectionSetting
+metadata:
+  name: aso-sample-atp
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-db
+  state: Enabled

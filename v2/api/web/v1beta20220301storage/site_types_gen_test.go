@@ -5,6 +5,7 @@ package v1beta20220301storage
 
 import (
 	"encoding/json"
+	v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_Site_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Site to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSite, SiteGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSite tests if a specific instance of Site round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSite(subject Site) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20220301s.Site
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Site
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Site_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Site to Site via AssignProperties_To_Site & AssignProperties_From_Site returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSite, SiteGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSite tests if a specific instance of Site can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSite(subject Site) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.Site
+	err := copied.AssignProperties_To_Site(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Site
+	err = actual.AssignProperties_From_Site(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_Site_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +162,48 @@ func SiteGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForSite(gens map[string]gopter.Gen) {
 	gens["Spec"] = Site_SpecGenerator()
 	gens["Status"] = Site_STATUSGenerator()
+}
+
+func Test_Site_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Site_Spec to Site_Spec via AssignProperties_To_Site_Spec & AssignProperties_From_Site_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSite_Spec, Site_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSite_Spec tests if a specific instance of Site_Spec can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSite_Spec(subject Site_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.Site_Spec
+	err := copied.AssignProperties_To_Site_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Site_Spec
+	err = actual.AssignProperties_From_Site_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Site_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -182,6 +310,48 @@ func AddRelatedPropertyGeneratorsForSite_Spec(gens map[string]gopter.Gen) {
 	gens["SiteConfig"] = gen.PtrOf(SiteConfigGenerator())
 }
 
+func Test_Site_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Site_STATUS to Site_STATUS via AssignProperties_To_Site_STATUS & AssignProperties_From_Site_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSite_STATUS, Site_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSite_STATUS tests if a specific instance of Site_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSite_STATUS(subject Site_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.Site_STATUS
+	err := copied.AssignProperties_To_Site_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Site_STATUS
+	err = actual.AssignProperties_From_Site_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Site_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -246,6 +416,48 @@ func AddRelatedPropertyGeneratorsForSite_STATUS(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(ManagedServiceIdentity_STATUSGenerator())
 	gens["SiteConfig"] = gen.PtrOf(SiteConfig_STATUSGenerator())
 	gens["SlotSwapStatus"] = gen.PtrOf(SlotSwapStatus_STATUSGenerator())
+}
+
+func Test_CloningInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CloningInfo to CloningInfo via AssignProperties_To_CloningInfo & AssignProperties_From_CloningInfo returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCloningInfo, CloningInfoGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCloningInfo tests if a specific instance of CloningInfo can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForCloningInfo(subject CloningInfo) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.CloningInfo
+	err := copied.AssignProperties_To_CloningInfo(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CloningInfo
+	err = actual.AssignProperties_From_CloningInfo(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CloningInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -314,6 +526,48 @@ func AddIndependentPropertyGeneratorsForCloningInfo(gens map[string]gopter.Gen) 
 	gens["Overwrite"] = gen.PtrOf(gen.Bool())
 	gens["SourceWebAppLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["TrafficManagerProfileName"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_CloningInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CloningInfo_STATUS to CloningInfo_STATUS via AssignProperties_To_CloningInfo_STATUS & AssignProperties_From_CloningInfo_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCloningInfo_STATUS, CloningInfo_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCloningInfo_STATUS tests if a specific instance of CloningInfo_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForCloningInfo_STATUS(subject CloningInfo_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.CloningInfo_STATUS
+	err := copied.AssignProperties_To_CloningInfo_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CloningInfo_STATUS
+	err = actual.AssignProperties_From_CloningInfo_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CloningInfo_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -386,6 +640,48 @@ func AddIndependentPropertyGeneratorsForCloningInfo_STATUS(gens map[string]gopte
 	gens["TrafficManagerProfileName"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_HostNameSslState_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HostNameSslState to HostNameSslState via AssignProperties_To_HostNameSslState & AssignProperties_From_HostNameSslState returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHostNameSslState, HostNameSslStateGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHostNameSslState tests if a specific instance of HostNameSslState can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForHostNameSslState(subject HostNameSslState) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.HostNameSslState
+	err := copied.AssignProperties_To_HostNameSslState(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HostNameSslState
+	err = actual.AssignProperties_From_HostNameSslState(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_HostNameSslState_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -449,6 +745,48 @@ func AddIndependentPropertyGeneratorsForHostNameSslState(gens map[string]gopter.
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 	gens["ToUpdate"] = gen.PtrOf(gen.Bool())
 	gens["VirtualIP"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_HostNameSslState_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HostNameSslState_STATUS to HostNameSslState_STATUS via AssignProperties_To_HostNameSslState_STATUS & AssignProperties_From_HostNameSslState_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHostNameSslState_STATUS, HostNameSslState_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHostNameSslState_STATUS tests if a specific instance of HostNameSslState_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForHostNameSslState_STATUS(subject HostNameSslState_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.HostNameSslState_STATUS
+	err := copied.AssignProperties_To_HostNameSslState_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HostNameSslState_STATUS
+	err = actual.AssignProperties_From_HostNameSslState_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_HostNameSslState_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -517,6 +855,48 @@ func AddIndependentPropertyGeneratorsForHostNameSslState_STATUS(gens map[string]
 	gens["VirtualIP"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ManagedServiceIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedServiceIdentity to ManagedServiceIdentity via AssignProperties_To_ManagedServiceIdentity & AssignProperties_From_ManagedServiceIdentity returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedServiceIdentity, ManagedServiceIdentityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedServiceIdentity tests if a specific instance of ManagedServiceIdentity can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForManagedServiceIdentity(subject ManagedServiceIdentity) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.ManagedServiceIdentity
+	err := copied.AssignProperties_To_ManagedServiceIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedServiceIdentity
+	err = actual.AssignProperties_From_ManagedServiceIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -576,6 +956,48 @@ func ManagedServiceIdentityGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedServiceIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedServiceIdentity(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ManagedServiceIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedServiceIdentity_STATUS to ManagedServiceIdentity_STATUS via AssignProperties_To_ManagedServiceIdentity_STATUS & AssignProperties_From_ManagedServiceIdentity_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedServiceIdentity_STATUS, ManagedServiceIdentity_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedServiceIdentity_STATUS tests if a specific instance of ManagedServiceIdentity_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForManagedServiceIdentity_STATUS(subject ManagedServiceIdentity_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.ManagedServiceIdentity_STATUS
+	err := copied.AssignProperties_To_ManagedServiceIdentity_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedServiceIdentity_STATUS
+	err = actual.AssignProperties_From_ManagedServiceIdentity_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ManagedServiceIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -655,6 +1077,48 @@ func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[strin
 	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentity_STATUSGenerator())
 }
 
+func Test_SiteConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SiteConfig to SiteConfig via AssignProperties_To_SiteConfig & AssignProperties_From_SiteConfig returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSiteConfig, SiteConfigGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSiteConfig tests if a specific instance of SiteConfig can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSiteConfig(subject SiteConfig) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.SiteConfig
+	err := copied.AssignProperties_To_SiteConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SiteConfig
+	err = actual.AssignProperties_From_SiteConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SiteConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -726,6 +1190,48 @@ func AddRelatedPropertyGeneratorsForSiteConfig(gens map[string]gopter.Gen) {
 	gens["Push"] = gen.PtrOf(PushSettingsGenerator())
 	gens["ScmIpSecurityRestrictions"] = gen.SliceOf(IpSecurityRestrictionGenerator())
 	gens["VirtualApplications"] = gen.SliceOf(VirtualApplicationGenerator())
+}
+
+func Test_SiteConfig_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SiteConfig_STATUS to SiteConfig_STATUS via AssignProperties_To_SiteConfig_STATUS & AssignProperties_From_SiteConfig_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSiteConfig_STATUS, SiteConfig_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSiteConfig_STATUS tests if a specific instance of SiteConfig_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSiteConfig_STATUS(subject SiteConfig_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.SiteConfig_STATUS
+	err := copied.AssignProperties_To_SiteConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SiteConfig_STATUS
+	err = actual.AssignProperties_From_SiteConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SiteConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -802,6 +1308,48 @@ func AddRelatedPropertyGeneratorsForSiteConfig_STATUS(gens map[string]gopter.Gen
 	gens["VirtualApplications"] = gen.SliceOf(VirtualApplication_STATUSGenerator())
 }
 
+func Test_SlotSwapStatus_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SlotSwapStatus_STATUS to SlotSwapStatus_STATUS via AssignProperties_To_SlotSwapStatus_STATUS & AssignProperties_From_SlotSwapStatus_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSlotSwapStatus_STATUS, SlotSwapStatus_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSlotSwapStatus_STATUS tests if a specific instance of SlotSwapStatus_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSlotSwapStatus_STATUS(subject SlotSwapStatus_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.SlotSwapStatus_STATUS
+	err := copied.AssignProperties_To_SlotSwapStatus_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SlotSwapStatus_STATUS
+	err = actual.AssignProperties_From_SlotSwapStatus_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SlotSwapStatus_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -865,6 +1413,48 @@ func AddIndependentPropertyGeneratorsForSlotSwapStatus_STATUS(gens map[string]go
 	gens["TimestampUtc"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApiDefinitionInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiDefinitionInfo to ApiDefinitionInfo via AssignProperties_To_ApiDefinitionInfo & AssignProperties_From_ApiDefinitionInfo returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiDefinitionInfo, ApiDefinitionInfoGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiDefinitionInfo tests if a specific instance of ApiDefinitionInfo can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForApiDefinitionInfo(subject ApiDefinitionInfo) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.ApiDefinitionInfo
+	err := copied.AssignProperties_To_ApiDefinitionInfo(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiDefinitionInfo
+	err = actual.AssignProperties_From_ApiDefinitionInfo(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ApiDefinitionInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -923,6 +1513,48 @@ func ApiDefinitionInfoGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForApiDefinitionInfo is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApiDefinitionInfo(gens map[string]gopter.Gen) {
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ApiDefinitionInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiDefinitionInfo_STATUS to ApiDefinitionInfo_STATUS via AssignProperties_To_ApiDefinitionInfo_STATUS & AssignProperties_From_ApiDefinitionInfo_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiDefinitionInfo_STATUS, ApiDefinitionInfo_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiDefinitionInfo_STATUS tests if a specific instance of ApiDefinitionInfo_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForApiDefinitionInfo_STATUS(subject ApiDefinitionInfo_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.ApiDefinitionInfo_STATUS
+	err := copied.AssignProperties_To_ApiDefinitionInfo_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiDefinitionInfo_STATUS
+	err = actual.AssignProperties_From_ApiDefinitionInfo_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ApiDefinitionInfo_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -986,6 +1618,48 @@ func AddIndependentPropertyGeneratorsForApiDefinitionInfo_STATUS(gens map[string
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ApiManagementConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiManagementConfig to ApiManagementConfig via AssignProperties_To_ApiManagementConfig & AssignProperties_From_ApiManagementConfig returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiManagementConfig, ApiManagementConfigGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiManagementConfig tests if a specific instance of ApiManagementConfig can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForApiManagementConfig(subject ApiManagementConfig) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.ApiManagementConfig
+	err := copied.AssignProperties_To_ApiManagementConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiManagementConfig
+	err = actual.AssignProperties_From_ApiManagementConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ApiManagementConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1039,6 +1713,48 @@ func ApiManagementConfigGenerator() gopter.Gen {
 	apiManagementConfigGenerator = gen.Struct(reflect.TypeOf(ApiManagementConfig{}), generators)
 
 	return apiManagementConfigGenerator
+}
+
+func Test_ApiManagementConfig_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApiManagementConfig_STATUS to ApiManagementConfig_STATUS via AssignProperties_To_ApiManagementConfig_STATUS & AssignProperties_From_ApiManagementConfig_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiManagementConfig_STATUS, ApiManagementConfig_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApiManagementConfig_STATUS tests if a specific instance of ApiManagementConfig_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForApiManagementConfig_STATUS(subject ApiManagementConfig_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.ApiManagementConfig_STATUS
+	err := copied.AssignProperties_To_ApiManagementConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApiManagementConfig_STATUS
+	err = actual.AssignProperties_From_ApiManagementConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ApiManagementConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1102,6 +1818,48 @@ func AddIndependentPropertyGeneratorsForApiManagementConfig_STATUS(gens map[stri
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_AutoHealRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoHealRules to AutoHealRules via AssignProperties_To_AutoHealRules & AssignProperties_From_AutoHealRules returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoHealRules, AutoHealRulesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoHealRules tests if a specific instance of AutoHealRules can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAutoHealRules(subject AutoHealRules) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AutoHealRules
+	err := copied.AssignProperties_To_AutoHealRules(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoHealRules
+	err = actual.AssignProperties_From_AutoHealRules(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AutoHealRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1161,6 +1919,48 @@ func AutoHealRulesGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForAutoHealRules(gens map[string]gopter.Gen) {
 	gens["Actions"] = gen.PtrOf(AutoHealActionsGenerator())
 	gens["Triggers"] = gen.PtrOf(AutoHealTriggersGenerator())
+}
+
+func Test_AutoHealRules_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoHealRules_STATUS to AutoHealRules_STATUS via AssignProperties_To_AutoHealRules_STATUS & AssignProperties_From_AutoHealRules_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoHealRules_STATUS, AutoHealRules_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoHealRules_STATUS tests if a specific instance of AutoHealRules_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAutoHealRules_STATUS(subject AutoHealRules_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AutoHealRules_STATUS
+	err := copied.AssignProperties_To_AutoHealRules_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoHealRules_STATUS
+	err = actual.AssignProperties_From_AutoHealRules_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AutoHealRules_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1225,6 +2025,48 @@ func AddRelatedPropertyGeneratorsForAutoHealRules_STATUS(gens map[string]gopter.
 	gens["Triggers"] = gen.PtrOf(AutoHealTriggers_STATUSGenerator())
 }
 
+func Test_AzureStorageInfoValue_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureStorageInfoValue to AzureStorageInfoValue via AssignProperties_To_AzureStorageInfoValue & AssignProperties_From_AzureStorageInfoValue returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureStorageInfoValue, AzureStorageInfoValueGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureStorageInfoValue tests if a specific instance of AzureStorageInfoValue can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAzureStorageInfoValue(subject AzureStorageInfoValue) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AzureStorageInfoValue
+	err := copied.AssignProperties_To_AzureStorageInfoValue(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureStorageInfoValue
+	err = actual.AssignProperties_From_AzureStorageInfoValue(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureStorageInfoValue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1287,6 +2129,48 @@ func AddIndependentPropertyGeneratorsForAzureStorageInfoValue(gens map[string]go
 	gens["MountPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ShareName"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AzureStorageInfoValue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureStorageInfoValue_STATUS to AzureStorageInfoValue_STATUS via AssignProperties_To_AzureStorageInfoValue_STATUS & AssignProperties_From_AzureStorageInfoValue_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureStorageInfoValue_STATUS, AzureStorageInfoValue_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureStorageInfoValue_STATUS tests if a specific instance of AzureStorageInfoValue_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAzureStorageInfoValue_STATUS(subject AzureStorageInfoValue_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AzureStorageInfoValue_STATUS
+	err := copied.AssignProperties_To_AzureStorageInfoValue_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureStorageInfoValue_STATUS
+	err = actual.AssignProperties_From_AzureStorageInfoValue_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureStorageInfoValue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1354,6 +2238,48 @@ func AddIndependentPropertyGeneratorsForAzureStorageInfoValue_STATUS(gens map[st
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ConnStringInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ConnStringInfo to ConnStringInfo via AssignProperties_To_ConnStringInfo & AssignProperties_From_ConnStringInfo returns original",
+		prop.ForAll(RunPropertyAssignmentTestForConnStringInfo, ConnStringInfoGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForConnStringInfo tests if a specific instance of ConnStringInfo can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForConnStringInfo(subject ConnStringInfo) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.ConnStringInfo
+	err := copied.AssignProperties_To_ConnStringInfo(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ConnStringInfo
+	err = actual.AssignProperties_From_ConnStringInfo(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ConnStringInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1414,6 +2340,48 @@ func AddIndependentPropertyGeneratorsForConnStringInfo(gens map[string]gopter.Ge
 	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ConnStringInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ConnStringInfo_STATUS to ConnStringInfo_STATUS via AssignProperties_To_ConnStringInfo_STATUS & AssignProperties_From_ConnStringInfo_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForConnStringInfo_STATUS, ConnStringInfo_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForConnStringInfo_STATUS tests if a specific instance of ConnStringInfo_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForConnStringInfo_STATUS(subject ConnStringInfo_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.ConnStringInfo_STATUS
+	err := copied.AssignProperties_To_ConnStringInfo_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ConnStringInfo_STATUS
+	err = actual.AssignProperties_From_ConnStringInfo_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ConnStringInfo_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1479,6 +2447,48 @@ func AddIndependentPropertyGeneratorsForConnStringInfo_STATUS(gens map[string]go
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_CorsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CorsSettings to CorsSettings via AssignProperties_To_CorsSettings & AssignProperties_From_CorsSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCorsSettings, CorsSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCorsSettings tests if a specific instance of CorsSettings can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForCorsSettings(subject CorsSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.CorsSettings
+	err := copied.AssignProperties_To_CorsSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CorsSettings
+	err = actual.AssignProperties_From_CorsSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CorsSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1538,6 +2548,48 @@ func CorsSettingsGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCorsSettings(gens map[string]gopter.Gen) {
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["SupportCredentials"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_CorsSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CorsSettings_STATUS to CorsSettings_STATUS via AssignProperties_To_CorsSettings_STATUS & AssignProperties_From_CorsSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCorsSettings_STATUS, CorsSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCorsSettings_STATUS tests if a specific instance of CorsSettings_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForCorsSettings_STATUS(subject CorsSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.CorsSettings_STATUS
+	err := copied.AssignProperties_To_CorsSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CorsSettings_STATUS
+	err = actual.AssignProperties_From_CorsSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CorsSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1602,6 +2654,48 @@ func AddIndependentPropertyGeneratorsForCorsSettings_STATUS(gens map[string]gopt
 	gens["SupportCredentials"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_Experiments_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Experiments to Experiments via AssignProperties_To_Experiments & AssignProperties_From_Experiments returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExperiments, ExperimentsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExperiments tests if a specific instance of Experiments can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForExperiments(subject Experiments) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.Experiments
+	err := copied.AssignProperties_To_Experiments(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Experiments
+	err = actual.AssignProperties_From_Experiments(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Experiments_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1662,6 +2756,48 @@ func AddRelatedPropertyGeneratorsForExperiments(gens map[string]gopter.Gen) {
 	gens["RampUpRules"] = gen.SliceOf(RampUpRuleGenerator())
 }
 
+func Test_Experiments_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Experiments_STATUS to Experiments_STATUS via AssignProperties_To_Experiments_STATUS & AssignProperties_From_Experiments_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForExperiments_STATUS, Experiments_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForExperiments_STATUS tests if a specific instance of Experiments_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForExperiments_STATUS(subject Experiments_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.Experiments_STATUS
+	err := copied.AssignProperties_To_Experiments_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Experiments_STATUS
+	err = actual.AssignProperties_From_Experiments_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Experiments_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1720,6 +2856,48 @@ func Experiments_STATUSGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForExperiments_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForExperiments_STATUS(gens map[string]gopter.Gen) {
 	gens["RampUpRules"] = gen.SliceOf(RampUpRule_STATUSGenerator())
+}
+
+func Test_HandlerMapping_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HandlerMapping to HandlerMapping via AssignProperties_To_HandlerMapping & AssignProperties_From_HandlerMapping returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHandlerMapping, HandlerMappingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHandlerMapping tests if a specific instance of HandlerMapping can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForHandlerMapping(subject HandlerMapping) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.HandlerMapping
+	err := copied.AssignProperties_To_HandlerMapping(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HandlerMapping
+	err = actual.AssignProperties_From_HandlerMapping(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_HandlerMapping_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1784,6 +2962,48 @@ func AddIndependentPropertyGeneratorsForHandlerMapping(gens map[string]gopter.Ge
 	gens["ScriptProcessor"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_HandlerMapping_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HandlerMapping_STATUS to HandlerMapping_STATUS via AssignProperties_To_HandlerMapping_STATUS & AssignProperties_From_HandlerMapping_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHandlerMapping_STATUS, HandlerMapping_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHandlerMapping_STATUS tests if a specific instance of HandlerMapping_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForHandlerMapping_STATUS(subject HandlerMapping_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.HandlerMapping_STATUS
+	err := copied.AssignProperties_To_HandlerMapping_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HandlerMapping_STATUS
+	err = actual.AssignProperties_From_HandlerMapping_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_HandlerMapping_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1845,6 +3065,48 @@ func AddIndependentPropertyGeneratorsForHandlerMapping_STATUS(gens map[string]go
 	gens["Arguments"] = gen.PtrOf(gen.AlphaString())
 	gens["Extension"] = gen.PtrOf(gen.AlphaString())
 	gens["ScriptProcessor"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_IpSecurityRestriction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IpSecurityRestriction to IpSecurityRestriction via AssignProperties_To_IpSecurityRestriction & AssignProperties_From_IpSecurityRestriction returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIpSecurityRestriction, IpSecurityRestrictionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIpSecurityRestriction tests if a specific instance of IpSecurityRestriction can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForIpSecurityRestriction(subject IpSecurityRestriction) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.IpSecurityRestriction
+	err := copied.AssignProperties_To_IpSecurityRestriction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IpSecurityRestriction
+	err = actual.AssignProperties_From_IpSecurityRestriction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IpSecurityRestriction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1915,6 +3177,48 @@ func AddIndependentPropertyGeneratorsForIpSecurityRestriction(gens map[string]go
 	gens["SubnetTrafficTag"] = gen.PtrOf(gen.Int())
 	gens["Tag"] = gen.PtrOf(gen.AlphaString())
 	gens["VnetTrafficTag"] = gen.PtrOf(gen.Int())
+}
+
+func Test_IpSecurityRestriction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from IpSecurityRestriction_STATUS to IpSecurityRestriction_STATUS via AssignProperties_To_IpSecurityRestriction_STATUS & AssignProperties_From_IpSecurityRestriction_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIpSecurityRestriction_STATUS, IpSecurityRestriction_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIpSecurityRestriction_STATUS tests if a specific instance of IpSecurityRestriction_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForIpSecurityRestriction_STATUS(subject IpSecurityRestriction_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.IpSecurityRestriction_STATUS
+	err := copied.AssignProperties_To_IpSecurityRestriction_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual IpSecurityRestriction_STATUS
+	err = actual.AssignProperties_From_IpSecurityRestriction_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_IpSecurityRestriction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1988,6 +3292,48 @@ func AddIndependentPropertyGeneratorsForIpSecurityRestriction_STATUS(gens map[st
 	gens["VnetTrafficTag"] = gen.PtrOf(gen.Int())
 }
 
+func Test_NameValuePair_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NameValuePair to NameValuePair via AssignProperties_To_NameValuePair & AssignProperties_From_NameValuePair returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNameValuePair, NameValuePairGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNameValuePair tests if a specific instance of NameValuePair can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForNameValuePair(subject NameValuePair) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.NameValuePair
+	err := copied.AssignProperties_To_NameValuePair(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NameValuePair
+	err = actual.AssignProperties_From_NameValuePair(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_NameValuePair_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2047,6 +3393,48 @@ func NameValuePairGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNameValuePair(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NameValuePair_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NameValuePair_STATUS to NameValuePair_STATUS via AssignProperties_To_NameValuePair_STATUS & AssignProperties_From_NameValuePair_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNameValuePair_STATUS, NameValuePair_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNameValuePair_STATUS tests if a specific instance of NameValuePair_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForNameValuePair_STATUS(subject NameValuePair_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.NameValuePair_STATUS
+	err := copied.AssignProperties_To_NameValuePair_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NameValuePair_STATUS
+	err = actual.AssignProperties_From_NameValuePair_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NameValuePair_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2111,6 +3499,48 @@ func AddIndependentPropertyGeneratorsForNameValuePair_STATUS(gens map[string]gop
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_PushSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PushSettings to PushSettings via AssignProperties_To_PushSettings & AssignProperties_From_PushSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPushSettings, PushSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPushSettings tests if a specific instance of PushSettings can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForPushSettings(subject PushSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.PushSettings
+	err := copied.AssignProperties_To_PushSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PushSettings
+	err = actual.AssignProperties_From_PushSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PushSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2173,6 +3603,48 @@ func AddIndependentPropertyGeneratorsForPushSettings(gens map[string]gopter.Gen)
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["TagWhitelistJson"] = gen.PtrOf(gen.AlphaString())
 	gens["TagsRequiringAuth"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PushSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PushSettings_STATUS to PushSettings_STATUS via AssignProperties_To_PushSettings_STATUS & AssignProperties_From_PushSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPushSettings_STATUS, PushSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPushSettings_STATUS tests if a specific instance of PushSettings_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForPushSettings_STATUS(subject PushSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.PushSettings_STATUS
+	err := copied.AssignProperties_To_PushSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PushSettings_STATUS
+	err = actual.AssignProperties_From_PushSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PushSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2243,6 +3715,48 @@ func AddIndependentPropertyGeneratorsForPushSettings_STATUS(gens map[string]gopt
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SiteLimits_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SiteLimits to SiteLimits via AssignProperties_To_SiteLimits & AssignProperties_From_SiteLimits returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSiteLimits, SiteLimitsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSiteLimits tests if a specific instance of SiteLimits can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSiteLimits(subject SiteLimits) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.SiteLimits
+	err := copied.AssignProperties_To_SiteLimits(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SiteLimits
+	err = actual.AssignProperties_From_SiteLimits(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SiteLimits_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2305,6 +3819,48 @@ func AddIndependentPropertyGeneratorsForSiteLimits(gens map[string]gopter.Gen) {
 	gens["MaxPercentageCpu"] = gen.PtrOf(gen.Float64())
 }
 
+func Test_SiteLimits_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SiteLimits_STATUS to SiteLimits_STATUS via AssignProperties_To_SiteLimits_STATUS & AssignProperties_From_SiteLimits_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSiteLimits_STATUS, SiteLimits_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSiteLimits_STATUS tests if a specific instance of SiteLimits_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSiteLimits_STATUS(subject SiteLimits_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.SiteLimits_STATUS
+	err := copied.AssignProperties_To_SiteLimits_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SiteLimits_STATUS
+	err = actual.AssignProperties_From_SiteLimits_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SiteLimits_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2365,6 +3921,48 @@ func AddIndependentPropertyGeneratorsForSiteLimits_STATUS(gens map[string]gopter
 	gens["MaxDiskSizeInMb"] = gen.PtrOf(gen.Int())
 	gens["MaxMemoryInMb"] = gen.PtrOf(gen.Int())
 	gens["MaxPercentageCpu"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_SiteMachineKey_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SiteMachineKey_STATUS to SiteMachineKey_STATUS via AssignProperties_To_SiteMachineKey_STATUS & AssignProperties_From_SiteMachineKey_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSiteMachineKey_STATUS, SiteMachineKey_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSiteMachineKey_STATUS tests if a specific instance of SiteMachineKey_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSiteMachineKey_STATUS(subject SiteMachineKey_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.SiteMachineKey_STATUS
+	err := copied.AssignProperties_To_SiteMachineKey_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SiteMachineKey_STATUS
+	err = actual.AssignProperties_From_SiteMachineKey_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SiteMachineKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2431,6 +4029,48 @@ func AddIndependentPropertyGeneratorsForSiteMachineKey_STATUS(gens map[string]go
 	gens["ValidationKey"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_UserAssignedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from UserAssignedIdentity_STATUS to UserAssignedIdentity_STATUS via AssignProperties_To_UserAssignedIdentity_STATUS & AssignProperties_From_UserAssignedIdentity_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentity_STATUS, UserAssignedIdentity_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForUserAssignedIdentity_STATUS tests if a specific instance of UserAssignedIdentity_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssignedIdentity_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.UserAssignedIdentity_STATUS
+	err := copied.AssignProperties_To_UserAssignedIdentity_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual UserAssignedIdentity_STATUS
+	err = actual.AssignProperties_From_UserAssignedIdentity_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_UserAssignedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2491,6 +4131,48 @@ func UserAssignedIdentity_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForUserAssignedIdentity_STATUS(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_VirtualApplication_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualApplication to VirtualApplication via AssignProperties_To_VirtualApplication & AssignProperties_From_VirtualApplication returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualApplication, VirtualApplicationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualApplication tests if a specific instance of VirtualApplication can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForVirtualApplication(subject VirtualApplication) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.VirtualApplication
+	err := copied.AssignProperties_To_VirtualApplication(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualApplication
+	err = actual.AssignProperties_From_VirtualApplication(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_VirtualApplication_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2567,6 +4249,48 @@ func AddIndependentPropertyGeneratorsForVirtualApplication(gens map[string]gopte
 // AddRelatedPropertyGeneratorsForVirtualApplication is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualApplication(gens map[string]gopter.Gen) {
 	gens["VirtualDirectories"] = gen.SliceOf(VirtualDirectoryGenerator())
+}
+
+func Test_VirtualApplication_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualApplication_STATUS to VirtualApplication_STATUS via AssignProperties_To_VirtualApplication_STATUS & AssignProperties_From_VirtualApplication_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualApplication_STATUS, VirtualApplication_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualApplication_STATUS tests if a specific instance of VirtualApplication_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForVirtualApplication_STATUS(subject VirtualApplication_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.VirtualApplication_STATUS
+	err := copied.AssignProperties_To_VirtualApplication_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualApplication_STATUS
+	err = actual.AssignProperties_From_VirtualApplication_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_VirtualApplication_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2646,6 +4370,48 @@ func AddRelatedPropertyGeneratorsForVirtualApplication_STATUS(gens map[string]go
 	gens["VirtualDirectories"] = gen.SliceOf(VirtualDirectory_STATUSGenerator())
 }
 
+func Test_AutoHealActions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoHealActions to AutoHealActions via AssignProperties_To_AutoHealActions & AssignProperties_From_AutoHealActions returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoHealActions, AutoHealActionsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoHealActions tests if a specific instance of AutoHealActions can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAutoHealActions(subject AutoHealActions) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AutoHealActions
+	err := copied.AssignProperties_To_AutoHealActions(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoHealActions
+	err = actual.AssignProperties_From_AutoHealActions(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AutoHealActions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2719,6 +4485,48 @@ func AddIndependentPropertyGeneratorsForAutoHealActions(gens map[string]gopter.G
 // AddRelatedPropertyGeneratorsForAutoHealActions is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForAutoHealActions(gens map[string]gopter.Gen) {
 	gens["CustomAction"] = gen.PtrOf(AutoHealCustomActionGenerator())
+}
+
+func Test_AutoHealActions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoHealActions_STATUS to AutoHealActions_STATUS via AssignProperties_To_AutoHealActions_STATUS & AssignProperties_From_AutoHealActions_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoHealActions_STATUS, AutoHealActions_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoHealActions_STATUS tests if a specific instance of AutoHealActions_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAutoHealActions_STATUS(subject AutoHealActions_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AutoHealActions_STATUS
+	err := copied.AssignProperties_To_AutoHealActions_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoHealActions_STATUS
+	err = actual.AssignProperties_From_AutoHealActions_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AutoHealActions_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2797,6 +4605,48 @@ func AddRelatedPropertyGeneratorsForAutoHealActions_STATUS(gens map[string]gopte
 	gens["CustomAction"] = gen.PtrOf(AutoHealCustomAction_STATUSGenerator())
 }
 
+func Test_AutoHealTriggers_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoHealTriggers to AutoHealTriggers via AssignProperties_To_AutoHealTriggers & AssignProperties_From_AutoHealTriggers returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoHealTriggers, AutoHealTriggersGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoHealTriggers tests if a specific instance of AutoHealTriggers can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAutoHealTriggers(subject AutoHealTriggers) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AutoHealTriggers
+	err := copied.AssignProperties_To_AutoHealTriggers(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoHealTriggers
+	err = actual.AssignProperties_From_AutoHealTriggers(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AutoHealTriggers_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2873,6 +4723,48 @@ func AddRelatedPropertyGeneratorsForAutoHealTriggers(gens map[string]gopter.Gen)
 	gens["SlowRequestsWithPath"] = gen.SliceOf(SlowRequestsBasedTriggerGenerator())
 	gens["StatusCodes"] = gen.SliceOf(StatusCodesBasedTriggerGenerator())
 	gens["StatusCodesRange"] = gen.SliceOf(StatusCodesRangeBasedTriggerGenerator())
+}
+
+func Test_AutoHealTriggers_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoHealTriggers_STATUS to AutoHealTriggers_STATUS via AssignProperties_To_AutoHealTriggers_STATUS & AssignProperties_From_AutoHealTriggers_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoHealTriggers_STATUS, AutoHealTriggers_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoHealTriggers_STATUS tests if a specific instance of AutoHealTriggers_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAutoHealTriggers_STATUS(subject AutoHealTriggers_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AutoHealTriggers_STATUS
+	err := copied.AssignProperties_To_AutoHealTriggers_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoHealTriggers_STATUS
+	err = actual.AssignProperties_From_AutoHealTriggers_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AutoHealTriggers_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2954,6 +4846,48 @@ func AddRelatedPropertyGeneratorsForAutoHealTriggers_STATUS(gens map[string]gopt
 	gens["StatusCodesRange"] = gen.SliceOf(StatusCodesRangeBasedTrigger_STATUSGenerator())
 }
 
+func Test_RampUpRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RampUpRule to RampUpRule via AssignProperties_To_RampUpRule & AssignProperties_From_RampUpRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRampUpRule, RampUpRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRampUpRule tests if a specific instance of RampUpRule can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForRampUpRule(subject RampUpRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.RampUpRule
+	err := copied.AssignProperties_To_RampUpRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RampUpRule
+	err = actual.AssignProperties_From_RampUpRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RampUpRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3019,6 +4953,48 @@ func AddIndependentPropertyGeneratorsForRampUpRule(gens map[string]gopter.Gen) {
 	gens["MinReroutePercentage"] = gen.PtrOf(gen.Float64())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReroutePercentage"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_RampUpRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RampUpRule_STATUS to RampUpRule_STATUS via AssignProperties_To_RampUpRule_STATUS & AssignProperties_From_RampUpRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRampUpRule_STATUS, RampUpRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRampUpRule_STATUS tests if a specific instance of RampUpRule_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForRampUpRule_STATUS(subject RampUpRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.RampUpRule_STATUS
+	err := copied.AssignProperties_To_RampUpRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RampUpRule_STATUS
+	err = actual.AssignProperties_From_RampUpRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RampUpRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3088,6 +5064,48 @@ func AddIndependentPropertyGeneratorsForRampUpRule_STATUS(gens map[string]gopter
 	gens["ReroutePercentage"] = gen.PtrOf(gen.Float64())
 }
 
+func Test_VirtualDirectory_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualDirectory to VirtualDirectory via AssignProperties_To_VirtualDirectory & AssignProperties_From_VirtualDirectory returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualDirectory, VirtualDirectoryGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualDirectory tests if a specific instance of VirtualDirectory can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForVirtualDirectory(subject VirtualDirectory) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.VirtualDirectory
+	err := copied.AssignProperties_To_VirtualDirectory(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualDirectory
+	err = actual.AssignProperties_From_VirtualDirectory(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_VirtualDirectory_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3147,6 +5165,48 @@ func VirtualDirectoryGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualDirectory(gens map[string]gopter.Gen) {
 	gens["PhysicalPath"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualPath"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_VirtualDirectory_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualDirectory_STATUS to VirtualDirectory_STATUS via AssignProperties_To_VirtualDirectory_STATUS & AssignProperties_From_VirtualDirectory_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualDirectory_STATUS, VirtualDirectory_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualDirectory_STATUS tests if a specific instance of VirtualDirectory_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForVirtualDirectory_STATUS(subject VirtualDirectory_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.VirtualDirectory_STATUS
+	err := copied.AssignProperties_To_VirtualDirectory_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualDirectory_STATUS
+	err = actual.AssignProperties_From_VirtualDirectory_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_VirtualDirectory_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3211,6 +5271,48 @@ func AddIndependentPropertyGeneratorsForVirtualDirectory_STATUS(gens map[string]
 	gens["VirtualPath"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_AutoHealCustomAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoHealCustomAction to AutoHealCustomAction via AssignProperties_To_AutoHealCustomAction & AssignProperties_From_AutoHealCustomAction returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoHealCustomAction, AutoHealCustomActionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoHealCustomAction tests if a specific instance of AutoHealCustomAction can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAutoHealCustomAction(subject AutoHealCustomAction) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AutoHealCustomAction
+	err := copied.AssignProperties_To_AutoHealCustomAction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoHealCustomAction
+	err = actual.AssignProperties_From_AutoHealCustomAction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AutoHealCustomAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3271,6 +5373,48 @@ func AutoHealCustomActionGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAutoHealCustomAction(gens map[string]gopter.Gen) {
 	gens["Exe"] = gen.PtrOf(gen.AlphaString())
 	gens["Parameters"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AutoHealCustomAction_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AutoHealCustomAction_STATUS to AutoHealCustomAction_STATUS via AssignProperties_To_AutoHealCustomAction_STATUS & AssignProperties_From_AutoHealCustomAction_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutoHealCustomAction_STATUS, AutoHealCustomAction_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAutoHealCustomAction_STATUS tests if a specific instance of AutoHealCustomAction_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForAutoHealCustomAction_STATUS(subject AutoHealCustomAction_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.AutoHealCustomAction_STATUS
+	err := copied.AssignProperties_To_AutoHealCustomAction_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AutoHealCustomAction_STATUS
+	err = actual.AssignProperties_From_AutoHealCustomAction_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AutoHealCustomAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3335,6 +5479,48 @@ func AddIndependentPropertyGeneratorsForAutoHealCustomAction_STATUS(gens map[str
 	gens["Parameters"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_RequestsBasedTrigger_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RequestsBasedTrigger to RequestsBasedTrigger via AssignProperties_To_RequestsBasedTrigger & AssignProperties_From_RequestsBasedTrigger returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRequestsBasedTrigger, RequestsBasedTriggerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRequestsBasedTrigger tests if a specific instance of RequestsBasedTrigger can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForRequestsBasedTrigger(subject RequestsBasedTrigger) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.RequestsBasedTrigger
+	err := copied.AssignProperties_To_RequestsBasedTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RequestsBasedTrigger
+	err = actual.AssignProperties_From_RequestsBasedTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RequestsBasedTrigger_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3397,6 +5583,48 @@ func AddIndependentPropertyGeneratorsForRequestsBasedTrigger(gens map[string]gop
 	gens["TimeInterval"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_RequestsBasedTrigger_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RequestsBasedTrigger_STATUS to RequestsBasedTrigger_STATUS via AssignProperties_To_RequestsBasedTrigger_STATUS & AssignProperties_From_RequestsBasedTrigger_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRequestsBasedTrigger_STATUS, RequestsBasedTrigger_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRequestsBasedTrigger_STATUS tests if a specific instance of RequestsBasedTrigger_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForRequestsBasedTrigger_STATUS(subject RequestsBasedTrigger_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.RequestsBasedTrigger_STATUS
+	err := copied.AssignProperties_To_RequestsBasedTrigger_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RequestsBasedTrigger_STATUS
+	err = actual.AssignProperties_From_RequestsBasedTrigger_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RequestsBasedTrigger_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3457,6 +5685,48 @@ func RequestsBasedTrigger_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRequestsBasedTrigger_STATUS(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
 	gens["TimeInterval"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SlowRequestsBasedTrigger_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SlowRequestsBasedTrigger to SlowRequestsBasedTrigger via AssignProperties_To_SlowRequestsBasedTrigger & AssignProperties_From_SlowRequestsBasedTrigger returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSlowRequestsBasedTrigger, SlowRequestsBasedTriggerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSlowRequestsBasedTrigger tests if a specific instance of SlowRequestsBasedTrigger can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSlowRequestsBasedTrigger(subject SlowRequestsBasedTrigger) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.SlowRequestsBasedTrigger
+	err := copied.AssignProperties_To_SlowRequestsBasedTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SlowRequestsBasedTrigger
+	err = actual.AssignProperties_From_SlowRequestsBasedTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SlowRequestsBasedTrigger_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3523,6 +5793,48 @@ func AddIndependentPropertyGeneratorsForSlowRequestsBasedTrigger(gens map[string
 	gens["TimeTaken"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SlowRequestsBasedTrigger_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SlowRequestsBasedTrigger_STATUS to SlowRequestsBasedTrigger_STATUS via AssignProperties_To_SlowRequestsBasedTrigger_STATUS & AssignProperties_From_SlowRequestsBasedTrigger_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSlowRequestsBasedTrigger_STATUS, SlowRequestsBasedTrigger_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSlowRequestsBasedTrigger_STATUS tests if a specific instance of SlowRequestsBasedTrigger_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForSlowRequestsBasedTrigger_STATUS(subject SlowRequestsBasedTrigger_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.SlowRequestsBasedTrigger_STATUS
+	err := copied.AssignProperties_To_SlowRequestsBasedTrigger_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SlowRequestsBasedTrigger_STATUS
+	err = actual.AssignProperties_From_SlowRequestsBasedTrigger_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SlowRequestsBasedTrigger_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3585,6 +5897,48 @@ func AddIndependentPropertyGeneratorsForSlowRequestsBasedTrigger_STATUS(gens map
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeInterval"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeTaken"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_StatusCodesBasedTrigger_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StatusCodesBasedTrigger to StatusCodesBasedTrigger via AssignProperties_To_StatusCodesBasedTrigger & AssignProperties_From_StatusCodesBasedTrigger returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStatusCodesBasedTrigger, StatusCodesBasedTriggerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStatusCodesBasedTrigger tests if a specific instance of StatusCodesBasedTrigger can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForStatusCodesBasedTrigger(subject StatusCodesBasedTrigger) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.StatusCodesBasedTrigger
+	err := copied.AssignProperties_To_StatusCodesBasedTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StatusCodesBasedTrigger
+	err = actual.AssignProperties_From_StatusCodesBasedTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_StatusCodesBasedTrigger_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3653,6 +6007,48 @@ func AddIndependentPropertyGeneratorsForStatusCodesBasedTrigger(gens map[string]
 	gens["Win32Status"] = gen.PtrOf(gen.Int())
 }
 
+func Test_StatusCodesBasedTrigger_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StatusCodesBasedTrigger_STATUS to StatusCodesBasedTrigger_STATUS via AssignProperties_To_StatusCodesBasedTrigger_STATUS & AssignProperties_From_StatusCodesBasedTrigger_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStatusCodesBasedTrigger_STATUS, StatusCodesBasedTrigger_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStatusCodesBasedTrigger_STATUS tests if a specific instance of StatusCodesBasedTrigger_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForStatusCodesBasedTrigger_STATUS(subject StatusCodesBasedTrigger_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.StatusCodesBasedTrigger_STATUS
+	err := copied.AssignProperties_To_StatusCodesBasedTrigger_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StatusCodesBasedTrigger_STATUS
+	err = actual.AssignProperties_From_StatusCodesBasedTrigger_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_StatusCodesBasedTrigger_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3719,6 +6115,48 @@ func AddIndependentPropertyGeneratorsForStatusCodesBasedTrigger_STATUS(gens map[
 	gens["Win32Status"] = gen.PtrOf(gen.Int())
 }
 
+func Test_StatusCodesRangeBasedTrigger_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StatusCodesRangeBasedTrigger to StatusCodesRangeBasedTrigger via AssignProperties_To_StatusCodesRangeBasedTrigger & AssignProperties_From_StatusCodesRangeBasedTrigger returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStatusCodesRangeBasedTrigger, StatusCodesRangeBasedTriggerGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStatusCodesRangeBasedTrigger tests if a specific instance of StatusCodesRangeBasedTrigger can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForStatusCodesRangeBasedTrigger(subject StatusCodesRangeBasedTrigger) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.StatusCodesRangeBasedTrigger
+	err := copied.AssignProperties_To_StatusCodesRangeBasedTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StatusCodesRangeBasedTrigger
+	err = actual.AssignProperties_From_StatusCodesRangeBasedTrigger(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_StatusCodesRangeBasedTrigger_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -3781,6 +6219,48 @@ func AddIndependentPropertyGeneratorsForStatusCodesRangeBasedTrigger(gens map[st
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["StatusCodes"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeInterval"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_StatusCodesRangeBasedTrigger_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StatusCodesRangeBasedTrigger_STATUS to StatusCodesRangeBasedTrigger_STATUS via AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS & AssignProperties_From_StatusCodesRangeBasedTrigger_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStatusCodesRangeBasedTrigger_STATUS, StatusCodesRangeBasedTrigger_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStatusCodesRangeBasedTrigger_STATUS tests if a specific instance of StatusCodesRangeBasedTrigger_STATUS can be assigned to v1api20220301storage and back losslessly
+func RunPropertyAssignmentTestForStatusCodesRangeBasedTrigger_STATUS(subject StatusCodesRangeBasedTrigger_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20220301s.StatusCodesRangeBasedTrigger_STATUS
+	err := copied.AssignProperties_To_StatusCodesRangeBasedTrigger_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StatusCodesRangeBasedTrigger_STATUS
+	err = actual.AssignProperties_From_StatusCodesRangeBasedTrigger_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_StatusCodesRangeBasedTrigger_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

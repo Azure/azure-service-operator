@@ -5,10 +5,9 @@ package v1beta20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Namespaces_Topics_Subscription_Spec. Use v1api20210101preview.Namespaces_Topics_Subscription_Spec instead
 type Namespaces_Topics_Subscription_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties of subscriptions resource.
+	Name       string                        `json:"name,omitempty"`
 	Properties *SBSubscriptionProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,44 +28,17 @@ func (subscription *Namespaces_Topics_Subscription_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics/subscriptions"
 }
 
-// Description of Subscription Resource.
+// Deprecated version of SBSubscriptionProperties. Use v1api20210101preview.SBSubscriptionProperties instead
 type SBSubscriptionProperties_ARM struct {
-	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the topic is automatically deleted. The minimum duration
-	// is 5 minutes.
-	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
-
-	// DeadLetteringOnFilterEvaluationExceptions: Value that indicates whether a subscription has dead letter support on filter
-	// evaluation exceptions.
-	DeadLetteringOnFilterEvaluationExceptions *bool `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
-
-	// DeadLetteringOnMessageExpiration: Value that indicates whether a subscription has dead letter support when a message
-	// expires.
-	DeadLetteringOnMessageExpiration *bool `json:"deadLetteringOnMessageExpiration,omitempty"`
-
-	// DefaultMessageTimeToLive: ISO 8061 Default message timespan to live value. This is the duration after which the message
-	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-	// set on a message itself.
-	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
-
-	// DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-	// history. The default value is 10 minutes.
-	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-
-	// EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
-	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
-
-	// ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
-	ForwardDeadLetteredMessagesTo *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-
-	// ForwardTo: Queue/Topic name to forward the messages
-	ForwardTo *string `json:"forwardTo,omitempty"`
-
-	// LockDuration: ISO 8061 lock duration timespan for the subscription. The default value is 1 minute.
-	LockDuration *string `json:"lockDuration,omitempty"`
-
-	// MaxDeliveryCount: Number of maximum deliveries.
-	MaxDeliveryCount *int `json:"maxDeliveryCount,omitempty"`
-
-	// RequiresSession: Value indicating if a subscription supports the concept of sessions.
-	RequiresSession *bool `json:"requiresSession,omitempty"`
+	AutoDeleteOnIdle                          *string `json:"autoDeleteOnIdle,omitempty"`
+	DeadLetteringOnFilterEvaluationExceptions *bool   `json:"deadLetteringOnFilterEvaluationExceptions,omitempty"`
+	DeadLetteringOnMessageExpiration          *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive                  *string `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow       *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations                   *bool   `json:"enableBatchedOperations,omitempty"`
+	ForwardDeadLetteredMessagesTo             *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                                 *string `json:"forwardTo,omitempty"`
+	LockDuration                              *string `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                          *int    `json:"maxDeliveryCount,omitempty"`
+	RequiresSession                           *bool   `json:"requiresSession,omitempty"`
 }

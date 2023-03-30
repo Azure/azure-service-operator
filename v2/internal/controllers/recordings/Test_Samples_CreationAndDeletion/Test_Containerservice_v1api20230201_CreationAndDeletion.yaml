@@ -1,0 +1,2339 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"location":"westus2","name":"asotest-rg-eysbsy","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy","name":"asotest-rg-eysbsy","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy","name":"asotest-rg-eysbsy","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221?api-version=2023-02-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.ContainerService/managedClusters/samplemanagedcluster202221''
+      under resource group ''asotest-rg-eysbsy'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "258"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westus3","name":"samplemanagedcluster202221","properties":{"agentPoolProfiles":[{"count":1,"mode":"System","name":"pool1","osType":"Linux","vmSize":"Standard_DS2_v2"}],"dnsPrefix":"aso"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "237"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221?api-version=2023-02-01
+    method: PUT
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221",
+        "location": "westus3",
+        "name": "samplemanagedcluster202221",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Creating",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.24.9",
+         "currentKubernetesVersion": "1.24.9",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-i4cs3mmm.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-i4cs3mmm.portal.hcp.westus3.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Creating",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.24.9",
+           "currentOrchestratorVersion": "1.24.9",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-202303.06.0",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-eysbsy_samplemanagedcluster202221_westus3",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           }
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer",
+          "podCidrs": [
+           "10.244.0.0/16"
+          ],
+          "serviceCidrs": [
+           "10.0.0.0/16"
+          ],
+          "ipFamilies": [
+           "IPv4"
+          ]
+         },
+         "maxAgentPools": 100,
+         "securityProfile": {},
+         "storageProfile": {
+          "diskCSIDriver": {
+           "enabled": true
+          },
+          "fileCSIDriver": {
+           "enabled": true
+          },
+          "snapshotController": {
+           "enabled": true
+          }
+         },
+         "oidcIssuerProfile": {
+          "enabled": false
+         },
+         "workloadAutoScalerProfile": {}
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "d97718c8-e865-4fe7-9d43-15478650d265",
+         "tenantId": "00000000-0000-0000-0000-000000000000"
+        },
+        "sku": {
+         "name": "Base",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "2422"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "2b6c433b-47bc-b040-a70b-a9cf2ec97f07",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "2b6c433b-47bc-b040-a70b-a9cf2ec97f07",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "2b6c433b-47bc-b040-a70b-a9cf2ec97f07",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "2b6c433b-47bc-b040-a70b-a9cf2ec97f07",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "2b6c433b-47bc-b040-a70b-a9cf2ec97f07",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "2b6c433b-47bc-b040-a70b-a9cf2ec97f07",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "2b6c433b-47bc-b040-a70b-a9cf2ec97f07",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "2b6c433b-47bc-b040-a70b-a9cf2ec97f07",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/3b436c2b-bc47-40b0-a70b-a9cf2ec97f07?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "2b6c433b-47bc-b040-a70b-a9cf2ec97f07",
+        "status": "Succeeded",
+        "startTime": "2001-02-03T04:05:06Z",
+        "endTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221?api-version=2023-02-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221",
+        "location": "westus3",
+        "name": "samplemanagedcluster202221",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Succeeded",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.24.9",
+         "currentKubernetesVersion": "1.24.9",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-i4cs3mmm.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-i4cs3mmm.portal.hcp.westus3.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Succeeded",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.24.9",
+           "currentOrchestratorVersion": "1.24.9",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-202303.06.0",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-eysbsy_samplemanagedcluster202221_westus3",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-eysbsy_samplemanagedcluster202221_westus3/providers/Microsoft.Network/publicIPAddresses/163f980e-69b7-4afa-af46-0bab567ae739"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer",
+          "podCidrs": [
+           "10.244.0.0/16"
+          ],
+          "serviceCidrs": [
+           "10.0.0.0/16"
+          ],
+          "ipFamilies": [
+           "IPv4"
+          ]
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-eysbsy_samplemanagedcluster202221_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster202221-agentpool",
+           "clientId": "69d28122-99cc-439c-a8d7-b8701acee60f",
+           "objectId": "e89a13c7-871a-4206-aba6-3677740c9f6b"
+          }
+         },
+         "securityProfile": {},
+         "storageProfile": {
+          "diskCSIDriver": {
+           "enabled": true
+          },
+          "fileCSIDriver": {
+           "enabled": true
+          },
+          "snapshotController": {
+           "enabled": true
+          }
+         },
+         "oidcIssuerProfile": {
+          "enabled": false
+         },
+         "workloadAutoScalerProfile": {}
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "d97718c8-e865-4fe7-9d43-15478650d265",
+         "tenantId": "00000000-0000-0000-0000-000000000000"
+        },
+        "sku": {
+         "name": "Base",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221?api-version=2023-02-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221",
+        "location": "westus3",
+        "name": "samplemanagedcluster202221",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Succeeded",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.24.9",
+         "currentKubernetesVersion": "1.24.9",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-i4cs3mmm.hcp.westus3.azmk8s.io",
+         "azurePortalFQDN": "aso-i4cs3mmm.portal.hcp.westus3.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Succeeded",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.24.9",
+           "currentOrchestratorVersion": "1.24.9",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-202303.06.0",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-eysbsy_samplemanagedcluster202221_westus3",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-eysbsy_samplemanagedcluster202221_westus3/providers/Microsoft.Network/publicIPAddresses/163f980e-69b7-4afa-af46-0bab567ae739"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer",
+          "podCidrs": [
+           "10.244.0.0/16"
+          ],
+          "serviceCidrs": [
+           "10.0.0.0/16"
+          ],
+          "ipFamilies": [
+           "IPv4"
+          ]
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-eysbsy_samplemanagedcluster202221_westus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster202221-agentpool",
+           "clientId": "69d28122-99cc-439c-a8d7-b8701acee60f",
+           "objectId": "e89a13c7-871a-4206-aba6-3677740c9f6b"
+          }
+         },
+         "securityProfile": {},
+         "storageProfile": {
+          "diskCSIDriver": {
+           "enabled": true
+          },
+          "fileCSIDriver": {
+           "enabled": true
+          },
+          "snapshotController": {
+           "enabled": true
+          }
+         },
+         "oidcIssuerProfile": {
+          "enabled": false
+         },
+         "workloadAutoScalerProfile": {}
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "d97718c8-e865-4fe7-9d43-15478650d265",
+         "tenantId": "00000000-0000-0000-0000-000000000000"
+        },
+        "sku": {
+         "name": "Base",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221/agentPools/pool202221?api-version=2023-02-01
+    method: GET
+  response:
+    body: |-
+      {
+        "code": "NotFound",
+        "message": "Could not find the agentpool: pool202221 in subscription: 00000000-0000-0000-0000-000000000000, resourceGroup: asotest-rg-eysbsy, resourceName: samplemanagedcluster202221.",
+        "subcode": "GetAgentPool_NotFound"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "251"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"pool202221","properties":{"count":1,"mode":"User","osType":"Linux","vmSize":"Standard_DS2_v2"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "104"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221/agentPools/pool202221?api-version=2023-02-01
+    method: PUT
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221/agentPools/pool202221",
+        "name": "pool202221",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "scaleDownMode": "Delete",
+         "provisioningState": "Creating",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.24.9",
+         "currentOrchestratorVersion": "1.24.9",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-202303.06.0",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/7f3c3df6-00a9-4239-afce-5f6c21f32447?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "844"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/7f3c3df6-00a9-4239-afce-5f6c21f32447?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f63d3c7f-a900-3942-afce-5f6c21f32447",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/7f3c3df6-00a9-4239-afce-5f6c21f32447?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f63d3c7f-a900-3942-afce-5f6c21f32447",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/7f3c3df6-00a9-4239-afce-5f6c21f32447?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f63d3c7f-a900-3942-afce-5f6c21f32447",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/7f3c3df6-00a9-4239-afce-5f6c21f32447?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f63d3c7f-a900-3942-afce-5f6c21f32447",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/7f3c3df6-00a9-4239-afce-5f6c21f32447?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f63d3c7f-a900-3942-afce-5f6c21f32447",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/7f3c3df6-00a9-4239-afce-5f6c21f32447?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f63d3c7f-a900-3942-afce-5f6c21f32447",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westus3/operations/7f3c3df6-00a9-4239-afce-5f6c21f32447?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f63d3c7f-a900-3942-afce-5f6c21f32447",
+        "status": "Succeeded",
+        "startTime": "2001-02-03T04:05:06Z",
+        "endTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221/agentPools/pool202221?api-version=2023-02-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221/agentPools/pool202221",
+        "name": "pool202221",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "scaleDownMode": "Delete",
+         "provisioningState": "Succeeded",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.24.9",
+         "currentOrchestratorVersion": "1.24.9",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-202303.06.0",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221/agentPools/pool202221?api-version=2023-02-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221/agentPools/pool202221",
+        "name": "pool202221",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "scaleDownMode": "Delete",
+         "provisioningState": "Succeeded",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.24.9",
+         "currentOrchestratorVersion": "1.24.9",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-202303.06.0",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "12"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "13"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "14"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "15"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "16"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "17"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "18"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "19"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "20"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "21"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "22"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "23"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "24"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "25"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "26"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "27"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "28"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "29"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "30"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "31"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFWVNCU1ktV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221?api-version=2023-02-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-eysbsy''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-eysbsy/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster202221/agentPools/pool202221?api-version=2023-02-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.ContainerService/managedClusters/samplemanagedcluster202221''
+      under resource group ''asotest-rg-eysbsy'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "258"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""

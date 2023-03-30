@@ -1,0 +1,9 @@
+apiVersion: sql.azure.com/v1api20211101
+kind: ServersSecurityAlertPolicy
+metadata:
+  name: aso-sample-alertpolicy
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-sqlserver
+  state: Enabled

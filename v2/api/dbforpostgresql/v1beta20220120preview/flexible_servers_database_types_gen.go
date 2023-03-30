@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
+// Deprecated version of FlexibleServersDatabase. Use v1api20220120preview.FlexibleServersDatabase instead
 type FlexibleServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -337,9 +335,7 @@ func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/Databases.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/databases/{databaseName}
+// Deprecated version of FlexibleServersDatabase. Use v1api20220120preview.FlexibleServersDatabase instead
 type FlexibleServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -349,12 +345,8 @@ type FlexibleServersDatabaseList struct {
 type FlexibleServers_Database_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Charset: The charset of the database.
-	Charset *string `json:"charset,omitempty"`
-
-	// Collation: The collation of the database.
+	AzureName string  `json:"azureName,omitempty"`
+	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -564,28 +556,17 @@ func (database *FlexibleServers_Database_Spec) SetAzureName(azureName string) {
 	database.AzureName = azureName
 }
 
+// Deprecated version of FlexibleServers_Database_STATUS. Use v1api20220120preview.FlexibleServers_Database_STATUS instead
 type FlexibleServers_Database_STATUS struct {
-	// Charset: The charset of the database.
-	Charset *string `json:"charset,omitempty"`
-
-	// Collation: The collation of the database.
+	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Id         *string                `json:"id,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	SystemData *SystemData_STATUS     `json:"systemData,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &FlexibleServers_Database_STATUS{}

@@ -5,10 +5,9 @@ package v1beta20211101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Namespaces_Eventhubs_AuthorizationRule_Spec. Use v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Spec instead
 type Namespaces_Eventhubs_AuthorizationRule_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties supplied to create or update AuthorizationRule
+	Name       string                                                      `json:"name,omitempty"`
 	Properties *Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
@@ -29,7 +28,7 @@ func (rule *Namespaces_Eventhubs_AuthorizationRule_Spec_ARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
 }
 
+// Deprecated version of Namespaces_Eventhubs_AuthorizationRule_Properties_Spec. Use v1api20211101.Namespaces_Eventhubs_AuthorizationRule_Properties_Spec instead
 type Namespaces_Eventhubs_AuthorizationRule_Properties_Spec_ARM struct {
-	// Rights: The rights associated with the rule.
 	Rights []Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec `json:"rights,omitempty"`
 }

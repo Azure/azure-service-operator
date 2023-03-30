@@ -5,6 +5,7 @@ package v1beta20210901
 
 import (
 	"encoding/json"
+	v1api20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901storage"
 	v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForRegistry(subject Registry) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210901s.Registry
+	var hub v1api20210901s.Registry
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

@@ -13,7 +13,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"

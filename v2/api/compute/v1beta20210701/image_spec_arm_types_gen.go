@@ -5,19 +5,13 @@ package v1beta20210701
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Image_Spec. Use v1api20210701.Image_Spec instead
 type Image_Spec_ARM struct {
-	// ExtendedLocation: The extended location of the Image.
 	ExtendedLocation *ExtendedLocation_ARM `json:"extendedLocation,omitempty"`
-
-	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Describes the properties of an Image.
-	Properties *ImageProperties_ARM `json:"properties,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
+	Location         *string               `json:"location,omitempty"`
+	Name             string                `json:"name,omitempty"`
+	Properties       *ImageProperties_ARM  `json:"properties,omitempty"`
+	Tags             map[string]string     `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Image_Spec_ARM{}
@@ -37,131 +31,58 @@ func (image *Image_Spec_ARM) GetType() string {
 	return "Microsoft.Compute/images"
 }
 
-// The complex type of the extended location.
+// Deprecated version of ExtendedLocation. Use v1api20210701.ExtendedLocation instead
 type ExtendedLocation_ARM struct {
-	// Name: The name of the extended location.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the extended location.
+	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
-// Describes the properties of an Image.
+// Deprecated version of ImageProperties. Use v1api20210701.ImageProperties instead
 type ImageProperties_ARM struct {
-	// HyperVGeneration: Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version
-	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
-	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
-	// resource.
-	HyperVGeneration *HyperVGenerationType `json:"hyperVGeneration,omitempty"`
-
-	// SourceVirtualMachine: The source virtual machine from which Image is created.
-	SourceVirtualMachine *SubResource_ARM `json:"sourceVirtualMachine,omitempty"`
-
-	// StorageProfile: Specifies the storage settings for the virtual machine disks.
-	StorageProfile *ImageStorageProfile_ARM `json:"storageProfile,omitempty"`
+	HyperVGeneration     *HyperVGenerationType    `json:"hyperVGeneration,omitempty"`
+	SourceVirtualMachine *SubResource_ARM         `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfile_ARM `json:"storageProfile,omitempty"`
 }
 
-// The type of extendedLocation.
+// Deprecated version of ExtendedLocationType. Use v1api20210701.ExtendedLocationType instead
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
 const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
-// Describes a storage profile.
+// Deprecated version of ImageStorageProfile. Use v1api20210701.ImageStorageProfile instead
 type ImageStorageProfile_ARM struct {
-	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks []ImageDataDisk_ARM `json:"dataDisks,omitempty"`
-
-	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	OsDisk *ImageOSDisk_ARM `json:"osDisk,omitempty"`
-
-	// ZoneResilient: Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be
-	// created only in regions that provide Zone Redundant Storage (ZRS).
-	ZoneResilient *bool `json:"zoneResilient,omitempty"`
+	DataDisks     []ImageDataDisk_ARM `json:"dataDisks,omitempty"`
+	OsDisk        *ImageOSDisk_ARM    `json:"osDisk,omitempty"`
+	ZoneResilient *bool               `json:"zoneResilient,omitempty"`
 }
 
+// Deprecated version of SubResource. Use v1api20210701.SubResource instead
 type SubResource_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-// Describes a data disk.
+// Deprecated version of ImageDataDisk. Use v1api20210701.ImageDataDisk instead
 type ImageDataDisk_ARM struct {
-	// BlobUri: The Virtual Hard Disk.
-	BlobUri *string `json:"blobUri,omitempty"`
-
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageDataDisk_Caching `json:"caching,omitempty"`
-
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
-	DiskEncryptionSet *SubResource_ARM `json:"diskEncryptionSet,omitempty"`
-
-	// DiskSizeGB: Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
-	// therefore must be unique for each data disk attached to a VM.
-	Lun *int `json:"lun,omitempty"`
-
-	// ManagedDisk: The managedDisk.
-	ManagedDisk *SubResource_ARM `json:"managedDisk,omitempty"`
-
-	// Snapshot: The snapshot.
-	Snapshot *SubResource_ARM `json:"snapshot,omitempty"`
-
-	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
+	BlobUri            *string                `json:"blobUri,omitempty"`
+	Caching            *ImageDataDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_ARM       `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                   `json:"diskSizeGB,omitempty"`
+	Lun                *int                   `json:"lun,omitempty"`
+	ManagedDisk        *SubResource_ARM       `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource_ARM       `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType    `json:"storageAccountType,omitempty"`
 }
 
-// Describes an Operating System disk.
+// Deprecated version of ImageOSDisk. Use v1api20210701.ImageOSDisk instead
 type ImageOSDisk_ARM struct {
-	// BlobUri: The Virtual Hard Disk.
-	BlobUri *string `json:"blobUri,omitempty"`
-
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageOSDisk_Caching `json:"caching,omitempty"`
-
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
-	DiskEncryptionSet *SubResource_ARM `json:"diskEncryptionSet,omitempty"`
-
-	// DiskSizeGB: Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// ManagedDisk: The managedDisk.
-	ManagedDisk *SubResource_ARM `json:"managedDisk,omitempty"`
-
-	// OsState: The OS State.
-	OsState *ImageOSDisk_OsState `json:"osState,omitempty"`
-
-	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
-	// custom image.
-	// Possible values are:
-	// Windows
-	// Linux
-	OsType *ImageOSDisk_OsType `json:"osType,omitempty"`
-
-	// Snapshot: The snapshot.
-	Snapshot *SubResource_ARM `json:"snapshot,omitempty"`
-
-	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
+	BlobUri            *string              `json:"blobUri,omitempty"`
+	Caching            *ImageOSDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_ARM     `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                 `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource_ARM     `json:"managedDisk,omitempty"`
+	OsState            *ImageOSDisk_OsState `json:"osState,omitempty"`
+	OsType             *ImageOSDisk_OsType  `json:"osType,omitempty"`
+	Snapshot           *SubResource_ARM     `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType  `json:"storageAccountType,omitempty"`
 }

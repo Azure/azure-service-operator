@@ -5,6 +5,7 @@ package v1beta20210515storage
 
 import (
 	"encoding/json"
+	v1api20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_SqlRoleAssignment_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlRoleAssignment to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSqlRoleAssignment, SqlRoleAssignmentGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSqlRoleAssignment tests if a specific instance of SqlRoleAssignment round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSqlRoleAssignment(subject SqlRoleAssignment) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20210515s.SqlRoleAssignment
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual SqlRoleAssignment
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SqlRoleAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlRoleAssignment to SqlRoleAssignment via AssignProperties_To_SqlRoleAssignment & AssignProperties_From_SqlRoleAssignment returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlRoleAssignment, SqlRoleAssignmentGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlRoleAssignment tests if a specific instance of SqlRoleAssignment can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlRoleAssignment(subject SqlRoleAssignment) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.SqlRoleAssignment
+	err := copied.AssignProperties_To_SqlRoleAssignment(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlRoleAssignment
+	err = actual.AssignProperties_From_SqlRoleAssignment(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_SqlRoleAssignment_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +162,48 @@ func SqlRoleAssignmentGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForSqlRoleAssignment(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_SqlRoleAssignment_SpecGenerator()
 	gens["Status"] = DatabaseAccounts_SqlRoleAssignment_STATUSGenerator()
+}
+
+func Test_DatabaseAccounts_SqlRoleAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccounts_SqlRoleAssignment_Spec to DatabaseAccounts_SqlRoleAssignment_Spec via AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec & AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_Spec, DatabaseAccounts_SqlRoleAssignment_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_Spec tests if a specific instance of DatabaseAccounts_SqlRoleAssignment_Spec can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_Spec(subject DatabaseAccounts_SqlRoleAssignment_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.DatabaseAccounts_SqlRoleAssignment_Spec
+	err := copied.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccounts_SqlRoleAssignment_Spec
+	err = actual.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccounts_SqlRoleAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -141,6 +269,48 @@ func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlRoleAssignment_Spec(
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_DatabaseAccounts_SqlRoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccounts_SqlRoleAssignment_STATUS to DatabaseAccounts_SqlRoleAssignment_STATUS via AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS & AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_STATUS, DatabaseAccounts_SqlRoleAssignment_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_STATUS tests if a specific instance of DatabaseAccounts_SqlRoleAssignment_STATUS can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccounts_SqlRoleAssignment_STATUS(subject DatabaseAccounts_SqlRoleAssignment_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.DatabaseAccounts_SqlRoleAssignment_STATUS
+	err := copied.AssignProperties_To_DatabaseAccounts_SqlRoleAssignment_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccounts_SqlRoleAssignment_STATUS
+	err = actual.AssignProperties_From_DatabaseAccounts_SqlRoleAssignment_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccounts_SqlRoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

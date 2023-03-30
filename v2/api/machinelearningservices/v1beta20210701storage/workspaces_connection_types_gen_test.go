@@ -5,6 +5,7 @@ package v1beta20210701storage
 
 import (
 	"encoding/json"
+	v1api20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_WorkspacesConnection_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspacesConnection to hub returns original",
+		prop.ForAll(RunResourceConversionTestForWorkspacesConnection, WorkspacesConnectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForWorkspacesConnection tests if a specific instance of WorkspacesConnection round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForWorkspacesConnection(subject WorkspacesConnection) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20210701s.WorkspacesConnection
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual WorkspacesConnection
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_WorkspacesConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WorkspacesConnection to WorkspacesConnection via AssignProperties_To_WorkspacesConnection & AssignProperties_From_WorkspacesConnection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspacesConnection, WorkspacesConnectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspacesConnection tests if a specific instance of WorkspacesConnection can be assigned to v1api20210701storage and back losslessly
+func RunPropertyAssignmentTestForWorkspacesConnection(subject WorkspacesConnection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210701s.WorkspacesConnection
+	err := copied.AssignProperties_To_WorkspacesConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WorkspacesConnection
+	err = actual.AssignProperties_From_WorkspacesConnection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_WorkspacesConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func WorkspacesConnectionGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForWorkspacesConnection(gens map[string]gopter.Gen) {
 	gens["Spec"] = Workspaces_Connection_SpecGenerator()
 	gens["Status"] = Workspaces_Connection_STATUSGenerator()
+}
+
+func Test_Workspaces_Connection_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Workspaces_Connection_Spec to Workspaces_Connection_Spec via AssignProperties_To_Workspaces_Connection_Spec & AssignProperties_From_Workspaces_Connection_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_Connection_Spec, Workspaces_Connection_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaces_Connection_Spec tests if a specific instance of Workspaces_Connection_Spec can be assigned to v1api20210701storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaces_Connection_Spec(subject Workspaces_Connection_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210701s.Workspaces_Connection_Spec
+	err := copied.AssignProperties_To_Workspaces_Connection_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Workspaces_Connection_Spec
+	err = actual.AssignProperties_From_Workspaces_Connection_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Workspaces_Connection_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -144,6 +272,48 @@ func AddIndependentPropertyGeneratorsForWorkspaces_Connection_Spec(gens map[stri
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 	gens["ValueFormat"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Workspaces_Connection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Workspaces_Connection_STATUS to Workspaces_Connection_STATUS via AssignProperties_To_Workspaces_Connection_STATUS & AssignProperties_From_Workspaces_Connection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWorkspaces_Connection_STATUS, Workspaces_Connection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWorkspaces_Connection_STATUS tests if a specific instance of Workspaces_Connection_STATUS can be assigned to v1api20210701storage and back losslessly
+func RunPropertyAssignmentTestForWorkspaces_Connection_STATUS(subject Workspaces_Connection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210701s.Workspaces_Connection_STATUS
+	err := copied.AssignProperties_To_Workspaces_Connection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Workspaces_Connection_STATUS
+	err = actual.AssignProperties_From_Workspaces_Connection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Workspaces_Connection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

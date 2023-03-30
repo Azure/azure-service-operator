@@ -14,9 +14,9 @@ import (
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 
-	mysqlbeta1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
@@ -68,7 +68,7 @@ func Test_MySQL_Combined(t *testing.T) {
 	)
 }
 
-// MySQL_AdminSecret_Rollvoer ensures that when a secret is modified, the modified value
+// MySQL_AdminSecret_Rollover ensures that when a secret is modified, the modified value
 // is sent to Azure. This cannot be tested in the recording tests because they do not use
 // a cached client. The index functionality used to check if a secret is being used by an
 // ASO resource requires the cached client (the indexes are local to the cache).
@@ -181,15 +181,15 @@ func MySQL_User_CRUD(tc *testcommon.KubePerTestContext, server *mysql.FlexibleSe
 	tc.CreateResource(userSecret)
 
 	username := tc.NoSpaceNamer.GenerateName("user")
-	user := &mysqlbeta1.User{
+	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(username),
-		Spec: mysqlbeta1.UserSpec{
+		Spec: mysqlv1.UserSpec{
 			Owner: testcommon.AsOwner(server),
 			Privileges: []string{
 				"CREATE USER",
 				"PROCESS",
 			},
-			LocalUser: &mysqlbeta1.LocalUserSpec{
+			LocalUser: &mysqlv1.LocalUserSpec{
 				ServerAdminUsername: to.String(server.Spec.AdministratorLogin),
 				ServerAdminPassword: server.Spec.AdministratorLoginPassword,
 				Password: &genruntime.SecretReference{
@@ -377,15 +377,15 @@ func Test_MySQL_User(t *testing.T) {
 	flexibleServer := newMySQLServer(tc, rg, adminUsername, adminPasswordKey, adminSecret.Name)
 	firewallRule := newMySQLServerOpenFirewallRule(tc, flexibleServer)
 
-	user := &mysqlbeta1.User{
+	user := &mysqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("user")),
-		Spec: mysqlbeta1.UserSpec{
+		Spec: mysqlv1.UserSpec{
 			Owner: testcommon.AsOwner(flexibleServer),
 			Privileges: []string{
 				"CREATE USER",
 				"PROCESS",
 			},
-			LocalUser: &mysqlbeta1.LocalUserSpec{
+			LocalUser: &mysqlv1.LocalUserSpec{
 				ServerAdminUsername: adminUsername,
 				ServerAdminPassword: flexibleServer.Spec.AdministratorLoginPassword,
 				Password: &genruntime.SecretReference{

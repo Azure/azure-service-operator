@@ -5,6 +5,7 @@ package v1beta20180901storage
 
 import (
 	"encoding/json"
+	v1api20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_PrivateDnsZone_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateDnsZone to hub returns original",
+		prop.ForAll(RunResourceConversionTestForPrivateDnsZone, PrivateDnsZoneGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForPrivateDnsZone tests if a specific instance of PrivateDnsZone round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForPrivateDnsZone(subject PrivateDnsZone) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20180901s.PrivateDnsZone
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual PrivateDnsZone
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_PrivateDnsZone_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateDnsZone to PrivateDnsZone via AssignProperties_To_PrivateDnsZone & AssignProperties_From_PrivateDnsZone returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateDnsZone, PrivateDnsZoneGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateDnsZone tests if a specific instance of PrivateDnsZone can be assigned to v1api20180901storage and back losslessly
+func RunPropertyAssignmentTestForPrivateDnsZone(subject PrivateDnsZone) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180901s.PrivateDnsZone
+	err := copied.AssignProperties_To_PrivateDnsZone(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateDnsZone
+	err = actual.AssignProperties_From_PrivateDnsZone(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_PrivateDnsZone_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +162,48 @@ func PrivateDnsZoneGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForPrivateDnsZone(gens map[string]gopter.Gen) {
 	gens["Spec"] = PrivateDnsZone_SpecGenerator()
 	gens["Status"] = PrivateDnsZone_STATUSGenerator()
+}
+
+func Test_PrivateDnsZone_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateDnsZone_Spec to PrivateDnsZone_Spec via AssignProperties_To_PrivateDnsZone_Spec & AssignProperties_From_PrivateDnsZone_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateDnsZone_Spec, PrivateDnsZone_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateDnsZone_Spec tests if a specific instance of PrivateDnsZone_Spec can be assigned to v1api20180901storage and back losslessly
+func RunPropertyAssignmentTestForPrivateDnsZone_Spec(subject PrivateDnsZone_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180901s.PrivateDnsZone_Spec
+	err := copied.AssignProperties_To_PrivateDnsZone_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateDnsZone_Spec
+	err = actual.AssignProperties_From_PrivateDnsZone_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PrivateDnsZone_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -141,6 +269,48 @@ func AddIndependentPropertyGeneratorsForPrivateDnsZone_Spec(gens map[string]gopt
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+func Test_PrivateDnsZone_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateDnsZone_STATUS to PrivateDnsZone_STATUS via AssignProperties_To_PrivateDnsZone_STATUS & AssignProperties_From_PrivateDnsZone_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateDnsZone_STATUS, PrivateDnsZone_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateDnsZone_STATUS tests if a specific instance of PrivateDnsZone_STATUS can be assigned to v1api20180901storage and back losslessly
+func RunPropertyAssignmentTestForPrivateDnsZone_STATUS(subject PrivateDnsZone_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180901s.PrivateDnsZone_STATUS
+	err := copied.AssignProperties_To_PrivateDnsZone_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateDnsZone_STATUS
+	err = actual.AssignProperties_From_PrivateDnsZone_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PrivateDnsZone_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

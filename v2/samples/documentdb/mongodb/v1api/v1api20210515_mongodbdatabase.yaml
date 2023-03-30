@@ -1,0 +1,14 @@
+apiVersion: documentdb.azure.com/v1api20210515
+kind: MongodbDatabase
+metadata:
+  name: sample-db-mongodb
+  namespace: default
+spec:
+  location: eastus
+  owner:
+    name: sample-mongodb-account
+  options:
+    autoscaleSettings:
+      maxThroughput: 4000
+  resource:
+    id: sample-db-mongodb

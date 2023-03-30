@@ -5,10 +5,9 @@ package v1beta20210601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of FlexibleServers_FirewallRule_Spec. Use v1api20210601.FlexibleServers_FirewallRule_Spec instead
 type FlexibleServers_FirewallRule_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: The properties of a firewall rule.
+	Name       string                      `json:"name,omitempty"`
 	Properties *FirewallRuleProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,11 +28,8 @@ func (rule *FlexibleServers_FirewallRule_Spec_ARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
 }
 
-// The properties of a server firewall rule.
+// Deprecated version of FirewallRuleProperties. Use v1api20210601.FirewallRuleProperties instead
 type FirewallRuleProperties_ARM struct {
-	// EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
-	EndIpAddress *string `json:"endIpAddress,omitempty"`
-
-	// StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
+	EndIpAddress   *string `json:"endIpAddress,omitempty"`
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }

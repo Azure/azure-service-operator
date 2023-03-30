@@ -5,10 +5,9 @@ package v1beta20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Redis_LinkedServer_Spec. Use v1api20201201.Redis_LinkedServer_Spec instead
 type Redis_LinkedServer_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties required to create a linked server.
+	Name       string                                 `json:"name,omitempty"`
 	Properties *RedisLinkedServerCreateProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,13 +28,9 @@ func (server *Redis_LinkedServer_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/linkedServers"
 }
 
-// Create properties for a linked server
+// Deprecated version of RedisLinkedServerCreateProperties. Use v1api20201201.RedisLinkedServerCreateProperties instead
 type RedisLinkedServerCreateProperties_ARM struct {
-	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`
-
-	// LinkedRedisCacheLocation: Location of the linked redis cache.
-	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
-
-	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerCreateProperties_ServerRole `json:"serverRole,omitempty"`
+	LinkedRedisCacheId       *string                                       `json:"linkedRedisCacheId,omitempty"`
+	LinkedRedisCacheLocation *string                                       `json:"linkedRedisCacheLocation,omitempty"`
+	ServerRole               *RedisLinkedServerCreateProperties_ServerRole `json:"serverRole,omitempty"`
 }

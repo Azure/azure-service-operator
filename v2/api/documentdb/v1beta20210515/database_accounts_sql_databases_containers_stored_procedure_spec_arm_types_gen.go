@@ -5,12 +5,10 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec. Use v1api20210515.DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec instead
 type DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_ARM struct {
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties to create and update Azure Cosmos DB storedProcedure.
+	Location   *string                                       `json:"location,omitempty"`
+	Name       string                                        `json:"name,omitempty"`
 	Properties *SqlStoredProcedureCreateUpdateProperties_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                             `json:"tags,omitempty"`
 }
@@ -32,21 +30,14 @@ func (procedure *DatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec_A
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
-// Properties to create and update Azure Cosmos DB storedProcedure.
+// Deprecated version of SqlStoredProcedureCreateUpdateProperties. Use v1api20210515.SqlStoredProcedureCreateUpdateProperties instead
 type SqlStoredProcedureCreateUpdateProperties_ARM struct {
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a storedProcedure
+	Options  *CreateUpdateOptions_ARM        `json:"options,omitempty"`
 	Resource *SqlStoredProcedureResource_ARM `json:"resource,omitempty"`
 }
 
-// Cosmos DB SQL storedProcedure resource object
+// Deprecated version of SqlStoredProcedureResource. Use v1api20210515.SqlStoredProcedureResource instead
 type SqlStoredProcedureResource_ARM struct {
-	// Body: Body of the Stored Procedure
 	Body *string `json:"body,omitempty"`
-
-	// Id: Name of the Cosmos DB SQL storedProcedure
-	Id *string `json:"id,omitempty"`
+	Id   *string `json:"id,omitempty"`
 }

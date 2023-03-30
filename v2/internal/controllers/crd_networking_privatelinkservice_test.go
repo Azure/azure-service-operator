@@ -11,9 +11,9 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	network20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	network20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

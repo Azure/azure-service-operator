@@ -3,174 +3,79 @@
 // Licensed under the MIT license.
 package v1beta20210701
 
-// An object that represents a machine learning workspace.
+// Deprecated version of Workspace_STATUS. Use v1api20210701.Workspace_STATUS instead
 type Workspace_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity_STATUS_ARM `json:"identity,omitempty"`
-
-	// Location: Specifies the location of the resource.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties of the machine learning workspace.
+	Id         *string                         `json:"id,omitempty"`
+	Identity   *Identity_STATUS_ARM            `json:"identity,omitempty"`
+	Location   *string                         `json:"location,omitempty"`
+	Name       *string                         `json:"name,omitempty"`
 	Properties *WorkspaceProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
-
-	// SystemData: System data
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
-	// Tags: Contains resource tags defined as key/value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Sku        *Sku_STATUS_ARM                 `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS_ARM          `json:"systemData,omitempty"`
+	Tags       map[string]string               `json:"tags,omitempty"`
+	Type       *string                         `json:"type,omitempty"`
 }
 
-// Identity for the resource.
+// Deprecated version of Identity_STATUS. Use v1api20210701.Identity_STATUS instead
 type Identity_STATUS_ARM struct {
-	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The identity type.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The user assigned identities associated with the resource.
+	PrincipalId            *string                                    `json:"principalId,omitempty"`
+	TenantId               *string                                    `json:"tenantId,omitempty"`
+	Type                   *Identity_Type_STATUS                      `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-// Sku of the resource
+// Deprecated version of Sku_STATUS. Use v1api20210701.Sku_STATUS instead
 type Sku_STATUS_ARM struct {
-	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
-
-	// Tier: Tier of the sku like Basic or Enterprise
 	Tier *string `json:"tier,omitempty"`
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20210701.SystemData_STATUS instead
 type SystemData_STATUS_ARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-// The properties of a machine learning workspace.
+// Deprecated version of WorkspaceProperties_STATUS. Use v1api20210701.WorkspaceProperties_STATUS instead
 type WorkspaceProperties_STATUS_ARM struct {
-	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
-	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
-
-	// ApplicationInsights: ARM id of the application insights associated with this workspace. This cannot be changed once the
-	// workspace has been created
-	ApplicationInsights *string `json:"applicationInsights,omitempty"`
-
-	// ContainerRegistry: ARM id of the container registry associated with this workspace. This cannot be changed once the
-	// workspace has been created
-	ContainerRegistry *string `json:"containerRegistry,omitempty"`
-
-	// Description: The description of this workspace.
-	Description *string `json:"description,omitempty"`
-
-	// DiscoveryUrl: Url for the discovery service to identify regional endpoints for machine learning experimentation services
-	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
-
-	// Encryption: The encryption settings of Azure ML workspace.
-	Encryption *EncryptionProperty_STATUS_ARM `json:"encryption,omitempty"`
-
-	// FriendlyName: The friendly name for this workspace. This name in mutable
-	FriendlyName *string `json:"friendlyName,omitempty"`
-
-	// HbiWorkspace: The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service
-	HbiWorkspace *bool `json:"hbiWorkspace,omitempty"`
-
-	// ImageBuildCompute: The compute name for image build
-	ImageBuildCompute *string `json:"imageBuildCompute,omitempty"`
-
-	// KeyVault: ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been
-	// created
-	KeyVault *string `json:"keyVault,omitempty"`
-
-	// MlFlowTrackingUri: The URI associated with this workspace that machine learning flow must point at to set up tracking.
-	MlFlowTrackingUri *string `json:"mlFlowTrackingUri,omitempty"`
-
-	// NotebookInfo: The notebook info of Azure ML workspace.
-	NotebookInfo *NotebookResourceInfo_STATUS_ARM `json:"notebookInfo,omitempty"`
-
-	// PrimaryUserAssignedIdentity: The user assigned identity resource id that represents the workspace identity.
-	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
-
-	// PrivateEndpointConnections: The list of private endpoint connections in the workspace.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
-
-	// PrivateLinkCount: Count of private connections in the workspace
-	PrivateLinkCount *int `json:"privateLinkCount,omitempty"`
-
-	// ProvisioningState: The current deployment state of workspace resource. The provisioningState is to indicate states for
-	// resource provisioning.
-	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-
-	// ServiceManagedResourcesSettings: The service managed resource settings.
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS_ARM `json:"serviceManagedResourcesSettings,omitempty"`
-
-	// ServiceProvisionedResourceGroup: The name of the managed resource group created by workspace RP in customer subscription
-	// if the workspace is CMK workspace
-	ServiceProvisionedResourceGroup *string `json:"serviceProvisionedResourceGroup,omitempty"`
-
-	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS_ARM `json:"sharedPrivateLinkResources,omitempty"`
-
-	// StorageAccount: ARM id of the storage account associated with this workspace. This cannot be changed once the workspace
-	// has been created
-	StorageAccount *string `json:"storageAccount,omitempty"`
-
-	// StorageHnsEnabled: If the storage associated with the workspace has hierarchical namespace(HNS) enabled.
-	StorageHnsEnabled *bool `json:"storageHnsEnabled,omitempty"`
-
-	// TenantId: The tenant id associated with this workspace.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// WorkspaceId: The immutable id associated with this workspace.
-	WorkspaceId *string `json:"workspaceId,omitempty"`
+	AllowPublicAccessWhenBehindVnet *bool                                           `json:"allowPublicAccessWhenBehindVnet,omitempty"`
+	ApplicationInsights             *string                                         `json:"applicationInsights,omitempty"`
+	ContainerRegistry               *string                                         `json:"containerRegistry,omitempty"`
+	Description                     *string                                         `json:"description,omitempty"`
+	DiscoveryUrl                    *string                                         `json:"discoveryUrl,omitempty"`
+	Encryption                      *EncryptionProperty_STATUS_ARM                  `json:"encryption,omitempty"`
+	FriendlyName                    *string                                         `json:"friendlyName,omitempty"`
+	HbiWorkspace                    *bool                                           `json:"hbiWorkspace,omitempty"`
+	ImageBuildCompute               *string                                         `json:"imageBuildCompute,omitempty"`
+	KeyVault                        *string                                         `json:"keyVault,omitempty"`
+	MlFlowTrackingUri               *string                                         `json:"mlFlowTrackingUri,omitempty"`
+	NotebookInfo                    *NotebookResourceInfo_STATUS_ARM                `json:"notebookInfo,omitempty"`
+	PrimaryUserAssignedIdentity     *string                                         `json:"primaryUserAssignedIdentity,omitempty"`
+	PrivateEndpointConnections      []PrivateEndpointConnection_STATUS_ARM          `json:"privateEndpointConnections,omitempty"`
+	PrivateLinkCount                *int                                            `json:"privateLinkCount,omitempty"`
+	ProvisioningState               *WorkspaceProperties_ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
+	PublicNetworkAccess             *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS_ARM     `json:"serviceManagedResourcesSettings,omitempty"`
+	ServiceProvisionedResourceGroup *string                                         `json:"serviceProvisionedResourceGroup,omitempty"`
+	SharedPrivateLinkResources      []SharedPrivateLinkResource_STATUS_ARM          `json:"sharedPrivateLinkResources,omitempty"`
+	StorageAccount                  *string                                         `json:"storageAccount,omitempty"`
+	StorageHnsEnabled               *bool                                           `json:"storageHnsEnabled,omitempty"`
+	TenantId                        *string                                         `json:"tenantId,omitempty"`
+	WorkspaceId                     *string                                         `json:"workspaceId,omitempty"`
 }
 
+// Deprecated version of EncryptionProperty_STATUS. Use v1api20210701.EncryptionProperty_STATUS instead
 type EncryptionProperty_STATUS_ARM struct {
-	// Identity: The identity that will be used to access the key vault for encryption at rest.
-	Identity *IdentityForCmk_STATUS_ARM `json:"identity,omitempty"`
-
-	// KeyVaultProperties: Customer Key vault properties.
-	KeyVaultProperties *KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
-
-	// Status: Indicates whether or not the encryption is enabled for the workspace.
-	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
+	Identity           *IdentityForCmk_STATUS_ARM        `json:"identity,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUS_ARM    `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
 }
 
+// Deprecated version of Identity_Type_STATUS. Use v1api20210701.Identity_Type_STATUS instead
 type Identity_Type_STATUS string
 
 const (
@@ -180,36 +85,30 @@ const (
 	Identity_Type_STATUS_UserAssigned               = Identity_Type_STATUS("UserAssigned")
 )
 
+// Deprecated version of NotebookResourceInfo_STATUS. Use v1api20210701.NotebookResourceInfo_STATUS instead
 type NotebookResourceInfo_STATUS_ARM struct {
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	// NotebookPreparationError: The error that occurs when preparing notebook.
+	Fqdn                     *string                              `json:"fqdn,omitempty"`
 	NotebookPreparationError *NotebookPreparationError_STATUS_ARM `json:"notebookPreparationError,omitempty"`
-
-	// ResourceId: the data plane resourceId that used to initialize notebook component
-	ResourceId *string `json:"resourceId,omitempty"`
+	ResourceId               *string                              `json:"resourceId,omitempty"`
 }
 
-// The Private Endpoint Connection resource.
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1api20210701.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
+// Deprecated version of ServiceManagedResourcesSettings_STATUS. Use v1api20210701.ServiceManagedResourcesSettings_STATUS instead
 type ServiceManagedResourcesSettings_STATUS_ARM struct {
-	// CosmosDb: The settings for the service managed cosmosdb account.
 	CosmosDb *CosmosDbSettings_STATUS_ARM `json:"cosmosDb,omitempty"`
 }
 
+// Deprecated version of SharedPrivateLinkResource_STATUS. Use v1api20210701.SharedPrivateLinkResource_STATUS instead
 type SharedPrivateLinkResource_STATUS_ARM struct {
-	// Name: Unique name of the private link.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Resource properties.
+	Name       *string                                       `json:"name,omitempty"`
 	Properties *SharedPrivateLinkResourceProperty_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of SystemData_CreatedByType_STATUS. Use v1api20210701.SystemData_CreatedByType_STATUS instead
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -219,6 +118,8 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1api20210701.SystemData_LastModifiedByType_STATUS
+// instead
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -228,56 +129,40 @@ const (
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
-// User Assigned Identity
+// Deprecated version of UserAssignedIdentity_STATUS. Use v1api20210701.UserAssignedIdentity_STATUS instead
 type UserAssignedIdentity_STATUS_ARM struct {
-	// ClientId: The clientId(aka appId) of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal ID of the user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of the user assigned identity.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId    *string `json:"tenantId,omitempty"`
 }
 
+// Deprecated version of CosmosDbSettings_STATUS. Use v1api20210701.CosmosDbSettings_STATUS instead
 type CosmosDbSettings_STATUS_ARM struct {
-	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
 }
 
-// Identity that will be used to access key vault for encryption at rest
+// Deprecated version of IdentityForCmk_STATUS. Use v1api20210701.IdentityForCmk_STATUS instead
 type IdentityForCmk_STATUS_ARM struct {
-	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
+// Deprecated version of KeyVaultProperties_STATUS. Use v1api20210701.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUS_ARM struct {
-	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
-
-	// KeyIdentifier: Key vault uri to access the encryption key.
-	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
-
-	// KeyVaultArmId: The ArmId of the keyVault where the customer owned encryption key is present.
-	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
+	KeyIdentifier    *string `json:"keyIdentifier,omitempty"`
+	KeyVaultArmId    *string `json:"keyVaultArmId,omitempty"`
 }
 
+// Deprecated version of NotebookPreparationError_STATUS. Use v1api20210701.NotebookPreparationError_STATUS instead
 type NotebookPreparationError_STATUS_ARM struct {
 	ErrorMessage *string `json:"errorMessage,omitempty"`
 	StatusCode   *int    `json:"statusCode,omitempty"`
 }
 
-// Properties of a shared private link resource.
+// Deprecated version of SharedPrivateLinkResourceProperty_STATUS. Use v1api20210701.SharedPrivateLinkResourceProperty_STATUS instead
 type SharedPrivateLinkResourceProperty_STATUS_ARM struct {
-	// GroupId: The private link resource group id.
-	GroupId *string `json:"groupId,omitempty"`
-
-	// PrivateLinkResourceId: The resource id that private link links to.
-	PrivateLinkResourceId *string `json:"privateLinkResourceId,omitempty"`
-
-	// RequestMessage: Request message.
-	RequestMessage *string `json:"requestMessage,omitempty"`
-
-	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *PrivateEndpointServiceConnectionStatus_STATUS `json:"status,omitempty"`
+	GroupId               *string                                        `json:"groupId,omitempty"`
+	PrivateLinkResourceId *string                                        `json:"privateLinkResourceId,omitempty"`
+	RequestMessage        *string                                        `json:"requestMessage,omitempty"`
+	Status                *PrivateEndpointServiceConnectionStatus_STATUS `json:"status,omitempty"`
 }

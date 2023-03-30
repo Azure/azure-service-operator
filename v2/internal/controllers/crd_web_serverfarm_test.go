@@ -11,8 +11,8 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/onsi/gomega"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	"github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	"github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
@@ -41,19 +41,19 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(v1beta20220301.APIVersion_Value))
+		string(v1api20220301.APIVersion_Value))
 	tc.Expect(err).ToNot(gomega.HaveOccurred())
 	tc.Expect(exists).To(gomega.BeFalse())
 
 }
 
-func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, location string) *v1beta20220301.ServerFarm {
-	serverFarm := &v1beta20220301.ServerFarm{
+func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, location string) *v1api20220301.ServerFarm {
+	serverFarm := &v1api20220301.ServerFarm{
 		ObjectMeta: tc.MakeObjectMeta("appservice"),
-		Spec: v1beta20220301.Serverfarm_Spec{
+		Spec: v1api20220301.Serverfarm_Spec{
 			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
-			Sku: &v1beta20220301.SkuDescription{
+			Sku: &v1api20220301.SkuDescription{
 				Name: to.StringPtr("P1v2"),
 			},
 		},

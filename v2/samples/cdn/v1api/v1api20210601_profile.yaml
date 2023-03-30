@@ -1,0 +1,11 @@
+apiVersion: cdn.azure.com/v1api20210601
+kind: Profile
+metadata:
+  name: samplecdnprofile
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-rg
+  location: Global
+  sku:
+    name: Standard_Microsoft

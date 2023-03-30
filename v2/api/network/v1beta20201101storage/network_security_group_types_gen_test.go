@@ -5,6 +5,7 @@ package v1beta20201101storage
 
 import (
 	"encoding/json"
+	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_NetworkSecurityGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroup to hub returns original",
+		prop.ForAll(RunResourceConversionTestForNetworkSecurityGroup, NetworkSecurityGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForNetworkSecurityGroup tests if a specific instance of NetworkSecurityGroup round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForNetworkSecurityGroup(subject NetworkSecurityGroup) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20201101s.NetworkSecurityGroup
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual NetworkSecurityGroup
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_NetworkSecurityGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroup to NetworkSecurityGroup via AssignProperties_To_NetworkSecurityGroup & AssignProperties_From_NetworkSecurityGroup returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroup, NetworkSecurityGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroup tests if a specific instance of NetworkSecurityGroup can be assigned to v1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroup(subject NetworkSecurityGroup) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201101s.NetworkSecurityGroup
+	err := copied.AssignProperties_To_NetworkSecurityGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroup
+	err = actual.AssignProperties_From_NetworkSecurityGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_NetworkSecurityGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func NetworkSecurityGroupGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForNetworkSecurityGroup(gens map[string]gopter.Gen) {
 	gens["Spec"] = NetworkSecurityGroup_SpecGenerator()
 	gens["Status"] = NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator()
+}
+
+func Test_NetworkSecurityGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroup_Spec to NetworkSecurityGroup_Spec via AssignProperties_To_NetworkSecurityGroup_Spec & AssignProperties_From_NetworkSecurityGroup_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroup_Spec, NetworkSecurityGroup_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroup_Spec tests if a specific instance of NetworkSecurityGroup_Spec can be assigned to v1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroup_Spec(subject NetworkSecurityGroup_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201101s.NetworkSecurityGroup_Spec
+	err := copied.AssignProperties_To_NetworkSecurityGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroup_Spec
+	err = actual.AssignProperties_From_NetworkSecurityGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NetworkSecurityGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -141,6 +269,48 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_Spec(gens map[strin
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+func Test_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded to NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded via AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded & AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded, NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(subject NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201101s.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	err := copied.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	err = actual.AssignProperties_From_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -229,6 +399,48 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroup_STATUS_NetworkSecurityG
 	gens["Subnets"] = gen.SliceOf(Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator())
 }
 
+func Test_FlowLog_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FlowLog_STATUS to FlowLog_STATUS via AssignProperties_To_FlowLog_STATUS & AssignProperties_From_FlowLog_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFlowLog_STATUS, FlowLog_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFlowLog_STATUS tests if a specific instance of FlowLog_STATUS can be assigned to v1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForFlowLog_STATUS(subject FlowLog_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201101s.FlowLog_STATUS
+	err := copied.AssignProperties_To_FlowLog_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FlowLog_STATUS
+	err = actual.AssignProperties_From_FlowLog_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FlowLog_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -287,6 +499,48 @@ func FlowLog_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFlowLog_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlowLog_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded to NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded via AssignProperties_To_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded & AssignProperties_From_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded, NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded tests if a specific instance of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForNetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded(subject NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201101s.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	err := copied.AssignProperties_To_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	err = actual.AssignProperties_From_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -350,6 +604,48 @@ func AddIndependentPropertyGeneratorsForNetworkInterface_STATUS_NetworkSecurityG
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SecurityRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityRule_STATUS to SecurityRule_STATUS via AssignProperties_To_SecurityRule_STATUS & AssignProperties_From_SecurityRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityRule_STATUS, SecurityRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityRule_STATUS tests if a specific instance of SecurityRule_STATUS can be assigned to v1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForSecurityRule_STATUS(subject SecurityRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201101s.SecurityRule_STATUS
+	err := copied.AssignProperties_To_SecurityRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityRule_STATUS
+	err = actual.AssignProperties_From_SecurityRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -409,6 +705,48 @@ func SecurityRule_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSecurityRule_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded to Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded via AssignProperties_To_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded & AssignProperties_From_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded, Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded(subject Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201101s.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	err := copied.AssignProperties_To_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded
+	err = actual.AssignProperties_From_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -13,8 +13,8 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

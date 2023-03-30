@@ -5,6 +5,8 @@ package v1beta20210301storage
 
 import (
 	"encoding/json"
+	v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
+	v1api20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +18,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_RedisEnterprise_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterprise to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRedisEnterprise, RedisEnterpriseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRedisEnterprise tests if a specific instance of RedisEnterprise round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRedisEnterprise(subject RedisEnterprise) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20210301s.RedisEnterprise
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual RedisEnterprise
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisEnterprise_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterprise to RedisEnterprise via AssignProperties_To_RedisEnterprise & AssignProperties_From_RedisEnterprise returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterprise, RedisEnterpriseGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisEnterprise tests if a specific instance of RedisEnterprise can be assigned to v1api20210301storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterprise(subject RedisEnterprise) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210301s.RedisEnterprise
+	err := copied.AssignProperties_To_RedisEnterprise(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisEnterprise
+	err = actual.AssignProperties_From_RedisEnterprise(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_RedisEnterprise_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +163,48 @@ func RedisEnterpriseGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForRedisEnterprise(gens map[string]gopter.Gen) {
 	gens["Spec"] = RedisEnterprise_SpecGenerator()
 	gens["Status"] = RedisEnterprise_STATUSGenerator()
+}
+
+func Test_RedisEnterprise_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterprise_Spec to RedisEnterprise_Spec via AssignProperties_To_RedisEnterprise_Spec & AssignProperties_From_RedisEnterprise_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterprise_Spec, RedisEnterprise_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisEnterprise_Spec tests if a specific instance of RedisEnterprise_Spec can be assigned to v1api20210301storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterprise_Spec(subject RedisEnterprise_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210301s.RedisEnterprise_Spec
+	err := copied.AssignProperties_To_RedisEnterprise_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisEnterprise_Spec
+	err = actual.AssignProperties_From_RedisEnterprise_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisEnterprise_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -156,6 +285,48 @@ func AddIndependentPropertyGeneratorsForRedisEnterprise_Spec(gens map[string]gop
 // AddRelatedPropertyGeneratorsForRedisEnterprise_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisEnterprise_Spec(gens map[string]gopter.Gen) {
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
+}
+
+func Test_RedisEnterprise_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisEnterprise_STATUS to RedisEnterprise_STATUS via AssignProperties_To_RedisEnterprise_STATUS & AssignProperties_From_RedisEnterprise_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterprise_STATUS, RedisEnterprise_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisEnterprise_STATUS tests if a specific instance of RedisEnterprise_STATUS can be assigned to v1api20210301storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterprise_STATUS(subject RedisEnterprise_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210301s.RedisEnterprise_STATUS
+	err := copied.AssignProperties_To_RedisEnterprise_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisEnterprise_STATUS
+	err = actual.AssignProperties_From_RedisEnterprise_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisEnterprise_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -244,6 +415,48 @@ func AddRelatedPropertyGeneratorsForRedisEnterprise_STATUS(gens map[string]gopte
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
 }
 
+func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PrivateEndpointConnection_STATUS to PrivateEndpointConnection_STATUS via AssignProperties_To_PrivateEndpointConnection_STATUS & AssignProperties_From_PrivateEndpointConnection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS, PrivateEndpointConnection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to v1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject PrivateEndpointConnection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201201s.PrivateEndpointConnection_STATUS
+	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PrivateEndpointConnection_STATUS
+	err = actual.AssignProperties_From_PrivateEndpointConnection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -305,6 +518,48 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens ma
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Sku to Sku via AssignProperties_To_Sku & AssignProperties_From_Sku returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSku, SkuGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to v1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForSku(subject Sku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201201s.Sku
+	err := copied.AssignProperties_To_Sku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Sku
+	err = actual.AssignProperties_From_Sku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -364,6 +619,48 @@ func SkuGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Sku_STATUS to Sku_STATUS via AssignProperties_To_Sku_STATUS & AssignProperties_From_Sku_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSku_STATUS, Sku_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to v1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201201s.Sku_STATUS
+	err := copied.AssignProperties_To_Sku_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Sku_STATUS
+	err = actual.AssignProperties_From_Sku_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Sku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

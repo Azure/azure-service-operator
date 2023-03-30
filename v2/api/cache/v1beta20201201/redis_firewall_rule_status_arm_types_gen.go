@@ -3,26 +3,16 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
+// Deprecated version of Redis_FirewallRule_STATUS. Use v1api20201201.Redis_FirewallRule_STATUS instead
 type Redis_FirewallRule_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: redis cache firewall rule properties
+	Id         *string                                 `json:"id,omitempty"`
+	Name       *string                                 `json:"name,omitempty"`
 	Properties *RedisFirewallRuleProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type       *string                                 `json:"type,omitempty"`
 }
 
-// Specifies a range of IP addresses permitted to connect to the cache
+// Deprecated version of RedisFirewallRuleProperties_STATUS. Use v1api20201201.RedisFirewallRuleProperties_STATUS instead
 type RedisFirewallRuleProperties_STATUS_ARM struct {
-	// EndIP: highest IP address included in the range
-	EndIP *string `json:"endIP,omitempty"`
-
-	// StartIP: lowest IP address included in the range
+	EndIP   *string `json:"endIP,omitempty"`
 	StartIP *string `json:"startIP,omitempty"`
 }

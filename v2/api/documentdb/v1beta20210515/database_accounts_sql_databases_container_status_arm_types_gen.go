@@ -3,131 +3,74 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
+// Deprecated version of DatabaseAccounts_SqlDatabases_Container_STATUS. Use v1api20210515.DatabaseAccounts_SqlDatabases_Container_STATUS instead
 type DatabaseAccounts_SqlDatabases_Container_STATUS_ARM struct {
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties of an Azure Cosmos DB container
+	Id         *string                               `json:"id,omitempty"`
+	Location   *string                               `json:"location,omitempty"`
+	Name       *string                               `json:"name,omitempty"`
 	Properties *SqlContainerGetProperties_STATUS_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                     `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Type       *string                               `json:"type,omitempty"`
 }
 
-// The properties of an Azure Cosmos DB container
+// Deprecated version of SqlContainerGetProperties_STATUS. Use v1api20210515.SqlContainerGetProperties_STATUS instead
 type SqlContainerGetProperties_STATUS_ARM struct {
-	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS_ARM                    `json:"options,omitempty"`
 	Resource *SqlContainerGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
+// Deprecated version of SqlContainerGetProperties_Resource_STATUS. Use v1api20210515.SqlContainerGetProperties_Resource_STATUS instead
 type SqlContainerGetProperties_Resource_STATUS_ARM struct {
-	// AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	// ConflictResolutionPolicy: The conflict resolution policy for the container.
+	AnalyticalStorageTtl     *int                                 `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS_ARM `json:"conflictResolutionPolicy,omitempty"`
-
-	// DefaultTtl: Default time to live
-	DefaultTtl *int `json:"defaultTtl,omitempty"`
-
-	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	// Id: Name of the Cosmos DB SQL container
-	Id *string `json:"id,omitempty"`
-
-	// IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
-	// within the container
-	IndexingPolicy *IndexingPolicy_STATUS_ARM `json:"indexingPolicy,omitempty"`
-
-	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
-	PartitionKey *ContainerPartitionKey_STATUS_ARM `json:"partitionKey,omitempty"`
-
-	// Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	// Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
-
-	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-	// collection in the Azure Cosmos DB service.
-	UniqueKeyPolicy *UniqueKeyPolicy_STATUS_ARM `json:"uniqueKeyPolicy,omitempty"`
+	DefaultTtl               *int                                 `json:"defaultTtl,omitempty"`
+	Etag                     *string                              `json:"_etag,omitempty"`
+	Id                       *string                              `json:"id,omitempty"`
+	IndexingPolicy           *IndexingPolicy_STATUS_ARM           `json:"indexingPolicy,omitempty"`
+	PartitionKey             *ContainerPartitionKey_STATUS_ARM    `json:"partitionKey,omitempty"`
+	Rid                      *string                              `json:"_rid,omitempty"`
+	Ts                       *float64                             `json:"_ts,omitempty"`
+	UniqueKeyPolicy          *UniqueKeyPolicy_STATUS_ARM          `json:"uniqueKeyPolicy,omitempty"`
 }
 
-// The conflict resolution policy for the container.
+// Deprecated version of ConflictResolutionPolicy_STATUS. Use v1api20210515.ConflictResolutionPolicy_STATUS instead
 type ConflictResolutionPolicy_STATUS_ARM struct {
-	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
-	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
-
-	// ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
-	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
-
-	// Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
+	ConflictResolutionPath      *string                               `json:"conflictResolutionPath,omitempty"`
+	ConflictResolutionProcedure *string                               `json:"conflictResolutionProcedure,omitempty"`
+	Mode                        *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
 }
 
-// The configuration of the partition key to be used for partitioning data into multiple partitions
+// Deprecated version of ContainerPartitionKey_STATUS. Use v1api20210515.ContainerPartitionKey_STATUS instead
 type ContainerPartitionKey_STATUS_ARM struct {
-	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-	// are supported for container create
-	Kind *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
-
-	// Paths: List of paths using which data within the container can be partitioned
-	Paths []string `json:"paths,omitempty"`
-
-	// SystemKey: Indicates if the container is using a system generated partition key
-	SystemKey *bool `json:"systemKey,omitempty"`
-
-	// Version: Indicates the version of the partition key definition
-	Version *int `json:"version,omitempty"`
+	Kind      *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
+	Paths     []string                           `json:"paths,omitempty"`
+	SystemKey *bool                              `json:"systemKey,omitempty"`
+	Version   *int                               `json:"version,omitempty"`
 }
 
-// Cosmos DB indexing policy
+// Deprecated version of IndexingPolicy_STATUS. Use v1api20210515.IndexingPolicy_STATUS instead
 type IndexingPolicy_STATUS_ARM struct {
-	// Automatic: Indicates if the indexing policy is automatic
-	Automatic *bool `json:"automatic,omitempty"`
-
-	// CompositeIndexes: List of composite path list
-	CompositeIndexes [][]CompositePath_STATUS_ARM `json:"compositeIndexes,omitempty"`
-
-	// ExcludedPaths: List of paths to exclude from indexing
-	ExcludedPaths []ExcludedPath_STATUS_ARM `json:"excludedPaths,omitempty"`
-
-	// IncludedPaths: List of paths to include in the indexing
-	IncludedPaths []IncludedPath_STATUS_ARM `json:"includedPaths,omitempty"`
-
-	// IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
-
-	// SpatialIndexes: List of spatial specifics
-	SpatialIndexes []SpatialSpec_STATUS_ARM `json:"spatialIndexes,omitempty"`
+	Automatic        *bool                               `json:"automatic,omitempty"`
+	CompositeIndexes [][]CompositePath_STATUS_ARM        `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath_STATUS_ARM           `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath_STATUS_ARM           `json:"includedPaths,omitempty"`
+	IndexingMode     *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
+	SpatialIndexes   []SpatialSpec_STATUS_ARM            `json:"spatialIndexes,omitempty"`
 }
 
-// The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure
-// Cosmos DB service.
+// Deprecated version of UniqueKeyPolicy_STATUS. Use v1api20210515.UniqueKeyPolicy_STATUS instead
 type UniqueKeyPolicy_STATUS_ARM struct {
-	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-	// Cosmos DB service.
 	UniqueKeys []UniqueKey_STATUS_ARM `json:"uniqueKeys,omitempty"`
 }
 
+// Deprecated version of CompositePath_STATUS. Use v1api20210515.CompositePath_STATUS instead
 type CompositePath_STATUS_ARM struct {
-	// Order: Sort order for composite paths.
 	Order *CompositePath_Order_STATUS `json:"order,omitempty"`
-
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
-	Path *string `json:"path,omitempty"`
+	Path  *string                     `json:"path,omitempty"`
 }
 
+// Deprecated version of ConflictResolutionPolicy_Mode_STATUS. Use v1api20210515.ConflictResolutionPolicy_Mode_STATUS
+// instead
 type ConflictResolutionPolicy_Mode_STATUS string
 
 const (
@@ -135,6 +78,7 @@ const (
 	ConflictResolutionPolicy_Mode_STATUS_LastWriterWins = ConflictResolutionPolicy_Mode_STATUS("LastWriterWins")
 )
 
+// Deprecated version of ContainerPartitionKey_Kind_STATUS. Use v1api20210515.ContainerPartitionKey_Kind_STATUS instead
 type ContainerPartitionKey_Kind_STATUS string
 
 const (
@@ -143,22 +87,18 @@ const (
 	ContainerPartitionKey_Kind_STATUS_Range     = ContainerPartitionKey_Kind_STATUS("Range")
 )
 
+// Deprecated version of ExcludedPath_STATUS. Use v1api20210515.ExcludedPath_STATUS instead
 type ExcludedPath_STATUS_ARM struct {
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-// The paths that are included in indexing
+// Deprecated version of IncludedPath_STATUS. Use v1api20210515.IncludedPath_STATUS instead
 type IncludedPath_STATUS_ARM struct {
-	// Indexes: List of indexes for this path
 	Indexes []Indexes_STATUS_ARM `json:"indexes,omitempty"`
-
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
-	Path *string `json:"path,omitempty"`
+	Path    *string              `json:"path,omitempty"`
 }
 
+// Deprecated version of IndexingPolicy_IndexingMode_STATUS. Use v1api20210515.IndexingPolicy_IndexingMode_STATUS instead
 type IndexingPolicy_IndexingMode_STATUS string
 
 const (
@@ -167,21 +107,18 @@ const (
 	IndexingPolicy_IndexingMode_STATUS_None       = IndexingPolicy_IndexingMode_STATUS("none")
 )
 
+// Deprecated version of SpatialSpec_STATUS. Use v1api20210515.SpatialSpec_STATUS instead
 type SpatialSpec_STATUS_ARM struct {
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
-	Path *string `json:"path,omitempty"`
-
-	// Types: List of path's spatial type
+	Path  *string              `json:"path,omitempty"`
 	Types []SpatialType_STATUS `json:"types,omitempty"`
 }
 
-// The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
+// Deprecated version of UniqueKey_STATUS. Use v1api20210515.UniqueKey_STATUS instead
 type UniqueKey_STATUS_ARM struct {
-	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 
+// Deprecated version of CompositePath_Order_STATUS. Use v1api20210515.CompositePath_Order_STATUS instead
 type CompositePath_Order_STATUS string
 
 const (
@@ -189,19 +126,14 @@ const (
 	CompositePath_Order_STATUS_Descending = CompositePath_Order_STATUS("descending")
 )
 
-// The indexes for the path.
+// Deprecated version of Indexes_STATUS. Use v1api20210515.Indexes_STATUS instead
 type Indexes_STATUS_ARM struct {
-	// DataType: The datatype for which the indexing behavior is applied to.
-	DataType *Indexes_DataType_STATUS `json:"dataType,omitempty"`
-
-	// Kind: Indicates the type of index.
-	Kind *Indexes_Kind_STATUS `json:"kind,omitempty"`
-
-	// Precision: The precision of the index. -1 is maximum precision.
-	Precision *int `json:"precision,omitempty"`
+	DataType  *Indexes_DataType_STATUS `json:"dataType,omitempty"`
+	Kind      *Indexes_Kind_STATUS     `json:"kind,omitempty"`
+	Precision *int                     `json:"precision,omitempty"`
 }
 
-// Indicates the spatial type of index.
+// Deprecated version of SpatialType_STATUS. Use v1api20210515.SpatialType_STATUS instead
 type SpatialType_STATUS string
 
 const (
@@ -211,6 +143,7 @@ const (
 	SpatialType_STATUS_Polygon      = SpatialType_STATUS("Polygon")
 )
 
+// Deprecated version of Indexes_DataType_STATUS. Use v1api20210515.Indexes_DataType_STATUS instead
 type Indexes_DataType_STATUS string
 
 const (
@@ -222,6 +155,7 @@ const (
 	Indexes_DataType_STATUS_String       = Indexes_DataType_STATUS("String")
 )
 
+// Deprecated version of Indexes_Kind_STATUS. Use v1api20210515.Indexes_Kind_STATUS instead
 type Indexes_Kind_STATUS string
 
 const (

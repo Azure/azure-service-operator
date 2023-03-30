@@ -5,16 +5,12 @@ package v1beta20180901
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of PrivateDnsZone_Spec. Use v1api20180901.PrivateDnsZone_Spec instead
 type PrivateDnsZone_Spec_ARM struct {
-	// Etag: The ETag of the zone.
-	Etag *string `json:"etag,omitempty"`
-
-	// Location: The Azure Region where the resource lives
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Etag     *string           `json:"etag,omitempty"`
+	Location *string           `json:"location,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Tags     map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &PrivateDnsZone_Spec_ARM{}

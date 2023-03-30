@@ -16,7 +16,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage"
+	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

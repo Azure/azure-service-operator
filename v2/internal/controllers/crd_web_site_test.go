@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
+	"github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
@@ -30,9 +30,9 @@ func Test_Web_Site_CRUD(t *testing.T) {
 
 	// TODO: We need to add support for dynamically building siteConfig.appSettings.
 	// TODO: See https://github.com/Azure/azure-service-operator/pull/2465#discussion_r956475563 for more info
-	site := &v1beta20220301.Site{
+	site := &v1api20220301.Site{
 		ObjectMeta: tc.MakeObjectMeta("function"),
-		Spec: v1beta20220301.Site_Spec{
+		Spec: v1api20220301.Site_Spec{
 			Enabled:             to.BoolPtr(true),
 			Owner:               testcommon.AsOwner(rg),
 			Location:            &location,
@@ -53,7 +53,7 @@ func Test_Web_Site_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(v1beta20220301.APIVersion_Value))
+		string(v1api20220301.APIVersion_Value))
 	tc.Expect(err).ToNot(gomega.HaveOccurred())
 	tc.Expect(exists).To(gomega.BeFalse())
 }

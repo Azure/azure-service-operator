@@ -1,0 +1,11 @@
+apiVersion: network.azure.com/v1api20200601
+kind: PrivateDnsZonesCNAMERecord
+metadata:
+  name: aso-sample-recordset-cname
+  namespace: default
+spec:
+  cnameRecord:
+    cname: asosample.com
+  owner:
+    name: aso-sample-pdz.com
+  ttl: 3600

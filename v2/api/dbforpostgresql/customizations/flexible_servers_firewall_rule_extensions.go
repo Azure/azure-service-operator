@@ -14,7 +14,7 @@ import (
 
 	"github.com/go-logr/logr"
 
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

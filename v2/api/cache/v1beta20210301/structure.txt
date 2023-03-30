@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301
 ├── APIVersion: Enum (1 value)
 │   └── "2021-03-01"
 ├── RedisEnterprise: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (7 properties)
 │   │   ├── AzureName: string
 │   │   ├── Location: *string

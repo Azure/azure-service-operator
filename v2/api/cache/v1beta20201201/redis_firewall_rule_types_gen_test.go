@@ -5,6 +5,7 @@ package v1beta20201201
 
 import (
 	"encoding/json"
+	v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForRedisFirewallRule(subject RedisFirewallRule) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20201201s.RedisFirewallRule
+	var hub v1api20201201s.RedisFirewallRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

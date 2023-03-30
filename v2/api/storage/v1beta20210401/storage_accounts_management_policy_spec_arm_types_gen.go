@@ -5,10 +5,9 @@ package v1beta20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of StorageAccounts_ManagementPolicy_Spec. Use v1api20210401.StorageAccounts_ManagementPolicy_Spec instead
 type StorageAccounts_ManagementPolicy_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Returns the Storage Account Data Policies Rules.
+	Name       string                          `json:"name,omitempty"`
 	Properties *ManagementPolicyProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,138 +28,80 @@ func (policy *StorageAccounts_ManagementPolicy_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/managementPolicies"
 }
 
-// The Storage Account ManagementPolicy properties.
+// Deprecated version of ManagementPolicyProperties. Use v1api20210401.ManagementPolicyProperties instead
 type ManagementPolicyProperties_ARM struct {
-	// Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
-	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Policy *ManagementPolicySchema_ARM `json:"policy,omitempty"`
 }
 
-// The Storage Account ManagementPolicies Rules. See more details in:
-// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+// Deprecated version of ManagementPolicySchema. Use v1api20210401.ManagementPolicySchema instead
 type ManagementPolicySchema_ARM struct {
-	// Rules: The Storage Account ManagementPolicies Rules. See more details in:
-	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Rules []ManagementPolicyRule_ARM `json:"rules,omitempty"`
 }
 
-// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
+// Deprecated version of ManagementPolicyRule. Use v1api20210401.ManagementPolicyRule instead
 type ManagementPolicyRule_ARM struct {
-	// Definition: An object that defines the Lifecycle rule.
 	Definition *ManagementPolicyDefinition_ARM `json:"definition,omitempty"`
-
-	// Enabled: Rule is enabled if set to true.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
-	// unique within a policy.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRule_Type `json:"type,omitempty"`
+	Enabled    *bool                           `json:"enabled,omitempty"`
+	Name       *string                         `json:"name,omitempty"`
+	Type       *ManagementPolicyRule_Type      `json:"type,omitempty"`
 }
 
-// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
+// Deprecated version of ManagementPolicyDefinition. Use v1api20210401.ManagementPolicyDefinition instead
 type ManagementPolicyDefinition_ARM struct {
-	// Actions: An object that defines the action set.
 	Actions *ManagementPolicyAction_ARM `json:"actions,omitempty"`
-
-	// Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_ARM `json:"filters,omitempty"`
 }
 
-// Actions are applied to the filtered blobs when the execution condition is met.
+// Deprecated version of ManagementPolicyAction. Use v1api20210401.ManagementPolicyAction instead
 type ManagementPolicyAction_ARM struct {
-	// BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob_ARM `json:"baseBlob,omitempty"`
-
-	// Snapshot: The management policy action for snapshot
 	Snapshot *ManagementPolicySnapShot_ARM `json:"snapshot,omitempty"`
-
-	// Version: The management policy action for version
-	Version *ManagementPolicyVersion_ARM `json:"version,omitempty"`
+	Version  *ManagementPolicyVersion_ARM  `json:"version,omitempty"`
 }
 
-// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
-// AND is performed on all filters.
+// Deprecated version of ManagementPolicyFilter. Use v1api20210401.ManagementPolicyFilter instead
 type ManagementPolicyFilter_ARM struct {
-	// BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter_ARM `json:"blobIndexMatch,omitempty"`
-
-	// BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
-	// actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes,omitempty"`
-
-	// PrefixMatch: An array of strings for prefixes to be match.
-	PrefixMatch []string `json:"prefixMatch,omitempty"`
+	BlobTypes      []string        `json:"blobTypes,omitempty"`
+	PrefixMatch    []string        `json:"prefixMatch,omitempty"`
 }
 
-// Management policy action for base blob.
+// Deprecated version of ManagementPolicyBaseBlob. Use v1api20210401.ManagementPolicyBaseBlob instead
 type ManagementPolicyBaseBlob_ARM struct {
-	// Delete: The function to delete the blob
-	Delete *DateAfterModification_ARM `json:"delete,omitempty"`
-
-	// EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
-	// property requires tierToCool.daysAfterLastAccessTimeGreaterThan.
-	EnableAutoTierToHotFromCool *bool `json:"enableAutoTierToHotFromCool,omitempty"`
-
-	// TierToArchive: The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier
-	TierToArchive *DateAfterModification_ARM `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blobs to cool storage. Support blobs currently at Hot tier
-	TierToCool *DateAfterModification_ARM `json:"tierToCool,omitempty"`
+	Delete                      *DateAfterModification_ARM `json:"delete,omitempty"`
+	EnableAutoTierToHotFromCool *bool                      `json:"enableAutoTierToHotFromCool,omitempty"`
+	TierToArchive               *DateAfterModification_ARM `json:"tierToArchive,omitempty"`
+	TierToCool                  *DateAfterModification_ARM `json:"tierToCool,omitempty"`
 }
 
-// Management policy action for snapshot.
+// Deprecated version of ManagementPolicySnapShot. Use v1api20210401.ManagementPolicySnapShot instead
 type ManagementPolicySnapShot_ARM struct {
-	// Delete: The function to delete the blob snapshot
-	Delete *DateAfterCreation_ARM `json:"delete,omitempty"`
-
-	// TierToArchive: The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier
+	Delete        *DateAfterCreation_ARM `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_ARM `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier
-	TierToCool *DateAfterCreation_ARM `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation_ARM `json:"tierToCool,omitempty"`
 }
 
-// Management policy action for blob version.
+// Deprecated version of ManagementPolicyVersion. Use v1api20210401.ManagementPolicyVersion instead
 type ManagementPolicyVersion_ARM struct {
-	// Delete: The function to delete the blob version
-	Delete *DateAfterCreation_ARM `json:"delete,omitempty"`
-
-	// TierToArchive: The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier
+	Delete        *DateAfterCreation_ARM `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_ARM `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blob version to cool storage. Support blob version currently at Hot tier
-	TierToCool *DateAfterCreation_ARM `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation_ARM `json:"tierToCool,omitempty"`
 }
 
-// Blob index tag based filtering for blob objects
+// Deprecated version of TagFilter. Use v1api20210401.TagFilter instead
 type TagFilter_ARM struct {
-	// Name: This is the filter tag name, it can have 1 - 128 characters
-	Name *string `json:"name,omitempty"`
-
-	// Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
-	// currently supported
-	Op *string `json:"op,omitempty"`
-
-	// Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
+	Name  *string `json:"name,omitempty"`
+	Op    *string `json:"op,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
-// Object to define the number of days after creation.
+// Deprecated version of DateAfterCreation. Use v1api20210401.DateAfterCreation instead
 type DateAfterCreation_ARM struct {
-	// DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
-// Object to define the number of days after object last modification Or last access. Properties
-// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
+// Deprecated version of DateAfterModification. Use v1api20210401.DateAfterModification instead
 type DateAfterModification_ARM struct {
-	// DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
-	// used in conjunction with last access time tracking policy
 	DaysAfterLastAccessTimeGreaterThan *int `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
-
-	// DaysAfterModificationGreaterThan: Value indicating the age in days after last modification
-	DaysAfterModificationGreaterThan *int `json:"daysAfterModificationGreaterThan,omitempty"`
+	DaysAfterModificationGreaterThan   *int `json:"daysAfterModificationGreaterThan,omitempty"`
 }

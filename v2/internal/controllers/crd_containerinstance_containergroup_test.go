@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	containerinstance "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001"
+	containerinstance "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

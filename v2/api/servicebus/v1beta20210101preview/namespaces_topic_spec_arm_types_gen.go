@@ -5,10 +5,9 @@ package v1beta20210101preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Namespaces_Topic_Spec. Use v1api20210101preview.Namespaces_Topic_Spec instead
 type Namespaces_Topic_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties of topic resource.
+	Name       string                 `json:"name,omitempty"`
 	Properties *SBTopicProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,38 +28,15 @@ func (topic *Namespaces_Topic_Spec_ARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 
-// The Topic Properties definition.
+// Deprecated version of SBTopicProperties. Use v1api20210101preview.SBTopicProperties instead
 type SBTopicProperties_ARM struct {
-	// AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
-	// is 5 minutes.
-	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
-
-	// DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
-	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-	// set on a message itself.
-	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
-
-	// DuplicateDetectionHistoryTimeWindow: ISO8601 timespan structure that defines the duration of the duplicate detection
-	// history. The default value is 10 minutes.
+	AutoDeleteOnIdle                    *string `json:"autoDeleteOnIdle,omitempty"`
+	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-
-	// EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
-	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
-
-	// EnableExpress: Value that indicates whether Express Entities are enabled. An express topic holds a message in memory
-	// temporarily before writing it to persistent storage.
-	EnableExpress *bool `json:"enableExpress,omitempty"`
-
-	// EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.
-	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
-
-	// MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
-	// Default is 1024.
-	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
-
-	// RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.
-	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
-
-	// SupportOrdering: Value that indicates whether the topic supports ordering.
-	SupportOrdering *bool `json:"supportOrdering,omitempty"`
+	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
+	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
+	RequiresDuplicateDetection          *bool   `json:"requiresDuplicateDetection,omitempty"`
+	SupportOrdering                     *bool   `json:"supportOrdering,omitempty"`
 }

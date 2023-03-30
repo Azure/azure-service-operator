@@ -3,29 +3,17 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
+// Deprecated version of DatabaseAccounts_SqlRoleAssignment_STATUS. Use v1api20210515.DatabaseAccounts_SqlRoleAssignment_STATUS instead
 type DatabaseAccounts_SqlRoleAssignment_STATUS_ARM struct {
-	// Id: The unique resource identifier of the database account.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the database account.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties related to the Role Assignment.
+	Id         *string                               `json:"id,omitempty"`
+	Name       *string                               `json:"name,omitempty"`
 	Properties *SqlRoleAssignmentResource_STATUS_ARM `json:"properties,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Type       *string                               `json:"type,omitempty"`
 }
 
-// Azure Cosmos DB SQL Role Assignment resource object.
+// Deprecated version of SqlRoleAssignmentResource_STATUS. Use v1api20210515.SqlRoleAssignmentResource_STATUS instead
 type SqlRoleAssignmentResource_STATUS_ARM struct {
-	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
-	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// RoleDefinitionId: The unique identifier for the associated Role Definition.
+	PrincipalId      *string `json:"principalId,omitempty"`
 	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
-
-	// Scope: The data plane resource path for which access is being granted through this Role Assignment.
-	Scope *string `json:"scope,omitempty"`
+	Scope            *string `json:"scope,omitempty"`
 }

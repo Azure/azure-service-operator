@@ -5,6 +5,7 @@ package v1beta20200202
 
 import (
 	"encoding/json"
+	v1api20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202storage"
 	v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForComponent(subject Component) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20200202s.Component
+	var hub v1api20200202s.Component
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
+	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
