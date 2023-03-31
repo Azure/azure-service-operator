@@ -43,10 +43,15 @@ type GenericClient struct {
 type GenericClientOptions struct {
 	HttpClient *http.Client
 	Metrics    *metrics.ARMClientMetrics
+	UserAgent  string
 }
 
 // NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential, options *GenericClientOptions) (*GenericClient, error) {
+func NewGenericClient(
+	cloudCfg cloud.Configuration,
+	creds azcore.TokenCredential,
+	options *GenericClientOptions,
+) (*GenericClient, error) {
 	rmConfig, ok := cloudCfg.Services[cloud.ResourceManager]
 	if !ok {
 		return nil, errors.Errorf("provided cloud missing %q entry", cloud.ResourceManager)
@@ -59,6 +64,11 @@ func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential
 		options = &GenericClientOptions{}
 	}
 
+	ua := options.UserAgent
+	if ua == "" {
+		ua = userAgent
+	}
+
 	opts := &arm.ClientOptions{
 		ClientOptions: policy.ClientOptions{
 			Cloud: cloudCfg,
@@ -66,7 +76,7 @@ func NewGenericClient(cloudCfg cloud.Configuration, creds azcore.TokenCredential
 				MaxRetries: -1, // Have to use a value less than 0 means no retries (0 does NOT, 0 gets you 3...)
 			},
 			PerCallPolicies: []policy.Policy{
-				NewUserAgentPolicy(userAgent),
+				NewUserAgentPolicy(ua),
 			},
 		},
 		// Disabled here because we don't want the default configuration, it polls for 5+ minutes which is
@@ -204,7 +214,12 @@ func (client *GenericClient) handleError(resp *http.Response) error {
 
 // GetByID - Gets a resource by ID.
 // If the operation fails it returns the *CloudError error type.
-func (client *GenericClient) GetByID(ctx context.Context, resourceID string, apiVersion string, resource interface{}) (time.Duration, error) {
+func (client *GenericClient) GetByID(
+	ctx context.Context,
+	resourceID string,
+	apiVersion string,
+	resource interface{},
+) (time.Duration, error) {
 	req, err := client.getByIDCreateRequest(ctx, resourceID, apiVersion)
 	if err != nil {
 		return zeroDuration, err
