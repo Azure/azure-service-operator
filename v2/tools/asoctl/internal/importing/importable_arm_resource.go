@@ -199,7 +199,8 @@ func (i *importableARMResource) createImportableObjectFromID(
 			"unable to create blank resource, expected %s to identify an importable ARM object", armID)
 	}
 
-	i.SetOwnerAndName(importable, owner, i.nameFromID(armID))
+	i.SetOwner(importable, owner)
+	i.SetName(importable, i.nameFromID(armID), owner)
 
 	return importable, nil
 }
@@ -282,14 +283,30 @@ func (i *importableARMResource) createContainerURI(id string, subType string) st
 	return fmt.Sprintf("%s/%s", id, parts[len(parts)-1])
 }
 
-func (i *importableARMResource) SetOwnerAndName(
+func (i *importableARMResource) SetName(
+	importable genruntime.ImportableARMResource,
+	name string,
+	owner genruntime.ResourceReference,
+) {
+	// Kubernetes names are prefixed with the owner name to avoid collisions
+	n := name
+	if owner.Name != "" {
+		n = fmt.Sprintf("%s-%s", owner.Name, name)
+	}
+	
+	importable.SetName(n)
+
+	// AzureName needs to be exactly as specficied in the ARM URL
+	// Need to use reflection to set it
+	specField := reflect.ValueOf(importable.GetSpec()).Elem()
+	azureNameField := specField.FieldByName("AzureName")
+	azureNameField.SetString(name)
+}
+
+func (i *importableARMResource) SetOwner(
 	importable genruntime.ImportableARMResource,
 	owner genruntime.ResourceReference,
-	name string) {
-
-	// First set the name, so we can exit earlt once we've worked out what kind of owner we have
-	importable.SetName(name)
-
+) {
 	// Need to use reflection to set the owner, as different resources have different types for the owner
 	specField := reflect.ValueOf(importable.GetSpec()).Elem()
 	ownerField := specField.FieldByName("Owner")
