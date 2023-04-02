@@ -103,17 +103,6 @@ func (route *RouteTablesRoute) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the RouteTablesRoute resource
 func (route *RouteTablesRoute) defaultImpl() { route.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &RouteTablesRoute{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (route *RouteTablesRoute) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RouteTables_Route_STATUS); ok {
-		return route.Spec.Initialize_From_RouteTables_Route_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RouteTables_Route_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &RouteTablesRoute{}
 
 // AzureName returns the Azure name of the resource
@@ -593,35 +582,6 @@ func (route *RouteTables_Route_Spec) AssignProperties_To_RouteTables_Route_Spec(
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RouteTables_Route_STATUS populates our RouteTables_Route_Spec from the provided source RouteTables_Route_STATUS
-func (route *RouteTables_Route_Spec) Initialize_From_RouteTables_Route_STATUS(source *RouteTables_Route_STATUS) error {
-
-	// AddressPrefix
-	route.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
-
-	// HasBgpOverride
-	if source.HasBgpOverride != nil {
-		hasBgpOverride := *source.HasBgpOverride
-		route.HasBgpOverride = &hasBgpOverride
-	} else {
-		route.HasBgpOverride = nil
-	}
-
-	// NextHopIpAddress
-	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)
-
-	// NextHopType
-	if source.NextHopType != nil {
-		nextHopType := RouteNextHopType(*source.NextHopType)
-		route.NextHopType = &nextHopType
-	} else {
-		route.NextHopType = nil
 	}
 
 	// No error

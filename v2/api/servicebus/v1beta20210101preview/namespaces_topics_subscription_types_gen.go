@@ -103,17 +103,6 @@ func (subscription *NamespacesTopicsSubscription) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the NamespacesTopicsSubscription resource
 func (subscription *NamespacesTopicsSubscription) defaultImpl() { subscription.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &NamespacesTopicsSubscription{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (subscription *NamespacesTopicsSubscription) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_Topics_Subscription_STATUS); ok {
-		return subscription.Spec.Initialize_From_Namespaces_Topics_Subscription_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_Topics_Subscription_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscription{}
 
 // AzureName returns the Azure name of the resource
@@ -760,66 +749,6 @@ func (subscription *Namespaces_Topics_Subscription_Spec) AssignProperties_To_Nam
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespaces_Topics_Subscription_STATUS populates our Namespaces_Topics_Subscription_Spec from the provided source Namespaces_Topics_Subscription_STATUS
-func (subscription *Namespaces_Topics_Subscription_Spec) Initialize_From_Namespaces_Topics_Subscription_STATUS(source *Namespaces_Topics_Subscription_STATUS) error {
-
-	// AutoDeleteOnIdle
-	subscription.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
-
-	// DeadLetteringOnFilterEvaluationExceptions
-	if source.DeadLetteringOnFilterEvaluationExceptions != nil {
-		deadLetteringOnFilterEvaluationException := *source.DeadLetteringOnFilterEvaluationExceptions
-		subscription.DeadLetteringOnFilterEvaluationExceptions = &deadLetteringOnFilterEvaluationException
-	} else {
-		subscription.DeadLetteringOnFilterEvaluationExceptions = nil
-	}
-
-	// DeadLetteringOnMessageExpiration
-	if source.DeadLetteringOnMessageExpiration != nil {
-		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
-		subscription.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
-	} else {
-		subscription.DeadLetteringOnMessageExpiration = nil
-	}
-
-	// DefaultMessageTimeToLive
-	subscription.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	subscription.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if source.EnableBatchedOperations != nil {
-		enableBatchedOperation := *source.EnableBatchedOperations
-		subscription.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		subscription.EnableBatchedOperations = nil
-	}
-
-	// ForwardDeadLetteredMessagesTo
-	subscription.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
-
-	// ForwardTo
-	subscription.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
-
-	// LockDuration
-	subscription.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
-
-	// MaxDeliveryCount
-	subscription.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
-
-	// RequiresSession
-	if source.RequiresSession != nil {
-		requiresSession := *source.RequiresSession
-		subscription.RequiresSession = &requiresSession
-	} else {
-		subscription.RequiresSession = nil
 	}
 
 	// No error

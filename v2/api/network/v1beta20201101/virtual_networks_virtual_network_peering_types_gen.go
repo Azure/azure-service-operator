@@ -103,17 +103,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the VirtualNetworksVirtualNetworkPeering resource
 func (peering *VirtualNetworksVirtualNetworkPeering) defaultImpl() { peering.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &VirtualNetworksVirtualNetworkPeering{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (peering *VirtualNetworksVirtualNetworkPeering) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VirtualNetworks_VirtualNetworkPeering_STATUS); ok {
-		return peering.Spec.Initialize_From_VirtualNetworks_VirtualNetworkPeering_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type VirtualNetworks_VirtualNetworkPeering_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &VirtualNetworksVirtualNetworkPeering{}
 
 // AzureName returns the Azure name of the resource
@@ -817,97 +806,6 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_To_V
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworks_VirtualNetworkPeering_STATUS populates our VirtualNetworks_VirtualNetworkPeering_Spec from the provided source VirtualNetworks_VirtualNetworkPeering_STATUS
-func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) Initialize_From_VirtualNetworks_VirtualNetworkPeering_STATUS(source *VirtualNetworks_VirtualNetworkPeering_STATUS) error {
-
-	// AllowForwardedTraffic
-	if source.AllowForwardedTraffic != nil {
-		allowForwardedTraffic := *source.AllowForwardedTraffic
-		peering.AllowForwardedTraffic = &allowForwardedTraffic
-	} else {
-		peering.AllowForwardedTraffic = nil
-	}
-
-	// AllowGatewayTransit
-	if source.AllowGatewayTransit != nil {
-		allowGatewayTransit := *source.AllowGatewayTransit
-		peering.AllowGatewayTransit = &allowGatewayTransit
-	} else {
-		peering.AllowGatewayTransit = nil
-	}
-
-	// AllowVirtualNetworkAccess
-	if source.AllowVirtualNetworkAccess != nil {
-		allowVirtualNetworkAccess := *source.AllowVirtualNetworkAccess
-		peering.AllowVirtualNetworkAccess = &allowVirtualNetworkAccess
-	} else {
-		peering.AllowVirtualNetworkAccess = nil
-	}
-
-	// DoNotVerifyRemoteGateways
-	if source.DoNotVerifyRemoteGateways != nil {
-		doNotVerifyRemoteGateway := *source.DoNotVerifyRemoteGateways
-		peering.DoNotVerifyRemoteGateways = &doNotVerifyRemoteGateway
-	} else {
-		peering.DoNotVerifyRemoteGateways = nil
-	}
-
-	// PeeringState
-	if source.PeeringState != nil {
-		peeringState := VirtualNetworkPeeringPropertiesFormat_PeeringState(*source.PeeringState)
-		peering.PeeringState = &peeringState
-	} else {
-		peering.PeeringState = nil
-	}
-
-	// RemoteAddressSpace
-	if source.RemoteAddressSpace != nil {
-		var remoteAddressSpace AddressSpace
-		err := remoteAddressSpace.Initialize_From_AddressSpace_STATUS(source.RemoteAddressSpace)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AddressSpace_STATUS() to populate field RemoteAddressSpace")
-		}
-		peering.RemoteAddressSpace = &remoteAddressSpace
-	} else {
-		peering.RemoteAddressSpace = nil
-	}
-
-	// RemoteBgpCommunities
-	if source.RemoteBgpCommunities != nil {
-		var remoteBgpCommunity VirtualNetworkBgpCommunities
-		err := remoteBgpCommunity.Initialize_From_VirtualNetworkBgpCommunities_STATUS(source.RemoteBgpCommunities)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualNetworkBgpCommunities_STATUS() to populate field RemoteBgpCommunities")
-		}
-		peering.RemoteBgpCommunities = &remoteBgpCommunity
-	} else {
-		peering.RemoteBgpCommunities = nil
-	}
-
-	// RemoteVirtualNetwork
-	if source.RemoteVirtualNetwork != nil {
-		var remoteVirtualNetwork SubResource
-		err := remoteVirtualNetwork.Initialize_From_SubResource_STATUS(source.RemoteVirtualNetwork)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field RemoteVirtualNetwork")
-		}
-		peering.RemoteVirtualNetwork = &remoteVirtualNetwork
-	} else {
-		peering.RemoteVirtualNetwork = nil
-	}
-
-	// UseRemoteGateways
-	if source.UseRemoteGateways != nil {
-		useRemoteGateway := *source.UseRemoteGateways
-		peering.UseRemoteGateways = &useRemoteGateway
-	} else {
-		peering.UseRemoteGateways = nil
 	}
 
 	// No error

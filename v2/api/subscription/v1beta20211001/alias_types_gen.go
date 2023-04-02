@@ -103,17 +103,6 @@ func (alias *Alias) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Alias resource
 func (alias *Alias) defaultImpl() { alias.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &Alias{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (alias *Alias) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Alias_STATUS); ok {
-		return alias.Spec.Initialize_From_Alias_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Alias_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &Alias{}
 
 // AzureName returns the Azure name of the resource
@@ -498,25 +487,6 @@ func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *v20211001s.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Alias_STATUS populates our Alias_Spec from the provided source Alias_STATUS
-func (alias *Alias_Spec) Initialize_From_Alias_STATUS(source *Alias_STATUS) error {
-
-	// Properties
-	if source.Properties != nil {
-		var property PutAliasRequestProperties
-		err := property.Initialize_From_SubscriptionAliasResponseProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
-		}
-		alias.Properties = &property
-	} else {
-		alias.Properties = nil
 	}
 
 	// No error
@@ -952,33 +922,6 @@ func (properties *PutAliasRequestProperties) AssignProperties_To_PutAliasRequest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubscriptionAliasResponseProperties_STATUS populates our PutAliasRequestProperties from the provided source SubscriptionAliasResponseProperties_STATUS
-func (properties *PutAliasRequestProperties) Initialize_From_SubscriptionAliasResponseProperties_STATUS(source *SubscriptionAliasResponseProperties_STATUS) error {
-
-	// BillingScope
-	properties.BillingScope = genruntime.ClonePointerToString(source.BillingScope)
-
-	// DisplayName
-	properties.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
-
-	// ResellerId
-	properties.ResellerId = genruntime.ClonePointerToString(source.ResellerId)
-
-	// SubscriptionId
-	properties.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
-
-	// Workload
-	if source.Workload != nil {
-		workload := Workload(*source.Workload)
-		properties.Workload = &workload
-	} else {
-		properties.Workload = nil
 	}
 
 	// No error

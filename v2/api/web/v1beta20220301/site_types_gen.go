@@ -103,17 +103,6 @@ func (site *Site) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Site resource
 func (site *Site) defaultImpl() { site.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &Site{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (site *Site) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Site_STATUS); ok {
-		return site.Spec.Initialize_From_Site_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Site_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &Site{}
 
 // AzureName returns the Azure name of the resource
@@ -1490,254 +1479,6 @@ func (site *Site_Spec) AssignProperties_To_Site_Spec(destination *v20220301s.Sit
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Site_STATUS populates our Site_Spec from the provided source Site_STATUS
-func (site *Site_Spec) Initialize_From_Site_STATUS(source *Site_STATUS) error {
-
-	// ClientAffinityEnabled
-	if source.ClientAffinityEnabled != nil {
-		clientAffinityEnabled := *source.ClientAffinityEnabled
-		site.ClientAffinityEnabled = &clientAffinityEnabled
-	} else {
-		site.ClientAffinityEnabled = nil
-	}
-
-	// ClientCertEnabled
-	if source.ClientCertEnabled != nil {
-		clientCertEnabled := *source.ClientCertEnabled
-		site.ClientCertEnabled = &clientCertEnabled
-	} else {
-		site.ClientCertEnabled = nil
-	}
-
-	// ClientCertExclusionPaths
-	site.ClientCertExclusionPaths = genruntime.ClonePointerToString(source.ClientCertExclusionPaths)
-
-	// ClientCertMode
-	if source.ClientCertMode != nil {
-		clientCertMode := Site_Properties_ClientCertMode_Spec(*source.ClientCertMode)
-		site.ClientCertMode = &clientCertMode
-	} else {
-		site.ClientCertMode = nil
-	}
-
-	// CloningInfo
-	if source.CloningInfo != nil {
-		var cloningInfo CloningInfo
-		err := cloningInfo.Initialize_From_CloningInfo_STATUS(source.CloningInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CloningInfo_STATUS() to populate field CloningInfo")
-		}
-		site.CloningInfo = &cloningInfo
-	} else {
-		site.CloningInfo = nil
-	}
-
-	// ContainerSize
-	site.ContainerSize = genruntime.ClonePointerToInt(source.ContainerSize)
-
-	// CustomDomainVerificationId
-	site.CustomDomainVerificationId = genruntime.ClonePointerToString(source.CustomDomainVerificationId)
-
-	// DailyMemoryTimeQuota
-	site.DailyMemoryTimeQuota = genruntime.ClonePointerToInt(source.DailyMemoryTimeQuota)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		site.Enabled = &enabled
-	} else {
-		site.Enabled = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		site.ExtendedLocation = &extendedLocation
-	} else {
-		site.ExtendedLocation = nil
-	}
-
-	// HostNameSslStates
-	if source.HostNameSslStates != nil {
-		hostNameSslStateList := make([]HostNameSslState, len(source.HostNameSslStates))
-		for hostNameSslStateIndex, hostNameSslStateItem := range source.HostNameSslStates {
-			// Shadow the loop variable to avoid aliasing
-			hostNameSslStateItem := hostNameSslStateItem
-			var hostNameSslState HostNameSslState
-			err := hostNameSslState.Initialize_From_HostNameSslState_STATUS(&hostNameSslStateItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_HostNameSslState_STATUS() to populate field HostNameSslStates")
-			}
-			hostNameSslStateList[hostNameSslStateIndex] = hostNameSslState
-		}
-		site.HostNameSslStates = hostNameSslStateList
-	} else {
-		site.HostNameSslStates = nil
-	}
-
-	// HostNamesDisabled
-	if source.HostNamesDisabled != nil {
-		hostNamesDisabled := *source.HostNamesDisabled
-		site.HostNamesDisabled = &hostNamesDisabled
-	} else {
-		site.HostNamesDisabled = nil
-	}
-
-	// HostingEnvironmentProfile
-	if source.HostingEnvironmentProfile != nil {
-		var hostingEnvironmentProfile HostingEnvironmentProfile
-		err := hostingEnvironmentProfile.Initialize_From_HostingEnvironmentProfile_STATUS(source.HostingEnvironmentProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HostingEnvironmentProfile_STATUS() to populate field HostingEnvironmentProfile")
-		}
-		site.HostingEnvironmentProfile = &hostingEnvironmentProfile
-	} else {
-		site.HostingEnvironmentProfile = nil
-	}
-
-	// HttpsOnly
-	if source.HttpsOnly != nil {
-		httpsOnly := *source.HttpsOnly
-		site.HttpsOnly = &httpsOnly
-	} else {
-		site.HttpsOnly = nil
-	}
-
-	// HyperV
-	if source.HyperV != nil {
-		hyperV := *source.HyperV
-		site.HyperV = &hyperV
-	} else {
-		site.HyperV = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		site.Identity = &identity
-	} else {
-		site.Identity = nil
-	}
-
-	// IsXenon
-	if source.IsXenon != nil {
-		isXenon := *source.IsXenon
-		site.IsXenon = &isXenon
-	} else {
-		site.IsXenon = nil
-	}
-
-	// KeyVaultReferenceIdentity
-	site.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(source.KeyVaultReferenceIdentity)
-
-	// Kind
-	site.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// Location
-	site.Location = genruntime.ClonePointerToString(source.Location)
-
-	// PublicNetworkAccess
-	site.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
-
-	// RedundancyMode
-	if source.RedundancyMode != nil {
-		redundancyMode := Site_Properties_RedundancyMode_Spec(*source.RedundancyMode)
-		site.RedundancyMode = &redundancyMode
-	} else {
-		site.RedundancyMode = nil
-	}
-
-	// Reserved
-	if source.Reserved != nil {
-		reserved := *source.Reserved
-		site.Reserved = &reserved
-	} else {
-		site.Reserved = nil
-	}
-
-	// ScmSiteAlsoStopped
-	if source.ScmSiteAlsoStopped != nil {
-		scmSiteAlsoStopped := *source.ScmSiteAlsoStopped
-		site.ScmSiteAlsoStopped = &scmSiteAlsoStopped
-	} else {
-		site.ScmSiteAlsoStopped = nil
-	}
-
-	// ServerFarmReference
-	if source.ServerFarmId != nil {
-		serverFarmReference := genruntime.CreateResourceReferenceFromARMID(*source.ServerFarmId)
-		site.ServerFarmReference = &serverFarmReference
-	} else {
-		site.ServerFarmReference = nil
-	}
-
-	// SiteConfig
-	if source.SiteConfig != nil {
-		var siteConfig SiteConfig
-		err := siteConfig.Initialize_From_SiteConfig_STATUS(source.SiteConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SiteConfig_STATUS() to populate field SiteConfig")
-		}
-		site.SiteConfig = &siteConfig
-	} else {
-		site.SiteConfig = nil
-	}
-
-	// StorageAccountRequired
-	if source.StorageAccountRequired != nil {
-		storageAccountRequired := *source.StorageAccountRequired
-		site.StorageAccountRequired = &storageAccountRequired
-	} else {
-		site.StorageAccountRequired = nil
-	}
-
-	// Tags
-	site.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// VirtualNetworkSubnetReference
-	if source.VirtualNetworkSubnetId != nil {
-		virtualNetworkSubnetReference := genruntime.CreateResourceReferenceFromARMID(*source.VirtualNetworkSubnetId)
-		site.VirtualNetworkSubnetReference = &virtualNetworkSubnetReference
-	} else {
-		site.VirtualNetworkSubnetReference = nil
-	}
-
-	// VnetContentShareEnabled
-	if source.VnetContentShareEnabled != nil {
-		vnetContentShareEnabled := *source.VnetContentShareEnabled
-		site.VnetContentShareEnabled = &vnetContentShareEnabled
-	} else {
-		site.VnetContentShareEnabled = nil
-	}
-
-	// VnetImagePullEnabled
-	if source.VnetImagePullEnabled != nil {
-		vnetImagePullEnabled := *source.VnetImagePullEnabled
-		site.VnetImagePullEnabled = &vnetImagePullEnabled
-	} else {
-		site.VnetImagePullEnabled = nil
-	}
-
-	// VnetRouteAllEnabled
-	if source.VnetRouteAllEnabled != nil {
-		vnetRouteAllEnabled := *source.VnetRouteAllEnabled
-		site.VnetRouteAllEnabled = &vnetRouteAllEnabled
-	} else {
-		site.VnetRouteAllEnabled = nil
 	}
 
 	// No error
@@ -3374,81 +3115,6 @@ func (info *CloningInfo) AssignProperties_To_CloningInfo(destination *v20220301s
 	return nil
 }
 
-// Initialize_From_CloningInfo_STATUS populates our CloningInfo from the provided source CloningInfo_STATUS
-func (info *CloningInfo) Initialize_From_CloningInfo_STATUS(source *CloningInfo_STATUS) error {
-
-	// AppSettingsOverrides
-	info.AppSettingsOverrides = genruntime.CloneMapOfStringToString(source.AppSettingsOverrides)
-
-	// CloneCustomHostNames
-	if source.CloneCustomHostNames != nil {
-		cloneCustomHostName := *source.CloneCustomHostNames
-		info.CloneCustomHostNames = &cloneCustomHostName
-	} else {
-		info.CloneCustomHostNames = nil
-	}
-
-	// CloneSourceControl
-	if source.CloneSourceControl != nil {
-		cloneSourceControl := *source.CloneSourceControl
-		info.CloneSourceControl = &cloneSourceControl
-	} else {
-		info.CloneSourceControl = nil
-	}
-
-	// ConfigureLoadBalancing
-	if source.ConfigureLoadBalancing != nil {
-		configureLoadBalancing := *source.ConfigureLoadBalancing
-		info.ConfigureLoadBalancing = &configureLoadBalancing
-	} else {
-		info.ConfigureLoadBalancing = nil
-	}
-
-	// CorrelationId
-	if source.CorrelationId != nil {
-		correlationId := *source.CorrelationId
-		info.CorrelationId = &correlationId
-	} else {
-		info.CorrelationId = nil
-	}
-
-	// HostingEnvironment
-	info.HostingEnvironment = genruntime.ClonePointerToString(source.HostingEnvironment)
-
-	// Overwrite
-	if source.Overwrite != nil {
-		overwrite := *source.Overwrite
-		info.Overwrite = &overwrite
-	} else {
-		info.Overwrite = nil
-	}
-
-	// SourceWebAppLocation
-	info.SourceWebAppLocation = genruntime.ClonePointerToString(source.SourceWebAppLocation)
-
-	// SourceWebAppReference
-	if source.SourceWebAppId != nil {
-		sourceWebAppReference := genruntime.CreateResourceReferenceFromARMID(*source.SourceWebAppId)
-		info.SourceWebAppReference = &sourceWebAppReference
-	} else {
-		info.SourceWebAppReference = nil
-	}
-
-	// TrafficManagerProfileName
-	info.TrafficManagerProfileName = genruntime.ClonePointerToString(source.TrafficManagerProfileName)
-
-	// TrafficManagerProfileReference
-	if source.TrafficManagerProfileId != nil {
-		trafficManagerProfileReference := genruntime.CreateResourceReferenceFromARMID(*source.TrafficManagerProfileId)
-		info.TrafficManagerProfileReference = &trafficManagerProfileReference
-	} else {
-		info.TrafficManagerProfileReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of CloningInfo_STATUS. Use v1api20220301.CloningInfo_STATUS instead
 type CloningInfo_STATUS struct {
 	AppSettingsOverrides      map[string]string `json:"appSettingsOverrides,omitempty"`
@@ -3877,46 +3543,6 @@ func (state *HostNameSslState) AssignProperties_To_HostNameSslState(destination 
 	return nil
 }
 
-// Initialize_From_HostNameSslState_STATUS populates our HostNameSslState from the provided source HostNameSslState_STATUS
-func (state *HostNameSslState) Initialize_From_HostNameSslState_STATUS(source *HostNameSslState_STATUS) error {
-
-	// HostType
-	if source.HostType != nil {
-		hostType := HostNameSslState_HostType(*source.HostType)
-		state.HostType = &hostType
-	} else {
-		state.HostType = nil
-	}
-
-	// Name
-	state.Name = genruntime.ClonePointerToString(source.Name)
-
-	// SslState
-	if source.SslState != nil {
-		sslState := HostNameSslState_SslState(*source.SslState)
-		state.SslState = &sslState
-	} else {
-		state.SslState = nil
-	}
-
-	// Thumbprint
-	state.Thumbprint = genruntime.ClonePointerToString(source.Thumbprint)
-
-	// ToUpdate
-	if source.ToUpdate != nil {
-		toUpdate := *source.ToUpdate
-		state.ToUpdate = &toUpdate
-	} else {
-		state.ToUpdate = nil
-	}
-
-	// VirtualIP
-	state.VirtualIP = genruntime.ClonePointerToString(source.VirtualIP)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of HostNameSslState_STATUS. Use v1api20220301.HostNameSslState_STATUS instead
 type HostNameSslState_STATUS struct {
 	HostType   *HostNameSslState_HostType_STATUS `json:"hostType,omitempty"`
@@ -4147,21 +3773,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := ManagedServiceIdentity_Type(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
 	}
 
 	// No error
@@ -6372,494 +5983,6 @@ func (config *SiteConfig) AssignProperties_To_SiteConfig(destination *v20220301s
 	return nil
 }
 
-// Initialize_From_SiteConfig_STATUS populates our SiteConfig from the provided source SiteConfig_STATUS
-func (config *SiteConfig) Initialize_From_SiteConfig_STATUS(source *SiteConfig_STATUS) error {
-
-	// AcrUseManagedIdentityCreds
-	if source.AcrUseManagedIdentityCreds != nil {
-		acrUseManagedIdentityCred := *source.AcrUseManagedIdentityCreds
-		config.AcrUseManagedIdentityCreds = &acrUseManagedIdentityCred
-	} else {
-		config.AcrUseManagedIdentityCreds = nil
-	}
-
-	// AcrUserManagedIdentityID
-	config.AcrUserManagedIdentityID = genruntime.ClonePointerToString(source.AcrUserManagedIdentityID)
-
-	// AlwaysOn
-	if source.AlwaysOn != nil {
-		alwaysOn := *source.AlwaysOn
-		config.AlwaysOn = &alwaysOn
-	} else {
-		config.AlwaysOn = nil
-	}
-
-	// ApiDefinition
-	if source.ApiDefinition != nil {
-		var apiDefinition ApiDefinitionInfo
-		err := apiDefinition.Initialize_From_ApiDefinitionInfo_STATUS(source.ApiDefinition)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ApiDefinitionInfo_STATUS() to populate field ApiDefinition")
-		}
-		config.ApiDefinition = &apiDefinition
-	} else {
-		config.ApiDefinition = nil
-	}
-
-	// ApiManagementConfig
-	if source.ApiManagementConfig != nil {
-		var apiManagementConfig ApiManagementConfig
-		err := apiManagementConfig.Initialize_From_ApiManagementConfig_STATUS(source.ApiManagementConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ApiManagementConfig_STATUS() to populate field ApiManagementConfig")
-		}
-		config.ApiManagementConfig = &apiManagementConfig
-	} else {
-		config.ApiManagementConfig = nil
-	}
-
-	// AppCommandLine
-	config.AppCommandLine = genruntime.ClonePointerToString(source.AppCommandLine)
-
-	// AppSettings
-	if source.AppSettings != nil {
-		appSettingList := make([]NameValuePair, len(source.AppSettings))
-		for appSettingIndex, appSettingItem := range source.AppSettings {
-			// Shadow the loop variable to avoid aliasing
-			appSettingItem := appSettingItem
-			var appSetting NameValuePair
-			err := appSetting.Initialize_From_NameValuePair_STATUS(&appSettingItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_NameValuePair_STATUS() to populate field AppSettings")
-			}
-			appSettingList[appSettingIndex] = appSetting
-		}
-		config.AppSettings = appSettingList
-	} else {
-		config.AppSettings = nil
-	}
-
-	// AutoHealEnabled
-	if source.AutoHealEnabled != nil {
-		autoHealEnabled := *source.AutoHealEnabled
-		config.AutoHealEnabled = &autoHealEnabled
-	} else {
-		config.AutoHealEnabled = nil
-	}
-
-	// AutoHealRules
-	if source.AutoHealRules != nil {
-		var autoHealRule AutoHealRules
-		err := autoHealRule.Initialize_From_AutoHealRules_STATUS(source.AutoHealRules)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoHealRules_STATUS() to populate field AutoHealRules")
-		}
-		config.AutoHealRules = &autoHealRule
-	} else {
-		config.AutoHealRules = nil
-	}
-
-	// AutoSwapSlotName
-	config.AutoSwapSlotName = genruntime.ClonePointerToString(source.AutoSwapSlotName)
-
-	// AzureStorageAccounts
-	if source.AzureStorageAccounts != nil {
-		azureStorageAccountMap := make(map[string]AzureStorageInfoValue, len(source.AzureStorageAccounts))
-		for azureStorageAccountKey, azureStorageAccountValue := range source.AzureStorageAccounts {
-			// Shadow the loop variable to avoid aliasing
-			azureStorageAccountValue := azureStorageAccountValue
-			var azureStorageAccount AzureStorageInfoValue
-			err := azureStorageAccount.Initialize_From_AzureStorageInfoValue_STATUS(&azureStorageAccountValue)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AzureStorageInfoValue_STATUS() to populate field AzureStorageAccounts")
-			}
-			azureStorageAccountMap[azureStorageAccountKey] = azureStorageAccount
-		}
-		config.AzureStorageAccounts = azureStorageAccountMap
-	} else {
-		config.AzureStorageAccounts = nil
-	}
-
-	// ConnectionStrings
-	if source.ConnectionStrings != nil {
-		connectionStringList := make([]ConnStringInfo, len(source.ConnectionStrings))
-		for connectionStringIndex, connectionStringItem := range source.ConnectionStrings {
-			// Shadow the loop variable to avoid aliasing
-			connectionStringItem := connectionStringItem
-			var connectionString ConnStringInfo
-			err := connectionString.Initialize_From_ConnStringInfo_STATUS(&connectionStringItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ConnStringInfo_STATUS() to populate field ConnectionStrings")
-			}
-			connectionStringList[connectionStringIndex] = connectionString
-		}
-		config.ConnectionStrings = connectionStringList
-	} else {
-		config.ConnectionStrings = nil
-	}
-
-	// Cors
-	if source.Cors != nil {
-		var cor CorsSettings
-		err := cor.Initialize_From_CorsSettings_STATUS(source.Cors)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CorsSettings_STATUS() to populate field Cors")
-		}
-		config.Cors = &cor
-	} else {
-		config.Cors = nil
-	}
-
-	// DefaultDocuments
-	config.DefaultDocuments = genruntime.CloneSliceOfString(source.DefaultDocuments)
-
-	// DetailedErrorLoggingEnabled
-	if source.DetailedErrorLoggingEnabled != nil {
-		detailedErrorLoggingEnabled := *source.DetailedErrorLoggingEnabled
-		config.DetailedErrorLoggingEnabled = &detailedErrorLoggingEnabled
-	} else {
-		config.DetailedErrorLoggingEnabled = nil
-	}
-
-	// DocumentRoot
-	config.DocumentRoot = genruntime.ClonePointerToString(source.DocumentRoot)
-
-	// Experiments
-	if source.Experiments != nil {
-		var experiment Experiments
-		err := experiment.Initialize_From_Experiments_STATUS(source.Experiments)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Experiments_STATUS() to populate field Experiments")
-		}
-		config.Experiments = &experiment
-	} else {
-		config.Experiments = nil
-	}
-
-	// FtpsState
-	if source.FtpsState != nil {
-		ftpsState := SiteConfig_FtpsState(*source.FtpsState)
-		config.FtpsState = &ftpsState
-	} else {
-		config.FtpsState = nil
-	}
-
-	// FunctionAppScaleLimit
-	if source.FunctionAppScaleLimit != nil {
-		functionAppScaleLimit := *source.FunctionAppScaleLimit
-		config.FunctionAppScaleLimit = &functionAppScaleLimit
-	} else {
-		config.FunctionAppScaleLimit = nil
-	}
-
-	// FunctionsRuntimeScaleMonitoringEnabled
-	if source.FunctionsRuntimeScaleMonitoringEnabled != nil {
-		functionsRuntimeScaleMonitoringEnabled := *source.FunctionsRuntimeScaleMonitoringEnabled
-		config.FunctionsRuntimeScaleMonitoringEnabled = &functionsRuntimeScaleMonitoringEnabled
-	} else {
-		config.FunctionsRuntimeScaleMonitoringEnabled = nil
-	}
-
-	// HandlerMappings
-	if source.HandlerMappings != nil {
-		handlerMappingList := make([]HandlerMapping, len(source.HandlerMappings))
-		for handlerMappingIndex, handlerMappingItem := range source.HandlerMappings {
-			// Shadow the loop variable to avoid aliasing
-			handlerMappingItem := handlerMappingItem
-			var handlerMapping HandlerMapping
-			err := handlerMapping.Initialize_From_HandlerMapping_STATUS(&handlerMappingItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_HandlerMapping_STATUS() to populate field HandlerMappings")
-			}
-			handlerMappingList[handlerMappingIndex] = handlerMapping
-		}
-		config.HandlerMappings = handlerMappingList
-	} else {
-		config.HandlerMappings = nil
-	}
-
-	// HealthCheckPath
-	config.HealthCheckPath = genruntime.ClonePointerToString(source.HealthCheckPath)
-
-	// Http20Enabled
-	if source.Http20Enabled != nil {
-		http20Enabled := *source.Http20Enabled
-		config.Http20Enabled = &http20Enabled
-	} else {
-		config.Http20Enabled = nil
-	}
-
-	// HttpLoggingEnabled
-	if source.HttpLoggingEnabled != nil {
-		httpLoggingEnabled := *source.HttpLoggingEnabled
-		config.HttpLoggingEnabled = &httpLoggingEnabled
-	} else {
-		config.HttpLoggingEnabled = nil
-	}
-
-	// IpSecurityRestrictions
-	if source.IpSecurityRestrictions != nil {
-		ipSecurityRestrictionList := make([]IpSecurityRestriction, len(source.IpSecurityRestrictions))
-		for ipSecurityRestrictionIndex, ipSecurityRestrictionItem := range source.IpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			ipSecurityRestrictionItem := ipSecurityRestrictionItem
-			var ipSecurityRestriction IpSecurityRestriction
-			err := ipSecurityRestriction.Initialize_From_IpSecurityRestriction_STATUS(&ipSecurityRestrictionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IpSecurityRestriction_STATUS() to populate field IpSecurityRestrictions")
-			}
-			ipSecurityRestrictionList[ipSecurityRestrictionIndex] = ipSecurityRestriction
-		}
-		config.IpSecurityRestrictions = ipSecurityRestrictionList
-	} else {
-		config.IpSecurityRestrictions = nil
-	}
-
-	// JavaContainer
-	config.JavaContainer = genruntime.ClonePointerToString(source.JavaContainer)
-
-	// JavaContainerVersion
-	config.JavaContainerVersion = genruntime.ClonePointerToString(source.JavaContainerVersion)
-
-	// JavaVersion
-	config.JavaVersion = genruntime.ClonePointerToString(source.JavaVersion)
-
-	// KeyVaultReferenceIdentity
-	config.KeyVaultReferenceIdentity = genruntime.ClonePointerToString(source.KeyVaultReferenceIdentity)
-
-	// Limits
-	if source.Limits != nil {
-		var limit SiteLimits
-		err := limit.Initialize_From_SiteLimits_STATUS(source.Limits)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SiteLimits_STATUS() to populate field Limits")
-		}
-		config.Limits = &limit
-	} else {
-		config.Limits = nil
-	}
-
-	// LinuxFxVersion
-	config.LinuxFxVersion = genruntime.ClonePointerToString(source.LinuxFxVersion)
-
-	// LoadBalancing
-	if source.LoadBalancing != nil {
-		loadBalancing := SiteConfig_LoadBalancing(*source.LoadBalancing)
-		config.LoadBalancing = &loadBalancing
-	} else {
-		config.LoadBalancing = nil
-	}
-
-	// LocalMySqlEnabled
-	if source.LocalMySqlEnabled != nil {
-		localMySqlEnabled := *source.LocalMySqlEnabled
-		config.LocalMySqlEnabled = &localMySqlEnabled
-	} else {
-		config.LocalMySqlEnabled = nil
-	}
-
-	// LogsDirectorySizeLimit
-	config.LogsDirectorySizeLimit = genruntime.ClonePointerToInt(source.LogsDirectorySizeLimit)
-
-	// ManagedPipelineMode
-	if source.ManagedPipelineMode != nil {
-		managedPipelineMode := SiteConfig_ManagedPipelineMode(*source.ManagedPipelineMode)
-		config.ManagedPipelineMode = &managedPipelineMode
-	} else {
-		config.ManagedPipelineMode = nil
-	}
-
-	// ManagedServiceIdentityId
-	config.ManagedServiceIdentityId = genruntime.ClonePointerToInt(source.ManagedServiceIdentityId)
-
-	// MinTlsVersion
-	if source.MinTlsVersion != nil {
-		minTlsVersion := SiteConfig_MinTlsVersion(*source.MinTlsVersion)
-		config.MinTlsVersion = &minTlsVersion
-	} else {
-		config.MinTlsVersion = nil
-	}
-
-	// MinimumElasticInstanceCount
-	if source.MinimumElasticInstanceCount != nil {
-		minimumElasticInstanceCount := *source.MinimumElasticInstanceCount
-		config.MinimumElasticInstanceCount = &minimumElasticInstanceCount
-	} else {
-		config.MinimumElasticInstanceCount = nil
-	}
-
-	// NetFrameworkVersion
-	config.NetFrameworkVersion = genruntime.ClonePointerToString(source.NetFrameworkVersion)
-
-	// NodeVersion
-	config.NodeVersion = genruntime.ClonePointerToString(source.NodeVersion)
-
-	// NumberOfWorkers
-	config.NumberOfWorkers = genruntime.ClonePointerToInt(source.NumberOfWorkers)
-
-	// PhpVersion
-	config.PhpVersion = genruntime.ClonePointerToString(source.PhpVersion)
-
-	// PowerShellVersion
-	config.PowerShellVersion = genruntime.ClonePointerToString(source.PowerShellVersion)
-
-	// PreWarmedInstanceCount
-	if source.PreWarmedInstanceCount != nil {
-		preWarmedInstanceCount := *source.PreWarmedInstanceCount
-		config.PreWarmedInstanceCount = &preWarmedInstanceCount
-	} else {
-		config.PreWarmedInstanceCount = nil
-	}
-
-	// PublicNetworkAccess
-	config.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
-
-	// PublishingUsername
-	config.PublishingUsername = genruntime.ClonePointerToString(source.PublishingUsername)
-
-	// Push
-	if source.Push != nil {
-		var push PushSettings
-		err := push.Initialize_From_PushSettings_STATUS(source.Push)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PushSettings_STATUS() to populate field Push")
-		}
-		config.Push = &push
-	} else {
-		config.Push = nil
-	}
-
-	// PythonVersion
-	config.PythonVersion = genruntime.ClonePointerToString(source.PythonVersion)
-
-	// RemoteDebuggingEnabled
-	if source.RemoteDebuggingEnabled != nil {
-		remoteDebuggingEnabled := *source.RemoteDebuggingEnabled
-		config.RemoteDebuggingEnabled = &remoteDebuggingEnabled
-	} else {
-		config.RemoteDebuggingEnabled = nil
-	}
-
-	// RemoteDebuggingVersion
-	config.RemoteDebuggingVersion = genruntime.ClonePointerToString(source.RemoteDebuggingVersion)
-
-	// RequestTracingEnabled
-	if source.RequestTracingEnabled != nil {
-		requestTracingEnabled := *source.RequestTracingEnabled
-		config.RequestTracingEnabled = &requestTracingEnabled
-	} else {
-		config.RequestTracingEnabled = nil
-	}
-
-	// RequestTracingExpirationTime
-	config.RequestTracingExpirationTime = genruntime.ClonePointerToString(source.RequestTracingExpirationTime)
-
-	// ScmIpSecurityRestrictions
-	if source.ScmIpSecurityRestrictions != nil {
-		scmIpSecurityRestrictionList := make([]IpSecurityRestriction, len(source.ScmIpSecurityRestrictions))
-		for scmIpSecurityRestrictionIndex, scmIpSecurityRestrictionItem := range source.ScmIpSecurityRestrictions {
-			// Shadow the loop variable to avoid aliasing
-			scmIpSecurityRestrictionItem := scmIpSecurityRestrictionItem
-			var scmIpSecurityRestriction IpSecurityRestriction
-			err := scmIpSecurityRestriction.Initialize_From_IpSecurityRestriction_STATUS(&scmIpSecurityRestrictionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IpSecurityRestriction_STATUS() to populate field ScmIpSecurityRestrictions")
-			}
-			scmIpSecurityRestrictionList[scmIpSecurityRestrictionIndex] = scmIpSecurityRestriction
-		}
-		config.ScmIpSecurityRestrictions = scmIpSecurityRestrictionList
-	} else {
-		config.ScmIpSecurityRestrictions = nil
-	}
-
-	// ScmIpSecurityRestrictionsUseMain
-	if source.ScmIpSecurityRestrictionsUseMain != nil {
-		scmIpSecurityRestrictionsUseMain := *source.ScmIpSecurityRestrictionsUseMain
-		config.ScmIpSecurityRestrictionsUseMain = &scmIpSecurityRestrictionsUseMain
-	} else {
-		config.ScmIpSecurityRestrictionsUseMain = nil
-	}
-
-	// ScmMinTlsVersion
-	if source.ScmMinTlsVersion != nil {
-		scmMinTlsVersion := SiteConfig_ScmMinTlsVersion(*source.ScmMinTlsVersion)
-		config.ScmMinTlsVersion = &scmMinTlsVersion
-	} else {
-		config.ScmMinTlsVersion = nil
-	}
-
-	// ScmType
-	if source.ScmType != nil {
-		scmType := SiteConfig_ScmType(*source.ScmType)
-		config.ScmType = &scmType
-	} else {
-		config.ScmType = nil
-	}
-
-	// TracingOptions
-	config.TracingOptions = genruntime.ClonePointerToString(source.TracingOptions)
-
-	// Use32BitWorkerProcess
-	if source.Use32BitWorkerProcess != nil {
-		use32BitWorkerProcess := *source.Use32BitWorkerProcess
-		config.Use32BitWorkerProcess = &use32BitWorkerProcess
-	} else {
-		config.Use32BitWorkerProcess = nil
-	}
-
-	// VirtualApplications
-	if source.VirtualApplications != nil {
-		virtualApplicationList := make([]VirtualApplication, len(source.VirtualApplications))
-		for virtualApplicationIndex, virtualApplicationItem := range source.VirtualApplications {
-			// Shadow the loop variable to avoid aliasing
-			virtualApplicationItem := virtualApplicationItem
-			var virtualApplication VirtualApplication
-			err := virtualApplication.Initialize_From_VirtualApplication_STATUS(&virtualApplicationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VirtualApplication_STATUS() to populate field VirtualApplications")
-			}
-			virtualApplicationList[virtualApplicationIndex] = virtualApplication
-		}
-		config.VirtualApplications = virtualApplicationList
-	} else {
-		config.VirtualApplications = nil
-	}
-
-	// VnetName
-	config.VnetName = genruntime.ClonePointerToString(source.VnetName)
-
-	// VnetPrivatePortsCount
-	config.VnetPrivatePortsCount = genruntime.ClonePointerToInt(source.VnetPrivatePortsCount)
-
-	// VnetRouteAllEnabled
-	if source.VnetRouteAllEnabled != nil {
-		vnetRouteAllEnabled := *source.VnetRouteAllEnabled
-		config.VnetRouteAllEnabled = &vnetRouteAllEnabled
-	} else {
-		config.VnetRouteAllEnabled = nil
-	}
-
-	// WebSocketsEnabled
-	if source.WebSocketsEnabled != nil {
-		webSocketsEnabled := *source.WebSocketsEnabled
-		config.WebSocketsEnabled = &webSocketsEnabled
-	} else {
-		config.WebSocketsEnabled = nil
-	}
-
-	// WebsiteTimeZone
-	config.WebsiteTimeZone = genruntime.ClonePointerToString(source.WebsiteTimeZone)
-
-	// WindowsFxVersion
-	config.WindowsFxVersion = genruntime.ClonePointerToString(source.WindowsFxVersion)
-
-	// XManagedServiceIdentityId
-	config.XManagedServiceIdentityId = genruntime.ClonePointerToInt(source.XManagedServiceIdentityId)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of SiteConfig_STATUS. Use v1api20220301.SiteConfig_STATUS instead
 type SiteConfig_STATUS struct {
 	AcrUseManagedIdentityCreds             *bool                                   `json:"acrUseManagedIdentityCreds,omitempty"`
@@ -8557,16 +7680,6 @@ func (info *ApiDefinitionInfo) AssignProperties_To_ApiDefinitionInfo(destination
 	return nil
 }
 
-// Initialize_From_ApiDefinitionInfo_STATUS populates our ApiDefinitionInfo from the provided source ApiDefinitionInfo_STATUS
-func (info *ApiDefinitionInfo) Initialize_From_ApiDefinitionInfo_STATUS(source *ApiDefinitionInfo_STATUS) error {
-
-	// Url
-	info.Url = genruntime.ClonePointerToString(source.Url)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ApiDefinitionInfo_STATUS. Use v1api20220301.ApiDefinitionInfo_STATUS instead
 type ApiDefinitionInfo_STATUS struct {
 	Url *string `json:"url,omitempty"`
@@ -8702,21 +7815,6 @@ func (config *ApiManagementConfig) AssignProperties_To_ApiManagementConfig(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ApiManagementConfig_STATUS populates our ApiManagementConfig from the provided source ApiManagementConfig_STATUS
-func (config *ApiManagementConfig) Initialize_From_ApiManagementConfig_STATUS(source *ApiManagementConfig_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		config.Reference = &reference
-	} else {
-		config.Reference = nil
 	}
 
 	// No error
@@ -8921,37 +8019,6 @@ func (rules *AutoHealRules) AssignProperties_To_AutoHealRules(destination *v2022
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AutoHealRules_STATUS populates our AutoHealRules from the provided source AutoHealRules_STATUS
-func (rules *AutoHealRules) Initialize_From_AutoHealRules_STATUS(source *AutoHealRules_STATUS) error {
-
-	// Actions
-	if source.Actions != nil {
-		var action AutoHealActions
-		err := action.Initialize_From_AutoHealActions_STATUS(source.Actions)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoHealActions_STATUS() to populate field Actions")
-		}
-		rules.Actions = &action
-	} else {
-		rules.Actions = nil
-	}
-
-	// Triggers
-	if source.Triggers != nil {
-		var trigger AutoHealTriggers
-		err := trigger.Initialize_From_AutoHealTriggers_STATUS(source.Triggers)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoHealTriggers_STATUS() to populate field Triggers")
-		}
-		rules.Triggers = &trigger
-	} else {
-		rules.Triggers = nil
 	}
 
 	// No error
@@ -9244,30 +8311,6 @@ func (value *AzureStorageInfoValue) AssignProperties_To_AzureStorageInfoValue(de
 	return nil
 }
 
-// Initialize_From_AzureStorageInfoValue_STATUS populates our AzureStorageInfoValue from the provided source AzureStorageInfoValue_STATUS
-func (value *AzureStorageInfoValue) Initialize_From_AzureStorageInfoValue_STATUS(source *AzureStorageInfoValue_STATUS) error {
-
-	// AccountName
-	value.AccountName = genruntime.ClonePointerToString(source.AccountName)
-
-	// MountPath
-	value.MountPath = genruntime.ClonePointerToString(source.MountPath)
-
-	// ShareName
-	value.ShareName = genruntime.ClonePointerToString(source.ShareName)
-
-	// Type
-	if source.Type != nil {
-		typeVar := AzureStorageInfoValue_Type(*source.Type)
-		value.Type = &typeVar
-	} else {
-		value.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of AzureStorageInfoValue_STATUS. Use v1api20220301.AzureStorageInfoValue_STATUS instead
 type AzureStorageInfoValue_STATUS struct {
 	AccountName *string                             `json:"accountName,omitempty"`
@@ -9519,27 +8562,6 @@ func (info *ConnStringInfo) AssignProperties_To_ConnStringInfo(destination *v202
 	return nil
 }
 
-// Initialize_From_ConnStringInfo_STATUS populates our ConnStringInfo from the provided source ConnStringInfo_STATUS
-func (info *ConnStringInfo) Initialize_From_ConnStringInfo_STATUS(source *ConnStringInfo_STATUS) error {
-
-	// ConnectionString
-	info.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
-
-	// Name
-	info.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := ConnStringInfo_Type(*source.Type)
-		info.Type = &typeVar
-	} else {
-		info.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ConnStringInfo_STATUS. Use v1api20220301.ConnStringInfo_STATUS instead
 type ConnStringInfo_STATUS struct {
 	ConnectionString *string                     `json:"connectionString,omitempty"`
@@ -9734,24 +8756,6 @@ func (settings *CorsSettings) AssignProperties_To_CorsSettings(destination *v202
 	return nil
 }
 
-// Initialize_From_CorsSettings_STATUS populates our CorsSettings from the provided source CorsSettings_STATUS
-func (settings *CorsSettings) Initialize_From_CorsSettings_STATUS(source *CorsSettings_STATUS) error {
-
-	// AllowedOrigins
-	settings.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
-
-	// SupportCredentials
-	if source.SupportCredentials != nil {
-		supportCredential := *source.SupportCredentials
-		settings.SupportCredentials = &supportCredential
-	} else {
-		settings.SupportCredentials = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of CorsSettings_STATUS. Use v1api20220301.CorsSettings_STATUS instead
 type CorsSettings_STATUS struct {
 	AllowedOrigins     []string `json:"allowedOrigins,omitempty"`
@@ -9936,31 +8940,6 @@ func (experiments *Experiments) AssignProperties_To_Experiments(destination *v20
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Experiments_STATUS populates our Experiments from the provided source Experiments_STATUS
-func (experiments *Experiments) Initialize_From_Experiments_STATUS(source *Experiments_STATUS) error {
-
-	// RampUpRules
-	if source.RampUpRules != nil {
-		rampUpRuleList := make([]RampUpRule, len(source.RampUpRules))
-		for rampUpRuleIndex, rampUpRuleItem := range source.RampUpRules {
-			// Shadow the loop variable to avoid aliasing
-			rampUpRuleItem := rampUpRuleItem
-			var rampUpRule RampUpRule
-			err := rampUpRule.Initialize_From_RampUpRule_STATUS(&rampUpRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_RampUpRule_STATUS() to populate field RampUpRules")
-			}
-			rampUpRuleList[rampUpRuleIndex] = rampUpRule
-		}
-		experiments.RampUpRules = rampUpRuleList
-	} else {
-		experiments.RampUpRules = nil
 	}
 
 	// No error
@@ -10165,22 +9144,6 @@ func (mapping *HandlerMapping) AssignProperties_To_HandlerMapping(destination *v
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HandlerMapping_STATUS populates our HandlerMapping from the provided source HandlerMapping_STATUS
-func (mapping *HandlerMapping) Initialize_From_HandlerMapping_STATUS(source *HandlerMapping_STATUS) error {
-
-	// Arguments
-	mapping.Arguments = genruntime.ClonePointerToString(source.Arguments)
-
-	// Extension
-	mapping.Extension = genruntime.ClonePointerToString(source.Extension)
-
-	// ScriptProcessor
-	mapping.ScriptProcessor = genruntime.ClonePointerToString(source.ScriptProcessor)
 
 	// No error
 	return nil
@@ -10621,66 +9584,6 @@ func (restriction *IpSecurityRestriction) AssignProperties_To_IpSecurityRestrict
 	return nil
 }
 
-// Initialize_From_IpSecurityRestriction_STATUS populates our IpSecurityRestriction from the provided source IpSecurityRestriction_STATUS
-func (restriction *IpSecurityRestriction) Initialize_From_IpSecurityRestriction_STATUS(source *IpSecurityRestriction_STATUS) error {
-
-	// Action
-	restriction.Action = genruntime.ClonePointerToString(source.Action)
-
-	// Description
-	restriction.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Headers
-	if source.Headers != nil {
-		headerMap := make(map[string][]string, len(source.Headers))
-		for headerKey, headerValue := range source.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerValue := headerValue
-			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
-		}
-		restriction.Headers = headerMap
-	} else {
-		restriction.Headers = nil
-	}
-
-	// IpAddress
-	restriction.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
-
-	// Name
-	restriction.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Priority
-	restriction.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// SubnetMask
-	restriction.SubnetMask = genruntime.ClonePointerToString(source.SubnetMask)
-
-	// SubnetTrafficTag
-	restriction.SubnetTrafficTag = genruntime.ClonePointerToInt(source.SubnetTrafficTag)
-
-	// Tag
-	if source.Tag != nil {
-		tag := IpSecurityRestriction_Tag(*source.Tag)
-		restriction.Tag = &tag
-	} else {
-		restriction.Tag = nil
-	}
-
-	// VnetSubnetResourceReference
-	if source.VnetSubnetResourceId != nil {
-		vnetSubnetResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.VnetSubnetResourceId)
-		restriction.VnetSubnetResourceReference = &vnetSubnetResourceReference
-	} else {
-		restriction.VnetSubnetResourceReference = nil
-	}
-
-	// VnetTrafficTag
-	restriction.VnetTrafficTag = genruntime.ClonePointerToInt(source.VnetTrafficTag)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of IpSecurityRestriction_STATUS. Use v1api20220301.IpSecurityRestriction_STATUS instead
 type IpSecurityRestriction_STATUS struct {
 	Action               *string                           `json:"action,omitempty"`
@@ -10997,19 +9900,6 @@ func (pair *NameValuePair) AssignProperties_To_NameValuePair(destination *v20220
 	return nil
 }
 
-// Initialize_From_NameValuePair_STATUS populates our NameValuePair from the provided source NameValuePair_STATUS
-func (pair *NameValuePair) Initialize_From_NameValuePair_STATUS(source *NameValuePair_STATUS) error {
-
-	// Name
-	pair.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Value
-	pair.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of NameValuePair_STATUS. Use v1api20220301.NameValuePair_STATUS instead
 type NameValuePair_STATUS struct {
 	Name  *string `json:"name,omitempty"`
@@ -11249,33 +10139,6 @@ func (settings *PushSettings) AssignProperties_To_PushSettings(destination *v202
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PushSettings_STATUS populates our PushSettings from the provided source PushSettings_STATUS
-func (settings *PushSettings) Initialize_From_PushSettings_STATUS(source *PushSettings_STATUS) error {
-
-	// DynamicTagsJson
-	settings.DynamicTagsJson = genruntime.ClonePointerToString(source.DynamicTagsJson)
-
-	// IsPushEnabled
-	if source.IsPushEnabled != nil {
-		isPushEnabled := *source.IsPushEnabled
-		settings.IsPushEnabled = &isPushEnabled
-	} else {
-		settings.IsPushEnabled = nil
-	}
-
-	// Kind
-	settings.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// TagWhitelistJson
-	settings.TagWhitelistJson = genruntime.ClonePointerToString(source.TagWhitelistJson)
-
-	// TagsRequiringAuth
-	settings.TagsRequiringAuth = genruntime.ClonePointerToString(source.TagsRequiringAuth)
 
 	// No error
 	return nil
@@ -11708,27 +10571,6 @@ func (limits *SiteLimits) AssignProperties_To_SiteLimits(destination *v20220301s
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SiteLimits_STATUS populates our SiteLimits from the provided source SiteLimits_STATUS
-func (limits *SiteLimits) Initialize_From_SiteLimits_STATUS(source *SiteLimits_STATUS) error {
-
-	// MaxDiskSizeInMb
-	limits.MaxDiskSizeInMb = genruntime.ClonePointerToInt(source.MaxDiskSizeInMb)
-
-	// MaxMemoryInMb
-	limits.MaxMemoryInMb = genruntime.ClonePointerToInt(source.MaxMemoryInMb)
-
-	// MaxPercentageCpu
-	if source.MaxPercentageCpu != nil {
-		maxPercentageCpu := *source.MaxPercentageCpu
-		limits.MaxPercentageCpu = &maxPercentageCpu
-	} else {
-		limits.MaxPercentageCpu = nil
 	}
 
 	// No error
@@ -12174,45 +11016,6 @@ func (application *VirtualApplication) AssignProperties_To_VirtualApplication(de
 	return nil
 }
 
-// Initialize_From_VirtualApplication_STATUS populates our VirtualApplication from the provided source VirtualApplication_STATUS
-func (application *VirtualApplication) Initialize_From_VirtualApplication_STATUS(source *VirtualApplication_STATUS) error {
-
-	// PhysicalPath
-	application.PhysicalPath = genruntime.ClonePointerToString(source.PhysicalPath)
-
-	// PreloadEnabled
-	if source.PreloadEnabled != nil {
-		preloadEnabled := *source.PreloadEnabled
-		application.PreloadEnabled = &preloadEnabled
-	} else {
-		application.PreloadEnabled = nil
-	}
-
-	// VirtualDirectories
-	if source.VirtualDirectories != nil {
-		virtualDirectoryList := make([]VirtualDirectory, len(source.VirtualDirectories))
-		for virtualDirectoryIndex, virtualDirectoryItem := range source.VirtualDirectories {
-			// Shadow the loop variable to avoid aliasing
-			virtualDirectoryItem := virtualDirectoryItem
-			var virtualDirectory VirtualDirectory
-			err := virtualDirectory.Initialize_From_VirtualDirectory_STATUS(&virtualDirectoryItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VirtualDirectory_STATUS() to populate field VirtualDirectories")
-			}
-			virtualDirectoryList[virtualDirectoryIndex] = virtualDirectory
-		}
-		application.VirtualDirectories = virtualDirectoryList
-	} else {
-		application.VirtualDirectories = nil
-	}
-
-	// VirtualPath
-	application.VirtualPath = genruntime.ClonePointerToString(source.VirtualPath)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of VirtualApplication_STATUS. Use v1api20220301.VirtualApplication_STATUS instead
 type VirtualApplication_STATUS struct {
 	PhysicalPath       *string                   `json:"physicalPath,omitempty"`
@@ -12497,36 +11300,6 @@ func (actions *AutoHealActions) AssignProperties_To_AutoHealActions(destination 
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AutoHealActions_STATUS populates our AutoHealActions from the provided source AutoHealActions_STATUS
-func (actions *AutoHealActions) Initialize_From_AutoHealActions_STATUS(source *AutoHealActions_STATUS) error {
-
-	// ActionType
-	if source.ActionType != nil {
-		actionType := AutoHealActions_ActionType(*source.ActionType)
-		actions.ActionType = &actionType
-	} else {
-		actions.ActionType = nil
-	}
-
-	// CustomAction
-	if source.CustomAction != nil {
-		var customAction AutoHealCustomAction
-		err := customAction.Initialize_From_AutoHealCustomAction_STATUS(source.CustomAction)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoHealCustomAction_STATUS() to populate field CustomAction")
-		}
-		actions.CustomAction = &customAction
-	} else {
-		actions.CustomAction = nil
-	}
-
-	// MinProcessExecutionTime
-	actions.MinProcessExecutionTime = genruntime.ClonePointerToString(source.MinProcessExecutionTime)
 
 	// No error
 	return nil
@@ -12976,94 +11749,6 @@ func (triggers *AutoHealTriggers) AssignProperties_To_AutoHealTriggers(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AutoHealTriggers_STATUS populates our AutoHealTriggers from the provided source AutoHealTriggers_STATUS
-func (triggers *AutoHealTriggers) Initialize_From_AutoHealTriggers_STATUS(source *AutoHealTriggers_STATUS) error {
-
-	// PrivateBytesInKB
-	triggers.PrivateBytesInKB = genruntime.ClonePointerToInt(source.PrivateBytesInKB)
-
-	// Requests
-	if source.Requests != nil {
-		var request RequestsBasedTrigger
-		err := request.Initialize_From_RequestsBasedTrigger_STATUS(source.Requests)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RequestsBasedTrigger_STATUS() to populate field Requests")
-		}
-		triggers.Requests = &request
-	} else {
-		triggers.Requests = nil
-	}
-
-	// SlowRequests
-	if source.SlowRequests != nil {
-		var slowRequest SlowRequestsBasedTrigger
-		err := slowRequest.Initialize_From_SlowRequestsBasedTrigger_STATUS(source.SlowRequests)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequests")
-		}
-		triggers.SlowRequests = &slowRequest
-	} else {
-		triggers.SlowRequests = nil
-	}
-
-	// SlowRequestsWithPath
-	if source.SlowRequestsWithPath != nil {
-		slowRequestsWithPathList := make([]SlowRequestsBasedTrigger, len(source.SlowRequestsWithPath))
-		for slowRequestsWithPathIndex, slowRequestsWithPathItem := range source.SlowRequestsWithPath {
-			// Shadow the loop variable to avoid aliasing
-			slowRequestsWithPathItem := slowRequestsWithPathItem
-			var slowRequestsWithPath SlowRequestsBasedTrigger
-			err := slowRequestsWithPath.Initialize_From_SlowRequestsBasedTrigger_STATUS(&slowRequestsWithPathItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SlowRequestsBasedTrigger_STATUS() to populate field SlowRequestsWithPath")
-			}
-			slowRequestsWithPathList[slowRequestsWithPathIndex] = slowRequestsWithPath
-		}
-		triggers.SlowRequestsWithPath = slowRequestsWithPathList
-	} else {
-		triggers.SlowRequestsWithPath = nil
-	}
-
-	// StatusCodes
-	if source.StatusCodes != nil {
-		statusCodeList := make([]StatusCodesBasedTrigger, len(source.StatusCodes))
-		for statusCodeIndex, statusCodeItem := range source.StatusCodes {
-			// Shadow the loop variable to avoid aliasing
-			statusCodeItem := statusCodeItem
-			var statusCode StatusCodesBasedTrigger
-			err := statusCode.Initialize_From_StatusCodesBasedTrigger_STATUS(&statusCodeItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_StatusCodesBasedTrigger_STATUS() to populate field StatusCodes")
-			}
-			statusCodeList[statusCodeIndex] = statusCode
-		}
-		triggers.StatusCodes = statusCodeList
-	} else {
-		triggers.StatusCodes = nil
-	}
-
-	// StatusCodesRange
-	if source.StatusCodesRange != nil {
-		statusCodesRangeList := make([]StatusCodesRangeBasedTrigger, len(source.StatusCodesRange))
-		for statusCodesRangeIndex, statusCodesRangeItem := range source.StatusCodesRange {
-			// Shadow the loop variable to avoid aliasing
-			statusCodesRangeItem := statusCodesRangeItem
-			var statusCodesRange StatusCodesRangeBasedTrigger
-			err := statusCodesRange.Initialize_From_StatusCodesRangeBasedTrigger_STATUS(&statusCodesRangeItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_StatusCodesRangeBasedTrigger_STATUS() to populate field StatusCodesRange")
-			}
-			statusCodesRangeList[statusCodesRangeIndex] = statusCodesRange
-		}
-		triggers.StatusCodesRange = statusCodesRangeList
-	} else {
-		triggers.StatusCodesRange = nil
 	}
 
 	// No error
@@ -13668,57 +12353,6 @@ func (rule *RampUpRule) AssignProperties_To_RampUpRule(destination *v20220301s.R
 	return nil
 }
 
-// Initialize_From_RampUpRule_STATUS populates our RampUpRule from the provided source RampUpRule_STATUS
-func (rule *RampUpRule) Initialize_From_RampUpRule_STATUS(source *RampUpRule_STATUS) error {
-
-	// ActionHostName
-	rule.ActionHostName = genruntime.ClonePointerToString(source.ActionHostName)
-
-	// ChangeDecisionCallbackUrl
-	rule.ChangeDecisionCallbackUrl = genruntime.ClonePointerToString(source.ChangeDecisionCallbackUrl)
-
-	// ChangeIntervalInMinutes
-	rule.ChangeIntervalInMinutes = genruntime.ClonePointerToInt(source.ChangeIntervalInMinutes)
-
-	// ChangeStep
-	if source.ChangeStep != nil {
-		changeStep := *source.ChangeStep
-		rule.ChangeStep = &changeStep
-	} else {
-		rule.ChangeStep = nil
-	}
-
-	// MaxReroutePercentage
-	if source.MaxReroutePercentage != nil {
-		maxReroutePercentage := *source.MaxReroutePercentage
-		rule.MaxReroutePercentage = &maxReroutePercentage
-	} else {
-		rule.MaxReroutePercentage = nil
-	}
-
-	// MinReroutePercentage
-	if source.MinReroutePercentage != nil {
-		minReroutePercentage := *source.MinReroutePercentage
-		rule.MinReroutePercentage = &minReroutePercentage
-	} else {
-		rule.MinReroutePercentage = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ReroutePercentage
-	if source.ReroutePercentage != nil {
-		reroutePercentage := *source.ReroutePercentage
-		rule.ReroutePercentage = &reroutePercentage
-	} else {
-		rule.ReroutePercentage = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of RampUpRule_STATUS. Use v1api20220301.RampUpRule_STATUS instead
 type RampUpRule_STATUS struct {
 	ActionHostName            *string  `json:"actionHostName,omitempty"`
@@ -14000,19 +12634,6 @@ func (directory *VirtualDirectory) AssignProperties_To_VirtualDirectory(destinat
 	return nil
 }
 
-// Initialize_From_VirtualDirectory_STATUS populates our VirtualDirectory from the provided source VirtualDirectory_STATUS
-func (directory *VirtualDirectory) Initialize_From_VirtualDirectory_STATUS(source *VirtualDirectory_STATUS) error {
-
-	// PhysicalPath
-	directory.PhysicalPath = genruntime.ClonePointerToString(source.PhysicalPath)
-
-	// VirtualPath
-	directory.VirtualPath = genruntime.ClonePointerToString(source.VirtualPath)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of VirtualDirectory_STATUS. Use v1api20220301.VirtualDirectory_STATUS instead
 type VirtualDirectory_STATUS struct {
 	PhysicalPath *string `json:"physicalPath,omitempty"`
@@ -14195,19 +12816,6 @@ func (action *AutoHealCustomAction) AssignProperties_To_AutoHealCustomAction(des
 	return nil
 }
 
-// Initialize_From_AutoHealCustomAction_STATUS populates our AutoHealCustomAction from the provided source AutoHealCustomAction_STATUS
-func (action *AutoHealCustomAction) Initialize_From_AutoHealCustomAction_STATUS(source *AutoHealCustomAction_STATUS) error {
-
-	// Exe
-	action.Exe = genruntime.ClonePointerToString(source.Exe)
-
-	// Parameters
-	action.Parameters = genruntime.ClonePointerToString(source.Parameters)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of AutoHealCustomAction_STATUS. Use v1api20220301.AutoHealCustomAction_STATUS instead
 type AutoHealCustomAction_STATUS struct {
 	Exe        *string `json:"exe,omitempty"`
@@ -14366,19 +12974,6 @@ func (trigger *RequestsBasedTrigger) AssignProperties_To_RequestsBasedTrigger(de
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RequestsBasedTrigger_STATUS populates our RequestsBasedTrigger from the provided source RequestsBasedTrigger_STATUS
-func (trigger *RequestsBasedTrigger) Initialize_From_RequestsBasedTrigger_STATUS(source *RequestsBasedTrigger_STATUS) error {
-
-	// Count
-	trigger.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// TimeInterval
-	trigger.TimeInterval = genruntime.ClonePointerToString(source.TimeInterval)
 
 	// No error
 	return nil
@@ -14580,25 +13175,6 @@ func (trigger *SlowRequestsBasedTrigger) AssignProperties_To_SlowRequestsBasedTr
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SlowRequestsBasedTrigger_STATUS populates our SlowRequestsBasedTrigger from the provided source SlowRequestsBasedTrigger_STATUS
-func (trigger *SlowRequestsBasedTrigger) Initialize_From_SlowRequestsBasedTrigger_STATUS(source *SlowRequestsBasedTrigger_STATUS) error {
-
-	// Count
-	trigger.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// Path
-	trigger.Path = genruntime.ClonePointerToString(source.Path)
-
-	// TimeInterval
-	trigger.TimeInterval = genruntime.ClonePointerToString(source.TimeInterval)
-
-	// TimeTaken
-	trigger.TimeTaken = genruntime.ClonePointerToString(source.TimeTaken)
 
 	// No error
 	return nil
@@ -14869,31 +13445,6 @@ func (trigger *StatusCodesBasedTrigger) AssignProperties_To_StatusCodesBasedTrig
 	return nil
 }
 
-// Initialize_From_StatusCodesBasedTrigger_STATUS populates our StatusCodesBasedTrigger from the provided source StatusCodesBasedTrigger_STATUS
-func (trigger *StatusCodesBasedTrigger) Initialize_From_StatusCodesBasedTrigger_STATUS(source *StatusCodesBasedTrigger_STATUS) error {
-
-	// Count
-	trigger.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// Path
-	trigger.Path = genruntime.ClonePointerToString(source.Path)
-
-	// Status
-	trigger.Status = genruntime.ClonePointerToInt(source.Status)
-
-	// SubStatus
-	trigger.SubStatus = genruntime.ClonePointerToInt(source.SubStatus)
-
-	// TimeInterval
-	trigger.TimeInterval = genruntime.ClonePointerToString(source.TimeInterval)
-
-	// Win32Status
-	trigger.Win32Status = genruntime.ClonePointerToInt(source.Win32Status)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of StatusCodesBasedTrigger_STATUS. Use v1api20220301.StatusCodesBasedTrigger_STATUS instead
 type StatusCodesBasedTrigger_STATUS struct {
 	Count        *int    `json:"count,omitempty"`
@@ -15142,25 +13693,6 @@ func (trigger *StatusCodesRangeBasedTrigger) AssignProperties_To_StatusCodesRang
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StatusCodesRangeBasedTrigger_STATUS populates our StatusCodesRangeBasedTrigger from the provided source StatusCodesRangeBasedTrigger_STATUS
-func (trigger *StatusCodesRangeBasedTrigger) Initialize_From_StatusCodesRangeBasedTrigger_STATUS(source *StatusCodesRangeBasedTrigger_STATUS) error {
-
-	// Count
-	trigger.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// Path
-	trigger.Path = genruntime.ClonePointerToString(source.Path)
-
-	// StatusCodes
-	trigger.StatusCodes = genruntime.ClonePointerToString(source.StatusCodes)
-
-	// TimeInterval
-	trigger.TimeInterval = genruntime.ClonePointerToString(source.TimeInterval)
 
 	// No error
 	return nil

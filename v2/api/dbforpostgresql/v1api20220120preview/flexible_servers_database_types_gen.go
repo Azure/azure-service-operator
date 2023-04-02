@@ -105,17 +105,6 @@ func (database *FlexibleServersDatabase) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the FlexibleServersDatabase resource
 func (database *FlexibleServersDatabase) defaultImpl() { database.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &FlexibleServersDatabase{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (database *FlexibleServersDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServers_Database_STATUS); ok {
-		return database.Spec.Initialize_From_FlexibleServers_Database_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServers_Database_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &FlexibleServersDatabase{}
 
 // AzureName returns the Azure name of the resource
@@ -536,19 +525,6 @@ func (database *FlexibleServers_Database_Spec) AssignProperties_To_FlexibleServe
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServers_Database_STATUS populates our FlexibleServers_Database_Spec from the provided source FlexibleServers_Database_STATUS
-func (database *FlexibleServers_Database_Spec) Initialize_From_FlexibleServers_Database_STATUS(source *FlexibleServers_Database_STATUS) error {
-
-	// Charset
-	database.Charset = genruntime.ClonePointerToString(source.Charset)
-
-	// Collation
-	database.Collation = genruntime.ClonePointerToString(source.Collation)
 
 	// No error
 	return nil
