@@ -1,0 +1,27 @@
+apiVersion: dbforpostgresql.azure.com/v1
+kind: User
+metadata:
+  name: sampleuser
+  namespace: default
+spec:
+  owner:
+    name: samplepostgresql
+  # The Azure Database for PostgreSQL server is created with the 3 default roles defined.
+  # azure_pg_admin
+  # azure_superuser
+  # your server admin user
+  roles:
+    - "azure_pg_admin"
+  # Specify a list of server-level role options of the user. Role options
+  # include the following: LOGIN, CREATEROLE, CREATEDB, SUPERUSER
+  # BYPASSRLS, REPLICATION
+  roleOptions:
+    - CREATEDB
+  localUser:
+    serverAdminUsername: admin
+    serverAdminPassword:
+      name: server-admin-pw
+      key: password
+    password:
+      name: sampleuser-password
+      key: password

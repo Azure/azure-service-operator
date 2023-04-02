@@ -29,12 +29,14 @@ import (
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	mysqlbeta "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
+	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	mysqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/mysql"
+	postgresqlreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/postgresql"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -89,7 +91,30 @@ func GetKnownStorageTypes(
 				},
 			},
 		})
-
+	knownStorageTypes = append(
+		knownStorageTypes,
+		&registration.StorageType{
+			Obj:  &postgresqlv1.User{},
+			Name: "UserController",
+			Reconciler: postgresqlreconciler.NewPostgreSQLUserReconciler(
+				kubeClient,
+				resourceResolver,
+				positiveConditions,
+				options.Config),
+			Predicate: makeStandardPredicate(),
+			Indexes: []registration.Index{
+				{
+					Key:  ".spec.localUser.password",
+					Func: indexPostgreSqlUserPassword,
+				},
+			},
+			Watches: []registration.Watch{
+				{
+					Src:              &source.Kind{Type: &corev1.Secret{}},
+					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &postgresqlv1.UserList{}),
+				},
+			},
+		})
 	return knownStorageTypes, nil
 }
 
@@ -223,7 +248,9 @@ func GetKnownTypes() []client.Object {
 		knownTypes,
 		&mysqlbeta.User{},
 		&mysqlv1.User{})
-
+	knownTypes = append(
+		knownTypes,
+		&postgresqlv1.User{})
 	return knownTypes
 }
 
@@ -231,7 +258,7 @@ func CreateScheme() *runtime.Scheme {
 	scheme := createScheme()
 	_ = mysqlbeta.AddToScheme(scheme)
 	_ = mysqlv1.AddToScheme(scheme)
-
+	_ = postgresqlv1.AddToScheme(scheme)
 	scheme.AllKnownTypes()
 	return scheme
 }
