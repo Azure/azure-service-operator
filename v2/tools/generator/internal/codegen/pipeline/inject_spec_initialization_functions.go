@@ -13,6 +13,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
@@ -34,7 +35,7 @@ func InjectSpecInitializationFunctions(
 			defs := state.Definitions()
 
 			// Scan for the object definitions that need spec initialization functions injected
-			scanner := newSpecInitializationScanner(state.Definitions(), configuration)
+			scanner := newSpecInitializationScanner(state.Definitions(), state.ConversionGraph(), configuration)
 			mappings, err := scanner.scanResources()
 			if err != nil {
 				return nil, errors.Wrap(err, "scanning for spec/status mappings")
@@ -83,14 +84,16 @@ func InjectSpecInitializationFunctions(
 }
 
 type specInitializationScanner struct {
-	defs         astmodel.TypeDefinitionSet              // A set of all known types, used to follow references
-	config       *config.ObjectModelConfiguration        // Configuration for which resources are importable and which are not
-	specToStatus map[astmodel.TypeName]astmodel.TypeName // maps spec types to corresponding status types
-	visitor      astmodel.TypeVisitor                    // used to walk resources to find the mappings
+	defs            astmodel.TypeDefinitionSet              // A set of all known types, used to follow references
+	conversionGraph *storage.ConversionGraph                // Conversion graph between resource versions
+	config          *config.ObjectModelConfiguration        // Configuration for which resources are importable and which are not
+	specToStatus    map[astmodel.TypeName]astmodel.TypeName // maps spec types to corresponding status types
+	visitor         astmodel.TypeVisitor                    // used to walk resources to find the mappings
 }
 
 func newSpecInitializationScanner(
 	defs astmodel.TypeDefinitionSet,
+	conversionGraph *storage.ConversionGraph,
 	config *config.Configuration,
 ) *specInitializationScanner {
 	// Every resource has a spec and a status, so an upper limit on the number of mappings we'll need is 1/3 the
@@ -98,9 +101,10 @@ func newSpecInitializationScanner(
 	capacity := len(defs)/3 + 1
 
 	result := &specInitializationScanner{
-		defs:         defs,
-		config:       config.ObjectModelConfiguration,
-		specToStatus: make(map[astmodel.TypeName]astmodel.TypeName, capacity),
+		defs:            defs,
+		conversionGraph: conversionGraph,
+		config:          config.ObjectModelConfiguration,
+		specToStatus:    make(map[astmodel.TypeName]astmodel.TypeName, capacity),
 	}
 
 	builder := astmodel.TypeVisitorBuilder{
@@ -146,6 +150,16 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 	for _, def := range astmodel.FindResourceDefinitions(s.defs) {
 		// Skip storage types, only need spec initialization on API resources
 		if astmodel.IsStoragePackageReference(def.Name().PackageReference) {
+			continue
+		}
+
+		// We only want one version of each resource to be importable (so that it's straightforward to write extensions
+		// that customize the way import works). Essentially, we'll pick the latest version of each resource, but we
+		// do this by looking for the one API version of the resource that links directly to the hub version. This
+		// ensures consistency across all resources, and means we'll use stable versions (if available) instead of
+		// preview versions
+		_, distance, err := s.conversionGraph.FindHubAndDistance(def.Name(), s.defs)
+		if distance > 1 {
 			continue
 		}
 
