@@ -29,5 +29,5 @@ func NewNotImportableError(resourceType string, name string, because string) Not
 }
 
 func (e NotImportableError) Error() string {
-	return fmt.Sprintf("resource %s/%s is not importable because %s", e.ResourceType, e.Name, e.Because)
+	return fmt.Sprintf("resource %s/%s was not imported because %s", e.ResourceType, e.Name, e.Because)
 }
