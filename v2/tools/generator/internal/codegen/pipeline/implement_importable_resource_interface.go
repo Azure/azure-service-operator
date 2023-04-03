@@ -61,11 +61,6 @@ func ImplementImportableResourceInterface(
 				newDefs.Add(newDef)
 			}
 
-			if len(newDefs) == 0 {
-				// Nothing happened, this isn't expected
-				panic("no new definitions created")
-			}
-
 			if len(errs) > 0 {
 				return nil, errors.Wrap(
 					kerrors.NewAggregate(errs),
