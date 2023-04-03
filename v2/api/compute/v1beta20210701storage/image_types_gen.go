@@ -4,7 +4,6 @@
 package v1beta20210701storage
 
 import (
-	"fmt"
 	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -21,9 +20,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210701.Image
-// Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2021-07-01/compute.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
+// Deprecated version of Image. Use v1api20210701.Image instead
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -47,22 +44,36 @@ var _ conversion.Convertible = &Image{}
 
 // ConvertFrom populates our Image from the provided hub Image
 func (image *Image) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220301s.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20220301storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220301s.Image
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return image.AssignProperties_From_Image(source)
+	err = image.AssignProperties_From_Image(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to image")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Image from our Image
 func (image *Image) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220301s.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20220301storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220301s.Image
+	err := image.AssignProperties_To_Image(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from image")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return image.AssignProperties_To_Image(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &Image{}
@@ -212,9 +223,7 @@ func (image *Image) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210701.Image
-// Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2021-07-01/compute.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
+// Deprecated version of Image. Use v1api20210701.Image instead
 type ImageList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -222,6 +231,7 @@ type ImageList struct {
 }
 
 // Storage version of v1beta20210701.APIVersion
+// Deprecated version of APIVersion. Use v1api20210701.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-07-01"}
 type APIVersion string
 
@@ -472,8 +482,7 @@ func (image *Image_Spec) AssignProperties_To_Image_Spec(destination *v20220301s.
 }
 
 // Storage version of v1beta20210701.Image_STATUS
-// The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual
-// machine. If SourceImage is provided, the destination virtual hard drive must not exist.
+// Deprecated version of Image_STATUS. Use v1api20210701.Image_STATUS instead
 type Image_STATUS struct {
 	Conditions           []conditions.Condition      `json:"conditions,omitempty"`
 	ExtendedLocation     *ExtendedLocation_STATUS    `json:"extendedLocation,omitempty"`
@@ -720,7 +729,7 @@ type augmentConversionForImage_STATUS interface {
 }
 
 // Storage version of v1beta20210701.ExtendedLocation
-// The complex type of the extended location.
+// Deprecated version of ExtendedLocation. Use v1api20210701.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -790,7 +799,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 }
 
 // Storage version of v1beta20210701.ExtendedLocation_STATUS
-// The complex type of the extended location.
+// Deprecated version of ExtendedLocation_STATUS. Use v1api20210701.ExtendedLocation_STATUS instead
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -860,7 +869,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 }
 
 // Storage version of v1beta20210701.ImageStorageProfile
-// Describes a storage profile.
+// Deprecated version of ImageStorageProfile. Use v1api20210701.ImageStorageProfile instead
 type ImageStorageProfile struct {
 	DataDisks     []ImageDataDisk        `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk           `json:"osDisk,omitempty"`
@@ -995,7 +1004,7 @@ func (profile *ImageStorageProfile) AssignProperties_To_ImageStorageProfile(dest
 }
 
 // Storage version of v1beta20210701.ImageStorageProfile_STATUS
-// Describes a storage profile.
+// Deprecated version of ImageStorageProfile_STATUS. Use v1api20210701.ImageStorageProfile_STATUS instead
 type ImageStorageProfile_STATUS struct {
 	DataDisks     []ImageDataDisk_STATUS `json:"dataDisks,omitempty"`
 	OsDisk        *ImageOSDisk_STATUS    `json:"osDisk,omitempty"`
@@ -1130,11 +1139,10 @@ func (profile *ImageStorageProfile_STATUS) AssignProperties_To_ImageStorageProfi
 }
 
 // Storage version of v1beta20210701.SubResource
+// Deprecated version of SubResource. Use v1api20210701.SubResource instead
 type SubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
@@ -1204,6 +1212,7 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *v20220
 }
 
 // Storage version of v1beta20210701.SubResource_STATUS
+// Deprecated version of SubResource_STATUS. Use v1api20210701.SubResource_STATUS instead
 type SubResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -1296,7 +1305,7 @@ type augmentConversionForSubResource_STATUS interface {
 }
 
 // Storage version of v1beta20210701.ImageDataDisk
-// Describes a data disk.
+// Deprecated version of ImageDataDisk. Use v1api20210701.ImageDataDisk instead
 type ImageDataDisk struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -1462,7 +1471,7 @@ func (disk *ImageDataDisk) AssignProperties_To_ImageDataDisk(destination *v20220
 }
 
 // Storage version of v1beta20210701.ImageDataDisk_STATUS
-// Describes a data disk.
+// Deprecated version of ImageDataDisk_STATUS. Use v1api20210701.ImageDataDisk_STATUS instead
 type ImageDataDisk_STATUS struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -1628,7 +1637,7 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 }
 
 // Storage version of v1beta20210701.ImageOSDisk
-// Describes an Operating System disk.
+// Deprecated version of ImageOSDisk. Use v1api20210701.ImageOSDisk instead
 type ImageOSDisk struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`
@@ -1801,7 +1810,7 @@ func (disk *ImageOSDisk) AssignProperties_To_ImageOSDisk(destination *v20220301s
 }
 
 // Storage version of v1beta20210701.ImageOSDisk_STATUS
-// Describes an Operating System disk.
+// Deprecated version of ImageOSDisk_STATUS. Use v1api20210701.ImageOSDisk_STATUS instead
 type ImageOSDisk_STATUS struct {
 	BlobUri            *string                `json:"blobUri,omitempty"`
 	Caching            *string                `json:"caching,omitempty"`

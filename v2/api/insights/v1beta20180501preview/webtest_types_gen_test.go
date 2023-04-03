@@ -5,6 +5,7 @@ package v1beta20180501preview
 
 import (
 	"encoding/json"
+	v1api20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501previewstorage"
 	v20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForWebtest(subject Webtest) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20180501ps.Webtest
+	var hub v1api20180501ps.Webtest
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

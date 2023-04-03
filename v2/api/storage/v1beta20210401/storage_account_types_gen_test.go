@@ -5,6 +5,7 @@ package v1beta20210401
 
 import (
 	"encoding/json"
+	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
 	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForStorageAccount(subject StorageAccount) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210401s.StorageAccount
+	var hub v1api20210401s.StorageAccount
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

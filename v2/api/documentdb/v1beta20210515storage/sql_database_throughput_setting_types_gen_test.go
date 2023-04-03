@@ -5,6 +5,7 @@ package v1beta20210515storage
 
 import (
 	"encoding/json"
+	v1api20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_SqlDatabaseThroughputSetting_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseThroughputSetting to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSqlDatabaseThroughputSetting, SqlDatabaseThroughputSettingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSqlDatabaseThroughputSetting tests if a specific instance of SqlDatabaseThroughputSetting round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSqlDatabaseThroughputSetting(subject SqlDatabaseThroughputSetting) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20210515s.SqlDatabaseThroughputSetting
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual SqlDatabaseThroughputSetting
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SqlDatabaseThroughputSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SqlDatabaseThroughputSetting to SqlDatabaseThroughputSetting via AssignProperties_To_SqlDatabaseThroughputSetting & AssignProperties_From_SqlDatabaseThroughputSetting returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSqlDatabaseThroughputSetting, SqlDatabaseThroughputSettingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSqlDatabaseThroughputSetting tests if a specific instance of SqlDatabaseThroughputSetting can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForSqlDatabaseThroughputSetting(subject SqlDatabaseThroughputSetting) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.SqlDatabaseThroughputSetting
+	err := copied.AssignProperties_To_SqlDatabaseThroughputSetting(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SqlDatabaseThroughputSetting
+	err = actual.AssignProperties_From_SqlDatabaseThroughputSetting(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_SqlDatabaseThroughputSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func SqlDatabaseThroughputSettingGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForSqlDatabaseThroughputSetting(gens map[string]gopter.Gen) {
 	gens["Spec"] = DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecGenerator()
 	gens["Status"] = DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUSGenerator()
+}
+
+func Test_DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec to DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec via AssignProperties_To_DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec & AssignProperties_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec, DatabaseAccounts_SqlDatabases_ThroughputSetting_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec tests if a specific instance of DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec(subject DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec
+	err := copied.AssignProperties_To_DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec
+	err = actual.AssignProperties_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccounts_SqlDatabases_ThroughputSetting_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -154,6 +282,48 @@ func AddIndependentPropertyGeneratorsForDatabaseAccounts_SqlDatabases_Throughput
 // AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
+}
+
+func Test_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS to DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS via AssignProperties_To_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS & AssignProperties_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS, DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS tests if a specific instance of DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS can be assigned to v1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS(subject DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210515s.DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS
+	err := copied.AssignProperties_To_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS
+	err = actual.AssignProperties_From_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

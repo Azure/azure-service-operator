@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/databases/{databaseName}
+// Deprecated version of Database. Use v1api20180601.Database instead
 type Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Database{}
 
 // ConvertFrom populates our Database from the provided hub Database
 func (database *Database) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20180601s.Database)
-	if !ok {
-		return fmt.Errorf("expected dbformariadb/v1beta20180601storage/Database but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20180601s.Database
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_Database(source)
+	err = database.AssignProperties_From_Database(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Database from our Database
 func (database *Database) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20180601s.Database)
-	if !ok {
-		return fmt.Errorf("expected dbformariadb/v1beta20180601storage/Database but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20180601s.Database
+	err := database.AssignProperties_To_Database(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_Database(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbformariadb-azure-com-v1beta20180601-database,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=databases,verbs=create;update,versions=v1beta20180601,name=default.v1beta20180601.databases.dbformariadb.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (database *Database) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/databases/{databaseName}
+// Deprecated version of Database. Use v1api20180601.Database instead
 type DatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -335,12 +345,8 @@ type DatabaseList struct {
 type Servers_Database_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Charset: The charset of the database.
-	Charset *string `json:"charset,omitempty"`
-
-	// Collation: The collation of the database.
+	AzureName string  `json:"azureName,omitempty"`
+	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -548,25 +554,16 @@ func (database *Servers_Database_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (database *Servers_Database_Spec) SetAzureName(azureName string) { database.AzureName = azureName }
 
+// Deprecated version of Servers_Database_STATUS. Use v1api20180601.Servers_Database_STATUS instead
 type Servers_Database_STATUS struct {
-	// Charset: The charset of the database.
-	Charset *string `json:"charset,omitempty"`
-
-	// Collation: The collation of the database.
+	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Id         *string                `json:"id,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Servers_Database_STATUS{}

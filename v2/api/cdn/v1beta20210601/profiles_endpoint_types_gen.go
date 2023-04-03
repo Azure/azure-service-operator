@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}
+// Deprecated version of ProfilesEndpoint. Use v1api20210601.ProfilesEndpoint instead
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &ProfilesEndpoint{}
 
 // ConvertFrom populates our ProfilesEndpoint from the provided hub ProfilesEndpoint
 func (endpoint *ProfilesEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210601s.ProfilesEndpoint)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1beta20210601storage/ProfilesEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210601s.ProfilesEndpoint
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return endpoint.AssignProperties_From_ProfilesEndpoint(source)
+	err = endpoint.AssignProperties_From_ProfilesEndpoint(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to endpoint")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ProfilesEndpoint from our ProfilesEndpoint
 func (endpoint *ProfilesEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210601s.ProfilesEndpoint)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1beta20210601storage/ProfilesEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210601s.ProfilesEndpoint
+	err := endpoint.AssignProperties_To_ProfilesEndpoint(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from endpoint")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return endpoint.AssignProperties_To_ProfilesEndpoint(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1beta20210601-profilesendpoint,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profilesendpoints,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.profilesendpoints.cdn.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (endpoint *ProfilesEndpoint) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}
+// Deprecated version of ProfilesEndpoint. Use v1api20210601.ProfilesEndpoint instead
 type ProfilesEndpointList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -335,82 +345,34 @@ type ProfilesEndpointList struct {
 type Profiles_Endpoint_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
-	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
-
-	// DefaultOriginGroup: A reference to the origin group.
-	DefaultOriginGroup *ResourceReference `json:"defaultOriginGroup,omitempty"`
-
-	// DeliveryPolicy: A policy that specifies the delivery rules to be used for an endpoint.
-	DeliveryPolicy *EndpointProperties_DeliveryPolicy `json:"deliveryPolicy,omitempty"`
-
-	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
-	// to a specified path or content, e.g. block APAC for path /pictures/
-	GeoFilters []GeoFilter `json:"geoFilters,omitempty"`
-
-	// IsCompressionEnabled: Indicates whether content compression is enabled on CDN. Default value is false. If compression is
-	// enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on
-	// CDN when requested content is smaller than 1 byte or larger than 1 MB.
-	IsCompressionEnabled *bool `json:"isCompressionEnabled,omitempty"`
-
-	// IsHttpAllowed: Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol
-	// (HTTP or HTTPS) must be allowed.
-	IsHttpAllowed *bool `json:"isHttpAllowed,omitempty"`
-
-	// IsHttpsAllowed: Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol
-	// (HTTP or HTTPS) must be allowed.
-	IsHttpsAllowed *bool `json:"isHttpsAllowed,omitempty"`
+	AzureName              string                             `json:"azureName,omitempty"`
+	ContentTypesToCompress []string                           `json:"contentTypesToCompress,omitempty"`
+	DefaultOriginGroup     *ResourceReference                 `json:"defaultOriginGroup,omitempty"`
+	DeliveryPolicy         *EndpointProperties_DeliveryPolicy `json:"deliveryPolicy,omitempty"`
+	GeoFilters             []GeoFilter                        `json:"geoFilters,omitempty"`
+	IsCompressionEnabled   *bool                              `json:"isCompressionEnabled,omitempty"`
+	IsHttpAllowed          *bool                              `json:"isHttpAllowed,omitempty"`
+	IsHttpsAllowed         *bool                              `json:"isHttpsAllowed,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
-	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *OptimizationType `json:"optimizationType,omitempty"`
-
-	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []DeepCreatedOriginGroup `json:"originGroups,omitempty"`
-
-	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
-	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
-	// the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services
-	// require this host header value to match the origin hostname by default.
-	OriginHostHeader *string `json:"originHostHeader,omitempty"`
-
-	// OriginPath: A directory path on the origin that CDN can use to retrieve content from, e.g.
-	// contoso.cloudapp.net/originpath.
-	OriginPath *string `json:"originPath,omitempty"`
+	Location         *string                  `json:"location,omitempty"`
+	OptimizationType *OptimizationType        `json:"optimizationType,omitempty"`
+	OriginGroups     []DeepCreatedOriginGroup `json:"originGroups,omitempty"`
+	OriginHostHeader *string                  `json:"originHostHeader,omitempty"`
+	OriginPath       *string                  `json:"originPath,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Origins: The source of the content being delivered via CDN.
 	Origins []DeepCreatedOrigin `json:"origins,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a cdn.azure.com/Profile resource
-	Owner *genruntime.KnownResourceReference `group:"cdn.azure.com" json:"owner,omitempty" kind:"Profile"`
-
-	// ProbePath: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the
-	// most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single
-	// origin.
-	ProbePath *string `json:"probePath,omitempty"`
-
-	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
-	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
-	// with a unique URL.
-	QueryStringCachingBehavior *QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
-	UrlSigningKeys []UrlSigningKey `json:"urlSigningKeys,omitempty"`
-
-	// WebApplicationFirewallPolicyLink: Defines the Web Application Firewall policy for the endpoint (if applicable)
+	Owner                            *genruntime.KnownResourceReference                   `group:"cdn.azure.com" json:"owner,omitempty" kind:"Profile"`
+	ProbePath                        *string                                              `json:"probePath,omitempty"`
+	QueryStringCachingBehavior       *QueryStringCachingBehavior                          `json:"queryStringCachingBehavior,omitempty"`
+	Tags                             map[string]string                                    `json:"tags,omitempty"`
+	UrlSigningKeys                   []UrlSigningKey                                      `json:"urlSigningKeys,omitempty"`
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
@@ -1372,100 +1334,35 @@ func (endpoint *Profiles_Endpoint_Spec) SetAzureName(azureName string) {
 	endpoint.AzureName = azureName
 }
 
+// Deprecated version of Profiles_Endpoint_STATUS. Use v1api20210601.Profiles_Endpoint_STATUS instead
 type Profiles_Endpoint_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
-	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
-
-	// CustomDomains: The custom domains under the endpoint.
-	CustomDomains []DeepCreatedCustomDomain_STATUS `json:"customDomains,omitempty"`
-
-	// DefaultOriginGroup: A reference to the origin group.
-	DefaultOriginGroup *ResourceReference_STATUS `json:"defaultOriginGroup,omitempty"`
-
-	// DeliveryPolicy: A policy that specifies the delivery rules to be used for an endpoint.
-	DeliveryPolicy *EndpointProperties_DeliveryPolicy_STATUS `json:"deliveryPolicy,omitempty"`
-
-	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
-	// to a specified path or content, e.g. block APAC for path /pictures/
-	GeoFilters []GeoFilter_STATUS `json:"geoFilters,omitempty"`
-
-	// HostName: The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
-	HostName *string `json:"hostName,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// IsCompressionEnabled: Indicates whether content compression is enabled on CDN. Default value is false. If compression is
-	// enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on
-	// CDN when requested content is smaller than 1 byte or larger than 1 MB.
-	IsCompressionEnabled *bool `json:"isCompressionEnabled,omitempty"`
-
-	// IsHttpAllowed: Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol
-	// (HTTP or HTTPS) must be allowed.
-	IsHttpAllowed *bool `json:"isHttpAllowed,omitempty"`
-
-	// IsHttpsAllowed: Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol
-	// (HTTP or HTTPS) must be allowed.
-	IsHttpsAllowed *bool `json:"isHttpsAllowed,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
-	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *OptimizationType_STATUS `json:"optimizationType,omitempty"`
-
-	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []DeepCreatedOriginGroup_STATUS `json:"originGroups,omitempty"`
-
-	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
-	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
-	// the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services
-	// require this host header value to match the origin hostname by default.
-	OriginHostHeader *string `json:"originHostHeader,omitempty"`
-
-	// OriginPath: A directory path on the origin that CDN can use to retrieve content from, e.g.
-	// contoso.cloudapp.net/originpath.
-	OriginPath *string `json:"originPath,omitempty"`
-
-	// Origins: The source of the content being delivered via CDN.
-	Origins []DeepCreatedOrigin_STATUS `json:"origins,omitempty"`
-
-	// ProbePath: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the
-	// most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single
-	// origin.
-	ProbePath *string `json:"probePath,omitempty"`
-
-	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
-	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
-	// with a unique URL.
-	QueryStringCachingBehavior *QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
-
-	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
-
-	// SystemData: Read only system data
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-
-	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
-	UrlSigningKeys []UrlSigningKey_STATUS `json:"urlSigningKeys,omitempty"`
-
-	// WebApplicationFirewallPolicyLink: Defines the Web Application Firewall policy for the endpoint (if applicable)
+	Conditions                       []conditions.Condition                                      `json:"conditions,omitempty"`
+	ContentTypesToCompress           []string                                                    `json:"contentTypesToCompress,omitempty"`
+	CustomDomains                    []DeepCreatedCustomDomain_STATUS                            `json:"customDomains,omitempty"`
+	DefaultOriginGroup               *ResourceReference_STATUS                                   `json:"defaultOriginGroup,omitempty"`
+	DeliveryPolicy                   *EndpointProperties_DeliveryPolicy_STATUS                   `json:"deliveryPolicy,omitempty"`
+	GeoFilters                       []GeoFilter_STATUS                                          `json:"geoFilters,omitempty"`
+	HostName                         *string                                                     `json:"hostName,omitempty"`
+	Id                               *string                                                     `json:"id,omitempty"`
+	IsCompressionEnabled             *bool                                                       `json:"isCompressionEnabled,omitempty"`
+	IsHttpAllowed                    *bool                                                       `json:"isHttpAllowed,omitempty"`
+	IsHttpsAllowed                   *bool                                                       `json:"isHttpsAllowed,omitempty"`
+	Location                         *string                                                     `json:"location,omitempty"`
+	Name                             *string                                                     `json:"name,omitempty"`
+	OptimizationType                 *OptimizationType_STATUS                                    `json:"optimizationType,omitempty"`
+	OriginGroups                     []DeepCreatedOriginGroup_STATUS                             `json:"originGroups,omitempty"`
+	OriginHostHeader                 *string                                                     `json:"originHostHeader,omitempty"`
+	OriginPath                       *string                                                     `json:"originPath,omitempty"`
+	Origins                          []DeepCreatedOrigin_STATUS                                  `json:"origins,omitempty"`
+	ProbePath                        *string                                                     `json:"probePath,omitempty"`
+	ProvisioningState                *EndpointProperties_ProvisioningState_STATUS                `json:"provisioningState,omitempty"`
+	QueryStringCachingBehavior       *QueryStringCachingBehavior_STATUS                          `json:"queryStringCachingBehavior,omitempty"`
+	ResourceState                    *EndpointProperties_ResourceState_STATUS                    `json:"resourceState,omitempty"`
+	SystemData                       *SystemData_STATUS                                          `json:"systemData,omitempty"`
+	Tags                             map[string]string                                           `json:"tags,omitempty"`
+	Type                             *string                                                     `json:"type,omitempty"`
+	UrlSigningKeys                   []UrlSigningKey_STATUS                                      `json:"urlSigningKeys,omitempty"`
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
@@ -2273,16 +2170,10 @@ func (endpoint *Profiles_Endpoint_STATUS) AssignProperties_To_Profiles_Endpoint_
 	return nil
 }
 
-// Custom domains created on the CDN endpoint.
+// Deprecated version of DeepCreatedCustomDomain_STATUS. Use v1api20210601.DeepCreatedCustomDomain_STATUS instead
 type DeepCreatedCustomDomain_STATUS struct {
-	// HostName: The host name of the custom domain. Must be a domain name.
-	HostName *string `json:"hostName,omitempty"`
-
-	// Name: Custom domain name.
-	Name *string `json:"name,omitempty"`
-
-	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
-	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
+	HostName       *string `json:"hostName,omitempty"`
+	Name           *string `json:"name,omitempty"`
 	ValidationData *string `json:"validationData,omitempty"`
 }
 
@@ -2369,59 +2260,35 @@ func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_To_DeepCreatedCus
 	return nil
 }
 
-// The main origin of CDN content which is added when creating a CDN endpoint.
+// Deprecated version of DeepCreatedOrigin. Use v1api20210601.DeepCreatedOrigin instead
 type DeepCreatedOrigin struct {
-	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// HostName: The address of the origin. It can be a domain name, IPv4 address, or IPv6 address. This should be unique
-	// across all origins in an endpoint.
 	HostName *string `json:"hostName,omitempty"`
 
 	// +kubebuilder:validation:Maximum=65535
 	// +kubebuilder:validation:Minimum=1
-	// HttpPort: The value of the HTTP port. Must be between 1 and 65535.
 	HttpPort *int `json:"httpPort,omitempty"`
 
 	// +kubebuilder:validation:Maximum=65535
 	// +kubebuilder:validation:Minimum=1
-	// HttpsPort: The value of the HTTPS port. Must be between 1 and 65535.
 	HttpsPort *int `json:"httpsPort,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: Origin name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// OriginHostHeader: The host header value sent to the origin with each request. If you leave this blank, the request
-	// hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host
-	// header value to match the origin hostname by default.
+	Name             *string `json:"name,omitempty"`
 	OriginHostHeader *string `json:"originHostHeader,omitempty"`
 
 	// +kubebuilder:validation:Maximum=5
 	// +kubebuilder:validation:Minimum=1
-	// Priority: Priority of origin in given origin group for load balancing. Higher priorities will not be used for load
-	// balancing if any lower priority origin is healthy.Must be between 1 and 5.
-	Priority *int `json:"priority,omitempty"`
-
-	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
-	// 'Private'
-	PrivateLinkAlias *string `json:"privateLinkAlias,omitempty"`
-
-	// PrivateLinkApprovalMessage: A custom message to be included in the approval request to connect to the Private Link.
-	PrivateLinkApprovalMessage *string `json:"privateLinkApprovalMessage,omitempty"`
-
-	// PrivateLinkLocationReference: The location of the Private Link resource. Required only if 'privateLinkResourceId' is
-	// populated
+	Priority                     *int                          `json:"priority,omitempty"`
+	PrivateLinkAlias             *string                       `json:"privateLinkAlias,omitempty"`
+	PrivateLinkApprovalMessage   *string                       `json:"privateLinkApprovalMessage,omitempty"`
 	PrivateLinkLocationReference *genruntime.ResourceReference `armReference:"PrivateLinkLocation" json:"privateLinkLocationReference,omitempty"`
-
-	// PrivateLinkResourceReference: The Resource Id of the Private Link resource. Populating this optional field indicates
-	// that this backend is 'Private'
 	PrivateLinkResourceReference *genruntime.ResourceReference `armReference:"PrivateLinkResourceId" json:"privateLinkResourceReference,omitempty"`
 
 	// +kubebuilder:validation:Maximum=1000
 	// +kubebuilder:validation:Minimum=1
-	// Weight: Weight of the origin in given origin group for load balancing. Must be between 1 and 1000
 	Weight *int `json:"weight,omitempty"`
 }
 
@@ -2851,52 +2718,21 @@ func (origin *DeepCreatedOrigin) Initialize_From_DeepCreatedOrigin_STATUS(source
 	return nil
 }
 
-// The main origin of CDN content which is added when creating a CDN endpoint.
+// Deprecated version of DeepCreatedOrigin_STATUS. Use v1api20210601.DeepCreatedOrigin_STATUS instead
 type DeepCreatedOrigin_STATUS struct {
-	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// HostName: The address of the origin. It can be a domain name, IPv4 address, or IPv6 address. This should be unique
-	// across all origins in an endpoint.
-	HostName *string `json:"hostName,omitempty"`
-
-	// HttpPort: The value of the HTTP port. Must be between 1 and 65535.
-	HttpPort *int `json:"httpPort,omitempty"`
-
-	// HttpsPort: The value of the HTTPS port. Must be between 1 and 65535.
-	HttpsPort *int `json:"httpsPort,omitempty"`
-
-	// Name: Origin name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// OriginHostHeader: The host header value sent to the origin with each request. If you leave this blank, the request
-	// hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host
-	// header value to match the origin hostname by default.
-	OriginHostHeader *string `json:"originHostHeader,omitempty"`
-
-	// Priority: Priority of origin in given origin group for load balancing. Higher priorities will not be used for load
-	// balancing if any lower priority origin is healthy.Must be between 1 and 5.
-	Priority *int `json:"priority,omitempty"`
-
-	// PrivateEndpointStatus: The approval status for the connection to the Private Link
-	PrivateEndpointStatus *PrivateEndpointStatus_STATUS `json:"privateEndpointStatus,omitempty"`
-
-	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
-	// 'Private'
-	PrivateLinkAlias *string `json:"privateLinkAlias,omitempty"`
-
-	// PrivateLinkApprovalMessage: A custom message to be included in the approval request to connect to the Private Link.
-	PrivateLinkApprovalMessage *string `json:"privateLinkApprovalMessage,omitempty"`
-
-	// PrivateLinkLocation: The location of the Private Link resource. Required only if 'privateLinkResourceId' is populated
-	PrivateLinkLocation *string `json:"privateLinkLocation,omitempty"`
-
-	// PrivateLinkResourceId: The Resource Id of the Private Link resource. Populating this optional field indicates that this
-	// backend is 'Private'
-	PrivateLinkResourceId *string `json:"privateLinkResourceId,omitempty"`
-
-	// Weight: Weight of the origin in given origin group for load balancing. Must be between 1 and 1000
-	Weight *int `json:"weight,omitempty"`
+	Enabled                    *bool                         `json:"enabled,omitempty"`
+	HostName                   *string                       `json:"hostName,omitempty"`
+	HttpPort                   *int                          `json:"httpPort,omitempty"`
+	HttpsPort                  *int                          `json:"httpsPort,omitempty"`
+	Name                       *string                       `json:"name,omitempty"`
+	OriginHostHeader           *string                       `json:"originHostHeader,omitempty"`
+	Priority                   *int                          `json:"priority,omitempty"`
+	PrivateEndpointStatus      *PrivateEndpointStatus_STATUS `json:"privateEndpointStatus,omitempty"`
+	PrivateLinkAlias           *string                       `json:"privateLinkAlias,omitempty"`
+	PrivateLinkApprovalMessage *string                       `json:"privateLinkApprovalMessage,omitempty"`
+	PrivateLinkLocation        *string                       `json:"privateLinkLocation,omitempty"`
+	PrivateLinkResourceId      *string                       `json:"privateLinkResourceId,omitempty"`
+	Weight                     *int                          `json:"weight,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeepCreatedOrigin_STATUS{}
@@ -3152,29 +2988,19 @@ func (origin *DeepCreatedOrigin_STATUS) AssignProperties_To_DeepCreatedOrigin_ST
 	return nil
 }
 
-// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
-// origin group based on origin health.
+// Deprecated version of DeepCreatedOriginGroup. Use v1api20210601.DeepCreatedOriginGroup instead
 type DeepCreatedOriginGroup struct {
-	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
 	HealthProbeSettings *HealthProbeParameters `json:"healthProbeSettings,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: Origin group name which must be unique within the endpoint.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Origins: The source of the content being delivered via CDN within given origin group.
-	Origins []ResourceReference `json:"origins,omitempty"`
-
-	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
-	// real requests/responses.This property is currently not supported.
+	Origins                                   []ResourceReference                          `json:"origins,omitempty"`
 	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
 
 	// +kubebuilder:validation:Maximum=50
 	// +kubebuilder:validation:Minimum=0
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
-	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
-	// supported.
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
@@ -3491,26 +3317,13 @@ func (group *DeepCreatedOriginGroup) Initialize_From_DeepCreatedOriginGroup_STAT
 	return nil
 }
 
-// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
-// origin group based on origin health.
+// Deprecated version of DeepCreatedOriginGroup_STATUS. Use v1api20210601.DeepCreatedOriginGroup_STATUS instead
 type DeepCreatedOriginGroup_STATUS struct {
-	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
-	HealthProbeSettings *HealthProbeParameters_STATUS `json:"healthProbeSettings,omitempty"`
-
-	// Name: Origin group name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// Origins: The source of the content being delivered via CDN within given origin group.
-	Origins []ResourceReference_STATUS `json:"origins,omitempty"`
-
-	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
-	// real requests/responses.This property is currently not supported.
-	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters_STATUS `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
-
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
-	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
-	// supported.
-	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
+	HealthProbeSettings                                   *HealthProbeParameters_STATUS                       `json:"healthProbeSettings,omitempty"`
+	Name                                                  *string                                             `json:"name,omitempty"`
+	Origins                                               []ResourceReference_STATUS                          `json:"origins,omitempty"`
+	ResponseBasedOriginErrorDetectionSettings             *ResponseBasedOriginErrorDetectionParameters_STATUS `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
+	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                                `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeepCreatedOriginGroup_STATUS{}
@@ -3706,12 +3519,11 @@ func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOrigi
 	return nil
 }
 
+// Deprecated version of EndpointProperties_DeliveryPolicy. Use v1api20210601.EndpointProperties_DeliveryPolicy instead
 type EndpointProperties_DeliveryPolicy struct {
-	// Description: User-friendly description of the policy.
 	Description *string `json:"description,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Rules: A list of the delivery rules.
 	Rules []DeliveryRule `json:"rules,omitempty"`
 }
 
@@ -3866,12 +3678,10 @@ func (policy *EndpointProperties_DeliveryPolicy) Initialize_From_EndpointPropert
 	return nil
 }
 
+// Deprecated version of EndpointProperties_DeliveryPolicy_STATUS. Use v1api20210601.EndpointProperties_DeliveryPolicy_STATUS instead
 type EndpointProperties_DeliveryPolicy_STATUS struct {
-	// Description: User-friendly description of the policy.
-	Description *string `json:"description,omitempty"`
-
-	// Rules: A list of the delivery rules.
-	Rules []DeliveryRule_STATUS `json:"rules,omitempty"`
+	Description *string               `json:"description,omitempty"`
+	Rules       []DeliveryRule_STATUS `json:"rules,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EndpointProperties_DeliveryPolicy_STATUS{}
@@ -3973,6 +3783,8 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_To_Endp
 	return nil
 }
 
+// Deprecated version of EndpointProperties_ProvisioningState_STATUS. Use
+// v1api20210601.EndpointProperties_ProvisioningState_STATUS instead
 type EndpointProperties_ProvisioningState_STATUS string
 
 const (
@@ -3983,6 +3795,8 @@ const (
 	EndpointProperties_ProvisioningState_STATUS_Updating  = EndpointProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of EndpointProperties_ResourceState_STATUS. Use v1api20210601.EndpointProperties_ResourceState_STATUS
+// instead
 type EndpointProperties_ResourceState_STATUS string
 
 const (
@@ -3994,8 +3808,8 @@ const (
 	EndpointProperties_ResourceState_STATUS_Stopping = EndpointProperties_ResourceState_STATUS("Stopping")
 )
 
+// Deprecated version of EndpointProperties_WebApplicationFirewallPolicyLink. Use v1api20210601.EndpointProperties_WebApplicationFirewallPolicyLink instead
 type EndpointProperties_WebApplicationFirewallPolicyLink struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -4092,8 +3906,8 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) Initialize_From
 	return nil
 }
 
+// Deprecated version of EndpointProperties_WebApplicationFirewallPolicyLink_STATUS. Use v1api20210601.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS instead
 type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -4150,18 +3964,15 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignPr
 	return nil
 }
 
-// Rules defining user's geo access within a CDN endpoint.
+// Deprecated version of GeoFilter. Use v1api20210601.GeoFilter instead
 type GeoFilter struct {
 	// +kubebuilder:validation:Required
-	// Action: Action of the geo filter, i.e. allow or block access.
 	Action *GeoFilter_Action `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
 	CountryCodes []string `json:"countryCodes,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// RelativePath: Relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.)
 	RelativePath *string `json:"relativePath,omitempty"`
 }
 
@@ -4298,16 +4109,11 @@ func (filter *GeoFilter) Initialize_From_GeoFilter_STATUS(source *GeoFilter_STAT
 	return nil
 }
 
-// Rules defining user's geo access within a CDN endpoint.
+// Deprecated version of GeoFilter_STATUS. Use v1api20210601.GeoFilter_STATUS instead
 type GeoFilter_STATUS struct {
-	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilter_Action_STATUS `json:"action,omitempty"`
-
-	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
-	CountryCodes []string `json:"countryCodes,omitempty"`
-
-	// RelativePath: Relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.)
-	RelativePath *string `json:"relativePath,omitempty"`
+	Action       *GeoFilter_Action_STATUS `json:"action,omitempty"`
+	CountryCodes []string                 `json:"countryCodes,omitempty"`
+	RelativePath *string                  `json:"relativePath,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &GeoFilter_STATUS{}
@@ -4396,8 +4202,7 @@ func (filter *GeoFilter_STATUS) AssignProperties_To_GeoFilter_STATUS(destination
 	return nil
 }
 
-// Specifies what scenario the customer wants this CDN endpoint to optimize, e.g. Download, Media services. With this
-// information we can apply scenario driven optimization.
+// Deprecated version of OptimizationType. Use v1api20210601.OptimizationType instead
 // +kubebuilder:validation:Enum={"DynamicSiteAcceleration","GeneralMediaStreaming","GeneralWebDelivery","LargeFileDownload","VideoOnDemandMediaStreaming"}
 type OptimizationType string
 
@@ -4409,8 +4214,7 @@ const (
 	OptimizationType_VideoOnDemandMediaStreaming = OptimizationType("VideoOnDemandMediaStreaming")
 )
 
-// Specifies what scenario the customer wants this CDN endpoint to optimize, e.g. Download, Media services. With this
-// information we can apply scenario driven optimization.
+// Deprecated version of OptimizationType_STATUS. Use v1api20210601.OptimizationType_STATUS instead
 type OptimizationType_STATUS string
 
 const (
@@ -4421,8 +4225,7 @@ const (
 	OptimizationType_STATUS_VideoOnDemandMediaStreaming = OptimizationType_STATUS("VideoOnDemandMediaStreaming")
 )
 
-// Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass
-// caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
+// Deprecated version of QueryStringCachingBehavior. Use v1api20210601.QueryStringCachingBehavior instead
 // +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
 type QueryStringCachingBehavior string
 
@@ -4433,8 +4236,7 @@ const (
 	QueryStringCachingBehavior_UseQueryString    = QueryStringCachingBehavior("UseQueryString")
 )
 
-// Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass
-// caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL.
+// Deprecated version of QueryStringCachingBehavior_STATUS. Use v1api20210601.QueryStringCachingBehavior_STATUS instead
 type QueryStringCachingBehavior_STATUS string
 
 const (
@@ -4444,9 +4246,8 @@ const (
 	QueryStringCachingBehavior_STATUS_UseQueryString    = QueryStringCachingBehavior_STATUS("UseQueryString")
 )
 
-// Reference to another resource.
+// Deprecated version of ResourceReference. Use v1api20210601.ResourceReference instead
 type ResourceReference struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -4543,9 +4344,8 @@ func (reference *ResourceReference) Initialize_From_ResourceReference_STATUS(sou
 	return nil
 }
 
-// Reference to another resource.
+// Deprecated version of ResourceReference_STATUS. Use v1api20210601.ResourceReference_STATUS instead
 type ResourceReference_STATUS struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -4602,15 +4402,12 @@ func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference
 	return nil
 }
 
-// Url signing key
+// Deprecated version of UrlSigningKey. Use v1api20210601.UrlSigningKey instead
 type UrlSigningKey struct {
 	// +kubebuilder:validation:Required
-	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
-	// the hash.
 	KeyId *string `json:"keyId,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
 	KeySourceParameters *KeyVaultSigningKeyParameters `json:"keySourceParameters,omitempty"`
 }
 
@@ -4749,13 +4546,9 @@ func (signingKey *UrlSigningKey) Initialize_From_UrlSigningKey_STATUS(source *Ur
 	return nil
 }
 
-// Url signing key
+// Deprecated version of UrlSigningKey_STATUS. Use v1api20210601.UrlSigningKey_STATUS instead
 type UrlSigningKey_STATUS struct {
-	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
-	// the hash.
-	KeyId *string `json:"keyId,omitempty"`
-
-	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
+	KeyId               *string                              `json:"keyId,omitempty"`
 	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS `json:"keySourceParameters,omitempty"`
 }
 
@@ -4847,22 +4640,14 @@ func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS
 	return nil
 }
 
-// A rule that specifies a set of actions and conditions
+// Deprecated version of DeliveryRule. Use v1api20210601.DeliveryRule instead
 type DeliveryRule struct {
 	// +kubebuilder:validation:Required
-	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
-	Actions []DeliveryRuleAction `json:"actions,omitempty"`
-
-	// Conditions: A list of conditions that must be matched for the actions to be executed
+	Actions    []DeliveryRuleAction    `json:"actions,omitempty"`
 	Conditions []DeliveryRuleCondition `json:"conditions,omitempty"`
-
-	// Name: Name of the rule
-	Name *string `json:"name,omitempty"`
+	Name       *string                 `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Order: The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,………}. A rule with a
-	// lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not
-	// require any condition and actions listed in it will always be applied.
 	Order *int `json:"order,omitempty"`
 }
 
@@ -5111,21 +4896,12 @@ func (rule *DeliveryRule) Initialize_From_DeliveryRule_STATUS(source *DeliveryRu
 	return nil
 }
 
-// A rule that specifies a set of actions and conditions
+// Deprecated version of DeliveryRule_STATUS. Use v1api20210601.DeliveryRule_STATUS instead
 type DeliveryRule_STATUS struct {
-	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
-	Actions []DeliveryRuleAction_STATUS `json:"actions,omitempty"`
-
-	// Conditions: A list of conditions that must be matched for the actions to be executed
+	Actions    []DeliveryRuleAction_STATUS    `json:"actions,omitempty"`
 	Conditions []DeliveryRuleCondition_STATUS `json:"conditions,omitempty"`
-
-	// Name: Name of the rule
-	Name *string `json:"name,omitempty"`
-
-	// Order: The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,………}. A rule with a
-	// lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not
-	// require any condition and actions listed in it will always be applied.
-	Order *int `json:"order,omitempty"`
+	Name       *string                        `json:"name,omitempty"`
+	Order      *int                           `json:"order,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRule_STATUS{}
@@ -5277,6 +5053,7 @@ func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destina
 	return nil
 }
 
+// Deprecated version of GeoFilter_Action. Use v1api20210601.GeoFilter_Action instead
 // +kubebuilder:validation:Enum={"Allow","Block"}
 type GeoFilter_Action string
 
@@ -5285,6 +5062,7 @@ const (
 	GeoFilter_Action_Block = GeoFilter_Action("Block")
 )
 
+// Deprecated version of GeoFilter_Action_STATUS. Use v1api20210601.GeoFilter_Action_STATUS instead
 type GeoFilter_Action_STATUS string
 
 const (
@@ -5292,21 +5070,14 @@ const (
 	GeoFilter_Action_STATUS_Block = GeoFilter_Action_STATUS("Block")
 )
 
-// The JSON object that contains the properties to send health probes to origin.
+// Deprecated version of HealthProbeParameters. Use v1api20210601.HealthProbeParameters instead
 type HealthProbeParameters struct {
 	// +kubebuilder:validation:Maximum=255
 	// +kubebuilder:validation:Minimum=1
-	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
-	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
-
-	// ProbePath: The path relative to the origin that is used to determine the health of the origin.
-	ProbePath *string `json:"probePath,omitempty"`
-
-	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParameters_ProbeProtocol `json:"probeProtocol,omitempty"`
-
-	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParameters_ProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeIntervalInSeconds *int                                    `json:"probeIntervalInSeconds,omitempty"`
+	ProbePath              *string                                 `json:"probePath,omitempty"`
+	ProbeProtocol          *HealthProbeParameters_ProbeProtocol    `json:"probeProtocol,omitempty"`
+	ProbeRequestType       *HealthProbeParameters_ProbeRequestType `json:"probeRequestType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HealthProbeParameters{}
@@ -5495,19 +5266,12 @@ func (parameters *HealthProbeParameters) Initialize_From_HealthProbeParameters_S
 	return nil
 }
 
-// The JSON object that contains the properties to send health probes to origin.
+// Deprecated version of HealthProbeParameters_STATUS. Use v1api20210601.HealthProbeParameters_STATUS instead
 type HealthProbeParameters_STATUS struct {
-	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
-	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
-
-	// ProbePath: The path relative to the origin that is used to determine the health of the origin.
-	ProbePath *string `json:"probePath,omitempty"`
-
-	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParameters_ProbeProtocol_STATUS `json:"probeProtocol,omitempty"`
-
-	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParameters_ProbeRequestType_STATUS `json:"probeRequestType,omitempty"`
+	ProbeIntervalInSeconds *int                                           `json:"probeIntervalInSeconds,omitempty"`
+	ProbePath              *string                                        `json:"probePath,omitempty"`
+	ProbeProtocol          *HealthProbeParameters_ProbeProtocol_STATUS    `json:"probeProtocol,omitempty"`
+	ProbeRequestType       *HealthProbeParameters_ProbeRequestType_STATUS `json:"probeRequestType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HealthProbeParameters_STATUS{}
@@ -5619,29 +5383,24 @@ func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeP
 	return nil
 }
 
-// Describes the parameters for using a user's KeyVault for URL Signing Key.
+// Deprecated version of KeyVaultSigningKeyParameters. Use v1api20210601.KeyVaultSigningKeyParameters instead
 type KeyVaultSigningKeyParameters struct {
 	// +kubebuilder:validation:Required
-	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
 	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SecretName: The name of secret in Key Vault.
 	SecretName *string `json:"secretName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SecretVersion: The version(GUID) of secret in Key Vault.
 	SecretVersion *string `json:"secretVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
 	SubscriptionId *string `json:"subscriptionId,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *KeyVaultSigningKeyParameters_TypeName `json:"typeName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
 }
 
@@ -5843,23 +5602,14 @@ func (parameters *KeyVaultSigningKeyParameters) Initialize_From_KeyVaultSigningK
 	return nil
 }
 
-// Describes the parameters for using a user's KeyVault for URL Signing Key.
+// Deprecated version of KeyVaultSigningKeyParameters_STATUS. Use v1api20210601.KeyVaultSigningKeyParameters_STATUS instead
 type KeyVaultSigningKeyParameters_STATUS struct {
-	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
-	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
-
-	// SecretName: The name of secret in Key Vault.
-	SecretName *string `json:"secretName,omitempty"`
-
-	// SecretVersion: The version(GUID) of secret in Key Vault.
-	SecretVersion *string `json:"secretVersion,omitempty"`
-
-	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
-	SubscriptionId *string                                       `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParameters_TypeName_STATUS `json:"typeName,omitempty"`
-
-	// VaultName: The name of the user's Key Vault containing the secret
-	VaultName *string `json:"vaultName,omitempty"`
+	ResourceGroupName *string                                       `json:"resourceGroupName,omitempty"`
+	SecretName        *string                                       `json:"secretName,omitempty"`
+	SecretVersion     *string                                       `json:"secretVersion,omitempty"`
+	SubscriptionId    *string                                       `json:"subscriptionId,omitempty"`
+	TypeName          *KeyVaultSigningKeyParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	VaultName         *string                                       `json:"vaultName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultSigningKeyParameters_STATUS{}
@@ -5985,7 +5735,7 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_To_KeyVa
 	return nil
 }
 
-// The approval status for the connection to the Private Link
+// Deprecated version of PrivateEndpointStatus_STATUS. Use v1api20210601.PrivateEndpointStatus_STATUS instead
 type PrivateEndpointStatus_STATUS string
 
 const (
@@ -5996,18 +5746,13 @@ const (
 	PrivateEndpointStatus_STATUS_Timeout      = PrivateEndpointStatus_STATUS("Timeout")
 )
 
-// The JSON object that contains the properties to determine origin health using real requests/responses.
+// Deprecated version of ResponseBasedOriginErrorDetectionParameters. Use v1api20210601.ResponseBasedOriginErrorDetectionParameters instead
 type ResponseBasedOriginErrorDetectionParameters struct {
-	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
-	// unhealthy.
-	HttpErrorRanges []HttpErrorRangeParameters `json:"httpErrorRanges,omitempty"`
-
-	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
+	HttpErrorRanges                 []HttpErrorRangeParameters                                                   `json:"httpErrorRanges,omitempty"`
 	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=0
-	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
@@ -6213,17 +5958,11 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) Initialize_From_R
 	return nil
 }
 
-// The JSON object that contains the properties to determine origin health using real requests/responses.
+// Deprecated version of ResponseBasedOriginErrorDetectionParameters_STATUS. Use v1api20210601.ResponseBasedOriginErrorDetectionParameters_STATUS instead
 type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
-	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
-	// unhealthy.
-	HttpErrorRanges []HttpErrorRangeParameters_STATUS `json:"httpErrorRanges,omitempty"`
-
-	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS `json:"responseBasedDetectedErrorTypes,omitempty"`
-
-	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
-	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
+	HttpErrorRanges                          []HttpErrorRangeParameters_STATUS                                                   `json:"httpErrorRanges,omitempty"`
+	ResponseBasedDetectedErrorTypes          *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedFailoverThresholdPercentage *int                                                                                `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ResponseBasedOriginErrorDetectionParameters_STATUS{}
@@ -6347,34 +6086,17 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 	return nil
 }
 
-// An action for the delivery rule.
+// Deprecated version of DeliveryRuleAction. Use v1api20210601.DeliveryRuleAction instead
 type DeliveryRuleAction struct {
-	// CacheExpiration: Mutually exclusive with all other properties
-	CacheExpiration *DeliveryRuleCacheExpirationAction `json:"cacheExpiration,omitempty"`
-
-	// CacheKeyQueryString: Mutually exclusive with all other properties
-	CacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction `json:"cacheKeyQueryString,omitempty"`
-
-	// ModifyRequestHeader: Mutually exclusive with all other properties
-	ModifyRequestHeader *DeliveryRuleRequestHeaderAction `json:"modifyRequestHeader,omitempty"`
-
-	// ModifyResponseHeader: Mutually exclusive with all other properties
-	ModifyResponseHeader *DeliveryRuleResponseHeaderAction `json:"modifyResponseHeader,omitempty"`
-
-	// OriginGroupOverride: Mutually exclusive with all other properties
-	OriginGroupOverride *OriginGroupOverrideAction `json:"originGroupOverride,omitempty"`
-
-	// RouteConfigurationOverride: Mutually exclusive with all other properties
+	CacheExpiration            *DeliveryRuleCacheExpirationAction            `json:"cacheExpiration,omitempty"`
+	CacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction        `json:"cacheKeyQueryString,omitempty"`
+	ModifyRequestHeader        *DeliveryRuleRequestHeaderAction              `json:"modifyRequestHeader,omitempty"`
+	ModifyResponseHeader       *DeliveryRuleResponseHeaderAction             `json:"modifyResponseHeader,omitempty"`
+	OriginGroupOverride        *OriginGroupOverrideAction                    `json:"originGroupOverride,omitempty"`
 	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction `json:"routeConfigurationOverride,omitempty"`
-
-	// UrlRedirect: Mutually exclusive with all other properties
-	UrlRedirect *UrlRedirectAction `json:"urlRedirect,omitempty"`
-
-	// UrlRewrite: Mutually exclusive with all other properties
-	UrlRewrite *UrlRewriteAction `json:"urlRewrite,omitempty"`
-
-	// UrlSigning: Mutually exclusive with all other properties
-	UrlSigning *UrlSigningAction `json:"urlSigning,omitempty"`
+	UrlRedirect                *UrlRedirectAction                            `json:"urlRedirect,omitempty"`
+	UrlRewrite                 *UrlRewriteAction                             `json:"urlRewrite,omitempty"`
+	UrlSigning                 *UrlSigningAction                             `json:"urlSigning,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DeliveryRuleAction{}
@@ -6947,34 +6669,17 @@ func (action *DeliveryRuleAction) Initialize_From_DeliveryRuleAction_STATUS(sour
 	return nil
 }
 
-// An action for the delivery rule.
+// Deprecated version of DeliveryRuleAction_STATUS. Use v1api20210601.DeliveryRuleAction_STATUS instead
 type DeliveryRuleAction_STATUS struct {
-	// CacheExpiration: Mutually exclusive with all other properties
-	CacheExpiration *DeliveryRuleCacheExpirationAction_STATUS `json:"cacheExpiration,omitempty"`
-
-	// CacheKeyQueryString: Mutually exclusive with all other properties
-	CacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction_STATUS `json:"cacheKeyQueryString,omitempty"`
-
-	// ModifyRequestHeader: Mutually exclusive with all other properties
-	ModifyRequestHeader *DeliveryRuleRequestHeaderAction_STATUS `json:"modifyRequestHeader,omitempty"`
-
-	// ModifyResponseHeader: Mutually exclusive with all other properties
-	ModifyResponseHeader *DeliveryRuleResponseHeaderAction_STATUS `json:"modifyResponseHeader,omitempty"`
-
-	// OriginGroupOverride: Mutually exclusive with all other properties
-	OriginGroupOverride *OriginGroupOverrideAction_STATUS `json:"originGroupOverride,omitempty"`
-
-	// RouteConfigurationOverride: Mutually exclusive with all other properties
+	CacheExpiration            *DeliveryRuleCacheExpirationAction_STATUS            `json:"cacheExpiration,omitempty"`
+	CacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction_STATUS        `json:"cacheKeyQueryString,omitempty"`
+	ModifyRequestHeader        *DeliveryRuleRequestHeaderAction_STATUS              `json:"modifyRequestHeader,omitempty"`
+	ModifyResponseHeader       *DeliveryRuleResponseHeaderAction_STATUS             `json:"modifyResponseHeader,omitempty"`
+	OriginGroupOverride        *OriginGroupOverrideAction_STATUS                    `json:"originGroupOverride,omitempty"`
 	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_STATUS `json:"routeConfigurationOverride,omitempty"`
-
-	// UrlRedirect: Mutually exclusive with all other properties
-	UrlRedirect *UrlRedirectAction_STATUS `json:"urlRedirect,omitempty"`
-
-	// UrlRewrite: Mutually exclusive with all other properties
-	UrlRewrite *UrlRewriteAction_STATUS `json:"urlRewrite,omitempty"`
-
-	// UrlSigning: Mutually exclusive with all other properties
-	UrlSigning *UrlSigningAction_STATUS `json:"urlSigning,omitempty"`
+	UrlRedirect                *UrlRedirectAction_STATUS                            `json:"urlRedirect,omitempty"`
+	UrlRewrite                 *UrlRewriteAction_STATUS                             `json:"urlRewrite,omitempty"`
+	UrlSigning                 *UrlSigningAction_STATUS                             `json:"urlSigning,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleAction_STATUS{}
@@ -7333,64 +7038,27 @@ func (action *DeliveryRuleAction_STATUS) AssignProperties_To_DeliveryRuleAction_
 	return nil
 }
 
-// A condition for the delivery rule.
+// Deprecated version of DeliveryRuleCondition. Use v1api20210601.DeliveryRuleCondition instead
 type DeliveryRuleCondition struct {
-	// ClientPort: Mutually exclusive with all other properties
-	ClientPort *DeliveryRuleClientPortCondition `json:"clientPort,omitempty"`
-
-	// Cookies: Mutually exclusive with all other properties
-	Cookies *DeliveryRuleCookiesCondition `json:"cookies,omitempty"`
-
-	// HostName: Mutually exclusive with all other properties
-	HostName *DeliveryRuleHostNameCondition `json:"hostName,omitempty"`
-
-	// HttpVersion: Mutually exclusive with all other properties
-	HttpVersion *DeliveryRuleHttpVersionCondition `json:"httpVersion,omitempty"`
-
-	// IsDevice: Mutually exclusive with all other properties
-	IsDevice *DeliveryRuleIsDeviceCondition `json:"isDevice,omitempty"`
-
-	// PostArgs: Mutually exclusive with all other properties
-	PostArgs *DeliveryRulePostArgsCondition `json:"postArgs,omitempty"`
-
-	// QueryString: Mutually exclusive with all other properties
-	QueryString *DeliveryRuleQueryStringCondition `json:"queryString,omitempty"`
-
-	// RemoteAddress: Mutually exclusive with all other properties
-	RemoteAddress *DeliveryRuleRemoteAddressCondition `json:"remoteAddress,omitempty"`
-
-	// RequestBody: Mutually exclusive with all other properties
-	RequestBody *DeliveryRuleRequestBodyCondition `json:"requestBody,omitempty"`
-
-	// RequestHeader: Mutually exclusive with all other properties
-	RequestHeader *DeliveryRuleRequestHeaderCondition `json:"requestHeader,omitempty"`
-
-	// RequestMethod: Mutually exclusive with all other properties
-	RequestMethod *DeliveryRuleRequestMethodCondition `json:"requestMethod,omitempty"`
-
-	// RequestScheme: Mutually exclusive with all other properties
-	RequestScheme *DeliveryRuleRequestSchemeCondition `json:"requestScheme,omitempty"`
-
-	// RequestUri: Mutually exclusive with all other properties
-	RequestUri *DeliveryRuleRequestUriCondition `json:"requestUri,omitempty"`
-
-	// ServerPort: Mutually exclusive with all other properties
-	ServerPort *DeliveryRuleServerPortCondition `json:"serverPort,omitempty"`
-
-	// SocketAddr: Mutually exclusive with all other properties
-	SocketAddr *DeliveryRuleSocketAddrCondition `json:"socketAddr,omitempty"`
-
-	// SslProtocol: Mutually exclusive with all other properties
-	SslProtocol *DeliveryRuleSslProtocolCondition `json:"sslProtocol,omitempty"`
-
-	// UrlFileExtension: Mutually exclusive with all other properties
+	ClientPort       *DeliveryRuleClientPortCondition       `json:"clientPort,omitempty"`
+	Cookies          *DeliveryRuleCookiesCondition          `json:"cookies,omitempty"`
+	HostName         *DeliveryRuleHostNameCondition         `json:"hostName,omitempty"`
+	HttpVersion      *DeliveryRuleHttpVersionCondition      `json:"httpVersion,omitempty"`
+	IsDevice         *DeliveryRuleIsDeviceCondition         `json:"isDevice,omitempty"`
+	PostArgs         *DeliveryRulePostArgsCondition         `json:"postArgs,omitempty"`
+	QueryString      *DeliveryRuleQueryStringCondition      `json:"queryString,omitempty"`
+	RemoteAddress    *DeliveryRuleRemoteAddressCondition    `json:"remoteAddress,omitempty"`
+	RequestBody      *DeliveryRuleRequestBodyCondition      `json:"requestBody,omitempty"`
+	RequestHeader    *DeliveryRuleRequestHeaderCondition    `json:"requestHeader,omitempty"`
+	RequestMethod    *DeliveryRuleRequestMethodCondition    `json:"requestMethod,omitempty"`
+	RequestScheme    *DeliveryRuleRequestSchemeCondition    `json:"requestScheme,omitempty"`
+	RequestUri       *DeliveryRuleRequestUriCondition       `json:"requestUri,omitempty"`
+	ServerPort       *DeliveryRuleServerPortCondition       `json:"serverPort,omitempty"`
+	SocketAddr       *DeliveryRuleSocketAddrCondition       `json:"socketAddr,omitempty"`
+	SslProtocol      *DeliveryRuleSslProtocolCondition      `json:"sslProtocol,omitempty"`
 	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition `json:"urlFileExtension,omitempty"`
-
-	// UrlFileName: Mutually exclusive with all other properties
-	UrlFileName *DeliveryRuleUrlFileNameCondition `json:"urlFileName,omitempty"`
-
-	// UrlPath: Mutually exclusive with all other properties
-	UrlPath *DeliveryRuleUrlPathCondition `json:"urlPath,omitempty"`
+	UrlFileName      *DeliveryRuleUrlFileNameCondition      `json:"urlFileName,omitempty"`
+	UrlPath          *DeliveryRuleUrlPathCondition          `json:"urlPath,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DeliveryRuleCondition{}
@@ -8533,64 +8201,27 @@ func (condition *DeliveryRuleCondition) Initialize_From_DeliveryRuleCondition_ST
 	return nil
 }
 
-// A condition for the delivery rule.
+// Deprecated version of DeliveryRuleCondition_STATUS. Use v1api20210601.DeliveryRuleCondition_STATUS instead
 type DeliveryRuleCondition_STATUS struct {
-	// ClientPort: Mutually exclusive with all other properties
-	ClientPort *DeliveryRuleClientPortCondition_STATUS `json:"clientPort,omitempty"`
-
-	// Cookies: Mutually exclusive with all other properties
-	Cookies *DeliveryRuleCookiesCondition_STATUS `json:"cookies,omitempty"`
-
-	// HostName: Mutually exclusive with all other properties
-	HostName *DeliveryRuleHostNameCondition_STATUS `json:"hostName,omitempty"`
-
-	// HttpVersion: Mutually exclusive with all other properties
-	HttpVersion *DeliveryRuleHttpVersionCondition_STATUS `json:"httpVersion,omitempty"`
-
-	// IsDevice: Mutually exclusive with all other properties
-	IsDevice *DeliveryRuleIsDeviceCondition_STATUS `json:"isDevice,omitempty"`
-
-	// PostArgs: Mutually exclusive with all other properties
-	PostArgs *DeliveryRulePostArgsCondition_STATUS `json:"postArgs,omitempty"`
-
-	// QueryString: Mutually exclusive with all other properties
-	QueryString *DeliveryRuleQueryStringCondition_STATUS `json:"queryString,omitempty"`
-
-	// RemoteAddress: Mutually exclusive with all other properties
-	RemoteAddress *DeliveryRuleRemoteAddressCondition_STATUS `json:"remoteAddress,omitempty"`
-
-	// RequestBody: Mutually exclusive with all other properties
-	RequestBody *DeliveryRuleRequestBodyCondition_STATUS `json:"requestBody,omitempty"`
-
-	// RequestHeader: Mutually exclusive with all other properties
-	RequestHeader *DeliveryRuleRequestHeaderCondition_STATUS `json:"requestHeader,omitempty"`
-
-	// RequestMethod: Mutually exclusive with all other properties
-	RequestMethod *DeliveryRuleRequestMethodCondition_STATUS `json:"requestMethod,omitempty"`
-
-	// RequestScheme: Mutually exclusive with all other properties
-	RequestScheme *DeliveryRuleRequestSchemeCondition_STATUS `json:"requestScheme,omitempty"`
-
-	// RequestUri: Mutually exclusive with all other properties
-	RequestUri *DeliveryRuleRequestUriCondition_STATUS `json:"requestUri,omitempty"`
-
-	// ServerPort: Mutually exclusive with all other properties
-	ServerPort *DeliveryRuleServerPortCondition_STATUS `json:"serverPort,omitempty"`
-
-	// SocketAddr: Mutually exclusive with all other properties
-	SocketAddr *DeliveryRuleSocketAddrCondition_STATUS `json:"socketAddr,omitempty"`
-
-	// SslProtocol: Mutually exclusive with all other properties
-	SslProtocol *DeliveryRuleSslProtocolCondition_STATUS `json:"sslProtocol,omitempty"`
-
-	// UrlFileExtension: Mutually exclusive with all other properties
+	ClientPort       *DeliveryRuleClientPortCondition_STATUS       `json:"clientPort,omitempty"`
+	Cookies          *DeliveryRuleCookiesCondition_STATUS          `json:"cookies,omitempty"`
+	HostName         *DeliveryRuleHostNameCondition_STATUS         `json:"hostName,omitempty"`
+	HttpVersion      *DeliveryRuleHttpVersionCondition_STATUS      `json:"httpVersion,omitempty"`
+	IsDevice         *DeliveryRuleIsDeviceCondition_STATUS         `json:"isDevice,omitempty"`
+	PostArgs         *DeliveryRulePostArgsCondition_STATUS         `json:"postArgs,omitempty"`
+	QueryString      *DeliveryRuleQueryStringCondition_STATUS      `json:"queryString,omitempty"`
+	RemoteAddress    *DeliveryRuleRemoteAddressCondition_STATUS    `json:"remoteAddress,omitempty"`
+	RequestBody      *DeliveryRuleRequestBodyCondition_STATUS      `json:"requestBody,omitempty"`
+	RequestHeader    *DeliveryRuleRequestHeaderCondition_STATUS    `json:"requestHeader,omitempty"`
+	RequestMethod    *DeliveryRuleRequestMethodCondition_STATUS    `json:"requestMethod,omitempty"`
+	RequestScheme    *DeliveryRuleRequestSchemeCondition_STATUS    `json:"requestScheme,omitempty"`
+	RequestUri       *DeliveryRuleRequestUriCondition_STATUS       `json:"requestUri,omitempty"`
+	ServerPort       *DeliveryRuleServerPortCondition_STATUS       `json:"serverPort,omitempty"`
+	SocketAddr       *DeliveryRuleSocketAddrCondition_STATUS       `json:"socketAddr,omitempty"`
+	SslProtocol      *DeliveryRuleSslProtocolCondition_STATUS      `json:"sslProtocol,omitempty"`
 	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition_STATUS `json:"urlFileExtension,omitempty"`
-
-	// UrlFileName: Mutually exclusive with all other properties
-	UrlFileName *DeliveryRuleUrlFileNameCondition_STATUS `json:"urlFileName,omitempty"`
-
-	// UrlPath: Mutually exclusive with all other properties
-	UrlPath *DeliveryRuleUrlPathCondition_STATUS `json:"urlPath,omitempty"`
+	UrlFileName      *DeliveryRuleUrlFileNameCondition_STATUS      `json:"urlFileName,omitempty"`
+	UrlPath          *DeliveryRuleUrlPathCondition_STATUS          `json:"urlPath,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleCondition_STATUS{}
@@ -9299,6 +8930,7 @@ func (condition *DeliveryRuleCondition_STATUS) AssignProperties_To_DeliveryRuleC
 	return nil
 }
 
+// Deprecated version of HealthProbeParameters_ProbeProtocol. Use v1api20210601.HealthProbeParameters_ProbeProtocol instead
 // +kubebuilder:validation:Enum={"Http","Https","NotSet"}
 type HealthProbeParameters_ProbeProtocol string
 
@@ -9308,6 +8940,8 @@ const (
 	HealthProbeParameters_ProbeProtocol_NotSet = HealthProbeParameters_ProbeProtocol("NotSet")
 )
 
+// Deprecated version of HealthProbeParameters_ProbeProtocol_STATUS. Use
+// v1api20210601.HealthProbeParameters_ProbeProtocol_STATUS instead
 type HealthProbeParameters_ProbeProtocol_STATUS string
 
 const (
@@ -9316,6 +8950,8 @@ const (
 	HealthProbeParameters_ProbeProtocol_STATUS_NotSet = HealthProbeParameters_ProbeProtocol_STATUS("NotSet")
 )
 
+// Deprecated version of HealthProbeParameters_ProbeRequestType. Use v1api20210601.HealthProbeParameters_ProbeRequestType
+// instead
 // +kubebuilder:validation:Enum={"GET","HEAD","NotSet"}
 type HealthProbeParameters_ProbeRequestType string
 
@@ -9325,6 +8961,8 @@ const (
 	HealthProbeParameters_ProbeRequestType_NotSet = HealthProbeParameters_ProbeRequestType("NotSet")
 )
 
+// Deprecated version of HealthProbeParameters_ProbeRequestType_STATUS. Use
+// v1api20210601.HealthProbeParameters_ProbeRequestType_STATUS instead
 type HealthProbeParameters_ProbeRequestType_STATUS string
 
 const (
@@ -9333,16 +8971,14 @@ const (
 	HealthProbeParameters_ProbeRequestType_STATUS_NotSet = HealthProbeParameters_ProbeRequestType_STATUS("NotSet")
 )
 
-// The JSON object that represents the range for http status codes
+// Deprecated version of HttpErrorRangeParameters. Use v1api20210601.HttpErrorRangeParameters instead
 type HttpErrorRangeParameters struct {
 	// +kubebuilder:validation:Maximum=999
 	// +kubebuilder:validation:Minimum=100
-	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
 
 	// +kubebuilder:validation:Maximum=999
 	// +kubebuilder:validation:Minimum=100
-	// End: The inclusive end of the http status code range.
 	End *int `json:"end,omitempty"`
 }
 
@@ -9475,13 +9111,10 @@ func (parameters *HttpErrorRangeParameters) Initialize_From_HttpErrorRangeParame
 	return nil
 }
 
-// The JSON object that represents the range for http status codes
+// Deprecated version of HttpErrorRangeParameters_STATUS. Use v1api20210601.HttpErrorRangeParameters_STATUS instead
 type HttpErrorRangeParameters_STATUS struct {
-	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
-
-	// End: The inclusive end of the http status code range.
-	End *int `json:"end,omitempty"`
+	End   *int `json:"end,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HttpErrorRangeParameters_STATUS{}
@@ -9549,15 +9182,21 @@ func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_To_HttpError
 	return nil
 }
 
+// Deprecated version of KeyVaultSigningKeyParameters_TypeName. Use v1api20210601.KeyVaultSigningKeyParameters_TypeName
+// instead
 // +kubebuilder:validation:Enum={"KeyVaultSigningKeyParameters"}
 type KeyVaultSigningKeyParameters_TypeName string
 
 const KeyVaultSigningKeyParameters_TypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName("KeyVaultSigningKeyParameters")
 
+// Deprecated version of KeyVaultSigningKeyParameters_TypeName_STATUS. Use
+// v1api20210601.KeyVaultSigningKeyParameters_TypeName_STATUS instead
 type KeyVaultSigningKeyParameters_TypeName_STATUS string
 
 const KeyVaultSigningKeyParameters_TypeName_STATUS_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName_STATUS("KeyVaultSigningKeyParameters")
 
+// Deprecated version of ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes. Use
+// v1api20210601.ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes instead
 // +kubebuilder:validation:Enum={"None","TcpAndHttpErrors","TcpErrorsOnly"}
 type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes string
 
@@ -9567,6 +9206,8 @@ const (
 	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
+// Deprecated version of ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS. Use
+// v1api20210601.ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS instead
 type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS string
 
 const (
@@ -9575,13 +9216,12 @@ const (
 	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("TcpErrorsOnly")
 )
 
+// Deprecated version of DeliveryRuleCacheExpirationAction. Use v1api20210601.DeliveryRuleCacheExpirationAction instead
 type DeliveryRuleCacheExpirationAction struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the action for the delivery rule.
 	Name *DeliveryRuleCacheExpirationAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the action.
 	Parameters *CacheExpirationActionParameters `json:"parameters,omitempty"`
 }
 
@@ -9731,12 +9371,10 @@ func (action *DeliveryRuleCacheExpirationAction) Initialize_From_DeliveryRuleCac
 	return nil
 }
 
+// Deprecated version of DeliveryRuleCacheExpirationAction_STATUS. Use v1api20210601.DeliveryRuleCacheExpirationAction_STATUS instead
 type DeliveryRuleCacheExpirationAction_STATUS struct {
-	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleCacheExpirationAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *CacheExpirationActionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleCacheExpirationAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *CacheExpirationActionParameters_STATUS        `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleCacheExpirationAction_STATUS{}
@@ -9834,13 +9472,12 @@ func (action *DeliveryRuleCacheExpirationAction_STATUS) AssignProperties_To_Deli
 	return nil
 }
 
+// Deprecated version of DeliveryRuleCacheKeyQueryStringAction. Use v1api20210601.DeliveryRuleCacheKeyQueryStringAction instead
 type DeliveryRuleCacheKeyQueryStringAction struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the action for the delivery rule.
 	Name *DeliveryRuleCacheKeyQueryStringAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the action.
 	Parameters *CacheKeyQueryStringActionParameters `json:"parameters,omitempty"`
 }
 
@@ -9990,12 +9627,10 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) Initialize_From_DeliveryRul
 	return nil
 }
 
+// Deprecated version of DeliveryRuleCacheKeyQueryStringAction_STATUS. Use v1api20210601.DeliveryRuleCacheKeyQueryStringAction_STATUS instead
 type DeliveryRuleCacheKeyQueryStringAction_STATUS struct {
-	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleCacheKeyQueryStringAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *CacheKeyQueryStringActionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleCacheKeyQueryStringAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *CacheKeyQueryStringActionParameters_STATUS        `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleCacheKeyQueryStringAction_STATUS{}
@@ -10093,13 +9728,12 @@ func (action *DeliveryRuleCacheKeyQueryStringAction_STATUS) AssignProperties_To_
 	return nil
 }
 
+// Deprecated version of DeliveryRuleClientPortCondition. Use v1api20210601.DeliveryRuleClientPortCondition instead
 type DeliveryRuleClientPortCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleClientPortCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *ClientPortMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -10249,12 +9883,10 @@ func (condition *DeliveryRuleClientPortCondition) Initialize_From_DeliveryRuleCl
 	return nil
 }
 
+// Deprecated version of DeliveryRuleClientPortCondition_STATUS. Use v1api20210601.DeliveryRuleClientPortCondition_STATUS instead
 type DeliveryRuleClientPortCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleClientPortCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *ClientPortMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleClientPortCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *ClientPortMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleClientPortCondition_STATUS{}
@@ -10352,13 +9984,12 @@ func (condition *DeliveryRuleClientPortCondition_STATUS) AssignProperties_To_Del
 	return nil
 }
 
+// Deprecated version of DeliveryRuleCookiesCondition. Use v1api20210601.DeliveryRuleCookiesCondition instead
 type DeliveryRuleCookiesCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleCookiesCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *CookiesMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -10508,12 +10139,10 @@ func (condition *DeliveryRuleCookiesCondition) Initialize_From_DeliveryRuleCooki
 	return nil
 }
 
+// Deprecated version of DeliveryRuleCookiesCondition_STATUS. Use v1api20210601.DeliveryRuleCookiesCondition_STATUS instead
 type DeliveryRuleCookiesCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleCookiesCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *CookiesMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleCookiesCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *CookiesMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleCookiesCondition_STATUS{}
@@ -10611,13 +10240,12 @@ func (condition *DeliveryRuleCookiesCondition_STATUS) AssignProperties_To_Delive
 	return nil
 }
 
+// Deprecated version of DeliveryRuleHostNameCondition. Use v1api20210601.DeliveryRuleHostNameCondition instead
 type DeliveryRuleHostNameCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleHostNameCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *HostNameMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -10767,12 +10395,10 @@ func (condition *DeliveryRuleHostNameCondition) Initialize_From_DeliveryRuleHost
 	return nil
 }
 
+// Deprecated version of DeliveryRuleHostNameCondition_STATUS. Use v1api20210601.DeliveryRuleHostNameCondition_STATUS instead
 type DeliveryRuleHostNameCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleHostNameCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *HostNameMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleHostNameCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *HostNameMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleHostNameCondition_STATUS{}
@@ -10870,13 +10496,12 @@ func (condition *DeliveryRuleHostNameCondition_STATUS) AssignProperties_To_Deliv
 	return nil
 }
 
+// Deprecated version of DeliveryRuleHttpVersionCondition. Use v1api20210601.DeliveryRuleHttpVersionCondition instead
 type DeliveryRuleHttpVersionCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleHttpVersionCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *HttpVersionMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -11026,12 +10651,10 @@ func (condition *DeliveryRuleHttpVersionCondition) Initialize_From_DeliveryRuleH
 	return nil
 }
 
+// Deprecated version of DeliveryRuleHttpVersionCondition_STATUS. Use v1api20210601.DeliveryRuleHttpVersionCondition_STATUS instead
 type DeliveryRuleHttpVersionCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleHttpVersionCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *HttpVersionMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleHttpVersionCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *HttpVersionMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleHttpVersionCondition_STATUS{}
@@ -11129,13 +10752,12 @@ func (condition *DeliveryRuleHttpVersionCondition_STATUS) AssignProperties_To_De
 	return nil
 }
 
+// Deprecated version of DeliveryRuleIsDeviceCondition. Use v1api20210601.DeliveryRuleIsDeviceCondition instead
 type DeliveryRuleIsDeviceCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleIsDeviceCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *IsDeviceMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -11285,12 +10907,10 @@ func (condition *DeliveryRuleIsDeviceCondition) Initialize_From_DeliveryRuleIsDe
 	return nil
 }
 
+// Deprecated version of DeliveryRuleIsDeviceCondition_STATUS. Use v1api20210601.DeliveryRuleIsDeviceCondition_STATUS instead
 type DeliveryRuleIsDeviceCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleIsDeviceCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *IsDeviceMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleIsDeviceCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *IsDeviceMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleIsDeviceCondition_STATUS{}
@@ -11388,13 +11008,12 @@ func (condition *DeliveryRuleIsDeviceCondition_STATUS) AssignProperties_To_Deliv
 	return nil
 }
 
+// Deprecated version of DeliveryRulePostArgsCondition. Use v1api20210601.DeliveryRulePostArgsCondition instead
 type DeliveryRulePostArgsCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRulePostArgsCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *PostArgsMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -11544,12 +11163,10 @@ func (condition *DeliveryRulePostArgsCondition) Initialize_From_DeliveryRulePost
 	return nil
 }
 
+// Deprecated version of DeliveryRulePostArgsCondition_STATUS. Use v1api20210601.DeliveryRulePostArgsCondition_STATUS instead
 type DeliveryRulePostArgsCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRulePostArgsCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *PostArgsMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRulePostArgsCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *PostArgsMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRulePostArgsCondition_STATUS{}
@@ -11647,13 +11264,12 @@ func (condition *DeliveryRulePostArgsCondition_STATUS) AssignProperties_To_Deliv
 	return nil
 }
 
+// Deprecated version of DeliveryRuleQueryStringCondition. Use v1api20210601.DeliveryRuleQueryStringCondition instead
 type DeliveryRuleQueryStringCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleQueryStringCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *QueryStringMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -11803,12 +11419,10 @@ func (condition *DeliveryRuleQueryStringCondition) Initialize_From_DeliveryRuleQ
 	return nil
 }
 
+// Deprecated version of DeliveryRuleQueryStringCondition_STATUS. Use v1api20210601.DeliveryRuleQueryStringCondition_STATUS instead
 type DeliveryRuleQueryStringCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleQueryStringCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *QueryStringMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleQueryStringCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *QueryStringMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleQueryStringCondition_STATUS{}
@@ -11906,13 +11520,12 @@ func (condition *DeliveryRuleQueryStringCondition_STATUS) AssignProperties_To_De
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRemoteAddressCondition. Use v1api20210601.DeliveryRuleRemoteAddressCondition instead
 type DeliveryRuleRemoteAddressCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleRemoteAddressCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *RemoteAddressMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -12062,12 +11675,10 @@ func (condition *DeliveryRuleRemoteAddressCondition) Initialize_From_DeliveryRul
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRemoteAddressCondition_STATUS. Use v1api20210601.DeliveryRuleRemoteAddressCondition_STATUS instead
 type DeliveryRuleRemoteAddressCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleRemoteAddressCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *RemoteAddressMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleRemoteAddressCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *RemoteAddressMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleRemoteAddressCondition_STATUS{}
@@ -12165,13 +11776,12 @@ func (condition *DeliveryRuleRemoteAddressCondition_STATUS) AssignProperties_To_
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestBodyCondition. Use v1api20210601.DeliveryRuleRequestBodyCondition instead
 type DeliveryRuleRequestBodyCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleRequestBodyCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestBodyMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -12321,12 +11931,10 @@ func (condition *DeliveryRuleRequestBodyCondition) Initialize_From_DeliveryRuleR
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestBodyCondition_STATUS. Use v1api20210601.DeliveryRuleRequestBodyCondition_STATUS instead
 type DeliveryRuleRequestBodyCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleRequestBodyCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *RequestBodyMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleRequestBodyCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *RequestBodyMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleRequestBodyCondition_STATUS{}
@@ -12424,13 +12032,12 @@ func (condition *DeliveryRuleRequestBodyCondition_STATUS) AssignProperties_To_De
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestHeaderAction. Use v1api20210601.DeliveryRuleRequestHeaderAction instead
 type DeliveryRuleRequestHeaderAction struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the action for the delivery rule.
 	Name *DeliveryRuleRequestHeaderAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the action.
 	Parameters *HeaderActionParameters `json:"parameters,omitempty"`
 }
 
@@ -12580,12 +12187,10 @@ func (action *DeliveryRuleRequestHeaderAction) Initialize_From_DeliveryRuleReque
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestHeaderAction_STATUS. Use v1api20210601.DeliveryRuleRequestHeaderAction_STATUS instead
 type DeliveryRuleRequestHeaderAction_STATUS struct {
-	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleRequestHeaderAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *HeaderActionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleRequestHeaderAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *HeaderActionParameters_STATUS               `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleRequestHeaderAction_STATUS{}
@@ -12683,13 +12288,12 @@ func (action *DeliveryRuleRequestHeaderAction_STATUS) AssignProperties_To_Delive
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestHeaderCondition. Use v1api20210601.DeliveryRuleRequestHeaderCondition instead
 type DeliveryRuleRequestHeaderCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleRequestHeaderCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestHeaderMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -12839,12 +12443,10 @@ func (condition *DeliveryRuleRequestHeaderCondition) Initialize_From_DeliveryRul
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestHeaderCondition_STATUS. Use v1api20210601.DeliveryRuleRequestHeaderCondition_STATUS instead
 type DeliveryRuleRequestHeaderCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleRequestHeaderCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *RequestHeaderMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleRequestHeaderCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *RequestHeaderMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleRequestHeaderCondition_STATUS{}
@@ -12942,13 +12544,12 @@ func (condition *DeliveryRuleRequestHeaderCondition_STATUS) AssignProperties_To_
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestMethodCondition. Use v1api20210601.DeliveryRuleRequestMethodCondition instead
 type DeliveryRuleRequestMethodCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleRequestMethodCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestMethodMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -13098,12 +12699,10 @@ func (condition *DeliveryRuleRequestMethodCondition) Initialize_From_DeliveryRul
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestMethodCondition_STATUS. Use v1api20210601.DeliveryRuleRequestMethodCondition_STATUS instead
 type DeliveryRuleRequestMethodCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleRequestMethodCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *RequestMethodMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleRequestMethodCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *RequestMethodMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleRequestMethodCondition_STATUS{}
@@ -13201,13 +12800,12 @@ func (condition *DeliveryRuleRequestMethodCondition_STATUS) AssignProperties_To_
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestSchemeCondition. Use v1api20210601.DeliveryRuleRequestSchemeCondition instead
 type DeliveryRuleRequestSchemeCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleRequestSchemeCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestSchemeMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -13357,12 +12955,10 @@ func (condition *DeliveryRuleRequestSchemeCondition) Initialize_From_DeliveryRul
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestSchemeCondition_STATUS. Use v1api20210601.DeliveryRuleRequestSchemeCondition_STATUS instead
 type DeliveryRuleRequestSchemeCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleRequestSchemeCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *RequestSchemeMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleRequestSchemeCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *RequestSchemeMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleRequestSchemeCondition_STATUS{}
@@ -13460,13 +13056,12 @@ func (condition *DeliveryRuleRequestSchemeCondition_STATUS) AssignProperties_To_
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestUriCondition. Use v1api20210601.DeliveryRuleRequestUriCondition instead
 type DeliveryRuleRequestUriCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleRequestUriCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *RequestUriMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -13616,12 +13211,10 @@ func (condition *DeliveryRuleRequestUriCondition) Initialize_From_DeliveryRuleRe
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRequestUriCondition_STATUS. Use v1api20210601.DeliveryRuleRequestUriCondition_STATUS instead
 type DeliveryRuleRequestUriCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleRequestUriCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *RequestUriMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleRequestUriCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *RequestUriMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleRequestUriCondition_STATUS{}
@@ -13719,13 +13312,12 @@ func (condition *DeliveryRuleRequestUriCondition_STATUS) AssignProperties_To_Del
 	return nil
 }
 
+// Deprecated version of DeliveryRuleResponseHeaderAction. Use v1api20210601.DeliveryRuleResponseHeaderAction instead
 type DeliveryRuleResponseHeaderAction struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the action for the delivery rule.
 	Name *DeliveryRuleResponseHeaderAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the action.
 	Parameters *HeaderActionParameters `json:"parameters,omitempty"`
 }
 
@@ -13875,12 +13467,10 @@ func (action *DeliveryRuleResponseHeaderAction) Initialize_From_DeliveryRuleResp
 	return nil
 }
 
+// Deprecated version of DeliveryRuleResponseHeaderAction_STATUS. Use v1api20210601.DeliveryRuleResponseHeaderAction_STATUS instead
 type DeliveryRuleResponseHeaderAction_STATUS struct {
-	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleResponseHeaderAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *HeaderActionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleResponseHeaderAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *HeaderActionParameters_STATUS                `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleResponseHeaderAction_STATUS{}
@@ -13978,13 +13568,12 @@ func (action *DeliveryRuleResponseHeaderAction_STATUS) AssignProperties_To_Deliv
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRouteConfigurationOverrideAction. Use v1api20210601.DeliveryRuleRouteConfigurationOverrideAction instead
 type DeliveryRuleRouteConfigurationOverrideAction struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the action for the delivery rule.
 	Name *DeliveryRuleRouteConfigurationOverrideAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the action.
 	Parameters *RouteConfigurationOverrideActionParameters `json:"parameters,omitempty"`
 }
 
@@ -14134,12 +13723,10 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) Initialize_From_Deli
 	return nil
 }
 
+// Deprecated version of DeliveryRuleRouteConfigurationOverrideAction_STATUS. Use v1api20210601.DeliveryRuleRouteConfigurationOverrideAction_STATUS instead
 type DeliveryRuleRouteConfigurationOverrideAction_STATUS struct {
-	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *RouteConfigurationOverrideActionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *RouteConfigurationOverrideActionParameters_STATUS        `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleRouteConfigurationOverrideAction_STATUS{}
@@ -14237,13 +13824,12 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction_STATUS) AssignPropert
 	return nil
 }
 
+// Deprecated version of DeliveryRuleServerPortCondition. Use v1api20210601.DeliveryRuleServerPortCondition instead
 type DeliveryRuleServerPortCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleServerPortCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *ServerPortMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -14393,12 +13979,10 @@ func (condition *DeliveryRuleServerPortCondition) Initialize_From_DeliveryRuleSe
 	return nil
 }
 
+// Deprecated version of DeliveryRuleServerPortCondition_STATUS. Use v1api20210601.DeliveryRuleServerPortCondition_STATUS instead
 type DeliveryRuleServerPortCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleServerPortCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *ServerPortMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleServerPortCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *ServerPortMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleServerPortCondition_STATUS{}
@@ -14496,13 +14080,12 @@ func (condition *DeliveryRuleServerPortCondition_STATUS) AssignProperties_To_Del
 	return nil
 }
 
+// Deprecated version of DeliveryRuleSocketAddrCondition. Use v1api20210601.DeliveryRuleSocketAddrCondition instead
 type DeliveryRuleSocketAddrCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleSocketAddrCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *SocketAddrMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -14652,12 +14235,10 @@ func (condition *DeliveryRuleSocketAddrCondition) Initialize_From_DeliveryRuleSo
 	return nil
 }
 
+// Deprecated version of DeliveryRuleSocketAddrCondition_STATUS. Use v1api20210601.DeliveryRuleSocketAddrCondition_STATUS instead
 type DeliveryRuleSocketAddrCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleSocketAddrCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *SocketAddrMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleSocketAddrCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *SocketAddrMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleSocketAddrCondition_STATUS{}
@@ -14755,13 +14336,12 @@ func (condition *DeliveryRuleSocketAddrCondition_STATUS) AssignProperties_To_Del
 	return nil
 }
 
+// Deprecated version of DeliveryRuleSslProtocolCondition. Use v1api20210601.DeliveryRuleSslProtocolCondition instead
 type DeliveryRuleSslProtocolCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleSslProtocolCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *SslProtocolMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -14911,12 +14491,10 @@ func (condition *DeliveryRuleSslProtocolCondition) Initialize_From_DeliveryRuleS
 	return nil
 }
 
+// Deprecated version of DeliveryRuleSslProtocolCondition_STATUS. Use v1api20210601.DeliveryRuleSslProtocolCondition_STATUS instead
 type DeliveryRuleSslProtocolCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleSslProtocolCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *SslProtocolMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleSslProtocolCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *SslProtocolMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleSslProtocolCondition_STATUS{}
@@ -15014,13 +14592,12 @@ func (condition *DeliveryRuleSslProtocolCondition_STATUS) AssignProperties_To_De
 	return nil
 }
 
+// Deprecated version of DeliveryRuleUrlFileExtensionCondition. Use v1api20210601.DeliveryRuleUrlFileExtensionCondition instead
 type DeliveryRuleUrlFileExtensionCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleUrlFileExtensionCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlFileExtensionMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -15170,12 +14747,10 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) Initialize_From_Delivery
 	return nil
 }
 
+// Deprecated version of DeliveryRuleUrlFileExtensionCondition_STATUS. Use v1api20210601.DeliveryRuleUrlFileExtensionCondition_STATUS instead
 type DeliveryRuleUrlFileExtensionCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleUrlFileExtensionCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *UrlFileExtensionMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleUrlFileExtensionCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *UrlFileExtensionMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleUrlFileExtensionCondition_STATUS{}
@@ -15273,13 +14848,12 @@ func (condition *DeliveryRuleUrlFileExtensionCondition_STATUS) AssignProperties_
 	return nil
 }
 
+// Deprecated version of DeliveryRuleUrlFileNameCondition. Use v1api20210601.DeliveryRuleUrlFileNameCondition instead
 type DeliveryRuleUrlFileNameCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleUrlFileNameCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlFileNameMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -15429,12 +15003,10 @@ func (condition *DeliveryRuleUrlFileNameCondition) Initialize_From_DeliveryRuleU
 	return nil
 }
 
+// Deprecated version of DeliveryRuleUrlFileNameCondition_STATUS. Use v1api20210601.DeliveryRuleUrlFileNameCondition_STATUS instead
 type DeliveryRuleUrlFileNameCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleUrlFileNameCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *UrlFileNameMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleUrlFileNameCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *UrlFileNameMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleUrlFileNameCondition_STATUS{}
@@ -15532,13 +15104,12 @@ func (condition *DeliveryRuleUrlFileNameCondition_STATUS) AssignProperties_To_De
 	return nil
 }
 
+// Deprecated version of DeliveryRuleUrlPathCondition. Use v1api20210601.DeliveryRuleUrlPathCondition instead
 type DeliveryRuleUrlPathCondition struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleUrlPathCondition_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the condition.
 	Parameters *UrlPathMatchConditionParameters `json:"parameters,omitempty"`
 }
 
@@ -15688,12 +15259,10 @@ func (condition *DeliveryRuleUrlPathCondition) Initialize_From_DeliveryRuleUrlPa
 	return nil
 }
 
+// Deprecated version of DeliveryRuleUrlPathCondition_STATUS. Use v1api20210601.DeliveryRuleUrlPathCondition_STATUS instead
 type DeliveryRuleUrlPathCondition_STATUS struct {
-	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleUrlPathCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
-	Parameters *UrlPathMatchConditionParameters_STATUS `json:"parameters,omitempty"`
+	Name       *DeliveryRuleUrlPathCondition_Name_STATUS `json:"name,omitempty"`
+	Parameters *UrlPathMatchConditionParameters_STATUS   `json:"parameters,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DeliveryRuleUrlPathCondition_STATUS{}
@@ -15791,13 +15360,12 @@ func (condition *DeliveryRuleUrlPathCondition_STATUS) AssignProperties_To_Delive
 	return nil
 }
 
+// Deprecated version of OriginGroupOverrideAction. Use v1api20210601.OriginGroupOverrideAction instead
 type OriginGroupOverrideAction struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the action for the delivery rule.
 	Name *OriginGroupOverrideAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the action.
 	Parameters *OriginGroupOverrideActionParameters `json:"parameters,omitempty"`
 }
 
@@ -15947,11 +15515,9 @@ func (action *OriginGroupOverrideAction) Initialize_From_OriginGroupOverrideActi
 	return nil
 }
 
+// Deprecated version of OriginGroupOverrideAction_STATUS. Use v1api20210601.OriginGroupOverrideAction_STATUS instead
 type OriginGroupOverrideAction_STATUS struct {
-	// Name: The name of the action for the delivery rule.
-	Name *OriginGroupOverrideAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
+	Name       *OriginGroupOverrideAction_Name_STATUS      `json:"name,omitempty"`
 	Parameters *OriginGroupOverrideActionParameters_STATUS `json:"parameters,omitempty"`
 }
 
@@ -16050,13 +15616,12 @@ func (action *OriginGroupOverrideAction_STATUS) AssignProperties_To_OriginGroupO
 	return nil
 }
 
+// Deprecated version of UrlRedirectAction. Use v1api20210601.UrlRedirectAction instead
 type UrlRedirectAction struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the action for the delivery rule.
 	Name *UrlRedirectAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the action.
 	Parameters *UrlRedirectActionParameters `json:"parameters,omitempty"`
 }
 
@@ -16206,11 +15771,9 @@ func (action *UrlRedirectAction) Initialize_From_UrlRedirectAction_STATUS(source
 	return nil
 }
 
+// Deprecated version of UrlRedirectAction_STATUS. Use v1api20210601.UrlRedirectAction_STATUS instead
 type UrlRedirectAction_STATUS struct {
-	// Name: The name of the action for the delivery rule.
-	Name *UrlRedirectAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
+	Name       *UrlRedirectAction_Name_STATUS      `json:"name,omitempty"`
 	Parameters *UrlRedirectActionParameters_STATUS `json:"parameters,omitempty"`
 }
 
@@ -16309,13 +15872,12 @@ func (action *UrlRedirectAction_STATUS) AssignProperties_To_UrlRedirectAction_ST
 	return nil
 }
 
+// Deprecated version of UrlRewriteAction. Use v1api20210601.UrlRewriteAction instead
 type UrlRewriteAction struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the action for the delivery rule.
 	Name *UrlRewriteAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the action.
 	Parameters *UrlRewriteActionParameters `json:"parameters,omitempty"`
 }
 
@@ -16465,11 +16027,9 @@ func (action *UrlRewriteAction) Initialize_From_UrlRewriteAction_STATUS(source *
 	return nil
 }
 
+// Deprecated version of UrlRewriteAction_STATUS. Use v1api20210601.UrlRewriteAction_STATUS instead
 type UrlRewriteAction_STATUS struct {
-	// Name: The name of the action for the delivery rule.
-	Name *UrlRewriteAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
+	Name       *UrlRewriteAction_Name_STATUS      `json:"name,omitempty"`
 	Parameters *UrlRewriteActionParameters_STATUS `json:"parameters,omitempty"`
 }
 
@@ -16568,13 +16128,12 @@ func (action *UrlRewriteAction_STATUS) AssignProperties_To_UrlRewriteAction_STAT
 	return nil
 }
 
+// Deprecated version of UrlSigningAction. Use v1api20210601.UrlSigningAction instead
 type UrlSigningAction struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the action for the delivery rule.
 	Name *UrlSigningAction_Name `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the action.
 	Parameters *UrlSigningActionParameters `json:"parameters,omitempty"`
 }
 
@@ -16724,11 +16283,9 @@ func (action *UrlSigningAction) Initialize_From_UrlSigningAction_STATUS(source *
 	return nil
 }
 
+// Deprecated version of UrlSigningAction_STATUS. Use v1api20210601.UrlSigningAction_STATUS instead
 type UrlSigningAction_STATUS struct {
-	// Name: The name of the action for the delivery rule.
-	Name *UrlSigningAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
+	Name       *UrlSigningAction_Name_STATUS      `json:"name,omitempty"`
 	Parameters *UrlSigningActionParameters_STATUS `json:"parameters,omitempty"`
 }
 
@@ -16827,17 +16384,13 @@ func (action *UrlSigningAction_STATUS) AssignProperties_To_UrlSigningAction_STAT
 	return nil
 }
 
-// Defines the parameters for the cache expiration action.
+// Deprecated version of CacheExpirationActionParameters. Use v1api20210601.CacheExpirationActionParameters instead
 type CacheExpirationActionParameters struct {
 	// +kubebuilder:validation:Required
-	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheExpirationActionParameters_CacheBehavior `json:"cacheBehavior,omitempty"`
-
-	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
-	CacheDuration *string `json:"cacheDuration,omitempty"`
+	CacheDuration *string                                        `json:"cacheDuration,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CacheType: The level at which the content needs to be cached.
 	CacheType *CacheExpirationActionParameters_CacheType `json:"cacheType,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -17030,17 +16583,12 @@ func (parameters *CacheExpirationActionParameters) Initialize_From_CacheExpirati
 	return nil
 }
 
-// Defines the parameters for the cache expiration action.
+// Deprecated version of CacheExpirationActionParameters_STATUS. Use v1api20210601.CacheExpirationActionParameters_STATUS instead
 type CacheExpirationActionParameters_STATUS struct {
-	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheExpirationActionParameters_CacheBehavior_STATUS `json:"cacheBehavior,omitempty"`
-
-	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
-	CacheDuration *string `json:"cacheDuration,omitempty"`
-
-	// CacheType: The level at which the content needs to be cached.
-	CacheType *CacheExpirationActionParameters_CacheType_STATUS `json:"cacheType,omitempty"`
-	TypeName  *CacheExpirationActionParameters_TypeName_STATUS  `json:"typeName,omitempty"`
+	CacheDuration *string                                               `json:"cacheDuration,omitempty"`
+	CacheType     *CacheExpirationActionParameters_CacheType_STATUS     `json:"cacheType,omitempty"`
+	TypeName      *CacheExpirationActionParameters_TypeName_STATUS      `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CacheExpirationActionParameters_STATUS{}
@@ -17162,13 +16710,11 @@ func (parameters *CacheExpirationActionParameters_STATUS) AssignProperties_To_Ca
 	return nil
 }
 
-// Defines the parameters for the cache-key query string action.
+// Deprecated version of CacheKeyQueryStringActionParameters. Use v1api20210601.CacheKeyQueryStringActionParameters instead
 type CacheKeyQueryStringActionParameters struct {
-	// QueryParameters: query parameters to include or exclude (comma separated).
 	QueryParameters *string `json:"queryParameters,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// QueryStringBehavior: Caching behavior for the requests
 	QueryStringBehavior *CacheKeyQueryStringActionParameters_QueryStringBehavior `json:"queryStringBehavior,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -17325,12 +16871,9 @@ func (parameters *CacheKeyQueryStringActionParameters) Initialize_From_CacheKeyQ
 	return nil
 }
 
-// Defines the parameters for the cache-key query string action.
+// Deprecated version of CacheKeyQueryStringActionParameters_STATUS. Use v1api20210601.CacheKeyQueryStringActionParameters_STATUS instead
 type CacheKeyQueryStringActionParameters_STATUS struct {
-	// QueryParameters: query parameters to include or exclude (comma separated).
-	QueryParameters *string `json:"queryParameters,omitempty"`
-
-	// QueryStringBehavior: Caching behavior for the requests
+	QueryParameters     *string                                                         `json:"queryParameters,omitempty"`
 	QueryStringBehavior *CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS `json:"queryStringBehavior,omitempty"`
 	TypeName            *CacheKeyQueryStringActionParameters_TypeName_STATUS            `json:"typeName,omitempty"`
 }
@@ -17432,20 +16975,14 @@ func (parameters *CacheKeyQueryStringActionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
-// Defines the parameters for ClientPort match conditions
+// Deprecated version of ClientPortMatchConditionParameters. Use v1api20210601.ClientPortMatchConditionParameters instead
 type ClientPortMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *ClientPortMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *ClientPortMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                  `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *ClientPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -17685,20 +17222,13 @@ func (parameters *ClientPortMatchConditionParameters) Initialize_From_ClientPort
 	return nil
 }
 
-// Defines the parameters for ClientPort match conditions
+// Deprecated version of ClientPortMatchConditionParameters_STATUS. Use v1api20210601.ClientPortMatchConditionParameters_STATUS instead
 type ClientPortMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *ClientPortMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                  `json:"transforms,omitempty"`
-	TypeName   *ClientPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                            `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
+	Operator        *ClientPortMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                  `json:"transforms,omitempty"`
+	TypeName        *ClientPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ClientPortMatchConditionParameters_STATUS{}
@@ -17850,23 +17380,15 @@ func (parameters *ClientPortMatchConditionParameters_STATUS) AssignProperties_To
 	return nil
 }
 
-// Defines the parameters for Cookies match conditions
+// Deprecated version of CookiesMatchConditionParameters. Use v1api20210601.CookiesMatchConditionParameters instead
 type CookiesMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *CookiesMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Selector: Name of Cookies to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *CookiesMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Selector   *string                                   `json:"selector,omitempty"`
+	Transforms []Transform                               `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *CookiesMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -18127,23 +17649,14 @@ func (parameters *CookiesMatchConditionParameters) Initialize_From_CookiesMatchC
 	return nil
 }
 
-// Defines the parameters for Cookies match conditions
+// Deprecated version of CookiesMatchConditionParameters_STATUS. Use v1api20210601.CookiesMatchConditionParameters_STATUS instead
 type CookiesMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *CookiesMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Selector: Name of Cookies to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                               `json:"transforms,omitempty"`
-	TypeName   *CookiesMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                         `json:"matchValues,omitempty"`
+	NegateCondition *bool                                            `json:"negateCondition,omitempty"`
+	Operator        *CookiesMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Selector        *string                                          `json:"selector,omitempty"`
+	Transforms      []Transform_STATUS                               `json:"transforms,omitempty"`
+	TypeName        *CookiesMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CookiesMatchConditionParameters_STATUS{}
@@ -18307,237 +17820,324 @@ func (parameters *CookiesMatchConditionParameters_STATUS) AssignProperties_To_Co
 	return nil
 }
 
+// Deprecated version of DeliveryRuleCacheExpirationAction_Name. Use v1api20210601.DeliveryRuleCacheExpirationAction_Name
+// instead
 // +kubebuilder:validation:Enum={"CacheExpiration"}
 type DeliveryRuleCacheExpirationAction_Name string
 
 const DeliveryRuleCacheExpirationAction_Name_CacheExpiration = DeliveryRuleCacheExpirationAction_Name("CacheExpiration")
 
+// Deprecated version of DeliveryRuleCacheExpirationAction_Name_STATUS. Use
+// v1api20210601.DeliveryRuleCacheExpirationAction_Name_STATUS instead
 type DeliveryRuleCacheExpirationAction_Name_STATUS string
 
 const DeliveryRuleCacheExpirationAction_Name_STATUS_CacheExpiration = DeliveryRuleCacheExpirationAction_Name_STATUS("CacheExpiration")
 
+// Deprecated version of DeliveryRuleCacheKeyQueryStringAction_Name. Use
+// v1api20210601.DeliveryRuleCacheKeyQueryStringAction_Name instead
 // +kubebuilder:validation:Enum={"CacheKeyQueryString"}
 type DeliveryRuleCacheKeyQueryStringAction_Name string
 
 const DeliveryRuleCacheKeyQueryStringAction_Name_CacheKeyQueryString = DeliveryRuleCacheKeyQueryStringAction_Name("CacheKeyQueryString")
 
+// Deprecated version of DeliveryRuleCacheKeyQueryStringAction_Name_STATUS. Use
+// v1api20210601.DeliveryRuleCacheKeyQueryStringAction_Name_STATUS instead
 type DeliveryRuleCacheKeyQueryStringAction_Name_STATUS string
 
 const DeliveryRuleCacheKeyQueryStringAction_Name_STATUS_CacheKeyQueryString = DeliveryRuleCacheKeyQueryStringAction_Name_STATUS("CacheKeyQueryString")
 
+// Deprecated version of DeliveryRuleClientPortCondition_Name. Use v1api20210601.DeliveryRuleClientPortCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"ClientPort"}
 type DeliveryRuleClientPortCondition_Name string
 
 const DeliveryRuleClientPortCondition_Name_ClientPort = DeliveryRuleClientPortCondition_Name("ClientPort")
 
+// Deprecated version of DeliveryRuleClientPortCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleClientPortCondition_Name_STATUS instead
 type DeliveryRuleClientPortCondition_Name_STATUS string
 
 const DeliveryRuleClientPortCondition_Name_STATUS_ClientPort = DeliveryRuleClientPortCondition_Name_STATUS("ClientPort")
 
+// Deprecated version of DeliveryRuleCookiesCondition_Name. Use v1api20210601.DeliveryRuleCookiesCondition_Name instead
 // +kubebuilder:validation:Enum={"Cookies"}
 type DeliveryRuleCookiesCondition_Name string
 
 const DeliveryRuleCookiesCondition_Name_Cookies = DeliveryRuleCookiesCondition_Name("Cookies")
 
+// Deprecated version of DeliveryRuleCookiesCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleCookiesCondition_Name_STATUS instead
 type DeliveryRuleCookiesCondition_Name_STATUS string
 
 const DeliveryRuleCookiesCondition_Name_STATUS_Cookies = DeliveryRuleCookiesCondition_Name_STATUS("Cookies")
 
+// Deprecated version of DeliveryRuleHostNameCondition_Name. Use v1api20210601.DeliveryRuleHostNameCondition_Name instead
 // +kubebuilder:validation:Enum={"HostName"}
 type DeliveryRuleHostNameCondition_Name string
 
 const DeliveryRuleHostNameCondition_Name_HostName = DeliveryRuleHostNameCondition_Name("HostName")
 
+// Deprecated version of DeliveryRuleHostNameCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleHostNameCondition_Name_STATUS instead
 type DeliveryRuleHostNameCondition_Name_STATUS string
 
 const DeliveryRuleHostNameCondition_Name_STATUS_HostName = DeliveryRuleHostNameCondition_Name_STATUS("HostName")
 
+// Deprecated version of DeliveryRuleHttpVersionCondition_Name. Use v1api20210601.DeliveryRuleHttpVersionCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"HttpVersion"}
 type DeliveryRuleHttpVersionCondition_Name string
 
 const DeliveryRuleHttpVersionCondition_Name_HttpVersion = DeliveryRuleHttpVersionCondition_Name("HttpVersion")
 
+// Deprecated version of DeliveryRuleHttpVersionCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleHttpVersionCondition_Name_STATUS instead
 type DeliveryRuleHttpVersionCondition_Name_STATUS string
 
 const DeliveryRuleHttpVersionCondition_Name_STATUS_HttpVersion = DeliveryRuleHttpVersionCondition_Name_STATUS("HttpVersion")
 
+// Deprecated version of DeliveryRuleIsDeviceCondition_Name. Use v1api20210601.DeliveryRuleIsDeviceCondition_Name instead
 // +kubebuilder:validation:Enum={"IsDevice"}
 type DeliveryRuleIsDeviceCondition_Name string
 
 const DeliveryRuleIsDeviceCondition_Name_IsDevice = DeliveryRuleIsDeviceCondition_Name("IsDevice")
 
+// Deprecated version of DeliveryRuleIsDeviceCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleIsDeviceCondition_Name_STATUS instead
 type DeliveryRuleIsDeviceCondition_Name_STATUS string
 
 const DeliveryRuleIsDeviceCondition_Name_STATUS_IsDevice = DeliveryRuleIsDeviceCondition_Name_STATUS("IsDevice")
 
+// Deprecated version of DeliveryRulePostArgsCondition_Name. Use v1api20210601.DeliveryRulePostArgsCondition_Name instead
 // +kubebuilder:validation:Enum={"PostArgs"}
 type DeliveryRulePostArgsCondition_Name string
 
 const DeliveryRulePostArgsCondition_Name_PostArgs = DeliveryRulePostArgsCondition_Name("PostArgs")
 
+// Deprecated version of DeliveryRulePostArgsCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRulePostArgsCondition_Name_STATUS instead
 type DeliveryRulePostArgsCondition_Name_STATUS string
 
 const DeliveryRulePostArgsCondition_Name_STATUS_PostArgs = DeliveryRulePostArgsCondition_Name_STATUS("PostArgs")
 
+// Deprecated version of DeliveryRuleQueryStringCondition_Name. Use v1api20210601.DeliveryRuleQueryStringCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"QueryString"}
 type DeliveryRuleQueryStringCondition_Name string
 
 const DeliveryRuleQueryStringCondition_Name_QueryString = DeliveryRuleQueryStringCondition_Name("QueryString")
 
+// Deprecated version of DeliveryRuleQueryStringCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleQueryStringCondition_Name_STATUS instead
 type DeliveryRuleQueryStringCondition_Name_STATUS string
 
 const DeliveryRuleQueryStringCondition_Name_STATUS_QueryString = DeliveryRuleQueryStringCondition_Name_STATUS("QueryString")
 
+// Deprecated version of DeliveryRuleRemoteAddressCondition_Name. Use v1api20210601.DeliveryRuleRemoteAddressCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"RemoteAddress"}
 type DeliveryRuleRemoteAddressCondition_Name string
 
 const DeliveryRuleRemoteAddressCondition_Name_RemoteAddress = DeliveryRuleRemoteAddressCondition_Name("RemoteAddress")
 
+// Deprecated version of DeliveryRuleRemoteAddressCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleRemoteAddressCondition_Name_STATUS instead
 type DeliveryRuleRemoteAddressCondition_Name_STATUS string
 
 const DeliveryRuleRemoteAddressCondition_Name_STATUS_RemoteAddress = DeliveryRuleRemoteAddressCondition_Name_STATUS("RemoteAddress")
 
+// Deprecated version of DeliveryRuleRequestBodyCondition_Name. Use v1api20210601.DeliveryRuleRequestBodyCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"RequestBody"}
 type DeliveryRuleRequestBodyCondition_Name string
 
 const DeliveryRuleRequestBodyCondition_Name_RequestBody = DeliveryRuleRequestBodyCondition_Name("RequestBody")
 
+// Deprecated version of DeliveryRuleRequestBodyCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleRequestBodyCondition_Name_STATUS instead
 type DeliveryRuleRequestBodyCondition_Name_STATUS string
 
 const DeliveryRuleRequestBodyCondition_Name_STATUS_RequestBody = DeliveryRuleRequestBodyCondition_Name_STATUS("RequestBody")
 
+// Deprecated version of DeliveryRuleRequestHeaderAction_Name. Use v1api20210601.DeliveryRuleRequestHeaderAction_Name
+// instead
 // +kubebuilder:validation:Enum={"ModifyRequestHeader"}
 type DeliveryRuleRequestHeaderAction_Name string
 
 const DeliveryRuleRequestHeaderAction_Name_ModifyRequestHeader = DeliveryRuleRequestHeaderAction_Name("ModifyRequestHeader")
 
+// Deprecated version of DeliveryRuleRequestHeaderAction_Name_STATUS. Use
+// v1api20210601.DeliveryRuleRequestHeaderAction_Name_STATUS instead
 type DeliveryRuleRequestHeaderAction_Name_STATUS string
 
 const DeliveryRuleRequestHeaderAction_Name_STATUS_ModifyRequestHeader = DeliveryRuleRequestHeaderAction_Name_STATUS("ModifyRequestHeader")
 
+// Deprecated version of DeliveryRuleRequestHeaderCondition_Name. Use v1api20210601.DeliveryRuleRequestHeaderCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"RequestHeader"}
 type DeliveryRuleRequestHeaderCondition_Name string
 
 const DeliveryRuleRequestHeaderCondition_Name_RequestHeader = DeliveryRuleRequestHeaderCondition_Name("RequestHeader")
 
+// Deprecated version of DeliveryRuleRequestHeaderCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleRequestHeaderCondition_Name_STATUS instead
 type DeliveryRuleRequestHeaderCondition_Name_STATUS string
 
 const DeliveryRuleRequestHeaderCondition_Name_STATUS_RequestHeader = DeliveryRuleRequestHeaderCondition_Name_STATUS("RequestHeader")
 
+// Deprecated version of DeliveryRuleRequestMethodCondition_Name. Use v1api20210601.DeliveryRuleRequestMethodCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"RequestMethod"}
 type DeliveryRuleRequestMethodCondition_Name string
 
 const DeliveryRuleRequestMethodCondition_Name_RequestMethod = DeliveryRuleRequestMethodCondition_Name("RequestMethod")
 
+// Deprecated version of DeliveryRuleRequestMethodCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleRequestMethodCondition_Name_STATUS instead
 type DeliveryRuleRequestMethodCondition_Name_STATUS string
 
 const DeliveryRuleRequestMethodCondition_Name_STATUS_RequestMethod = DeliveryRuleRequestMethodCondition_Name_STATUS("RequestMethod")
 
+// Deprecated version of DeliveryRuleRequestSchemeCondition_Name. Use v1api20210601.DeliveryRuleRequestSchemeCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"RequestScheme"}
 type DeliveryRuleRequestSchemeCondition_Name string
 
 const DeliveryRuleRequestSchemeCondition_Name_RequestScheme = DeliveryRuleRequestSchemeCondition_Name("RequestScheme")
 
+// Deprecated version of DeliveryRuleRequestSchemeCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleRequestSchemeCondition_Name_STATUS instead
 type DeliveryRuleRequestSchemeCondition_Name_STATUS string
 
 const DeliveryRuleRequestSchemeCondition_Name_STATUS_RequestScheme = DeliveryRuleRequestSchemeCondition_Name_STATUS("RequestScheme")
 
+// Deprecated version of DeliveryRuleRequestUriCondition_Name. Use v1api20210601.DeliveryRuleRequestUriCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"RequestUri"}
 type DeliveryRuleRequestUriCondition_Name string
 
 const DeliveryRuleRequestUriCondition_Name_RequestUri = DeliveryRuleRequestUriCondition_Name("RequestUri")
 
+// Deprecated version of DeliveryRuleRequestUriCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleRequestUriCondition_Name_STATUS instead
 type DeliveryRuleRequestUriCondition_Name_STATUS string
 
 const DeliveryRuleRequestUriCondition_Name_STATUS_RequestUri = DeliveryRuleRequestUriCondition_Name_STATUS("RequestUri")
 
+// Deprecated version of DeliveryRuleResponseHeaderAction_Name. Use v1api20210601.DeliveryRuleResponseHeaderAction_Name
+// instead
 // +kubebuilder:validation:Enum={"ModifyResponseHeader"}
 type DeliveryRuleResponseHeaderAction_Name string
 
 const DeliveryRuleResponseHeaderAction_Name_ModifyResponseHeader = DeliveryRuleResponseHeaderAction_Name("ModifyResponseHeader")
 
+// Deprecated version of DeliveryRuleResponseHeaderAction_Name_STATUS. Use
+// v1api20210601.DeliveryRuleResponseHeaderAction_Name_STATUS instead
 type DeliveryRuleResponseHeaderAction_Name_STATUS string
 
 const DeliveryRuleResponseHeaderAction_Name_STATUS_ModifyResponseHeader = DeliveryRuleResponseHeaderAction_Name_STATUS("ModifyResponseHeader")
 
+// Deprecated version of DeliveryRuleRouteConfigurationOverrideAction_Name. Use
+// v1api20210601.DeliveryRuleRouteConfigurationOverrideAction_Name instead
 // +kubebuilder:validation:Enum={"RouteConfigurationOverride"}
 type DeliveryRuleRouteConfigurationOverrideAction_Name string
 
 const DeliveryRuleRouteConfigurationOverrideAction_Name_RouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideAction_Name("RouteConfigurationOverride")
 
+// Deprecated version of DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS. Use
+// v1api20210601.DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS instead
 type DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS string
 
 const DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS_RouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS("RouteConfigurationOverride")
 
+// Deprecated version of DeliveryRuleServerPortCondition_Name. Use v1api20210601.DeliveryRuleServerPortCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"ServerPort"}
 type DeliveryRuleServerPortCondition_Name string
 
 const DeliveryRuleServerPortCondition_Name_ServerPort = DeliveryRuleServerPortCondition_Name("ServerPort")
 
+// Deprecated version of DeliveryRuleServerPortCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleServerPortCondition_Name_STATUS instead
 type DeliveryRuleServerPortCondition_Name_STATUS string
 
 const DeliveryRuleServerPortCondition_Name_STATUS_ServerPort = DeliveryRuleServerPortCondition_Name_STATUS("ServerPort")
 
+// Deprecated version of DeliveryRuleSocketAddrCondition_Name. Use v1api20210601.DeliveryRuleSocketAddrCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"SocketAddr"}
 type DeliveryRuleSocketAddrCondition_Name string
 
 const DeliveryRuleSocketAddrCondition_Name_SocketAddr = DeliveryRuleSocketAddrCondition_Name("SocketAddr")
 
+// Deprecated version of DeliveryRuleSocketAddrCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleSocketAddrCondition_Name_STATUS instead
 type DeliveryRuleSocketAddrCondition_Name_STATUS string
 
 const DeliveryRuleSocketAddrCondition_Name_STATUS_SocketAddr = DeliveryRuleSocketAddrCondition_Name_STATUS("SocketAddr")
 
+// Deprecated version of DeliveryRuleSslProtocolCondition_Name. Use v1api20210601.DeliveryRuleSslProtocolCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"SslProtocol"}
 type DeliveryRuleSslProtocolCondition_Name string
 
 const DeliveryRuleSslProtocolCondition_Name_SslProtocol = DeliveryRuleSslProtocolCondition_Name("SslProtocol")
 
+// Deprecated version of DeliveryRuleSslProtocolCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleSslProtocolCondition_Name_STATUS instead
 type DeliveryRuleSslProtocolCondition_Name_STATUS string
 
 const DeliveryRuleSslProtocolCondition_Name_STATUS_SslProtocol = DeliveryRuleSslProtocolCondition_Name_STATUS("SslProtocol")
 
+// Deprecated version of DeliveryRuleUrlFileExtensionCondition_Name. Use
+// v1api20210601.DeliveryRuleUrlFileExtensionCondition_Name instead
 // +kubebuilder:validation:Enum={"UrlFileExtension"}
 type DeliveryRuleUrlFileExtensionCondition_Name string
 
 const DeliveryRuleUrlFileExtensionCondition_Name_UrlFileExtension = DeliveryRuleUrlFileExtensionCondition_Name("UrlFileExtension")
 
+// Deprecated version of DeliveryRuleUrlFileExtensionCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleUrlFileExtensionCondition_Name_STATUS instead
 type DeliveryRuleUrlFileExtensionCondition_Name_STATUS string
 
 const DeliveryRuleUrlFileExtensionCondition_Name_STATUS_UrlFileExtension = DeliveryRuleUrlFileExtensionCondition_Name_STATUS("UrlFileExtension")
 
+// Deprecated version of DeliveryRuleUrlFileNameCondition_Name. Use v1api20210601.DeliveryRuleUrlFileNameCondition_Name
+// instead
 // +kubebuilder:validation:Enum={"UrlFileName"}
 type DeliveryRuleUrlFileNameCondition_Name string
 
 const DeliveryRuleUrlFileNameCondition_Name_UrlFileName = DeliveryRuleUrlFileNameCondition_Name("UrlFileName")
 
+// Deprecated version of DeliveryRuleUrlFileNameCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleUrlFileNameCondition_Name_STATUS instead
 type DeliveryRuleUrlFileNameCondition_Name_STATUS string
 
 const DeliveryRuleUrlFileNameCondition_Name_STATUS_UrlFileName = DeliveryRuleUrlFileNameCondition_Name_STATUS("UrlFileName")
 
+// Deprecated version of DeliveryRuleUrlPathCondition_Name. Use v1api20210601.DeliveryRuleUrlPathCondition_Name instead
 // +kubebuilder:validation:Enum={"UrlPath"}
 type DeliveryRuleUrlPathCondition_Name string
 
 const DeliveryRuleUrlPathCondition_Name_UrlPath = DeliveryRuleUrlPathCondition_Name("UrlPath")
 
+// Deprecated version of DeliveryRuleUrlPathCondition_Name_STATUS. Use
+// v1api20210601.DeliveryRuleUrlPathCondition_Name_STATUS instead
 type DeliveryRuleUrlPathCondition_Name_STATUS string
 
 const DeliveryRuleUrlPathCondition_Name_STATUS_UrlPath = DeliveryRuleUrlPathCondition_Name_STATUS("UrlPath")
 
-// Defines the parameters for the request header action.
+// Deprecated version of HeaderActionParameters. Use v1api20210601.HeaderActionParameters instead
 type HeaderActionParameters struct {
 	// +kubebuilder:validation:Required
-	// HeaderAction: Action to perform
 	HeaderAction *HeaderActionParameters_HeaderAction `json:"headerAction,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// HeaderName: Name of the header to modify
 	HeaderName *string `json:"headerName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *HeaderActionParameters_TypeName `json:"typeName,omitempty"`
-
-	// Value: Value for the specified action
-	Value *string `json:"value,omitempty"`
+	Value    *string                          `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HeaderActionParameters{}
@@ -18711,17 +18311,12 @@ func (parameters *HeaderActionParameters) Initialize_From_HeaderActionParameters
 	return nil
 }
 
-// Defines the parameters for the request header action.
+// Deprecated version of HeaderActionParameters_STATUS. Use v1api20210601.HeaderActionParameters_STATUS instead
 type HeaderActionParameters_STATUS struct {
-	// HeaderAction: Action to perform
 	HeaderAction *HeaderActionParameters_HeaderAction_STATUS `json:"headerAction,omitempty"`
-
-	// HeaderName: Name of the header to modify
-	HeaderName *string                                 `json:"headerName,omitempty"`
-	TypeName   *HeaderActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
-
-	// Value: Value for the specified action
-	Value *string `json:"value,omitempty"`
+	HeaderName   *string                                     `json:"headerName,omitempty"`
+	TypeName     *HeaderActionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
+	Value        *string                                     `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HeaderActionParameters_STATUS{}
@@ -18833,20 +18428,14 @@ func (parameters *HeaderActionParameters_STATUS) AssignProperties_To_HeaderActio
 	return nil
 }
 
-// Defines the parameters for HostName match conditions
+// Deprecated version of HostNameMatchConditionParameters. Use v1api20210601.HostNameMatchConditionParameters instead
 type HostNameMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *HostNameMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *HostNameMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *HostNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -19086,20 +18675,13 @@ func (parameters *HostNameMatchConditionParameters) Initialize_From_HostNameMatc
 	return nil
 }
 
-// Defines the parameters for HostName match conditions
+// Deprecated version of HostNameMatchConditionParameters_STATUS. Use v1api20210601.HostNameMatchConditionParameters_STATUS instead
 type HostNameMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *HostNameMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                `json:"transforms,omitempty"`
-	TypeName   *HostNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                          `json:"matchValues,omitempty"`
+	NegateCondition *bool                                             `json:"negateCondition,omitempty"`
+	Operator        *HostNameMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                `json:"transforms,omitempty"`
+	TypeName        *HostNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HostNameMatchConditionParameters_STATUS{}
@@ -19251,20 +18833,14 @@ func (parameters *HostNameMatchConditionParameters_STATUS) AssignProperties_To_H
 	return nil
 }
 
-// Defines the parameters for HttpVersion match conditions
+// Deprecated version of HttpVersionMatchConditionParameters. Use v1api20210601.HttpVersionMatchConditionParameters instead
 type HttpVersionMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *HttpVersionMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *HttpVersionMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *HttpVersionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -19504,20 +19080,13 @@ func (parameters *HttpVersionMatchConditionParameters) Initialize_From_HttpVersi
 	return nil
 }
 
-// Defines the parameters for HttpVersion match conditions
+// Deprecated version of HttpVersionMatchConditionParameters_STATUS. Use v1api20210601.HttpVersionMatchConditionParameters_STATUS instead
 type HttpVersionMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *HttpVersionMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *HttpVersionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                             `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *HttpVersionMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *HttpVersionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HttpVersionMatchConditionParameters_STATUS{}
@@ -19669,20 +19238,14 @@ func (parameters *HttpVersionMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
-// Defines the parameters for IsDevice match conditions
+// Deprecated version of IsDeviceMatchConditionParameters. Use v1api20210601.IsDeviceMatchConditionParameters instead
 type IsDeviceMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []IsDeviceMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []IsDeviceMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
+	NegateCondition *bool                                          `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *IsDeviceMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *IsDeviceMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *IsDeviceMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -19953,20 +19516,13 @@ func (parameters *IsDeviceMatchConditionParameters) Initialize_From_IsDeviceMatc
 	return nil
 }
 
-// Defines the parameters for IsDevice match conditions
+// Deprecated version of IsDeviceMatchConditionParameters_STATUS. Use v1api20210601.IsDeviceMatchConditionParameters_STATUS instead
 type IsDeviceMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []IsDeviceMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *IsDeviceMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                `json:"transforms,omitempty"`
-	TypeName   *IsDeviceMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []IsDeviceMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                 `json:"negateCondition,omitempty"`
+	Operator        *IsDeviceMatchConditionParameters_Operator_STATUS     `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                    `json:"transforms,omitempty"`
+	TypeName        *IsDeviceMatchConditionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IsDeviceMatchConditionParameters_STATUS{}
@@ -20138,19 +19694,21 @@ func (parameters *IsDeviceMatchConditionParameters_STATUS) AssignProperties_To_I
 	return nil
 }
 
+// Deprecated version of OriginGroupOverrideAction_Name. Use v1api20210601.OriginGroupOverrideAction_Name instead
 // +kubebuilder:validation:Enum={"OriginGroupOverride"}
 type OriginGroupOverrideAction_Name string
 
 const OriginGroupOverrideAction_Name_OriginGroupOverride = OriginGroupOverrideAction_Name("OriginGroupOverride")
 
+// Deprecated version of OriginGroupOverrideAction_Name_STATUS. Use v1api20210601.OriginGroupOverrideAction_Name_STATUS
+// instead
 type OriginGroupOverrideAction_Name_STATUS string
 
 const OriginGroupOverrideAction_Name_STATUS_OriginGroupOverride = OriginGroupOverrideAction_Name_STATUS("OriginGroupOverride")
 
-// Defines the parameters for the origin group override action.
+// Deprecated version of OriginGroupOverrideActionParameters. Use v1api20210601.OriginGroupOverrideActionParameters instead
 type OriginGroupOverrideActionParameters struct {
 	// +kubebuilder:validation:Required
-	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
 	OriginGroup *ResourceReference `json:"originGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -20307,9 +19865,8 @@ func (parameters *OriginGroupOverrideActionParameters) Initialize_From_OriginGro
 	return nil
 }
 
-// Defines the parameters for the origin group override action.
+// Deprecated version of OriginGroupOverrideActionParameters_STATUS. Use v1api20210601.OriginGroupOverrideActionParameters_STATUS instead
 type OriginGroupOverrideActionParameters_STATUS struct {
-	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
 	OriginGroup *ResourceReference_STATUS                            `json:"originGroup,omitempty"`
 	TypeName    *OriginGroupOverrideActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
@@ -20412,23 +19969,15 @@ func (parameters *OriginGroupOverrideActionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
-// Defines the parameters for PostArgs match conditions
+// Deprecated version of PostArgsMatchConditionParameters. Use v1api20210601.PostArgsMatchConditionParameters instead
 type PostArgsMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *PostArgsMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Selector: Name of PostArg to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *PostArgsMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Selector   *string                                    `json:"selector,omitempty"`
+	Transforms []Transform                                `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *PostArgsMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -20689,23 +20238,14 @@ func (parameters *PostArgsMatchConditionParameters) Initialize_From_PostArgsMatc
 	return nil
 }
 
-// Defines the parameters for PostArgs match conditions
+// Deprecated version of PostArgsMatchConditionParameters_STATUS. Use v1api20210601.PostArgsMatchConditionParameters_STATUS instead
 type PostArgsMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *PostArgsMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Selector: Name of PostArg to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                `json:"transforms,omitempty"`
-	TypeName   *PostArgsMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                          `json:"matchValues,omitempty"`
+	NegateCondition *bool                                             `json:"negateCondition,omitempty"`
+	Operator        *PostArgsMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Selector        *string                                           `json:"selector,omitempty"`
+	Transforms      []Transform_STATUS                                `json:"transforms,omitempty"`
+	TypeName        *PostArgsMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PostArgsMatchConditionParameters_STATUS{}
@@ -20869,20 +20409,14 @@ func (parameters *PostArgsMatchConditionParameters_STATUS) AssignProperties_To_P
 	return nil
 }
 
-// Defines the parameters for QueryString match conditions
+// Deprecated version of QueryStringMatchConditionParameters. Use v1api20210601.QueryStringMatchConditionParameters instead
 type QueryStringMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *QueryStringMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *QueryStringMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *QueryStringMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -21122,20 +20656,13 @@ func (parameters *QueryStringMatchConditionParameters) Initialize_From_QueryStri
 	return nil
 }
 
-// Defines the parameters for QueryString match conditions
+// Deprecated version of QueryStringMatchConditionParameters_STATUS. Use v1api20210601.QueryStringMatchConditionParameters_STATUS instead
 type QueryStringMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *QueryStringMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *QueryStringMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                             `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *QueryStringMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *QueryStringMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &QueryStringMatchConditionParameters_STATUS{}
@@ -21287,21 +20814,14 @@ func (parameters *QueryStringMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
-// Defines the parameters for RemoteAddress match conditions
+// Deprecated version of RemoteAddressMatchConditionParameters. Use v1api20210601.RemoteAddressMatchConditionParameters instead
 type RemoteAddressMatchConditionParameters struct {
-	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
-	// them match the variable with the given operator this match condition is considered a match.
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *RemoteAddressMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *RemoteAddressMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                     `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *RemoteAddressMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -21541,21 +21061,13 @@ func (parameters *RemoteAddressMatchConditionParameters) Initialize_From_RemoteA
 	return nil
 }
 
-// Defines the parameters for RemoteAddress match conditions
+// Deprecated version of RemoteAddressMatchConditionParameters_STATUS. Use v1api20210601.RemoteAddressMatchConditionParameters_STATUS instead
 type RemoteAddressMatchConditionParameters_STATUS struct {
-	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
-	// them match the variable with the given operator this match condition is considered a match.
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RemoteAddressMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                     `json:"transforms,omitempty"`
-	TypeName   *RemoteAddressMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                               `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                  `json:"negateCondition,omitempty"`
+	Operator        *RemoteAddressMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                     `json:"transforms,omitempty"`
+	TypeName        *RemoteAddressMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RemoteAddressMatchConditionParameters_STATUS{}
@@ -21707,20 +21219,14 @@ func (parameters *RemoteAddressMatchConditionParameters_STATUS) AssignProperties
 	return nil
 }
 
-// Defines the parameters for RequestBody match conditions
+// Deprecated version of RequestBodyMatchConditionParameters. Use v1api20210601.RequestBodyMatchConditionParameters instead
 type RequestBodyMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *RequestBodyMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *RequestBodyMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *RequestBodyMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -21960,20 +21466,13 @@ func (parameters *RequestBodyMatchConditionParameters) Initialize_From_RequestBo
 	return nil
 }
 
-// Defines the parameters for RequestBody match conditions
+// Deprecated version of RequestBodyMatchConditionParameters_STATUS. Use v1api20210601.RequestBodyMatchConditionParameters_STATUS instead
 type RequestBodyMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestBodyMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *RequestBodyMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                             `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *RequestBodyMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *RequestBodyMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RequestBodyMatchConditionParameters_STATUS{}
@@ -22125,23 +21624,15 @@ func (parameters *RequestBodyMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
-// Defines the parameters for RequestHeader match conditions
+// Deprecated version of RequestHeaderMatchConditionParameters. Use v1api20210601.RequestHeaderMatchConditionParameters instead
 type RequestHeaderMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *RequestHeaderMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Selector: Name of Header to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *RequestHeaderMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Selector   *string                                         `json:"selector,omitempty"`
+	Transforms []Transform                                     `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *RequestHeaderMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -22402,23 +21893,14 @@ func (parameters *RequestHeaderMatchConditionParameters) Initialize_From_Request
 	return nil
 }
 
-// Defines the parameters for RequestHeader match conditions
+// Deprecated version of RequestHeaderMatchConditionParameters_STATUS. Use v1api20210601.RequestHeaderMatchConditionParameters_STATUS instead
 type RequestHeaderMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestHeaderMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Selector: Name of Header to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                     `json:"transforms,omitempty"`
-	TypeName   *RequestHeaderMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                               `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                  `json:"negateCondition,omitempty"`
+	Operator        *RequestHeaderMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Selector        *string                                                `json:"selector,omitempty"`
+	Transforms      []Transform_STATUS                                     `json:"transforms,omitempty"`
+	TypeName        *RequestHeaderMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RequestHeaderMatchConditionParameters_STATUS{}
@@ -22582,20 +22064,14 @@ func (parameters *RequestHeaderMatchConditionParameters_STATUS) AssignProperties
 	return nil
 }
 
-// Defines the parameters for RequestMethod match conditions
+// Deprecated version of RequestMethodMatchConditionParameters. Use v1api20210601.RequestMethodMatchConditionParameters instead
 type RequestMethodMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestMethodMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []RequestMethodMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *RequestMethodMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *RequestMethodMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                     `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *RequestMethodMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -22866,20 +22342,13 @@ func (parameters *RequestMethodMatchConditionParameters) Initialize_From_Request
 	return nil
 }
 
-// Defines the parameters for RequestMethod match conditions
+// Deprecated version of RequestMethodMatchConditionParameters_STATUS. Use v1api20210601.RequestMethodMatchConditionParameters_STATUS instead
 type RequestMethodMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestMethodMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestMethodMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                     `json:"transforms,omitempty"`
-	TypeName   *RequestMethodMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []RequestMethodMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                      `json:"negateCondition,omitempty"`
+	Operator        *RequestMethodMatchConditionParameters_Operator_STATUS     `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                         `json:"transforms,omitempty"`
+	TypeName        *RequestMethodMatchConditionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RequestMethodMatchConditionParameters_STATUS{}
@@ -23051,20 +22520,14 @@ func (parameters *RequestMethodMatchConditionParameters_STATUS) AssignProperties
 	return nil
 }
 
-// Defines the parameters for RequestScheme match conditions
+// Deprecated version of RequestSchemeMatchConditionParameters. Use v1api20210601.RequestSchemeMatchConditionParameters instead
 type RequestSchemeMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestSchemeMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []RequestSchemeMatchConditionParameters_MatchValues `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *RequestSchemeMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *RequestSchemeMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                     `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *RequestSchemeMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -23335,20 +22798,13 @@ func (parameters *RequestSchemeMatchConditionParameters) Initialize_From_Request
 	return nil
 }
 
-// Defines the parameters for RequestScheme match conditions
+// Deprecated version of RequestSchemeMatchConditionParameters_STATUS. Use v1api20210601.RequestSchemeMatchConditionParameters_STATUS instead
 type RequestSchemeMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestSchemeMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestSchemeMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                     `json:"transforms,omitempty"`
-	TypeName   *RequestSchemeMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []RequestSchemeMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                      `json:"negateCondition,omitempty"`
+	Operator        *RequestSchemeMatchConditionParameters_Operator_STATUS     `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                         `json:"transforms,omitempty"`
+	TypeName        *RequestSchemeMatchConditionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RequestSchemeMatchConditionParameters_STATUS{}
@@ -23520,20 +22976,14 @@ func (parameters *RequestSchemeMatchConditionParameters_STATUS) AssignProperties
 	return nil
 }
 
-// Defines the parameters for RequestUri match conditions
+// Deprecated version of RequestUriMatchConditionParameters. Use v1api20210601.RequestUriMatchConditionParameters instead
 type RequestUriMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *RequestUriMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *RequestUriMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                  `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *RequestUriMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -23773,20 +23223,13 @@ func (parameters *RequestUriMatchConditionParameters) Initialize_From_RequestUri
 	return nil
 }
 
-// Defines the parameters for RequestUri match conditions
+// Deprecated version of RequestUriMatchConditionParameters_STATUS. Use v1api20210601.RequestUriMatchConditionParameters_STATUS instead
 type RequestUriMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestUriMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                  `json:"transforms,omitempty"`
-	TypeName   *RequestUriMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                            `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
+	Operator        *RequestUriMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                  `json:"transforms,omitempty"`
+	TypeName        *RequestUriMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RequestUriMatchConditionParameters_STATUS{}
@@ -23938,14 +23381,9 @@ func (parameters *RequestUriMatchConditionParameters_STATUS) AssignProperties_To
 	return nil
 }
 
-// Defines the parameters for the route configuration override action.
+// Deprecated version of RouteConfigurationOverrideActionParameters. Use v1api20210601.RouteConfigurationOverrideActionParameters instead
 type RouteConfigurationOverrideActionParameters struct {
-	// CacheConfiguration: The caching configuration associated with this rule. To disable caching, do not provide a
-	// cacheConfiguration object.
-	CacheConfiguration *CacheConfiguration `json:"cacheConfiguration,omitempty"`
-
-	// OriginGroupOverride: A reference to the origin group override configuration. Leave empty to use the default origin group
-	// on route.
+	CacheConfiguration  *CacheConfiguration  `json:"cacheConfiguration,omitempty"`
 	OriginGroupOverride *OriginGroupOverride `json:"originGroupOverride,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -24159,14 +23597,9 @@ func (parameters *RouteConfigurationOverrideActionParameters) Initialize_From_Ro
 	return nil
 }
 
-// Defines the parameters for the route configuration override action.
+// Deprecated version of RouteConfigurationOverrideActionParameters_STATUS. Use v1api20210601.RouteConfigurationOverrideActionParameters_STATUS instead
 type RouteConfigurationOverrideActionParameters_STATUS struct {
-	// CacheConfiguration: The caching configuration associated with this rule. To disable caching, do not provide a
-	// cacheConfiguration object.
-	CacheConfiguration *CacheConfiguration_STATUS `json:"cacheConfiguration,omitempty"`
-
-	// OriginGroupOverride: A reference to the origin group override configuration. Leave empty to use the default origin group
-	// on route.
+	CacheConfiguration  *CacheConfiguration_STATUS                                  `json:"cacheConfiguration,omitempty"`
 	OriginGroupOverride *OriginGroupOverride_STATUS                                 `json:"originGroupOverride,omitempty"`
 	TypeName            *RouteConfigurationOverrideActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
@@ -24304,20 +23737,14 @@ func (parameters *RouteConfigurationOverrideActionParameters_STATUS) AssignPrope
 	return nil
 }
 
-// Defines the parameters for ServerPort match conditions
+// Deprecated version of ServerPortMatchConditionParameters. Use v1api20210601.ServerPortMatchConditionParameters instead
 type ServerPortMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *ServerPortMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *ServerPortMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                  `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *ServerPortMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -24557,20 +23984,13 @@ func (parameters *ServerPortMatchConditionParameters) Initialize_From_ServerPort
 	return nil
 }
 
-// Defines the parameters for ServerPort match conditions
+// Deprecated version of ServerPortMatchConditionParameters_STATUS. Use v1api20210601.ServerPortMatchConditionParameters_STATUS instead
 type ServerPortMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *ServerPortMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                  `json:"transforms,omitempty"`
-	TypeName   *ServerPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                            `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
+	Operator        *ServerPortMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                  `json:"transforms,omitempty"`
+	TypeName        *ServerPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ServerPortMatchConditionParameters_STATUS{}
@@ -24722,20 +24142,14 @@ func (parameters *ServerPortMatchConditionParameters_STATUS) AssignProperties_To
 	return nil
 }
 
-// Defines the parameters for SocketAddress match conditions
+// Deprecated version of SocketAddrMatchConditionParameters. Use v1api20210601.SocketAddrMatchConditionParameters instead
 type SocketAddrMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *SocketAddrMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *SocketAddrMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                  `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *SocketAddrMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -24975,20 +24389,13 @@ func (parameters *SocketAddrMatchConditionParameters) Initialize_From_SocketAddr
 	return nil
 }
 
-// Defines the parameters for SocketAddress match conditions
+// Deprecated version of SocketAddrMatchConditionParameters_STATUS. Use v1api20210601.SocketAddrMatchConditionParameters_STATUS instead
 type SocketAddrMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *SocketAddrMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                  `json:"transforms,omitempty"`
-	TypeName   *SocketAddrMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                            `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
+	Operator        *SocketAddrMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                  `json:"transforms,omitempty"`
+	TypeName        *SocketAddrMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SocketAddrMatchConditionParameters_STATUS{}
@@ -25140,20 +24547,14 @@ func (parameters *SocketAddrMatchConditionParameters_STATUS) AssignProperties_To
 	return nil
 }
 
-// Defines the parameters for SslProtocol match conditions
+// Deprecated version of SslProtocolMatchConditionParameters. Use v1api20210601.SslProtocolMatchConditionParameters instead
 type SslProtocolMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []SslProtocol `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []SslProtocol `json:"matchValues,omitempty"`
+	NegateCondition *bool         `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *SslProtocolMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *SslProtocolMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *SslProtocolMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -25424,20 +24825,13 @@ func (parameters *SslProtocolMatchConditionParameters) Initialize_From_SslProtoc
 	return nil
 }
 
-// Defines the parameters for SslProtocol match conditions
+// Deprecated version of SslProtocolMatchConditionParameters_STATUS. Use v1api20210601.SslProtocolMatchConditionParameters_STATUS instead
 type SslProtocolMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []SslProtocol_STATUS `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *SslProtocolMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *SslProtocolMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []SslProtocol_STATUS                                 `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *SslProtocolMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *SslProtocolMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SslProtocolMatchConditionParameters_STATUS{}
@@ -25609,20 +25003,14 @@ func (parameters *SslProtocolMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
-// Defines the parameters for UrlFileExtension match conditions
+// Deprecated version of UrlFileExtensionMatchConditionParameters. Use v1api20210601.UrlFileExtensionMatchConditionParameters instead
 type UrlFileExtensionMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *UrlFileExtensionMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *UrlFileExtensionMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                        `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *UrlFileExtensionMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -25862,20 +25250,13 @@ func (parameters *UrlFileExtensionMatchConditionParameters) Initialize_From_UrlF
 	return nil
 }
 
-// Defines the parameters for UrlFileExtension match conditions
+// Deprecated version of UrlFileExtensionMatchConditionParameters_STATUS. Use v1api20210601.UrlFileExtensionMatchConditionParameters_STATUS instead
 type UrlFileExtensionMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *UrlFileExtensionMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                        `json:"transforms,omitempty"`
-	TypeName   *UrlFileExtensionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                                  `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                     `json:"negateCondition,omitempty"`
+	Operator        *UrlFileExtensionMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                        `json:"transforms,omitempty"`
+	TypeName        *UrlFileExtensionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UrlFileExtensionMatchConditionParameters_STATUS{}
@@ -26027,20 +25408,14 @@ func (parameters *UrlFileExtensionMatchConditionParameters_STATUS) AssignPropert
 	return nil
 }
 
-// Defines the parameters for UrlFilename match conditions
+// Deprecated version of UrlFileNameMatchConditionParameters. Use v1api20210601.UrlFileNameMatchConditionParameters instead
 type UrlFileNameMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *UrlFileNameMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *UrlFileNameMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                                   `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *UrlFileNameMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -26280,20 +25655,13 @@ func (parameters *UrlFileNameMatchConditionParameters) Initialize_From_UrlFileNa
 	return nil
 }
 
-// Defines the parameters for UrlFilename match conditions
+// Deprecated version of UrlFileNameMatchConditionParameters_STATUS. Use v1api20210601.UrlFileNameMatchConditionParameters_STATUS instead
 type UrlFileNameMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *UrlFileNameMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *UrlFileNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                             `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *UrlFileNameMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *UrlFileNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UrlFileNameMatchConditionParameters_STATUS{}
@@ -26445,20 +25813,14 @@ func (parameters *UrlFileNameMatchConditionParameters_STATUS) AssignProperties_T
 	return nil
 }
 
-// Defines the parameters for UrlPath match conditions
+// Deprecated version of UrlPathMatchConditionParameters. Use v1api20210601.UrlPathMatchConditionParameters instead
 type UrlPathMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
+	MatchValues     []string `json:"matchValues,omitempty"`
+	NegateCondition *bool    `json:"negateCondition,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *UrlPathMatchConditionParameters_Operator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform `json:"transforms,omitempty"`
+	Operator   *UrlPathMatchConditionParameters_Operator `json:"operator,omitempty"`
+	Transforms []Transform                               `json:"transforms,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *UrlPathMatchConditionParameters_TypeName `json:"typeName,omitempty"`
@@ -26698,20 +26060,13 @@ func (parameters *UrlPathMatchConditionParameters) Initialize_From_UrlPathMatchC
 	return nil
 }
 
-// Defines the parameters for UrlPath match conditions
+// Deprecated version of UrlPathMatchConditionParameters_STATUS. Use v1api20210601.UrlPathMatchConditionParameters_STATUS instead
 type UrlPathMatchConditionParameters_STATUS struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *UrlPathMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                               `json:"transforms,omitempty"`
-	TypeName   *UrlPathMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                         `json:"matchValues,omitempty"`
+	NegateCondition *bool                                            `json:"negateCondition,omitempty"`
+	Operator        *UrlPathMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                               `json:"transforms,omitempty"`
+	TypeName        *UrlPathMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UrlPathMatchConditionParameters_STATUS{}
@@ -26863,38 +26218,26 @@ func (parameters *UrlPathMatchConditionParameters_STATUS) AssignProperties_To_Ur
 	return nil
 }
 
+// Deprecated version of UrlRedirectAction_Name. Use v1api20210601.UrlRedirectAction_Name instead
 // +kubebuilder:validation:Enum={"UrlRedirect"}
 type UrlRedirectAction_Name string
 
 const UrlRedirectAction_Name_UrlRedirect = UrlRedirectAction_Name("UrlRedirect")
 
+// Deprecated version of UrlRedirectAction_Name_STATUS. Use v1api20210601.UrlRedirectAction_Name_STATUS instead
 type UrlRedirectAction_Name_STATUS string
 
 const UrlRedirectAction_Name_STATUS_UrlRedirect = UrlRedirectAction_Name_STATUS("UrlRedirect")
 
-// Defines the parameters for the url redirect action.
+// Deprecated version of UrlRedirectActionParameters. Use v1api20210601.UrlRedirectActionParameters instead
 type UrlRedirectActionParameters struct {
-	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
-	// the #.
-	CustomFragment *string `json:"customFragment,omitempty"`
-
-	// CustomHostname: Host to redirect. Leave empty to use the incoming host as the destination host.
-	CustomHostname *string `json:"customHostname,omitempty"`
-
-	// CustomPath: The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path
-	// as destination path.
-	CustomPath *string `json:"customPath,omitempty"`
-
-	// CustomQueryString: The set of query strings to be placed in the redirect URL. Setting this value would replace any
-	// existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format.
-	// ? and & will be added automatically so do not include them.
-	CustomQueryString *string `json:"customQueryString,omitempty"`
-
-	// DestinationProtocol: Protocol to use for the redirect. The default value is MatchRequest
+	CustomFragment      *string                                          `json:"customFragment,omitempty"`
+	CustomHostname      *string                                          `json:"customHostname,omitempty"`
+	CustomPath          *string                                          `json:"customPath,omitempty"`
+	CustomQueryString   *string                                          `json:"customQueryString,omitempty"`
 	DestinationProtocol *UrlRedirectActionParameters_DestinationProtocol `json:"destinationProtocol,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// RedirectType: The redirect type the rule will use when redirecting traffic.
 	RedirectType *UrlRedirectActionParameters_RedirectType `json:"redirectType,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -27150,30 +26493,15 @@ func (parameters *UrlRedirectActionParameters) Initialize_From_UrlRedirectAction
 	return nil
 }
 
-// Defines the parameters for the url redirect action.
+// Deprecated version of UrlRedirectActionParameters_STATUS. Use v1api20210601.UrlRedirectActionParameters_STATUS instead
 type UrlRedirectActionParameters_STATUS struct {
-	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
-	// the #.
-	CustomFragment *string `json:"customFragment,omitempty"`
-
-	// CustomHostname: Host to redirect. Leave empty to use the incoming host as the destination host.
-	CustomHostname *string `json:"customHostname,omitempty"`
-
-	// CustomPath: The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path
-	// as destination path.
-	CustomPath *string `json:"customPath,omitempty"`
-
-	// CustomQueryString: The set of query strings to be placed in the redirect URL. Setting this value would replace any
-	// existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format.
-	// ? and & will be added automatically so do not include them.
-	CustomQueryString *string `json:"customQueryString,omitempty"`
-
-	// DestinationProtocol: Protocol to use for the redirect. The default value is MatchRequest
+	CustomFragment      *string                                                 `json:"customFragment,omitempty"`
+	CustomHostname      *string                                                 `json:"customHostname,omitempty"`
+	CustomPath          *string                                                 `json:"customPath,omitempty"`
+	CustomQueryString   *string                                                 `json:"customQueryString,omitempty"`
 	DestinationProtocol *UrlRedirectActionParameters_DestinationProtocol_STATUS `json:"destinationProtocol,omitempty"`
-
-	// RedirectType: The redirect type the rule will use when redirecting traffic.
-	RedirectType *UrlRedirectActionParameters_RedirectType_STATUS `json:"redirectType,omitempty"`
-	TypeName     *UrlRedirectActionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
+	RedirectType        *UrlRedirectActionParameters_RedirectType_STATUS        `json:"redirectType,omitempty"`
+	TypeName            *UrlRedirectActionParameters_TypeName_STATUS            `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UrlRedirectActionParameters_STATUS{}
@@ -27331,27 +26659,24 @@ func (parameters *UrlRedirectActionParameters_STATUS) AssignProperties_To_UrlRed
 	return nil
 }
 
+// Deprecated version of UrlRewriteAction_Name. Use v1api20210601.UrlRewriteAction_Name instead
 // +kubebuilder:validation:Enum={"UrlRewrite"}
 type UrlRewriteAction_Name string
 
 const UrlRewriteAction_Name_UrlRewrite = UrlRewriteAction_Name("UrlRewrite")
 
+// Deprecated version of UrlRewriteAction_Name_STATUS. Use v1api20210601.UrlRewriteAction_Name_STATUS instead
 type UrlRewriteAction_Name_STATUS string
 
 const UrlRewriteAction_Name_STATUS_UrlRewrite = UrlRewriteAction_Name_STATUS("UrlRewrite")
 
-// Defines the parameters for the url rewrite action.
+// Deprecated version of UrlRewriteActionParameters. Use v1api20210601.UrlRewriteActionParameters instead
 type UrlRewriteActionParameters struct {
 	// +kubebuilder:validation:Required
-	// Destination: Define the relative URL to which the above requests will be rewritten by.
-	Destination *string `json:"destination,omitempty"`
-
-	// PreserveUnmatchedPath: Whether to preserve unmatched path. Default value is true.
-	PreserveUnmatchedPath *bool `json:"preserveUnmatchedPath,omitempty"`
+	Destination           *string `json:"destination,omitempty"`
+	PreserveUnmatchedPath *bool   `json:"preserveUnmatchedPath,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SourcePattern: define a request URI pattern that identifies the type of requests that may be rewritten. If value is
-	// blank, all strings are matched.
 	SourcePattern *string `json:"sourcePattern,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -27529,18 +26854,12 @@ func (parameters *UrlRewriteActionParameters) Initialize_From_UrlRewriteActionPa
 	return nil
 }
 
-// Defines the parameters for the url rewrite action.
+// Deprecated version of UrlRewriteActionParameters_STATUS. Use v1api20210601.UrlRewriteActionParameters_STATUS instead
 type UrlRewriteActionParameters_STATUS struct {
-	// Destination: Define the relative URL to which the above requests will be rewritten by.
-	Destination *string `json:"destination,omitempty"`
-
-	// PreserveUnmatchedPath: Whether to preserve unmatched path. Default value is true.
-	PreserveUnmatchedPath *bool `json:"preserveUnmatchedPath,omitempty"`
-
-	// SourcePattern: define a request URI pattern that identifies the type of requests that may be rewritten. If value is
-	// blank, all strings are matched.
-	SourcePattern *string                                     `json:"sourcePattern,omitempty"`
-	TypeName      *UrlRewriteActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	Destination           *string                                     `json:"destination,omitempty"`
+	PreserveUnmatchedPath *bool                                       `json:"preserveUnmatchedPath,omitempty"`
+	SourcePattern         *string                                     `json:"sourcePattern,omitempty"`
+	TypeName              *UrlRewriteActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UrlRewriteActionParameters_STATUS{}
@@ -27652,22 +26971,21 @@ func (parameters *UrlRewriteActionParameters_STATUS) AssignProperties_To_UrlRewr
 	return nil
 }
 
+// Deprecated version of UrlSigningAction_Name. Use v1api20210601.UrlSigningAction_Name instead
 // +kubebuilder:validation:Enum={"UrlSigning"}
 type UrlSigningAction_Name string
 
 const UrlSigningAction_Name_UrlSigning = UrlSigningAction_Name("UrlSigning")
 
+// Deprecated version of UrlSigningAction_Name_STATUS. Use v1api20210601.UrlSigningAction_Name_STATUS instead
 type UrlSigningAction_Name_STATUS string
 
 const UrlSigningAction_Name_STATUS_UrlSigning = UrlSigningAction_Name_STATUS("UrlSigning")
 
-// Defines the parameters for the Url Signing action.
+// Deprecated version of UrlSigningActionParameters. Use v1api20210601.UrlSigningActionParameters instead
 type UrlSigningActionParameters struct {
-	// Algorithm: Algorithm to use for URL signing
-	Algorithm *UrlSigningActionParameters_Algorithm `json:"algorithm,omitempty"`
-
-	// ParameterNameOverride: Defines which query string parameters in the url to be considered for expires, key id etc.
-	ParameterNameOverride []UrlSigningParamIdentifier `json:"parameterNameOverride,omitempty"`
+	Algorithm             *UrlSigningActionParameters_Algorithm `json:"algorithm,omitempty"`
+	ParameterNameOverride []UrlSigningParamIdentifier           `json:"parameterNameOverride,omitempty"`
 
 	// +kubebuilder:validation:Required
 	TypeName *UrlSigningActionParameters_TypeName `json:"typeName,omitempty"`
@@ -27875,14 +27193,11 @@ func (parameters *UrlSigningActionParameters) Initialize_From_UrlSigningActionPa
 	return nil
 }
 
-// Defines the parameters for the Url Signing action.
+// Deprecated version of UrlSigningActionParameters_STATUS. Use v1api20210601.UrlSigningActionParameters_STATUS instead
 type UrlSigningActionParameters_STATUS struct {
-	// Algorithm: Algorithm to use for URL signing
-	Algorithm *UrlSigningActionParameters_Algorithm_STATUS `json:"algorithm,omitempty"`
-
-	// ParameterNameOverride: Defines which query string parameters in the url to be considered for expires, key id etc.
-	ParameterNameOverride []UrlSigningParamIdentifier_STATUS          `json:"parameterNameOverride,omitempty"`
-	TypeName              *UrlSigningActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	Algorithm             *UrlSigningActionParameters_Algorithm_STATUS `json:"algorithm,omitempty"`
+	ParameterNameOverride []UrlSigningParamIdentifier_STATUS           `json:"parameterNameOverride,omitempty"`
+	TypeName              *UrlSigningActionParameters_TypeName_STATUS  `json:"typeName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UrlSigningActionParameters_STATUS{}
@@ -28016,25 +27331,12 @@ func (parameters *UrlSigningActionParameters_STATUS) AssignProperties_To_UrlSign
 	return nil
 }
 
-// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
+// Deprecated version of CacheConfiguration. Use v1api20210601.CacheConfiguration instead
 type CacheConfiguration struct {
-	// CacheBehavior: Caching behavior for the requests
-	CacheBehavior *CacheConfiguration_CacheBehavior `json:"cacheBehavior,omitempty"`
-
-	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
-	CacheDuration *string `json:"cacheDuration,omitempty"`
-
-	// IsCompressionEnabled: Indicates whether content compression is enabled. If compression is enabled, content will be
-	// served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when
-	// requested content is smaller than 1 byte or larger than 1 MB.
-	IsCompressionEnabled *CacheConfiguration_IsCompressionEnabled `json:"isCompressionEnabled,omitempty"`
-
-	// QueryParameters: query parameters to include or exclude (comma separated).
-	QueryParameters *string `json:"queryParameters,omitempty"`
-
-	// QueryStringCachingBehavior: Defines how Frontdoor caches requests that include query strings. You can ignore any query
-	// strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query
-	// strings.
+	CacheBehavior              *CacheConfiguration_CacheBehavior              `json:"cacheBehavior,omitempty"`
+	CacheDuration              *string                                        `json:"cacheDuration,omitempty"`
+	IsCompressionEnabled       *CacheConfiguration_IsCompressionEnabled       `json:"isCompressionEnabled,omitempty"`
+	QueryParameters            *string                                        `json:"queryParameters,omitempty"`
 	QueryStringCachingBehavior *CacheConfiguration_QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
 }
 
@@ -28245,25 +27547,12 @@ func (configuration *CacheConfiguration) Initialize_From_CacheConfiguration_STAT
 	return nil
 }
 
-// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
+// Deprecated version of CacheConfiguration_STATUS. Use v1api20210601.CacheConfiguration_STATUS instead
 type CacheConfiguration_STATUS struct {
-	// CacheBehavior: Caching behavior for the requests
-	CacheBehavior *CacheConfiguration_CacheBehavior_STATUS `json:"cacheBehavior,omitempty"`
-
-	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
-	CacheDuration *string `json:"cacheDuration,omitempty"`
-
-	// IsCompressionEnabled: Indicates whether content compression is enabled. If compression is enabled, content will be
-	// served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when
-	// requested content is smaller than 1 byte or larger than 1 MB.
-	IsCompressionEnabled *CacheConfiguration_IsCompressionEnabled_STATUS `json:"isCompressionEnabled,omitempty"`
-
-	// QueryParameters: query parameters to include or exclude (comma separated).
-	QueryParameters *string `json:"queryParameters,omitempty"`
-
-	// QueryStringCachingBehavior: Defines how Frontdoor caches requests that include query strings. You can ignore any query
-	// strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query
-	// strings.
+	CacheBehavior              *CacheConfiguration_CacheBehavior_STATUS              `json:"cacheBehavior,omitempty"`
+	CacheDuration              *string                                               `json:"cacheDuration,omitempty"`
+	IsCompressionEnabled       *CacheConfiguration_IsCompressionEnabled_STATUS       `json:"isCompressionEnabled,omitempty"`
+	QueryParameters            *string                                               `json:"queryParameters,omitempty"`
 	QueryStringCachingBehavior *CacheConfiguration_QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
 }
 
@@ -28398,6 +27687,8 @@ func (configuration *CacheConfiguration_STATUS) AssignProperties_To_CacheConfigu
 	return nil
 }
 
+// Deprecated version of CacheExpirationActionParameters_CacheBehavior. Use
+// v1api20210601.CacheExpirationActionParameters_CacheBehavior instead
 // +kubebuilder:validation:Enum={"BypassCache","Override","SetIfMissing"}
 type CacheExpirationActionParameters_CacheBehavior string
 
@@ -28407,6 +27698,8 @@ const (
 	CacheExpirationActionParameters_CacheBehavior_SetIfMissing = CacheExpirationActionParameters_CacheBehavior("SetIfMissing")
 )
 
+// Deprecated version of CacheExpirationActionParameters_CacheBehavior_STATUS. Use
+// v1api20210601.CacheExpirationActionParameters_CacheBehavior_STATUS instead
 type CacheExpirationActionParameters_CacheBehavior_STATUS string
 
 const (
@@ -28415,24 +27708,34 @@ const (
 	CacheExpirationActionParameters_CacheBehavior_STATUS_SetIfMissing = CacheExpirationActionParameters_CacheBehavior_STATUS("SetIfMissing")
 )
 
+// Deprecated version of CacheExpirationActionParameters_CacheType. Use
+// v1api20210601.CacheExpirationActionParameters_CacheType instead
 // +kubebuilder:validation:Enum={"All"}
 type CacheExpirationActionParameters_CacheType string
 
 const CacheExpirationActionParameters_CacheType_All = CacheExpirationActionParameters_CacheType("All")
 
+// Deprecated version of CacheExpirationActionParameters_CacheType_STATUS. Use
+// v1api20210601.CacheExpirationActionParameters_CacheType_STATUS instead
 type CacheExpirationActionParameters_CacheType_STATUS string
 
 const CacheExpirationActionParameters_CacheType_STATUS_All = CacheExpirationActionParameters_CacheType_STATUS("All")
 
+// Deprecated version of CacheExpirationActionParameters_TypeName. Use
+// v1api20210601.CacheExpirationActionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleCacheExpirationActionParameters"}
 type CacheExpirationActionParameters_TypeName string
 
 const CacheExpirationActionParameters_TypeName_DeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParameters_TypeName("DeliveryRuleCacheExpirationActionParameters")
 
+// Deprecated version of CacheExpirationActionParameters_TypeName_STATUS. Use
+// v1api20210601.CacheExpirationActionParameters_TypeName_STATUS instead
 type CacheExpirationActionParameters_TypeName_STATUS string
 
 const CacheExpirationActionParameters_TypeName_STATUS_DeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParameters_TypeName_STATUS("DeliveryRuleCacheExpirationActionParameters")
 
+// Deprecated version of CacheKeyQueryStringActionParameters_QueryStringBehavior. Use
+// v1api20210601.CacheKeyQueryStringActionParameters_QueryStringBehavior instead
 // +kubebuilder:validation:Enum={"Exclude","ExcludeAll","Include","IncludeAll"}
 type CacheKeyQueryStringActionParameters_QueryStringBehavior string
 
@@ -28443,6 +27746,8 @@ const (
 	CacheKeyQueryStringActionParameters_QueryStringBehavior_IncludeAll = CacheKeyQueryStringActionParameters_QueryStringBehavior("IncludeAll")
 )
 
+// Deprecated version of CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS. Use
+// v1api20210601.CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS instead
 type CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS string
 
 const (
@@ -28452,15 +27757,21 @@ const (
 	CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS_IncludeAll = CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS("IncludeAll")
 )
 
+// Deprecated version of CacheKeyQueryStringActionParameters_TypeName. Use
+// v1api20210601.CacheKeyQueryStringActionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"}
 type CacheKeyQueryStringActionParameters_TypeName string
 
 const CacheKeyQueryStringActionParameters_TypeName_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParameters_TypeName("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
 
+// Deprecated version of CacheKeyQueryStringActionParameters_TypeName_STATUS. Use
+// v1api20210601.CacheKeyQueryStringActionParameters_TypeName_STATUS instead
 type CacheKeyQueryStringActionParameters_TypeName_STATUS string
 
 const CacheKeyQueryStringActionParameters_TypeName_STATUS_DeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParameters_TypeName_STATUS("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
 
+// Deprecated version of ClientPortMatchConditionParameters_Operator. Use
+// v1api20210601.ClientPortMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type ClientPortMatchConditionParameters_Operator string
 
@@ -28477,6 +27788,8 @@ const (
 	ClientPortMatchConditionParameters_Operator_RegEx              = ClientPortMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of ClientPortMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.ClientPortMatchConditionParameters_Operator_STATUS instead
 type ClientPortMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -28492,15 +27805,21 @@ const (
 	ClientPortMatchConditionParameters_Operator_STATUS_RegEx              = ClientPortMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of ClientPortMatchConditionParameters_TypeName. Use
+// v1api20210601.ClientPortMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleClientPortConditionParameters"}
 type ClientPortMatchConditionParameters_TypeName string
 
 const ClientPortMatchConditionParameters_TypeName_DeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParameters_TypeName("DeliveryRuleClientPortConditionParameters")
 
+// Deprecated version of ClientPortMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.ClientPortMatchConditionParameters_TypeName_STATUS instead
 type ClientPortMatchConditionParameters_TypeName_STATUS string
 
 const ClientPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParameters_TypeName_STATUS("DeliveryRuleClientPortConditionParameters")
 
+// Deprecated version of CookiesMatchConditionParameters_Operator. Use
+// v1api20210601.CookiesMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type CookiesMatchConditionParameters_Operator string
 
@@ -28517,6 +27836,8 @@ const (
 	CookiesMatchConditionParameters_Operator_RegEx              = CookiesMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of CookiesMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.CookiesMatchConditionParameters_Operator_STATUS instead
 type CookiesMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -28532,15 +27853,20 @@ const (
 	CookiesMatchConditionParameters_Operator_STATUS_RegEx              = CookiesMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of CookiesMatchConditionParameters_TypeName. Use
+// v1api20210601.CookiesMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleCookiesConditionParameters"}
 type CookiesMatchConditionParameters_TypeName string
 
 const CookiesMatchConditionParameters_TypeName_DeliveryRuleCookiesConditionParameters = CookiesMatchConditionParameters_TypeName("DeliveryRuleCookiesConditionParameters")
 
+// Deprecated version of CookiesMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.CookiesMatchConditionParameters_TypeName_STATUS instead
 type CookiesMatchConditionParameters_TypeName_STATUS string
 
 const CookiesMatchConditionParameters_TypeName_STATUS_DeliveryRuleCookiesConditionParameters = CookiesMatchConditionParameters_TypeName_STATUS("DeliveryRuleCookiesConditionParameters")
 
+// Deprecated version of HeaderActionParameters_HeaderAction. Use v1api20210601.HeaderActionParameters_HeaderAction instead
 // +kubebuilder:validation:Enum={"Append","Delete","Overwrite"}
 type HeaderActionParameters_HeaderAction string
 
@@ -28550,6 +27876,8 @@ const (
 	HeaderActionParameters_HeaderAction_Overwrite = HeaderActionParameters_HeaderAction("Overwrite")
 )
 
+// Deprecated version of HeaderActionParameters_HeaderAction_STATUS. Use
+// v1api20210601.HeaderActionParameters_HeaderAction_STATUS instead
 type HeaderActionParameters_HeaderAction_STATUS string
 
 const (
@@ -28558,15 +27886,20 @@ const (
 	HeaderActionParameters_HeaderAction_STATUS_Overwrite = HeaderActionParameters_HeaderAction_STATUS("Overwrite")
 )
 
+// Deprecated version of HeaderActionParameters_TypeName. Use v1api20210601.HeaderActionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleHeaderActionParameters"}
 type HeaderActionParameters_TypeName string
 
 const HeaderActionParameters_TypeName_DeliveryRuleHeaderActionParameters = HeaderActionParameters_TypeName("DeliveryRuleHeaderActionParameters")
 
+// Deprecated version of HeaderActionParameters_TypeName_STATUS. Use v1api20210601.HeaderActionParameters_TypeName_STATUS
+// instead
 type HeaderActionParameters_TypeName_STATUS string
 
 const HeaderActionParameters_TypeName_STATUS_DeliveryRuleHeaderActionParameters = HeaderActionParameters_TypeName_STATUS("DeliveryRuleHeaderActionParameters")
 
+// Deprecated version of HostNameMatchConditionParameters_Operator. Use
+// v1api20210601.HostNameMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type HostNameMatchConditionParameters_Operator string
 
@@ -28583,6 +27916,8 @@ const (
 	HostNameMatchConditionParameters_Operator_RegEx              = HostNameMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of HostNameMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.HostNameMatchConditionParameters_Operator_STATUS instead
 type HostNameMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -28598,33 +27933,47 @@ const (
 	HostNameMatchConditionParameters_Operator_STATUS_RegEx              = HostNameMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of HostNameMatchConditionParameters_TypeName. Use
+// v1api20210601.HostNameMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleHostNameConditionParameters"}
 type HostNameMatchConditionParameters_TypeName string
 
 const HostNameMatchConditionParameters_TypeName_DeliveryRuleHostNameConditionParameters = HostNameMatchConditionParameters_TypeName("DeliveryRuleHostNameConditionParameters")
 
+// Deprecated version of HostNameMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.HostNameMatchConditionParameters_TypeName_STATUS instead
 type HostNameMatchConditionParameters_TypeName_STATUS string
 
 const HostNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleHostNameConditionParameters = HostNameMatchConditionParameters_TypeName_STATUS("DeliveryRuleHostNameConditionParameters")
 
+// Deprecated version of HttpVersionMatchConditionParameters_Operator. Use
+// v1api20210601.HttpVersionMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Equal"}
 type HttpVersionMatchConditionParameters_Operator string
 
 const HttpVersionMatchConditionParameters_Operator_Equal = HttpVersionMatchConditionParameters_Operator("Equal")
 
+// Deprecated version of HttpVersionMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.HttpVersionMatchConditionParameters_Operator_STATUS instead
 type HttpVersionMatchConditionParameters_Operator_STATUS string
 
 const HttpVersionMatchConditionParameters_Operator_STATUS_Equal = HttpVersionMatchConditionParameters_Operator_STATUS("Equal")
 
+// Deprecated version of HttpVersionMatchConditionParameters_TypeName. Use
+// v1api20210601.HttpVersionMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleHttpVersionConditionParameters"}
 type HttpVersionMatchConditionParameters_TypeName string
 
 const HttpVersionMatchConditionParameters_TypeName_DeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParameters_TypeName("DeliveryRuleHttpVersionConditionParameters")
 
+// Deprecated version of HttpVersionMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.HttpVersionMatchConditionParameters_TypeName_STATUS instead
 type HttpVersionMatchConditionParameters_TypeName_STATUS string
 
 const HttpVersionMatchConditionParameters_TypeName_STATUS_DeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParameters_TypeName_STATUS("DeliveryRuleHttpVersionConditionParameters")
 
+// Deprecated version of IsDeviceMatchConditionParameters_MatchValues. Use
+// v1api20210601.IsDeviceMatchConditionParameters_MatchValues instead
 // +kubebuilder:validation:Enum={"Desktop","Mobile"}
 type IsDeviceMatchConditionParameters_MatchValues string
 
@@ -28633,6 +27982,8 @@ const (
 	IsDeviceMatchConditionParameters_MatchValues_Mobile  = IsDeviceMatchConditionParameters_MatchValues("Mobile")
 )
 
+// Deprecated version of IsDeviceMatchConditionParameters_MatchValues_STATUS. Use
+// v1api20210601.IsDeviceMatchConditionParameters_MatchValues_STATUS instead
 type IsDeviceMatchConditionParameters_MatchValues_STATUS string
 
 const (
@@ -28640,31 +27991,36 @@ const (
 	IsDeviceMatchConditionParameters_MatchValues_STATUS_Mobile  = IsDeviceMatchConditionParameters_MatchValues_STATUS("Mobile")
 )
 
+// Deprecated version of IsDeviceMatchConditionParameters_Operator. Use
+// v1api20210601.IsDeviceMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Equal"}
 type IsDeviceMatchConditionParameters_Operator string
 
 const IsDeviceMatchConditionParameters_Operator_Equal = IsDeviceMatchConditionParameters_Operator("Equal")
 
+// Deprecated version of IsDeviceMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.IsDeviceMatchConditionParameters_Operator_STATUS instead
 type IsDeviceMatchConditionParameters_Operator_STATUS string
 
 const IsDeviceMatchConditionParameters_Operator_STATUS_Equal = IsDeviceMatchConditionParameters_Operator_STATUS("Equal")
 
+// Deprecated version of IsDeviceMatchConditionParameters_TypeName. Use
+// v1api20210601.IsDeviceMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleIsDeviceConditionParameters"}
 type IsDeviceMatchConditionParameters_TypeName string
 
 const IsDeviceMatchConditionParameters_TypeName_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParameters_TypeName("DeliveryRuleIsDeviceConditionParameters")
 
+// Deprecated version of IsDeviceMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.IsDeviceMatchConditionParameters_TypeName_STATUS instead
 type IsDeviceMatchConditionParameters_TypeName_STATUS string
 
 const IsDeviceMatchConditionParameters_TypeName_STATUS_DeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParameters_TypeName_STATUS("DeliveryRuleIsDeviceConditionParameters")
 
-// Defines the parameters for the origin group override configuration.
+// Deprecated version of OriginGroupOverride. Use v1api20210601.OriginGroupOverride instead
 type OriginGroupOverride struct {
-	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
 	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol `json:"forwardingProtocol,omitempty"`
-
-	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup on route.
-	OriginGroup *ResourceReference `json:"originGroup,omitempty"`
+	OriginGroup        *ResourceReference                      `json:"originGroup,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &OriginGroupOverride{}
@@ -28817,13 +28173,10 @@ func (override *OriginGroupOverride) Initialize_From_OriginGroupOverride_STATUS(
 	return nil
 }
 
-// Defines the parameters for the origin group override configuration.
+// Deprecated version of OriginGroupOverride_STATUS. Use v1api20210601.OriginGroupOverride_STATUS instead
 type OriginGroupOverride_STATUS struct {
-	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
 	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol_STATUS `json:"forwardingProtocol,omitempty"`
-
-	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup on route.
-	OriginGroup *ResourceReference_STATUS `json:"originGroup,omitempty"`
+	OriginGroup        *ResourceReference_STATUS                      `json:"originGroup,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OriginGroupOverride_STATUS{}
@@ -28924,15 +28277,21 @@ func (override *OriginGroupOverride_STATUS) AssignProperties_To_OriginGroupOverr
 	return nil
 }
 
+// Deprecated version of OriginGroupOverrideActionParameters_TypeName. Use
+// v1api20210601.OriginGroupOverrideActionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleOriginGroupOverrideActionParameters"}
 type OriginGroupOverrideActionParameters_TypeName string
 
 const OriginGroupOverrideActionParameters_TypeName_DeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParameters_TypeName("DeliveryRuleOriginGroupOverrideActionParameters")
 
+// Deprecated version of OriginGroupOverrideActionParameters_TypeName_STATUS. Use
+// v1api20210601.OriginGroupOverrideActionParameters_TypeName_STATUS instead
 type OriginGroupOverrideActionParameters_TypeName_STATUS string
 
 const OriginGroupOverrideActionParameters_TypeName_STATUS_DeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParameters_TypeName_STATUS("DeliveryRuleOriginGroupOverrideActionParameters")
 
+// Deprecated version of PostArgsMatchConditionParameters_Operator. Use
+// v1api20210601.PostArgsMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type PostArgsMatchConditionParameters_Operator string
 
@@ -28949,6 +28308,8 @@ const (
 	PostArgsMatchConditionParameters_Operator_RegEx              = PostArgsMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of PostArgsMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.PostArgsMatchConditionParameters_Operator_STATUS instead
 type PostArgsMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -28964,15 +28325,21 @@ const (
 	PostArgsMatchConditionParameters_Operator_STATUS_RegEx              = PostArgsMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of PostArgsMatchConditionParameters_TypeName. Use
+// v1api20210601.PostArgsMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRulePostArgsConditionParameters"}
 type PostArgsMatchConditionParameters_TypeName string
 
 const PostArgsMatchConditionParameters_TypeName_DeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParameters_TypeName("DeliveryRulePostArgsConditionParameters")
 
+// Deprecated version of PostArgsMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.PostArgsMatchConditionParameters_TypeName_STATUS instead
 type PostArgsMatchConditionParameters_TypeName_STATUS string
 
 const PostArgsMatchConditionParameters_TypeName_STATUS_DeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParameters_TypeName_STATUS("DeliveryRulePostArgsConditionParameters")
 
+// Deprecated version of QueryStringMatchConditionParameters_Operator. Use
+// v1api20210601.QueryStringMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type QueryStringMatchConditionParameters_Operator string
 
@@ -28989,6 +28356,8 @@ const (
 	QueryStringMatchConditionParameters_Operator_RegEx              = QueryStringMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of QueryStringMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.QueryStringMatchConditionParameters_Operator_STATUS instead
 type QueryStringMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29004,15 +28373,21 @@ const (
 	QueryStringMatchConditionParameters_Operator_STATUS_RegEx              = QueryStringMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of QueryStringMatchConditionParameters_TypeName. Use
+// v1api20210601.QueryStringMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleQueryStringConditionParameters"}
 type QueryStringMatchConditionParameters_TypeName string
 
 const QueryStringMatchConditionParameters_TypeName_DeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParameters_TypeName("DeliveryRuleQueryStringConditionParameters")
 
+// Deprecated version of QueryStringMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.QueryStringMatchConditionParameters_TypeName_STATUS instead
 type QueryStringMatchConditionParameters_TypeName_STATUS string
 
 const QueryStringMatchConditionParameters_TypeName_STATUS_DeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParameters_TypeName_STATUS("DeliveryRuleQueryStringConditionParameters")
 
+// Deprecated version of RemoteAddressMatchConditionParameters_Operator. Use
+// v1api20210601.RemoteAddressMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","GeoMatch","IPMatch"}
 type RemoteAddressMatchConditionParameters_Operator string
 
@@ -29022,6 +28397,8 @@ const (
 	RemoteAddressMatchConditionParameters_Operator_IPMatch  = RemoteAddressMatchConditionParameters_Operator("IPMatch")
 )
 
+// Deprecated version of RemoteAddressMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.RemoteAddressMatchConditionParameters_Operator_STATUS instead
 type RemoteAddressMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29030,15 +28407,21 @@ const (
 	RemoteAddressMatchConditionParameters_Operator_STATUS_IPMatch  = RemoteAddressMatchConditionParameters_Operator_STATUS("IPMatch")
 )
 
+// Deprecated version of RemoteAddressMatchConditionParameters_TypeName. Use
+// v1api20210601.RemoteAddressMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleRemoteAddressConditionParameters"}
 type RemoteAddressMatchConditionParameters_TypeName string
 
 const RemoteAddressMatchConditionParameters_TypeName_DeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParameters_TypeName("DeliveryRuleRemoteAddressConditionParameters")
 
+// Deprecated version of RemoteAddressMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.RemoteAddressMatchConditionParameters_TypeName_STATUS instead
 type RemoteAddressMatchConditionParameters_TypeName_STATUS string
 
 const RemoteAddressMatchConditionParameters_TypeName_STATUS_DeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParameters_TypeName_STATUS("DeliveryRuleRemoteAddressConditionParameters")
 
+// Deprecated version of RequestBodyMatchConditionParameters_Operator. Use
+// v1api20210601.RequestBodyMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type RequestBodyMatchConditionParameters_Operator string
 
@@ -29055,6 +28438,8 @@ const (
 	RequestBodyMatchConditionParameters_Operator_RegEx              = RequestBodyMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of RequestBodyMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.RequestBodyMatchConditionParameters_Operator_STATUS instead
 type RequestBodyMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29070,15 +28455,21 @@ const (
 	RequestBodyMatchConditionParameters_Operator_STATUS_RegEx              = RequestBodyMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of RequestBodyMatchConditionParameters_TypeName. Use
+// v1api20210601.RequestBodyMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestBodyConditionParameters"}
 type RequestBodyMatchConditionParameters_TypeName string
 
 const RequestBodyMatchConditionParameters_TypeName_DeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParameters_TypeName("DeliveryRuleRequestBodyConditionParameters")
 
+// Deprecated version of RequestBodyMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.RequestBodyMatchConditionParameters_TypeName_STATUS instead
 type RequestBodyMatchConditionParameters_TypeName_STATUS string
 
 const RequestBodyMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestBodyConditionParameters")
 
+// Deprecated version of RequestHeaderMatchConditionParameters_Operator. Use
+// v1api20210601.RequestHeaderMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type RequestHeaderMatchConditionParameters_Operator string
 
@@ -29095,6 +28486,8 @@ const (
 	RequestHeaderMatchConditionParameters_Operator_RegEx              = RequestHeaderMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of RequestHeaderMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.RequestHeaderMatchConditionParameters_Operator_STATUS instead
 type RequestHeaderMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29110,15 +28503,21 @@ const (
 	RequestHeaderMatchConditionParameters_Operator_STATUS_RegEx              = RequestHeaderMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of RequestHeaderMatchConditionParameters_TypeName. Use
+// v1api20210601.RequestHeaderMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestHeaderConditionParameters"}
 type RequestHeaderMatchConditionParameters_TypeName string
 
 const RequestHeaderMatchConditionParameters_TypeName_DeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParameters_TypeName("DeliveryRuleRequestHeaderConditionParameters")
 
+// Deprecated version of RequestHeaderMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.RequestHeaderMatchConditionParameters_TypeName_STATUS instead
 type RequestHeaderMatchConditionParameters_TypeName_STATUS string
 
 const RequestHeaderMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestHeaderConditionParameters")
 
+// Deprecated version of RequestMethodMatchConditionParameters_MatchValues. Use
+// v1api20210601.RequestMethodMatchConditionParameters_MatchValues instead
 // +kubebuilder:validation:Enum={"DELETE","GET","HEAD","OPTIONS","POST","PUT","TRACE"}
 type RequestMethodMatchConditionParameters_MatchValues string
 
@@ -29132,6 +28531,8 @@ const (
 	RequestMethodMatchConditionParameters_MatchValues_TRACE   = RequestMethodMatchConditionParameters_MatchValues("TRACE")
 )
 
+// Deprecated version of RequestMethodMatchConditionParameters_MatchValues_STATUS. Use
+// v1api20210601.RequestMethodMatchConditionParameters_MatchValues_STATUS instead
 type RequestMethodMatchConditionParameters_MatchValues_STATUS string
 
 const (
@@ -29144,24 +28545,34 @@ const (
 	RequestMethodMatchConditionParameters_MatchValues_STATUS_TRACE   = RequestMethodMatchConditionParameters_MatchValues_STATUS("TRACE")
 )
 
+// Deprecated version of RequestMethodMatchConditionParameters_Operator. Use
+// v1api20210601.RequestMethodMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Equal"}
 type RequestMethodMatchConditionParameters_Operator string
 
 const RequestMethodMatchConditionParameters_Operator_Equal = RequestMethodMatchConditionParameters_Operator("Equal")
 
+// Deprecated version of RequestMethodMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.RequestMethodMatchConditionParameters_Operator_STATUS instead
 type RequestMethodMatchConditionParameters_Operator_STATUS string
 
 const RequestMethodMatchConditionParameters_Operator_STATUS_Equal = RequestMethodMatchConditionParameters_Operator_STATUS("Equal")
 
+// Deprecated version of RequestMethodMatchConditionParameters_TypeName. Use
+// v1api20210601.RequestMethodMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestMethodConditionParameters"}
 type RequestMethodMatchConditionParameters_TypeName string
 
 const RequestMethodMatchConditionParameters_TypeName_DeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParameters_TypeName("DeliveryRuleRequestMethodConditionParameters")
 
+// Deprecated version of RequestMethodMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.RequestMethodMatchConditionParameters_TypeName_STATUS instead
 type RequestMethodMatchConditionParameters_TypeName_STATUS string
 
 const RequestMethodMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestMethodConditionParameters")
 
+// Deprecated version of RequestSchemeMatchConditionParameters_MatchValues. Use
+// v1api20210601.RequestSchemeMatchConditionParameters_MatchValues instead
 // +kubebuilder:validation:Enum={"HTTP","HTTPS"}
 type RequestSchemeMatchConditionParameters_MatchValues string
 
@@ -29170,6 +28581,8 @@ const (
 	RequestSchemeMatchConditionParameters_MatchValues_HTTPS = RequestSchemeMatchConditionParameters_MatchValues("HTTPS")
 )
 
+// Deprecated version of RequestSchemeMatchConditionParameters_MatchValues_STATUS. Use
+// v1api20210601.RequestSchemeMatchConditionParameters_MatchValues_STATUS instead
 type RequestSchemeMatchConditionParameters_MatchValues_STATUS string
 
 const (
@@ -29177,24 +28590,34 @@ const (
 	RequestSchemeMatchConditionParameters_MatchValues_STATUS_HTTPS = RequestSchemeMatchConditionParameters_MatchValues_STATUS("HTTPS")
 )
 
+// Deprecated version of RequestSchemeMatchConditionParameters_Operator. Use
+// v1api20210601.RequestSchemeMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Equal"}
 type RequestSchemeMatchConditionParameters_Operator string
 
 const RequestSchemeMatchConditionParameters_Operator_Equal = RequestSchemeMatchConditionParameters_Operator("Equal")
 
+// Deprecated version of RequestSchemeMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.RequestSchemeMatchConditionParameters_Operator_STATUS instead
 type RequestSchemeMatchConditionParameters_Operator_STATUS string
 
 const RequestSchemeMatchConditionParameters_Operator_STATUS_Equal = RequestSchemeMatchConditionParameters_Operator_STATUS("Equal")
 
+// Deprecated version of RequestSchemeMatchConditionParameters_TypeName. Use
+// v1api20210601.RequestSchemeMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestSchemeConditionParameters"}
 type RequestSchemeMatchConditionParameters_TypeName string
 
 const RequestSchemeMatchConditionParameters_TypeName_DeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParameters_TypeName("DeliveryRuleRequestSchemeConditionParameters")
 
+// Deprecated version of RequestSchemeMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.RequestSchemeMatchConditionParameters_TypeName_STATUS instead
 type RequestSchemeMatchConditionParameters_TypeName_STATUS string
 
 const RequestSchemeMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestSchemeConditionParameters")
 
+// Deprecated version of RequestUriMatchConditionParameters_Operator. Use
+// v1api20210601.RequestUriMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type RequestUriMatchConditionParameters_Operator string
 
@@ -29211,6 +28634,8 @@ const (
 	RequestUriMatchConditionParameters_Operator_RegEx              = RequestUriMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of RequestUriMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.RequestUriMatchConditionParameters_Operator_STATUS instead
 type RequestUriMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29226,24 +28651,34 @@ const (
 	RequestUriMatchConditionParameters_Operator_STATUS_RegEx              = RequestUriMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of RequestUriMatchConditionParameters_TypeName. Use
+// v1api20210601.RequestUriMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleRequestUriConditionParameters"}
 type RequestUriMatchConditionParameters_TypeName string
 
 const RequestUriMatchConditionParameters_TypeName_DeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParameters_TypeName("DeliveryRuleRequestUriConditionParameters")
 
+// Deprecated version of RequestUriMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.RequestUriMatchConditionParameters_TypeName_STATUS instead
 type RequestUriMatchConditionParameters_TypeName_STATUS string
 
 const RequestUriMatchConditionParameters_TypeName_STATUS_DeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParameters_TypeName_STATUS("DeliveryRuleRequestUriConditionParameters")
 
+// Deprecated version of RouteConfigurationOverrideActionParameters_TypeName. Use
+// v1api20210601.RouteConfigurationOverrideActionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleRouteConfigurationOverrideActionParameters"}
 type RouteConfigurationOverrideActionParameters_TypeName string
 
 const RouteConfigurationOverrideActionParameters_TypeName_DeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParameters_TypeName("DeliveryRuleRouteConfigurationOverrideActionParameters")
 
+// Deprecated version of RouteConfigurationOverrideActionParameters_TypeName_STATUS. Use
+// v1api20210601.RouteConfigurationOverrideActionParameters_TypeName_STATUS instead
 type RouteConfigurationOverrideActionParameters_TypeName_STATUS string
 
 const RouteConfigurationOverrideActionParameters_TypeName_STATUS_DeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParameters_TypeName_STATUS("DeliveryRuleRouteConfigurationOverrideActionParameters")
 
+// Deprecated version of ServerPortMatchConditionParameters_Operator. Use
+// v1api20210601.ServerPortMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type ServerPortMatchConditionParameters_Operator string
 
@@ -29260,6 +28695,8 @@ const (
 	ServerPortMatchConditionParameters_Operator_RegEx              = ServerPortMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of ServerPortMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.ServerPortMatchConditionParameters_Operator_STATUS instead
 type ServerPortMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29275,15 +28712,21 @@ const (
 	ServerPortMatchConditionParameters_Operator_STATUS_RegEx              = ServerPortMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of ServerPortMatchConditionParameters_TypeName. Use
+// v1api20210601.ServerPortMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleServerPortConditionParameters"}
 type ServerPortMatchConditionParameters_TypeName string
 
 const ServerPortMatchConditionParameters_TypeName_DeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParameters_TypeName("DeliveryRuleServerPortConditionParameters")
 
+// Deprecated version of ServerPortMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.ServerPortMatchConditionParameters_TypeName_STATUS instead
 type ServerPortMatchConditionParameters_TypeName_STATUS string
 
 const ServerPortMatchConditionParameters_TypeName_STATUS_DeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParameters_TypeName_STATUS("DeliveryRuleServerPortConditionParameters")
 
+// Deprecated version of SocketAddrMatchConditionParameters_Operator. Use
+// v1api20210601.SocketAddrMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","IPMatch"}
 type SocketAddrMatchConditionParameters_Operator string
 
@@ -29292,6 +28735,8 @@ const (
 	SocketAddrMatchConditionParameters_Operator_IPMatch = SocketAddrMatchConditionParameters_Operator("IPMatch")
 )
 
+// Deprecated version of SocketAddrMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.SocketAddrMatchConditionParameters_Operator_STATUS instead
 type SocketAddrMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29299,16 +28744,20 @@ const (
 	SocketAddrMatchConditionParameters_Operator_STATUS_IPMatch = SocketAddrMatchConditionParameters_Operator_STATUS("IPMatch")
 )
 
+// Deprecated version of SocketAddrMatchConditionParameters_TypeName. Use
+// v1api20210601.SocketAddrMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleSocketAddrConditionParameters"}
 type SocketAddrMatchConditionParameters_TypeName string
 
 const SocketAddrMatchConditionParameters_TypeName_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParameters_TypeName("DeliveryRuleSocketAddrConditionParameters")
 
+// Deprecated version of SocketAddrMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.SocketAddrMatchConditionParameters_TypeName_STATUS instead
 type SocketAddrMatchConditionParameters_TypeName_STATUS string
 
 const SocketAddrMatchConditionParameters_TypeName_STATUS_DeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParameters_TypeName_STATUS("DeliveryRuleSocketAddrConditionParameters")
 
-// The protocol of an established TLS connection.
+// Deprecated version of SslProtocol. Use v1api20210601.SslProtocol instead
 // +kubebuilder:validation:Enum={"TLSv1","TLSv1.1","TLSv1.2"}
 type SslProtocol string
 
@@ -29318,7 +28767,7 @@ const (
 	SslProtocol_TLSv12 = SslProtocol("TLSv1.2")
 )
 
-// The protocol of an established TLS connection.
+// Deprecated version of SslProtocol_STATUS. Use v1api20210601.SslProtocol_STATUS instead
 type SslProtocol_STATUS string
 
 const (
@@ -29327,25 +28776,33 @@ const (
 	SslProtocol_STATUS_TLSv12 = SslProtocol_STATUS("TLSv1.2")
 )
 
+// Deprecated version of SslProtocolMatchConditionParameters_Operator. Use
+// v1api20210601.SslProtocolMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Equal"}
 type SslProtocolMatchConditionParameters_Operator string
 
 const SslProtocolMatchConditionParameters_Operator_Equal = SslProtocolMatchConditionParameters_Operator("Equal")
 
+// Deprecated version of SslProtocolMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.SslProtocolMatchConditionParameters_Operator_STATUS instead
 type SslProtocolMatchConditionParameters_Operator_STATUS string
 
 const SslProtocolMatchConditionParameters_Operator_STATUS_Equal = SslProtocolMatchConditionParameters_Operator_STATUS("Equal")
 
+// Deprecated version of SslProtocolMatchConditionParameters_TypeName. Use
+// v1api20210601.SslProtocolMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleSslProtocolConditionParameters"}
 type SslProtocolMatchConditionParameters_TypeName string
 
 const SslProtocolMatchConditionParameters_TypeName_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParameters_TypeName("DeliveryRuleSslProtocolConditionParameters")
 
+// Deprecated version of SslProtocolMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.SslProtocolMatchConditionParameters_TypeName_STATUS instead
 type SslProtocolMatchConditionParameters_TypeName_STATUS string
 
 const SslProtocolMatchConditionParameters_TypeName_STATUS_DeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParameters_TypeName_STATUS("DeliveryRuleSslProtocolConditionParameters")
 
-// Describes what transforms are applied before matching
+// Deprecated version of Transform. Use v1api20210601.Transform instead
 // +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
 type Transform string
 
@@ -29358,7 +28815,7 @@ const (
 	Transform_UrlEncode   = Transform("UrlEncode")
 )
 
-// Describes what transforms are applied before matching
+// Deprecated version of Transform_STATUS. Use v1api20210601.Transform_STATUS instead
 type Transform_STATUS string
 
 const (
@@ -29370,6 +28827,8 @@ const (
 	Transform_STATUS_UrlEncode   = Transform_STATUS("UrlEncode")
 )
 
+// Deprecated version of UrlFileExtensionMatchConditionParameters_Operator. Use
+// v1api20210601.UrlFileExtensionMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type UrlFileExtensionMatchConditionParameters_Operator string
 
@@ -29386,6 +28845,8 @@ const (
 	UrlFileExtensionMatchConditionParameters_Operator_RegEx              = UrlFileExtensionMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of UrlFileExtensionMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.UrlFileExtensionMatchConditionParameters_Operator_STATUS instead
 type UrlFileExtensionMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29401,15 +28862,21 @@ const (
 	UrlFileExtensionMatchConditionParameters_Operator_STATUS_RegEx              = UrlFileExtensionMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of UrlFileExtensionMatchConditionParameters_TypeName. Use
+// v1api20210601.UrlFileExtensionMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlFileExtensionMatchConditionParameters"}
 type UrlFileExtensionMatchConditionParameters_TypeName string
 
 const UrlFileExtensionMatchConditionParameters_TypeName_DeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParameters_TypeName("DeliveryRuleUrlFileExtensionMatchConditionParameters")
 
+// Deprecated version of UrlFileExtensionMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.UrlFileExtensionMatchConditionParameters_TypeName_STATUS instead
 type UrlFileExtensionMatchConditionParameters_TypeName_STATUS string
 
 const UrlFileExtensionMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParameters_TypeName_STATUS("DeliveryRuleUrlFileExtensionMatchConditionParameters")
 
+// Deprecated version of UrlFileNameMatchConditionParameters_Operator. Use
+// v1api20210601.UrlFileNameMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
 type UrlFileNameMatchConditionParameters_Operator string
 
@@ -29426,6 +28893,8 @@ const (
 	UrlFileNameMatchConditionParameters_Operator_RegEx              = UrlFileNameMatchConditionParameters_Operator("RegEx")
 )
 
+// Deprecated version of UrlFileNameMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.UrlFileNameMatchConditionParameters_Operator_STATUS instead
 type UrlFileNameMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29441,15 +28910,21 @@ const (
 	UrlFileNameMatchConditionParameters_Operator_STATUS_RegEx              = UrlFileNameMatchConditionParameters_Operator_STATUS("RegEx")
 )
 
+// Deprecated version of UrlFileNameMatchConditionParameters_TypeName. Use
+// v1api20210601.UrlFileNameMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlFilenameConditionParameters"}
 type UrlFileNameMatchConditionParameters_TypeName string
 
 const UrlFileNameMatchConditionParameters_TypeName_DeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParameters_TypeName("DeliveryRuleUrlFilenameConditionParameters")
 
+// Deprecated version of UrlFileNameMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.UrlFileNameMatchConditionParameters_TypeName_STATUS instead
 type UrlFileNameMatchConditionParameters_TypeName_STATUS string
 
 const UrlFileNameMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParameters_TypeName_STATUS("DeliveryRuleUrlFilenameConditionParameters")
 
+// Deprecated version of UrlPathMatchConditionParameters_Operator. Use
+// v1api20210601.UrlPathMatchConditionParameters_Operator instead
 // +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx","Wildcard"}
 type UrlPathMatchConditionParameters_Operator string
 
@@ -29467,6 +28942,8 @@ const (
 	UrlPathMatchConditionParameters_Operator_Wildcard           = UrlPathMatchConditionParameters_Operator("Wildcard")
 )
 
+// Deprecated version of UrlPathMatchConditionParameters_Operator_STATUS. Use
+// v1api20210601.UrlPathMatchConditionParameters_Operator_STATUS instead
 type UrlPathMatchConditionParameters_Operator_STATUS string
 
 const (
@@ -29483,15 +28960,21 @@ const (
 	UrlPathMatchConditionParameters_Operator_STATUS_Wildcard           = UrlPathMatchConditionParameters_Operator_STATUS("Wildcard")
 )
 
+// Deprecated version of UrlPathMatchConditionParameters_TypeName. Use
+// v1api20210601.UrlPathMatchConditionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlPathMatchConditionParameters"}
 type UrlPathMatchConditionParameters_TypeName string
 
 const UrlPathMatchConditionParameters_TypeName_DeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParameters_TypeName("DeliveryRuleUrlPathMatchConditionParameters")
 
+// Deprecated version of UrlPathMatchConditionParameters_TypeName_STATUS. Use
+// v1api20210601.UrlPathMatchConditionParameters_TypeName_STATUS instead
 type UrlPathMatchConditionParameters_TypeName_STATUS string
 
 const UrlPathMatchConditionParameters_TypeName_STATUS_DeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParameters_TypeName_STATUS("DeliveryRuleUrlPathMatchConditionParameters")
 
+// Deprecated version of UrlRedirectActionParameters_DestinationProtocol. Use
+// v1api20210601.UrlRedirectActionParameters_DestinationProtocol instead
 // +kubebuilder:validation:Enum={"Http","Https","MatchRequest"}
 type UrlRedirectActionParameters_DestinationProtocol string
 
@@ -29501,6 +28984,8 @@ const (
 	UrlRedirectActionParameters_DestinationProtocol_MatchRequest = UrlRedirectActionParameters_DestinationProtocol("MatchRequest")
 )
 
+// Deprecated version of UrlRedirectActionParameters_DestinationProtocol_STATUS. Use
+// v1api20210601.UrlRedirectActionParameters_DestinationProtocol_STATUS instead
 type UrlRedirectActionParameters_DestinationProtocol_STATUS string
 
 const (
@@ -29509,6 +28994,8 @@ const (
 	UrlRedirectActionParameters_DestinationProtocol_STATUS_MatchRequest = UrlRedirectActionParameters_DestinationProtocol_STATUS("MatchRequest")
 )
 
+// Deprecated version of UrlRedirectActionParameters_RedirectType. Use
+// v1api20210601.UrlRedirectActionParameters_RedirectType instead
 // +kubebuilder:validation:Enum={"Found","Moved","PermanentRedirect","TemporaryRedirect"}
 type UrlRedirectActionParameters_RedirectType string
 
@@ -29519,6 +29006,8 @@ const (
 	UrlRedirectActionParameters_RedirectType_TemporaryRedirect = UrlRedirectActionParameters_RedirectType("TemporaryRedirect")
 )
 
+// Deprecated version of UrlRedirectActionParameters_RedirectType_STATUS. Use
+// v1api20210601.UrlRedirectActionParameters_RedirectType_STATUS instead
 type UrlRedirectActionParameters_RedirectType_STATUS string
 
 const (
@@ -29528,50 +29017,62 @@ const (
 	UrlRedirectActionParameters_RedirectType_STATUS_TemporaryRedirect = UrlRedirectActionParameters_RedirectType_STATUS("TemporaryRedirect")
 )
 
+// Deprecated version of UrlRedirectActionParameters_TypeName. Use v1api20210601.UrlRedirectActionParameters_TypeName
+// instead
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlRedirectActionParameters"}
 type UrlRedirectActionParameters_TypeName string
 
 const UrlRedirectActionParameters_TypeName_DeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParameters_TypeName("DeliveryRuleUrlRedirectActionParameters")
 
+// Deprecated version of UrlRedirectActionParameters_TypeName_STATUS. Use
+// v1api20210601.UrlRedirectActionParameters_TypeName_STATUS instead
 type UrlRedirectActionParameters_TypeName_STATUS string
 
 const UrlRedirectActionParameters_TypeName_STATUS_DeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParameters_TypeName_STATUS("DeliveryRuleUrlRedirectActionParameters")
 
+// Deprecated version of UrlRewriteActionParameters_TypeName. Use v1api20210601.UrlRewriteActionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlRewriteActionParameters"}
 type UrlRewriteActionParameters_TypeName string
 
 const UrlRewriteActionParameters_TypeName_DeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParameters_TypeName("DeliveryRuleUrlRewriteActionParameters")
 
+// Deprecated version of UrlRewriteActionParameters_TypeName_STATUS. Use
+// v1api20210601.UrlRewriteActionParameters_TypeName_STATUS instead
 type UrlRewriteActionParameters_TypeName_STATUS string
 
 const UrlRewriteActionParameters_TypeName_STATUS_DeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParameters_TypeName_STATUS("DeliveryRuleUrlRewriteActionParameters")
 
+// Deprecated version of UrlSigningActionParameters_Algorithm. Use v1api20210601.UrlSigningActionParameters_Algorithm
+// instead
 // +kubebuilder:validation:Enum={"SHA256"}
 type UrlSigningActionParameters_Algorithm string
 
 const UrlSigningActionParameters_Algorithm_SHA256 = UrlSigningActionParameters_Algorithm("SHA256")
 
+// Deprecated version of UrlSigningActionParameters_Algorithm_STATUS. Use
+// v1api20210601.UrlSigningActionParameters_Algorithm_STATUS instead
 type UrlSigningActionParameters_Algorithm_STATUS string
 
 const UrlSigningActionParameters_Algorithm_STATUS_SHA256 = UrlSigningActionParameters_Algorithm_STATUS("SHA256")
 
+// Deprecated version of UrlSigningActionParameters_TypeName. Use v1api20210601.UrlSigningActionParameters_TypeName instead
 // +kubebuilder:validation:Enum={"DeliveryRuleUrlSigningActionParameters"}
 type UrlSigningActionParameters_TypeName string
 
 const UrlSigningActionParameters_TypeName_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParameters_TypeName("DeliveryRuleUrlSigningActionParameters")
 
+// Deprecated version of UrlSigningActionParameters_TypeName_STATUS. Use
+// v1api20210601.UrlSigningActionParameters_TypeName_STATUS instead
 type UrlSigningActionParameters_TypeName_STATUS string
 
 const UrlSigningActionParameters_TypeName_STATUS_DeliveryRuleUrlSigningActionParameters = UrlSigningActionParameters_TypeName_STATUS("DeliveryRuleUrlSigningActionParameters")
 
-// Defines how to identify a parameter for a specific purpose e.g. expires
+// Deprecated version of UrlSigningParamIdentifier. Use v1api20210601.UrlSigningParamIdentifier instead
 type UrlSigningParamIdentifier struct {
 	// +kubebuilder:validation:Required
-	// ParamIndicator: Indicates the purpose of the parameter
 	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator `json:"paramIndicator,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ParamName: Parameter name
 	ParamName *string `json:"paramName,omitempty"`
 }
 
@@ -29689,13 +29190,10 @@ func (identifier *UrlSigningParamIdentifier) Initialize_From_UrlSigningParamIden
 	return nil
 }
 
-// Defines how to identify a parameter for a specific purpose e.g. expires
+// Deprecated version of UrlSigningParamIdentifier_STATUS. Use v1api20210601.UrlSigningParamIdentifier_STATUS instead
 type UrlSigningParamIdentifier_STATUS struct {
-	// ParamIndicator: Indicates the purpose of the parameter
 	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator_STATUS `json:"paramIndicator,omitempty"`
-
-	// ParamName: Parameter name
-	ParamName *string `json:"paramName,omitempty"`
+	ParamName      *string                                          `json:"paramName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UrlSigningParamIdentifier_STATUS{}
@@ -29773,6 +29271,7 @@ func (identifier *UrlSigningParamIdentifier_STATUS) AssignProperties_To_UrlSigni
 	return nil
 }
 
+// Deprecated version of CacheConfiguration_CacheBehavior. Use v1api20210601.CacheConfiguration_CacheBehavior instead
 // +kubebuilder:validation:Enum={"HonorOrigin","OverrideAlways","OverrideIfOriginMissing"}
 type CacheConfiguration_CacheBehavior string
 
@@ -29782,6 +29281,8 @@ const (
 	CacheConfiguration_CacheBehavior_OverrideIfOriginMissing = CacheConfiguration_CacheBehavior("OverrideIfOriginMissing")
 )
 
+// Deprecated version of CacheConfiguration_CacheBehavior_STATUS. Use v1api20210601.CacheConfiguration_CacheBehavior_STATUS
+// instead
 type CacheConfiguration_CacheBehavior_STATUS string
 
 const (
@@ -29790,6 +29291,8 @@ const (
 	CacheConfiguration_CacheBehavior_STATUS_OverrideIfOriginMissing = CacheConfiguration_CacheBehavior_STATUS("OverrideIfOriginMissing")
 )
 
+// Deprecated version of CacheConfiguration_IsCompressionEnabled. Use v1api20210601.CacheConfiguration_IsCompressionEnabled
+// instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type CacheConfiguration_IsCompressionEnabled string
 
@@ -29798,6 +29301,8 @@ const (
 	CacheConfiguration_IsCompressionEnabled_Enabled  = CacheConfiguration_IsCompressionEnabled("Enabled")
 )
 
+// Deprecated version of CacheConfiguration_IsCompressionEnabled_STATUS. Use
+// v1api20210601.CacheConfiguration_IsCompressionEnabled_STATUS instead
 type CacheConfiguration_IsCompressionEnabled_STATUS string
 
 const (
@@ -29805,6 +29310,8 @@ const (
 	CacheConfiguration_IsCompressionEnabled_STATUS_Enabled  = CacheConfiguration_IsCompressionEnabled_STATUS("Enabled")
 )
 
+// Deprecated version of CacheConfiguration_QueryStringCachingBehavior. Use
+// v1api20210601.CacheConfiguration_QueryStringCachingBehavior instead
 // +kubebuilder:validation:Enum={"IgnoreQueryString","IgnoreSpecifiedQueryStrings","IncludeSpecifiedQueryStrings","UseQueryString"}
 type CacheConfiguration_QueryStringCachingBehavior string
 
@@ -29815,6 +29322,8 @@ const (
 	CacheConfiguration_QueryStringCachingBehavior_UseQueryString               = CacheConfiguration_QueryStringCachingBehavior("UseQueryString")
 )
 
+// Deprecated version of CacheConfiguration_QueryStringCachingBehavior_STATUS. Use
+// v1api20210601.CacheConfiguration_QueryStringCachingBehavior_STATUS instead
 type CacheConfiguration_QueryStringCachingBehavior_STATUS string
 
 const (
@@ -29824,6 +29333,8 @@ const (
 	CacheConfiguration_QueryStringCachingBehavior_STATUS_UseQueryString               = CacheConfiguration_QueryStringCachingBehavior_STATUS("UseQueryString")
 )
 
+// Deprecated version of OriginGroupOverride_ForwardingProtocol. Use v1api20210601.OriginGroupOverride_ForwardingProtocol
+// instead
 // +kubebuilder:validation:Enum={"HttpOnly","HttpsOnly","MatchRequest"}
 type OriginGroupOverride_ForwardingProtocol string
 
@@ -29833,6 +29344,8 @@ const (
 	OriginGroupOverride_ForwardingProtocol_MatchRequest = OriginGroupOverride_ForwardingProtocol("MatchRequest")
 )
 
+// Deprecated version of OriginGroupOverride_ForwardingProtocol_STATUS. Use
+// v1api20210601.OriginGroupOverride_ForwardingProtocol_STATUS instead
 type OriginGroupOverride_ForwardingProtocol_STATUS string
 
 const (
@@ -29841,6 +29354,8 @@ const (
 	OriginGroupOverride_ForwardingProtocol_STATUS_MatchRequest = OriginGroupOverride_ForwardingProtocol_STATUS("MatchRequest")
 )
 
+// Deprecated version of UrlSigningParamIdentifier_ParamIndicator. Use
+// v1api20210601.UrlSigningParamIdentifier_ParamIndicator instead
 // +kubebuilder:validation:Enum={"Expires","KeyId","Signature"}
 type UrlSigningParamIdentifier_ParamIndicator string
 
@@ -29850,6 +29365,8 @@ const (
 	UrlSigningParamIdentifier_ParamIndicator_Signature = UrlSigningParamIdentifier_ParamIndicator("Signature")
 )
 
+// Deprecated version of UrlSigningParamIdentifier_ParamIndicator_STATUS. Use
+// v1api20210601.UrlSigningParamIdentifier_ParamIndicator_STATUS instead
 type UrlSigningParamIdentifier_ParamIndicator_STATUS string
 
 const (

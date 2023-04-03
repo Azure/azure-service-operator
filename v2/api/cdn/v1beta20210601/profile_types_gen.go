@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}
+// Deprecated version of Profile. Use v1api20210601.Profile instead
 type Profile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Profile{}
 
 // ConvertFrom populates our Profile from the provided hub Profile
 func (profile *Profile) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210601s.Profile)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1beta20210601storage/Profile but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210601s.Profile
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return profile.AssignProperties_From_Profile(source)
+	err = profile.AssignProperties_From_Profile(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to profile")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Profile from our Profile
 func (profile *Profile) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210601s.Profile)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1beta20210601storage/Profile but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210601s.Profile
+	err := profile.AssignProperties_To_Profile(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from profile")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return profile.AssignProperties_To_Profile(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1beta20210601-profile,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1
@@ -323,15 +335,14 @@ func (profile *Profile) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}
+// Deprecated version of Profile. Use v1api20210601.Profile instead
 type ProfileList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Profile `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20210601.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-06-01"}
 type APIVersion string
 
@@ -343,12 +354,9 @@ type Profile_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Minimum=16
-	// OriginResponseTimeoutSeconds: Send and receive timeout on forwarding request to the origin. When timeout is reached, the
-	// request fails and returns.
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -358,11 +366,7 @@ type Profile_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
-	// profile.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// Tags: Resource tags.
+	Sku  *Sku              `json:"sku,omitempty"`
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
@@ -660,48 +664,22 @@ func (profile *Profile_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (profile *Profile_Spec) SetAzureName(azureName string) { profile.AzureName = azureName }
 
-// A profile is a logical grouping of endpoints that share the same settings.
+// Deprecated version of Profile_STATUS. Use v1api20210601.Profile_STATUS instead
 type Profile_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// FrontDoorId: The Id of the frontdoor.
-	FrontDoorId *string `json:"frontDoorId,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Kind: Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile.
-	Kind *string `json:"kind,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// OriginResponseTimeoutSeconds: Send and receive timeout on forwarding request to the origin. When timeout is reached, the
-	// request fails and returns.
-	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
-
-	// ProvisioningState: Provisioning status of the profile.
-	ProvisioningState *ProfileProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceState: Resource status of the profile.
-	ResourceState *ProfileProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
-
-	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
-	// profile.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// SystemData: Read only system data
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Conditions                   []conditions.Condition                      `json:"conditions,omitempty"`
+	FrontDoorId                  *string                                     `json:"frontDoorId,omitempty"`
+	Id                           *string                                     `json:"id,omitempty"`
+	Kind                         *string                                     `json:"kind,omitempty"`
+	Location                     *string                                     `json:"location,omitempty"`
+	Name                         *string                                     `json:"name,omitempty"`
+	OriginResponseTimeoutSeconds *int                                        `json:"originResponseTimeoutSeconds,omitempty"`
+	ProvisioningState            *ProfileProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceState                *ProfileProperties_ResourceState_STATUS     `json:"resourceState,omitempty"`
+	Sku                          *Sku_STATUS                                 `json:"sku,omitempty"`
+	SystemData                   *SystemData_STATUS                          `json:"systemData,omitempty"`
+	Tags                         map[string]string                           `json:"tags,omitempty"`
+	Type                         *string                                     `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Profile_STATUS{}
@@ -1027,6 +1005,8 @@ func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *v
 	return nil
 }
 
+// Deprecated version of ProfileProperties_ProvisioningState_STATUS. Use
+// v1api20210601.ProfileProperties_ProvisioningState_STATUS instead
 type ProfileProperties_ProvisioningState_STATUS string
 
 const (
@@ -1037,6 +1017,8 @@ const (
 	ProfileProperties_ProvisioningState_STATUS_Updating  = ProfileProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of ProfileProperties_ResourceState_STATUS. Use v1api20210601.ProfileProperties_ResourceState_STATUS
+// instead
 type ProfileProperties_ResourceState_STATUS string
 
 const (
@@ -1046,32 +1028,8 @@ const (
 	ProfileProperties_ResourceState_STATUS_Disabled = ProfileProperties_ResourceState_STATUS("Disabled")
 )
 
-// Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
-// Premium_Verizon = The SKU name for a Premium Verizon
-// CDN profile.
-// Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
-// Standard_Akamai = The SKU name for an
-// Akamai CDN profile.
-// Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using
-// GB based billing model.
-// Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
-// Standard_AzureFrontDoor
-// =  The SKU name for an Azure Front Door Standard profile.
-// Premium_AzureFrontDoor = The SKU name for an Azure Front Door
-// Premium profile.
-// Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download
-// scenarios using 95-5 peak bandwidth billing model.
-// Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile
-// for VOD, Web and download scenarios using monthly average peak bandwidth billing model.
-// StandardPlus_ChinaCdn = The SKU
-// name for a China CDN profile for live-streaming using GB based billing model.
-// StandardPlus_955BandWidth_ChinaCdn = The
-// SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth billing
-// model.
-// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average
-// peak bandwidth billing model.
+// Deprecated version of Sku. Use v1api20210601.Sku instead
 type Sku struct {
-	// Name: Name of the pricing tier.
 	Name *Sku_Name `json:"name,omitempty"`
 }
 
@@ -1168,32 +1126,8 @@ func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
 	return nil
 }
 
-// Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
-// Premium_Verizon = The SKU name for a Premium Verizon
-// CDN profile.
-// Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
-// Standard_Akamai = The SKU name for an
-// Akamai CDN profile.
-// Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using
-// GB based billing model.
-// Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
-// Standard_AzureFrontDoor
-// =  The SKU name for an Azure Front Door Standard profile.
-// Premium_AzureFrontDoor = The SKU name for an Azure Front Door
-// Premium profile.
-// Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download
-// scenarios using 95-5 peak bandwidth billing model.
-// Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile
-// for VOD, Web and download scenarios using monthly average peak bandwidth billing model.
-// StandardPlus_ChinaCdn = The SKU
-// name for a China CDN profile for live-streaming using GB based billing model.
-// StandardPlus_955BandWidth_ChinaCdn = The
-// SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth billing
-// model.
-// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average
-// peak bandwidth billing model.
+// Deprecated version of Sku_STATUS. Use v1api20210601.Sku_STATUS instead
 type Sku_STATUS struct {
-	// Name: Name of the pricing tier.
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
@@ -1260,24 +1194,13 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210601s.Sk
 	return nil
 }
 
-// Read only system data
+// Deprecated version of SystemData_STATUS. Use v1api20210601.SystemData_STATUS instead
 type SystemData_STATUS struct {
-	// CreatedAt: The timestamp of resource creation (UTC)
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: An identifier for the identity that created the resource
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource
-	CreatedByType *IdentityType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: An identifier for the identity that last modified the resource
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource
+	CreatedAt          *string              `json:"createdAt,omitempty"`
+	CreatedBy          *string              `json:"createdBy,omitempty"`
+	CreatedByType      *IdentityType_STATUS `json:"createdByType,omitempty"`
+	LastModifiedAt     *string              `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string              `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 

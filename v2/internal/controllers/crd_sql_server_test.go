@@ -9,14 +9,14 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	sql "github.com/Azure/azure-service-operator/v2/api/sql/v1beta20211101"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	sql "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -27,7 +27,7 @@ func Test_SQL_Server_CRUD(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 	// Use a different region where we have quota
-	tc.AzureRegion = to.StringPtr("eastus")
+	tc.AzureRegion = to.Ptr("eastus")
 
 	secretName := "sqlsecret"
 	adminPasswordKey := "adminPassword"
@@ -43,9 +43,9 @@ func Test_SQL_Server_CRUD(t *testing.T) {
 		Spec: sql.Server_Spec{
 			Location:                   tc.AzureRegion,
 			Owner:                      testcommon.AsOwner(rg),
-			AdministratorLogin:         to.StringPtr("myadmin"),
+			AdministratorLogin:         to.Ptr("myadmin"),
 			AdministratorLoginPassword: &adminPasswordSecretRef,
-			Version:                    to.StringPtr("12.0"),
+			Version:                    to.Ptr("12.0"),
 			OperatorSpec: &sql.ServerOperatorSpec{
 				ConfigMaps: &sql.ServerOperatorConfigMaps{
 					FullyQualifiedDomainName: &genruntime.ConfigMapDestination{
@@ -200,14 +200,14 @@ func SQL_Server_VulnerabilityAssessments_CRUD(tc *testcommon.KubePerTestContext,
 		Spec: sql.Servers_VulnerabilityAssessment_Spec{
 			Owner: testcommon.AsOwner(server),
 			RecurringScans: &sql.VulnerabilityAssessmentRecurringScansProperties{
-				IsEnabled: to.BoolPtr(false),
+				IsEnabled: to.Ptr(false),
 			},
 			StorageAccountAccessKey: &genruntime.SecretReference{
 				Name: storageDetails.secretName,
 				Key:  storageDetails.keySecretKey,
 			},
 			// TODO: Make this easier to build a combined path in ASO itself
-			StorageContainerPath: to.StringPtr(fmt.Sprintf("%s%s", blobEndpoint, storageDetails.container)),
+			StorageContainerPath: to.Ptr(fmt.Sprintf("%s%s", blobEndpoint, storageDetails.container)),
 		},
 	}
 
@@ -230,8 +230,8 @@ func SQL_Server_FirewallRules_CRUD(tc *testcommon.KubePerTestContext, server *sq
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
 		Spec: sql.Servers_FirewallRule_Spec{
 			Owner:          testcommon.AsOwner(server),
-			StartIpAddress: to.StringPtr("0.0.0.0"),
-			EndIpAddress:   to.StringPtr("0.0.0.0"),
+			StartIpAddress: to.Ptr("0.0.0.0"),
+			EndIpAddress:   to.Ptr("0.0.0.0"),
 		},
 	}
 
@@ -254,8 +254,8 @@ func SQL_Server_IPV6_FirewallRules_CRUD(tc *testcommon.KubePerTestContext, serve
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
 		Spec: sql.Servers_Ipv6FirewallRule_Spec{
 			Owner:            testcommon.AsOwner(server),
-			StartIPv6Address: to.StringPtr("2001:db8::"),
-			EndIPv6Address:   to.StringPtr("2001:db8:0000:0000:0000:0000:00ff:ffff"),
+			StartIPv6Address: to.Ptr("2001:db8::"),
+			EndIPv6Address:   to.Ptr("2001:db8:0000:0000:0000:0000:00ff:ffff"),
 		},
 	}
 
@@ -388,13 +388,13 @@ func SQL_Server_ElasticPool_CRUD(tc *testcommon.KubePerTestContext, server *sql.
 			Owner:    testcommon.AsOwner(server),
 			Location: tc.AzureRegion,
 			Sku: &sql.Sku{
-				Name:     to.StringPtr("StandardPool"),
-				Tier:     to.StringPtr("Standard"),
-				Capacity: to.IntPtr(100),
+				Name:     to.Ptr("StandardPool"),
+				Tier:     to.Ptr("Standard"),
+				Capacity: to.Ptr(100),
 			},
 			PerDatabaseSettings: &sql.ElasticPoolPerDatabaseSettings{
-				MinCapacity: to.Float64Ptr(0),
-				MaxCapacity: to.Float64Ptr(100),
+				MinCapacity: to.Ptr(float64(0)),
+				MaxCapacity: to.Ptr(float64(100)),
 			},
 		},
 	}
@@ -447,7 +447,7 @@ func SQL_Databases_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, s
 		Spec: sql.Servers_Database_Spec{
 			Owner:     testcommon.AsOwner(server),
 			Location:  tc.AzureRegion,
-			Collation: to.StringPtr("SQL_Latin1_General_CP1_CI_AS"),
+			Collation: to.Ptr("SQL_Latin1_General_CP1_CI_AS"),
 		},
 	}
 
@@ -510,7 +510,7 @@ func SQL_BackupLongTermRetention_CRUD(tc *testcommon.KubePerTestContext, db *sql
 		ObjectMeta: tc.MakeObjectMeta("db"),
 		Spec: sql.Servers_Databases_BackupLongTermRetentionPolicy_Spec{
 			Owner:           testcommon.AsOwner(db),
-			WeeklyRetention: to.StringPtr("P30D"),
+			WeeklyRetention: to.Ptr("P30D"),
 		},
 	}
 
@@ -540,14 +540,14 @@ func SQL_Database_VulnerabilityAssessment_CRUD(tc *testcommon.KubePerTestContext
 		Spec: sql.Servers_Databases_VulnerabilityAssessment_Spec{
 			Owner: testcommon.AsOwner(db),
 			RecurringScans: &sql.VulnerabilityAssessmentRecurringScansProperties{
-				IsEnabled: to.BoolPtr(false),
+				IsEnabled: to.Ptr(false),
 			},
 			StorageAccountAccessKey: &genruntime.SecretReference{
 				Name: storageDetails.secretName,
 				Key:  storageDetails.keySecretKey,
 			},
 			// TODO: Make this easier to build a combined path in ASO itself
-			StorageContainerPath: to.StringPtr(fmt.Sprintf("%s%s", blobEndpoint, storageDetails.container)),
+			StorageContainerPath: to.Ptr(fmt.Sprintf("%s%s", blobEndpoint, storageDetails.container)),
 		},
 	}
 
@@ -712,10 +712,10 @@ func makeSubnetForSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Res
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworks_Subnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
-			AddressPrefix: to.StringPtr("10.0.0.0/24"),
+			AddressPrefix: to.Ptr("10.0.0.0/24"),
 			ServiceEndpoints: []network.ServiceEndpointPropertiesFormat{
 				{
-					Service: to.StringPtr("Microsoft.Sql"),
+					Service: to.Ptr("Microsoft.Sql"),
 				},
 			},
 			PrivateEndpointNetworkPolicies:    &privateEndpointNetworkPolicyDisabled,

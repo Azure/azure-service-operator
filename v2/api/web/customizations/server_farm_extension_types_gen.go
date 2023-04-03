@@ -4,6 +4,8 @@
 package customizations
 
 import (
+	v1api20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
+	v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301storage"
 	v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301"
 	v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1beta20220301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -15,6 +17,8 @@ type ServerFarmExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ServerFarmExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
+		&v1api20220301.ServerFarm{},
+		&v1api20220301s.ServerFarm{},
 		&v20220301.ServerFarm{},
 		&v20220301s.ServerFarm{}}
 }

@@ -4,27 +4,24 @@
 package v1beta20200601storage
 
 import (
+	"fmt"
+	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=resources.azure.com,resources=resourcegroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=resources.azure.com,resources={resourcegroups/status,resourcegroups/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200601.ResourceGroup
-// Generator information:
-// - Generated from: /resources/resource-manager/Microsoft.Resources/stable/2020-06-01/resources.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}
+// Deprecated version of ResourceGroup. Use v1api20200601.ResourceGroup instead
 type ResourceGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -42,6 +39,28 @@ func (group *ResourceGroup) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (group *ResourceGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ResourceGroup{}
+
+// ConvertFrom populates our ResourceGroup from the provided hub ResourceGroup
+func (group *ResourceGroup) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1api20200601s.ResourceGroup)
+	if !ok {
+		return fmt.Errorf("expected resources/v1api20200601storage/ResourceGroup but received %T instead", hub)
+	}
+
+	return group.AssignProperties_From_ResourceGroup(source)
+}
+
+// ConvertTo populates the provided hub ResourceGroup from our ResourceGroup
+func (group *ResourceGroup) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1api20200601s.ResourceGroup)
+	if !ok {
+		return fmt.Errorf("expected resources/v1api20200601storage/ResourceGroup but received %T instead", hub)
+	}
+
+	return group.AssignProperties_To_ResourceGroup(destination)
 }
 
 var _ genruntime.KubernetesResource = &ResourceGroup{}
@@ -115,8 +134,75 @@ func (group *ResourceGroup) Location() string {
 	return *group.Spec.Location
 }
 
-// Hub marks that this ResourceGroup is the hub type for conversion
-func (group *ResourceGroup) Hub() {}
+// AssignProperties_From_ResourceGroup populates our ResourceGroup from the provided source ResourceGroup
+func (group *ResourceGroup) AssignProperties_From_ResourceGroup(source *v1api20200601s.ResourceGroup) error {
+
+	// ObjectMeta
+	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ResourceGroup_Spec
+	err := spec.AssignProperties_From_ResourceGroup_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_ResourceGroup_Spec() to populate field Spec")
+	}
+	group.Spec = spec
+
+	// Status
+	var status ResourceGroup_STATUS
+	err = status.AssignProperties_From_ResourceGroup_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_ResourceGroup_STATUS() to populate field Status")
+	}
+	group.Status = status
+
+	// Invoke the augmentConversionForResourceGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForResourceGroup); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceGroup populates the provided destination ResourceGroup from our ResourceGroup
+func (group *ResourceGroup) AssignProperties_To_ResourceGroup(destination *v1api20200601s.ResourceGroup) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1api20200601s.ResourceGroup_Spec
+	err := group.Spec.AssignProperties_To_ResourceGroup_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_ResourceGroup_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1api20200601s.ResourceGroup_STATUS
+	err = group.Status.AssignProperties_To_ResourceGroup_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_ResourceGroup_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForResourceGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForResourceGroup); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (group *ResourceGroup) OriginalGVK() *schema.GroupVersionKind {
@@ -129,9 +215,7 @@ func (group *ResourceGroup) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200601.ResourceGroup
-// Generator information:
-// - Generated from: /resources/resource-manager/Microsoft.Resources/stable/2020-06-01/resources.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}
+// Deprecated version of ResourceGroup. Use v1api20200601.ResourceGroup instead
 type ResourceGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -139,10 +223,16 @@ type ResourceGroupList struct {
 }
 
 // Storage version of v1beta20200601.APIVersion
+// Deprecated version of APIVersion. Use v1api20200601.APIVersion instead
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2020-06-01")
+
+type augmentConversionForResourceGroup interface {
+	AssignPropertiesFrom(src *v1api20200601s.ResourceGroup) error
+	AssignPropertiesTo(dst *v1api20200601s.ResourceGroup) error
+}
 
 // Storage version of v1beta20200601.ResourceGroup_Spec
 type ResourceGroup_Spec struct {
@@ -162,24 +252,134 @@ var _ genruntime.ConvertibleSpec = &ResourceGroup_Spec{}
 
 // ConvertSpecFrom populates our ResourceGroup_Spec from the provided source
 func (group *ResourceGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1api20200601s.ResourceGroup_Spec)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_ResourceGroup_Spec(src)
 	}
 
-	return source.ConvertSpecTo(group)
+	// Convert to an intermediate form
+	src = &v1api20200601s.ResourceGroup_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_ResourceGroup_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ResourceGroup_Spec
 func (group *ResourceGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1api20200601s.ResourceGroup_Spec)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_ResourceGroup_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(group)
+	// Convert to an intermediate form
+	dst = &v1api20200601s.ResourceGroup_Spec{}
+	err := group.AssignProperties_To_ResourceGroup_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ResourceGroup_Spec populates our ResourceGroup_Spec from the provided source ResourceGroup_Spec
+func (group *ResourceGroup_Spec) AssignProperties_From_ResourceGroup_Spec(source *v1api20200601s.ResourceGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	group.AzureName = source.AzureName
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// ManagedBy
+	group.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
+
+	// OriginalVersion
+	group.OriginalVersion = source.OriginalVersion
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForResourceGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceGroup_Spec populates the provided destination ResourceGroup_Spec from our ResourceGroup_Spec
+func (group *ResourceGroup_Spec) AssignProperties_To_ResourceGroup_Spec(destination *v1api20200601s.ResourceGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// AzureName
+	destination.AzureName = group.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(group.Location)
+
+	// ManagedBy
+	destination.ManagedBy = genruntime.ClonePointerToString(group.ManagedBy)
+
+	// OriginalVersion
+	destination.OriginalVersion = group.OriginalVersion
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForResourceGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20200601.ResourceGroup_STATUS
-// Resource group information.
+// Deprecated version of ResourceGroup_STATUS. Use v1api20200601.ResourceGroup_STATUS instead
 type ResourceGroup_STATUS struct {
 	Conditions  []conditions.Condition          `json:"conditions,omitempty"`
 	Id          *string                         `json:"id,omitempty"`
@@ -196,27 +396,244 @@ var _ genruntime.ConvertibleStatus = &ResourceGroup_STATUS{}
 
 // ConvertStatusFrom populates our ResourceGroup_STATUS from the provided source
 func (group *ResourceGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1api20200601s.ResourceGroup_STATUS)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_ResourceGroup_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(group)
+	// Convert to an intermediate form
+	src = &v1api20200601s.ResourceGroup_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_ResourceGroup_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ResourceGroup_STATUS
 func (group *ResourceGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == group {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1api20200601s.ResourceGroup_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_ResourceGroup_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(group)
+	// Convert to an intermediate form
+	dst = &v1api20200601s.ResourceGroup_STATUS{}
+	err := group.AssignProperties_To_ResourceGroup_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ResourceGroup_STATUS populates our ResourceGroup_STATUS from the provided source ResourceGroup_STATUS
+func (group *ResourceGroup_STATUS) AssignProperties_From_ResourceGroup_STATUS(source *v1api20200601s.ResourceGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	group.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// ManagedBy
+	group.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
+
+	// Name
+	group.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property ResourceGroupProperties_STATUS
+		err := property.AssignProperties_From_ResourceGroupProperties_STATUS(source.Properties)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ResourceGroupProperties_STATUS() to populate field Properties")
+		}
+		group.Properties = &property
+	} else {
+		group.Properties = nil
+	}
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	group.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForResourceGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceGroup_STATUS populates the provided destination ResourceGroup_STATUS from our ResourceGroup_STATUS
+func (group *ResourceGroup_STATUS) AssignProperties_To_ResourceGroup_STATUS(destination *v1api20200601s.ResourceGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(group.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(group.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(group.Location)
+
+	// ManagedBy
+	destination.ManagedBy = genruntime.ClonePointerToString(group.ManagedBy)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(group.Name)
+
+	// Properties
+	if group.Properties != nil {
+		var property v1api20200601s.ResourceGroupProperties_STATUS
+		err := group.Properties.AssignProperties_To_ResourceGroupProperties_STATUS(&property)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ResourceGroupProperties_STATUS() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(group.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForResourceGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForResourceGroup_Spec interface {
+	AssignPropertiesFrom(src *v1api20200601s.ResourceGroup_Spec) error
+	AssignPropertiesTo(dst *v1api20200601s.ResourceGroup_Spec) error
+}
+
+type augmentConversionForResourceGroup_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.ResourceGroup_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.ResourceGroup_STATUS) error
 }
 
 // Storage version of v1beta20200601.ResourceGroupProperties_STATUS
-// The resource group properties.
+// Deprecated version of ResourceGroupProperties_STATUS. Use v1api20200601.ResourceGroupProperties_STATUS instead
 type ResourceGroupProperties_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProvisioningState *string                `json:"provisioningState,omitempty"`
+}
+
+// AssignProperties_From_ResourceGroupProperties_STATUS populates our ResourceGroupProperties_STATUS from the provided source ResourceGroupProperties_STATUS
+func (properties *ResourceGroupProperties_STATUS) AssignProperties_From_ResourceGroupProperties_STATUS(source *v1api20200601s.ResourceGroupProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ProvisioningState
+	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceGroupProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForResourceGroupProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceGroupProperties_STATUS populates the provided destination ResourceGroupProperties_STATUS from our ResourceGroupProperties_STATUS
+func (properties *ResourceGroupProperties_STATUS) AssignProperties_To_ResourceGroupProperties_STATUS(destination *v1api20200601s.ResourceGroupProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceGroupProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForResourceGroupProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForResourceGroupProperties_STATUS interface {
+	AssignPropertiesFrom(src *v1api20200601s.ResourceGroupProperties_STATUS) error
+	AssignPropertiesTo(dst *v1api20200601s.ResourceGroupProperties_STATUS) error
 }
 
 func init() {

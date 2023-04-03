@@ -1,0 +1,10 @@
+apiVersion: sql.azure.com/v1api20211101
+kind: ServersDatabase
+metadata:
+  name: aso-sample-db
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-sqlserver
+  collation: SQL_Latin1_General_CP1_CI_AS
+  location: eastus

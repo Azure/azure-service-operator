@@ -1,0 +1,18 @@
+apiVersion: subscription.azure.com/v1api20211001
+kind: Alias
+metadata:
+  name: mysubscription
+  namespace: default
+spec:
+  # Creating an Alias creates a subscription. Deleting an Alias cancels that subscription.
+  # Be sure you're ready to cancel the subscription before you delete the Alias. If you don't want to
+  # cancel the subscription but you want to delete the Alias through ASO, use
+  # https://azure.github.io/azure-service-operator/introduction/annotations/#serviceoperatorazurecomreconcile-policy
+  # RoleAssignments and other extension resources can be assigned to the Alias and apply to the actual subscription.
+  properties:
+    displayName: "ASO Demo Subscription"
+    workload: Production
+    billingScope: /providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31/billingProfiles/0000-0000-000-000/invoiceSections/0000-0000-000-000
+    # additionalProperties:
+    #   subscriptionId can be set to adopt an existing subscription by creating a new Alias to it
+    #   subscriptionId: 00000000-0000-0000-0000-000000000000

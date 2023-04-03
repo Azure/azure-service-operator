@@ -1,52 +1,52 @@
-| Type Definitions in package "dbforpostgresql" | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-|-----------------------------------------------|---------------------|----------------|-----------------------|
-| APIVersion                                    | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Backup                                        | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Backup_GeoRedundantBackup                     | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Backup_GeoRedundantBackup_STATUS              | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Backup_STATUS                                 | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ConfigurationProperties                       | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ConfigurationProperties_DataType_STATUS       | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ConfigurationProperties_STATUS                | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| DatabaseProperties                            | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| DatabaseProperties_STATUS                     | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FirewallRuleProperties                        | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FirewallRuleProperties_STATUS                 | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServer                                | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServer_STATUS                         | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServer_Spec                           | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServersConfiguration                  | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServersDatabase                       | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServersFirewallRule                   | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServers_Configuration_STATUS          | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServers_Configuration_Spec            | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServers_Database_STATUS               | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServers_Database_Spec                 | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServers_FirewallRule_STATUS           | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| FlexibleServers_FirewallRule_Spec             | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| HighAvailability                              | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| HighAvailability_Mode                         | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| HighAvailability_Mode_STATUS                  | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| HighAvailability_STATUS                       | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| HighAvailability_State_STATUS                 | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| MaintenanceWindow                             | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| MaintenanceWindow_STATUS                      | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Network                                       | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Network_PublicNetworkAccess_STATUS            | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Network_STATUS                                | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ServerProperties                              | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ServerProperties_CreateMode                   | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ServerProperties_CreateMode_STATUS            | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ServerProperties_STATUS                       | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ServerProperties_State_STATUS                 | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ServerVersion                                 | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| ServerVersion_STATUS                          | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Sku                                           | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Sku_STATUS                                    | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Sku_Tier                                      | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Sku_Tier_STATUS                               | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Storage                                       | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| Storage_STATUS                                | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| SystemData_CreatedByType_STATUS               | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| SystemData_LastModifiedByType_STATUS          | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
-| SystemData_STATUS                             | v1alpha1api20210601 | v1beta20210601 | v1beta20220120preview |
+| Type Definitions in package "dbforpostgresql" | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+|-----------------------------------------------|---------------|----------------------|----------------|-----------------------|
+| APIVersion                                    | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Backup                                        | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Backup_GeoRedundantBackup                     | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Backup_GeoRedundantBackup_STATUS              | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Backup_STATUS                                 | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ConfigurationProperties                       | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ConfigurationProperties_DataType_STATUS       | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ConfigurationProperties_STATUS                | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| DatabaseProperties                            | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| DatabaseProperties_STATUS                     | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FirewallRuleProperties                        | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FirewallRuleProperties_STATUS                 | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServer                                | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServer_STATUS                         | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServer_Spec                           | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServersConfiguration                  | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServersDatabase                       | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServersFirewallRule                   | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServers_Configuration_STATUS          | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServers_Configuration_Spec            | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServers_Database_STATUS               | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServers_Database_Spec                 | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServers_FirewallRule_STATUS           | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| FlexibleServers_FirewallRule_Spec             | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| HighAvailability                              | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| HighAvailability_Mode                         | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| HighAvailability_Mode_STATUS                  | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| HighAvailability_STATUS                       | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| HighAvailability_State_STATUS                 | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| MaintenanceWindow                             | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| MaintenanceWindow_STATUS                      | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Network                                       | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Network_PublicNetworkAccess_STATUS            | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Network_STATUS                                | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ServerProperties                              | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ServerProperties_CreateMode                   | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ServerProperties_CreateMode_STATUS            | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ServerProperties_STATUS                       | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ServerProperties_State_STATUS                 | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ServerVersion                                 | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| ServerVersion_STATUS                          | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Sku                                           | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Sku_STATUS                                    | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Sku_Tier                                      | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Sku_Tier_STATUS                               | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Storage                                       | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| Storage_STATUS                                | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| SystemData_CreatedByType_STATUS               | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| SystemData_LastModifiedByType_STATUS          | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |
+| SystemData_STATUS                             | v1api20210601 | v1api20220120preview | v1beta20210601 | v1beta20220120preview |

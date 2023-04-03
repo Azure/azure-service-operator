@@ -5,22 +5,14 @@ package v1beta20210901
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Registry_Spec. Use v1api20210901.Registry_Spec instead
 type Registry_Spec_ARM struct {
-	// Identity: The identity of the container registry.
-	Identity *IdentityProperties_ARM `json:"identity,omitempty"`
-
-	// Location: The location of the resource. This cannot be changed after the resource is created.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: The properties of the container registry.
+	Identity   *IdentityProperties_ARM `json:"identity,omitempty"`
+	Location   *string                 `json:"location,omitempty"`
+	Name       string                  `json:"name,omitempty"`
 	Properties *RegistryProperties_ARM `json:"properties,omitempty"`
-
-	// Sku: The SKU of the container registry.
-	Sku *Sku_ARM `json:"sku,omitempty"`
-
-	// Tags: The tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *Sku_ARM                `json:"sku,omitempty"`
+	Tags       map[string]string       `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Registry_Spec_ARM{}
@@ -40,65 +32,38 @@ func (registry *Registry_Spec_ARM) GetType() string {
 	return "Microsoft.ContainerRegistry/registries"
 }
 
-// Managed identity for the resource.
+// Deprecated version of IdentityProperties. Use v1api20210901.IdentityProperties instead
 type IdentityProperties_ARM struct {
-	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The identity type.
-	Type *IdentityProperties_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	// dictionary key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	// providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                               `json:"principalId,omitempty"`
+	TenantId               *string                               `json:"tenantId,omitempty"`
+	Type                   *IdentityProperties_Type              `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityProperties_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-// The properties of a container registry.
+// Deprecated version of RegistryProperties. Use v1api20210901.RegistryProperties instead
 type RegistryProperties_ARM struct {
-	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
-	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
-
-	// DataEndpointEnabled: Enable a single data endpoint per region for serving data.
-	DataEndpointEnabled *bool `json:"dataEndpointEnabled,omitempty"`
-
-	// Encryption: The encryption settings of container registry.
-	Encryption *EncryptionProperty_ARM `json:"encryption,omitempty"`
-
-	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
+	AdminUserEnabled         *bool                                        `json:"adminUserEnabled,omitempty"`
+	DataEndpointEnabled      *bool                                        `json:"dataEndpointEnabled,omitempty"`
+	Encryption               *EncryptionProperty_ARM                      `json:"encryption,omitempty"`
 	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
-
-	// NetworkRuleSet: The network rule set for a container registry.
-	NetworkRuleSet *NetworkRuleSet_ARM `json:"networkRuleSet,omitempty"`
-
-	// Policies: The policies for a container registry.
-	Policies *Policies_ARM `json:"policies,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
-	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
-	ZoneRedundancy *RegistryProperties_ZoneRedundancy `json:"zoneRedundancy,omitempty"`
+	NetworkRuleSet           *NetworkRuleSet_ARM                          `json:"networkRuleSet,omitempty"`
+	Policies                 *Policies_ARM                                `json:"policies,omitempty"`
+	PublicNetworkAccess      *RegistryProperties_PublicNetworkAccess      `json:"publicNetworkAccess,omitempty"`
+	ZoneRedundancy           *RegistryProperties_ZoneRedundancy           `json:"zoneRedundancy,omitempty"`
 }
 
-// The SKU of a container registry.
+// Deprecated version of Sku. Use v1api20210901.Sku instead
 type Sku_ARM struct {
-	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *Sku_Name `json:"name,omitempty"`
 }
 
+// Deprecated version of EncryptionProperty. Use v1api20210901.EncryptionProperty instead
 type EncryptionProperty_ARM struct {
-	// KeyVaultProperties: Key vault properties.
-	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
-
-	// Status: Indicates whether or not the encryption is enabled for container registry.
-	Status *EncryptionProperty_Status `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_ARM    `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionProperty_Status `json:"status,omitempty"`
 }
 
+// Deprecated version of IdentityProperties_Type. Use v1api20210901.IdentityProperties_Type instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type IdentityProperties_Type string
 
@@ -109,30 +74,21 @@ const (
 	IdentityProperties_Type_UserAssigned               = IdentityProperties_Type("UserAssigned")
 )
 
-// The network rule set for a container registry.
+// Deprecated version of NetworkRuleSet. Use v1api20210901.NetworkRuleSet instead
 type NetworkRuleSet_ARM struct {
-	// DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
-
-	// IpRules: The IP ACL rules.
-	IpRules []IPRule_ARM `json:"ipRules,omitempty"`
+	IpRules       []IPRule_ARM                  `json:"ipRules,omitempty"`
 }
 
-// The policies for a container registry.
+// Deprecated version of Policies. Use v1api20210901.Policies instead
 type Policies_ARM struct {
-	// ExportPolicy: The export policy for a container registry.
-	ExportPolicy *ExportPolicy_ARM `json:"exportPolicy,omitempty"`
-
-	// QuarantinePolicy: The quarantine policy for a container registry.
+	ExportPolicy     *ExportPolicy_ARM     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicy_ARM `json:"quarantinePolicy,omitempty"`
-
-	// RetentionPolicy: The retention policy for a container registry.
-	RetentionPolicy *RetentionPolicy_ARM `json:"retentionPolicy,omitempty"`
-
-	// TrustPolicy: The content trust policy for a container registry.
-	TrustPolicy *TrustPolicy_ARM `json:"trustPolicy,omitempty"`
+	RetentionPolicy  *RetentionPolicy_ARM  `json:"retentionPolicy,omitempty"`
+	TrustPolicy      *TrustPolicy_ARM      `json:"trustPolicy,omitempty"`
 }
 
+// Deprecated version of Sku_Name. Use v1api20210901.Sku_Name instead
 // +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
 type Sku_Name string
 
@@ -143,57 +99,42 @@ const (
 	Sku_Name_Standard = Sku_Name("Standard")
 )
 
+// Deprecated version of UserIdentityProperties. Use v1api20210901.UserIdentityProperties instead
 type UserIdentityProperties_ARM struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-// The export policy for a container registry.
+// Deprecated version of ExportPolicy. Use v1api20210901.ExportPolicy instead
 type ExportPolicy_ARM struct {
-	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicy_Status `json:"status,omitempty"`
 }
 
-// IP rule with specific IP or IP range in CIDR format.
+// Deprecated version of IPRule. Use v1api20210901.IPRule instead
 type IPRule_ARM struct {
-	// Action: The action of IP ACL rule.
 	Action *IPRule_Action `json:"action,omitempty"`
-
-	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value *string `json:"value,omitempty"`
+	Value  *string        `json:"value,omitempty"`
 }
 
+// Deprecated version of KeyVaultProperties. Use v1api20210901.KeyVaultProperties instead
 type KeyVaultProperties_ARM struct {
-	// Identity: The client id of the identity which will be used to access key vault.
-	Identity *string `json:"identity,omitempty"`
-
-	// KeyIdentifier: Key vault uri to access the encryption key.
+	Identity      *string `json:"identity,omitempty"`
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
-// The quarantine policy for a container registry.
+// Deprecated version of QuarantinePolicy. Use v1api20210901.QuarantinePolicy instead
 type QuarantinePolicy_ARM struct {
-	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicy_Status `json:"status,omitempty"`
 }
 
-// The retention policy for a container registry.
+// Deprecated version of RetentionPolicy. Use v1api20210901.RetentionPolicy instead
 type RetentionPolicy_ARM struct {
-	// Days: The number of days to retain an untagged manifest after which it gets purged.
-	Days *int `json:"days,omitempty"`
-
-	// Status: The value that indicates whether the policy is enabled or not.
+	Days   *int                    `json:"days,omitempty"`
 	Status *RetentionPolicy_Status `json:"status,omitempty"`
 }
 
-// The content trust policy for a container registry.
+// Deprecated version of TrustPolicy. Use v1api20210901.TrustPolicy instead
 type TrustPolicy_ARM struct {
-	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicy_Status `json:"status,omitempty"`
-
-	// Type: The type of trust policy.
-	Type *TrustPolicy_Type `json:"type,omitempty"`
+	Type   *TrustPolicy_Type   `json:"type,omitempty"`
 }

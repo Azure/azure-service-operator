@@ -9,12 +9,12 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -54,13 +54,13 @@ func Test_DBForPostgreSQL_FlexibleServer_20210601_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &postgresql.Sku{
-				Name: to.StringPtr("Standard_D4s_v3"),
+				Name: to.Ptr("Standard_D4s_v3"),
 				Tier: &tier,
 			},
-			AdministratorLogin:         to.StringPtr("myadmin"),
+			AdministratorLogin:         to.Ptr("myadmin"),
 			AdministratorLoginPassword: &secretRef,
 			Storage: &postgresql.Storage{
-				StorageSizeGB: to.IntPtr(128),
+				StorageSizeGB: to.Ptr(128),
 			},
 			OperatorSpec: &postgresql.FlexibleServerOperatorSpec{
 				Secrets: &postgresql.FlexibleServerOperatorSecrets{
@@ -83,12 +83,12 @@ func Test_DBForPostgreSQL_FlexibleServer_20210601_CRUD(t *testing.T) {
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()
 	flexibleServer.Spec.MaintenanceWindow = &postgresql.MaintenanceWindow{
-		CustomWindow: to.StringPtr("enabled"),
-		DayOfWeek:    to.IntPtr(5),
+		CustomWindow: to.Ptr("enabled"),
+		DayOfWeek:    to.Ptr(5),
 	}
 	tc.PatchResourceAndWait(old, flexibleServer)
 	tc.Expect(flexibleServer.Status.MaintenanceWindow).ToNot(BeNil())
-	tc.Expect(flexibleServer.Status.MaintenanceWindow.DayOfWeek).To(Equal(to.IntPtr(5)))
+	tc.Expect(flexibleServer.Status.MaintenanceWindow.DayOfWeek).To(Equal(to.Ptr(5)))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -125,7 +125,7 @@ func FlexibleServer_Database_20210601_CRUD(tc *testcommon.KubePerTestContext, fl
 		ObjectMeta: tc.MakeObjectMeta("db"),
 		Spec: postgresql.FlexibleServers_Database_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
-			Charset: to.StringPtr("utf8"),
+			Charset: to.Ptr("utf8"),
 		},
 	}
 	tc.CreateResourceAndWait(database)
@@ -140,8 +140,8 @@ func FlexibleServer_FirewallRule_20210601_CRUD(tc *testcommon.KubePerTestContext
 		Spec: postgresql.FlexibleServers_FirewallRule_Spec{
 			Owner: testcommon.AsOwner(flexibleServer),
 			// I think that these rules are allow rules - somebody with this IP can access the server.
-			StartIpAddress: to.StringPtr("1.2.3.4"),
-			EndIpAddress:   to.StringPtr("1.2.3.4"),
+			StartIpAddress: to.Ptr("1.2.3.4"),
+			EndIpAddress:   to.Ptr("1.2.3.4"),
 		},
 	}
 
@@ -157,8 +157,8 @@ func FlexibleServer_Configuration_20210601_CRUD(tc *testcommon.KubePerTestContex
 		Spec: postgresql.FlexibleServers_Configuration_Spec{
 			Owner:     testcommon.AsOwner(flexibleServer),
 			AzureName: "pgaudit.log",
-			Source:    to.StringPtr("user-override"),
-			Value:     to.StringPtr("READ"),
+			Source:    to.Ptr("user-override"),
+			Value:     to.Ptr("READ"),
 		},
 	}
 
@@ -167,5 +167,5 @@ func FlexibleServer_Configuration_20210601_CRUD(tc *testcommon.KubePerTestContex
 	// defer tc.DeleteResourceAndWait(configuration)
 
 	tc.Expect(configuration.Status.Id).ToNot(BeNil())
-	tc.Expect(configuration.Status.Value).To(Equal(to.StringPtr("READ")))
+	tc.Expect(configuration.Status.Value).To(Equal(to.Ptr("READ")))
 }

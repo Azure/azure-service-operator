@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	alpha20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
-	alpha20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601storage"
+	v1api20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
 	v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -17,8 +17,8 @@ type ResourceGroupExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ResourceGroupExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&alpha20200601.ResourceGroup{},
-		&alpha20200601s.ResourceGroup{},
+		&v1api20200601.ResourceGroup{},
+		&v1api20200601s.ResourceGroup{},
 		&v20200601.ResourceGroup{},
 		&v20200601s.ResourceGroup{}}
 }

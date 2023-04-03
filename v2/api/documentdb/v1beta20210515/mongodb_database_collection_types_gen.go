@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}
+// Deprecated version of MongodbDatabaseCollection. Use v1api20210515.MongodbDatabaseCollection instead
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &MongodbDatabaseCollection{}
 
 // ConvertFrom populates our MongodbDatabaseCollection from the provided hub MongodbDatabaseCollection
 func (collection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210515s.MongodbDatabaseCollection)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/MongodbDatabaseCollection but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210515s.MongodbDatabaseCollection
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return collection.AssignProperties_From_MongodbDatabaseCollection(source)
+	err = collection.AssignProperties_From_MongodbDatabaseCollection(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to collection")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabaseCollection from our MongodbDatabaseCollection
 func (collection *MongodbDatabaseCollection) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210515s.MongodbDatabaseCollection)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/MongodbDatabaseCollection but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210515s.MongodbDatabaseCollection
+	err := collection.AssignProperties_To_MongodbDatabaseCollection(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from collection")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return collection.AssignProperties_To_MongodbDatabaseCollection(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-mongodbdatabasecollection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (collection *MongodbDatabaseCollection) OriginalGVK() *schema.GroupVersionK
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}
+// Deprecated version of MongodbDatabaseCollection. Use v1api20210515.MongodbDatabaseCollection instead
 type MongodbDatabaseCollectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -335,14 +345,9 @@ type MongodbDatabaseCollectionList struct {
 type DatabaseAccounts_MongodbDatabases_Collection_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions `json:"options,omitempty"`
+	AzureName string               `json:"azureName,omitempty"`
+	Location  *string              `json:"location,omitempty"`
+	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -351,7 +356,6 @@ type DatabaseAccounts_MongodbDatabases_Collection_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
 
 	// +kubebuilder:validation:Required
-	// Resource: The standard JSON format of a MongoDB collection
 	Resource *MongoDBCollectionResource `json:"resource,omitempty"`
 	Tags     map[string]string          `json:"tags,omitempty"`
 }
@@ -674,26 +678,17 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) SetAzureNam
 	collection.AzureName = azureName
 }
 
+// Deprecated version of DatabaseAccounts_MongodbDatabases_Collection_STATUS. Use v1api20210515.DatabaseAccounts_MongodbDatabases_Collection_STATUS instead
 type DatabaseAccounts_MongodbDatabases_Collection_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Options: Cosmos DB options resource object
-	Options  *OptionsResource_STATUS                         `json:"options,omitempty"`
-	Resource *MongoDBCollectionGetProperties_Resource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string                               `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                          `json:"conditions,omitempty"`
+	Id         *string                                         `json:"id,omitempty"`
+	Location   *string                                         `json:"location,omitempty"`
+	Name       *string                                         `json:"name,omitempty"`
+	Options    *OptionsResource_STATUS                         `json:"options,omitempty"`
+	Resource   *MongoDBCollectionGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags       map[string]string                               `json:"tags,omitempty"`
+	Type       *string                                         `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabases_Collection_STATUS{}
@@ -933,27 +928,15 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_STATUS) AssignPro
 	return nil
 }
 
+// Deprecated version of MongoDBCollectionGetProperties_Resource_STATUS. Use v1api20210515.MongoDBCollectionGetProperties_Resource_STATUS instead
 type MongoDBCollectionGetProperties_Resource_STATUS struct {
-	// AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	// Id: Name of the Cosmos DB MongoDB collection
-	Id *string `json:"id,omitempty"`
-
-	// Indexes: List of index keys
-	Indexes []MongoIndex_STATUS `json:"indexes,omitempty"`
-
-	// Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	// ShardKey: A key-value pair of shard keys to be applied for the request.
-	ShardKey map[string]string `json:"shardKey,omitempty"`
-
-	// Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	AnalyticalStorageTtl *int                `json:"analyticalStorageTtl,omitempty"`
+	Etag                 *string             `json:"_etag,omitempty"`
+	Id                   *string             `json:"id,omitempty"`
+	Indexes              []MongoIndex_STATUS `json:"indexes,omitempty"`
+	Rid                  *string             `json:"_rid,omitempty"`
+	ShardKey             map[string]string   `json:"shardKey,omitempty"`
+	Ts                   *float64            `json:"_ts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MongoDBCollectionGetProperties_Resource_STATUS{}
@@ -1127,19 +1110,13 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) AssignProperties
 	return nil
 }
 
-// Cosmos DB MongoDB collection resource object
+// Deprecated version of MongoDBCollectionResource. Use v1api20210515.MongoDBCollectionResource instead
 type MongoDBCollectionResource struct {
-	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Id: Name of the Cosmos DB MongoDB collection
-	Id *string `json:"id,omitempty"`
-
-	// Indexes: List of index keys
-	Indexes []MongoIndex `json:"indexes,omitempty"`
-
-	// ShardKey: A key-value pair of shard keys to be applied for the request.
+	Id       *string           `json:"id,omitempty"`
+	Indexes  []MongoIndex      `json:"indexes,omitempty"`
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 }
 
@@ -1340,12 +1317,9 @@ func (resource *MongoDBCollectionResource) Initialize_From_MongoDBCollectionGetP
 	return nil
 }
 
-// Cosmos DB MongoDB collection index key
+// Deprecated version of MongoIndex. Use v1api20210515.MongoIndex instead
 type MongoIndex struct {
-	// Key: Cosmos DB MongoDB collection index keys
-	Key *MongoIndexKeys `json:"key,omitempty"`
-
-	// Options: Cosmos DB MongoDB collection index key options
+	Key     *MongoIndexKeys    `json:"key,omitempty"`
 	Options *MongoIndexOptions `json:"options,omitempty"`
 }
 
@@ -1520,12 +1494,9 @@ func (index *MongoIndex) Initialize_From_MongoIndex_STATUS(source *MongoIndex_ST
 	return nil
 }
 
-// Cosmos DB MongoDB collection index key
+// Deprecated version of MongoIndex_STATUS. Use v1api20210515.MongoIndex_STATUS instead
 type MongoIndex_STATUS struct {
-	// Key: Cosmos DB MongoDB collection index keys
-	Key *MongoIndexKeys_STATUS `json:"key,omitempty"`
-
-	// Options: Cosmos DB MongoDB collection index key options
+	Key     *MongoIndexKeys_STATUS    `json:"key,omitempty"`
 	Options *MongoIndexOptions_STATUS `json:"options,omitempty"`
 }
 
@@ -1640,9 +1611,8 @@ func (index *MongoIndex_STATUS) AssignProperties_To_MongoIndex_STATUS(destinatio
 	return nil
 }
 
-// Cosmos DB MongoDB collection resource object
+// Deprecated version of MongoIndexKeys. Use v1api20210515.MongoIndexKeys instead
 type MongoIndexKeys struct {
-	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
@@ -1722,9 +1692,8 @@ func (keys *MongoIndexKeys) Initialize_From_MongoIndexKeys_STATUS(source *MongoI
 	return nil
 }
 
-// Cosmos DB MongoDB collection resource object
+// Deprecated version of MongoIndexKeys_STATUS. Use v1api20210515.MongoIndexKeys_STATUS instead
 type MongoIndexKeys_STATUS struct {
-	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
@@ -1780,13 +1749,10 @@ func (keys *MongoIndexKeys_STATUS) AssignProperties_To_MongoIndexKeys_STATUS(des
 	return nil
 }
 
-// Cosmos DB MongoDB collection index options
+// Deprecated version of MongoIndexOptions. Use v1api20210515.MongoIndexOptions instead
 type MongoIndexOptions struct {
-	// ExpireAfterSeconds: Expire after seconds
-	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
-
-	// Unique: Is unique or not
-	Unique *bool `json:"unique,omitempty"`
+	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
+	Unique             *bool `json:"unique,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &MongoIndexOptions{}
@@ -1903,13 +1869,10 @@ func (options *MongoIndexOptions) Initialize_From_MongoIndexOptions_STATUS(sourc
 	return nil
 }
 
-// Cosmos DB MongoDB collection index options
+// Deprecated version of MongoIndexOptions_STATUS. Use v1api20210515.MongoIndexOptions_STATUS instead
 type MongoIndexOptions_STATUS struct {
-	// ExpireAfterSeconds: Expire after seconds
-	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
-
-	// Unique: Is unique or not
-	Unique *bool `json:"unique,omitempty"`
+	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
+	Unique             *bool `json:"unique,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MongoIndexOptions_STATUS{}

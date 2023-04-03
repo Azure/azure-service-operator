@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	alpha20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
-	alpha20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501storage"
+	v1api20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	v1api20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
 	v20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -17,8 +17,8 @@ type FlexibleServersFirewallRuleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FlexibleServersFirewallRuleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&alpha20210501.FlexibleServersFirewallRule{},
-		&alpha20210501s.FlexibleServersFirewallRule{},
+		&v1api20210501.FlexibleServersFirewallRule{},
+		&v1api20210501s.FlexibleServersFirewallRule{},
 		&v20210501.FlexibleServersFirewallRule{},
 		&v20210501s.FlexibleServersFirewallRule{}}
 }

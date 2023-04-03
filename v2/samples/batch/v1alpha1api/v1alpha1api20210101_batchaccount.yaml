@@ -1,9 +1,0 @@
-apiVersion: batch.azure.com/v1alpha1api20210101
-kind: BatchAccount
-metadata:
-  name: samplekubebatch
-  namespace: default
-spec:
-  location: westcentralus
-  owner:
-    name: aso-sample-rg

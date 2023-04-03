@@ -5,6 +5,7 @@ package v1beta20211001storage
 
 import (
 	"encoding/json"
+	v1api20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_Alias_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Alias to hub returns original",
+		prop.ForAll(RunResourceConversionTestForAlias, AliasGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForAlias tests if a specific instance of Alias round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForAlias(subject Alias) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20211001s.Alias
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Alias
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Alias_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Alias to Alias via AssignProperties_To_Alias & AssignProperties_From_Alias returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAlias, AliasGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAlias tests if a specific instance of Alias can be assigned to v1api20211001storage and back losslessly
+func RunPropertyAssignmentTestForAlias(subject Alias) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20211001s.Alias
+	err := copied.AssignProperties_To_Alias(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Alias
+	err = actual.AssignProperties_From_Alias(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_Alias_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +162,48 @@ func AliasGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForAlias(gens map[string]gopter.Gen) {
 	gens["Spec"] = Alias_SpecGenerator()
 	gens["Status"] = Alias_STATUSGenerator()
+}
+
+func Test_Alias_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Alias_Spec to Alias_Spec via AssignProperties_To_Alias_Spec & AssignProperties_From_Alias_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAlias_Spec, Alias_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAlias_Spec tests if a specific instance of Alias_Spec can be assigned to v1api20211001storage and back losslessly
+func RunPropertyAssignmentTestForAlias_Spec(subject Alias_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20211001s.Alias_Spec
+	err := copied.AssignProperties_To_Alias_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Alias_Spec
+	err = actual.AssignProperties_From_Alias_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Alias_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -153,6 +281,48 @@ func AddRelatedPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(PutAliasRequestPropertiesGenerator())
 }
 
+func Test_Alias_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Alias_STATUS to Alias_STATUS via AssignProperties_To_Alias_STATUS & AssignProperties_From_Alias_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAlias_STATUS, Alias_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAlias_STATUS tests if a specific instance of Alias_STATUS can be assigned to v1api20211001storage and back losslessly
+func RunPropertyAssignmentTestForAlias_STATUS(subject Alias_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20211001s.Alias_STATUS
+	err := copied.AssignProperties_To_Alias_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Alias_STATUS
+	err = actual.AssignProperties_From_Alias_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Alias_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -228,6 +398,48 @@ func AddIndependentPropertyGeneratorsForAlias_STATUS(gens map[string]gopter.Gen)
 func AddRelatedPropertyGeneratorsForAlias_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(SubscriptionAliasResponseProperties_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_PutAliasRequestProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PutAliasRequestProperties to PutAliasRequestProperties via AssignProperties_To_PutAliasRequestProperties & AssignProperties_From_PutAliasRequestProperties returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPutAliasRequestProperties, PutAliasRequestPropertiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPutAliasRequestProperties tests if a specific instance of PutAliasRequestProperties can be assigned to v1api20211001storage and back losslessly
+func RunPropertyAssignmentTestForPutAliasRequestProperties(subject PutAliasRequestProperties) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20211001s.PutAliasRequestProperties
+	err := copied.AssignProperties_To_PutAliasRequestProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PutAliasRequestProperties
+	err = actual.AssignProperties_From_PutAliasRequestProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PutAliasRequestProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -309,6 +521,48 @@ func AddRelatedPropertyGeneratorsForPutAliasRequestProperties(gens map[string]go
 	gens["AdditionalProperties"] = gen.PtrOf(PutAliasRequestAdditionalPropertiesGenerator())
 }
 
+func Test_SubscriptionAliasResponseProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubscriptionAliasResponseProperties_STATUS to SubscriptionAliasResponseProperties_STATUS via AssignProperties_To_SubscriptionAliasResponseProperties_STATUS & AssignProperties_From_SubscriptionAliasResponseProperties_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubscriptionAliasResponseProperties_STATUS, SubscriptionAliasResponseProperties_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubscriptionAliasResponseProperties_STATUS tests if a specific instance of SubscriptionAliasResponseProperties_STATUS can be assigned to v1api20211001storage and back losslessly
+func RunPropertyAssignmentTestForSubscriptionAliasResponseProperties_STATUS(subject SubscriptionAliasResponseProperties_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20211001s.SubscriptionAliasResponseProperties_STATUS
+	err := copied.AssignProperties_To_SubscriptionAliasResponseProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubscriptionAliasResponseProperties_STATUS
+	err = actual.AssignProperties_From_SubscriptionAliasResponseProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SubscriptionAliasResponseProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -381,6 +635,48 @@ func AddIndependentPropertyGeneratorsForSubscriptionAliasResponseProperties_STAT
 	gens["Workload"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to v1api20211001storage and back losslessly
+func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20211001s.SystemData_STATUS
+	err := copied.AssignProperties_To_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SystemData_STATUS
+	err = actual.AssignProperties_From_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -444,6 +740,48 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PutAliasRequestAdditionalProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PutAliasRequestAdditionalProperties to PutAliasRequestAdditionalProperties via AssignProperties_To_PutAliasRequestAdditionalProperties & AssignProperties_From_PutAliasRequestAdditionalProperties returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPutAliasRequestAdditionalProperties, PutAliasRequestAdditionalPropertiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPutAliasRequestAdditionalProperties tests if a specific instance of PutAliasRequestAdditionalProperties can be assigned to v1api20211001storage and back losslessly
+func RunPropertyAssignmentTestForPutAliasRequestAdditionalProperties(subject PutAliasRequestAdditionalProperties) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20211001s.PutAliasRequestAdditionalProperties
+	err := copied.AssignProperties_To_PutAliasRequestAdditionalProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PutAliasRequestAdditionalProperties
+	err = actual.AssignProperties_From_PutAliasRequestAdditionalProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_PutAliasRequestAdditionalProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

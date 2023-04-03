@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Queue.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}
+// Deprecated version of NamespacesQueue. Use v1api20210101preview.NamespacesQueue instead
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &NamespacesQueue{}
 
 // ConvertFrom populates our NamespacesQueue from the provided hub NamespacesQueue
 func (queue *NamespacesQueue) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210101ps.NamespacesQueue)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210101ps.NamespacesQueue
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return queue.AssignProperties_From_NamespacesQueue(source)
+	err = queue.AssignProperties_From_NamespacesQueue(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to queue")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesQueue from our NamespacesQueue
 func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210101ps.NamespacesQueue)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210101ps.NamespacesQueue
+	err := queue.AssignProperties_To_NamespacesQueue(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from queue")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return queue.AssignProperties_To_NamespacesQueue(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1beta20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1beta20210101preview,name=default.v1beta20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (queue *NamespacesQueue) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Queue.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}
+// Deprecated version of NamespacesQueue. Use v1api20210101preview.NamespacesQueue instead
 type NamespacesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -333,67 +343,31 @@ type NamespacesQueueList struct {
 }
 
 type Namespaces_Queue_Spec struct {
-	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-	// expires.
-	DeadLetteringOnMessageExpiration *bool `json:"deadLetteringOnMessageExpiration,omitempty"`
-
-	// DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-	// set on a message itself.
-	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
-
-	// DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-	// history. The default value is 10 minutes.
+	AzureName                           string  `json:"azureName,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
 	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-
-	// EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
-	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
-
-	// EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-	// temporarily before writing it to persistent storage.
-	EnableExpress *bool `json:"enableExpress,omitempty"`
-
-	// EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.
-	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
-
-	// ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
-	ForwardDeadLetteredMessagesTo *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-
-	// ForwardTo: Queue/Topic name to forward the messages
-	ForwardTo *string `json:"forwardTo,omitempty"`
-
-	// LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-	// other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.
-	LockDuration *string `json:"lockDuration,omitempty"`
-
-	// MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-	// default value is 10.
-	MaxDeliveryCount *int `json:"maxDeliveryCount,omitempty"`
-
-	// MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-	// Default is 1024.
-	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
+	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string `json:"forwardTo,omitempty"`
+	LockDuration                        *string `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a servicebus.azure.com/Namespace resource
-	Owner *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
-
-	// RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.
-	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
-
-	// RequiresSession: A value that indicates whether the queue supports the concept of sessions.
-	RequiresSession *bool `json:"requiresSession,omitempty"`
+	Owner                      *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
+	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
+	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Namespaces_Queue_Spec{}
@@ -961,93 +935,36 @@ func (queue *Namespaces_Queue_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (queue *Namespaces_Queue_Spec) SetAzureName(azureName string) { queue.AzureName = azureName }
 
+// Deprecated version of Namespaces_Queue_STATUS. Use v1api20210101preview.Namespaces_Queue_STATUS instead
 type Namespaces_Queue_STATUS struct {
-	// AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.
-	AccessedAt *string `json:"accessedAt,omitempty"`
-
-	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
-	// is 5 minutes.
+	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CountDetails: Message Count Details.
-	CountDetails *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
-
-	// CreatedAt: The exact time the message was created.
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
-	// expires.
-	DeadLetteringOnMessageExpiration *bool `json:"deadLetteringOnMessageExpiration,omitempty"`
-
-	// DefaultMessageTimeToLive: ISO 8601 default message timespan to live value. This is the duration after which the message
-	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
-	// set on a message itself.
-	DefaultMessageTimeToLive *string `json:"defaultMessageTimeToLive,omitempty"`
-
-	// DuplicateDetectionHistoryTimeWindow: ISO 8601 timeSpan structure that defines the duration of the duplicate detection
-	// history. The default value is 10 minutes.
-	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-
-	// EnableBatchedOperations: Value that indicates whether server-side batched operations are enabled.
-	EnableBatchedOperations *bool `json:"enableBatchedOperations,omitempty"`
-
-	// EnableExpress: A value that indicates whether Express Entities are enabled. An express queue holds a message in memory
-	// temporarily before writing it to persistent storage.
-	EnableExpress *bool `json:"enableExpress,omitempty"`
-
-	// EnablePartitioning: A value that indicates whether the queue is to be partitioned across multiple message brokers.
-	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
-
-	// ForwardDeadLetteredMessagesTo: Queue/Topic name to forward the Dead Letter message
-	ForwardDeadLetteredMessagesTo *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-
-	// ForwardTo: Queue/Topic name to forward the messages
-	ForwardTo *string `json:"forwardTo,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// LockDuration: ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for
-	// other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.
-	LockDuration *string `json:"lockDuration,omitempty"`
-
-	// MaxDeliveryCount: The maximum delivery count. A message is automatically deadlettered after this number of deliveries.
-	// default value is 10.
-	MaxDeliveryCount *int `json:"maxDeliveryCount,omitempty"`
-
-	// MaxSizeInMegabytes: The maximum size of the queue in megabytes, which is the size of memory allocated for the queue.
-	// Default is 1024.
-	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
-
-	// MessageCount: The number of messages in the queue.
-	MessageCount *int `json:"messageCount,omitempty"`
-
-	// Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	// RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.
-	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
-
-	// RequiresSession: A value that indicates whether the queue supports the concept of sessions.
-	RequiresSession *bool `json:"requiresSession,omitempty"`
-
-	// SizeInBytes: The size of the queue, in bytes.
-	SizeInBytes *int `json:"sizeInBytes,omitempty"`
-
-	// Status: Enumerates the possible values for the status of a messaging entity.
-	Status *EntityStatus_STATUS `json:"status,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	// UpdatedAt: The exact time the message was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
+	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
+	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
+	CreatedAt                           *string                     `json:"createdAt,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool                       `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string                     `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool                       `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool                       `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool                       `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string                     `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string                     `json:"forwardTo,omitempty"`
+	Id                                  *string                     `json:"id,omitempty"`
+	LockDuration                        *string                     `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int                        `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int                        `json:"maxSizeInMegabytes,omitempty"`
+	MessageCount                        *int                        `json:"messageCount,omitempty"`
+	Name                                *string                     `json:"name,omitempty"`
+	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
+	RequiresSession                     *bool                       `json:"requiresSession,omitempty"`
+	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
+	Status                              *EntityStatus_STATUS        `json:"status,omitempty"`
+	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
+	Type                                *string                     `json:"type,omitempty"`
+	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Namespaces_Queue_STATUS{}
@@ -1628,7 +1545,7 @@ func (queue *Namespaces_Queue_STATUS) AssignProperties_To_Namespaces_Queue_STATU
 	return nil
 }
 
-// Entity status.
+// Deprecated version of EntityStatus_STATUS. Use v1api20210101preview.EntityStatus_STATUS instead
 type EntityStatus_STATUS string
 
 const (
@@ -1643,22 +1560,13 @@ const (
 	EntityStatus_STATUS_Unknown         = EntityStatus_STATUS("Unknown")
 )
 
-// Message Count Details.
+// Deprecated version of MessageCountDetails_STATUS. Use v1api20210101preview.MessageCountDetails_STATUS instead
 type MessageCountDetails_STATUS struct {
-	// ActiveMessageCount: Number of active messages in the queue, topic, or subscription.
-	ActiveMessageCount *int `json:"activeMessageCount,omitempty"`
-
-	// DeadLetterMessageCount: Number of messages that are dead lettered.
-	DeadLetterMessageCount *int `json:"deadLetterMessageCount,omitempty"`
-
-	// ScheduledMessageCount: Number of scheduled messages.
-	ScheduledMessageCount *int `json:"scheduledMessageCount,omitempty"`
-
-	// TransferDeadLetterMessageCount: Number of messages transferred into dead letters.
+	ActiveMessageCount             *int `json:"activeMessageCount,omitempty"`
+	DeadLetterMessageCount         *int `json:"deadLetterMessageCount,omitempty"`
+	ScheduledMessageCount          *int `json:"scheduledMessageCount,omitempty"`
 	TransferDeadLetterMessageCount *int `json:"transferDeadLetterMessageCount,omitempty"`
-
-	// TransferMessageCount: Number of messages transferred to another queue, topic, or subscription.
-	TransferMessageCount *int `json:"transferMessageCount,omitempty"`
+	TransferMessageCount           *int `json:"transferMessageCount,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MessageCountDetails_STATUS{}

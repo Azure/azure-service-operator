@@ -5,6 +5,7 @@ package v1beta20180601storage
 
 import (
 	"encoding/json"
+	v1api20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_Configuration_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Configuration to hub returns original",
+		prop.ForAll(RunResourceConversionTestForConfiguration, ConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForConfiguration tests if a specific instance of Configuration round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForConfiguration(subject Configuration) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20180601s.Configuration
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Configuration
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Configuration to Configuration via AssignProperties_To_Configuration & AssignProperties_From_Configuration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForConfiguration, ConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForConfiguration tests if a specific instance of Configuration can be assigned to v1api20180601storage and back losslessly
+func RunPropertyAssignmentTestForConfiguration(subject Configuration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180601s.Configuration
+	err := copied.AssignProperties_To_Configuration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Configuration
+	err = actual.AssignProperties_From_Configuration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_Configuration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +162,48 @@ func ConfigurationGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForConfiguration(gens map[string]gopter.Gen) {
 	gens["Spec"] = Servers_Configuration_SpecGenerator()
 	gens["Status"] = Servers_Configuration_STATUSGenerator()
+}
+
+func Test_Servers_Configuration_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Servers_Configuration_Spec to Servers_Configuration_Spec via AssignProperties_To_Servers_Configuration_Spec & AssignProperties_From_Servers_Configuration_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServers_Configuration_Spec, Servers_Configuration_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServers_Configuration_Spec tests if a specific instance of Servers_Configuration_Spec can be assigned to v1api20180601storage and back losslessly
+func RunPropertyAssignmentTestForServers_Configuration_Spec(subject Servers_Configuration_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180601s.Servers_Configuration_Spec
+	err := copied.AssignProperties_To_Servers_Configuration_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Servers_Configuration_Spec
+	err = actual.AssignProperties_From_Servers_Configuration_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Servers_Configuration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -140,6 +268,48 @@ func AddIndependentPropertyGeneratorsForServers_Configuration_Spec(gens map[stri
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Servers_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Servers_Configuration_STATUS to Servers_Configuration_STATUS via AssignProperties_To_Servers_Configuration_STATUS & AssignProperties_From_Servers_Configuration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServers_Configuration_STATUS, Servers_Configuration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServers_Configuration_STATUS tests if a specific instance of Servers_Configuration_STATUS can be assigned to v1api20180601storage and back losslessly
+func RunPropertyAssignmentTestForServers_Configuration_STATUS(subject Servers_Configuration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180601s.Servers_Configuration_STATUS
+	err := copied.AssignProperties_To_Servers_Configuration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Servers_Configuration_STATUS
+	err = actual.AssignProperties_From_Servers_Configuration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Servers_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

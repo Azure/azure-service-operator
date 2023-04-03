@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/loadBalancer.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}
+// Deprecated version of LoadBalancer. Use v1api20201101.LoadBalancer instead
 type LoadBalancer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &LoadBalancer{}
 
 // ConvertFrom populates our LoadBalancer from the provided hub LoadBalancer
 func (balancer *LoadBalancer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201101s.LoadBalancer)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/LoadBalancer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201101s.LoadBalancer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return balancer.AssignProperties_From_LoadBalancer(source)
+	err = balancer.AssignProperties_From_LoadBalancer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to balancer")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub LoadBalancer from our LoadBalancer
 func (balancer *LoadBalancer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201101s.LoadBalancer)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/LoadBalancer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201101s.LoadBalancer
+	err := balancer.AssignProperties_To_LoadBalancer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from balancer")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return balancer.AssignProperties_To_LoadBalancer(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-loadbalancer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=loadbalancers,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.loadbalancers.network.azure.com,admissionReviewVersions=v1
@@ -323,15 +335,14 @@ func (balancer *LoadBalancer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/loadBalancer.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}
+// Deprecated version of LoadBalancer. Use v1api20201101.LoadBalancer instead
 type LoadBalancerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []LoadBalancer `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20201101.APIVersion instead
 // +kubebuilder:validation:Enum={"2020-11-01"}
 type APIVersion string
 
@@ -340,53 +351,24 @@ const APIVersion_Value = APIVersion("2020-11-01")
 type LoadBalancer_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// BackendAddressPools: Collection of backend address pools used by a load balancer.
-	BackendAddressPools []BackendAddressPool_LoadBalancer_SubResourceEmbedded `json:"backendAddressPools,omitempty"`
-
-	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.
+	AzureName                string                                                     `json:"azureName,omitempty"`
+	BackendAddressPools      []BackendAddressPool_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
+	ExtendedLocation         *ExtendedLocation                                          `json:"extendedLocation,omitempty"`
 	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
-
-	// InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
-	// balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
-	// port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
-	// rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
-	// virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
-	InboundNatPools []InboundNatPool `json:"inboundNatPools,omitempty"`
-
-	// InboundNatRules: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load
-	// balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine
-	// scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to
-	// reference individual inbound NAT rules.
-	InboundNatRules []InboundNatRule_LoadBalancer_SubResourceEmbedded `json:"inboundNatRules,omitempty"`
-
-	// LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.
-	LoadBalancingRules []LoadBalancingRule `json:"loadBalancingRules,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// OutboundRules: The outbound rules.
-	OutboundRules []OutboundRule `json:"outboundRules,omitempty"`
+	InboundNatPools          []InboundNatPool                                           `json:"inboundNatPools,omitempty"`
+	InboundNatRules          []InboundNatRule_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
+	LoadBalancingRules       []LoadBalancingRule                                        `json:"loadBalancingRules,omitempty"`
+	Location                 *string                                                    `json:"location,omitempty"`
+	OutboundRules            []OutboundRule                                             `json:"outboundRules,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Probes: Collection of probe objects used in the load balancer.
-	Probes []Probe `json:"probes,omitempty"`
-
-	// Sku: The load balancer SKU.
-	Sku *LoadBalancerSku `json:"sku,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Owner  *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Probes []Probe                            `json:"probes,omitempty"`
+	Sku    *LoadBalancerSku                   `json:"sku,omitempty"`
+	Tags   map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LoadBalancer_Spec{}
@@ -1227,68 +1209,28 @@ func (balancer *LoadBalancer_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (balancer *LoadBalancer_Spec) SetAzureName(azureName string) { balancer.AzureName = azureName }
 
-// LoadBalancer resource.
+// Deprecated version of LoadBalancer_STATUS. Use v1api20201101.LoadBalancer_STATUS instead
 type LoadBalancer_STATUS struct {
-	// BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendAddressPools,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
-
-	// FrontendIPConfigurations: Object representing the frontend IPs to be used for the load balancer.
+	Conditions               []conditions.Condition                                            `json:"conditions,omitempty"`
+	Etag                     *string                                                           `json:"etag,omitempty"`
+	ExtendedLocation         *ExtendedLocation_STATUS                                          `json:"extendedLocation,omitempty"`
 	FrontendIPConfigurations []FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// InboundNatPools: Defines an external port range for inbound NAT to a single backend port on NICs associated with a load
-	// balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external
-	// port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat
-	// rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual
-	// virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
-	InboundNatPools []InboundNatPool_STATUS `json:"inboundNatPools,omitempty"`
-
-	// InboundNatRules: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load
-	// balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine
-	// scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to
-	// reference individual inbound NAT rules.
-	InboundNatRules []InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded `json:"inboundNatRules,omitempty"`
-
-	// LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.
-	LoadBalancingRules []LoadBalancingRule_STATUS `json:"loadBalancingRules,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// OutboundRules: The outbound rules.
-	OutboundRules []OutboundRule_STATUS `json:"outboundRules,omitempty"`
-
-	// Probes: Collection of probe objects used in the load balancer.
-	Probes []Probe_STATUS `json:"probes,omitempty"`
-
-	// ProvisioningState: The provisioning state of the load balancer resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resource GUID property of the load balancer resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	// Sku: The load balancer SKU.
-	Sku *LoadBalancerSku_STATUS `json:"sku,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Id                       *string                                                           `json:"id,omitempty"`
+	InboundNatPools          []InboundNatPool_STATUS                                           `json:"inboundNatPools,omitempty"`
+	InboundNatRules          []InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
+	LoadBalancingRules       []LoadBalancingRule_STATUS                                        `json:"loadBalancingRules,omitempty"`
+	Location                 *string                                                           `json:"location,omitempty"`
+	Name                     *string                                                           `json:"name,omitempty"`
+	OutboundRules            []OutboundRule_STATUS                                             `json:"outboundRules,omitempty"`
+	Probes                   []Probe_STATUS                                                    `json:"probes,omitempty"`
+	ProvisioningState        *ProvisioningState_STATUS                                         `json:"provisioningState,omitempty"`
+	ResourceGuid             *string                                                           `json:"resourceGuid,omitempty"`
+	Sku                      *LoadBalancerSku_STATUS                                           `json:"sku,omitempty"`
+	Tags                     map[string]string                                                 `json:"tags,omitempty"`
+	Type                     *string                                                           `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &LoadBalancer_STATUS{}
@@ -1917,14 +1859,10 @@ func (balancer *LoadBalancer_STATUS) AssignProperties_To_LoadBalancer_STATUS(des
 	return nil
 }
 
-// Pool of backend IP addresses.
+// Deprecated version of BackendAddressPool_LoadBalancer_SubResourceEmbedded. Use v1api20201101.BackendAddressPool_LoadBalancer_SubResourceEmbedded instead
 type BackendAddressPool_LoadBalancer_SubResourceEmbedded struct {
-	// LoadBalancerBackendAddresses: An array of backend addresses.
 	LoadBalancerBackendAddresses []LoadBalancerBackendAddress `json:"loadBalancerBackendAddresses,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
-	// name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
+	Name                         *string                      `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BackendAddressPool_LoadBalancer_SubResourceEmbedded{}
@@ -2084,38 +2022,18 @@ func (embedded *BackendAddressPool_LoadBalancer_SubResourceEmbedded) Initialize_
 	return nil
 }
 
-// Pool of backend IP addresses.
+// Deprecated version of BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded. Use v1api20201101.BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded instead
 type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	// BackendIPConfigurations: An array of references to IP addresses defined in network interfaces.
-	BackendIPConfigurations []NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfigurations,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// LoadBalancerBackendAddresses: An array of backend addresses.
-	LoadBalancerBackendAddresses []LoadBalancerBackendAddress_STATUS `json:"loadBalancerBackendAddresses,omitempty"`
-
-	// LoadBalancingRules: An array of references to load balancing rules that use this backend address pool.
-	LoadBalancingRules []SubResource_STATUS `json:"loadBalancingRules,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of backend address pools used by the load balancer. This
-	// name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// OutboundRule: A reference to an outbound rule that uses this backend address pool.
-	OutboundRule *SubResource_STATUS `json:"outboundRule,omitempty"`
-
-	// OutboundRules: An array of references to outbound rules that use this backend address pool.
-	OutboundRules []SubResource_STATUS `json:"outboundRules,omitempty"`
-
-	// ProvisioningState: The provisioning state of the backend address pool resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	BackendIPConfigurations      []NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfigurations,omitempty"`
+	Etag                         *string                                                                   `json:"etag,omitempty"`
+	Id                           *string                                                                   `json:"id,omitempty"`
+	LoadBalancerBackendAddresses []LoadBalancerBackendAddress_STATUS                                       `json:"loadBalancerBackendAddresses,omitempty"`
+	LoadBalancingRules           []SubResource_STATUS                                                      `json:"loadBalancingRules,omitempty"`
+	Name                         *string                                                                   `json:"name,omitempty"`
+	OutboundRule                 *SubResource_STATUS                                                       `json:"outboundRule,omitempty"`
+	OutboundRules                []SubResource_STATUS                                                      `json:"outboundRules,omitempty"`
+	ProvisioningState            *ProvisioningState_STATUS                                                 `json:"provisioningState,omitempty"`
+	Type                         *string                                                                   `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded{}
@@ -2466,14 +2384,12 @@ func (embedded *BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded) Assi
 	return nil
 }
 
-// ExtendedLocation complex type.
+// Deprecated version of ExtendedLocation. Use v1api20201101.ExtendedLocation instead
 type ExtendedLocation struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Type: The type of the extended location.
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
@@ -2591,12 +2507,9 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 	return nil
 }
 
-// ExtendedLocation complex type.
+// Deprecated version of ExtendedLocation_STATUS. Use v1api20201101.ExtendedLocation_STATUS instead
 type ExtendedLocation_STATUS struct {
-	// Name: The name of the extended location.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the extended location.
+	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
@@ -2675,32 +2588,16 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
-// Frontend IP address of the load balancer.
+// Deprecated version of FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded. Use v1api20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded struct {
-	// Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
-	// This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// PrivateIPAddress: The private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	// PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
-	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
-
-	// PrivateIPAllocationMethod: The Private IP allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-
-	// PublicIPAddress: The reference to the Public IP resource.
-	PublicIPAddress *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
-
-	// PublicIPPrefix: The reference to the Public IP Prefix resource.
-	PublicIPPrefix *SubResource `json:"publicIPPrefix,omitempty"`
-
-	// Subnet: The reference to the subnet resource.
-	Subnet *Subnet_LoadBalancer_SubResourceEmbedded `json:"subnet,omitempty"`
-
-	// Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
+	Name                      *string                                               `json:"name,omitempty"`
+	PrivateIPAddress          *string                                               `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion   *IPVersion                                            `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod                                   `json:"privateIPAllocationMethod,omitempty"`
+	PublicIPAddress           *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
+	PublicIPPrefix            *SubResource                                          `json:"publicIPPrefix,omitempty"`
+	Subnet                    *Subnet_LoadBalancer_SubResourceEmbedded              `json:"subnet,omitempty"`
+	Zones                     []string                                              `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{}
@@ -3080,56 +2977,24 @@ func (embedded *FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded) Initia
 	return nil
 }
 
-// Frontend IP address of the load balancer.
+// Deprecated version of FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded. Use v1api20201101.FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// InboundNatPools: An array of references to inbound pools that use this frontend IP.
-	InboundNatPools []SubResource_STATUS `json:"inboundNatPools,omitempty"`
-
-	// InboundNatRules: An array of references to inbound rules that use this frontend IP.
-	InboundNatRules []SubResource_STATUS `json:"inboundNatRules,omitempty"`
-
-	// LoadBalancingRules: An array of references to load balancing rules that use this frontend IP.
-	LoadBalancingRules []SubResource_STATUS `json:"loadBalancingRules,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer.
-	// This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// OutboundRules: An array of references to outbound rules that use this frontend IP.
-	OutboundRules []SubResource_STATUS `json:"outboundRules,omitempty"`
-
-	// PrivateIPAddress: The private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	// PrivateIPAddressVersion: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
-	PrivateIPAddressVersion *IPVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
-
-	// PrivateIPAllocationMethod: The Private IP allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
-
-	// ProvisioningState: The provisioning state of the frontend IP configuration resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicIPAddress: The reference to the Public IP resource.
-	PublicIPAddress *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
-
-	// PublicIPPrefix: The reference to the Public IP Prefix resource.
-	PublicIPPrefix *SubResource_STATUS `json:"publicIPPrefix,omitempty"`
-
-	// Subnet: The reference to the subnet resource.
-	Subnet *Subnet_STATUS_LoadBalancer_SubResourceEmbedded `json:"subnet,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
-
-	// Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
+	Etag                      *string                                                  `json:"etag,omitempty"`
+	Id                        *string                                                  `json:"id,omitempty"`
+	InboundNatPools           []SubResource_STATUS                                     `json:"inboundNatPools,omitempty"`
+	InboundNatRules           []SubResource_STATUS                                     `json:"inboundNatRules,omitempty"`
+	LoadBalancingRules        []SubResource_STATUS                                     `json:"loadBalancingRules,omitempty"`
+	Name                      *string                                                  `json:"name,omitempty"`
+	OutboundRules             []SubResource_STATUS                                     `json:"outboundRules,omitempty"`
+	PrivateIPAddress          *string                                                  `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion   *IPVersion_STATUS                                        `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod_STATUS                               `json:"privateIPAllocationMethod,omitempty"`
+	ProvisioningState         *ProvisioningState_STATUS                                `json:"provisioningState,omitempty"`
+	PublicIPAddress           *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
+	PublicIPPrefix            *SubResource_STATUS                                      `json:"publicIPPrefix,omitempty"`
+	Subnet                    *Subnet_STATUS_LoadBalancer_SubResourceEmbedded          `json:"subnet,omitempty"`
+	Type                      *string                                                  `json:"type,omitempty"`
+	Zones                     []string                                                 `json:"zones,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded{}
@@ -3632,44 +3497,23 @@ func (embedded *FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded)
 	return nil
 }
 
-// Inbound NAT pool of the load balancer.
+// Deprecated version of InboundNatPool. Use v1api20201101.InboundNatPool instead
 type InboundNatPool struct {
 	// +kubebuilder:validation:Required
-	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
-	BackendPort *int `json:"backendPort,omitempty"`
-
-	// EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
-	// AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-	// This setting can't be changed after you create the endpoint.
-	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
-
-	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-	// element is only used when the protocol is set to TCP.
-	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
-
-	// FrontendIPConfiguration: A reference to frontend IP addresses.
+	BackendPort             *int         `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool        `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool        `json:"enableTcpReset,omitempty"`
 	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
-	// NICs associated with a load balancer. Acceptable values range between 1 and 65535.
 	FrontendPortRangeEnd *int `json:"frontendPortRangeEnd,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
-	// NICs associated with a load balancer. Acceptable values range between 1 and 65534.
-	FrontendPortRangeStart *int `json:"frontendPortRangeStart,omitempty"`
-
-	// IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-	// default value is 4 minutes. This element is only used when the protocol is set to TCP.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
-	// can be used to access the resource.
-	Name *string `json:"name,omitempty"`
+	FrontendPortRangeStart *int    `json:"frontendPortRangeStart,omitempty"`
+	IdleTimeoutInMinutes   *int    `json:"idleTimeoutInMinutes,omitempty"`
+	Name                   *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Protocol: The reference to the transport protocol used by the inbound NAT pool.
 	Protocol *TransportProtocol `json:"protocol,omitempty"`
 }
 
@@ -4020,53 +3864,21 @@ func (pool *InboundNatPool) Initialize_From_InboundNatPool_STATUS(source *Inboun
 	return nil
 }
 
-// Inbound NAT pool of the load balancer.
+// Deprecated version of InboundNatPool_STATUS. Use v1api20201101.InboundNatPool_STATUS instead
 type InboundNatPool_STATUS struct {
-	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 1 and 65535.
-	BackendPort *int `json:"backendPort,omitempty"`
-
-	// EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
-	// AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-	// This setting can't be changed after you create the endpoint.
-	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
-
-	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-	// element is only used when the protocol is set to TCP.
-	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration *SubResource_STATUS `json:"frontendIPConfiguration,omitempty"`
-
-	// FrontendPortRangeEnd: The last port number in the range of external ports that will be used to provide Inbound Nat to
-	// NICs associated with a load balancer. Acceptable values range between 1 and 65535.
-	FrontendPortRangeEnd *int `json:"frontendPortRangeEnd,omitempty"`
-
-	// FrontendPortRangeStart: The first port number in the range of external ports that will be used to provide Inbound Nat to
-	// NICs associated with a load balancer. Acceptable values range between 1 and 65534.
-	FrontendPortRangeStart *int `json:"frontendPortRangeStart,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-	// default value is 4 minutes. This element is only used when the protocol is set to TCP.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of inbound NAT pools used by the load balancer. This name
-	// can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Protocol: The reference to the transport protocol used by the inbound NAT pool.
-	Protocol *TransportProtocol_STATUS `json:"protocol,omitempty"`
-
-	// ProvisioningState: The provisioning state of the inbound NAT pool resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	BackendPort             *int                      `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool                     `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool                     `json:"enableTcpReset,omitempty"`
+	Etag                    *string                   `json:"etag,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS       `json:"frontendIPConfiguration,omitempty"`
+	FrontendPortRangeEnd    *int                      `json:"frontendPortRangeEnd,omitempty"`
+	FrontendPortRangeStart  *int                      `json:"frontendPortRangeStart,omitempty"`
+	Id                      *string                   `json:"id,omitempty"`
+	IdleTimeoutInMinutes    *int                      `json:"idleTimeoutInMinutes,omitempty"`
+	Name                    *string                   `json:"name,omitempty"`
+	Protocol                *TransportProtocol_STATUS `json:"protocol,omitempty"`
+	ProvisioningState       *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	Type                    *string                   `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InboundNatPool_STATUS{}
@@ -4356,37 +4168,16 @@ func (pool *InboundNatPool_STATUS) AssignProperties_To_InboundNatPool_STATUS(des
 	return nil
 }
 
-// Inbound NAT rule of the load balancer.
+// Deprecated version of InboundNatRule_LoadBalancer_SubResourceEmbedded. Use v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded instead
 type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
-	// BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
-	BackendPort *int `json:"backendPort,omitempty"`
-
-	// EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
-	// AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-	// This setting can't be changed after you create the endpoint.
-	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
-
-	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-	// element is only used when the protocol is set to TCP.
-	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
-
-	// FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
-
-	// FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
-	// Acceptable values range from 1 to 65534.
-	FrontendPort *int `json:"frontendPort,omitempty"`
-
-	// IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-	// default value is 4 minutes. This element is only used when the protocol is set to TCP.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
-	// can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol `json:"protocol,omitempty"`
+	BackendPort             *int               `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool              `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool              `json:"enableTcpReset,omitempty"`
+	FrontendIPConfiguration *SubResource       `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int               `json:"frontendPort,omitempty"`
+	IdleTimeoutInMinutes    *int               `json:"idleTimeoutInMinutes,omitempty"`
+	Name                    *string            `json:"name,omitempty"`
+	Protocol                *TransportProtocol `json:"protocol,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &InboundNatRule_LoadBalancer_SubResourceEmbedded{}
@@ -4713,53 +4504,21 @@ func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) Initialize_From
 	return nil
 }
 
-// Inbound NAT rule of the load balancer.
+// Deprecated version of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded. Use v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instead
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	// BackendIPConfiguration: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the
-	// frontend port of each of the frontend IP configurations is forwarded to the backend IP.
-	BackendIPConfiguration *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfiguration,omitempty"`
-
-	// BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
-	BackendPort *int `json:"backendPort,omitempty"`
-
-	// EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
-	// AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-	// This setting can't be changed after you create the endpoint.
-	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
-
-	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-	// element is only used when the protocol is set to TCP.
-	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration *SubResource_STATUS `json:"frontendIPConfiguration,omitempty"`
-
-	// FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
-	// Acceptable values range from 1 to 65534.
-	FrontendPort *int `json:"frontendPort,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-	// default value is 4 minutes. This element is only used when the protocol is set to TCP.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
-	// can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol_STATUS `json:"protocol,omitempty"`
-
-	// ProvisioningState: The provisioning state of the inbound NAT rule resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	BackendIPConfiguration  *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfiguration,omitempty"`
+	BackendPort             *int                                                                     `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool                                                                    `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool                                                                    `json:"enableTcpReset,omitempty"`
+	Etag                    *string                                                                  `json:"etag,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS                                                      `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int                                                                     `json:"frontendPort,omitempty"`
+	Id                      *string                                                                  `json:"id,omitempty"`
+	IdleTimeoutInMinutes    *int                                                                     `json:"idleTimeoutInMinutes,omitempty"`
+	Name                    *string                                                                  `json:"name,omitempty"`
+	Protocol                *TransportProtocol_STATUS                                                `json:"protocol,omitempty"`
+	ProvisioningState       *ProvisioningState_STATUS                                                `json:"provisioningState,omitempty"`
+	Type                    *string                                                                  `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded{}
@@ -5072,12 +4831,9 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 	return nil
 }
 
-// SKU of a load balancer.
+// Deprecated version of LoadBalancerSku. Use v1api20201101.LoadBalancerSku instead
 type LoadBalancerSku struct {
-	// Name: Name of a load balancer SKU.
 	Name *LoadBalancerSku_Name `json:"name,omitempty"`
-
-	// Tier: Tier of a load balancer SKU.
 	Tier *LoadBalancerSku_Tier `json:"tier,omitempty"`
 }
 
@@ -5210,12 +4966,9 @@ func (balancerSku *LoadBalancerSku) Initialize_From_LoadBalancerSku_STATUS(sourc
 	return nil
 }
 
-// SKU of a load balancer.
+// Deprecated version of LoadBalancerSku_STATUS. Use v1api20201101.LoadBalancerSku_STATUS instead
 type LoadBalancerSku_STATUS struct {
-	// Name: Name of a load balancer SKU.
 	Name *LoadBalancerSku_Name_STATUS `json:"name,omitempty"`
-
-	// Tier: Tier of a load balancer SKU.
 	Tier *LoadBalancerSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
@@ -5304,53 +5057,23 @@ func (balancerSku *LoadBalancerSku_STATUS) AssignProperties_To_LoadBalancerSku_S
 	return nil
 }
 
-// A load balancing rule for a load balancer.
+// Deprecated version of LoadBalancingRule. Use v1api20201101.LoadBalancingRule instead
 type LoadBalancingRule struct {
-	// BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
-	// IPs.
-	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
-
-	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
-	// that value 0 enables "Any Port".
-	BackendPort *int `json:"backendPort,omitempty"`
-
-	// DisableOutboundSnat: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the
-	// frontend of the load balancing rule.
-	DisableOutboundSnat *bool `json:"disableOutboundSnat,omitempty"`
-
-	// EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
-	// AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-	// This setting can't be changed after you create the endpoint.
-	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
-
-	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-	// element is only used when the protocol is set to TCP.
-	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
-
-	// FrontendIPConfiguration: A reference to frontend IP addresses.
+	BackendAddressPool      *SubResource `json:"backendAddressPool,omitempty"`
+	BackendPort             *int         `json:"backendPort,omitempty"`
+	DisableOutboundSnat     *bool        `json:"disableOutboundSnat,omitempty"`
+	EnableFloatingIP        *bool        `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool        `json:"enableTcpReset,omitempty"`
 	FrontendIPConfiguration *SubResource `json:"frontendIPConfiguration,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
-	// Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
-	FrontendPort *int `json:"frontendPort,omitempty"`
-
-	// IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-	// default value is 4 minutes. This element is only used when the protocol is set to TCP.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// LoadDistribution: The load distribution policy for this rule.
-	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution `json:"loadDistribution,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
-	// name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Probe: The reference to the load balancer probe used by the load balancing rule.
-	Probe *SubResource `json:"probe,omitempty"`
+	FrontendPort         *int                                                `json:"frontendPort,omitempty"`
+	IdleTimeoutInMinutes *int                                                `json:"idleTimeoutInMinutes,omitempty"`
+	LoadDistribution     *LoadBalancingRulePropertiesFormat_LoadDistribution `json:"loadDistribution,omitempty"`
+	Name                 *string                                             `json:"name,omitempty"`
+	Probe                *SubResource                                        `json:"probe,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Protocol: The reference to the transport protocol used by the load balancing rule.
 	Protocol *TransportProtocol `json:"protocol,omitempty"`
 }
 
@@ -5872,64 +5595,24 @@ func (rule *LoadBalancingRule) Initialize_From_LoadBalancingRule_STATUS(source *
 	return nil
 }
 
-// A load balancing rule for a load balancer.
+// Deprecated version of LoadBalancingRule_STATUS. Use v1api20201101.LoadBalancingRule_STATUS instead
 type LoadBalancingRule_STATUS struct {
-	// BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend
-	// IPs.
-	BackendAddressPool *SubResource_STATUS `json:"backendAddressPool,omitempty"`
-
-	// BackendPort: The port used for internal connections on the endpoint. Acceptable values are between 0 and 65535. Note
-	// that value 0 enables "Any Port".
-	BackendPort *int `json:"backendPort,omitempty"`
-
-	// DisableOutboundSnat: Configures SNAT for the VMs in the backend pool to use the publicIP address specified in the
-	// frontend of the load balancing rule.
-	DisableOutboundSnat *bool `json:"disableOutboundSnat,omitempty"`
-
-	// EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
-	// AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-	// This setting can't be changed after you create the endpoint.
-	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
-
-	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-	// element is only used when the protocol is set to TCP.
-	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration *SubResource_STATUS `json:"frontendIPConfiguration,omitempty"`
-
-	// FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
-	// Acceptable values are between 0 and 65534. Note that value 0 enables "Any Port".
-	FrontendPort *int `json:"frontendPort,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-	// default value is 4 minutes. This element is only used when the protocol is set to TCP.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// LoadDistribution: The load distribution policy for this rule.
-	LoadDistribution *LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS `json:"loadDistribution,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of load balancing rules used by the load balancer. This
-	// name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Probe: The reference to the load balancer probe used by the load balancing rule.
-	Probe *SubResource_STATUS `json:"probe,omitempty"`
-
-	// Protocol: The reference to the transport protocol used by the load balancing rule.
-	Protocol *TransportProtocol_STATUS `json:"protocol,omitempty"`
-
-	// ProvisioningState: The provisioning state of the load balancing rule resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	BackendAddressPool      *SubResource_STATUS                                        `json:"backendAddressPool,omitempty"`
+	BackendPort             *int                                                       `json:"backendPort,omitempty"`
+	DisableOutboundSnat     *bool                                                      `json:"disableOutboundSnat,omitempty"`
+	EnableFloatingIP        *bool                                                      `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool                                                      `json:"enableTcpReset,omitempty"`
+	Etag                    *string                                                    `json:"etag,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS                                        `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int                                                       `json:"frontendPort,omitempty"`
+	Id                      *string                                                    `json:"id,omitempty"`
+	IdleTimeoutInMinutes    *int                                                       `json:"idleTimeoutInMinutes,omitempty"`
+	LoadDistribution        *LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS `json:"loadDistribution,omitempty"`
+	Name                    *string                                                    `json:"name,omitempty"`
+	Probe                   *SubResource_STATUS                                        `json:"probe,omitempty"`
+	Protocol                *TransportProtocol_STATUS                                  `json:"protocol,omitempty"`
+	ProvisioningState       *ProvisioningState_STATUS                                  `json:"provisioningState,omitempty"`
+	Type                    *string                                                    `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LoadBalancingRule_STATUS{}
@@ -6330,33 +6013,20 @@ func (rule *LoadBalancingRule_STATUS) AssignProperties_To_LoadBalancingRule_STAT
 	return nil
 }
 
-// Outbound rule of the load balancer.
+// Deprecated version of OutboundRule. Use v1api20201101.OutboundRule instead
 type OutboundRule struct {
-	// AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
-	// IPs.
 	BackendAddressPool *SubResource `json:"backendAddressPool,omitempty"`
-
-	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-	// element is only used when the protocol is set to TCP.
-	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
+	EnableTcpReset     *bool        `json:"enableTcpReset,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
 	FrontendIPConfigurations []SubResource `json:"frontendIPConfigurations,omitempty"`
-
-	// IdleTimeoutInMinutes: The timeout for the TCP idle connection.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
-	// be used to access the resource.
-	Name *string `json:"name,omitempty"`
+	IdleTimeoutInMinutes     *int          `json:"idleTimeoutInMinutes,omitempty"`
+	Name                     *string       `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Protocol: The protocol for the outbound rule in load balancer.
 	Protocol *OutboundRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
 }
 
@@ -6698,43 +6368,19 @@ func (rule *OutboundRule) Initialize_From_OutboundRule_STATUS(source *OutboundRu
 	return nil
 }
 
-// Outbound rule of the load balancer.
+// Deprecated version of OutboundRule_STATUS. Use v1api20201101.OutboundRule_STATUS instead
 type OutboundRule_STATUS struct {
-	// AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
-	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
-
-	// BackendAddressPool: A reference to a pool of DIPs. Outbound traffic is randomly load balanced across IPs in the backend
-	// IPs.
-	BackendAddressPool *SubResource_STATUS `json:"backendAddressPool,omitempty"`
-
-	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-	// element is only used when the protocol is set to TCP.
-	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// FrontendIPConfigurations: The Frontend IP addresses of the load balancer.
-	FrontendIPConfigurations []SubResource_STATUS `json:"frontendIPConfigurations,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// IdleTimeoutInMinutes: The timeout for the TCP idle connection.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of outbound rules used by the load balancer. This name can
-	// be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Protocol: The protocol for the outbound rule in load balancer.
-	Protocol *OutboundRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
-
-	// ProvisioningState: The provisioning state of the outbound rule resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	AllocatedOutboundPorts   *int                                          `json:"allocatedOutboundPorts,omitempty"`
+	BackendAddressPool       *SubResource_STATUS                           `json:"backendAddressPool,omitempty"`
+	EnableTcpReset           *bool                                         `json:"enableTcpReset,omitempty"`
+	Etag                     *string                                       `json:"etag,omitempty"`
+	FrontendIPConfigurations []SubResource_STATUS                          `json:"frontendIPConfigurations,omitempty"`
+	Id                       *string                                       `json:"id,omitempty"`
+	IdleTimeoutInMinutes     *int                                          `json:"idleTimeoutInMinutes,omitempty"`
+	Name                     *string                                       `json:"name,omitempty"`
+	Protocol                 *OutboundRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
+	ProvisioningState        *ProvisioningState_STATUS                     `json:"provisioningState,omitempty"`
+	Type                     *string                                       `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OutboundRule_STATUS{}
@@ -7018,35 +6664,18 @@ func (rule *OutboundRule_STATUS) AssignProperties_To_OutboundRule_STATUS(destina
 	return nil
 }
 
-// A load balancer probe.
+// Deprecated version of Probe. Use v1api20201101.Probe instead
 type Probe struct {
-	// IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
-	// interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
-	// the instance out of rotation. The default value is 15, the minimum value is 5.
-	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
-	// to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
-	// to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
-	// in Azure.
-	NumberOfProbes *int `json:"numberOfProbes,omitempty"`
+	IntervalInSeconds *int    `json:"intervalInSeconds,omitempty"`
+	Name              *string `json:"name,omitempty"`
+	NumberOfProbes    *int    `json:"numberOfProbes,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
 	Port *int `json:"port,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
-	// successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
-	// successful.
-	Protocol *ProbePropertiesFormat_Protocol `json:"protocol,omitempty"`
-
-	// RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
-	// Otherwise, it is not allowed. There is no default value.
-	RequestPath *string `json:"requestPath,omitempty"`
+	Protocol    *ProbePropertiesFormat_Protocol `json:"protocol,omitempty"`
+	RequestPath *string                         `json:"requestPath,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Probe{}
@@ -7261,48 +6890,19 @@ func (probe *Probe) Initialize_From_Probe_STATUS(source *Probe_STATUS) error {
 	return nil
 }
 
-// A load balancer probe.
+// Deprecated version of Probe_STATUS. Use v1api20201101.Probe_STATUS instead
 type Probe_STATUS struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// IntervalInSeconds: The interval, in seconds, for how frequently to probe the endpoint for health status. Typically, the
-	// interval is slightly less than half the allocated timeout period (in seconds) which allows two full probes before taking
-	// the instance out of rotation. The default value is 15, the minimum value is 5.
-	IntervalInSeconds *int `json:"intervalInSeconds,omitempty"`
-
-	// LoadBalancingRules: The load balancer rules that use this probe.
-	LoadBalancingRules []SubResource_STATUS `json:"loadBalancingRules,omitempty"`
-
-	// Name: The name of the resource that is unique within the set of probes used by the load balancer. This name can be used
-	// to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// NumberOfProbes: The number of probes where if no response, will result in stopping further traffic from being delivered
-	// to the endpoint. This values allows endpoints to be taken out of rotation faster or slower than the typical times used
-	// in Azure.
-	NumberOfProbes *int `json:"numberOfProbes,omitempty"`
-
-	// Port: The port for communicating the probe. Possible values range from 1 to 65535, inclusive.
-	Port *int `json:"port,omitempty"`
-
-	// Protocol: The protocol of the end point. If 'Tcp' is specified, a received ACK is required for the probe to be
-	// successful. If 'Http' or 'Https' is specified, a 200 OK response from the specifies URI is required for the probe to be
-	// successful.
-	Protocol *ProbePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
-
-	// ProvisioningState: The provisioning state of the probe resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// RequestPath: The URI used for requesting health status from the VM. Path is required if a protocol is set to http.
-	// Otherwise, it is not allowed. There is no default value.
-	RequestPath *string `json:"requestPath,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	Etag               *string                                `json:"etag,omitempty"`
+	Id                 *string                                `json:"id,omitempty"`
+	IntervalInSeconds  *int                                   `json:"intervalInSeconds,omitempty"`
+	LoadBalancingRules []SubResource_STATUS                   `json:"loadBalancingRules,omitempty"`
+	Name               *string                                `json:"name,omitempty"`
+	NumberOfProbes     *int                                   `json:"numberOfProbes,omitempty"`
+	Port               *int                                   `json:"port,omitempty"`
+	Protocol           *ProbePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
+	ProvisioningState  *ProvisioningState_STATUS              `json:"provisioningState,omitempty"`
+	RequestPath        *string                                `json:"requestPath,omitempty"`
+	Type               *string                                `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Probe_STATUS{}
@@ -7553,7 +7153,7 @@ func (probe *Probe_STATUS) AssignProperties_To_Probe_STATUS(destination *v202011
 	return nil
 }
 
-// The current provisioning state.
+// Deprecated version of ProvisioningState_STATUS. Use v1api20201101.ProvisioningState_STATUS instead
 type ProvisioningState_STATUS string
 
 const (
@@ -7563,22 +7163,13 @@ const (
 	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
 )
 
-// Load balancer backend addresses.
+// Deprecated version of LoadBalancerBackendAddress. Use v1api20201101.LoadBalancerBackendAddress instead
 type LoadBalancerBackendAddress struct {
-	// IpAddress: IP Address belonging to the referenced virtual network.
-	IpAddress *string `json:"ipAddress,omitempty"`
-
-	// LoadBalancerFrontendIPConfiguration: Reference to the frontend ip address configuration defined in regional loadbalancer.
+	IpAddress                           *string      `json:"ipAddress,omitempty"`
 	LoadBalancerFrontendIPConfiguration *SubResource `json:"loadBalancerFrontendIPConfiguration,omitempty"`
-
-	// Name: Name of the backend address.
-	Name *string `json:"name,omitempty"`
-
-	// Subnet: Reference to an existing subnet.
-	Subnet *SubResource `json:"subnet,omitempty"`
-
-	// VirtualNetwork: Reference to an existing virtual network.
-	VirtualNetwork *SubResource `json:"virtualNetwork,omitempty"`
+	Name                                *string      `json:"name,omitempty"`
+	Subnet                              *SubResource `json:"subnet,omitempty"`
+	VirtualNetwork                      *SubResource `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LoadBalancerBackendAddress{}
@@ -7863,25 +7454,14 @@ func (address *LoadBalancerBackendAddress) Initialize_From_LoadBalancerBackendAd
 	return nil
 }
 
-// Load balancer backend addresses.
+// Deprecated version of LoadBalancerBackendAddress_STATUS. Use v1api20201101.LoadBalancerBackendAddress_STATUS instead
 type LoadBalancerBackendAddress_STATUS struct {
-	// IpAddress: IP Address belonging to the referenced virtual network.
-	IpAddress *string `json:"ipAddress,omitempty"`
-
-	// LoadBalancerFrontendIPConfiguration: Reference to the frontend ip address configuration defined in regional loadbalancer.
+	IpAddress                           *string             `json:"ipAddress,omitempty"`
 	LoadBalancerFrontendIPConfiguration *SubResource_STATUS `json:"loadBalancerFrontendIPConfiguration,omitempty"`
-
-	// Name: Name of the backend address.
-	Name *string `json:"name,omitempty"`
-
-	// NetworkInterfaceIPConfiguration: Reference to IP address defined in network interfaces.
-	NetworkInterfaceIPConfiguration *SubResource_STATUS `json:"networkInterfaceIPConfiguration,omitempty"`
-
-	// Subnet: Reference to an existing subnet.
-	Subnet *SubResource_STATUS `json:"subnet,omitempty"`
-
-	// VirtualNetwork: Reference to an existing virtual network.
-	VirtualNetwork *SubResource_STATUS `json:"virtualNetwork,omitempty"`
+	Name                                *string             `json:"name,omitempty"`
+	NetworkInterfaceIPConfiguration     *SubResource_STATUS `json:"networkInterfaceIPConfiguration,omitempty"`
+	Subnet                              *SubResource_STATUS `json:"subnet,omitempty"`
+	VirtualNetwork                      *SubResource_STATUS `json:"virtualNetwork,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LoadBalancerBackendAddress_STATUS{}
@@ -8104,6 +7684,8 @@ func (address *LoadBalancerBackendAddress_STATUS) AssignProperties_To_LoadBalanc
 	return nil
 }
 
+// Deprecated version of LoadBalancingRulePropertiesFormat_LoadDistribution. Use
+// v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution instead
 // +kubebuilder:validation:Enum={"Default","SourceIP","SourceIPProtocol"}
 type LoadBalancingRulePropertiesFormat_LoadDistribution string
 
@@ -8113,6 +7695,8 @@ const (
 	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIPProtocol")
 )
 
+// Deprecated version of LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS. Use
+// v1api20201101.LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS instead
 type LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS string
 
 const (
@@ -8121,9 +7705,8 @@ const (
 	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
 )
 
-// IPConfiguration in a network interface.
+// Deprecated version of NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded. Use v1api20201101.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded instead
 type NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -8180,6 +7763,8 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceE
 	return nil
 }
 
+// Deprecated version of OutboundRulePropertiesFormat_Protocol. Use v1api20201101.OutboundRulePropertiesFormat_Protocol
+// instead
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type OutboundRulePropertiesFormat_Protocol string
 
@@ -8189,6 +7774,8 @@ const (
 	OutboundRulePropertiesFormat_Protocol_Udp = OutboundRulePropertiesFormat_Protocol("Udp")
 )
 
+// Deprecated version of OutboundRulePropertiesFormat_Protocol_STATUS. Use
+// v1api20201101.OutboundRulePropertiesFormat_Protocol_STATUS instead
 type OutboundRulePropertiesFormat_Protocol_STATUS string
 
 const (
@@ -8197,6 +7784,7 @@ const (
 	OutboundRulePropertiesFormat_Protocol_STATUS_Udp = OutboundRulePropertiesFormat_Protocol_STATUS("Udp")
 )
 
+// Deprecated version of ProbePropertiesFormat_Protocol. Use v1api20201101.ProbePropertiesFormat_Protocol instead
 // +kubebuilder:validation:Enum={"Http","Https","Tcp"}
 type ProbePropertiesFormat_Protocol string
 
@@ -8206,6 +7794,8 @@ const (
 	ProbePropertiesFormat_Protocol_Tcp   = ProbePropertiesFormat_Protocol("Tcp")
 )
 
+// Deprecated version of ProbePropertiesFormat_Protocol_STATUS. Use v1api20201101.ProbePropertiesFormat_Protocol_STATUS
+// instead
 type ProbePropertiesFormat_Protocol_STATUS string
 
 const (
@@ -8214,9 +7804,8 @@ const (
 	ProbePropertiesFormat_Protocol_STATUS_Tcp   = ProbePropertiesFormat_Protocol_STATUS("Tcp")
 )
 
-// Public IP address resource.
+// Deprecated version of PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded. Use v1api20201101.PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded instead
 type PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -8273,9 +7862,8 @@ func (embedded *PublicIPAddress_STATUS_LoadBalancer_SubResourceEmbedded) AssignP
 	return nil
 }
 
-// Public IP address resource.
+// Deprecated version of PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded. Use v1api20201101.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded instead
 type PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -8372,9 +7960,8 @@ func (embedded *PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded) Initialize
 	return nil
 }
 
-// Subnet in a virtual network resource.
+// Deprecated version of Subnet_LoadBalancer_SubResourceEmbedded. Use v1api20201101.Subnet_LoadBalancer_SubResourceEmbedded instead
 type Subnet_LoadBalancer_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -8471,9 +8058,8 @@ func (embedded *Subnet_LoadBalancer_SubResourceEmbedded) Initialize_From_Subnet_
 	return nil
 }
 
-// Subnet in a virtual network resource.
+// Deprecated version of Subnet_STATUS_LoadBalancer_SubResourceEmbedded. Use v1api20201101.Subnet_STATUS_LoadBalancer_SubResourceEmbedded instead
 type Subnet_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -8530,7 +8116,7 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties
 	return nil
 }
 
-// The transport protocol for the endpoint.
+// Deprecated version of TransportProtocol. Use v1api20201101.TransportProtocol instead
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type TransportProtocol string
 
@@ -8540,7 +8126,7 @@ const (
 	TransportProtocol_Udp = TransportProtocol("Udp")
 )
 
-// The transport protocol for the endpoint.
+// Deprecated version of TransportProtocol_STATUS. Use v1api20201101.TransportProtocol_STATUS instead
 type TransportProtocol_STATUS string
 
 const (

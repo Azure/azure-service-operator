@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-15"
 ├── DatabaseAccount: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (32 properties)
 │   │   ├── AnalyticalStorageConfiguration: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -738,23 +738,145 @@ github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515storage
 │       │   └── Ts: *float64
 │       ├── Tags: map[string]string
 │       └── Type: *string
-└── SqlRoleAssignment: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.DatabaseAccount
-    ├── Spec: Object (8 properties)
-    │   ├── AzureName: string
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PrincipalId: *string
-    │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   ├── RoleDefinitionId: *string
-    │   └── Scope: *string
-    └── Status: Object (8 properties)
-        ├── Conditions: conditions.Condition[]
-        ├── Id: *string
-        ├── Name: *string
-        ├── PrincipalId: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── RoleDefinitionId: *string
-        ├── Scope: *string
-        └── Type: *string
+├── SqlRoleAssignment: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/documentdb/v1beta20210515.DatabaseAccount
+│   ├── Spec: Object (8 properties)
+│   │   ├── AzureName: string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PrincipalId: *string
+│   │   ├── PrincipalIdFromConfig: *genruntime.ConfigMapReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RoleDefinitionId: *string
+│   │   └── Scope: *string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PrincipalId: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── RoleDefinitionId: *string
+│       ├── Scope: *string
+│       └── Type: *string
+├── augmentConversionForAnalyticalStorageConfiguration: Interface
+├── augmentConversionForAnalyticalStorageConfiguration_STATUS: Interface
+├── augmentConversionForApiProperties: Interface
+├── augmentConversionForApiProperties_STATUS: Interface
+├── augmentConversionForAutoUpgradePolicyResource: Interface
+├── augmentConversionForAutoUpgradePolicyResource_STATUS: Interface
+├── augmentConversionForAutoscaleSettings: Interface
+├── augmentConversionForAutoscaleSettingsResource: Interface
+├── augmentConversionForAutoscaleSettingsResource_STATUS: Interface
+├── augmentConversionForAutoscaleSettings_STATUS: Interface
+├── augmentConversionForBackupPolicy: Interface
+├── augmentConversionForBackupPolicy_STATUS: Interface
+├── augmentConversionForCapability: Interface
+├── augmentConversionForCapability_STATUS: Interface
+├── augmentConversionForCompositePath: Interface
+├── augmentConversionForCompositePath_STATUS: Interface
+├── augmentConversionForConflictResolutionPolicy: Interface
+├── augmentConversionForConflictResolutionPolicy_STATUS: Interface
+├── augmentConversionForConsistencyPolicy: Interface
+├── augmentConversionForConsistencyPolicy_STATUS: Interface
+├── augmentConversionForContainerPartitionKey: Interface
+├── augmentConversionForContainerPartitionKey_STATUS: Interface
+├── augmentConversionForContinuousModeBackupPolicy: Interface
+├── augmentConversionForContinuousModeBackupPolicy_STATUS: Interface
+├── augmentConversionForCorsPolicy: Interface
+├── augmentConversionForCorsPolicy_STATUS: Interface
+├── augmentConversionForCreateUpdateOptions: Interface
+├── augmentConversionForDatabaseAccount: Interface
+├── augmentConversionForDatabaseAccountOperatorSecrets: Interface
+├── augmentConversionForDatabaseAccountOperatorSpec: Interface
+├── augmentConversionForDatabaseAccount_STATUS: Interface
+├── augmentConversionForDatabaseAccount_Spec: Interface
+├── augmentConversionForDatabaseAccounts_MongodbDatabase_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_MongodbDatabase_Spec: Interface
+├── augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_MongodbDatabases_Collection_Spec: Interface
+├── augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec: Interface
+├── augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabase_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabase_Spec: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Container_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Container_Spec: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Containers_StoredProcedure_Spec: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Containers_Trigger_Spec: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_Containers_UserDefinedFunction_Spec: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_SqlDatabases_ThroughputSetting_Spec: Interface
+├── augmentConversionForDatabaseAccounts_SqlRoleAssignment_STATUS: Interface
+├── augmentConversionForDatabaseAccounts_SqlRoleAssignment_Spec: Interface
+├── augmentConversionForExcludedPath: Interface
+├── augmentConversionForExcludedPath_STATUS: Interface
+├── augmentConversionForFailoverPolicy_STATUS: Interface
+├── augmentConversionForIncludedPath: Interface
+├── augmentConversionForIncludedPath_STATUS: Interface
+├── augmentConversionForIndexes: Interface
+├── augmentConversionForIndexes_STATUS: Interface
+├── augmentConversionForIndexingPolicy: Interface
+├── augmentConversionForIndexingPolicy_STATUS: Interface
+├── augmentConversionForIpAddressOrRange: Interface
+├── augmentConversionForIpAddressOrRange_STATUS: Interface
+├── augmentConversionForLocation: Interface
+├── augmentConversionForLocation_STATUS: Interface
+├── augmentConversionForManagedServiceIdentity: Interface
+├── augmentConversionForManagedServiceIdentity_STATUS: Interface
+├── augmentConversionForManagedServiceIdentity_UserAssignedIdentities_STATUS: Interface
+├── augmentConversionForMongoDBCollectionGetProperties_Resource_STATUS: Interface
+├── augmentConversionForMongoDBCollectionResource: Interface
+├── augmentConversionForMongoDBDatabaseGetProperties_Resource_STATUS: Interface
+├── augmentConversionForMongoDBDatabaseResource: Interface
+├── augmentConversionForMongoIndex: Interface
+├── augmentConversionForMongoIndexKeys: Interface
+├── augmentConversionForMongoIndexKeys_STATUS: Interface
+├── augmentConversionForMongoIndexOptions: Interface
+├── augmentConversionForMongoIndexOptions_STATUS: Interface
+├── augmentConversionForMongoIndex_STATUS: Interface
+├── augmentConversionForMongodbDatabase: Interface
+├── augmentConversionForMongodbDatabaseCollection: Interface
+├── augmentConversionForMongodbDatabaseCollectionThroughputSetting: Interface
+├── augmentConversionForMongodbDatabaseThroughputSetting: Interface
+├── augmentConversionForOptionsResource_STATUS: Interface
+├── augmentConversionForPeriodicModeBackupPolicy: Interface
+├── augmentConversionForPeriodicModeBackupPolicy_STATUS: Interface
+├── augmentConversionForPeriodicModeProperties: Interface
+├── augmentConversionForPeriodicModeProperties_STATUS: Interface
+├── augmentConversionForPrivateEndpointConnection_STATUS: Interface
+├── augmentConversionForSpatialSpec: Interface
+├── augmentConversionForSpatialSpec_STATUS: Interface
+├── augmentConversionForSqlContainerGetProperties_Resource_STATUS: Interface
+├── augmentConversionForSqlContainerResource: Interface
+├── augmentConversionForSqlDatabase: Interface
+├── augmentConversionForSqlDatabaseContainer: Interface
+├── augmentConversionForSqlDatabaseContainerStoredProcedure: Interface
+├── augmentConversionForSqlDatabaseContainerThroughputSetting: Interface
+├── augmentConversionForSqlDatabaseContainerTrigger: Interface
+├── augmentConversionForSqlDatabaseContainerUserDefinedFunction: Interface
+├── augmentConversionForSqlDatabaseGetProperties_Resource_STATUS: Interface
+├── augmentConversionForSqlDatabaseResource: Interface
+├── augmentConversionForSqlDatabaseThroughputSetting: Interface
+├── augmentConversionForSqlRoleAssignment: Interface
+├── augmentConversionForSqlStoredProcedureGetProperties_Resource_STATUS: Interface
+├── augmentConversionForSqlStoredProcedureResource: Interface
+├── augmentConversionForSqlTriggerGetProperties_Resource_STATUS: Interface
+├── augmentConversionForSqlTriggerResource: Interface
+├── augmentConversionForSqlUserDefinedFunctionGetProperties_Resource_STATUS: Interface
+├── augmentConversionForSqlUserDefinedFunctionResource: Interface
+├── augmentConversionForThroughputPolicyResource: Interface
+├── augmentConversionForThroughputPolicyResource_STATUS: Interface
+├── augmentConversionForThroughputSettingsGetProperties_Resource_STATUS: Interface
+├── augmentConversionForThroughputSettingsResource: Interface
+├── augmentConversionForUniqueKey: Interface
+├── augmentConversionForUniqueKeyPolicy: Interface
+├── augmentConversionForUniqueKeyPolicy_STATUS: Interface
+├── augmentConversionForUniqueKey_STATUS: Interface
+├── augmentConversionForVirtualNetworkRule: Interface
+└── augmentConversionForVirtualNetworkRule_STATUS: Interface

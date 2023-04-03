@@ -3,134 +3,56 @@
 // Licensed under the MIT license.
 package v1beta20210401preview
 
-// Resource information with extended details.
+// Deprecated version of Vault_STATUS. Use v1api20210401preview.Vault_STATUS instead
 type Vault_STATUS_ARM struct {
-	// Id: Fully qualified identifier of the key vault resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: Azure location of the key vault resource.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the key vault resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the vault
+	Id         *string                     `json:"id,omitempty"`
+	Location   *string                     `json:"location,omitempty"`
+	Name       *string                     `json:"name,omitempty"`
 	Properties *VaultProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// SystemData: System metadata for the key vault.
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
-	// Tags: Tags assigned to the key vault resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type of the key vault resource.
-	Type *string `json:"type,omitempty"`
+	SystemData *SystemData_STATUS_ARM      `json:"systemData,omitempty"`
+	Tags       map[string]string           `json:"tags,omitempty"`
+	Type       *string                     `json:"type,omitempty"`
 }
 
-// Metadata pertaining to creation and last modification of the key vault resource.
+// Deprecated version of SystemData_STATUS. Use v1api20210401preview.SystemData_STATUS instead
 type SystemData_STATUS_ARM struct {
-	// CreatedAt: The timestamp of the key vault resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the key vault resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the key vault resource.
-	CreatedByType *IdentityType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of the key vault resource last modification (UTC).
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the key vault resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the key vault resource.
+	CreatedAt          *string              `json:"createdAt,omitempty"`
+	CreatedBy          *string              `json:"createdBy,omitempty"`
+	CreatedByType      *IdentityType_STATUS `json:"createdByType,omitempty"`
+	LastModifiedAt     *string              `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string              `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-// Properties of the vault
+// Deprecated version of VaultProperties_STATUS. Use v1api20210401preview.VaultProperties_STATUS instead
 type VaultProperties_STATUS_ARM struct {
-	// AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use
-	// the same tenant ID as the key vault's tenant ID. When `createMode` is set to `recover`, access policies are not
-	// required. Otherwise, access policies are required.
-	AccessPolicies []AccessPolicyEntry_STATUS_ARM `json:"accessPolicies,omitempty"`
-
-	// CreateMode: The vault's create mode to indicate whether the vault need to be recovered or not.
-	CreateMode *VaultProperties_CreateMode_STATUS `json:"createMode,omitempty"`
-
-	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this vault. Setting this
-	// property to true activates protection against purge for this vault and its content - only the Key Vault service may
-	// initiate a hard, irrecoverable deletion. The setting is effective only if soft delete is also enabled. Enabling this
-	// functionality is irreversible - that is, the property does not accept false as its value.
-	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
-
-	// EnableRbacAuthorization: Property that controls how data actions are authorized. When true, the key vault will use Role
-	// Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties
-	// will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy
-	// stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value
-	// of false. Note that management actions are always authorized with RBAC.
-	EnableRbacAuthorization *bool `json:"enableRbacAuthorization,omitempty"`
-
-	// EnableSoftDelete: Property to specify whether the 'soft delete' functionality is enabled for this key vault. If it's not
-	// set to any value(true or false) when creating new key vault, it will be set to true by default. Once set to true, it
-	// cannot be reverted to false.
-	EnableSoftDelete *bool `json:"enableSoftDelete,omitempty"`
-
-	// EnabledForDeployment: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored
-	// as secrets from the key vault.
-	EnabledForDeployment *bool `json:"enabledForDeployment,omitempty"`
-
-	// EnabledForDiskEncryption: Property to specify whether Azure Disk Encryption is permitted to retrieve secrets from the
-	// vault and unwrap keys.
-	EnabledForDiskEncryption *bool `json:"enabledForDiskEncryption,omitempty"`
-
-	// EnabledForTemplateDeployment: Property to specify whether Azure Resource Manager is permitted to retrieve secrets from
-	// the key vault.
-	EnabledForTemplateDeployment *bool `json:"enabledForTemplateDeployment,omitempty"`
-
-	// HsmPoolResourceId: The resource id of HSM Pool.
-	HsmPoolResourceId *string `json:"hsmPoolResourceId,omitempty"`
-
-	// NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.
-	NetworkAcls *NetworkRuleSet_STATUS_ARM `json:"networkAcls,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections associated with the key vault.
-	PrivateEndpointConnections []PrivateEndpointConnectionItem_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the vault.
-	ProvisioningState *VaultProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Sku: SKU details
-	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
-
-	// SoftDeleteRetentionInDays: softDelete data retention days. It accepts >=7 and <=90.
-	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
-
-	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// VaultUri: The URI of the vault for performing operations on keys and secrets.
-	VaultUri *string `json:"vaultUri,omitempty"`
+	AccessPolicies               []AccessPolicyEntry_STATUS_ARM             `json:"accessPolicies,omitempty"`
+	CreateMode                   *VaultProperties_CreateMode_STATUS         `json:"createMode,omitempty"`
+	EnablePurgeProtection        *bool                                      `json:"enablePurgeProtection,omitempty"`
+	EnableRbacAuthorization      *bool                                      `json:"enableRbacAuthorization,omitempty"`
+	EnableSoftDelete             *bool                                      `json:"enableSoftDelete,omitempty"`
+	EnabledForDeployment         *bool                                      `json:"enabledForDeployment,omitempty"`
+	EnabledForDiskEncryption     *bool                                      `json:"enabledForDiskEncryption,omitempty"`
+	EnabledForTemplateDeployment *bool                                      `json:"enabledForTemplateDeployment,omitempty"`
+	HsmPoolResourceId            *string                                    `json:"hsmPoolResourceId,omitempty"`
+	NetworkAcls                  *NetworkRuleSet_STATUS_ARM                 `json:"networkAcls,omitempty"`
+	PrivateEndpointConnections   []PrivateEndpointConnectionItem_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState            *VaultProperties_ProvisioningState_STATUS  `json:"provisioningState,omitempty"`
+	Sku                          *Sku_STATUS_ARM                            `json:"sku,omitempty"`
+	SoftDeleteRetentionInDays    *int                                       `json:"softDeleteRetentionInDays,omitempty"`
+	TenantId                     *string                                    `json:"tenantId,omitempty"`
+	VaultUri                     *string                                    `json:"vaultUri,omitempty"`
 }
 
-// An identity that have access to the key vault. All identities in the array must use the same tenant ID as the key
-// vault's tenant ID.
+// Deprecated version of AccessPolicyEntry_STATUS. Use v1api20210401preview.AccessPolicyEntry_STATUS instead
 type AccessPolicyEntry_STATUS_ARM struct {
-	// ApplicationId:  Application ID of the client making request on behalf of a principal
-	ApplicationId *string `json:"applicationId,omitempty"`
-
-	// ObjectId: The object ID of a user, service principal or security group in the Azure Active Directory tenant for the
-	// vault. The object ID must be unique for the list of access policies.
-	ObjectId *string `json:"objectId,omitempty"`
-
-	// Permissions: Permissions the identity has for keys, secrets and certificates.
-	Permissions *Permissions_STATUS_ARM `json:"permissions,omitempty"`
-
-	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
-	TenantId *string `json:"tenantId,omitempty"`
+	ApplicationId *string                 `json:"applicationId,omitempty"`
+	ObjectId      *string                 `json:"objectId,omitempty"`
+	Permissions   *Permissions_STATUS_ARM `json:"permissions,omitempty"`
+	TenantId      *string                 `json:"tenantId,omitempty"`
 }
 
-// The type of identity.
+// Deprecated version of IdentityType_STATUS. Use v1api20210401preview.IdentityType_STATUS instead
 type IdentityType_STATUS string
 
 const (
@@ -140,44 +62,29 @@ const (
 	IdentityType_STATUS_User            = IdentityType_STATUS("User")
 )
 
-// A set of rules governing the network accessibility of a vault.
+// Deprecated version of NetworkRuleSet_STATUS. Use v1api20210401preview.NetworkRuleSet_STATUS instead
 type NetworkRuleSet_STATUS_ARM struct {
-	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the
-	// default is 'AzureServices'.
-	Bypass *NetworkRuleSet_Bypass_STATUS `json:"bypass,omitempty"`
-
-	// DefaultAction: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after
-	// the bypass property has been evaluated.
-	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
-
-	// IpRules: The list of IP address rules.
-	IpRules []IPRule_STATUS_ARM `json:"ipRules,omitempty"`
-
-	// VirtualNetworkRules: The list of virtual network rules.
-	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM `json:"virtualNetworkRules,omitempty"`
+	Bypass              *NetworkRuleSet_Bypass_STATUS        `json:"bypass,omitempty"`
+	DefaultAction       *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
+	IpRules             []IPRule_STATUS_ARM                  `json:"ipRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_STATUS_ARM      `json:"virtualNetworkRules,omitempty"`
 }
 
-// Private endpoint connection item.
+// Deprecated version of PrivateEndpointConnectionItem_STATUS. Use v1api20210401preview.PrivateEndpointConnectionItem_STATUS instead
 type PrivateEndpointConnectionItem_STATUS_ARM struct {
-	// Etag: Modified whenever there is a change in the state of private endpoint connection.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Id of private endpoint connection.
-	Id *string `json:"id,omitempty"`
-
-	// Properties: Private endpoint connection properties.
+	Etag       *string                                         `json:"etag,omitempty"`
+	Id         *string                                         `json:"id,omitempty"`
 	Properties *PrivateEndpointConnectionProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-// SKU details
+// Deprecated version of Sku_STATUS. Use v1api20210401preview.Sku_STATUS instead
 type Sku_STATUS_ARM struct {
-	// Family: SKU family name
 	Family *Sku_Family_STATUS `json:"family,omitempty"`
-
-	// Name: SKU name to specify whether the key vault is a standard vault or a premium vault.
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Name   *Sku_Name_STATUS   `json:"name,omitempty"`
 }
 
+// Deprecated version of VaultProperties_CreateMode_STATUS. Use v1api20210401preview.VaultProperties_CreateMode_STATUS
+// instead
 type VaultProperties_CreateMode_STATUS string
 
 const (
@@ -185,6 +92,8 @@ const (
 	VaultProperties_CreateMode_STATUS_Recover = VaultProperties_CreateMode_STATUS("recover")
 )
 
+// Deprecated version of VaultProperties_ProvisioningState_STATUS. Use
+// v1api20210401preview.VaultProperties_ProvisioningState_STATUS instead
 type VaultProperties_ProvisioningState_STATUS string
 
 const (
@@ -192,13 +101,12 @@ const (
 	VaultProperties_ProvisioningState_STATUS_Succeeded      = VaultProperties_ProvisioningState_STATUS("Succeeded")
 )
 
-// A rule governing the accessibility of a vault from a specific ip address or ip range.
+// Deprecated version of IPRule_STATUS. Use v1api20210401preview.IPRule_STATUS instead
 type IPRule_STATUS_ARM struct {
-	// Value: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all
-	// addresses that start with 124.56.78).
 	Value *string `json:"value,omitempty"`
 }
 
+// Deprecated version of NetworkRuleSet_Bypass_STATUS. Use v1api20210401preview.NetworkRuleSet_Bypass_STATUS instead
 type NetworkRuleSet_Bypass_STATUS string
 
 const (
@@ -206,6 +114,8 @@ const (
 	NetworkRuleSet_Bypass_STATUS_None          = NetworkRuleSet_Bypass_STATUS("None")
 )
 
+// Deprecated version of NetworkRuleSet_DefaultAction_STATUS. Use v1api20210401preview.NetworkRuleSet_DefaultAction_STATUS
+// instead
 type NetworkRuleSet_DefaultAction_STATUS string
 
 const (
@@ -213,37 +123,27 @@ const (
 	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
 
-// Permissions the identity has for keys, secrets, certificates and storage.
+// Deprecated version of Permissions_STATUS. Use v1api20210401preview.Permissions_STATUS instead
 type Permissions_STATUS_ARM struct {
-	// Certificates: Permissions to certificates
 	Certificates []Permissions_Certificates_STATUS `json:"certificates,omitempty"`
-
-	// Keys: Permissions to keys
-	Keys []Permissions_Keys_STATUS `json:"keys,omitempty"`
-
-	// Secrets: Permissions to secrets
-	Secrets []Permissions_Secrets_STATUS `json:"secrets,omitempty"`
-
-	// Storage: Permissions to storage accounts
-	Storage []Permissions_Storage_STATUS `json:"storage,omitempty"`
+	Keys         []Permissions_Keys_STATUS         `json:"keys,omitempty"`
+	Secrets      []Permissions_Secrets_STATUS      `json:"secrets,omitempty"`
+	Storage      []Permissions_Storage_STATUS      `json:"storage,omitempty"`
 }
 
-// Properties of the private endpoint connection resource.
+// Deprecated version of PrivateEndpointConnectionProperties_STATUS. Use v1api20210401preview.PrivateEndpointConnectionProperties_STATUS instead
 type PrivateEndpointConnectionProperties_STATUS_ARM struct {
-	// PrivateEndpoint: Properties of the private endpoint object.
-	PrivateEndpoint *PrivateEndpoint_STATUS_ARM `json:"privateEndpoint,omitempty"`
-
-	// PrivateLinkServiceConnectionState: Approval state of the private link connection.
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS_ARM `json:"privateLinkServiceConnectionState,omitempty"`
-
-	// ProvisioningState: Provisioning state of the private endpoint connection.
-	ProvisioningState *PrivateEndpointConnectionProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	PrivateEndpoint                   *PrivateEndpoint_STATUS_ARM                        `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_STATUS_ARM      `json:"privateLinkServiceConnectionState,omitempty"`
+	ProvisioningState                 *PrivateEndpointConnectionProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
+// Deprecated version of Sku_Family_STATUS. Use v1api20210401preview.Sku_Family_STATUS instead
 type Sku_Family_STATUS string
 
 const Sku_Family_STATUS_A = Sku_Family_STATUS("A")
 
+// Deprecated version of Sku_Name_STATUS. Use v1api20210401preview.Sku_Name_STATUS instead
 type Sku_Name_STATUS string
 
 const (
@@ -251,17 +151,13 @@ const (
 	Sku_Name_STATUS_Standard = Sku_Name_STATUS("standard")
 )
 
-// A rule governing the accessibility of a vault from a specific virtual network.
+// Deprecated version of VirtualNetworkRule_STATUS. Use v1api20210401preview.VirtualNetworkRule_STATUS instead
 type VirtualNetworkRule_STATUS_ARM struct {
-	// Id: Full resource id of a vnet subnet, such as
-	// '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
-	Id *string `json:"id,omitempty"`
-
-	// IgnoreMissingVnetServiceEndpoint: Property to specify whether NRP will ignore the check if parent subnet has
-	// serviceEndpoints configured.
-	IgnoreMissingVnetServiceEndpoint *bool `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
+	Id                               *string `json:"id,omitempty"`
+	IgnoreMissingVnetServiceEndpoint *bool   `json:"ignoreMissingVnetServiceEndpoint,omitempty"`
 }
 
+// Deprecated version of Permissions_Certificates_STATUS. Use v1api20210401preview.Permissions_Certificates_STATUS instead
 type Permissions_Certificates_STATUS string
 
 const (
@@ -283,6 +179,7 @@ const (
 	Permissions_Certificates_STATUS_Update         = Permissions_Certificates_STATUS("update")
 )
 
+// Deprecated version of Permissions_Keys_STATUS. Use v1api20210401preview.Permissions_Keys_STATUS instead
 type Permissions_Keys_STATUS string
 
 const (
@@ -305,6 +202,7 @@ const (
 	Permissions_Keys_STATUS_WrapKey   = Permissions_Keys_STATUS("wrapKey")
 )
 
+// Deprecated version of Permissions_Secrets_STATUS. Use v1api20210401preview.Permissions_Secrets_STATUS instead
 type Permissions_Secrets_STATUS string
 
 const (
@@ -318,6 +216,7 @@ const (
 	Permissions_Secrets_STATUS_Set     = Permissions_Secrets_STATUS("set")
 )
 
+// Deprecated version of Permissions_Storage_STATUS. Use v1api20210401preview.Permissions_Storage_STATUS instead
 type Permissions_Storage_STATUS string
 
 const (
@@ -337,20 +236,14 @@ const (
 	Permissions_Storage_STATUS_Update        = Permissions_Storage_STATUS("update")
 )
 
-// Private endpoint object properties.
+// Deprecated version of PrivateEndpoint_STATUS. Use v1api20210401preview.PrivateEndpoint_STATUS instead
 type PrivateEndpoint_STATUS_ARM struct {
-	// Id: Full identifier of the private endpoint resource.
 	Id *string `json:"id,omitempty"`
 }
 
-// An object that represents the approval state of the private link connection.
+// Deprecated version of PrivateLinkServiceConnectionState_STATUS. Use v1api20210401preview.PrivateLinkServiceConnectionState_STATUS instead
 type PrivateLinkServiceConnectionState_STATUS_ARM struct {
-	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
 	ActionsRequired *PrivateLinkServiceConnectionState_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
-
-	// Description: The reason for approval or rejection.
-	Description *string `json:"description,omitempty"`
-
-	// Status: Indicates whether the connection has been approved, rejected or removed by the key vault owner.
-	Status *PrivateEndpointServiceConnectionStatus_STATUS `json:"status,omitempty"`
+	Description     *string                                                   `json:"description,omitempty"`
+	Status          *PrivateEndpointServiceConnectionStatus_STATUS            `json:"status,omitempty"`
 }

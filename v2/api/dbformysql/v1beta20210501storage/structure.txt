@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage
 ├── APIVersion: Enum (1 value)
 │   └── "2021-05-01"
 ├── FlexibleServer: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (23 properties)
 │   │   ├── AdministratorLogin: *string
 │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference
@@ -155,28 +155,56 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage
 │       │   ├── LastModifiedByType: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
-└── FlexibleServersFirewallRule: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501.FlexibleServer
-    ├── Spec: Object (6 properties)
-    │   ├── AzureName: string
-    │   ├── EndIpAddress: *string
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── StartIpAddress: *string
-    └── Status: Object (8 properties)
-        ├── Conditions: conditions.Condition[]
-        ├── EndIpAddress: *string
-        ├── Id: *string
-        ├── Name: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── StartIpAddress: *string
-        ├── SystemData: *Object (7 properties)
-        │   ├── CreatedAt: *string
-        │   ├── CreatedBy: *string
-        │   ├── CreatedByType: *string
-        │   ├── LastModifiedAt: *string
-        │   ├── LastModifiedBy: *string
-        │   ├── LastModifiedByType: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        └── Type: *string
+├── FlexibleServersFirewallRule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501.FlexibleServer
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: string
+│   │   ├── EndIpAddress: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── StartIpAddress: *string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── EndIpAddress: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── StartIpAddress: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── augmentConversionForBackup: Interface
+├── augmentConversionForBackup_STATUS: Interface
+├── augmentConversionForDataEncryption: Interface
+├── augmentConversionForDataEncryption_STATUS: Interface
+├── augmentConversionForFlexibleServer: Interface
+├── augmentConversionForFlexibleServerOperatorSecrets: Interface
+├── augmentConversionForFlexibleServerOperatorSpec: Interface
+├── augmentConversionForFlexibleServer_STATUS: Interface
+├── augmentConversionForFlexibleServer_Spec: Interface
+├── augmentConversionForFlexibleServersDatabase: Interface
+├── augmentConversionForFlexibleServersFirewallRule: Interface
+├── augmentConversionForFlexibleServers_Database_STATUS: Interface
+├── augmentConversionForFlexibleServers_Database_Spec: Interface
+├── augmentConversionForFlexibleServers_FirewallRule_STATUS: Interface
+├── augmentConversionForFlexibleServers_FirewallRule_Spec: Interface
+├── augmentConversionForHighAvailability: Interface
+├── augmentConversionForHighAvailability_STATUS: Interface
+├── augmentConversionForIdentity: Interface
+├── augmentConversionForIdentity_STATUS: Interface
+├── augmentConversionForMaintenanceWindow: Interface
+├── augmentConversionForMaintenanceWindow_STATUS: Interface
+├── augmentConversionForNetwork: Interface
+├── augmentConversionForNetwork_STATUS: Interface
+├── augmentConversionForSku: Interface
+├── augmentConversionForSku_STATUS: Interface
+├── augmentConversionForStorage: Interface
+├── augmentConversionForStorage_STATUS: Interface
+└── augmentConversionForSystemData_STATUS: Interface

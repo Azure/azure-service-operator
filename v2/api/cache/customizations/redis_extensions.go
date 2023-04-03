@@ -10,16 +10,16 @@ import (
 	"strconv"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	redis "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
+	redis "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -111,9 +111,9 @@ func secretsToWrite(obj *redis.Redis, accessKeys armredis.AccessKeys) ([]*v1.Sec
 	}
 
 	collector := secrets.NewCollector(obj.Namespace)
-	collector.AddValue(operatorSpecSecrets.PrimaryKey, to.String(accessKeys.PrimaryKey))
-	collector.AddValue(operatorSpecSecrets.SecondaryKey, to.String(accessKeys.SecondaryKey))
-	collector.AddValue(operatorSpecSecrets.HostName, to.String(obj.Status.HostName))
+	collector.AddValue(operatorSpecSecrets.PrimaryKey, to.Value(accessKeys.PrimaryKey))
+	collector.AddValue(operatorSpecSecrets.SecondaryKey, to.Value(accessKeys.SecondaryKey))
+	collector.AddValue(operatorSpecSecrets.HostName, to.Value(obj.Status.HostName))
 	collector.AddValue(operatorSpecSecrets.Port, intPtrToString(obj.Status.Port))
 	collector.AddValue(operatorSpecSecrets.SSLPort, intPtrToString(obj.Status.SslPort))
 

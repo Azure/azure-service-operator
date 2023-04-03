@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 ├── APIVersion: Enum (1 value)
 │   └── "2020-09-30"
 ├── Disk: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (25 properties)
 │   │   ├── AzureName: string
 │   │   ├── BurstingEnabled: *bool
@@ -159,7 +159,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 │       ├── UniqueId: *string
 │       └── Zones: string[]
 ├── Snapshot: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (19 properties)
 │   │   ├── AzureName: string
 │   │   ├── CreationData: *Object (9 properties)
@@ -298,5 +298,34 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20200930storage
 │       ├── TimeCreated: *string
 │       ├── Type: *string
 │       └── UniqueId: *string
+├── augmentConversionForCreationData: Interface
+├── augmentConversionForCreationData_STATUS: Interface
+├── augmentConversionForDisk: Interface
+├── augmentConversionForDiskSku: Interface
+├── augmentConversionForDiskSku_STATUS: Interface
+├── augmentConversionForDisk_STATUS: Interface
+├── augmentConversionForDisk_Spec: Interface
+├── augmentConversionForEncryption: Interface
+├── augmentConversionForEncryptionSettingsCollection: Interface
+├── augmentConversionForEncryptionSettingsCollection_STATUS: Interface
+├── augmentConversionForEncryptionSettingsElement: Interface
+├── augmentConversionForEncryptionSettingsElement_STATUS: Interface
+├── augmentConversionForEncryption_STATUS: Interface
 ├── augmentConversionForExtendedLocation: Interface
-└── augmentConversionForExtendedLocation_STATUS: Interface
+├── augmentConversionForExtendedLocation_STATUS: Interface
+├── augmentConversionForImageDiskReference: Interface
+├── augmentConversionForImageDiskReference_STATUS: Interface
+├── augmentConversionForKeyVaultAndKeyReference: Interface
+├── augmentConversionForKeyVaultAndKeyReference_STATUS: Interface
+├── augmentConversionForKeyVaultAndSecretReference: Interface
+├── augmentConversionForKeyVaultAndSecretReference_STATUS: Interface
+├── augmentConversionForPurchasePlan: Interface
+├── augmentConversionForPurchasePlan_STATUS: Interface
+├── augmentConversionForShareInfoElement_STATUS: Interface
+├── augmentConversionForSnapshot: Interface
+├── augmentConversionForSnapshotSku: Interface
+├── augmentConversionForSnapshotSku_STATUS: Interface
+├── augmentConversionForSnapshot_STATUS: Interface
+├── augmentConversionForSnapshot_Spec: Interface
+├── augmentConversionForSourceVault: Interface
+└── augmentConversionForSourceVault_STATUS: Interface

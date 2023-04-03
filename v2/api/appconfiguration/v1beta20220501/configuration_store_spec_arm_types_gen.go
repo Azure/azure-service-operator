@@ -5,25 +5,15 @@ package v1beta20220501
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of ConfigurationStore_Spec. Use v1api20220501.ConfigurationStore_Spec instead
 type ConfigurationStore_Spec_ARM struct {
-	// Identity: The managed identity information, if configured.
-	Identity *ResourceIdentity_ARM `json:"identity,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: The properties of a configuration store.
+	Identity   *ResourceIdentity_ARM             `json:"identity,omitempty"`
+	Location   *string                           `json:"location,omitempty"`
+	Name       string                            `json:"name,omitempty"`
 	Properties *ConfigurationStoreProperties_ARM `json:"properties,omitempty"`
-
-	// Sku: The sku of the configuration store.
-	Sku *Sku_ARM `json:"sku,omitempty"`
-
-	// SystemData: Resource system metadata.
-	SystemData *SystemData_ARM `json:"systemData,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *Sku_ARM                          `json:"sku,omitempty"`
+	SystemData *SystemData_ARM                   `json:"systemData,omitempty"`
+	Tags       map[string]string                 `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ConfigurationStore_Spec_ARM{}
@@ -43,69 +33,42 @@ func (store *ConfigurationStore_Spec_ARM) GetType() string {
 	return "Microsoft.AppConfiguration/configurationStores"
 }
 
-// The properties of a configuration store.
+// Deprecated version of ConfigurationStoreProperties. Use v1api20220501.ConfigurationStoreProperties instead
 type ConfigurationStoreProperties_ARM struct {
-	// CreateMode: Indicates whether the configuration store need to be recovered.
-	CreateMode *ConfigurationStoreProperties_CreateMode `json:"createMode,omitempty"`
-
-	// DisableLocalAuth: Disables all authentication methods other than AAD authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.
-	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
-
-	// Encryption: The encryption settings of the configuration store.
-	Encryption *EncryptionProperties_ARM `json:"encryption,omitempty"`
-
-	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
-	// enabled.
-	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
-	// deleted.
-	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
+	CreateMode                *ConfigurationStoreProperties_CreateMode          `json:"createMode,omitempty"`
+	DisableLocalAuth          *bool                                             `json:"disableLocalAuth,omitempty"`
+	EnablePurgeProtection     *bool                                             `json:"enablePurgeProtection,omitempty"`
+	Encryption                *EncryptionProperties_ARM                         `json:"encryption,omitempty"`
+	PublicNetworkAccess       *ConfigurationStoreProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	SoftDeleteRetentionInDays *int                                              `json:"softDeleteRetentionInDays,omitempty"`
 }
 
-// An identity that can be associated with a resource.
+// Deprecated version of ResourceIdentity. Use v1api20220501.ResourceIdentity instead
 type ResourceIdentity_ARM struct {
-	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
-	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
 	Type *ResourceIdentity_Type `json:"type,omitempty"`
 }
 
-// Describes a configuration store SKU.
+// Deprecated version of Sku. Use v1api20220501.Sku instead
 type Sku_ARM struct {
-	// Name: The SKU name of the configuration store.
 	Name *string `json:"name,omitempty"`
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData. Use v1api20220501.SystemData instead
 type SystemData_ARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                        `json:"createdAt,omitempty"`
+	CreatedBy          *string                        `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                        `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                        `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-// The encryption settings for a configuration store.
+// Deprecated version of EncryptionProperties. Use v1api20220501.EncryptionProperties instead
 type EncryptionProperties_ARM struct {
-	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_ARM `json:"keyVaultProperties,omitempty"`
 }
 
+// Deprecated version of ResourceIdentity_Type. Use v1api20220501.ResourceIdentity_Type instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
 type ResourceIdentity_Type string
 
@@ -116,6 +79,7 @@ const (
 	ResourceIdentity_Type_UserAssigned               = ResourceIdentity_Type("UserAssigned")
 )
 
+// Deprecated version of SystemData_CreatedByType. Use v1api20220501.SystemData_CreatedByType instead
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemData_CreatedByType string
 
@@ -126,6 +90,7 @@ const (
 	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
 )
 
+// Deprecated version of SystemData_LastModifiedByType. Use v1api20220501.SystemData_LastModifiedByType instead
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemData_LastModifiedByType string
 
@@ -136,11 +101,8 @@ const (
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
-// Settings concerning key vault encryption for a configuration store.
+// Deprecated version of KeyVaultProperties. Use v1api20220501.KeyVaultProperties instead
 type KeyVaultProperties_ARM struct {
-	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
-
-	// KeyIdentifier: The URI of the key vault key used to encrypt data.
-	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
+	KeyIdentifier    *string `json:"keyIdentifier,omitempty"`
 }

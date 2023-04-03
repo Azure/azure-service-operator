@@ -1,0 +1,16 @@
+apiVersion: sql.azure.com/v1api20211101
+kind: ServersAdministrator
+metadata:
+  name: aso-sample-aad-admin
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-sqlserver
+  administratorType: ActiveDirectory
+  login: myaaduser
+  sidFromConfig: 
+    key: sid
+    name: aaduserconfig
+  tenantIdFromConfig:
+    key: tenantid
+    name: aaduserconfig

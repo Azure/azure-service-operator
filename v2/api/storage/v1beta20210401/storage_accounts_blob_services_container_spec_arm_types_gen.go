@@ -5,10 +5,9 @@ package v1beta20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of StorageAccounts_BlobServices_Container_Spec. Use v1api20210401.StorageAccounts_BlobServices_Container_Spec instead
 type StorageAccounts_BlobServices_Container_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties of the blob container.
+	Name       string                   `json:"name,omitempty"`
 	Properties *ContainerProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,27 +28,16 @@ func (container *StorageAccounts_BlobServices_Container_Spec_ARM) GetType() stri
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 
-// The properties of a container.
+// Deprecated version of ContainerProperties. Use v1api20210401.ContainerProperties instead
 type ContainerProperties_ARM struct {
-	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
-	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
-
-	// DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
-	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
-
-	// ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
-	// can only be set to true at the container creation time. Existing containers must undergo a migration process.
+	DefaultEncryptionScope         *string                             `json:"defaultEncryptionScope,omitempty"`
+	DenyEncryptionScopeOverride    *bool                               `json:"denyEncryptionScopeOverride,omitempty"`
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_ARM `json:"immutableStorageWithVersioning,omitempty"`
-
-	// Metadata: A name-value pair to associate with the container as metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
-
-	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
+	Metadata                       map[string]string                   `json:"metadata,omitempty"`
+	PublicAccess                   *ContainerProperties_PublicAccess   `json:"publicAccess,omitempty"`
 }
 
-// Object level immutability properties of the container.
+// Deprecated version of ImmutableStorageWithVersioning. Use v1api20210401.ImmutableStorageWithVersioning instead
 type ImmutableStorageWithVersioning_ARM struct {
-	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
 }

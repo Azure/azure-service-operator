@@ -25,9 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/virtualMachine.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}
+// Deprecated version of VirtualMachine. Use v1api20220301.VirtualMachine instead
 type VirtualMachine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -51,22 +49,36 @@ var _ conversion.Convertible = &VirtualMachine{}
 
 // ConvertFrom populates our VirtualMachine from the provided hub VirtualMachine
 func (machine *VirtualMachine) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220301s.VirtualMachine)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20220301storage/VirtualMachine but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220301s.VirtualMachine
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return machine.AssignProperties_From_VirtualMachine(source)
+	err = machine.AssignProperties_From_VirtualMachine(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to machine")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualMachine from our VirtualMachine
 func (machine *VirtualMachine) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220301s.VirtualMachine)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20220301storage/VirtualMachine but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220301s.VirtualMachine
+	err := machine.AssignProperties_To_VirtualMachine(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from machine")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return machine.AssignProperties_To_VirtualMachine(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-compute-azure-com-v1beta20220301-virtualmachine,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachines,verbs=create;update,versions=v1beta20220301,name=default.v1beta20220301.virtualmachines.compute.azure.com,admissionReviewVersions=v1
@@ -324,9 +336,7 @@ func (machine *VirtualMachine) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/virtualMachine.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}
+// Deprecated version of VirtualMachine. Use v1api20220301.VirtualMachine instead
 type VirtualMachineList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -334,151 +344,46 @@ type VirtualMachineList struct {
 }
 
 type VirtualMachine_Spec struct {
-	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the virtual machine.
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
-
-	// ApplicationProfile: Specifies the gallery applications that should be made available to the VM/VMSS
-	ApplicationProfile *ApplicationProfile `json:"applicationProfile,omitempty"`
-
-	// AvailabilitySet: Specifies information about the availability set that the virtual machine should be assigned to.
-	// Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For
-	// more information about availability sets, see [Availability sets
-	// overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview).
-	// For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in
-	// Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates)
-	// Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being
-	// added should be under the same resource group as the availability set resource. An existing VM cannot be added to an
-	// availability set.
-	// This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
-	AvailabilitySet *SubResource `json:"availabilitySet,omitempty"`
+	ApplicationProfile     *ApplicationProfile     `json:"applicationProfile,omitempty"`
+	AvailabilitySet        *SubResource            `json:"availabilitySet,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// BillingProfile: Specifies the billing related details of a Azure Spot virtual machine.
-	// Minimum api-version: 2019-03-01.
-	BillingProfile *BillingProfile `json:"billingProfile,omitempty"`
-
-	// CapacityReservation: Specifies information about the capacity reservation that is used to allocate virtual machine.
-	// Minimum api-version: 2021-04-01.
-	CapacityReservation *CapacityReservationProfile `json:"capacityReservation,omitempty"`
-
-	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
-	// Minimum api-version: 2015-06-15.
-	DiagnosticsProfile *DiagnosticsProfile `json:"diagnosticsProfile,omitempty"`
-
-	// EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
-	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
-	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
-	// 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy `json:"evictionPolicy,omitempty"`
-
-	// ExtendedLocation: The extended location of the Virtual Machine.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
-	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
-	// (PT1H30M).
-	// Minimum api-version: 2020-06-01
-	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
-
-	// HardwareProfile: Specifies the hardware settings for the virtual machine.
-	HardwareProfile *HardwareProfile `json:"hardwareProfile,omitempty"`
-
-	// Host: Specifies information about the dedicated host that the virtual machine resides in.
-	// Minimum api-version: 2018-10-01.
-	Host *SubResource `json:"host,omitempty"`
-
-	// HostGroup: Specifies information about the dedicated host group that the virtual machine resides in.
-	// Minimum api-version: 2020-06-01.
-	// NOTE: User cannot specify both host and hostGroup properties.
-	HostGroup *SubResource `json:"hostGroup,omitempty"`
-
-	// Identity: The identity of the virtual machine, if configured.
-	Identity *VirtualMachineIdentity `json:"identity,omitempty"`
-
-	// LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
-	// Possible values for Windows Server operating system are:
-	// Windows_Client
-	// Windows_Server
-	// Possible values for Linux Server operating system are:
-	// RHEL_BYOS (for RHEL)
-	// SLES_BYOS (for SUSE)
-	// For more information, see [Azure Hybrid Use Benefit for Windows
-	// Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
-	// [Azure Hybrid Use Benefit for Linux
-	// Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
-	// Minimum api-version: 2015-06-15
-	LicenseType *string `json:"licenseType,omitempty"`
+	AzureName            string                      `json:"azureName,omitempty"`
+	BillingProfile       *BillingProfile             `json:"billingProfile,omitempty"`
+	CapacityReservation  *CapacityReservationProfile `json:"capacityReservation,omitempty"`
+	DiagnosticsProfile   *DiagnosticsProfile         `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy       *EvictionPolicy             `json:"evictionPolicy,omitempty"`
+	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
+	ExtensionsTimeBudget *string                     `json:"extensionsTimeBudget,omitempty"`
+	HardwareProfile      *HardwareProfile            `json:"hardwareProfile,omitempty"`
+	Host                 *SubResource                `json:"host,omitempty"`
+	HostGroup            *SubResource                `json:"hostGroup,omitempty"`
+	Identity             *VirtualMachineIdentity     `json:"identity,omitempty"`
+	LicenseType          *string                     `json:"licenseType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// NetworkProfile: Specifies the network interfaces of the virtual machine.
+	Location       *string         `json:"location,omitempty"`
 	NetworkProfile *NetworkProfile `json:"networkProfile,omitempty"`
-
-	// OsProfile: Specifies the operating system settings used while creating the virtual machine. Some of the settings cannot
-	// be changed once VM is provisioned.
-	OsProfile *OSProfile `json:"osProfile,omitempty"`
+	OsProfile      *OSProfile      `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
-	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
-	// use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
-	// programmatically, Get Started ->. Enter any required information and then click Save.
-	Plan *Plan `json:"plan,omitempty"`
-
-	// PlatformFaultDomain: Specifies the scale set logical fault domain into which the Virtual Machine will be created. By
-	// default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across
-	// available fault domains.
-	// <li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual
-	// Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated
-	// once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.
-	// Minimum api‐version: 2020‐12‐01
-	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
-
-	// Priority: Specifies the priority for the virtual machine.
-	// Minimum api-version: 2019-03-01
-	Priority *Priority `json:"priority,omitempty"`
-
-	// ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine should be
-	// assigned to.
-	// Minimum api-version: 2018-04-01.
-	ProximityPlacementGroup *SubResource `json:"proximityPlacementGroup,omitempty"`
-
-	// ScheduledEventsProfile: Specifies Scheduled Event related configurations.
-	ScheduledEventsProfile *ScheduledEventsProfile `json:"scheduledEventsProfile,omitempty"`
-
-	// SecurityProfile: Specifies the Security related profile settings for the virtual machine.
-	SecurityProfile *SecurityProfile `json:"securityProfile,omitempty"`
-
-	// StorageProfile: Specifies the storage settings for the virtual machine disks.
-	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// UserData: UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here.
-	// Minimum api-version: 2021-03-01
-	UserData *string `json:"userData,omitempty"`
-
-	// VirtualMachineScaleSet: Specifies information about the virtual machine scale set that the virtual machine should be
-	// assigned to. Virtual machines specified in the same virtual machine scale set are allocated to different nodes to
-	// maximize availability. Currently, a VM can only be added to virtual machine scale set at creation time. An existing VM
-	// cannot be added to a virtual machine scale set.
-	// This property cannot exist along with a non-null properties.availabilitySet reference.
-	// Minimum api‐version: 2019‐03‐01
-	VirtualMachineScaleSet *SubResource `json:"virtualMachineScaleSet,omitempty"`
-
-	// Zones: The virtual machine zones.
-	Zones []string `json:"zones,omitempty"`
+	Owner                   *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Plan                    *Plan                              `json:"plan,omitempty"`
+	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
+	Priority                *Priority                          `json:"priority,omitempty"`
+	ProximityPlacementGroup *SubResource                       `json:"proximityPlacementGroup,omitempty"`
+	ScheduledEventsProfile  *ScheduledEventsProfile            `json:"scheduledEventsProfile,omitempty"`
+	SecurityProfile         *SecurityProfile                   `json:"securityProfile,omitempty"`
+	StorageProfile          *StorageProfile                    `json:"storageProfile,omitempty"`
+	Tags                    map[string]string                  `json:"tags,omitempty"`
+	UserData                *string                            `json:"userData,omitempty"`
+	VirtualMachineScaleSet  *SubResource                       `json:"virtualMachineScaleSet,omitempty"`
+	Zones                   []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachine_Spec{}
@@ -1982,171 +1887,47 @@ func (machine *VirtualMachine_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (machine *VirtualMachine_Spec) SetAzureName(azureName string) { machine.AzureName = azureName }
 
-// Describes a Virtual Machine.
+// Deprecated version of VirtualMachine_STATUS. Use v1api20220301.VirtualMachine_STATUS instead
 type VirtualMachine_STATUS struct {
-	// AdditionalCapabilities: Specifies additional capabilities enabled or disabled on the virtual machine.
-	AdditionalCapabilities *AdditionalCapabilities_STATUS `json:"additionalCapabilities,omitempty"`
-
-	// ApplicationProfile: Specifies the gallery applications that should be made available to the VM/VMSS
-	ApplicationProfile *ApplicationProfile_STATUS `json:"applicationProfile,omitempty"`
-
-	// AvailabilitySet: Specifies information about the availability set that the virtual machine should be assigned to.
-	// Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For
-	// more information about availability sets, see [Availability sets
-	// overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview).
-	// For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in
-	// Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates)
-	// Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being
-	// added should be under the same resource group as the availability set resource. An existing VM cannot be added to an
-	// availability set.
-	// This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
-	AvailabilitySet *SubResource_STATUS `json:"availabilitySet,omitempty"`
-
-	// BillingProfile: Specifies the billing related details of a Azure Spot virtual machine.
-	// Minimum api-version: 2019-03-01.
-	BillingProfile *BillingProfile_STATUS `json:"billingProfile,omitempty"`
-
-	// CapacityReservation: Specifies information about the capacity reservation that is used to allocate virtual machine.
-	// Minimum api-version: 2021-04-01.
-	CapacityReservation *CapacityReservationProfile_STATUS `json:"capacityReservation,omitempty"`
+	AdditionalCapabilities *AdditionalCapabilities_STATUS     `json:"additionalCapabilities,omitempty"`
+	ApplicationProfile     *ApplicationProfile_STATUS         `json:"applicationProfile,omitempty"`
+	AvailabilitySet        *SubResource_STATUS                `json:"availabilitySet,omitempty"`
+	BillingProfile         *BillingProfile_STATUS             `json:"billingProfile,omitempty"`
+	CapacityReservation    *CapacityReservationProfile_STATUS `json:"capacityReservation,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DiagnosticsProfile: Specifies the boot diagnostic settings state.
-	// Minimum api-version: 2015-06-15.
-	DiagnosticsProfile *DiagnosticsProfile_STATUS `json:"diagnosticsProfile,omitempty"`
-
-	// EvictionPolicy: Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
-	// For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01.
-	// For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is
-	// 2017-10-30-preview.
-	EvictionPolicy *EvictionPolicy_STATUS `json:"evictionPolicy,omitempty"`
-
-	// ExtendedLocation: The extended location of the Virtual Machine.
-	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
-
-	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
-	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
-	// (PT1H30M).
-	// Minimum api-version: 2020-06-01
-	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
-
-	// HardwareProfile: Specifies the hardware settings for the virtual machine.
-	HardwareProfile *HardwareProfile_STATUS `json:"hardwareProfile,omitempty"`
-
-	// Host: Specifies information about the dedicated host that the virtual machine resides in.
-	// Minimum api-version: 2018-10-01.
-	Host *SubResource_STATUS `json:"host,omitempty"`
-
-	// HostGroup: Specifies information about the dedicated host group that the virtual machine resides in.
-	// Minimum api-version: 2020-06-01.
-	// NOTE: User cannot specify both host and hostGroup properties.
-	HostGroup *SubResource_STATUS `json:"hostGroup,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the virtual machine, if configured.
-	Identity *VirtualMachineIdentity_STATUS `json:"identity,omitempty"`
-
-	// InstanceView: The virtual machine instance view.
-	InstanceView *VirtualMachineInstanceView_STATUS `json:"instanceView,omitempty"`
-
-	// LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
-	// Possible values for Windows Server operating system are:
-	// Windows_Client
-	// Windows_Server
-	// Possible values for Linux Server operating system are:
-	// RHEL_BYOS (for RHEL)
-	// SLES_BYOS (for SUSE)
-	// For more information, see [Azure Hybrid Use Benefit for Windows
-	// Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing)
-	// [Azure Hybrid Use Benefit for Linux
-	// Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux)
-	// Minimum api-version: 2015-06-15
-	LicenseType *string `json:"licenseType,omitempty"`
-
-	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	// NetworkProfile: Specifies the network interfaces of the virtual machine.
-	NetworkProfile *NetworkProfile_STATUS `json:"networkProfile,omitempty"`
-
-	// OsProfile: Specifies the operating system settings used while creating the virtual machine. Some of the settings cannot
-	// be changed once VM is provisioned.
-	OsProfile *OSProfile_STATUS `json:"osProfile,omitempty"`
-
-	// Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
-	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
-	// use.  In the Azure portal, find the marketplace image that you want to use and then click Want to deploy
-	// programmatically, Get Started ->. Enter any required information and then click Save.
-	Plan *Plan_STATUS `json:"plan,omitempty"`
-
-	// PlatformFaultDomain: Specifies the scale set logical fault domain into which the Virtual Machine will be created. By
-	// default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across
-	// available fault domains.
-	// <li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual
-	// Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated
-	// once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.
-	// Minimum api‐version: 2020‐12‐01
-	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
-
-	// Priority: Specifies the priority for the virtual machine.
-	// Minimum api-version: 2019-03-01
-	Priority *Priority_STATUS `json:"priority,omitempty"`
-
-	// ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine should be
-	// assigned to.
-	// Minimum api-version: 2018-04-01.
-	ProximityPlacementGroup *SubResource_STATUS `json:"proximityPlacementGroup,omitempty"`
-
-	// Resources: The virtual machine child extension resources.
-	Resources []VirtualMachineExtension_STATUS `json:"resources,omitempty"`
-
-	// ScheduledEventsProfile: Specifies Scheduled Event related configurations.
-	ScheduledEventsProfile *ScheduledEventsProfile_STATUS `json:"scheduledEventsProfile,omitempty"`
-
-	// SecurityProfile: Specifies the Security related profile settings for the virtual machine.
-	SecurityProfile *SecurityProfile_STATUS `json:"securityProfile,omitempty"`
-
-	// StorageProfile: Specifies the storage settings for the virtual machine disks.
-	StorageProfile *StorageProfile_STATUS `json:"storageProfile,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TimeCreated: Specifies the time at which the Virtual Machine resource was created.
-	// Minimum api-version: 2022-03-01.
-	TimeCreated *string `json:"timeCreated,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	// UserData: UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here.
-	// Minimum api-version: 2021-03-01
-	UserData *string `json:"userData,omitempty"`
-
-	// VirtualMachineScaleSet: Specifies information about the virtual machine scale set that the virtual machine should be
-	// assigned to. Virtual machines specified in the same virtual machine scale set are allocated to different nodes to
-	// maximize availability. Currently, a VM can only be added to virtual machine scale set at creation time. An existing VM
-	// cannot be added to a virtual machine scale set.
-	// This property cannot exist along with a non-null properties.availabilitySet reference.
-	// Minimum api‐version: 2019‐03‐01
-	VirtualMachineScaleSet *SubResource_STATUS `json:"virtualMachineScaleSet,omitempty"`
-
-	// VmId: Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS
-	// and can be read using platform BIOS commands.
-	VmId *string `json:"vmId,omitempty"`
-
-	// Zones: The virtual machine zones.
-	Zones []string `json:"zones,omitempty"`
+	Conditions              []conditions.Condition             `json:"conditions,omitempty"`
+	DiagnosticsProfile      *DiagnosticsProfile_STATUS         `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy          *EvictionPolicy_STATUS             `json:"evictionPolicy,omitempty"`
+	ExtendedLocation        *ExtendedLocation_STATUS           `json:"extendedLocation,omitempty"`
+	ExtensionsTimeBudget    *string                            `json:"extensionsTimeBudget,omitempty"`
+	HardwareProfile         *HardwareProfile_STATUS            `json:"hardwareProfile,omitempty"`
+	Host                    *SubResource_STATUS                `json:"host,omitempty"`
+	HostGroup               *SubResource_STATUS                `json:"hostGroup,omitempty"`
+	Id                      *string                            `json:"id,omitempty"`
+	Identity                *VirtualMachineIdentity_STATUS     `json:"identity,omitempty"`
+	InstanceView            *VirtualMachineInstanceView_STATUS `json:"instanceView,omitempty"`
+	LicenseType             *string                            `json:"licenseType,omitempty"`
+	Location                *string                            `json:"location,omitempty"`
+	Name                    *string                            `json:"name,omitempty"`
+	NetworkProfile          *NetworkProfile_STATUS             `json:"networkProfile,omitempty"`
+	OsProfile               *OSProfile_STATUS                  `json:"osProfile,omitempty"`
+	Plan                    *Plan_STATUS                       `json:"plan,omitempty"`
+	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
+	Priority                *Priority_STATUS                   `json:"priority,omitempty"`
+	ProvisioningState       *string                            `json:"provisioningState,omitempty"`
+	ProximityPlacementGroup *SubResource_STATUS                `json:"proximityPlacementGroup,omitempty"`
+	Resources               []VirtualMachineExtension_STATUS   `json:"resources,omitempty"`
+	ScheduledEventsProfile  *ScheduledEventsProfile_STATUS     `json:"scheduledEventsProfile,omitempty"`
+	SecurityProfile         *SecurityProfile_STATUS            `json:"securityProfile,omitempty"`
+	StorageProfile          *StorageProfile_STATUS             `json:"storageProfile,omitempty"`
+	Tags                    map[string]string                  `json:"tags,omitempty"`
+	TimeCreated             *string                            `json:"timeCreated,omitempty"`
+	Type                    *string                            `json:"type,omitempty"`
+	UserData                *string                            `json:"userData,omitempty"`
+	VirtualMachineScaleSet  *SubResource_STATUS                `json:"virtualMachineScaleSet,omitempty"`
+	VmId                    *string                            `json:"vmId,omitempty"`
+	Zones                   []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &VirtualMachine_STATUS{}
@@ -3273,15 +3054,10 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 	return nil
 }
 
-// Enables or disables a capability on the virtual machine or virtual machine scale set.
+// Deprecated version of AdditionalCapabilities. Use v1api20220301.AdditionalCapabilities instead
 type AdditionalCapabilities struct {
-	// HibernationEnabled: The flag that enables or disables hibernation capability on the VM.
 	HibernationEnabled *bool `json:"hibernationEnabled,omitempty"`
-
-	// UltraSSDEnabled: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS
-	// storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual
-	// machine or virtual machine scale set only if this property is enabled.
-	UltraSSDEnabled *bool `json:"ultraSSDEnabled,omitempty"`
+	UltraSSDEnabled    *bool `json:"ultraSSDEnabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AdditionalCapabilities{}
@@ -3413,15 +3189,10 @@ func (capabilities *AdditionalCapabilities) Initialize_From_AdditionalCapabiliti
 	return nil
 }
 
-// Enables or disables a capability on the virtual machine or virtual machine scale set.
+// Deprecated version of AdditionalCapabilities_STATUS. Use v1api20220301.AdditionalCapabilities_STATUS instead
 type AdditionalCapabilities_STATUS struct {
-	// HibernationEnabled: The flag that enables or disables hibernation capability on the VM.
 	HibernationEnabled *bool `json:"hibernationEnabled,omitempty"`
-
-	// UltraSSDEnabled: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS
-	// storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual
-	// machine or virtual machine scale set only if this property is enabled.
-	UltraSSDEnabled *bool `json:"ultraSSDEnabled,omitempty"`
+	UltraSSDEnabled    *bool `json:"ultraSSDEnabled,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AdditionalCapabilities_STATUS{}
@@ -3509,9 +3280,8 @@ func (capabilities *AdditionalCapabilities_STATUS) AssignProperties_To_Additiona
 	return nil
 }
 
-// Contains the list of gallery applications that should be made available to the VM/VMSS
+// Deprecated version of ApplicationProfile. Use v1api20220301.ApplicationProfile instead
 type ApplicationProfile struct {
-	// GalleryApplications: Specifies the gallery applications that should be made available to the VM/VMSS
 	GalleryApplications []VMGalleryApplication `json:"galleryApplications,omitempty"`
 }
 
@@ -3645,9 +3415,8 @@ func (profile *ApplicationProfile) Initialize_From_ApplicationProfile_STATUS(sou
 	return nil
 }
 
-// Contains the list of gallery applications that should be made available to the VM/VMSS
+// Deprecated version of ApplicationProfile_STATUS. Use v1api20220301.ApplicationProfile_STATUS instead
 type ApplicationProfile_STATUS struct {
-	// GalleryApplications: Specifies the gallery applications that should be made available to the VM/VMSS
 	GalleryApplications []VMGalleryApplication_STATUS `json:"galleryApplications,omitempty"`
 }
 
@@ -3738,21 +3507,8 @@ func (profile *ApplicationProfile_STATUS) AssignProperties_To_ApplicationProfile
 	return nil
 }
 
-// Specifies the billing related details of a Azure Spot VM or VMSS.
-// Minimum api-version: 2019-03-01.
+// Deprecated version of BillingProfile. Use v1api20220301.BillingProfile instead
 type BillingProfile struct {
-	// MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars.
-	// This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time
-	// of create/update of Azure Spot VM/VMSS and the operation will only succeed if  the maxPrice is greater than the current
-	// Azure Spot price.
-	// The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure Spot price goes beyond the
-	// maxPrice after creation of VM/VMSS.
-	// Possible values are:
-	// - Any decimal value greater than zero. Example: 0.01538
-	// -1 – indicates default price to be up-to on-demand.
-	// You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also,
-	// the default max price is -1 if it is not provided by you.
-	// Minimum api-version: 2019-03-01.
 	MaxPrice *float64 `json:"maxPrice,omitempty"`
 }
 
@@ -3849,21 +3605,8 @@ func (profile *BillingProfile) Initialize_From_BillingProfile_STATUS(source *Bil
 	return nil
 }
 
-// Specifies the billing related details of a Azure Spot VM or VMSS.
-// Minimum api-version: 2019-03-01.
+// Deprecated version of BillingProfile_STATUS. Use v1api20220301.BillingProfile_STATUS instead
 type BillingProfile_STATUS struct {
-	// MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars.
-	// This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time
-	// of create/update of Azure Spot VM/VMSS and the operation will only succeed if  the maxPrice is greater than the current
-	// Azure Spot price.
-	// The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure Spot price goes beyond the
-	// maxPrice after creation of VM/VMSS.
-	// Possible values are:
-	// - Any decimal value greater than zero. Example: 0.01538
-	// -1 – indicates default price to be up-to on-demand.
-	// You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also,
-	// the default max price is -1 if it is not provided by you.
-	// Minimum api-version: 2019-03-01.
 	MaxPrice *float64 `json:"maxPrice,omitempty"`
 }
 
@@ -3930,11 +3673,8 @@ func (profile *BillingProfile_STATUS) AssignProperties_To_BillingProfile_STATUS(
 	return nil
 }
 
-// The parameters of a capacity reservation Profile.
+// Deprecated version of CapacityReservationProfile. Use v1api20220301.CapacityReservationProfile instead
 type CapacityReservationProfile struct {
-	// CapacityReservationGroup: Specifies the capacity reservation group resource id that should be used for allocating the
-	// virtual machine or scaleset vm instances provided enough capacity has been reserved. Please refer to
-	// https://aka.ms/CapacityReservation for more details.
 	CapacityReservationGroup *SubResource `json:"capacityReservationGroup,omitempty"`
 }
 
@@ -4052,11 +3792,8 @@ func (profile *CapacityReservationProfile) Initialize_From_CapacityReservationPr
 	return nil
 }
 
-// The parameters of a capacity reservation Profile.
+// Deprecated version of CapacityReservationProfile_STATUS. Use v1api20220301.CapacityReservationProfile_STATUS instead
 type CapacityReservationProfile_STATUS struct {
-	// CapacityReservationGroup: Specifies the capacity reservation group resource id that should be used for allocating the
-	// virtual machine or scaleset vm instances provided enough capacity has been reserved. Please refer to
-	// https://aka.ms/CapacityReservation for more details.
 	CapacityReservationGroup *SubResource_STATUS `json:"capacityReservationGroup,omitempty"`
 }
 
@@ -4136,15 +3873,8 @@ func (profile *CapacityReservationProfile_STATUS) AssignProperties_To_CapacityRe
 	return nil
 }
 
-// Specifies the boot diagnostic settings state.
-// Minimum api-version: 2015-06-15.
+// Deprecated version of DiagnosticsProfile. Use v1api20220301.DiagnosticsProfile instead
 type DiagnosticsProfile struct {
-	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to
-	// diagnose VM status.
-	// NOTE: If storageUri is being specified then ensure that the storage account is in the same region and subscription as
-	// the VM.
-	// You can easily view the output of your console log.
-	// Azure also enables you to see a screenshot of the VM from the hypervisor.
 	BootDiagnostics *BootDiagnostics `json:"bootDiagnostics,omitempty"`
 }
 
@@ -4262,15 +3992,8 @@ func (profile *DiagnosticsProfile) Initialize_From_DiagnosticsProfile_STATUS(sou
 	return nil
 }
 
-// Specifies the boot diagnostic settings state.
-// Minimum api-version: 2015-06-15.
+// Deprecated version of DiagnosticsProfile_STATUS. Use v1api20220301.DiagnosticsProfile_STATUS instead
 type DiagnosticsProfile_STATUS struct {
-	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to
-	// diagnose VM status.
-	// NOTE: If storageUri is being specified then ensure that the storage account is in the same region and subscription as
-	// the VM.
-	// You can easily view the output of your console log.
-	// Azure also enables you to see a screenshot of the VM from the hypervisor.
 	BootDiagnostics *BootDiagnostics_STATUS `json:"bootDiagnostics,omitempty"`
 }
 
@@ -4350,7 +4073,7 @@ func (profile *DiagnosticsProfile_STATUS) AssignProperties_To_DiagnosticsProfile
 	return nil
 }
 
-// Specifies the eviction policy for the Azure Spot VM/VMSS
+// Deprecated version of EvictionPolicy. Use v1api20220301.EvictionPolicy instead
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type EvictionPolicy string
 
@@ -4359,7 +4082,7 @@ const (
 	EvictionPolicy_Delete     = EvictionPolicy("Delete")
 )
 
-// Specifies the eviction policy for the Azure Spot VM/VMSS
+// Deprecated version of EvictionPolicy_STATUS. Use v1api20220301.EvictionPolicy_STATUS instead
 type EvictionPolicy_STATUS string
 
 const (
@@ -4367,25 +4090,10 @@ const (
 	EvictionPolicy_STATUS_Delete     = EvictionPolicy_STATUS("Delete")
 )
 
-// Specifies the hardware settings for the virtual machine.
+// Deprecated version of HardwareProfile. Use v1api20220301.HardwareProfile instead
 type HardwareProfile struct {
-	// VmSize: Specifies the size of the virtual machine.
-	// The enum data type is currently deprecated and will be removed by December 23rd 2023.
-	// Recommended way to get the list of available sizes is using these APIs:
-	// [List all available virtual machine sizes in an availability
-	// set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes)
-	// [List all available virtual machine sizes in a region]( https://docs.microsoft.com/rest/api/compute/resourceskus/list)
-	// [List all available virtual machine sizes for
-	// resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about
-	// virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes).
-	// The available VM sizes depend on region and availability set.
-	VmSize *HardwareProfile_VmSize `json:"vmSize,omitempty"`
-
-	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
-	// 2021-07-01.
-	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet.
-	// Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.
-	VmSizeProperties *VMSizeProperties `json:"vmSizeProperties,omitempty"`
+	VmSize           *HardwareProfile_VmSize `json:"vmSize,omitempty"`
+	VmSizeProperties *VMSizeProperties       `json:"vmSizeProperties,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HardwareProfile{}
@@ -4538,25 +4246,10 @@ func (profile *HardwareProfile) Initialize_From_HardwareProfile_STATUS(source *H
 	return nil
 }
 
-// Specifies the hardware settings for the virtual machine.
+// Deprecated version of HardwareProfile_STATUS. Use v1api20220301.HardwareProfile_STATUS instead
 type HardwareProfile_STATUS struct {
-	// VmSize: Specifies the size of the virtual machine.
-	// The enum data type is currently deprecated and will be removed by December 23rd 2023.
-	// Recommended way to get the list of available sizes is using these APIs:
-	// [List all available virtual machine sizes in an availability
-	// set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes)
-	// [List all available virtual machine sizes in a region]( https://docs.microsoft.com/rest/api/compute/resourceskus/list)
-	// [List all available virtual machine sizes for
-	// resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about
-	// virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes).
-	// The available VM sizes depend on region and availability set.
-	VmSize *HardwareProfile_VmSize_STATUS `json:"vmSize,omitempty"`
-
-	// VmSizeProperties: Specifies the properties for customizing the size of the virtual machine. Minimum api-version:
-	// 2021-07-01.
-	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet.
-	// Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.
-	VmSizeProperties *VMSizeProperties_STATUS `json:"vmSizeProperties,omitempty"`
+	VmSize           *HardwareProfile_VmSize_STATUS `json:"vmSize,omitempty"`
+	VmSizeProperties *VMSizeProperties_STATUS       `json:"vmSizeProperties,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HardwareProfile_STATUS{}
@@ -4657,18 +4350,11 @@ func (profile *HardwareProfile_STATUS) AssignProperties_To_HardwareProfile_STATU
 	return nil
 }
 
-// Specifies the network interfaces or the networking configuration of the virtual machine.
+// Deprecated version of NetworkProfile. Use v1api20220301.NetworkProfile instead
 type NetworkProfile struct {
-	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
-	// Interface Configurations
-	NetworkApiVersion *NetworkProfile_NetworkApiVersion `json:"networkApiVersion,omitempty"`
-
-	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
-	// networking resources.
+	NetworkApiVersion              *NetworkProfile_NetworkApiVersion             `json:"networkApiVersion,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineNetworkInterfaceConfiguration `json:"networkInterfaceConfigurations,omitempty"`
-
-	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
-	NetworkInterfaces []NetworkInterfaceReference `json:"networkInterfaces,omitempty"`
+	NetworkInterfaces              []NetworkInterfaceReference                   `json:"networkInterfaces,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkProfile{}
@@ -4910,18 +4596,11 @@ func (profile *NetworkProfile) Initialize_From_NetworkProfile_STATUS(source *Net
 	return nil
 }
 
-// Specifies the network interfaces or the networking configuration of the virtual machine.
+// Deprecated version of NetworkProfile_STATUS. Use v1api20220301.NetworkProfile_STATUS instead
 type NetworkProfile_STATUS struct {
-	// NetworkApiVersion: specifies the Microsoft.Network API version used when creating networking resources in the Network
-	// Interface Configurations
-	NetworkApiVersion *NetworkProfile_NetworkApiVersion_STATUS `json:"networkApiVersion,omitempty"`
-
-	// NetworkInterfaceConfigurations: Specifies the networking configurations that will be used to create the virtual machine
-	// networking resources.
+	NetworkApiVersion              *NetworkProfile_NetworkApiVersion_STATUS             `json:"networkApiVersion,omitempty"`
 	NetworkInterfaceConfigurations []VirtualMachineNetworkInterfaceConfiguration_STATUS `json:"networkInterfaceConfigurations,omitempty"`
-
-	// NetworkInterfaces: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
-	NetworkInterfaces []NetworkInterfaceReference_STATUS `json:"networkInterfaces,omitempty"`
+	NetworkInterfaces              []NetworkInterfaceReference_STATUS                   `json:"networkInterfaces,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkProfile_STATUS{}
@@ -5079,76 +4758,17 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 	return nil
 }
 
-// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
-// provisioned.
+// Deprecated version of OSProfile. Use v1api20220301.OSProfile instead
 type OSProfile struct {
-	// AdminPassword: Specifies the password of the administrator account.
-	// Minimum-length (Windows): 8 characters
-	// Minimum-length (Linux): 6 characters
-	// Max-length (Windows): 123 characters
-	// Max-length (Linux): 72 characters
-	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-	// Has lower characters
-	// Has upper characters
-	// Has a digit
-	// Has a special character (Regex match [\W_])
-	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
-	// "Password22", "iloveyou!"
-	// For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
-	// VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp)
-	// For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
-	// Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection)
-	AdminPassword *genruntime.SecretReference `json:"adminPassword,omitempty"`
-
-	// AdminUsername: Specifies the name of the administrator account.
-	// This property cannot be updated after the VM is created.
-	// Windows-only restriction: Cannot end in "."
-	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
-	// "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
-	// "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
-	// Minimum-length (Linux): 1  character
-	// Max-length (Linux): 64 characters
-	// Max-length (Windows): 20 characters.
-	AdminUsername *string `json:"adminUsername,omitempty"`
-
-	// AllowExtensionOperations: Specifies whether extension operations should be allowed on the virtual machine.
-	// This may only be set to False when no extensions are present on the virtual machine.
-	AllowExtensionOperations *bool `json:"allowExtensionOperations,omitempty"`
-
-	// ComputerName: Specifies the host OS name of the virtual machine.
-	// This name cannot be updated after the VM is created.
-	// Max-length (Windows): 15 characters
-	// Max-length (Linux): 64 characters.
-	// For naming conventions and restrictions see [Azure infrastructure services implementation
-	// guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules).
-	ComputerName *string `json:"computerName,omitempty"`
-
-	// CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
-	// that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
-	// Note: Do not pass any secrets or passwords in customData property
-	// This property cannot be updated after the VM is created.
-	// customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure
-	// VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/)
-	// For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during
-	// creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init)
-	CustomData *string `json:"customData,omitempty"`
-
-	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
-	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
-	LinuxConfiguration *LinuxConfiguration `json:"linuxConfiguration,omitempty"`
-
-	// RequireGuestProvisionSignal: Optional property which must either be set to True or omitted.
-	RequireGuestProvisionSignal *bool `json:"requireGuestProvisionSignal,omitempty"`
-
-	// Secrets: Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a
-	// virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for
-	// Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual
-	// machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).
-	Secrets []VaultSecretGroup `json:"secrets,omitempty"`
-
-	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
-	WindowsConfiguration *WindowsConfiguration `json:"windowsConfiguration,omitempty"`
+	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
+	AdminUsername               *string                     `json:"adminUsername,omitempty"`
+	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
+	ComputerName                *string                     `json:"computerName,omitempty"`
+	CustomData                  *string                     `json:"customData,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
+	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
+	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &OSProfile{}
@@ -5558,58 +5178,16 @@ func (profile *OSProfile) Initialize_From_OSProfile_STATUS(source *OSProfile_STA
 	return nil
 }
 
-// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
-// provisioned.
+// Deprecated version of OSProfile_STATUS. Use v1api20220301.OSProfile_STATUS instead
 type OSProfile_STATUS struct {
-	// AdminUsername: Specifies the name of the administrator account.
-	// This property cannot be updated after the VM is created.
-	// Windows-only restriction: Cannot end in "."
-	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
-	// "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
-	// "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
-	// Minimum-length (Linux): 1  character
-	// Max-length (Linux): 64 characters
-	// Max-length (Windows): 20 characters.
-	AdminUsername *string `json:"adminUsername,omitempty"`
-
-	// AllowExtensionOperations: Specifies whether extension operations should be allowed on the virtual machine.
-	// This may only be set to False when no extensions are present on the virtual machine.
-	AllowExtensionOperations *bool `json:"allowExtensionOperations,omitempty"`
-
-	// ComputerName: Specifies the host OS name of the virtual machine.
-	// This name cannot be updated after the VM is created.
-	// Max-length (Windows): 15 characters
-	// Max-length (Linux): 64 characters.
-	// For naming conventions and restrictions see [Azure infrastructure services implementation
-	// guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules).
-	ComputerName *string `json:"computerName,omitempty"`
-
-	// CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
-	// that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
-	// Note: Do not pass any secrets or passwords in customData property
-	// This property cannot be updated after the VM is created.
-	// customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure
-	// VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/)
-	// For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during
-	// creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init)
-	CustomData *string `json:"customData,omitempty"`
-
-	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
-	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
-	LinuxConfiguration *LinuxConfiguration_STATUS `json:"linuxConfiguration,omitempty"`
-
-	// RequireGuestProvisionSignal: Optional property which must either be set to True or omitted.
-	RequireGuestProvisionSignal *bool `json:"requireGuestProvisionSignal,omitempty"`
-
-	// Secrets: Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a
-	// virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for
-	// Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual
-	// machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).
-	Secrets []VaultSecretGroup_STATUS `json:"secrets,omitempty"`
-
-	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
-	WindowsConfiguration *WindowsConfiguration_STATUS `json:"windowsConfiguration,omitempty"`
+	AdminUsername               *string                      `json:"adminUsername,omitempty"`
+	AllowExtensionOperations    *bool                        `json:"allowExtensionOperations,omitempty"`
+	ComputerName                *string                      `json:"computerName,omitempty"`
+	CustomData                  *string                      `json:"customData,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration_STATUS   `json:"linuxConfiguration,omitempty"`
+	RequireGuestProvisionSignal *bool                        `json:"requireGuestProvisionSignal,omitempty"`
+	Secrets                     []VaultSecretGroup_STATUS    `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration_STATUS `json:"windowsConfiguration,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OSProfile_STATUS{}
@@ -5849,23 +5427,12 @@ func (profile *OSProfile_STATUS) AssignProperties_To_OSProfile_STATUS(destinatio
 	return nil
 }
 
-// Specifies information about the marketplace image used to create the virtual machine. This element is only used for
-// marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.
-// In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically,
-// Get Started ->. Enter any required information and then click Save.
+// Deprecated version of Plan. Use v1api20220301.Plan instead
 type Plan struct {
-	// Name: The plan ID.
-	Name *string `json:"name,omitempty"`
-
-	// Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
-	// imageReference element.
-	Product *string `json:"product,omitempty"`
-
-	// PromotionCode: The promotion code.
+	Name          *string `json:"name,omitempty"`
+	Product       *string `json:"product,omitempty"`
 	PromotionCode *string `json:"promotionCode,omitempty"`
-
-	// Publisher: The publisher ID.
-	Publisher *string `json:"publisher,omitempty"`
+	Publisher     *string `json:"publisher,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Plan{}
@@ -6009,23 +5576,12 @@ func (plan *Plan) Initialize_From_Plan_STATUS(source *Plan_STATUS) error {
 	return nil
 }
 
-// Specifies information about the marketplace image used to create the virtual machine. This element is only used for
-// marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.
-// In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically,
-// Get Started ->. Enter any required information and then click Save.
+// Deprecated version of Plan_STATUS. Use v1api20220301.Plan_STATUS instead
 type Plan_STATUS struct {
-	// Name: The plan ID.
-	Name *string `json:"name,omitempty"`
-
-	// Product: Specifies the product of the image from the marketplace. This is the same value as Offer under the
-	// imageReference element.
-	Product *string `json:"product,omitempty"`
-
-	// PromotionCode: The promotion code.
+	Name          *string `json:"name,omitempty"`
+	Product       *string `json:"product,omitempty"`
 	PromotionCode *string `json:"promotionCode,omitempty"`
-
-	// Publisher: The publisher ID.
-	Publisher *string `json:"publisher,omitempty"`
+	Publisher     *string `json:"publisher,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Plan_STATUS{}
@@ -6117,9 +5673,7 @@ func (plan *Plan_STATUS) AssignProperties_To_Plan_STATUS(destination *v20220301s
 	return nil
 }
 
-// Specifies the priority for a standalone virtual machine or the virtual machines in the scale set.
-// 'Low' enum
-// will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS.
+// Deprecated version of Priority. Use v1api20220301.Priority instead
 // +kubebuilder:validation:Enum={"Low","Regular","Spot"}
 type Priority string
 
@@ -6129,9 +5683,7 @@ const (
 	Priority_Spot    = Priority("Spot")
 )
 
-// Specifies the priority for a standalone virtual machine or the virtual machines in the scale set.
-// 'Low' enum
-// will be deprecated in the future, please use 'Spot' as the enum to deploy Azure Spot VM/VMSS.
+// Deprecated version of Priority_STATUS. Use v1api20220301.Priority_STATUS instead
 type Priority_STATUS string
 
 const (
@@ -6140,8 +5692,8 @@ const (
 	Priority_STATUS_Spot    = Priority_STATUS("Spot")
 )
 
+// Deprecated version of ScheduledEventsProfile. Use v1api20220301.ScheduledEventsProfile instead
 type ScheduledEventsProfile struct {
-	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
 	TerminateNotificationProfile *TerminateNotificationProfile `json:"terminateNotificationProfile,omitempty"`
 }
 
@@ -6259,8 +5811,8 @@ func (profile *ScheduledEventsProfile) Initialize_From_ScheduledEventsProfile_ST
 	return nil
 }
 
+// Deprecated version of ScheduledEventsProfile_STATUS. Use v1api20220301.ScheduledEventsProfile_STATUS instead
 type ScheduledEventsProfile_STATUS struct {
-	// TerminateNotificationProfile: Specifies Terminate Scheduled Event related configurations.
 	TerminateNotificationProfile *TerminateNotificationProfile_STATUS `json:"terminateNotificationProfile,omitempty"`
 }
 
@@ -6340,22 +5892,11 @@ func (profile *ScheduledEventsProfile_STATUS) AssignProperties_To_ScheduledEvent
 	return nil
 }
 
-// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+// Deprecated version of SecurityProfile. Use v1api20220301.SecurityProfile instead
 type SecurityProfile struct {
-	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
-	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
-	// disk at host itself.
-	// Default: The Encryption at host will be disabled unless this property is set to true for the resource.
-	EncryptionAtHost *bool `json:"encryptionAtHost,omitempty"`
-
-	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
-	// UefiSettings.
-	// Default: UefiSettings will not be enabled unless this property is set.
-	SecurityType *SecurityProfile_SecurityType `json:"securityType,omitempty"`
-
-	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
-	// Minimum api-version: 2020-12-01
-	UefiSettings *UefiSettings `json:"uefiSettings,omitempty"`
+	EncryptionAtHost *bool                         `json:"encryptionAtHost,omitempty"`
+	SecurityType     *SecurityProfile_SecurityType `json:"securityType,omitempty"`
+	UefiSettings     *UefiSettings                 `json:"uefiSettings,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SecurityProfile{}
@@ -6544,22 +6085,11 @@ func (profile *SecurityProfile) Initialize_From_SecurityProfile_STATUS(source *S
 	return nil
 }
 
-// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+// Deprecated version of SecurityProfile_STATUS. Use v1api20220301.SecurityProfile_STATUS instead
 type SecurityProfile_STATUS struct {
-	// EncryptionAtHost: This property can be used by user in the request to enable or disable the Host Encryption for the
-	// virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp
-	// disk at host itself.
-	// Default: The Encryption at host will be disabled unless this property is set to true for the resource.
-	EncryptionAtHost *bool `json:"encryptionAtHost,omitempty"`
-
-	// SecurityType: Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable
-	// UefiSettings.
-	// Default: UefiSettings will not be enabled unless this property is set.
-	SecurityType *SecurityProfile_SecurityType_STATUS `json:"securityType,omitempty"`
-
-	// UefiSettings: Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
-	// Minimum api-version: 2020-12-01
-	UefiSettings *UefiSettings_STATUS `json:"uefiSettings,omitempty"`
+	EncryptionAtHost *bool                                `json:"encryptionAtHost,omitempty"`
+	SecurityType     *SecurityProfile_SecurityType_STATUS `json:"securityType,omitempty"`
+	UefiSettings     *UefiSettings_STATUS                 `json:"uefiSettings,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SecurityProfile_STATUS{}
@@ -6682,22 +6212,11 @@ func (profile *SecurityProfile_STATUS) AssignProperties_To_SecurityProfile_STATU
 	return nil
 }
 
-// Specifies the storage settings for the virtual machine disks.
+// Deprecated version of StorageProfile. Use v1api20220301.StorageProfile instead
 type StorageProfile struct {
-	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks []DataDisk `json:"dataDisks,omitempty"`
-
-	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
-	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-	// marketplace image, or virtual machine image, but is not used in other creation operations.
+	DataDisks      []DataDisk      `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference `json:"imageReference,omitempty"`
-
-	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	OsDisk *OSDisk `json:"osDisk,omitempty"`
+	OsDisk         *OSDisk         `json:"osDisk,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageProfile{}
@@ -6944,22 +6463,11 @@ func (profile *StorageProfile) Initialize_From_StorageProfile_STATUS(source *Sto
 	return nil
 }
 
-// Specifies the storage settings for the virtual machine disks.
+// Deprecated version of StorageProfile_STATUS. Use v1api20220301.StorageProfile_STATUS instead
 type StorageProfile_STATUS struct {
-	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks []DataDisk_STATUS `json:"dataDisks,omitempty"`
-
-	// ImageReference: Specifies information about the image to use. You can specify information about platform images,
-	// marketplace images, or virtual machine images. This element is required when you want to use a platform image,
-	// marketplace image, or virtual machine image, but is not used in other creation operations.
+	DataDisks      []DataDisk_STATUS      `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference_STATUS `json:"imageReference,omitempty"`
-
-	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	OsDisk *OSDisk_STATUS `json:"osDisk,omitempty"`
+	OsDisk         *OSDisk_STATUS         `json:"osDisk,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StorageProfile_STATUS{}
@@ -7119,64 +6627,25 @@ func (profile *StorageProfile_STATUS) AssignProperties_To_StorageProfile_STATUS(
 	return nil
 }
 
-// Describes a Virtual Machine Extension.
+// Deprecated version of VirtualMachineExtension_STATUS. Use v1api20220301.VirtualMachineExtension_STATUS instead
 type VirtualMachineExtension_STATUS struct {
-	// AutoUpgradeMinorVersion: Indicates whether the extension should use a newer minor version if one is available at
-	// deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this
-	// property set to true.
-	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
-
-	// EnableAutomaticUpgrade: Indicates whether the extension should be automatically upgraded by the platform if there is a
-	// newer version of the extension available.
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	// ForceUpdateTag: How the extension handler should be forced to update even if the extension configuration has not changed.
-	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// InstanceView: The virtual machine extension instance view.
-	InstanceView *VirtualMachineExtensionInstanceView_STATUS `json:"instanceView,omitempty"`
-
-	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	// PropertiesType: Specifies the type of the extension; an example is "CustomScriptExtension".
-	PropertiesType *string `json:"properties_type,omitempty"`
-
-	// ProtectedSettings: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected
-	// settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
-	// ProtectedSettingsFromKeyVault: The extensions protected settings that are passed by reference, and consumed from key
-	// vault
-	ProtectedSettingsFromKeyVault *KeyVaultSecretReference_STATUS `json:"protectedSettingsFromKeyVault,omitempty"`
-
-	// ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// Publisher: The name of the extension handler publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	// Settings: Json formatted public settings for the extension.
-	Settings map[string]v1.JSON `json:"settings,omitempty"`
-
-	// SuppressFailures: Indicates whether failures stemming from the extension will be suppressed (Operational failures such
-	// as not connecting to the VM will not be suppressed regardless of this value). The default is false.
-	SuppressFailures *bool `json:"suppressFailures,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
+	AutoUpgradeMinorVersion       *bool                                       `json:"autoUpgradeMinorVersion,omitempty"`
+	EnableAutomaticUpgrade        *bool                                       `json:"enableAutomaticUpgrade,omitempty"`
+	ForceUpdateTag                *string                                     `json:"forceUpdateTag,omitempty"`
+	Id                            *string                                     `json:"id,omitempty"`
+	InstanceView                  *VirtualMachineExtensionInstanceView_STATUS `json:"instanceView,omitempty"`
+	Location                      *string                                     `json:"location,omitempty"`
+	Name                          *string                                     `json:"name,omitempty"`
+	PropertiesType                *string                                     `json:"properties_type,omitempty"`
+	ProtectedSettings             map[string]v1.JSON                          `json:"protectedSettings,omitempty"`
+	ProtectedSettingsFromKeyVault *KeyVaultSecretReference_STATUS             `json:"protectedSettingsFromKeyVault,omitempty"`
+	ProvisioningState             *string                                     `json:"provisioningState,omitempty"`
+	Publisher                     *string                                     `json:"publisher,omitempty"`
+	Settings                      map[string]v1.JSON                          `json:"settings,omitempty"`
+	SuppressFailures              *bool                                       `json:"suppressFailures,omitempty"`
+	Tags                          map[string]string                           `json:"tags,omitempty"`
+	Type                          *string                                     `json:"type,omitempty"`
+	TypeHandlerVersion            *string                                     `json:"typeHandlerVersion,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineExtension_STATUS{}
@@ -7582,11 +7051,8 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_To_VirtualMach
 	return nil
 }
 
-// Identity for the virtual machine.
+// Deprecated version of VirtualMachineIdentity. Use v1api20220301.VirtualMachineIdentity instead
 type VirtualMachineIdentity struct {
-	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
-	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
-	// virtual machine.
 	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
 }
 
@@ -7683,20 +7149,11 @@ func (identity *VirtualMachineIdentity) Initialize_From_VirtualMachineIdentity_S
 	return nil
 }
 
-// Identity for the virtual machine.
+// Deprecated version of VirtualMachineIdentity_STATUS. Use v1api20220301.VirtualMachineIdentity_STATUS instead
 type VirtualMachineIdentity_STATUS struct {
-	// PrincipalId: The principal id of virtual machine identity. This property will only be provided for a system assigned
-	// identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the virtual machine. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
-	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
-	// virtual machine.
-	Type *VirtualMachineIdentity_Type_STATUS `json:"type,omitempty"`
+	PrincipalId *string                             `json:"principalId,omitempty"`
+	TenantId    *string                             `json:"tenantId,omitempty"`
+	Type        *VirtualMachineIdentity_Type_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineIdentity_STATUS{}
@@ -7786,60 +7243,24 @@ func (identity *VirtualMachineIdentity_STATUS) AssignProperties_To_VirtualMachin
 	return nil
 }
 
-// The instance view of a virtual machine.
+// Deprecated version of VirtualMachineInstanceView_STATUS. Use v1api20220301.VirtualMachineInstanceView_STATUS instead
 type VirtualMachineInstanceView_STATUS struct {
-	// AssignedHost: Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement,
-	// when the virtual machine is associated with a dedicated host group that has automatic placement enabled.
-	// Minimum api-version: 2020-06-01.
-	AssignedHost *string `json:"assignedHost,omitempty"`
-
-	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to
-	// diagnose VM status.
-	// You can easily view the output of your console log.
-	// Azure also enables you to see a screenshot of the VM from the hypervisor.
-	BootDiagnostics *BootDiagnosticsInstanceView_STATUS `json:"bootDiagnostics,omitempty"`
-
-	// ComputerName: The computer name assigned to the virtual machine.
-	ComputerName *string `json:"computerName,omitempty"`
-
-	// Disks: The virtual machine disk information.
-	Disks []DiskInstanceView_STATUS `json:"disks,omitempty"`
-
-	// Extensions: The extensions information.
-	Extensions []VirtualMachineExtensionInstanceView_STATUS `json:"extensions,omitempty"`
-
-	// HyperVGeneration: Specifies the HyperVGeneration Type associated with a resource
-	HyperVGeneration *VirtualMachineInstanceView_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
-
-	// MaintenanceRedeployStatus: The Maintenance Operation status on the virtual machine.
-	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUS `json:"maintenanceRedeployStatus,omitempty"`
-
-	// OsName: The Operating System running on the virtual machine.
-	OsName *string `json:"osName,omitempty"`
-
-	// OsVersion: The version of Operating System running on the virtual machine.
-	OsVersion *string `json:"osVersion,omitempty"`
-
-	// PatchStatus: [Preview Feature] The status of virtual machine patch operations.
-	PatchStatus *VirtualMachinePatchStatus_STATUS `json:"patchStatus,omitempty"`
-
-	// PlatformFaultDomain: Specifies the fault domain of the virtual machine.
-	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
-
-	// PlatformUpdateDomain: Specifies the update domain of the virtual machine.
-	PlatformUpdateDomain *int `json:"platformUpdateDomain,omitempty"`
-
-	// RdpThumbPrint: The Remote desktop certificate thumbprint.
-	RdpThumbPrint *string `json:"rdpThumbPrint,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
-
-	// VmAgent: The VM Agent running on the virtual machine.
-	VmAgent *VirtualMachineAgentInstanceView_STATUS `json:"vmAgent,omitempty"`
-
-	// VmHealth: The health status for the VM.
-	VmHealth *VirtualMachineHealthStatus_STATUS `json:"vmHealth,omitempty"`
+	AssignedHost              *string                                             `json:"assignedHost,omitempty"`
+	BootDiagnostics           *BootDiagnosticsInstanceView_STATUS                 `json:"bootDiagnostics,omitempty"`
+	ComputerName              *string                                             `json:"computerName,omitempty"`
+	Disks                     []DiskInstanceView_STATUS                           `json:"disks,omitempty"`
+	Extensions                []VirtualMachineExtensionInstanceView_STATUS        `json:"extensions,omitempty"`
+	HyperVGeneration          *VirtualMachineInstanceView_HyperVGeneration_STATUS `json:"hyperVGeneration,omitempty"`
+	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUS                   `json:"maintenanceRedeployStatus,omitempty"`
+	OsName                    *string                                             `json:"osName,omitempty"`
+	OsVersion                 *string                                             `json:"osVersion,omitempty"`
+	PatchStatus               *VirtualMachinePatchStatus_STATUS                   `json:"patchStatus,omitempty"`
+	PlatformFaultDomain       *int                                                `json:"platformFaultDomain,omitempty"`
+	PlatformUpdateDomain      *int                                                `json:"platformUpdateDomain,omitempty"`
+	RdpThumbPrint             *string                                             `json:"rdpThumbPrint,omitempty"`
+	Statuses                  []InstanceViewStatus_STATUS                         `json:"statuses,omitempty"`
+	VmAgent                   *VirtualMachineAgentInstanceView_STATUS             `json:"vmAgent,omitempty"`
+	VmHealth                  *VirtualMachineHealthStatus_STATUS                  `json:"vmHealth,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineInstanceView_STATUS{}
@@ -8302,16 +7723,9 @@ func (view *VirtualMachineInstanceView_STATUS) AssignProperties_To_VirtualMachin
 	return nil
 }
 
-// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
-// You can easily view the output of your console log.
-// Azure also enables you to see a screenshot of the
-// VM from the hypervisor.
+// Deprecated version of BootDiagnostics. Use v1api20220301.BootDiagnostics instead
 type BootDiagnostics struct {
-	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// StorageUri: Uri of the storage account to use for placing the console output and screenshot.
-	// If storageUri is not specified while enabling boot diagnostics, managed storage will be used.
+	Enabled    *bool   `json:"enabled,omitempty"`
 	StorageUri *string `json:"storageUri,omitempty"`
 }
 
@@ -8429,16 +7843,9 @@ func (diagnostics *BootDiagnostics) Initialize_From_BootDiagnostics_STATUS(sourc
 	return nil
 }
 
-// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
-// You can easily view the output of your console log.
-// Azure also enables you to see a screenshot of the
-// VM from the hypervisor.
+// Deprecated version of BootDiagnostics_STATUS. Use v1api20220301.BootDiagnostics_STATUS instead
 type BootDiagnostics_STATUS struct {
-	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// StorageUri: Uri of the storage account to use for placing the console output and screenshot.
-	// If storageUri is not specified while enabling boot diagnostics, managed storage will be used.
+	Enabled    *bool   `json:"enabled,omitempty"`
 	StorageUri *string `json:"storageUri,omitempty"`
 }
 
@@ -8517,19 +7924,11 @@ func (diagnostics *BootDiagnostics_STATUS) AssignProperties_To_BootDiagnostics_S
 	return nil
 }
 
-// The instance view of a virtual machine boot diagnostics.
+// Deprecated version of BootDiagnosticsInstanceView_STATUS. Use v1api20220301.BootDiagnosticsInstanceView_STATUS instead
 type BootDiagnosticsInstanceView_STATUS struct {
-	// ConsoleScreenshotBlobUri: The console screenshot blob URI.
-	// NOTE: This will not be set if boot diagnostics is currently enabled with managed storage.
-	ConsoleScreenshotBlobUri *string `json:"consoleScreenshotBlobUri,omitempty"`
-
-	// SerialConsoleLogBlobUri: The serial console log blob Uri.
-	// NOTE: This will not be set if boot diagnostics is currently enabled with managed storage.
-	SerialConsoleLogBlobUri *string `json:"serialConsoleLogBlobUri,omitempty"`
-
-	// Status: The boot diagnostics status information for the VM.
-	// NOTE: It will be set only if there are errors encountered in enabling boot diagnostics.
-	Status *InstanceViewStatus_STATUS `json:"status,omitempty"`
+	ConsoleScreenshotBlobUri *string                    `json:"consoleScreenshotBlobUri,omitempty"`
+	SerialConsoleLogBlobUri  *string                    `json:"serialConsoleLogBlobUri,omitempty"`
+	Status                   *InstanceViewStatus_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BootDiagnosticsInstanceView_STATUS{}
@@ -8632,70 +8031,24 @@ func (view *BootDiagnosticsInstanceView_STATUS) AssignProperties_To_BootDiagnost
 	return nil
 }
 
-// Describes a data disk.
+// Deprecated version of DataDisk. Use v1api20220301.DataDisk instead
 type DataDisk struct {
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
 	Caching *Caching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CreateOption: Specifies how the virtual machine should be created.
-	// Possible values are:
-	// Attach \u2013 This value is used when you are using a specialized disk to create the virtual machine.
-	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
-	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
-	// use the plan element previously described.
-	CreateOption *CreateOption `json:"createOption,omitempty"`
-
-	// DeleteOption: Specifies whether data disk should be deleted or detached upon VM deletion.
-	// Possible values:
-	// Delete If this value is used, the data disk is deleted when VM is deleted.
-	// Detach If this value is used, the data disk is retained after VM is deleted.
-	// The default value is set to detach
-	DeleteOption *DeleteOption `json:"deleteOption,omitempty"`
-
-	// DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
-	// detachment from the virtual machine. Supported values: ForceDetach.
-	// detachOption: ForceDetach is applicable only for managed data disks. If a previous detachment attempt of the data disk
-	// did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use
-	// force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed
-	// when using this detach behavior.
-	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk
-	// update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
-	DetachOption *DetachOption `json:"detachOption,omitempty"`
-
-	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// Image: The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the
-	// virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
-	Image *VirtualHardDisk `json:"image,omitempty"`
+	CreateOption *CreateOption    `json:"createOption,omitempty"`
+	DeleteOption *DeleteOption    `json:"deleteOption,omitempty"`
+	DetachOption *DetachOption    `json:"detachOption,omitempty"`
+	DiskSizeGB   *int             `json:"diskSizeGB,omitempty"`
+	Image        *VirtualHardDisk `json:"image,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
-	// therefore must be unique for each data disk attached to a VM.
-	Lun *int `json:"lun,omitempty"`
-
-	// ManagedDisk: The managed disk parameters.
-	ManagedDisk *ManagedDiskParameters `json:"managedDisk,omitempty"`
-
-	// Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	// ToBeDetached: Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset
-	ToBeDetached *bool `json:"toBeDetached,omitempty"`
-
-	// Vhd: The virtual hard disk.
-	Vhd *VirtualHardDisk `json:"vhd,omitempty"`
-
-	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
-	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+	Lun                     *int                   `json:"lun,omitempty"`
+	ManagedDisk             *ManagedDiskParameters `json:"managedDisk,omitempty"`
+	Name                    *string                `json:"name,omitempty"`
+	ToBeDetached            *bool                  `json:"toBeDetached,omitempty"`
+	Vhd                     *VirtualHardDisk       `json:"vhd,omitempty"`
+	WriteAcceleratorEnabled *bool                  `json:"writeAcceleratorEnabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DataDisk{}
@@ -9205,77 +8558,22 @@ func (disk *DataDisk) Initialize_From_DataDisk_STATUS(source *DataDisk_STATUS) e
 	return nil
 }
 
-// Describes a data disk.
+// Deprecated version of DataDisk_STATUS. Use v1api20220301.DataDisk_STATUS instead
 type DataDisk_STATUS struct {
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *Caching_STATUS `json:"caching,omitempty"`
-
-	// CreateOption: Specifies how the virtual machine should be created.
-	// Possible values are:
-	// Attach \u2013 This value is used when you are using a specialized disk to create the virtual machine.
-	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
-	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
-	// use the plan element previously described.
-	CreateOption *CreateOption_STATUS `json:"createOption,omitempty"`
-
-	// DeleteOption: Specifies whether data disk should be deleted or detached upon VM deletion.
-	// Possible values:
-	// Delete If this value is used, the data disk is deleted when VM is deleted.
-	// Detach If this value is used, the data disk is retained after VM is deleted.
-	// The default value is set to detach
-	DeleteOption *DeleteOption_STATUS `json:"deleteOption,omitempty"`
-
-	// DetachOption: Specifies the detach behavior to be used while detaching a disk or which is already in the process of
-	// detachment from the virtual machine. Supported values: ForceDetach.
-	// detachOption: ForceDetach is applicable only for managed data disks. If a previous detachment attempt of the data disk
-	// did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use
-	// force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed
-	// when using this detach behavior.
-	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk
-	// update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
-	DetachOption *DetachOption_STATUS `json:"detachOption,omitempty"`
-
-	// DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned
-	// only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
-	DiskIOPSReadWrite *int `json:"diskIOPSReadWrite,omitempty"`
-
-	// DiskMBpsReadWrite: Specifies the bandwidth in MB per second for the managed disk when StorageAccountType is
-	// UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine
-	// Scale Set.
-	DiskMBpsReadWrite *int `json:"diskMBpsReadWrite,omitempty"`
-
-	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// Image: The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the
-	// virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
-	Image *VirtualHardDisk_STATUS `json:"image,omitempty"`
-
-	// Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
-	// therefore must be unique for each data disk attached to a VM.
-	Lun *int `json:"lun,omitempty"`
-
-	// ManagedDisk: The managed disk parameters.
-	ManagedDisk *ManagedDiskParameters_STATUS `json:"managedDisk,omitempty"`
-
-	// Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	// ToBeDetached: Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset
-	ToBeDetached *bool `json:"toBeDetached,omitempty"`
-
-	// Vhd: The virtual hard disk.
-	Vhd *VirtualHardDisk_STATUS `json:"vhd,omitempty"`
-
-	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
-	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+	Caching                 *Caching_STATUS               `json:"caching,omitempty"`
+	CreateOption            *CreateOption_STATUS          `json:"createOption,omitempty"`
+	DeleteOption            *DeleteOption_STATUS          `json:"deleteOption,omitempty"`
+	DetachOption            *DetachOption_STATUS          `json:"detachOption,omitempty"`
+	DiskIOPSReadWrite       *int                          `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadWrite       *int                          `json:"diskMBpsReadWrite,omitempty"`
+	DiskSizeGB              *int                          `json:"diskSizeGB,omitempty"`
+	Image                   *VirtualHardDisk_STATUS       `json:"image,omitempty"`
+	Lun                     *int                          `json:"lun,omitempty"`
+	ManagedDisk             *ManagedDiskParameters_STATUS `json:"managedDisk,omitempty"`
+	Name                    *string                       `json:"name,omitempty"`
+	ToBeDetached            *bool                         `json:"toBeDetached,omitempty"`
+	Vhd                     *VirtualHardDisk_STATUS       `json:"vhd,omitempty"`
+	WriteAcceleratorEnabled *bool                         `json:"writeAcceleratorEnabled,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DataDisk_STATUS{}
@@ -9616,17 +8914,11 @@ func (disk *DataDisk_STATUS) AssignProperties_To_DataDisk_STATUS(destination *v2
 	return nil
 }
 
-// The instance view of the disk.
+// Deprecated version of DiskInstanceView_STATUS. Use v1api20220301.DiskInstanceView_STATUS instead
 type DiskInstanceView_STATUS struct {
-	// EncryptionSettings: Specifies the encryption settings for the OS Disk.
-	// Minimum api-version: 2015-06-15
 	EncryptionSettings []DiskEncryptionSettings_STATUS `json:"encryptionSettings,omitempty"`
-
-	// Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
+	Name               *string                         `json:"name,omitempty"`
+	Statuses           []InstanceViewStatus_STATUS     `json:"statuses,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DiskInstanceView_STATUS{}
@@ -9774,6 +9066,7 @@ func (view *DiskInstanceView_STATUS) AssignProperties_To_DiskInstanceView_STATUS
 	return nil
 }
 
+// Deprecated version of HardwareProfile_VmSize. Use v1api20220301.HardwareProfile_VmSize instead
 // +kubebuilder:validation:Enum={"Basic_A0","Basic_A1","Basic_A2","Basic_A3","Basic_A4","Standard_A0","Standard_A1","Standard_A10","Standard_A11","Standard_A1_v2","Standard_A2","Standard_A2m_v2","Standard_A2_v2","Standard_A3","Standard_A4","Standard_A4m_v2","Standard_A4_v2","Standard_A5","Standard_A6","Standard_A7","Standard_A8","Standard_A8m_v2","Standard_A8_v2","Standard_A9","Standard_B1ms","Standard_B1s","Standard_B2ms","Standard_B2s","Standard_B4ms","Standard_B8ms","Standard_D1","Standard_D11","Standard_D11_v2","Standard_D12","Standard_D12_v2","Standard_D13","Standard_D13_v2","Standard_D14","Standard_D14_v2","Standard_D15_v2","Standard_D16s_v3","Standard_D16_v3","Standard_D1_v2","Standard_D2","Standard_D2s_v3","Standard_D2_v2","Standard_D2_v3","Standard_D3","Standard_D32s_v3","Standard_D32_v3","Standard_D3_v2","Standard_D4","Standard_D4s_v3","Standard_D4_v2","Standard_D4_v3","Standard_D5_v2","Standard_D64s_v3","Standard_D64_v3","Standard_D8s_v3","Standard_D8_v3","Standard_DS1","Standard_DS11","Standard_DS11_v2","Standard_DS12","Standard_DS12_v2","Standard_DS13","Standard_DS13-2_v2","Standard_DS13-4_v2","Standard_DS13_v2","Standard_DS14","Standard_DS14-4_v2","Standard_DS14-8_v2","Standard_DS14_v2","Standard_DS15_v2","Standard_DS1_v2","Standard_DS2","Standard_DS2_v2","Standard_DS3","Standard_DS3_v2","Standard_DS4","Standard_DS4_v2","Standard_DS5_v2","Standard_E16s_v3","Standard_E16_v3","Standard_E2s_v3","Standard_E2_v3","Standard_E32-16_v3","Standard_E32-8s_v3","Standard_E32s_v3","Standard_E32_v3","Standard_E4s_v3","Standard_E4_v3","Standard_E64-16s_v3","Standard_E64-32s_v3","Standard_E64s_v3","Standard_E64_v3","Standard_E8s_v3","Standard_E8_v3","Standard_F1","Standard_F16","Standard_F16s","Standard_F16s_v2","Standard_F1s","Standard_F2","Standard_F2s","Standard_F2s_v2","Standard_F32s_v2","Standard_F4","Standard_F4s","Standard_F4s_v2","Standard_F64s_v2","Standard_F72s_v2","Standard_F8","Standard_F8s","Standard_F8s_v2","Standard_G1","Standard_G2","Standard_G3","Standard_G4","Standard_G5","Standard_GS1","Standard_GS2","Standard_GS3","Standard_GS4","Standard_GS4-4","Standard_GS4-8","Standard_GS5","Standard_GS5-16","Standard_GS5-8","Standard_H16","Standard_H16m","Standard_H16mr","Standard_H16r","Standard_H8","Standard_H8m","Standard_L16s","Standard_L32s","Standard_L4s","Standard_L8s","Standard_M128-32ms","Standard_M128-64ms","Standard_M128ms","Standard_M128s","Standard_M64-16ms","Standard_M64-32ms","Standard_M64ms","Standard_M64s","Standard_NC12","Standard_NC12s_v2","Standard_NC12s_v3","Standard_NC24","Standard_NC24r","Standard_NC24rs_v2","Standard_NC24rs_v3","Standard_NC24s_v2","Standard_NC24s_v3","Standard_NC6","Standard_NC6s_v2","Standard_NC6s_v3","Standard_ND12s","Standard_ND24rs","Standard_ND24s","Standard_ND6s","Standard_NV12","Standard_NV24","Standard_NV6"}
 type HardwareProfile_VmSize string
 
@@ -9946,6 +9239,7 @@ const (
 	HardwareProfile_VmSize_Standard_NV6       = HardwareProfile_VmSize("Standard_NV6")
 )
 
+// Deprecated version of HardwareProfile_VmSize_STATUS. Use v1api20220301.HardwareProfile_VmSize_STATUS instead
 type HardwareProfile_VmSize_STATUS string
 
 const (
@@ -10117,40 +9411,15 @@ const (
 	HardwareProfile_VmSize_STATUS_Standard_NV6       = HardwareProfile_VmSize_STATUS("Standard_NV6")
 )
 
-// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
-// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
-// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
-// when you create the scale set.
+// Deprecated version of ImageReference. Use v1api20220301.ImageReference instead
 type ImageReference struct {
-	// CommunityGalleryImageId: Specified the community gallery image unique id for vm deployment. This can be fetched from
-	// community gallery image GET call.
-	CommunityGalleryImageId *string `json:"communityGalleryImageId,omitempty"`
-
-	// Offer: Specifies the offer of the platform image or marketplace image used to create the virtual machine.
-	Offer *string `json:"offer,omitempty"`
-
-	// Publisher: The image publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
-	// SharedGalleryImageId: Specified the shared gallery image unique id for vm deployment. This can be fetched from shared
-	// gallery image GET call.
-	SharedGalleryImageId *string `json:"sharedGalleryImageId,omitempty"`
-
-	// Sku: The image SKU.
-	Sku *string `json:"sku,omitempty"`
-
-	// Version: Specifies the version of the platform image or marketplace image used to create the virtual machine. The
-	// allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use
-	// the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically
-	// update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image
-	// deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just
-	// set
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}'
-	// in the 'id' field without version input.
-	Version *string `json:"version,omitempty"`
+	CommunityGalleryImageId *string                       `json:"communityGalleryImageId,omitempty"`
+	Offer                   *string                       `json:"offer,omitempty"`
+	Publisher               *string                       `json:"publisher,omitempty"`
+	Reference               *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	SharedGalleryImageId    *string                       `json:"sharedGalleryImageId,omitempty"`
+	Sku                     *string                       `json:"sku,omitempty"`
+	Version                 *string                       `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ImageReference{}
@@ -10372,44 +9641,16 @@ func (reference *ImageReference) Initialize_From_ImageReference_STATUS(source *I
 	return nil
 }
 
-// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
-// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
-// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
-// when you create the scale set.
+// Deprecated version of ImageReference_STATUS. Use v1api20220301.ImageReference_STATUS instead
 type ImageReference_STATUS struct {
-	// CommunityGalleryImageId: Specified the community gallery image unique id for vm deployment. This can be fetched from
-	// community gallery image GET call.
 	CommunityGalleryImageId *string `json:"communityGalleryImageId,omitempty"`
-
-	// ExactVersion: Specifies in decimal numbers, the version of platform image or marketplace image used to create the
-	// virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
-	ExactVersion *string `json:"exactVersion,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Offer: Specifies the offer of the platform image or marketplace image used to create the virtual machine.
-	Offer *string `json:"offer,omitempty"`
-
-	// Publisher: The image publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	// SharedGalleryImageId: Specified the shared gallery image unique id for vm deployment. This can be fetched from shared
-	// gallery image GET call.
-	SharedGalleryImageId *string `json:"sharedGalleryImageId,omitempty"`
-
-	// Sku: The image SKU.
-	Sku *string `json:"sku,omitempty"`
-
-	// Version: Specifies the version of the platform image or marketplace image used to create the virtual machine. The
-	// allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use
-	// the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically
-	// update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image
-	// deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just
-	// set
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}'
-	// in the 'id' field without version input.
-	Version *string `json:"version,omitempty"`
+	ExactVersion            *string `json:"exactVersion,omitempty"`
+	Id                      *string `json:"id,omitempty"`
+	Offer                   *string `json:"offer,omitempty"`
+	Publisher               *string `json:"publisher,omitempty"`
+	SharedGalleryImageId    *string `json:"sharedGalleryImageId,omitempty"`
+	Sku                     *string `json:"sku,omitempty"`
+	Version                 *string `json:"version,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImageReference_STATUS{}
@@ -10549,22 +9790,13 @@ func (reference *ImageReference_STATUS) AssignProperties_To_ImageReference_STATU
 	return nil
 }
 
-// Instance view status.
+// Deprecated version of InstanceViewStatus_STATUS. Use v1api20220301.InstanceViewStatus_STATUS instead
 type InstanceViewStatus_STATUS struct {
-	// Code: The status code.
-	Code *string `json:"code,omitempty"`
-
-	// DisplayStatus: The short localizable label for the status.
-	DisplayStatus *string `json:"displayStatus,omitempty"`
-
-	// Level: The level code.
-	Level *InstanceViewStatus_Level_STATUS `json:"level,omitempty"`
-
-	// Message: The detailed status message, including for alerts and error messages.
-	Message *string `json:"message,omitempty"`
-
-	// Time: The time of the status.
-	Time *string `json:"time,omitempty"`
+	Code          *string                          `json:"code,omitempty"`
+	DisplayStatus *string                          `json:"displayStatus,omitempty"`
+	Level         *InstanceViewStatus_Level_STATUS `json:"level,omitempty"`
+	Message       *string                          `json:"message,omitempty"`
+	Time          *string                          `json:"time,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InstanceViewStatus_STATUS{}
@@ -10678,12 +9910,9 @@ func (status *InstanceViewStatus_STATUS) AssignProperties_To_InstanceViewStatus_
 	return nil
 }
 
-// Describes a reference to Key Vault Secret
+// Deprecated version of KeyVaultSecretReference_STATUS. Use v1api20220301.KeyVaultSecretReference_STATUS instead
 type KeyVaultSecretReference_STATUS struct {
-	// SecretUrl: The URL referencing a secret in a Key Vault.
-	SecretUrl *string `json:"secretUrl,omitempty"`
-
-	// SourceVault: The relative URL of the Key Vault containing the secret.
+	SecretUrl   *string             `json:"secretUrl,omitempty"`
 	SourceVault *SubResource_STATUS `json:"sourceVault,omitempty"`
 }
 
@@ -10775,24 +10004,12 @@ func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSec
 	return nil
 }
 
-// Specifies the Linux operating system settings on the virtual machine.
-// For a list of supported Linux
-// distributions, see [Linux on Azure-Endorsed
-// Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
+// Deprecated version of LinuxConfiguration. Use v1api20220301.LinuxConfiguration instead
 type LinuxConfiguration struct {
-	// DisablePasswordAuthentication: Specifies whether password authentication should be disabled.
-	DisablePasswordAuthentication *bool `json:"disablePasswordAuthentication,omitempty"`
-
-	// PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching on Linux.
-	PatchSettings *LinuxPatchSettings `json:"patchSettings,omitempty"`
-
-	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned on the virtual machine.
-	// When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that
-	// VM Agent is installed on the VM so that extensions can be added to the VM later.
-	ProvisionVMAgent *bool `json:"provisionVMAgent,omitempty"`
-
-	// Ssh: Specifies the ssh key configuration for a Linux OS.
-	Ssh *SshConfiguration `json:"ssh,omitempty"`
+	DisablePasswordAuthentication *bool               `json:"disablePasswordAuthentication,omitempty"`
+	PatchSettings                 *LinuxPatchSettings `json:"patchSettings,omitempty"`
+	ProvisionVMAgent              *bool               `json:"provisionVMAgent,omitempty"`
+	Ssh                           *SshConfiguration   `json:"ssh,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LinuxConfiguration{}
@@ -11038,24 +10255,12 @@ func (configuration *LinuxConfiguration) Initialize_From_LinuxConfiguration_STAT
 	return nil
 }
 
-// Specifies the Linux operating system settings on the virtual machine.
-// For a list of supported Linux
-// distributions, see [Linux on Azure-Endorsed
-// Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
+// Deprecated version of LinuxConfiguration_STATUS. Use v1api20220301.LinuxConfiguration_STATUS instead
 type LinuxConfiguration_STATUS struct {
-	// DisablePasswordAuthentication: Specifies whether password authentication should be disabled.
-	DisablePasswordAuthentication *bool `json:"disablePasswordAuthentication,omitempty"`
-
-	// PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching on Linux.
-	PatchSettings *LinuxPatchSettings_STATUS `json:"patchSettings,omitempty"`
-
-	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned on the virtual machine.
-	// When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that
-	// VM Agent is installed on the VM so that extensions can be added to the VM later.
-	ProvisionVMAgent *bool `json:"provisionVMAgent,omitempty"`
-
-	// Ssh: Specifies the ssh key configuration for a Linux OS.
-	Ssh *SshConfiguration_STATUS `json:"ssh,omitempty"`
+	DisablePasswordAuthentication *bool                      `json:"disablePasswordAuthentication,omitempty"`
+	PatchSettings                 *LinuxPatchSettings_STATUS `json:"patchSettings,omitempty"`
+	ProvisionVMAgent              *bool                      `json:"provisionVMAgent,omitempty"`
+	Ssh                           *SshConfiguration_STATUS   `json:"ssh,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LinuxConfiguration_STATUS{}
@@ -11213,28 +10418,15 @@ func (configuration *LinuxConfiguration_STATUS) AssignProperties_To_LinuxConfigu
 	return nil
 }
 
-// Maintenance Operation Status.
+// Deprecated version of MaintenanceRedeployStatus_STATUS. Use v1api20220301.MaintenanceRedeployStatus_STATUS instead
 type MaintenanceRedeployStatus_STATUS struct {
-	// IsCustomerInitiatedMaintenanceAllowed: True, if customer is allowed to perform Maintenance.
-	IsCustomerInitiatedMaintenanceAllowed *bool `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
-
-	// LastOperationMessage: Message returned for the last Maintenance Operation.
-	LastOperationMessage *string `json:"lastOperationMessage,omitempty"`
-
-	// LastOperationResultCode: The Last Maintenance Operation Result Code.
-	LastOperationResultCode *MaintenanceRedeployStatus_LastOperationResultCode_STATUS `json:"lastOperationResultCode,omitempty"`
-
-	// MaintenanceWindowEndTime: End Time for the Maintenance Window.
-	MaintenanceWindowEndTime *string `json:"maintenanceWindowEndTime,omitempty"`
-
-	// MaintenanceWindowStartTime: Start Time for the Maintenance Window.
-	MaintenanceWindowStartTime *string `json:"maintenanceWindowStartTime,omitempty"`
-
-	// PreMaintenanceWindowEndTime: End Time for the Pre Maintenance Window.
-	PreMaintenanceWindowEndTime *string `json:"preMaintenanceWindowEndTime,omitempty"`
-
-	// PreMaintenanceWindowStartTime: Start Time for the Pre Maintenance Window.
-	PreMaintenanceWindowStartTime *string `json:"preMaintenanceWindowStartTime,omitempty"`
+	IsCustomerInitiatedMaintenanceAllowed *bool                                                     `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
+	LastOperationMessage                  *string                                                   `json:"lastOperationMessage,omitempty"`
+	LastOperationResultCode               *MaintenanceRedeployStatus_LastOperationResultCode_STATUS `json:"lastOperationResultCode,omitempty"`
+	MaintenanceWindowEndTime              *string                                                   `json:"maintenanceWindowEndTime,omitempty"`
+	MaintenanceWindowStartTime            *string                                                   `json:"maintenanceWindowStartTime,omitempty"`
+	PreMaintenanceWindowEndTime           *string                                                   `json:"preMaintenanceWindowEndTime,omitempty"`
+	PreMaintenanceWindowStartTime         *string                                                   `json:"preMaintenanceWindowStartTime,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MaintenanceRedeployStatus_STATUS{}
@@ -11382,16 +10574,11 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_To_MaintenanceR
 	return nil
 }
 
-// Describes a network interface reference.
+// Deprecated version of NetworkInterfaceReference. Use v1api20220301.NetworkInterfaceReference instead
 type NetworkInterfaceReference struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted
 	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption `json:"deleteOption,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Primary      *bool                                             `json:"primary,omitempty"`
+	Reference    *genruntime.ResourceReference                     `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkInterfaceReference{}
@@ -11566,16 +10753,11 @@ func (reference *NetworkInterfaceReference) Initialize_From_NetworkInterfaceRefe
 	return nil
 }
 
-// Describes a network interface reference.
+// Deprecated version of NetworkInterfaceReference_STATUS. Use v1api20220301.NetworkInterfaceReference_STATUS instead
 type NetworkInterfaceReference_STATUS struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted
 	DeleteOption *NetworkInterfaceReferenceProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
+	Id           *string                                                  `json:"id,omitempty"`
+	Primary      *bool                                                    `json:"primary,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkInterfaceReference_STATUS{}
@@ -11681,79 +10863,34 @@ func (reference *NetworkInterfaceReference_STATUS) AssignProperties_To_NetworkIn
 	return nil
 }
 
+// Deprecated version of NetworkProfile_NetworkApiVersion. Use v1api20220301.NetworkProfile_NetworkApiVersion instead
 // +kubebuilder:validation:Enum={"2020-11-01"}
 type NetworkProfile_NetworkApiVersion string
 
 const NetworkProfile_NetworkApiVersion_20201101 = NetworkProfile_NetworkApiVersion("2020-11-01")
 
+// Deprecated version of NetworkProfile_NetworkApiVersion_STATUS. Use v1api20220301.NetworkProfile_NetworkApiVersion_STATUS
+// instead
 type NetworkProfile_NetworkApiVersion_STATUS string
 
 const NetworkProfile_NetworkApiVersion_STATUS_20201101 = NetworkProfile_NetworkApiVersion_STATUS("2020-11-01")
 
-// Specifies information about the operating system disk used by the virtual machine.
-// For more information about
-// disks, see [About disks and VHDs for Azure virtual
-// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
+// Deprecated version of OSDisk. Use v1api20220301.OSDisk instead
 type OSDisk struct {
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage.
 	Caching *Caching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CreateOption: Specifies how the virtual machine should be created.
-	// Possible values are:
-	// Attach \u2013 This value is used when you are using a specialized disk to create the virtual machine.
-	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
-	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
-	// use the plan element previously described.
-	CreateOption *CreateOption `json:"createOption,omitempty"`
-
-	// DeleteOption: Specifies whether OS Disk should be deleted or detached upon VM deletion.
-	// Possible values:
-	// Delete If this value is used, the OS disk is deleted when VM is deleted.
-	// Detach If this value is used, the os disk is retained after VM is deleted.
-	// The default value is set to detach. For an ephemeral OS Disk, the default value is set to Delete. User cannot change the
-	// delete option for ephemeral OS Disk.
-	DeleteOption *DeleteOption `json:"deleteOption,omitempty"`
-
-	// DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
-	DiffDiskSettings *DiffDiskSettings `json:"diffDiskSettings,omitempty"`
-
-	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// EncryptionSettings: Specifies the encryption settings for the OS Disk.
-	// Minimum api-version: 2015-06-15
-	EncryptionSettings *DiskEncryptionSettings `json:"encryptionSettings,omitempty"`
-
-	// Image: The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the
-	// virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
-	Image *VirtualHardDisk `json:"image,omitempty"`
-
-	// ManagedDisk: The managed disk parameters.
-	ManagedDisk *ManagedDiskParameters `json:"managedDisk,omitempty"`
-
-	// Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from
-	// user-image or a specialized VHD.
-	// Possible values are:
-	// Windows
-	// Linux
-	OsType *OSDisk_OsType `json:"osType,omitempty"`
-
-	// Vhd: The virtual hard disk.
-	Vhd *VirtualHardDisk `json:"vhd,omitempty"`
-
-	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
-	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+	CreateOption            *CreateOption           `json:"createOption,omitempty"`
+	DeleteOption            *DeleteOption           `json:"deleteOption,omitempty"`
+	DiffDiskSettings        *DiffDiskSettings       `json:"diffDiskSettings,omitempty"`
+	DiskSizeGB              *int                    `json:"diskSizeGB,omitempty"`
+	EncryptionSettings      *DiskEncryptionSettings `json:"encryptionSettings,omitempty"`
+	Image                   *VirtualHardDisk        `json:"image,omitempty"`
+	ManagedDisk             *ManagedDiskParameters  `json:"managedDisk,omitempty"`
+	Name                    *string                 `json:"name,omitempty"`
+	OsType                  *OSDisk_OsType          `json:"osType,omitempty"`
+	Vhd                     *VirtualHardDisk        `json:"vhd,omitempty"`
+	WriteAcceleratorEnabled *bool                   `json:"writeAcceleratorEnabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &OSDisk{}
@@ -12320,69 +11457,20 @@ func (disk *OSDisk) Initialize_From_OSDisk_STATUS(source *OSDisk_STATUS) error {
 	return nil
 }
 
-// Specifies information about the operating system disk used by the virtual machine.
-// For more information about
-// disks, see [About disks and VHDs for Azure virtual
-// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
+// Deprecated version of OSDisk_STATUS. Use v1api20220301.OSDisk_STATUS instead
 type OSDisk_STATUS struct {
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage.
-	Caching *Caching_STATUS `json:"caching,omitempty"`
-
-	// CreateOption: Specifies how the virtual machine should be created.
-	// Possible values are:
-	// Attach \u2013 This value is used when you are using a specialized disk to create the virtual machine.
-	// FromImage \u2013 This value is used when you are using an image to create the virtual machine. If you are using a
-	// platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also
-	// use the plan element previously described.
-	CreateOption *CreateOption_STATUS `json:"createOption,omitempty"`
-
-	// DeleteOption: Specifies whether OS Disk should be deleted or detached upon VM deletion.
-	// Possible values:
-	// Delete If this value is used, the OS disk is deleted when VM is deleted.
-	// Detach If this value is used, the os disk is retained after VM is deleted.
-	// The default value is set to detach. For an ephemeral OS Disk, the default value is set to Delete. User cannot change the
-	// delete option for ephemeral OS Disk.
-	DeleteOption *DeleteOption_STATUS `json:"deleteOption,omitempty"`
-
-	// DiffDiskSettings: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
-	DiffDiskSettings *DiffDiskSettings_STATUS `json:"diffDiskSettings,omitempty"`
-
-	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// EncryptionSettings: Specifies the encryption settings for the OS Disk.
-	// Minimum api-version: 2015-06-15
-	EncryptionSettings *DiskEncryptionSettings_STATUS `json:"encryptionSettings,omitempty"`
-
-	// Image: The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the
-	// virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
-	Image *VirtualHardDisk_STATUS `json:"image,omitempty"`
-
-	// ManagedDisk: The managed disk parameters.
-	ManagedDisk *ManagedDiskParameters_STATUS `json:"managedDisk,omitempty"`
-
-	// Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from
-	// user-image or a specialized VHD.
-	// Possible values are:
-	// Windows
-	// Linux
-	OsType *OSDisk_OsType_STATUS `json:"osType,omitempty"`
-
-	// Vhd: The virtual hard disk.
-	Vhd *VirtualHardDisk_STATUS `json:"vhd,omitempty"`
-
-	// WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or disabled on the disk.
-	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
+	Caching                 *Caching_STATUS                `json:"caching,omitempty"`
+	CreateOption            *CreateOption_STATUS           `json:"createOption,omitempty"`
+	DeleteOption            *DeleteOption_STATUS           `json:"deleteOption,omitempty"`
+	DiffDiskSettings        *DiffDiskSettings_STATUS       `json:"diffDiskSettings,omitempty"`
+	DiskSizeGB              *int                           `json:"diskSizeGB,omitempty"`
+	EncryptionSettings      *DiskEncryptionSettings_STATUS `json:"encryptionSettings,omitempty"`
+	Image                   *VirtualHardDisk_STATUS        `json:"image,omitempty"`
+	ManagedDisk             *ManagedDiskParameters_STATUS  `json:"managedDisk,omitempty"`
+	Name                    *string                        `json:"name,omitempty"`
+	OsType                  *OSDisk_OsType_STATUS          `json:"osType,omitempty"`
+	Vhd                     *VirtualHardDisk_STATUS        `json:"vhd,omitempty"`
+	WriteAcceleratorEnabled *bool                          `json:"writeAcceleratorEnabled,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OSDisk_STATUS{}
@@ -12735,6 +11823,7 @@ func (disk *OSDisk_STATUS) AssignProperties_To_OSDisk_STATUS(destination *v20220
 	return nil
 }
 
+// Deprecated version of SecurityProfile_SecurityType. Use v1api20220301.SecurityProfile_SecurityType instead
 // +kubebuilder:validation:Enum={"ConfidentialVM","TrustedLaunch"}
 type SecurityProfile_SecurityType string
 
@@ -12743,6 +11832,7 @@ const (
 	SecurityProfile_SecurityType_TrustedLaunch  = SecurityProfile_SecurityType("TrustedLaunch")
 )
 
+// Deprecated version of SecurityProfile_SecurityType_STATUS. Use v1api20220301.SecurityProfile_SecurityType_STATUS instead
 type SecurityProfile_SecurityType_STATUS string
 
 const (
@@ -12750,13 +11840,9 @@ const (
 	SecurityProfile_SecurityType_STATUS_TrustedLaunch  = SecurityProfile_SecurityType_STATUS("TrustedLaunch")
 )
 
+// Deprecated version of TerminateNotificationProfile. Use v1api20220301.TerminateNotificationProfile instead
 type TerminateNotificationProfile struct {
-	// Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
-	Enable *bool `json:"enable,omitempty"`
-
-	// NotBeforeTimeout: Configurable length of time a Virtual Machine being deleted will have to potentially approve the
-	// Terminate Scheduled Event before the event is auto approved (timed out). The configuration must be specified in ISO 8601
-	// format, the default value is 5 minutes (PT5M)
+	Enable           *bool   `json:"enable,omitempty"`
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
@@ -12874,13 +11960,9 @@ func (profile *TerminateNotificationProfile) Initialize_From_TerminateNotificati
 	return nil
 }
 
+// Deprecated version of TerminateNotificationProfile_STATUS. Use v1api20220301.TerminateNotificationProfile_STATUS instead
 type TerminateNotificationProfile_STATUS struct {
-	// Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
-	Enable *bool `json:"enable,omitempty"`
-
-	// NotBeforeTimeout: Configurable length of time a Virtual Machine being deleted will have to potentially approve the
-	// Terminate Scheduled Event before the event is auto approved (timed out). The configuration must be specified in ISO 8601
-	// format, the default value is 5 minutes (PT5M)
+	Enable           *bool   `json:"enable,omitempty"`
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
@@ -12959,17 +12041,10 @@ func (profile *TerminateNotificationProfile_STATUS) AssignProperties_To_Terminat
 	return nil
 }
 
-// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
-// Minimum
-// api-version: 2020-12-01
+// Deprecated version of UefiSettings. Use v1api20220301.UefiSettings instead
 type UefiSettings struct {
-	// SecureBootEnabled: Specifies whether secure boot should be enabled on the virtual machine.
-	// Minimum api-version: 2020-12-01
 	SecureBootEnabled *bool `json:"secureBootEnabled,omitempty"`
-
-	// VTpmEnabled: Specifies whether vTPM should be enabled on the virtual machine.
-	// Minimum api-version: 2020-12-01
-	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
+	VTpmEnabled       *bool `json:"vTpmEnabled,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UefiSettings{}
@@ -13101,17 +12176,10 @@ func (settings *UefiSettings) Initialize_From_UefiSettings_STATUS(source *UefiSe
 	return nil
 }
 
-// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
-// Minimum
-// api-version: 2020-12-01
+// Deprecated version of UefiSettings_STATUS. Use v1api20220301.UefiSettings_STATUS instead
 type UefiSettings_STATUS struct {
-	// SecureBootEnabled: Specifies whether secure boot should be enabled on the virtual machine.
-	// Minimum api-version: 2020-12-01
 	SecureBootEnabled *bool `json:"secureBootEnabled,omitempty"`
-
-	// VTpmEnabled: Specifies whether vTPM should be enabled on the virtual machine.
-	// Minimum api-version: 2020-12-01
-	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
+	VTpmEnabled       *bool `json:"vTpmEnabled,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UefiSettings_STATUS{}
@@ -13199,12 +12267,9 @@ func (settings *UefiSettings_STATUS) AssignProperties_To_UefiSettings_STATUS(des
 	return nil
 }
 
-// Describes a set of certificates which are all in the same Key Vault.
+// Deprecated version of VaultSecretGroup. Use v1api20220301.VaultSecretGroup instead
 type VaultSecretGroup struct {
-	// SourceVault: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
-	SourceVault *SubResource `json:"sourceVault,omitempty"`
-
-	// VaultCertificates: The list of key vault references in SourceVault which contain certificates.
+	SourceVault       *SubResource       `json:"sourceVault,omitempty"`
 	VaultCertificates []VaultCertificate `json:"vaultCertificates,omitempty"`
 }
 
@@ -13395,12 +12460,9 @@ func (group *VaultSecretGroup) Initialize_From_VaultSecretGroup_STATUS(source *V
 	return nil
 }
 
-// Describes a set of certificates which are all in the same Key Vault.
+// Deprecated version of VaultSecretGroup_STATUS. Use v1api20220301.VaultSecretGroup_STATUS instead
 type VaultSecretGroup_STATUS struct {
-	// SourceVault: The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
-	SourceVault *SubResource_STATUS `json:"sourceVault,omitempty"`
-
-	// VaultCertificates: The list of key vault references in SourceVault which contain certificates.
+	SourceVault       *SubResource_STATUS       `json:"sourceVault,omitempty"`
 	VaultCertificates []VaultCertificate_STATUS `json:"vaultCertificates,omitempty"`
 }
 
@@ -13526,16 +12588,11 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATU
 	return nil
 }
 
-// The instance view of the VM Agent running on the virtual machine.
+// Deprecated version of VirtualMachineAgentInstanceView_STATUS. Use v1api20220301.VirtualMachineAgentInstanceView_STATUS instead
 type VirtualMachineAgentInstanceView_STATUS struct {
-	// ExtensionHandlers: The virtual machine extension handler instance view.
 	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS `json:"extensionHandlers,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
-
-	// VmAgentVersion: The VM Agent full version.
-	VmAgentVersion *string `json:"vmAgentVersion,omitempty"`
+	Statuses          []InstanceViewStatus_STATUS                         `json:"statuses,omitempty"`
+	VmAgentVersion    *string                                             `json:"vmAgentVersion,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineAgentInstanceView_STATUS{}
@@ -13683,22 +12740,13 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignProperties_To_VirtualM
 	return nil
 }
 
-// The instance view of a virtual machine extension.
+// Deprecated version of VirtualMachineExtensionInstanceView_STATUS. Use v1api20220301.VirtualMachineExtensionInstanceView_STATUS instead
 type VirtualMachineExtensionInstanceView_STATUS struct {
-	// Name: The virtual machine extension name.
-	Name *string `json:"name,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
-
-	// Substatuses: The resource status information.
-	Substatuses []InstanceViewStatus_STATUS `json:"substatuses,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
+	Name               *string                     `json:"name,omitempty"`
+	Statuses           []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
+	Substatuses        []InstanceViewStatus_STATUS `json:"substatuses,omitempty"`
+	Type               *string                     `json:"type,omitempty"`
+	TypeHandlerVersion *string                     `json:"typeHandlerVersion,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineExtensionInstanceView_STATUS{}
@@ -13870,9 +12918,8 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_To_Virt
 	return nil
 }
 
-// The health status of the VM.
+// Deprecated version of VirtualMachineHealthStatus_STATUS. Use v1api20220301.VirtualMachineHealthStatus_STATUS instead
 type VirtualMachineHealthStatus_STATUS struct {
-	// Status: The health status information for the VM.
 	Status *InstanceViewStatus_STATUS `json:"status,omitempty"`
 }
 
@@ -13952,6 +12999,8 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignProperties_To_VirtualMach
 	return nil
 }
 
+// Deprecated version of VirtualMachineInstanceView_HyperVGeneration_STATUS. Use
+// v1api20220301.VirtualMachineInstanceView_HyperVGeneration_STATUS instead
 type VirtualMachineInstanceView_HyperVGeneration_STATUS string
 
 const (
@@ -13959,37 +13008,22 @@ const (
 	VirtualMachineInstanceView_HyperVGeneration_STATUS_V2 = VirtualMachineInstanceView_HyperVGeneration_STATUS("V2")
 )
 
-// Describes a virtual machine network interface configurations.
+// Deprecated version of VirtualMachineNetworkInterfaceConfiguration. Use v1api20220301.VirtualMachineNetworkInterfaceConfiguration instead
 type VirtualMachineNetworkInterfaceConfiguration struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
-
-	// DnsSettings: The dns settings to be applied on the network interfaces.
-	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration `json:"dnsSettings,omitempty"`
-	DscpConfiguration *SubResource                                            `json:"dscpConfiguration,omitempty"`
-
-	// EnableAcceleratedNetworking: Specifies whether the network interface is accelerated networking-enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	// EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
-	EnableFpga *bool `json:"enableFpga,omitempty"`
-
-	// EnableIPForwarding: Whether IP forwarding enabled on this NIC.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
+	DeleteOption                *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
+	DnsSettings                 *VirtualMachineNetworkInterfaceDnsSettingsConfiguration             `json:"dnsSettings,omitempty"`
+	DscpConfiguration           *SubResource                                                        `json:"dscpConfiguration,omitempty"`
+	EnableAcceleratedNetworking *bool                                                               `json:"enableAcceleratedNetworking,omitempty"`
+	EnableFpga                  *bool                                                               `json:"enableFpga,omitempty"`
+	EnableIPForwarding          *bool                                                               `json:"enableIPForwarding,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// IpConfigurations: Specifies the IP configurations of the network interface.
 	IpConfigurations []VirtualMachineNetworkInterfaceIPConfiguration `json:"ipConfigurations,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The network interface configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// NetworkSecurityGroup: The network security group.
+	Name                 *string      `json:"name,omitempty"`
 	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
+	Primary              *bool        `json:"primary,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineNetworkInterfaceConfiguration{}
@@ -14516,35 +13550,18 @@ func (configuration *VirtualMachineNetworkInterfaceConfiguration) Initialize_Fro
 	return nil
 }
 
-// Describes a virtual machine network interface configurations.
+// Deprecated version of VirtualMachineNetworkInterfaceConfiguration_STATUS. Use v1api20220301.VirtualMachineNetworkInterfaceConfiguration_STATUS instead
 type VirtualMachineNetworkInterfaceConfiguration_STATUS struct {
-	// DeleteOption: Specify what happens to the network interface when the VM is deleted
-	DeleteOption *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
-
-	// DnsSettings: The dns settings to be applied on the network interfaces.
-	DnsSettings       *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS `json:"dnsSettings,omitempty"`
-	DscpConfiguration *SubResource_STATUS                                            `json:"dscpConfiguration,omitempty"`
-
-	// EnableAcceleratedNetworking: Specifies whether the network interface is accelerated networking-enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	// EnableFpga: Specifies whether the network interface is FPGA networking-enabled.
-	EnableFpga *bool `json:"enableFpga,omitempty"`
-
-	// EnableIPForwarding: Whether IP forwarding enabled on this NIC.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
-
-	// IpConfigurations: Specifies the IP configurations of the network interface.
-	IpConfigurations []VirtualMachineNetworkInterfaceIPConfiguration_STATUS `json:"ipConfigurations,omitempty"`
-
-	// Name: The network interface configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// NetworkSecurityGroup: The network security group.
-	NetworkSecurityGroup *SubResource_STATUS `json:"networkSecurityGroup,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
+	DeleteOption                *VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
+	DnsSettings                 *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS             `json:"dnsSettings,omitempty"`
+	DscpConfiguration           *SubResource_STATUS                                                        `json:"dscpConfiguration,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                      `json:"enableAcceleratedNetworking,omitempty"`
+	EnableFpga                  *bool                                                                      `json:"enableFpga,omitempty"`
+	EnableIPForwarding          *bool                                                                      `json:"enableIPForwarding,omitempty"`
+	IpConfigurations            []VirtualMachineNetworkInterfaceIPConfiguration_STATUS                     `json:"ipConfigurations,omitempty"`
+	Name                        *string                                                                    `json:"name,omitempty"`
+	NetworkSecurityGroup        *SubResource_STATUS                                                        `json:"networkSecurityGroup,omitempty"`
+	Primary                     *bool                                                                      `json:"primary,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineNetworkInterfaceConfiguration_STATUS{}
@@ -14888,15 +13905,10 @@ func (configuration *VirtualMachineNetworkInterfaceConfiguration_STATUS) AssignP
 	return nil
 }
 
-// The status of virtual machine patch operations.
+// Deprecated version of VirtualMachinePatchStatus_STATUS. Use v1api20220301.VirtualMachinePatchStatus_STATUS instead
 type VirtualMachinePatchStatus_STATUS struct {
-	// AvailablePatchSummary: The available patch summary of the latest assessment operation for the virtual machine.
-	AvailablePatchSummary *AvailablePatchSummary_STATUS `json:"availablePatchSummary,omitempty"`
-
-	// ConfigurationStatuses: The enablement status of the specified patchMode
-	ConfigurationStatuses []InstanceViewStatus_STATUS `json:"configurationStatuses,omitempty"`
-
-	// LastPatchInstallationSummary: The installation summary of the latest installation operation for the virtual machine.
+	AvailablePatchSummary        *AvailablePatchSummary_STATUS        `json:"availablePatchSummary,omitempty"`
+	ConfigurationStatuses        []InstanceViewStatus_STATUS          `json:"configurationStatuses,omitempty"`
 	LastPatchInstallationSummary *LastPatchInstallationSummary_STATUS `json:"lastPatchInstallationSummary,omitempty"`
 }
 
@@ -15057,30 +14069,16 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignProperties_To_VirtualMachi
 	return nil
 }
 
-// Specifies the required information to reference a compute gallery application version
+// Deprecated version of VMGalleryApplication. Use v1api20220301.VMGalleryApplication instead
 type VMGalleryApplication struct {
-	// ConfigurationReference: Optional, Specifies the uri to an azure blob that will replace the default configuration for the
-	// package if provided
 	ConfigurationReference *string `json:"configurationReference,omitempty"`
-
-	// EnableAutomaticUpgrade: If set to true, when a new Gallery Application version is available in PIR/SIG, it will be
-	// automatically updated for the VM/VMSS
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	// Order: Optional, Specifies the order in which the packages have to be installed
-	Order *int `json:"order,omitempty"`
+	EnableAutomaticUpgrade *bool   `json:"enableAutomaticUpgrade,omitempty"`
+	Order                  *int    `json:"order,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// PackageReferenceReference: Specifies the GalleryApplicationVersion resource id on the form of
-	// /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{application}/versions/{version}
-	PackageReferenceReference *genruntime.ResourceReference `armReference:"PackageReferenceId" json:"packageReferenceReference,omitempty"`
-
-	// Tags: Optional, Specifies a passthrough value for more generic context.
-	Tags *string `json:"tags,omitempty"`
-
-	// TreatFailureAsDeploymentFailure: Optional, If true, any failure for any operation in the VmApplication will fail the
-	// deployment
-	TreatFailureAsDeploymentFailure *bool `json:"treatFailureAsDeploymentFailure,omitempty"`
+	PackageReferenceReference       *genruntime.ResourceReference `armReference:"PackageReferenceId" json:"packageReferenceReference,omitempty"`
+	Tags                            *string                       `json:"tags,omitempty"`
+	TreatFailureAsDeploymentFailure *bool                         `json:"treatFailureAsDeploymentFailure,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VMGalleryApplication{}
@@ -15311,29 +14309,14 @@ func (application *VMGalleryApplication) Initialize_From_VMGalleryApplication_ST
 	return nil
 }
 
-// Specifies the required information to reference a compute gallery application version
+// Deprecated version of VMGalleryApplication_STATUS. Use v1api20220301.VMGalleryApplication_STATUS instead
 type VMGalleryApplication_STATUS struct {
-	// ConfigurationReference: Optional, Specifies the uri to an azure blob that will replace the default configuration for the
-	// package if provided
-	ConfigurationReference *string `json:"configurationReference,omitempty"`
-
-	// EnableAutomaticUpgrade: If set to true, when a new Gallery Application version is available in PIR/SIG, it will be
-	// automatically updated for the VM/VMSS
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	// Order: Optional, Specifies the order in which the packages have to be installed
-	Order *int `json:"order,omitempty"`
-
-	// PackageReferenceId: Specifies the GalleryApplicationVersion resource id on the form of
-	// /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{application}/versions/{version}
-	PackageReferenceId *string `json:"packageReferenceId,omitempty"`
-
-	// Tags: Optional, Specifies a passthrough value for more generic context.
-	Tags *string `json:"tags,omitempty"`
-
-	// TreatFailureAsDeploymentFailure: Optional, If true, any failure for any operation in the VmApplication will fail the
-	// deployment
-	TreatFailureAsDeploymentFailure *bool `json:"treatFailureAsDeploymentFailure,omitempty"`
+	ConfigurationReference          *string `json:"configurationReference,omitempty"`
+	EnableAutomaticUpgrade          *bool   `json:"enableAutomaticUpgrade,omitempty"`
+	Order                           *int    `json:"order,omitempty"`
+	PackageReferenceId              *string `json:"packageReferenceId,omitempty"`
+	Tags                            *string `json:"tags,omitempty"`
+	TreatFailureAsDeploymentFailure *bool   `json:"treatFailureAsDeploymentFailure,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VMGalleryApplication_STATUS{}
@@ -15469,20 +14452,10 @@ func (application *VMGalleryApplication_STATUS) AssignProperties_To_VMGalleryApp
 	return nil
 }
 
-// Specifies VM Size Property settings on the virtual machine.
+// Deprecated version of VMSizeProperties. Use v1api20220301.VMSizeProperties instead
 type VMSizeProperties struct {
-	// VCPUsAvailable: Specifies the number of vCPUs available for the VM.
-	// When this property is not specified in the request body the default behavior is to set it to the value of vCPUs
-	// available for that VM size exposed in api response of [List all available virtual machine sizes in a
-	// region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) .
 	VCPUsAvailable *int `json:"vCPUsAvailable,omitempty"`
-
-	// VCPUsPerCore: Specifies the vCPU to physical core ratio.
-	// When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the
-	// VM Size exposed in api response of [List all available virtual machine sizes in a
-	// region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list)
-	// Setting this property to 1 also means that hyper-threading is disabled.
-	VCPUsPerCore *int `json:"vCPUsPerCore,omitempty"`
+	VCPUsPerCore   *int `json:"vCPUsPerCore,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VMSizeProperties{}
@@ -15584,20 +14557,10 @@ func (properties *VMSizeProperties) Initialize_From_VMSizeProperties_STATUS(sour
 	return nil
 }
 
-// Specifies VM Size Property settings on the virtual machine.
+// Deprecated version of VMSizeProperties_STATUS. Use v1api20220301.VMSizeProperties_STATUS instead
 type VMSizeProperties_STATUS struct {
-	// VCPUsAvailable: Specifies the number of vCPUs available for the VM.
-	// When this property is not specified in the request body the default behavior is to set it to the value of vCPUs
-	// available for that VM size exposed in api response of [List all available virtual machine sizes in a
-	// region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) .
 	VCPUsAvailable *int `json:"vCPUsAvailable,omitempty"`
-
-	// VCPUsPerCore: Specifies the vCPU to physical core ratio.
-	// When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the
-	// VM Size exposed in api response of [List all available virtual machine sizes in a
-	// region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list)
-	// Setting this property to 1 also means that hyper-threading is disabled.
-	VCPUsPerCore *int `json:"vCPUsPerCore,omitempty"`
+	VCPUsPerCore   *int `json:"vCPUsPerCore,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VMSizeProperties_STATUS{}
@@ -15665,34 +14628,14 @@ func (properties *VMSizeProperties_STATUS) AssignProperties_To_VMSizeProperties_
 	return nil
 }
 
-// Specifies Windows operating system settings on the virtual machine.
+// Deprecated version of WindowsConfiguration. Use v1api20220301.WindowsConfiguration instead
 type WindowsConfiguration struct {
-	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted information that can be included in the
-	// Unattend.xml file, which is used by Windows Setup.
 	AdditionalUnattendContent []AdditionalUnattendContent `json:"additionalUnattendContent,omitempty"`
-
-	// EnableAutomaticUpdates: Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value is
-	// true.
-	// For virtual machine scale sets, this property can be updated and updates will take effect on OS reprovisioning.
-	EnableAutomaticUpdates *bool `json:"enableAutomaticUpdates,omitempty"`
-
-	// PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching on Windows.
-	PatchSettings *PatchSettings `json:"patchSettings,omitempty"`
-
-	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned on the virtual machine.
-	// When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that
-	// VM Agent is installed on the VM so that extensions can be added to the VM later.
-	ProvisionVMAgent *bool `json:"provisionVMAgent,omitempty"`
-
-	// TimeZone: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time".
-	// Possible values can be
-	// [TimeZoneInfo.Id](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time
-	// zones returned by
-	// [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.getsystemtimezones).
-	TimeZone *string `json:"timeZone,omitempty"`
-
-	// WinRM: Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
-	WinRM *WinRMConfiguration `json:"winRM,omitempty"`
+	EnableAutomaticUpdates    *bool                       `json:"enableAutomaticUpdates,omitempty"`
+	PatchSettings             *PatchSettings              `json:"patchSettings,omitempty"`
+	ProvisionVMAgent          *bool                       `json:"provisionVMAgent,omitempty"`
+	TimeZone                  *string                     `json:"timeZone,omitempty"`
+	WinRM                     *WinRMConfiguration         `json:"winRM,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WindowsConfiguration{}
@@ -16032,34 +14975,14 @@ func (configuration *WindowsConfiguration) Initialize_From_WindowsConfiguration_
 	return nil
 }
 
-// Specifies Windows operating system settings on the virtual machine.
+// Deprecated version of WindowsConfiguration_STATUS. Use v1api20220301.WindowsConfiguration_STATUS instead
 type WindowsConfiguration_STATUS struct {
-	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted information that can be included in the
-	// Unattend.xml file, which is used by Windows Setup.
 	AdditionalUnattendContent []AdditionalUnattendContent_STATUS `json:"additionalUnattendContent,omitempty"`
-
-	// EnableAutomaticUpdates: Indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value is
-	// true.
-	// For virtual machine scale sets, this property can be updated and updates will take effect on OS reprovisioning.
-	EnableAutomaticUpdates *bool `json:"enableAutomaticUpdates,omitempty"`
-
-	// PatchSettings: [Preview Feature] Specifies settings related to VM Guest Patching on Windows.
-	PatchSettings *PatchSettings_STATUS `json:"patchSettings,omitempty"`
-
-	// ProvisionVMAgent: Indicates whether virtual machine agent should be provisioned on the virtual machine.
-	// When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that
-	// VM Agent is installed on the VM so that extensions can be added to the VM later.
-	ProvisionVMAgent *bool `json:"provisionVMAgent,omitempty"`
-
-	// TimeZone: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time".
-	// Possible values can be
-	// [TimeZoneInfo.Id](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time
-	// zones returned by
-	// [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.getsystemtimezones).
-	TimeZone *string `json:"timeZone,omitempty"`
-
-	// WinRM: Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
-	WinRM *WinRMConfiguration_STATUS `json:"winRM,omitempty"`
+	EnableAutomaticUpdates    *bool                              `json:"enableAutomaticUpdates,omitempty"`
+	PatchSettings             *PatchSettings_STATUS              `json:"patchSettings,omitempty"`
+	ProvisionVMAgent          *bool                              `json:"provisionVMAgent,omitempty"`
+	TimeZone                  *string                            `json:"timeZone,omitempty"`
+	WinRM                     *WinRMConfiguration_STATUS         `json:"winRM,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WindowsConfiguration_STATUS{}
@@ -16275,23 +15198,12 @@ func (configuration *WindowsConfiguration_STATUS) AssignProperties_To_WindowsCon
 	return nil
 }
 
-// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
-// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
+// Deprecated version of AdditionalUnattendContent. Use v1api20220301.AdditionalUnattendContent instead
 type AdditionalUnattendContent struct {
-	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
 	ComponentName *AdditionalUnattendContent_ComponentName `json:"componentName,omitempty"`
-
-	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
-	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
-	// inserted.
-	Content *string `json:"content,omitempty"`
-
-	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *AdditionalUnattendContent_PassName `json:"passName,omitempty"`
-
-	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
-	// AutoLogon.
-	SettingName *AdditionalUnattendContent_SettingName `json:"settingName,omitempty"`
+	Content       *string                                  `json:"content,omitempty"`
+	PassName      *AdditionalUnattendContent_PassName      `json:"passName,omitempty"`
+	SettingName   *AdditionalUnattendContent_SettingName   `json:"settingName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AdditionalUnattendContent{}
@@ -16480,23 +15392,12 @@ func (content *AdditionalUnattendContent) Initialize_From_AdditionalUnattendCont
 	return nil
 }
 
-// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
-// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
+// Deprecated version of AdditionalUnattendContent_STATUS. Use v1api20220301.AdditionalUnattendContent_STATUS instead
 type AdditionalUnattendContent_STATUS struct {
-	// ComponentName: The component name. Currently, the only allowable value is Microsoft-Windows-Shell-Setup.
 	ComponentName *AdditionalUnattendContent_ComponentName_STATUS `json:"componentName,omitempty"`
-
-	// Content: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and
-	// component. The XML must be less than 4KB and must include the root element for the setting or feature that is being
-	// inserted.
-	Content *string `json:"content,omitempty"`
-
-	// PassName: The pass name. Currently, the only allowable value is OobeSystem.
-	PassName *AdditionalUnattendContent_PassName_STATUS `json:"passName,omitempty"`
-
-	// SettingName: Specifies the name of the setting to which the content applies. Possible values are: FirstLogonCommands and
-	// AutoLogon.
-	SettingName *AdditionalUnattendContent_SettingName_STATUS `json:"settingName,omitempty"`
+	Content       *string                                         `json:"content,omitempty"`
+	PassName      *AdditionalUnattendContent_PassName_STATUS      `json:"passName,omitempty"`
+	SettingName   *AdditionalUnattendContent_SettingName_STATUS   `json:"settingName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AdditionalUnattendContent_STATUS{}
@@ -16618,35 +15519,16 @@ func (content *AdditionalUnattendContent_STATUS) AssignProperties_To_AdditionalU
 	return nil
 }
 
-// Describes the properties of an virtual machine instance view for available patch summary.
+// Deprecated version of AvailablePatchSummary_STATUS. Use v1api20220301.AvailablePatchSummary_STATUS instead
 type AvailablePatchSummary_STATUS struct {
-	// AssessmentActivityId: The activity ID of the operation that produced this result. It is used to correlate across CRP and
-	// extension logs.
-	AssessmentActivityId *string `json:"assessmentActivityId,omitempty"`
-
-	// CriticalAndSecurityPatchCount: The number of critical or security patches that have been detected as available and not
-	// yet installed.
-	CriticalAndSecurityPatchCount *int `json:"criticalAndSecurityPatchCount,omitempty"`
-
-	// Error: The errors that were encountered during execution of the operation. The details array contains the list of them.
-	Error *ApiError_STATUS `json:"error,omitempty"`
-
-	// LastModifiedTime: The UTC timestamp when the operation began.
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-
-	// OtherPatchCount: The number of all available patches excluding critical and security.
-	OtherPatchCount *int `json:"otherPatchCount,omitempty"`
-
-	// RebootPending: The overall reboot status of the VM. It will be true when partially installed patches require a reboot to
-	// complete installation but the reboot has not yet occurred.
-	RebootPending *bool `json:"rebootPending,omitempty"`
-
-	// StartTime: The UTC timestamp when the operation began.
-	StartTime *string `json:"startTime,omitempty"`
-
-	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
-	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *AvailablePatchSummary_Status_STATUS `json:"status,omitempty"`
+	AssessmentActivityId          *string                              `json:"assessmentActivityId,omitempty"`
+	CriticalAndSecurityPatchCount *int                                 `json:"criticalAndSecurityPatchCount,omitempty"`
+	Error                         *ApiError_STATUS                     `json:"error,omitempty"`
+	LastModifiedTime              *string                              `json:"lastModifiedTime,omitempty"`
+	OtherPatchCount               *int                                 `json:"otherPatchCount,omitempty"`
+	RebootPending                 *bool                                `json:"rebootPending,omitempty"`
+	StartTime                     *string                              `json:"startTime,omitempty"`
+	Status                        *AvailablePatchSummary_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AvailablePatchSummary_STATUS{}
@@ -16829,12 +15711,7 @@ func (summary *AvailablePatchSummary_STATUS) AssignProperties_To_AvailablePatchS
 	return nil
 }
 
-// Specifies the caching requirements.
-// Possible values are:
-// None
-// ReadOnly
-// ReadWrite
-// Default: None for Standard storage. ReadOnly for Premium storage
+// Deprecated version of Caching. Use v1api20220301.Caching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type Caching string
 
@@ -16844,12 +15721,7 @@ const (
 	Caching_ReadWrite = Caching("ReadWrite")
 )
 
-// Specifies the caching requirements.
-// Possible values are:
-// None
-// ReadOnly
-// ReadWrite
-// Default: None for Standard storage. ReadOnly for Premium storage
+// Deprecated version of Caching_STATUS. Use v1api20220301.Caching_STATUS instead
 type Caching_STATUS string
 
 const (
@@ -16858,14 +15730,7 @@ const (
 	Caching_STATUS_ReadWrite = Caching_STATUS("ReadWrite")
 )
 
-// Specifies how the virtual machine should be created.
-// Possible values are:
-// Attach \u2013 This value
-// is used when you are using a specialized disk to create the virtual machine.
-// FromImage \u2013 This value is
-// used when you are using an image to create the virtual machine. If you are using a platform image, you also use the
-// imageReference element described above. If you are using a marketplace image, you  also use the plan element previously
-// described.
+// Deprecated version of CreateOption. Use v1api20220301.CreateOption instead
 // +kubebuilder:validation:Enum={"Attach","Empty","FromImage"}
 type CreateOption string
 
@@ -16875,14 +15740,7 @@ const (
 	CreateOption_FromImage = CreateOption("FromImage")
 )
 
-// Specifies how the virtual machine should be created.
-// Possible values are:
-// Attach \u2013 This value
-// is used when you are using a specialized disk to create the virtual machine.
-// FromImage \u2013 This value is
-// used when you are using an image to create the virtual machine. If you are using a platform image, you also use the
-// imageReference element described above. If you are using a marketplace image, you  also use the plan element previously
-// described.
+// Deprecated version of CreateOption_STATUS. Use v1api20220301.CreateOption_STATUS instead
 type CreateOption_STATUS string
 
 const (
@@ -16891,12 +15749,7 @@ const (
 	CreateOption_STATUS_FromImage = CreateOption_STATUS("FromImage")
 )
 
-// Specifies the behavior of the managed disk when the VM gets deleted i.e whether the managed disk is deleted or detached.
-// Supported values:
-// Delete If this value is used, the managed disk is deleted when VM gets deleted.
-// Detach If this value is used, the managed disk is retained after VM gets deleted.
-// Minimum api-version:
-// 2021-03-01
+// Deprecated version of DeleteOption. Use v1api20220301.DeleteOption instead
 // +kubebuilder:validation:Enum={"Delete","Detach"}
 type DeleteOption string
 
@@ -16905,12 +15758,7 @@ const (
 	DeleteOption_Detach = DeleteOption("Detach")
 )
 
-// Specifies the behavior of the managed disk when the VM gets deleted i.e whether the managed disk is deleted or detached.
-// Supported values:
-// Delete If this value is used, the managed disk is deleted when VM gets deleted.
-// Detach If this value is used, the managed disk is retained after VM gets deleted.
-// Minimum api-version:
-// 2021-03-01
+// Deprecated version of DeleteOption_STATUS. Use v1api20220301.DeleteOption_STATUS instead
 type DeleteOption_STATUS string
 
 const (
@@ -16918,47 +15766,20 @@ const (
 	DeleteOption_STATUS_Detach = DeleteOption_STATUS("Detach")
 )
 
-// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from
-// the virtual machine. Supported values: ForceDetach.
-// detachOption: ForceDetach is applicable only for
-// managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from
-// the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk
-// forcibly from the VM. All writes might not have been flushed when using this detach behavior.
-// This feature is
-// still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached
-// to 'true' along with setting detachOption: 'ForceDetach'.
+// Deprecated version of DetachOption. Use v1api20220301.DetachOption instead
 // +kubebuilder:validation:Enum={"ForceDetach"}
 type DetachOption string
 
 const DetachOption_ForceDetach = DetachOption("ForceDetach")
 
-// Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from
-// the virtual machine. Supported values: ForceDetach.
-// detachOption: ForceDetach is applicable only for
-// managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from
-// the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk
-// forcibly from the VM. All writes might not have been flushed when using this detach behavior.
-// This feature is
-// still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached
-// to 'true' along with setting detachOption: 'ForceDetach'.
+// Deprecated version of DetachOption_STATUS. Use v1api20220301.DetachOption_STATUS instead
 type DetachOption_STATUS string
 
 const DetachOption_STATUS_ForceDetach = DetachOption_STATUS("ForceDetach")
 
-// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
-// NOTE: The
-// ephemeral disk settings can only be specified for managed disk.
+// Deprecated version of DiffDiskSettings. Use v1api20220301.DiffDiskSettings instead
 type DiffDiskSettings struct {
-	// Option: Specifies the ephemeral disk settings for operating system disk.
-	Option *DiffDiskOption `json:"option,omitempty"`
-
-	// Placement: Specifies the ephemeral disk placement for operating system disk.
-	// Possible values are:
-	// CacheDisk
-	// ResourceDisk
-	// Default: CacheDisk if one is configured for the VM size otherwise ResourceDisk is used.
-	// Refer to VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and
-	// Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk.
+	Option    *DiffDiskOption    `json:"option,omitempty"`
 	Placement *DiffDiskPlacement `json:"placement,omitempty"`
 }
 
@@ -17091,20 +15912,9 @@ func (settings *DiffDiskSettings) Initialize_From_DiffDiskSettings_STATUS(source
 	return nil
 }
 
-// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
-// NOTE: The
-// ephemeral disk settings can only be specified for managed disk.
+// Deprecated version of DiffDiskSettings_STATUS. Use v1api20220301.DiffDiskSettings_STATUS instead
 type DiffDiskSettings_STATUS struct {
-	// Option: Specifies the ephemeral disk settings for operating system disk.
-	Option *DiffDiskOption_STATUS `json:"option,omitempty"`
-
-	// Placement: Specifies the ephemeral disk placement for operating system disk.
-	// Possible values are:
-	// CacheDisk
-	// ResourceDisk
-	// Default: CacheDisk if one is configured for the VM size otherwise ResourceDisk is used.
-	// Refer to VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and
-	// Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk.
+	Option    *DiffDiskOption_STATUS    `json:"option,omitempty"`
 	Placement *DiffDiskPlacement_STATUS `json:"placement,omitempty"`
 }
 
@@ -17193,16 +16003,11 @@ func (settings *DiffDiskSettings_STATUS) AssignProperties_To_DiffDiskSettings_ST
 	return nil
 }
 
-// Describes a Encryption Settings for a Disk
+// Deprecated version of DiskEncryptionSettings. Use v1api20220301.DiskEncryptionSettings instead
 type DiskEncryptionSettings struct {
-	// DiskEncryptionKey: Specifies the location of the disk encryption key, which is a Key Vault Secret.
 	DiskEncryptionKey *KeyVaultSecretReference `json:"diskEncryptionKey,omitempty"`
-
-	// Enabled: Specifies whether disk encryption should be enabled on the virtual machine.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// KeyEncryptionKey: Specifies the location of the key encryption key in Key Vault.
-	KeyEncryptionKey *KeyVaultKeyReference `json:"keyEncryptionKey,omitempty"`
+	Enabled           *bool                    `json:"enabled,omitempty"`
+	KeyEncryptionKey  *KeyVaultKeyReference    `json:"keyEncryptionKey,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DiskEncryptionSettings{}
@@ -17412,16 +16217,11 @@ func (settings *DiskEncryptionSettings) Initialize_From_DiskEncryptionSettings_S
 	return nil
 }
 
-// Describes a Encryption Settings for a Disk
+// Deprecated version of DiskEncryptionSettings_STATUS. Use v1api20220301.DiskEncryptionSettings_STATUS instead
 type DiskEncryptionSettings_STATUS struct {
-	// DiskEncryptionKey: Specifies the location of the disk encryption key, which is a Key Vault Secret.
 	DiskEncryptionKey *KeyVaultSecretReference_STATUS `json:"diskEncryptionKey,omitempty"`
-
-	// Enabled: Specifies whether disk encryption should be enabled on the virtual machine.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// KeyEncryptionKey: Specifies the location of the key encryption key in Key Vault.
-	KeyEncryptionKey *KeyVaultKeyReference_STATUS `json:"keyEncryptionKey,omitempty"`
+	Enabled           *bool                           `json:"enabled,omitempty"`
+	KeyEncryptionKey  *KeyVaultKeyReference_STATUS    `json:"keyEncryptionKey,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DiskEncryptionSettings_STATUS{}
@@ -17557,6 +16357,7 @@ func (settings *DiskEncryptionSettings_STATUS) AssignProperties_To_DiskEncryptio
 	return nil
 }
 
+// Deprecated version of InstanceViewStatus_Level_STATUS. Use v1api20220301.InstanceViewStatus_Level_STATUS instead
 type InstanceViewStatus_Level_STATUS string
 
 const (
@@ -17565,45 +16366,19 @@ const (
 	InstanceViewStatus_Level_STATUS_Warning = InstanceViewStatus_Level_STATUS("Warning")
 )
 
-// Describes the properties of the last installed patch summary.
+// Deprecated version of LastPatchInstallationSummary_STATUS. Use v1api20220301.LastPatchInstallationSummary_STATUS instead
 type LastPatchInstallationSummary_STATUS struct {
-	// Error: The errors that were encountered during execution of the operation. The details array contains the list of them.
-	Error *ApiError_STATUS `json:"error,omitempty"`
-
-	// ExcludedPatchCount: The number of all available patches but excluded explicitly by a customer-specified exclusion list
-	// match.
-	ExcludedPatchCount *int `json:"excludedPatchCount,omitempty"`
-
-	// FailedPatchCount: The count of patches that failed installation.
-	FailedPatchCount *int `json:"failedPatchCount,omitempty"`
-
-	// InstallationActivityId: The activity ID of the operation that produced this result. It is used to correlate across CRP
-	// and extension logs.
-	InstallationActivityId *string `json:"installationActivityId,omitempty"`
-
-	// InstalledPatchCount: The count of patches that successfully installed.
-	InstalledPatchCount *int `json:"installedPatchCount,omitempty"`
-
-	// LastModifiedTime: The UTC timestamp when the operation began.
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-
-	// MaintenanceWindowExceeded: Describes whether the operation ran out of time before it completed all its intended actions
-	MaintenanceWindowExceeded *bool `json:"maintenanceWindowExceeded,omitempty"`
-
-	// NotSelectedPatchCount: The number of all available patches but not going to be installed because it didn't match a
-	// classification or inclusion list entry.
-	NotSelectedPatchCount *int `json:"notSelectedPatchCount,omitempty"`
-
-	// PendingPatchCount: The number of all available patches expected to be installed over the course of the patch
-	// installation operation.
-	PendingPatchCount *int `json:"pendingPatchCount,omitempty"`
-
-	// StartTime: The UTC timestamp when the operation began.
-	StartTime *string `json:"startTime,omitempty"`
-
-	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
-	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *LastPatchInstallationSummary_Status_STATUS `json:"status,omitempty"`
+	Error                     *ApiError_STATUS                            `json:"error,omitempty"`
+	ExcludedPatchCount        *int                                        `json:"excludedPatchCount,omitempty"`
+	FailedPatchCount          *int                                        `json:"failedPatchCount,omitempty"`
+	InstallationActivityId    *string                                     `json:"installationActivityId,omitempty"`
+	InstalledPatchCount       *int                                        `json:"installedPatchCount,omitempty"`
+	LastModifiedTime          *string                                     `json:"lastModifiedTime,omitempty"`
+	MaintenanceWindowExceeded *bool                                       `json:"maintenanceWindowExceeded,omitempty"`
+	NotSelectedPatchCount     *int                                        `json:"notSelectedPatchCount,omitempty"`
+	PendingPatchCount         *int                                        `json:"pendingPatchCount,omitempty"`
+	StartTime                 *string                                     `json:"startTime,omitempty"`
+	Status                    *LastPatchInstallationSummary_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LastPatchInstallationSummary_STATUS{}
@@ -17822,25 +16597,11 @@ func (summary *LastPatchInstallationSummary_STATUS) AssignProperties_To_LastPatc
 	return nil
 }
 
-// Specifies settings related to VM Guest Patching on Linux.
+// Deprecated version of LinuxPatchSettings. Use v1api20220301.LinuxPatchSettings instead
 type LinuxPatchSettings struct {
-	// AssessmentMode: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.
-	// Possible values are:
-	// ImageDefault - You control the timing of patch assessments on a virtual machine.
-	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *LinuxPatchSettings_AssessmentMode `json:"assessmentMode,omitempty"`
-
-	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
-	// Linux.
+	AssessmentMode              *LinuxPatchSettings_AssessmentMode            `json:"assessmentMode,omitempty"`
 	AutomaticByPlatformSettings *LinuxVMGuestPatchAutomaticByPlatformSettings `json:"automaticByPlatformSettings,omitempty"`
-
-	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual
-	// machine scale set with OrchestrationMode as Flexible.
-	// Possible values are:
-	// ImageDefault - The virtual machine's default patching configuration is used.
-	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
-	// must be true
-	PatchMode *LinuxPatchSettings_PatchMode `json:"patchMode,omitempty"`
+	PatchMode                   *LinuxPatchSettings_PatchMode                 `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LinuxPatchSettings{}
@@ -18029,25 +16790,11 @@ func (settings *LinuxPatchSettings) Initialize_From_LinuxPatchSettings_STATUS(so
 	return nil
 }
 
-// Specifies settings related to VM Guest Patching on Linux.
+// Deprecated version of LinuxPatchSettings_STATUS. Use v1api20220301.LinuxPatchSettings_STATUS instead
 type LinuxPatchSettings_STATUS struct {
-	// AssessmentMode: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.
-	// Possible values are:
-	// ImageDefault - You control the timing of patch assessments on a virtual machine.
-	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *LinuxPatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
-
-	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
-	// Linux.
+	AssessmentMode              *LinuxPatchSettings_AssessmentMode_STATUS            `json:"assessmentMode,omitempty"`
 	AutomaticByPlatformSettings *LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS `json:"automaticByPlatformSettings,omitempty"`
-
-	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual
-	// machine scale set with OrchestrationMode as Flexible.
-	// Possible values are:
-	// ImageDefault - The virtual machine's default patching configuration is used.
-	// AutomaticByPlatform - The virtual machine will be automatically updated by the platform. The property provisionVMAgent
-	// must be true
-	PatchMode *LinuxPatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
+	PatchMode                   *LinuxPatchSettings_PatchMode_STATUS                 `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LinuxPatchSettings_STATUS{}
@@ -18170,6 +16917,8 @@ func (settings *LinuxPatchSettings_STATUS) AssignProperties_To_LinuxPatchSetting
 	return nil
 }
 
+// Deprecated version of MaintenanceRedeployStatus_LastOperationResultCode_STATUS. Use
+// v1api20220301.MaintenanceRedeployStatus_LastOperationResultCode_STATUS instead
 type MaintenanceRedeployStatus_LastOperationResultCode_STATUS string
 
 const (
@@ -18179,20 +16928,12 @@ const (
 	MaintenanceRedeployStatus_LastOperationResultCode_STATUS_RetryLater           = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("RetryLater")
 )
 
-// The parameters of a managed disk.
+// Deprecated version of ManagedDiskParameters. Use v1api20220301.ManagedDiskParameters instead
 type ManagedDiskParameters struct {
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
-	DiskEncryptionSet *SubResource `json:"diskEncryptionSet,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-
-	// SecurityProfile: Specifies the security profile for the managed disk.
-	SecurityProfile *VMDiskSecurityProfile `json:"securityProfile,omitempty"`
-
-	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
+	DiskEncryptionSet  *SubResource                  `json:"diskEncryptionSet,omitempty"`
+	Reference          *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	SecurityProfile    *VMDiskSecurityProfile        `json:"securityProfile,omitempty"`
+	StorageAccountType *StorageAccountType           `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedDiskParameters{}
@@ -18438,20 +17179,12 @@ func (parameters *ManagedDiskParameters) Initialize_From_ManagedDiskParameters_S
 	return nil
 }
 
-// The parameters of a managed disk.
+// Deprecated version of ManagedDiskParameters_STATUS. Use v1api20220301.ManagedDiskParameters_STATUS instead
 type ManagedDiskParameters_STATUS struct {
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
-	DiskEncryptionSet *SubResource_STATUS `json:"diskEncryptionSet,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// SecurityProfile: Specifies the security profile for the managed disk.
-	SecurityProfile *VMDiskSecurityProfile_STATUS `json:"securityProfile,omitempty"`
-
-	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUS           `json:"diskEncryptionSet,omitempty"`
+	Id                 *string                       `json:"id,omitempty"`
+	SecurityProfile    *VMDiskSecurityProfile_STATUS `json:"securityProfile,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS    `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagedDiskParameters_STATUS{}
@@ -18599,6 +17332,8 @@ func (parameters *ManagedDiskParameters_STATUS) AssignProperties_To_ManagedDiskP
 	return nil
 }
 
+// Deprecated version of NetworkInterfaceReferenceProperties_DeleteOption. Use
+// v1api20220301.NetworkInterfaceReferenceProperties_DeleteOption instead
 // +kubebuilder:validation:Enum={"Delete","Detach"}
 type NetworkInterfaceReferenceProperties_DeleteOption string
 
@@ -18607,6 +17342,8 @@ const (
 	NetworkInterfaceReferenceProperties_DeleteOption_Detach = NetworkInterfaceReferenceProperties_DeleteOption("Detach")
 )
 
+// Deprecated version of NetworkInterfaceReferenceProperties_DeleteOption_STATUS. Use
+// v1api20220301.NetworkInterfaceReferenceProperties_DeleteOption_STATUS instead
 type NetworkInterfaceReferenceProperties_DeleteOption_STATUS string
 
 const (
@@ -18614,6 +17351,7 @@ const (
 	NetworkInterfaceReferenceProperties_DeleteOption_STATUS_Detach = NetworkInterfaceReferenceProperties_DeleteOption_STATUS("Detach")
 )
 
+// Deprecated version of OSDisk_OsType. Use v1api20220301.OSDisk_OsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type OSDisk_OsType string
 
@@ -18622,6 +17360,7 @@ const (
 	OSDisk_OsType_Windows = OSDisk_OsType("Windows")
 )
 
+// Deprecated version of OSDisk_OsType_STATUS. Use v1api20220301.OSDisk_OsType_STATUS instead
 type OSDisk_OsType_STATUS string
 
 const (
@@ -18629,33 +17368,12 @@ const (
 	OSDisk_OsType_STATUS_Windows = OSDisk_OsType_STATUS("Windows")
 )
 
-// Specifies settings related to VM Guest Patching on Windows.
+// Deprecated version of PatchSettings. Use v1api20220301.PatchSettings instead
 type PatchSettings struct {
-	// AssessmentMode: Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.
-	// Possible values are:
-	// ImageDefault - You control the timing of patch assessments on a virtual machine.
-	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *PatchSettings_AssessmentMode `json:"assessmentMode,omitempty"`
-
-	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
-	// Windows.
+	AssessmentMode              *PatchSettings_AssessmentMode                   `json:"assessmentMode,omitempty"`
 	AutomaticByPlatformSettings *WindowsVMGuestPatchAutomaticByPlatformSettings `json:"automaticByPlatformSettings,omitempty"`
-
-	// EnableHotpatching: Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching, the
-	// 'provisionVMAgent' must be set to true and 'patchMode' must be set to 'AutomaticByPlatform'.
-	EnableHotpatching *bool `json:"enableHotpatching,omitempty"`
-
-	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual
-	// machine scale set with OrchestrationMode as Flexible.
-	// Possible values are:
-	// Manual - You  control the application of patches to a virtual machine. You do this by applying patches manually inside
-	// the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be
-	// false
-	// AutomaticByOS - The virtual machine will automatically be updated by the OS. The property
-	// WindowsConfiguration.enableAutomaticUpdates must be true.
-	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
-	// and WindowsConfiguration.enableAutomaticUpdates must be true
-	PatchMode *PatchSettings_PatchMode `json:"patchMode,omitempty"`
+	EnableHotpatching           *bool                                           `json:"enableHotpatching,omitempty"`
+	PatchMode                   *PatchSettings_PatchMode                        `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PatchSettings{}
@@ -18880,33 +17598,12 @@ func (settings *PatchSettings) Initialize_From_PatchSettings_STATUS(source *Patc
 	return nil
 }
 
-// Specifies settings related to VM Guest Patching on Windows.
+// Deprecated version of PatchSettings_STATUS. Use v1api20220301.PatchSettings_STATUS instead
 type PatchSettings_STATUS struct {
-	// AssessmentMode: Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.
-	// Possible values are:
-	// ImageDefault - You control the timing of patch assessments on a virtual machine.
-	// AutomaticByPlatform - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
-	AssessmentMode *PatchSettings_AssessmentMode_STATUS `json:"assessmentMode,omitempty"`
-
-	// AutomaticByPlatformSettings: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on
-	// Windows.
+	AssessmentMode              *PatchSettings_AssessmentMode_STATUS                   `json:"assessmentMode,omitempty"`
 	AutomaticByPlatformSettings *WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS `json:"automaticByPlatformSettings,omitempty"`
-
-	// EnableHotpatching: Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching, the
-	// 'provisionVMAgent' must be set to true and 'patchMode' must be set to 'AutomaticByPlatform'.
-	EnableHotpatching *bool `json:"enableHotpatching,omitempty"`
-
-	// PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual
-	// machine scale set with OrchestrationMode as Flexible.
-	// Possible values are:
-	// Manual - You  control the application of patches to a virtual machine. You do this by applying patches manually inside
-	// the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be
-	// false
-	// AutomaticByOS - The virtual machine will automatically be updated by the OS. The property
-	// WindowsConfiguration.enableAutomaticUpdates must be true.
-	// AutomaticByPlatform - the virtual machine will automatically updated by the platform. The properties provisionVMAgent
-	// and WindowsConfiguration.enableAutomaticUpdates must be true
-	PatchMode *PatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
+	EnableHotpatching           *bool                                                  `json:"enableHotpatching,omitempty"`
+	PatchMode                   *PatchSettings_PatchMode_STATUS                        `json:"patchMode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PatchSettings_STATUS{}
@@ -19051,9 +17748,8 @@ func (settings *PatchSettings_STATUS) AssignProperties_To_PatchSettings_STATUS(d
 	return nil
 }
 
-// SSH configuration for Linux based VMs running on Azure
+// Deprecated version of SshConfiguration. Use v1api20220301.SshConfiguration instead
 type SshConfiguration struct {
-	// PublicKeys: The list of SSH public keys used to authenticate with linux based VMs.
 	PublicKeys []SshPublicKeySpec `json:"publicKeys,omitempty"`
 }
 
@@ -19187,9 +17883,8 @@ func (configuration *SshConfiguration) Initialize_From_SshConfiguration_STATUS(s
 	return nil
 }
 
-// SSH configuration for Linux based VMs running on Azure
+// Deprecated version of SshConfiguration_STATUS. Use v1api20220301.SshConfiguration_STATUS instead
 type SshConfiguration_STATUS struct {
-	// PublicKeys: The list of SSH public keys used to authenticate with linux based VMs.
 	PublicKeys []SshPublicKey_STATUS `json:"publicKeys,omitempty"`
 }
 
@@ -19280,28 +17975,10 @@ func (configuration *SshConfiguration_STATUS) AssignProperties_To_SshConfigurati
 	return nil
 }
 
-// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
+// Deprecated version of VaultCertificate. Use v1api20220301.VaultCertificate instead
 type VaultCertificate struct {
-	// CertificateStore: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate
-	// should be added. The specified certificate store is implicitly in the LocalMachine account.
-	// For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name
-	// &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both
-	// of these files are .pem formatted.
 	CertificateStore *string `json:"certificateStore,omitempty"`
-
-	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
-	// the Key Vault, see [Add a key or secret to the key
-	// vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to
-	// be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8:
-	// {
-	// "data":"<Base64-encoded-certificate>",
-	// "dataType":"pfx",
-	// "password":"<pfx-file-password>"
-	// }
-	// To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for
-	// Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual
-	// machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).
-	CertificateUrl *string `json:"certificateUrl,omitempty"`
+	CertificateUrl   *string `json:"certificateUrl,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VaultCertificate{}
@@ -19403,28 +18080,10 @@ func (certificate *VaultCertificate) Initialize_From_VaultCertificate_STATUS(sou
 	return nil
 }
 
-// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
+// Deprecated version of VaultCertificate_STATUS. Use v1api20220301.VaultCertificate_STATUS instead
 type VaultCertificate_STATUS struct {
-	// CertificateStore: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate
-	// should be added. The specified certificate store is implicitly in the LocalMachine account.
-	// For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name
-	// &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both
-	// of these files are .pem formatted.
 	CertificateStore *string `json:"certificateStore,omitempty"`
-
-	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
-	// the Key Vault, see [Add a key or secret to the key
-	// vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to
-	// be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8:
-	// {
-	// "data":"<Base64-encoded-certificate>",
-	// "dataType":"pfx",
-	// "password":"<pfx-file-password>"
-	// }
-	// To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for
-	// Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual
-	// machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).
-	CertificateUrl *string `json:"certificateUrl,omitempty"`
+	CertificateUrl   *string `json:"certificateUrl,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VaultCertificate_STATUS{}
@@ -19492,9 +18151,8 @@ func (certificate *VaultCertificate_STATUS) AssignProperties_To_VaultCertificate
 	return nil
 }
 
-// Describes the uri of a disk.
+// Deprecated version of VirtualHardDisk. Use v1api20220301.VirtualHardDisk instead
 type VirtualHardDisk struct {
-	// Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
 }
 
@@ -19576,9 +18234,8 @@ func (disk *VirtualHardDisk) Initialize_From_VirtualHardDisk_STATUS(source *Virt
 	return nil
 }
 
-// Describes the uri of a disk.
+// Deprecated version of VirtualHardDisk_STATUS. Use v1api20220301.VirtualHardDisk_STATUS instead
 type VirtualHardDisk_STATUS struct {
-	// Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
 }
 
@@ -19635,16 +18292,11 @@ func (disk *VirtualHardDisk_STATUS) AssignProperties_To_VirtualHardDisk_STATUS(d
 	return nil
 }
 
-// The instance view of a virtual machine extension handler.
+// Deprecated version of VirtualMachineExtensionHandlerInstanceView_STATUS. Use v1api20220301.VirtualMachineExtensionHandlerInstanceView_STATUS instead
 type VirtualMachineExtensionHandlerInstanceView_STATUS struct {
-	// Status: The extension handler status.
-	Status *InstanceViewStatus_STATUS `json:"status,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
+	Status             *InstanceViewStatus_STATUS `json:"status,omitempty"`
+	Type               *string                    `json:"type,omitempty"`
+	TypeHandlerVersion *string                    `json:"typeHandlerVersion,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineExtensionHandlerInstanceView_STATUS{}
@@ -19747,6 +18399,8 @@ func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignProperties_
 	return nil
 }
 
+// Deprecated version of VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption. Use
+// v1api20220301.VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption instead
 // +kubebuilder:validation:Enum={"Delete","Detach"}
 type VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption string
 
@@ -19755,6 +18409,8 @@ const (
 	VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_Detach = VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption("Detach")
 )
 
+// Deprecated version of VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS. Use
+// v1api20220301.VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS instead
 type VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS string
 
 const (
@@ -19762,9 +18418,8 @@ const (
 	VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS_Detach = VirtualMachineNetworkInterfaceConfigurationProperties_DeleteOption_STATUS("Detach")
 )
 
-// Describes a virtual machines network configuration's DNS settings.
+// Deprecated version of VirtualMachineNetworkInterfaceDnsSettingsConfiguration. Use v1api20220301.VirtualMachineNetworkInterfaceDnsSettingsConfiguration instead
 type VirtualMachineNetworkInterfaceDnsSettingsConfiguration struct {
-	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
@@ -19844,9 +18499,8 @@ func (configuration *VirtualMachineNetworkInterfaceDnsSettingsConfiguration) Ini
 	return nil
 }
 
-// Describes a virtual machines network configuration's DNS settings.
+// Deprecated version of VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS. Use v1api20220301.VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS instead
 type VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STATUS struct {
-	// DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
@@ -19902,37 +18556,18 @@ func (configuration *VirtualMachineNetworkInterfaceDnsSettingsConfiguration_STAT
 	return nil
 }
 
-// Describes a virtual machine network profile's IP configuration.
+// Deprecated version of VirtualMachineNetworkInterfaceIPConfiguration. Use v1api20220301.VirtualMachineNetworkInterfaceIPConfiguration instead
 type VirtualMachineNetworkInterfaceIPConfiguration struct {
-	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
-	// gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual
-	// machines cannot use the same application gateway.
 	ApplicationGatewayBackendAddressPools []SubResource `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	// ApplicationSecurityGroups: Specifies an array of references to application security group.
-	ApplicationSecurityGroups []SubResource `json:"applicationSecurityGroups,omitempty"`
-
-	// LoadBalancerBackendAddressPools: Specifies an array of references to backend address pools of load balancers. A virtual
-	// machine can reference backend address pools of one public and one internal load balancer. [Multiple virtual machines
-	// cannot use the same basic sku load balancer].
-	LoadBalancerBackendAddressPools []SubResource `json:"loadBalancerBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []SubResource `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []SubResource `json:"loadBalancerBackendAddressPools,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The IP configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
-	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
-
-	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
-	PublicIPAddressConfiguration *VirtualMachinePublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
-
-	// Subnet: Specifies the identifier of the subnet.
-	Subnet *SubResource `json:"subnet,omitempty"`
+	Name                         *string                                                                          `json:"name,omitempty"`
+	Primary                      *bool                                                                            `json:"primary,omitempty"`
+	PrivateIPAddressVersion      *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
+	PublicIPAddressConfiguration *VirtualMachinePublicIPAddressConfiguration                                      `json:"publicIPAddressConfiguration,omitempty"`
+	Subnet                       *SubResource                                                                     `json:"subnet,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineNetworkInterfaceIPConfiguration{}
@@ -20436,36 +19071,16 @@ func (configuration *VirtualMachineNetworkInterfaceIPConfiguration) Initialize_F
 	return nil
 }
 
-// Describes a virtual machine network profile's IP configuration.
+// Deprecated version of VirtualMachineNetworkInterfaceIPConfiguration_STATUS. Use v1api20220301.VirtualMachineNetworkInterfaceIPConfiguration_STATUS instead
 type VirtualMachineNetworkInterfaceIPConfiguration_STATUS struct {
-	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
-	// gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual
-	// machines cannot use the same application gateway.
-	ApplicationGatewayBackendAddressPools []SubResource_STATUS `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	// ApplicationSecurityGroups: Specifies an array of references to application security group.
-	ApplicationSecurityGroups []SubResource_STATUS `json:"applicationSecurityGroups,omitempty"`
-
-	// LoadBalancerBackendAddressPools: Specifies an array of references to backend address pools of load balancers. A virtual
-	// machine can reference backend address pools of one public and one internal load balancer. [Multiple virtual machines
-	// cannot use the same basic sku load balancer].
-	LoadBalancerBackendAddressPools []SubResource_STATUS `json:"loadBalancerBackendAddressPools,omitempty"`
-
-	// Name: The IP configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// Primary: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	// PrivateIPAddressVersion: Available from Api-Version 2017-03-30 onwards, it represents whether the specific
-	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'.
-	PrivateIPAddressVersion *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
-
-	// PublicIPAddressConfiguration: The publicIPAddressConfiguration.
-	PublicIPAddressConfiguration *VirtualMachinePublicIPAddressConfiguration_STATUS `json:"publicIPAddressConfiguration,omitempty"`
-
-	// Subnet: Specifies the identifier of the subnet.
-	Subnet *SubResource_STATUS `json:"subnet,omitempty"`
+	ApplicationGatewayBackendAddressPools []SubResource_STATUS                                                                    `json:"applicationGatewayBackendAddressPools,omitempty"`
+	ApplicationSecurityGroups             []SubResource_STATUS                                                                    `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []SubResource_STATUS                                                                    `json:"loadBalancerBackendAddressPools,omitempty"`
+	Name                                  *string                                                                                 `json:"name,omitempty"`
+	Primary                               *bool                                                                                   `json:"primary,omitempty"`
+	PrivateIPAddressVersion               *VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
+	PublicIPAddressConfiguration          *VirtualMachinePublicIPAddressConfiguration_STATUS                                      `json:"publicIPAddressConfiguration,omitempty"`
+	Subnet                                *SubResource_STATUS                                                                     `json:"subnet,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineNetworkInterfaceIPConfiguration_STATUS{}
@@ -20794,9 +19409,8 @@ func (configuration *VirtualMachineNetworkInterfaceIPConfiguration_STATUS) Assig
 	return nil
 }
 
-// Describes Windows Remote Management configuration of the VM
+// Deprecated version of WinRMConfiguration. Use v1api20220301.WinRMConfiguration instead
 type WinRMConfiguration struct {
-	// Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener `json:"listeners,omitempty"`
 }
 
@@ -20930,9 +19544,8 @@ func (configuration *WinRMConfiguration) Initialize_From_WinRMConfiguration_STAT
 	return nil
 }
 
-// Describes Windows Remote Management configuration of the VM
+// Deprecated version of WinRMConfiguration_STATUS. Use v1api20220301.WinRMConfiguration_STATUS instead
 type WinRMConfiguration_STATUS struct {
-	// Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener_STATUS `json:"listeners,omitempty"`
 }
 
@@ -21023,24 +19636,33 @@ func (configuration *WinRMConfiguration_STATUS) AssignProperties_To_WinRMConfigu
 	return nil
 }
 
+// Deprecated version of AdditionalUnattendContent_ComponentName. Use v1api20220301.AdditionalUnattendContent_ComponentName
+// instead
 // +kubebuilder:validation:Enum={"Microsoft-Windows-Shell-Setup"}
 type AdditionalUnattendContent_ComponentName string
 
 const AdditionalUnattendContent_ComponentName_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName("Microsoft-Windows-Shell-Setup")
 
+// Deprecated version of AdditionalUnattendContent_ComponentName_STATUS. Use
+// v1api20220301.AdditionalUnattendContent_ComponentName_STATUS instead
 type AdditionalUnattendContent_ComponentName_STATUS string
 
 const AdditionalUnattendContent_ComponentName_STATUS_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName_STATUS("Microsoft-Windows-Shell-Setup")
 
+// Deprecated version of AdditionalUnattendContent_PassName. Use v1api20220301.AdditionalUnattendContent_PassName instead
 // +kubebuilder:validation:Enum={"OobeSystem"}
 type AdditionalUnattendContent_PassName string
 
 const AdditionalUnattendContent_PassName_OobeSystem = AdditionalUnattendContent_PassName("OobeSystem")
 
+// Deprecated version of AdditionalUnattendContent_PassName_STATUS. Use
+// v1api20220301.AdditionalUnattendContent_PassName_STATUS instead
 type AdditionalUnattendContent_PassName_STATUS string
 
 const AdditionalUnattendContent_PassName_STATUS_OobeSystem = AdditionalUnattendContent_PassName_STATUS("OobeSystem")
 
+// Deprecated version of AdditionalUnattendContent_SettingName. Use v1api20220301.AdditionalUnattendContent_SettingName
+// instead
 // +kubebuilder:validation:Enum={"AutoLogon","FirstLogonCommands"}
 type AdditionalUnattendContent_SettingName string
 
@@ -21049,6 +19671,8 @@ const (
 	AdditionalUnattendContent_SettingName_FirstLogonCommands = AdditionalUnattendContent_SettingName("FirstLogonCommands")
 )
 
+// Deprecated version of AdditionalUnattendContent_SettingName_STATUS. Use
+// v1api20220301.AdditionalUnattendContent_SettingName_STATUS instead
 type AdditionalUnattendContent_SettingName_STATUS string
 
 const (
@@ -21056,22 +19680,13 @@ const (
 	AdditionalUnattendContent_SettingName_STATUS_FirstLogonCommands = AdditionalUnattendContent_SettingName_STATUS("FirstLogonCommands")
 )
 
-// Api error.
+// Deprecated version of ApiError_STATUS. Use v1api20220301.ApiError_STATUS instead
 type ApiError_STATUS struct {
-	// Code: The error code.
-	Code *string `json:"code,omitempty"`
-
-	// Details: The Api error details
-	Details []ApiErrorBase_STATUS `json:"details,omitempty"`
-
-	// Innererror: The Api inner error
-	Innererror *InnerError_STATUS `json:"innererror,omitempty"`
-
-	// Message: The error message.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The target of the particular error.
-	Target *string `json:"target,omitempty"`
+	Code       *string               `json:"code,omitempty"`
+	Details    []ApiErrorBase_STATUS `json:"details,omitempty"`
+	Innererror *InnerError_STATUS    `json:"innererror,omitempty"`
+	Message    *string               `json:"message,omitempty"`
+	Target     *string               `json:"target,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ApiError_STATUS{}
@@ -21232,6 +19847,7 @@ func (error *ApiError_STATUS) AssignProperties_To_ApiError_STATUS(destination *v
 	return nil
 }
 
+// Deprecated version of AvailablePatchSummary_Status_STATUS. Use v1api20220301.AvailablePatchSummary_Status_STATUS instead
 type AvailablePatchSummary_Status_STATUS string
 
 const (
@@ -21242,22 +19858,18 @@ const (
 	AvailablePatchSummary_Status_STATUS_Unknown               = AvailablePatchSummary_Status_STATUS("Unknown")
 )
 
-// Specifies the ephemeral disk option for operating system disk.
+// Deprecated version of DiffDiskOption. Use v1api20220301.DiffDiskOption instead
 // +kubebuilder:validation:Enum={"Local"}
 type DiffDiskOption string
 
 const DiffDiskOption_Local = DiffDiskOption("Local")
 
-// Specifies the ephemeral disk option for operating system disk.
+// Deprecated version of DiffDiskOption_STATUS. Use v1api20220301.DiffDiskOption_STATUS instead
 type DiffDiskOption_STATUS string
 
 const DiffDiskOption_STATUS_Local = DiffDiskOption_STATUS("Local")
 
-// Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to
-// choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on
-// Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at
-// https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at
-// https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
+// Deprecated version of DiffDiskPlacement. Use v1api20220301.DiffDiskPlacement instead
 // +kubebuilder:validation:Enum={"CacheDisk","ResourceDisk"}
 type DiffDiskPlacement string
 
@@ -21266,11 +19878,7 @@ const (
 	DiffDiskPlacement_ResourceDisk = DiffDiskPlacement("ResourceDisk")
 )
 
-// Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to
-// choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on
-// Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at
-// https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at
-// https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
+// Deprecated version of DiffDiskPlacement_STATUS. Use v1api20220301.DiffDiskPlacement_STATUS instead
 type DiffDiskPlacement_STATUS string
 
 const (
@@ -21278,14 +19886,12 @@ const (
 	DiffDiskPlacement_STATUS_ResourceDisk = DiffDiskPlacement_STATUS("ResourceDisk")
 )
 
-// Describes a reference to Key Vault Key
+// Deprecated version of KeyVaultKeyReference. Use v1api20220301.KeyVaultKeyReference instead
 type KeyVaultKeyReference struct {
 	// +kubebuilder:validation:Required
-	// KeyUrl: The URL referencing a key encryption key in Key Vault.
 	KeyUrl *string `json:"keyUrl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SourceVault: The relative URL of the Key Vault containing the key.
 	SourceVault *SubResource `json:"sourceVault,omitempty"`
 }
 
@@ -21424,12 +20030,9 @@ func (reference *KeyVaultKeyReference) Initialize_From_KeyVaultKeyReference_STAT
 	return nil
 }
 
-// Describes a reference to Key Vault Key
+// Deprecated version of KeyVaultKeyReference_STATUS. Use v1api20220301.KeyVaultKeyReference_STATUS instead
 type KeyVaultKeyReference_STATUS struct {
-	// KeyUrl: The URL referencing a key encryption key in Key Vault.
-	KeyUrl *string `json:"keyUrl,omitempty"`
-
-	// SourceVault: The relative URL of the Key Vault containing the key.
+	KeyUrl      *string             `json:"keyUrl,omitempty"`
 	SourceVault *SubResource_STATUS `json:"sourceVault,omitempty"`
 }
 
@@ -21521,14 +20124,12 @@ func (reference *KeyVaultKeyReference_STATUS) AssignProperties_To_KeyVaultKeyRef
 	return nil
 }
 
-// Describes a reference to Key Vault Secret
+// Deprecated version of KeyVaultSecretReference. Use v1api20220301.KeyVaultSecretReference instead
 type KeyVaultSecretReference struct {
 	// +kubebuilder:validation:Required
-	// SecretUrl: The URL referencing a secret in a Key Vault.
 	SecretUrl *string `json:"secretUrl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SourceVault: The relative URL of the Key Vault containing the secret.
 	SourceVault *SubResource `json:"sourceVault,omitempty"`
 }
 
@@ -21667,6 +20268,8 @@ func (reference *KeyVaultSecretReference) Initialize_From_KeyVaultSecretReferenc
 	return nil
 }
 
+// Deprecated version of LastPatchInstallationSummary_Status_STATUS. Use
+// v1api20220301.LastPatchInstallationSummary_Status_STATUS instead
 type LastPatchInstallationSummary_Status_STATUS string
 
 const (
@@ -21677,6 +20280,7 @@ const (
 	LastPatchInstallationSummary_Status_STATUS_Unknown               = LastPatchInstallationSummary_Status_STATUS("Unknown")
 )
 
+// Deprecated version of LinuxPatchSettings_AssessmentMode. Use v1api20220301.LinuxPatchSettings_AssessmentMode instead
 // +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
 type LinuxPatchSettings_AssessmentMode string
 
@@ -21685,6 +20289,8 @@ const (
 	LinuxPatchSettings_AssessmentMode_ImageDefault        = LinuxPatchSettings_AssessmentMode("ImageDefault")
 )
 
+// Deprecated version of LinuxPatchSettings_AssessmentMode_STATUS. Use
+// v1api20220301.LinuxPatchSettings_AssessmentMode_STATUS instead
 type LinuxPatchSettings_AssessmentMode_STATUS string
 
 const (
@@ -21692,6 +20298,7 @@ const (
 	LinuxPatchSettings_AssessmentMode_STATUS_ImageDefault        = LinuxPatchSettings_AssessmentMode_STATUS("ImageDefault")
 )
 
+// Deprecated version of LinuxPatchSettings_PatchMode. Use v1api20220301.LinuxPatchSettings_PatchMode instead
 // +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
 type LinuxPatchSettings_PatchMode string
 
@@ -21700,6 +20307,7 @@ const (
 	LinuxPatchSettings_PatchMode_ImageDefault        = LinuxPatchSettings_PatchMode("ImageDefault")
 )
 
+// Deprecated version of LinuxPatchSettings_PatchMode_STATUS. Use v1api20220301.LinuxPatchSettings_PatchMode_STATUS instead
 type LinuxPatchSettings_PatchMode_STATUS string
 
 const (
@@ -21707,9 +20315,8 @@ const (
 	LinuxPatchSettings_PatchMode_STATUS_ImageDefault        = LinuxPatchSettings_PatchMode_STATUS("ImageDefault")
 )
 
-// Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
+// Deprecated version of LinuxVMGuestPatchAutomaticByPlatformSettings. Use v1api20220301.LinuxVMGuestPatchAutomaticByPlatformSettings instead
 type LinuxVMGuestPatchAutomaticByPlatformSettings struct {
-	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
 	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting `json:"rebootSetting,omitempty"`
 }
 
@@ -21806,9 +20413,8 @@ func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings) Initialize_From_Li
 	return nil
 }
 
-// Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
+// Deprecated version of LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS. Use v1api20220301.LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS instead
 type LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS struct {
-	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
 	RebootSetting *LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
 }
 
@@ -21875,6 +20481,7 @@ func (settings *LinuxVMGuestPatchAutomaticByPlatformSettings_STATUS) AssignPrope
 	return nil
 }
 
+// Deprecated version of PatchSettings_AssessmentMode. Use v1api20220301.PatchSettings_AssessmentMode instead
 // +kubebuilder:validation:Enum={"AutomaticByPlatform","ImageDefault"}
 type PatchSettings_AssessmentMode string
 
@@ -21883,6 +20490,7 @@ const (
 	PatchSettings_AssessmentMode_ImageDefault        = PatchSettings_AssessmentMode("ImageDefault")
 )
 
+// Deprecated version of PatchSettings_AssessmentMode_STATUS. Use v1api20220301.PatchSettings_AssessmentMode_STATUS instead
 type PatchSettings_AssessmentMode_STATUS string
 
 const (
@@ -21890,6 +20498,7 @@ const (
 	PatchSettings_AssessmentMode_STATUS_ImageDefault        = PatchSettings_AssessmentMode_STATUS("ImageDefault")
 )
 
+// Deprecated version of PatchSettings_PatchMode. Use v1api20220301.PatchSettings_PatchMode instead
 // +kubebuilder:validation:Enum={"AutomaticByOS","AutomaticByPlatform","Manual"}
 type PatchSettings_PatchMode string
 
@@ -21899,6 +20508,7 @@ const (
 	PatchSettings_PatchMode_Manual              = PatchSettings_PatchMode("Manual")
 )
 
+// Deprecated version of PatchSettings_PatchMode_STATUS. Use v1api20220301.PatchSettings_PatchMode_STATUS instead
 type PatchSettings_PatchMode_STATUS string
 
 const (
@@ -21907,17 +20517,10 @@ const (
 	PatchSettings_PatchMode_STATUS_Manual              = PatchSettings_PatchMode_STATUS("Manual")
 )
 
-// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
+// Deprecated version of SshPublicKey_STATUS. Use v1api20220301.SshPublicKey_STATUS instead
 type SshPublicKey_STATUS struct {
-	// KeyData: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit
-	// and in ssh-rsa format.
-	// For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in
-	// Azure]https://docs.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed).
 	KeyData *string `json:"keyData,omitempty"`
-
-	// Path: Specifies the full path on the created VM where ssh public key is stored. If the file already exists, the
-	// specified key is appended to the file. Example: /home/user/.ssh/authorized_keys
-	Path *string `json:"path,omitempty"`
+	Path    *string `json:"path,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SshPublicKey_STATUS{}
@@ -21985,17 +20588,10 @@ func (publicKey *SshPublicKey_STATUS) AssignProperties_To_SshPublicKey_STATUS(de
 	return nil
 }
 
-// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
+// Deprecated version of SshPublicKeySpec. Use v1api20220301.SshPublicKeySpec instead
 type SshPublicKeySpec struct {
-	// KeyData: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit
-	// and in ssh-rsa format.
-	// For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in
-	// Azure]https://docs.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed).
 	KeyData *string `json:"keyData,omitempty"`
-
-	// Path: Specifies the full path on the created VM where ssh public key is stored. If the file already exists, the
-	// specified key is appended to the file. Example: /home/user/.ssh/authorized_keys
-	Path *string `json:"path,omitempty"`
+	Path    *string `json:"path,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SshPublicKeySpec{}
@@ -22097,6 +20693,8 @@ func (publicKey *SshPublicKeySpec) Initialize_From_SshPublicKey_STATUS(source *S
 	return nil
 }
 
+// Deprecated version of VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion. Use
+// v1api20220301.VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion instead
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion string
 
@@ -22105,6 +20703,8 @@ const (
 	VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_IPv6 = VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion("IPv6")
 )
 
+// Deprecated version of VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS. Use
+// v1api20220301.VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS instead
 type VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS string
 
 const (
@@ -22112,36 +20712,19 @@ const (
 	VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS_IPv6 = VirtualMachineNetworkInterfaceIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv6")
 )
 
-// Describes a virtual machines IP Configuration's PublicIPAddress configuration
+// Deprecated version of VirtualMachinePublicIPAddressConfiguration. Use v1api20220301.VirtualMachinePublicIPAddressConfiguration instead
 type VirtualMachinePublicIPAddressConfiguration struct {
-	// DeleteOption: Specify what happens to the public IP address when the VM is deleted
-	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
-
-	// DnsSettings: The dns settings to be applied on the publicIP addresses .
-	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration `json:"dnsSettings,omitempty"`
-
-	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// IpTags: The list of IP tags associated with the public IP address.
-	IpTags []VirtualMachineIpTag `json:"ipTags,omitempty"`
+	DeleteOption         *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption `json:"deleteOption,omitempty"`
+	DnsSettings          *VirtualMachinePublicIPAddressDnsSettingsConfiguration             `json:"dnsSettings,omitempty"`
+	IdleTimeoutInMinutes *int                                                               `json:"idleTimeoutInMinutes,omitempty"`
+	IpTags               []VirtualMachineIpTag                                              `json:"ipTags,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The publicIP address configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
-	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion `json:"publicIPAddressVersion,omitempty"`
-
-	// PublicIPAllocationMethod: Specify the public IP allocation type
+	Name                     *string                                                                        `json:"name,omitempty"`
+	PublicIPAddressVersion   *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion   `json:"publicIPAddressVersion,omitempty"`
 	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod `json:"publicIPAllocationMethod,omitempty"`
-
-	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
-	PublicIPPrefix *SubResource `json:"publicIPPrefix,omitempty"`
-
-	// Sku: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
-	Sku *PublicIPAddressSku `json:"sku,omitempty"`
+	PublicIPPrefix           *SubResource                                                                   `json:"publicIPPrefix,omitempty"`
+	Sku                      *PublicIPAddressSku                                                            `json:"sku,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachinePublicIPAddressConfiguration{}
@@ -22613,35 +21196,17 @@ func (configuration *VirtualMachinePublicIPAddressConfiguration) Initialize_From
 	return nil
 }
 
-// Describes a virtual machines IP Configuration's PublicIPAddress configuration
+// Deprecated version of VirtualMachinePublicIPAddressConfiguration_STATUS. Use v1api20220301.VirtualMachinePublicIPAddressConfiguration_STATUS instead
 type VirtualMachinePublicIPAddressConfiguration_STATUS struct {
-	// DeleteOption: Specify what happens to the public IP address when the VM is deleted
-	DeleteOption *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS `json:"deleteOption,omitempty"`
-
-	// DnsSettings: The dns settings to be applied on the publicIP addresses .
-	DnsSettings *VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS `json:"dnsSettings,omitempty"`
-
-	// IdleTimeoutInMinutes: The idle timeout of the public IP address.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// IpTags: The list of IP tags associated with the public IP address.
-	IpTags []VirtualMachineIpTag_STATUS `json:"ipTags,omitempty"`
-
-	// Name: The publicIP address configuration name.
-	Name *string `json:"name,omitempty"`
-
-	// PublicIPAddressVersion: Available from Api-Version 2019-07-01 onwards, it represents whether the specific
-	// ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'.
-	PublicIPAddressVersion *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS `json:"publicIPAddressVersion,omitempty"`
-
-	// PublicIPAllocationMethod: Specify the public IP allocation type
+	DeleteOption             *VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS             `json:"deleteOption,omitempty"`
+	DnsSettings              *VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS                         `json:"dnsSettings,omitempty"`
+	IdleTimeoutInMinutes     *int                                                                                  `json:"idleTimeoutInMinutes,omitempty"`
+	IpTags                   []VirtualMachineIpTag_STATUS                                                          `json:"ipTags,omitempty"`
+	Name                     *string                                                                               `json:"name,omitempty"`
+	PublicIPAddressVersion   *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS   `json:"publicIPAddressVersion,omitempty"`
 	PublicIPAllocationMethod *VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS `json:"publicIPAllocationMethod,omitempty"`
-
-	// PublicIPPrefix: The PublicIPPrefix from which to allocate publicIP addresses.
-	PublicIPPrefix *SubResource_STATUS `json:"publicIPPrefix,omitempty"`
-
-	// Sku: Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
-	Sku *PublicIPAddressSku_STATUS `json:"sku,omitempty"`
+	PublicIPPrefix           *SubResource_STATUS                                                                   `json:"publicIPPrefix,omitempty"`
+	Sku                      *PublicIPAddressSku_STATUS                                                            `json:"sku,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachinePublicIPAddressConfiguration_STATUS{}
@@ -22947,17 +21512,9 @@ func (configuration *VirtualMachinePublicIPAddressConfiguration_STATUS) AssignPr
 	return nil
 }
 
-// Specifies the security profile settings for the managed disk.
-// NOTE: It can only be set for Confidential VMs
+// Deprecated version of VMDiskSecurityProfile. Use v1api20220301.VMDiskSecurityProfile instead
 type VMDiskSecurityProfile struct {
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk that is used for
-	// Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
-	DiskEncryptionSet *SubResource `json:"diskEncryptionSet,omitempty"`
-
-	// SecurityEncryptionType: Specifies the EncryptionType of the managed disk.
-	// It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly
-	// for encryption of just the VMGuestState blob.
-	// NOTE: It can be set for only Confidential VMs.
+	DiskEncryptionSet      *SubResource                                  `json:"diskEncryptionSet,omitempty"`
 	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType `json:"securityEncryptionType,omitempty"`
 }
 
@@ -23111,17 +21668,9 @@ func (profile *VMDiskSecurityProfile) Initialize_From_VMDiskSecurityProfile_STAT
 	return nil
 }
 
-// Specifies the security profile settings for the managed disk.
-// NOTE: It can only be set for Confidential VMs
+// Deprecated version of VMDiskSecurityProfile_STATUS. Use v1api20220301.VMDiskSecurityProfile_STATUS instead
 type VMDiskSecurityProfile_STATUS struct {
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk that is used for
-	// Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob.
-	DiskEncryptionSet *SubResource_STATUS `json:"diskEncryptionSet,omitempty"`
-
-	// SecurityEncryptionType: Specifies the EncryptionType of the managed disk.
-	// It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly
-	// for encryption of just the VMGuestState blob.
-	// NOTE: It can be set for only Confidential VMs.
+	DiskEncryptionSet      *SubResource_STATUS                                  `json:"diskEncryptionSet,omitempty"`
 	SecurityEncryptionType *VMDiskSecurityProfile_SecurityEncryptionType_STATUS `json:"securityEncryptionType,omitempty"`
 }
 
@@ -23223,9 +21772,8 @@ func (profile *VMDiskSecurityProfile_STATUS) AssignProperties_To_VMDiskSecurityP
 	return nil
 }
 
-// Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
+// Deprecated version of WindowsVMGuestPatchAutomaticByPlatformSettings. Use v1api20220301.WindowsVMGuestPatchAutomaticByPlatformSettings instead
 type WindowsVMGuestPatchAutomaticByPlatformSettings struct {
-	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
 	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting `json:"rebootSetting,omitempty"`
 }
 
@@ -23322,9 +21870,8 @@ func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings) Initialize_From_
 	return nil
 }
 
-// Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
+// Deprecated version of WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS. Use v1api20220301.WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS instead
 type WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS struct {
-	// RebootSetting: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
 	RebootSetting *WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS `json:"rebootSetting,omitempty"`
 }
 
@@ -23391,27 +21938,10 @@ func (settings *WindowsVMGuestPatchAutomaticByPlatformSettings_STATUS) AssignPro
 	return nil
 }
 
-// Describes Protocol and thumbprint of Windows Remote Management listener
+// Deprecated version of WinRMListener. Use v1api20220301.WinRMListener instead
 type WinRMListener struct {
-	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
-	// the Key Vault, see [Add a key or secret to the key
-	// vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to
-	// be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8:
-	// {
-	// "data":"<Base64-encoded-certificate>",
-	// "dataType":"pfx",
-	// "password":"<pfx-file-password>"
-	// }
-	// To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for
-	// Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual
-	// machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).
-	CertificateUrl *string `json:"certificateUrl,omitempty"`
-
-	// Protocol: Specifies the protocol of WinRM listener.
-	// Possible values are:
-	// http
-	// https
-	Protocol *WinRMListener_Protocol `json:"protocol,omitempty"`
+	CertificateUrl *string                 `json:"certificateUrl,omitempty"`
+	Protocol       *WinRMListener_Protocol `json:"protocol,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WinRMListener{}
@@ -23528,27 +22058,10 @@ func (listener *WinRMListener) Initialize_From_WinRMListener_STATUS(source *WinR
 	return nil
 }
 
-// Describes Protocol and thumbprint of Windows Remote Management listener
+// Deprecated version of WinRMListener_STATUS. Use v1api20220301.WinRMListener_STATUS instead
 type WinRMListener_STATUS struct {
-	// CertificateUrl: This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to
-	// the Key Vault, see [Add a key or secret to the key
-	// vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to
-	// be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8:
-	// {
-	// "data":"<Base64-encoded-certificate>",
-	// "dataType":"pfx",
-	// "password":"<pfx-file-password>"
-	// }
-	// To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for
-	// Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual
-	// machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).
-	CertificateUrl *string `json:"certificateUrl,omitempty"`
-
-	// Protocol: Specifies the protocol of WinRM listener.
-	// Possible values are:
-	// http
-	// https
-	Protocol *WinRMListener_Protocol_STATUS `json:"protocol,omitempty"`
+	CertificateUrl *string                        `json:"certificateUrl,omitempty"`
+	Protocol       *WinRMListener_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WinRMListener_STATUS{}
@@ -23626,16 +22139,11 @@ func (listener *WinRMListener_STATUS) AssignProperties_To_WinRMListener_STATUS(d
 	return nil
 }
 
-// Api error base.
+// Deprecated version of ApiErrorBase_STATUS. Use v1api20220301.ApiErrorBase_STATUS instead
 type ApiErrorBase_STATUS struct {
-	// Code: The error code.
-	Code *string `json:"code,omitempty"`
-
-	// Message: The error message.
+	Code    *string `json:"code,omitempty"`
 	Message *string `json:"message,omitempty"`
-
-	// Target: The target of the particular error.
-	Target *string `json:"target,omitempty"`
+	Target  *string `json:"target,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ApiErrorBase_STATUS{}
@@ -23715,12 +22223,9 @@ func (base *ApiErrorBase_STATUS) AssignProperties_To_ApiErrorBase_STATUS(destina
 	return nil
 }
 
-// Inner error details.
+// Deprecated version of InnerError_STATUS. Use v1api20220301.InnerError_STATUS instead
 type InnerError_STATUS struct {
-	// Errordetail: The internal error message or exception dump.
-	Errordetail *string `json:"errordetail,omitempty"`
-
-	// Exceptiontype: The exception type.
+	Errordetail   *string `json:"errordetail,omitempty"`
 	Exceptiontype *string `json:"exceptiontype,omitempty"`
 }
 
@@ -23789,6 +22294,8 @@ func (error *InnerError_STATUS) AssignProperties_To_InnerError_STATUS(destinatio
 	return nil
 }
 
+// Deprecated version of LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting. Use
+// v1api20220301.LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting instead
 // +kubebuilder:validation:Enum={"Always","IfRequired","Never","Unknown"}
 type LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting string
 
@@ -23799,6 +22306,8 @@ const (
 	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_Unknown    = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting("Unknown")
 )
 
+// Deprecated version of LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS. Use
+// v1api20220301.LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS instead
 type LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS string
 
 const (
@@ -23808,12 +22317,9 @@ const (
 	LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_Unknown    = LinuxVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("Unknown")
 )
 
-// Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
+// Deprecated version of PublicIPAddressSku. Use v1api20220301.PublicIPAddressSku instead
 type PublicIPAddressSku struct {
-	// Name: Specify public IP sku name
 	Name *PublicIPAddressSku_Name `json:"name,omitempty"`
-
-	// Tier: Specify public IP sku tier
 	Tier *PublicIPAddressSku_Tier `json:"tier,omitempty"`
 }
 
@@ -23946,12 +22452,9 @@ func (addressSku *PublicIPAddressSku) Initialize_From_PublicIPAddressSku_STATUS(
 	return nil
 }
 
-// Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible.
+// Deprecated version of PublicIPAddressSku_STATUS. Use v1api20220301.PublicIPAddressSku_STATUS instead
 type PublicIPAddressSku_STATUS struct {
-	// Name: Specify public IP sku name
 	Name *PublicIPAddressSku_Name_STATUS `json:"name,omitempty"`
-
-	// Tier: Specify public IP sku tier
 	Tier *PublicIPAddressSku_Tier_STATUS `json:"tier,omitempty"`
 }
 
@@ -24040,13 +22543,10 @@ func (addressSku *PublicIPAddressSku_STATUS) AssignProperties_To_PublicIPAddress
 	return nil
 }
 
-// Contains the IP tag associated with the public IP address.
+// Deprecated version of VirtualMachineIpTag. Use v1api20220301.VirtualMachineIpTag instead
 type VirtualMachineIpTag struct {
-	// IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
-
-	// Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
-	Tag *string `json:"tag,omitempty"`
+	Tag       *string `json:"tag,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineIpTag{}
@@ -24148,13 +22648,10 @@ func (ipTag *VirtualMachineIpTag) Initialize_From_VirtualMachineIpTag_STATUS(sou
 	return nil
 }
 
-// Contains the IP tag associated with the public IP address.
+// Deprecated version of VirtualMachineIpTag_STATUS. Use v1api20220301.VirtualMachineIpTag_STATUS instead
 type VirtualMachineIpTag_STATUS struct {
-	// IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
-
-	// Tag: IP tag associated with the public IP. Example: SQL, Storage etc.
-	Tag *string `json:"tag,omitempty"`
+	Tag       *string `json:"tag,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineIpTag_STATUS{}
@@ -24222,6 +22719,8 @@ func (ipTag *VirtualMachineIpTag_STATUS) AssignProperties_To_VirtualMachineIpTag
 	return nil
 }
 
+// Deprecated version of VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption. Use
+// v1api20220301.VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption instead
 // +kubebuilder:validation:Enum={"Delete","Detach"}
 type VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption string
 
@@ -24230,6 +22729,8 @@ const (
 	VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_Detach = VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption("Detach")
 )
 
+// Deprecated version of VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS. Use
+// v1api20220301.VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS instead
 type VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS string
 
 const (
@@ -24237,6 +22738,8 @@ const (
 	VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS_Detach = VirtualMachinePublicIPAddressConfigurationProperties_DeleteOption_STATUS("Detach")
 )
 
+// Deprecated version of VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion. Use
+// v1api20220301.VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion instead
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion string
 
@@ -24245,6 +22748,8 @@ const (
 	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv6 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion("IPv6")
 )
 
+// Deprecated version of VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS. Use
+// v1api20220301.VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS instead
 type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS string
 
 const (
@@ -24252,6 +22757,8 @@ const (
 	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS_IPv6 = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS("IPv6")
 )
 
+// Deprecated version of VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod. Use
+// v1api20220301.VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod instead
 // +kubebuilder:validation:Enum={"Dynamic","Static"}
 type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod string
 
@@ -24260,6 +22767,8 @@ const (
 	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_Static  = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod("Static")
 )
 
+// Deprecated version of VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS. Use
+// v1api20220301.VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS instead
 type VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS string
 
 const (
@@ -24267,11 +22776,9 @@ const (
 	VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS_Static  = VirtualMachinePublicIPAddressConfigurationProperties_PublicIPAllocationMethod_STATUS("Static")
 )
 
-// Describes a virtual machines network configuration's DNS settings.
+// Deprecated version of VirtualMachinePublicIPAddressDnsSettingsConfiguration. Use v1api20220301.VirtualMachinePublicIPAddressDnsSettingsConfiguration instead
 type VirtualMachinePublicIPAddressDnsSettingsConfiguration struct {
 	// +kubebuilder:validation:Required
-	// DomainNameLabel: The Domain name label prefix of the PublicIPAddress resources that will be created. The generated name
-	// label is the concatenation of the domain name label and vm network profile unique ID.
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }
 
@@ -24353,10 +22860,8 @@ func (configuration *VirtualMachinePublicIPAddressDnsSettingsConfiguration) Init
 	return nil
 }
 
-// Describes a virtual machines network configuration's DNS settings.
+// Deprecated version of VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS. Use v1api20220301.VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS instead
 type VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATUS struct {
-	// DomainNameLabel: The Domain name label prefix of the PublicIPAddress resources that will be created. The generated name
-	// label is the concatenation of the domain name label and vm network profile unique ID.
 	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
 }
 
@@ -24413,6 +22918,8 @@ func (configuration *VirtualMachinePublicIPAddressDnsSettingsConfiguration_STATU
 	return nil
 }
 
+// Deprecated version of VMDiskSecurityProfile_SecurityEncryptionType. Use
+// v1api20220301.VMDiskSecurityProfile_SecurityEncryptionType instead
 // +kubebuilder:validation:Enum={"DiskWithVMGuestState","VMGuestStateOnly"}
 type VMDiskSecurityProfile_SecurityEncryptionType string
 
@@ -24421,6 +22928,8 @@ const (
 	VMDiskSecurityProfile_SecurityEncryptionType_VMGuestStateOnly     = VMDiskSecurityProfile_SecurityEncryptionType("VMGuestStateOnly")
 )
 
+// Deprecated version of VMDiskSecurityProfile_SecurityEncryptionType_STATUS. Use
+// v1api20220301.VMDiskSecurityProfile_SecurityEncryptionType_STATUS instead
 type VMDiskSecurityProfile_SecurityEncryptionType_STATUS string
 
 const (
@@ -24428,6 +22937,8 @@ const (
 	VMDiskSecurityProfile_SecurityEncryptionType_STATUS_VMGuestStateOnly     = VMDiskSecurityProfile_SecurityEncryptionType_STATUS("VMGuestStateOnly")
 )
 
+// Deprecated version of WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting. Use
+// v1api20220301.WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting instead
 // +kubebuilder:validation:Enum={"Always","IfRequired","Never","Unknown"}
 type WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting string
 
@@ -24438,6 +22949,8 @@ const (
 	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_Unknown    = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting("Unknown")
 )
 
+// Deprecated version of WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS. Use
+// v1api20220301.WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS instead
 type WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS string
 
 const (
@@ -24447,6 +22960,7 @@ const (
 	WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS_Unknown    = WindowsVMGuestPatchAutomaticByPlatformSettings_RebootSetting_STATUS("Unknown")
 )
 
+// Deprecated version of WinRMListener_Protocol. Use v1api20220301.WinRMListener_Protocol instead
 // +kubebuilder:validation:Enum={"Http","Https"}
 type WinRMListener_Protocol string
 
@@ -24455,6 +22969,7 @@ const (
 	WinRMListener_Protocol_Https = WinRMListener_Protocol("Https")
 )
 
+// Deprecated version of WinRMListener_Protocol_STATUS. Use v1api20220301.WinRMListener_Protocol_STATUS instead
 type WinRMListener_Protocol_STATUS string
 
 const (
@@ -24462,6 +22977,7 @@ const (
 	WinRMListener_Protocol_STATUS_Https = WinRMListener_Protocol_STATUS("Https")
 )
 
+// Deprecated version of PublicIPAddressSku_Name. Use v1api20220301.PublicIPAddressSku_Name instead
 // +kubebuilder:validation:Enum={"Basic","Standard"}
 type PublicIPAddressSku_Name string
 
@@ -24470,6 +22986,7 @@ const (
 	PublicIPAddressSku_Name_Standard = PublicIPAddressSku_Name("Standard")
 )
 
+// Deprecated version of PublicIPAddressSku_Name_STATUS. Use v1api20220301.PublicIPAddressSku_Name_STATUS instead
 type PublicIPAddressSku_Name_STATUS string
 
 const (
@@ -24477,6 +22994,7 @@ const (
 	PublicIPAddressSku_Name_STATUS_Standard = PublicIPAddressSku_Name_STATUS("Standard")
 )
 
+// Deprecated version of PublicIPAddressSku_Tier. Use v1api20220301.PublicIPAddressSku_Tier instead
 // +kubebuilder:validation:Enum={"Global","Regional"}
 type PublicIPAddressSku_Tier string
 
@@ -24485,6 +23003,7 @@ const (
 	PublicIPAddressSku_Tier_Regional = PublicIPAddressSku_Tier("Regional")
 )
 
+// Deprecated version of PublicIPAddressSku_Tier_STATUS. Use v1api20220301.PublicIPAddressSku_Tier_STATUS instead
 type PublicIPAddressSku_Tier_STATUS string
 
 const (

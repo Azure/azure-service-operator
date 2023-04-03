@@ -5,13 +5,11 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of NetworkSecurityGroup_Spec. Use v1api20201101.NetworkSecurityGroup_Spec instead
 type NetworkSecurityGroup_Spec_ARM struct {
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Location *string           `json:"location,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Tags     map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_Spec_ARM{}

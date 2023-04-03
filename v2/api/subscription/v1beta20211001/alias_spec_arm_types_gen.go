@@ -5,10 +5,9 @@ package v1beta20211001
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Alias_Spec. Use v1api20211001.Alias_Spec instead
 type Alias_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Put alias request properties.
+	Name       string                         `json:"name,omitempty"`
 	Properties *PutAliasRequestProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,41 +28,25 @@ func (alias *Alias_Spec_ARM) GetType() string {
 	return "Microsoft.Subscription/aliases"
 }
 
-// Put subscription properties.
+// Deprecated version of PutAliasRequestProperties. Use v1api20211001.PutAliasRequestProperties instead
 type PutAliasRequestProperties_ARM struct {
-	// AdditionalProperties: Put alias request additional properties.
 	AdditionalProperties *PutAliasRequestAdditionalProperties_ARM `json:"additionalProperties,omitempty"`
 	BillingScope         *string                                  `json:"billingScope,omitempty"`
-
-	// DisplayName: The friendly name of the subscription.
-	DisplayName *string `json:"displayName,omitempty"`
-
-	// ResellerId: Reseller Id
-	ResellerId *string `json:"resellerId,omitempty"`
-
-	// SubscriptionId: This parameter can be used to create alias for existing subscription Id
-	SubscriptionId *string `json:"subscriptionId,omitempty"`
-
-	// Workload: The workload type of the subscription. It can be either Production or DevTest.
-	Workload *Workload `json:"workload,omitempty"`
+	DisplayName          *string                                  `json:"displayName,omitempty"`
+	ResellerId           *string                                  `json:"resellerId,omitempty"`
+	SubscriptionId       *string                                  `json:"subscriptionId,omitempty"`
+	Workload             *Workload                                `json:"workload,omitempty"`
 }
 
-// Put subscription additional properties.
+// Deprecated version of PutAliasRequestAdditionalProperties. Use v1api20211001.PutAliasRequestAdditionalProperties instead
 type PutAliasRequestAdditionalProperties_ARM struct {
-	// ManagementGroupId: Management group Id for the subscription.
-	ManagementGroupId *string `json:"managementGroupId,omitempty"`
-
-	// SubscriptionOwnerId: Owner Id of the subscription
-	SubscriptionOwnerId *string `json:"subscriptionOwnerId,omitempty"`
-
-	// SubscriptionTenantId: Tenant Id of the subscription
-	SubscriptionTenantId *string `json:"subscriptionTenantId,omitempty"`
-
-	// Tags: Tags for the subscription
-	Tags map[string]string `json:"tags,omitempty"`
+	ManagementGroupId    *string           `json:"managementGroupId,omitempty"`
+	SubscriptionOwnerId  *string           `json:"subscriptionOwnerId,omitempty"`
+	SubscriptionTenantId *string           `json:"subscriptionTenantId,omitempty"`
+	Tags                 map[string]string `json:"tags,omitempty"`
 }
 
-// The workload type of the subscription. It can be either Production or DevTest.
+// Deprecated version of Workload. Use v1api20211001.Workload instead
 // +kubebuilder:validation:Enum={"DevTest","Production"}
 type Workload string
 

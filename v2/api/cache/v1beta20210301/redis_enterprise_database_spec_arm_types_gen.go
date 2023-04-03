@@ -5,10 +5,9 @@ package v1beta20210301
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of RedisEnterprise_Database_Spec. Use v1api20210301.RedisEnterprise_Database_Spec instead
 type RedisEnterprise_Database_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Other properties of the database.
+	Name       string                  `json:"name,omitempty"`
 	Properties *DatabaseProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,48 +28,26 @@ func (database *RedisEnterprise_Database_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise/databases"
 }
 
-// Properties of RedisEnterprise databases, as opposed to general resource properties like location, tags
+// Deprecated version of DatabaseProperties. Use v1api20210301.DatabaseProperties instead
 type DatabaseProperties_ARM struct {
-	// ClientProtocol: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is
-	// TLS-encrypted.
-	ClientProtocol *DatabaseProperties_ClientProtocol `json:"clientProtocol,omitempty"`
-
-	// ClusteringPolicy: Clustering policy - default is OSSCluster. Specified at create time.
+	ClientProtocol   *DatabaseProperties_ClientProtocol   `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *DatabaseProperties_ClusteringPolicy `json:"clusteringPolicy,omitempty"`
-
-	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
-	EvictionPolicy *DatabaseProperties_EvictionPolicy `json:"evictionPolicy,omitempty"`
-
-	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
-	Modules []Module_ARM `json:"modules,omitempty"`
-
-	// Persistence: Persistence settings
-	Persistence *Persistence_ARM `json:"persistence,omitempty"`
-
-	// Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
-	Port *int `json:"port,omitempty"`
+	EvictionPolicy   *DatabaseProperties_EvictionPolicy   `json:"evictionPolicy,omitempty"`
+	Modules          []Module_ARM                         `json:"modules,omitempty"`
+	Persistence      *Persistence_ARM                     `json:"persistence,omitempty"`
+	Port             *int                                 `json:"port,omitempty"`
 }
 
-// Specifies configuration of a redis module
+// Deprecated version of Module. Use v1api20210301.Module instead
 type Module_ARM struct {
-	// Args: Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
 	Args *string `json:"args,omitempty"`
-
-	// Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
 	Name *string `json:"name,omitempty"`
 }
 
-// Persistence-related configuration for the RedisEnterprise database
+// Deprecated version of Persistence. Use v1api20210301.Persistence instead
 type Persistence_ARM struct {
-	// AofEnabled: Sets whether AOF is enabled.
-	AofEnabled *bool `json:"aofEnabled,omitempty"`
-
-	// AofFrequency: Sets the frequency at which data is written to disk.
+	AofEnabled   *bool                     `json:"aofEnabled,omitempty"`
 	AofFrequency *Persistence_AofFrequency `json:"aofFrequency,omitempty"`
-
-	// RdbEnabled: Sets whether RDB is enabled.
-	RdbEnabled *bool `json:"rdbEnabled,omitempty"`
-
-	// RdbFrequency: Sets the frequency at which a snapshot of the database is created.
+	RdbEnabled   *bool                     `json:"rdbEnabled,omitempty"`
 	RdbFrequency *Persistence_RdbFrequency `json:"rdbFrequency,omitempty"`
 }

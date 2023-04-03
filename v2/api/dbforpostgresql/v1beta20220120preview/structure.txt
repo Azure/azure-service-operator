@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120pre
 ├── APIVersion: Enum (1 value)
 │   └── "2022-01-20-preview"
 ├── FlexibleServer: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (18 properties)
 │   │   ├── AdministratorLogin: *string
 │   │   ├── AdministratorLoginPassword: *genruntime.SecretReference

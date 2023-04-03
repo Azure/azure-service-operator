@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
+// Deprecated version of RouteTablesRoute. Use v1api20201101.RouteTablesRoute instead
 type RouteTablesRoute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &RouteTablesRoute{}
 
 // ConvertFrom populates our RouteTablesRoute from the provided hub RouteTablesRoute
 func (route *RouteTablesRoute) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201101s.RouteTablesRoute)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/RouteTablesRoute but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201101s.RouteTablesRoute
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return route.AssignProperties_From_RouteTablesRoute(source)
+	err = route.AssignProperties_From_RouteTablesRoute(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to route")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RouteTablesRoute from our RouteTablesRoute
 func (route *RouteTablesRoute) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201101s.RouteTablesRoute)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/RouteTablesRoute but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201101s.RouteTablesRoute
+	err := route.AssignProperties_To_RouteTablesRoute(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from route")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return route.AssignProperties_To_RouteTablesRoute(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-routetablesroute,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetablesroutes,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.routetablesroutes.network.azure.com,admissionReviewVersions=v1
@@ -323,9 +335,7 @@ func (route *RouteTablesRoute) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes/{routeName}
+// Deprecated version of RouteTablesRoute. Use v1api20201101.RouteTablesRoute instead
 type RouteTablesRouteList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -333,22 +343,15 @@ type RouteTablesRouteList struct {
 }
 
 type RouteTables_Route_Spec struct {
-	// AddressPrefix: The destination CIDR to which the route applies.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// HasBgpOverride: A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
-	HasBgpOverride *bool `json:"hasBgpOverride,omitempty"`
-
-	// NextHopIpAddress: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the
-	// next hop type is VirtualAppliance.
+	AzureName        string  `json:"azureName,omitempty"`
+	HasBgpOverride   *bool   `json:"hasBgpOverride,omitempty"`
 	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// NextHopType: The type of Azure hop the packet should be sent to.
 	NextHopType *RouteNextHopType `json:"nextHopType,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -633,37 +636,20 @@ func (route *RouteTables_Route_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (route *RouteTables_Route_Spec) SetAzureName(azureName string) { route.AzureName = azureName }
 
+// Deprecated version of RouteTables_Route_STATUS. Use v1api20201101.RouteTables_Route_STATUS instead
 type RouteTables_Route_STATUS struct {
-	// AddressPrefix: The destination CIDR to which the route applies.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// HasBgpOverride: A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
-	HasBgpOverride *bool `json:"hasBgpOverride,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// NextHopIpAddress: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the
-	// next hop type is VirtualAppliance.
-	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
-
-	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RouteNextHopType_STATUS `json:"nextHopType,omitempty"`
-
-	// ProvisioningState: The provisioning state of the route resource.
+	Conditions        []conditions.Condition    `json:"conditions,omitempty"`
+	Etag              *string                   `json:"etag,omitempty"`
+	HasBgpOverride    *bool                     `json:"hasBgpOverride,omitempty"`
+	Id                *string                   `json:"id,omitempty"`
+	Name              *string                   `json:"name,omitempty"`
+	NextHopIpAddress  *string                   `json:"nextHopIpAddress,omitempty"`
+	NextHopType       *RouteNextHopType_STATUS  `json:"nextHopType,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
+	Type              *string                   `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &RouteTables_Route_STATUS{}
@@ -918,7 +904,7 @@ func (route *RouteTables_Route_STATUS) AssignProperties_To_RouteTables_Route_STA
 	return nil
 }
 
-// The type of Azure hop the packet should be sent to.
+// Deprecated version of RouteNextHopType. Use v1api20201101.RouteNextHopType instead
 // +kubebuilder:validation:Enum={"Internet","None","VirtualAppliance","VirtualNetworkGateway","VnetLocal"}
 type RouteNextHopType string
 
@@ -930,7 +916,7 @@ const (
 	RouteNextHopType_VnetLocal             = RouteNextHopType("VnetLocal")
 )
 
-// The type of Azure hop the packet should be sent to.
+// Deprecated version of RouteNextHopType_STATUS. Use v1api20201101.RouteNextHopType_STATUS instead
 type RouteNextHopType_STATUS string
 
 const (

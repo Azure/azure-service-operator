@@ -8,16 +8,16 @@ package customizations
 import (
 	"context"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
+	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -80,7 +80,7 @@ func secretsToWrite(obj *servicebus.Namespace) ([]*v1.Secret, error) {
 	}
 
 	collector := secrets.NewCollector(obj.Namespace)
-	collector.AddValue(operatorSpecSecrets.Endpoint, to.String(obj.Status.ServiceBusEndpoint))
+	collector.AddValue(operatorSpecSecrets.Endpoint, to.Value(obj.Status.ServiceBusEndpoint))
 
 	return collector.Values()
 }

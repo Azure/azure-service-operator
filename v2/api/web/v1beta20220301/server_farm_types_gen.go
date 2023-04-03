@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/AppServicePlans.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}
+// Deprecated version of ServerFarm. Use v1api20220301.ServerFarm instead
 type ServerFarm struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &ServerFarm{}
 
 // ConvertFrom populates our ServerFarm from the provided hub ServerFarm
 func (farm *ServerFarm) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220301s.ServerFarm)
-	if !ok {
-		return fmt.Errorf("expected web/v1beta20220301storage/ServerFarm but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220301s.ServerFarm
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return farm.AssignProperties_From_ServerFarm(source)
+	err = farm.AssignProperties_From_ServerFarm(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to farm")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServerFarm from our ServerFarm
 func (farm *ServerFarm) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220301s.ServerFarm)
-	if !ok {
-		return fmt.Errorf("expected web/v1beta20220301storage/ServerFarm but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220301s.ServerFarm
+	err := farm.AssignProperties_To_ServerFarm(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from farm")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return farm.AssignProperties_To_ServerFarm(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-web-azure-com-v1beta20220301-serverfarm,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=web.azure.com,resources=serverfarms,verbs=create;update,versions=v1beta20220301,name=default.v1beta20220301.serverfarms.web.azure.com,admissionReviewVersions=v1
@@ -323,15 +335,14 @@ func (farm *ServerFarm) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /web/resource-manager/Microsoft.Web/stable/2022-03-01/AppServicePlans.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}
+// Deprecated version of ServerFarm. Use v1api20220301.ServerFarm instead
 type ServerFarmList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServerFarm `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20220301.APIVersion instead
 // +kubebuilder:validation:Enum={"2022-03-01"}
 type APIVersion string
 
@@ -340,77 +351,35 @@ const APIVersion_Value = APIVersion("2022-03-01")
 type Serverfarm_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// ElasticScaleEnabled: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was
-	// ElasticPremium sku
-	ElasticScaleEnabled *bool `json:"elasticScaleEnabled,omitempty"`
-
-	// ExtendedLocation: Extended Location.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// FreeOfferExpirationTime: The time when the server farm free offer expires.
-	FreeOfferExpirationTime *string `json:"freeOfferExpirationTime,omitempty"`
-
-	// HostingEnvironmentProfile: Specification for the App Service Environment to use for the App Service plan.
+	AzureName                 string                     `json:"azureName,omitempty"`
+	ElasticScaleEnabled       *bool                      `json:"elasticScaleEnabled,omitempty"`
+	ExtendedLocation          *ExtendedLocation          `json:"extendedLocation,omitempty"`
+	FreeOfferExpirationTime   *string                    `json:"freeOfferExpirationTime,omitempty"`
 	HostingEnvironmentProfile *HostingEnvironmentProfile `json:"hostingEnvironmentProfile,omitempty"`
-
-	// HyperV: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
-	HyperV *bool `json:"hyperV,omitempty"`
-
-	// IsSpot: If <code>true</code>, this App Service Plan owns spot instances.
-	IsSpot *bool `json:"isSpot,omitempty"`
-
-	// IsXenon: Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
-	IsXenon *bool `json:"isXenon,omitempty"`
-
-	// Kind: Kind of resource.
-	Kind *string `json:"kind,omitempty"`
-
-	// KubeEnvironmentProfile: Specification for the Kubernetes Environment to use for the App Service plan.
-	KubeEnvironmentProfile *KubeEnvironmentProfile `json:"kubeEnvironmentProfile,omitempty"`
+	HyperV                    *bool                      `json:"hyperV,omitempty"`
+	IsSpot                    *bool                      `json:"isSpot,omitempty"`
+	IsXenon                   *bool                      `json:"isXenon,omitempty"`
+	Kind                      *string                    `json:"kind,omitempty"`
+	KubeEnvironmentProfile    *KubeEnvironmentProfile    `json:"kubeEnvironmentProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource Location.
-	Location *string `json:"location,omitempty"`
-
-	// MaximumElasticWorkerCount: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
-	MaximumElasticWorkerCount *int `json:"maximumElasticWorkerCount,omitempty"`
+	Location                  *string `json:"location,omitempty"`
+	MaximumElasticWorkerCount *int    `json:"maximumElasticWorkerCount,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PerSiteScaling: If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
-	// If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
-	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
-
-	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
-	Reserved *bool `json:"reserved,omitempty"`
-
-	// Sku: Description of a SKU for a scalable resource.
-	Sku *SkuDescription `json:"sku,omitempty"`
-
-	// SpotExpirationTime: The time when the server farm expires. Valid only if it is a spot server farm.
-	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TargetWorkerCount: Scaling worker count.
-	TargetWorkerCount *int `json:"targetWorkerCount,omitempty"`
-
-	// TargetWorkerSizeId: Scaling worker size ID.
-	TargetWorkerSizeId *int `json:"targetWorkerSizeId,omitempty"`
-
-	// WorkerTierName: Target worker tier assigned to the App Service plan.
-	WorkerTierName *string `json:"workerTierName,omitempty"`
-
-	// ZoneRedundant: If <code>true</code>, this App Service Plan will perform availability zone balancing.
-	// If <code>false</code>, this App Service Plan will not perform availability zone balancing.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PerSiteScaling     *bool                              `json:"perSiteScaling,omitempty"`
+	Reserved           *bool                              `json:"reserved,omitempty"`
+	Sku                *SkuDescription                    `json:"sku,omitempty"`
+	SpotExpirationTime *string                            `json:"spotExpirationTime,omitempty"`
+	Tags               map[string]string                  `json:"tags,omitempty"`
+	TargetWorkerCount  *int                               `json:"targetWorkerCount,omitempty"`
+	TargetWorkerSizeId *int                               `json:"targetWorkerSizeId,omitempty"`
+	WorkerTierName     *string                            `json:"workerTierName,omitempty"`
+	ZoneRedundant      *bool                              `json:"zoneRedundant,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Serverfarm_Spec{}
@@ -1269,105 +1238,41 @@ func (serverfarm *Serverfarm_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (serverfarm *Serverfarm_Spec) SetAzureName(azureName string) { serverfarm.AzureName = azureName }
 
+// Deprecated version of Serverfarm_STATUS. Use v1api20220301.Serverfarm_STATUS instead
 type Serverfarm_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// ElasticScaleEnabled: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was
-	// ElasticPremium sku
-	ElasticScaleEnabled *bool `json:"elasticScaleEnabled,omitempty"`
-
-	// ExtendedLocation: Extended Location.
-	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
-
-	// FreeOfferExpirationTime: The time when the server farm free offer expires.
-	FreeOfferExpirationTime *string `json:"freeOfferExpirationTime,omitempty"`
-
-	// GeoRegion: Geographical location for the App Service plan.
-	GeoRegion *string `json:"geoRegion,omitempty"`
-
-	// HostingEnvironmentProfile: Specification for the App Service Environment to use for the App Service plan.
-	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUS `json:"hostingEnvironmentProfile,omitempty"`
-
-	// HyperV: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
-	HyperV *bool `json:"hyperV,omitempty"`
-
-	// Id: Resource Id.
-	Id *string `json:"id,omitempty"`
-
-	// IsSpot: If <code>true</code>, this App Service Plan owns spot instances.
-	IsSpot *bool `json:"isSpot,omitempty"`
-
-	// IsXenon: Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
-	IsXenon *bool `json:"isXenon,omitempty"`
-
-	// Kind: Kind of resource.
-	Kind *string `json:"kind,omitempty"`
-
-	// KubeEnvironmentProfile: Specification for the Kubernetes Environment to use for the App Service plan.
-	KubeEnvironmentProfile *KubeEnvironmentProfile_STATUS `json:"kubeEnvironmentProfile,omitempty"`
-
-	// Location: Resource Location.
-	Location *string `json:"location,omitempty"`
-
-	// MaximumElasticWorkerCount: Maximum number of total workers allowed for this ElasticScaleEnabled App Service Plan
-	MaximumElasticWorkerCount *int `json:"maximumElasticWorkerCount,omitempty"`
-
-	// MaximumNumberOfWorkers: Maximum number of instances that can be assigned to this App Service plan.
-	MaximumNumberOfWorkers *int `json:"maximumNumberOfWorkers,omitempty"`
-
-	// Name: Resource Name.
-	Name *string `json:"name,omitempty"`
-
-	// NumberOfSites: Number of apps assigned to this App Service plan.
-	NumberOfSites *int `json:"numberOfSites,omitempty"`
-
-	// NumberOfWorkers: The number of instances that are assigned to this App Service plan.
-	NumberOfWorkers *int `json:"numberOfWorkers,omitempty"`
-
-	// PerSiteScaling: If <code>true</code>, apps assigned to this App Service plan can be scaled independently.
-	// If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
-	PerSiteScaling *bool `json:"perSiteScaling,omitempty"`
-
-	// ProvisioningState: Provisioning state of the App Service Plan.
-	ProvisioningState *Serverfarm_Properties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Reserved: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
-	Reserved *bool `json:"reserved,omitempty"`
-
-	// ResourceGroup: Resource group of the App Service plan.
-	ResourceGroup *string `json:"resourceGroup,omitempty"`
-
-	// Sku: Description of a SKU for a scalable resource.
-	Sku *SkuDescription_STATUS `json:"sku,omitempty"`
-
-	// SpotExpirationTime: The time when the server farm expires. Valid only if it is a spot server farm.
-	SpotExpirationTime *string `json:"spotExpirationTime,omitempty"`
-
-	// Status: App Service plan status.
-	Status *Serverfarm_Properties_Status_STATUS `json:"status,omitempty"`
-
-	// Subscription: App Service plan subscription.
-	Subscription *string `json:"subscription,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TargetWorkerCount: Scaling worker count.
-	TargetWorkerCount *int `json:"targetWorkerCount,omitempty"`
-
-	// TargetWorkerSizeId: Scaling worker size ID.
-	TargetWorkerSizeId *int `json:"targetWorkerSizeId,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-
-	// WorkerTierName: Target worker tier assigned to the App Service plan.
-	WorkerTierName *string `json:"workerTierName,omitempty"`
-
-	// ZoneRedundant: If <code>true</code>, this App Service Plan will perform availability zone balancing.
-	// If <code>false</code>, this App Service Plan will not perform availability zone balancing.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+	Conditions                []conditions.Condition                          `json:"conditions,omitempty"`
+	ElasticScaleEnabled       *bool                                           `json:"elasticScaleEnabled,omitempty"`
+	ExtendedLocation          *ExtendedLocation_STATUS                        `json:"extendedLocation,omitempty"`
+	FreeOfferExpirationTime   *string                                         `json:"freeOfferExpirationTime,omitempty"`
+	GeoRegion                 *string                                         `json:"geoRegion,omitempty"`
+	HostingEnvironmentProfile *HostingEnvironmentProfile_STATUS               `json:"hostingEnvironmentProfile,omitempty"`
+	HyperV                    *bool                                           `json:"hyperV,omitempty"`
+	Id                        *string                                         `json:"id,omitempty"`
+	IsSpot                    *bool                                           `json:"isSpot,omitempty"`
+	IsXenon                   *bool                                           `json:"isXenon,omitempty"`
+	Kind                      *string                                         `json:"kind,omitempty"`
+	KubeEnvironmentProfile    *KubeEnvironmentProfile_STATUS                  `json:"kubeEnvironmentProfile,omitempty"`
+	Location                  *string                                         `json:"location,omitempty"`
+	MaximumElasticWorkerCount *int                                            `json:"maximumElasticWorkerCount,omitempty"`
+	MaximumNumberOfWorkers    *int                                            `json:"maximumNumberOfWorkers,omitempty"`
+	Name                      *string                                         `json:"name,omitempty"`
+	NumberOfSites             *int                                            `json:"numberOfSites,omitempty"`
+	NumberOfWorkers           *int                                            `json:"numberOfWorkers,omitempty"`
+	PerSiteScaling            *bool                                           `json:"perSiteScaling,omitempty"`
+	ProvisioningState         *Serverfarm_Properties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	Reserved                  *bool                                           `json:"reserved,omitempty"`
+	ResourceGroup             *string                                         `json:"resourceGroup,omitempty"`
+	Sku                       *SkuDescription_STATUS                          `json:"sku,omitempty"`
+	SpotExpirationTime        *string                                         `json:"spotExpirationTime,omitempty"`
+	Status                    *Serverfarm_Properties_Status_STATUS            `json:"status,omitempty"`
+	Subscription              *string                                         `json:"subscription,omitempty"`
+	Tags                      map[string]string                               `json:"tags,omitempty"`
+	TargetWorkerCount         *int                                            `json:"targetWorkerCount,omitempty"`
+	TargetWorkerSizeId        *int                                            `json:"targetWorkerSizeId,omitempty"`
+	Type                      *string                                         `json:"type,omitempty"`
+	WorkerTierName            *string                                         `json:"workerTierName,omitempty"`
+	ZoneRedundant             *bool                                           `json:"zoneRedundant,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Serverfarm_STATUS{}
@@ -2094,9 +1999,8 @@ func (serverfarm *Serverfarm_STATUS) AssignProperties_To_Serverfarm_STATUS(desti
 	return nil
 }
 
-// Extended Location.
+// Deprecated version of ExtendedLocation. Use v1api20220301.ExtendedLocation instead
 type ExtendedLocation struct {
-	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
 }
 
@@ -2178,12 +2082,9 @@ func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source
 	return nil
 }
 
-// Extended Location.
+// Deprecated version of ExtendedLocation_STATUS. Use v1api20220301.ExtendedLocation_STATUS instead
 type ExtendedLocation_STATUS struct {
-	// Name: Name of extended location.
 	Name *string `json:"name,omitempty"`
-
-	// Type: Type of extended location.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -2252,9 +2153,8 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
-// Specification for an App Service Environment to use for this resource.
+// Deprecated version of HostingEnvironmentProfile. Use v1api20220301.HostingEnvironmentProfile instead
 type HostingEnvironmentProfile struct {
-	// Reference: Resource ID of the App Service Environment.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -2351,15 +2251,10 @@ func (profile *HostingEnvironmentProfile) Initialize_From_HostingEnvironmentProf
 	return nil
 }
 
-// Specification for an App Service Environment to use for this resource.
+// Deprecated version of HostingEnvironmentProfile_STATUS. Use v1api20220301.HostingEnvironmentProfile_STATUS instead
 type HostingEnvironmentProfile_STATUS struct {
-	// Id: Resource ID of the App Service Environment.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Name of the App Service Environment.
+	Id   *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
-
-	// Type: Resource type of the App Service Environment.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -2440,9 +2335,8 @@ func (profile *HostingEnvironmentProfile_STATUS) AssignProperties_To_HostingEnvi
 	return nil
 }
 
-// Specification for a Kubernetes Environment to use for this resource.
+// Deprecated version of KubeEnvironmentProfile. Use v1api20220301.KubeEnvironmentProfile instead
 type KubeEnvironmentProfile struct {
-	// Reference: Resource ID of the Kubernetes Environment.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -2539,15 +2433,10 @@ func (profile *KubeEnvironmentProfile) Initialize_From_KubeEnvironmentProfile_ST
 	return nil
 }
 
-// Specification for a Kubernetes Environment to use for this resource.
+// Deprecated version of KubeEnvironmentProfile_STATUS. Use v1api20220301.KubeEnvironmentProfile_STATUS instead
 type KubeEnvironmentProfile_STATUS struct {
-	// Id: Resource ID of the Kubernetes Environment.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Name of the Kubernetes Environment.
+	Id   *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
-
-	// Type: Resource type of the Kubernetes Environment.
 	Type *string `json:"type,omitempty"`
 }
 
@@ -2628,6 +2517,8 @@ func (profile *KubeEnvironmentProfile_STATUS) AssignProperties_To_KubeEnvironmen
 	return nil
 }
 
+// Deprecated version of Serverfarm_Properties_ProvisioningState_STATUS. Use
+// v1api20220301.Serverfarm_Properties_ProvisioningState_STATUS instead
 type Serverfarm_Properties_ProvisioningState_STATUS string
 
 const (
@@ -2638,6 +2529,7 @@ const (
 	Serverfarm_Properties_ProvisioningState_STATUS_Succeeded  = Serverfarm_Properties_ProvisioningState_STATUS("Succeeded")
 )
 
+// Deprecated version of Serverfarm_Properties_Status_STATUS. Use v1api20220301.Serverfarm_Properties_Status_STATUS instead
 type Serverfarm_Properties_Status_STATUS string
 
 const (
@@ -2646,31 +2538,16 @@ const (
 	Serverfarm_Properties_Status_STATUS_Ready    = Serverfarm_Properties_Status_STATUS("Ready")
 )
 
-// Description of a SKU for a scalable resource.
+// Deprecated version of SkuDescription. Use v1api20220301.SkuDescription instead
 type SkuDescription struct {
-	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
 	Capabilities []Capability `json:"capabilities,omitempty"`
-
-	// Capacity: Current number of instances assigned to the resource.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: Family code of the resource SKU.
-	Family *string `json:"family,omitempty"`
-
-	// Locations: Locations of the SKU.
-	Locations []string `json:"locations,omitempty"`
-
-	// Name: Name of the resource SKU.
-	Name *string `json:"name,omitempty"`
-
-	// Size: Size specifier of the resource SKU.
-	Size *string `json:"size,omitempty"`
-
-	// SkuCapacity: Min, max, and default scale values of the SKU.
-	SkuCapacity *SkuCapacity `json:"skuCapacity,omitempty"`
-
-	// Tier: Service tier of the resource SKU.
-	Tier *string `json:"tier,omitempty"`
+	Capacity     *int         `json:"capacity,omitempty"`
+	Family       *string      `json:"family,omitempty"`
+	Locations    []string     `json:"locations,omitempty"`
+	Name         *string      `json:"name,omitempty"`
+	Size         *string      `json:"size,omitempty"`
+	SkuCapacity  *SkuCapacity `json:"skuCapacity,omitempty"`
+	Tier         *string      `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SkuDescription{}
@@ -2984,31 +2861,16 @@ func (description *SkuDescription) Initialize_From_SkuDescription_STATUS(source 
 	return nil
 }
 
-// Description of a SKU for a scalable resource.
+// Deprecated version of SkuDescription_STATUS. Use v1api20220301.SkuDescription_STATUS instead
 type SkuDescription_STATUS struct {
-	// Capabilities: Capabilities of the SKU, e.g., is traffic manager enabled?
 	Capabilities []Capability_STATUS `json:"capabilities,omitempty"`
-
-	// Capacity: Current number of instances assigned to the resource.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: Family code of the resource SKU.
-	Family *string `json:"family,omitempty"`
-
-	// Locations: Locations of the SKU.
-	Locations []string `json:"locations,omitempty"`
-
-	// Name: Name of the resource SKU.
-	Name *string `json:"name,omitempty"`
-
-	// Size: Size specifier of the resource SKU.
-	Size *string `json:"size,omitempty"`
-
-	// SkuCapacity: Min, max, and default scale values of the SKU.
-	SkuCapacity *SkuCapacity_STATUS `json:"skuCapacity,omitempty"`
-
-	// Tier: Service tier of the resource SKU.
-	Tier *string `json:"tier,omitempty"`
+	Capacity     *int                `json:"capacity,omitempty"`
+	Family       *string             `json:"family,omitempty"`
+	Locations    []string            `json:"locations,omitempty"`
+	Name         *string             `json:"name,omitempty"`
+	Size         *string             `json:"size,omitempty"`
+	SkuCapacity  *SkuCapacity_STATUS `json:"skuCapacity,omitempty"`
+	Tier         *string             `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SkuDescription_STATUS{}
@@ -3204,16 +3066,11 @@ func (description *SkuDescription_STATUS) AssignProperties_To_SkuDescription_STA
 	return nil
 }
 
-// Describes the capabilities/features allowed for a specific SKU.
+// Deprecated version of Capability. Use v1api20220301.Capability instead
 type Capability struct {
-	// Name: Name of the SKU capability.
-	Name *string `json:"name,omitempty"`
-
-	// Reason: Reason of the SKU capability.
+	Name   *string `json:"name,omitempty"`
 	Reason *string `json:"reason,omitempty"`
-
-	// Value: Value of the SKU capability.
-	Value *string `json:"value,omitempty"`
+	Value  *string `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Capability{}
@@ -3336,16 +3193,11 @@ func (capability *Capability) Initialize_From_Capability_STATUS(source *Capabili
 	return nil
 }
 
-// Describes the capabilities/features allowed for a specific SKU.
+// Deprecated version of Capability_STATUS. Use v1api20220301.Capability_STATUS instead
 type Capability_STATUS struct {
-	// Name: Name of the SKU capability.
-	Name *string `json:"name,omitempty"`
-
-	// Reason: Reason of the SKU capability.
+	Name   *string `json:"name,omitempty"`
 	Reason *string `json:"reason,omitempty"`
-
-	// Value: Value of the SKU capability.
-	Value *string `json:"value,omitempty"`
+	Value  *string `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Capability_STATUS{}
@@ -3425,22 +3277,13 @@ func (capability *Capability_STATUS) AssignProperties_To_Capability_STATUS(desti
 	return nil
 }
 
-// Description of the App Service plan scale options.
+// Deprecated version of SkuCapacity. Use v1api20220301.SkuCapacity instead
 type SkuCapacity struct {
-	// Default: Default number of workers for this App Service plan SKU.
-	Default *int `json:"default,omitempty"`
-
-	// ElasticMaximum: Maximum number of Elastic workers for this App Service plan SKU.
-	ElasticMaximum *int `json:"elasticMaximum,omitempty"`
-
-	// Maximum: Maximum number of workers for this App Service plan SKU.
-	Maximum *int `json:"maximum,omitempty"`
-
-	// Minimum: Minimum number of workers for this App Service plan SKU.
-	Minimum *int `json:"minimum,omitempty"`
-
-	// ScaleType: Available scale configurations for an App Service plan.
-	ScaleType *string `json:"scaleType,omitempty"`
+	Default        *int    `json:"default,omitempty"`
+	ElasticMaximum *int    `json:"elasticMaximum,omitempty"`
+	Maximum        *int    `json:"maximum,omitempty"`
+	Minimum        *int    `json:"minimum,omitempty"`
+	ScaleType      *string `json:"scaleType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SkuCapacity{}
@@ -3605,22 +3448,13 @@ func (capacity *SkuCapacity) Initialize_From_SkuCapacity_STATUS(source *SkuCapac
 	return nil
 }
 
-// Description of the App Service plan scale options.
+// Deprecated version of SkuCapacity_STATUS. Use v1api20220301.SkuCapacity_STATUS instead
 type SkuCapacity_STATUS struct {
-	// Default: Default number of workers for this App Service plan SKU.
-	Default *int `json:"default,omitempty"`
-
-	// ElasticMaximum: Maximum number of Elastic workers for this App Service plan SKU.
-	ElasticMaximum *int `json:"elasticMaximum,omitempty"`
-
-	// Maximum: Maximum number of workers for this App Service plan SKU.
-	Maximum *int `json:"maximum,omitempty"`
-
-	// Minimum: Minimum number of workers for this App Service plan SKU.
-	Minimum *int `json:"minimum,omitempty"`
-
-	// ScaleType: Available scale configurations for an App Service plan.
-	ScaleType *string `json:"scaleType,omitempty"`
+	Default        *int    `json:"default,omitempty"`
+	ElasticMaximum *int    `json:"elasticMaximum,omitempty"`
+	Maximum        *int    `json:"maximum,omitempty"`
+	Minimum        *int    `json:"minimum,omitempty"`
+	ScaleType      *string `json:"scaleType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SkuCapacity_STATUS{}

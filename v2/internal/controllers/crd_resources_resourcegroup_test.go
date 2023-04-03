@@ -8,8 +8,9 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Resources_ResourceGroup_CRUD(t *testing.T) {
@@ -24,7 +25,7 @@ func Test_Resources_ResourceGroup_CRUD(t *testing.T) {
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(rg.Status.Properties).ToNot(BeNil())
-	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 	armId := *rg.Status.Id
 

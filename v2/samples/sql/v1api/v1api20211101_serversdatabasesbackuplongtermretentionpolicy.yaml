@@ -1,0 +1,9 @@
+apiVersion: sql.azure.com/v1api20211101
+kind: ServersDatabasesBackupLongTermRetentionPolicy
+metadata:
+  name: aso-sample-longterm-backup-policy
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-db
+  weeklyRetention: P30D

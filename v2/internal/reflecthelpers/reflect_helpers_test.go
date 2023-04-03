@@ -9,7 +9,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -17,6 +16,7 @@ import (
 
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 	. "github.com/onsi/gomega"
@@ -222,7 +222,7 @@ func Test_FindPropertiesWithTag(t *testing.T) {
 				"a": ref4,
 				"b": ref5,
 			},
-			PropertyWithTag: to.StringPtr("hello"),
+			PropertyWithTag: to.Ptr("hello"),
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "test-group",
@@ -234,7 +234,7 @@ func Test_FindPropertiesWithTag(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(results).To(HaveLen(2))
 	g.Expect(results).To(HaveKey("Spec.PropertyWithTag"))
-	g.Expect(results["Spec.PropertyWithTag"]).To(Equal([]any{to.StringPtr("hello")}))
+	g.Expect(results["Spec.PropertyWithTag"]).To(Equal([]any{to.Ptr("hello")}))
 	g.Expect(results).To(HaveKey("Spec.PropertyWithTagFromConfig"))
 	g.Expect(results["Spec.PropertyWithTagFromConfig"]).To(Equal([]any{(*genruntime.ConfigMapReference)(nil)}))
 
@@ -274,7 +274,7 @@ func Test_FindOptionalConfigMapReferences(t *testing.T) {
 				"a": ref4,
 				"b": ref5,
 			},
-			PropertyWithTag: to.StringPtr("hello"),
+			PropertyWithTag: to.Ptr("hello"),
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "test-group",
@@ -286,7 +286,7 @@ func Test_FindOptionalConfigMapReferences(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(results).To(HaveLen(1))
 	g.Expect(results[0].Name).To(Equal("Spec.PropertyWithTag"))
-	g.Expect(results[0].Value).To(Equal(to.StringPtr("hello")))
+	g.Expect(results[0].Value).To(Equal(to.Ptr("hello")))
 	g.Expect(results[0].RefName).To(Equal("Spec.PropertyWithTagFromConfig"))
 	g.Expect(results[0].Ref).To(Equal((*genruntime.ConfigMapReference)(nil)))
 }

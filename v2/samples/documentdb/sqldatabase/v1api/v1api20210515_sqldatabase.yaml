@@ -1,0 +1,16 @@
+# Adapted from CosmosDB SQL Bicep examples:
+# https://docs.microsoft.com/en-us/azure/cosmos-db/sql/manage-with-bicep#create-sproc
+apiVersion: documentdb.azure.com/v1api20210515
+kind: SqlDatabase
+metadata:
+  name: sample-sql-db
+  namespace: default
+spec:
+  location: eastus
+  owner:
+    name: sample-sqldb-account
+  resource:
+    id: sample-sql-db
+  options:
+    autoscaleSettings:
+      maxThroughput: 4000

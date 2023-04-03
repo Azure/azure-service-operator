@@ -112,6 +112,28 @@ tasks:
   basic-checks:
     deps: [header-check, specifier-check]
 
+  make-release-artifacts:
+    desc: Produce files required for an ASOv2 release
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - controller:run-kustomize
+      - controller:make-multitenant-files
+      - task: asoctl:build
+        vars: {GOOS: "linux", GOARCH: "amd64"}
+      - task: asoctl:build
+        vars: {GOOS: "linux", GOARCH: "arm64"}
+      - task: asoctl:build
+        vars: {GOOS: "darwin", GOARCH: "amd64"}
+      - task: asoctl:build
+        vars: {GOOS: "darwin", GOARCH: "arm64"}
+      - task: asoctl:build
+        vars: {GOOS: "windows", GOARCH: "amd64"}
+    cmds:
+      - rm -rf out/release
+      - mkdir -p out/release
+      - cp ./bin/{azureserviceoperator,multitenant-cluster,multitenant-tenant}_*.yaml out/release
+      - cp ./bin/asoctl* out/release
+
   ############### Asoctl targets ###############
 
   asoctl:quick-checks:
@@ -155,9 +177,16 @@ tasks:
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
     dir: '{{.ASOCTL_ROOT}}'
+    label: asoctl:build-{{.GOOS}}-{{.GOARCH}}
     deps: [controller:generate-crds]
+    generates:
+      - ../../bin/{{.ASOCTL_APP}}-{{.GOOS}}-{{.GOARCH}}
     cmds:
-      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} .
+      - GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}}-{{.GOOS}}-{{.GOARCH}}{{.EXT}} .
+    vars:
+      EXT: '{{if eq .GOOS "windows"}}.exe{{else}}{{end}}'
+      GOOS: '{{default OS .GOOS}}'
+      GOARCH: '{{default ARCH .GOARCH}}'
 
   ############### Generator targets ###############
 
