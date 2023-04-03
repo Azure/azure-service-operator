@@ -75,7 +75,7 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 		if err != nil {
 			var notImportable NotImportableError
 			if errors.As(err, &notImportable) {
-				// This is a resource we don't know how to import, but that's ok (details will already have been logged)
+				klog.Infof(err.Error())
 				continue
 			}
 
