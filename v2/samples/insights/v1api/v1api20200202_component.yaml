@@ -9,3 +9,7 @@ spec:
     name: aso-sample-rg
   Application_Type: other
   kind: web
+  workspaceResourceReference:
+    group: operationalinsights.azure.com
+    kind: Workspace
+    name: sampleworkspace
