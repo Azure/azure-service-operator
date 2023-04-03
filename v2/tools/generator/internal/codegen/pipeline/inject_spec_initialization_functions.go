@@ -159,6 +159,11 @@ func (s *specInitializationScanner) findResources() (astmodel.TypeDefinitionSet,
 		// ensures consistency across all resources, and means we'll use stable versions (if available) instead of
 		// preview versions
 		_, distance, err := s.conversionGraph.FindHubAndDistance(def.Name(), s.defs)
+		if err != nil {
+			errs = append(errs, errors.Wrapf(err, "finding hub for %s", def.Name()))
+			continue
+		}
+
 		if distance > 1 {
 			continue
 		}
