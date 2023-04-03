@@ -39,18 +39,22 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = endpoint
 
+	var reqApprovals []string
 	// We want to check `ManualPrivateLinkServiceConnections` as these are the ones which are not auto-approved.
 	if connections := endpoint.Status.ManualPrivateLinkServiceConnections; connections != nil {
 		for _, connection := range connections {
 			if *connection.PrivateLinkServiceConnectionState.Status != "Approved" {
-				// Returns 'conditions.NewReadyConditionImpactingError' error
-				return extensions.PostReconcileCheckResultFailure(
-					fmt.Sprintf(
-						"Private connection '%s' to the PrivateEndpoint in state %q requires approval",
-						*connection.Id,
-						*connection.PrivateLinkServiceConnectionState.Status)), nil
+				reqApprovals = append(reqApprovals, *connection.Id)
 			}
 		}
+	}
+
+	if len(reqApprovals) > 0 {
+		// Returns 'conditions.NewReadyConditionImpactingError' error
+		return extensions.PostReconcileCheckResultFailure(
+			fmt.Sprintf(
+				"Private connection(s) '%q' to the PrivateEndpoint requires approval",
+				reqApprovals)), nil
 	}
 
 	return extensions.PostReconcileCheckResultSuccess(), nil

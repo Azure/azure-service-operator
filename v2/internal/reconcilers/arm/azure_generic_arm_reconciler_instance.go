@@ -444,7 +444,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx contex
 
 	// If post reconcile check is failed, we return ReadyConditionImpactingError here to update the Ready
 	// condition is updated so the user can see why we're not setting ready condition now.
-	if check.ReconciliationFailure() {
+	if check.ReconciliationFailed() {
 		r.Log.V(Status).Info("Extension post-reconcile check failure", "message", check.Message())
 		return ctrl.Result{}, check.CreateConditionError()
 	}

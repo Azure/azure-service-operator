@@ -22,7 +22,7 @@ import (
 // a full ARM reconcile.
 type PostReconciliationChecker interface {
 	// PostReconcileCheck does a post-reconcile check to see if the resource is in a state to set 'Ready' condition.
-	// ARM resources should implement this to avoid reconciliation attempts that cannot possibly succeed.
+	// ARM resources should implement this if they need to defer the Ready condition until later.
 	// Returns PostReconcileCheckResultSuccess if the reconciliation is successful.
 	// Returns PostReconcileCheckResultFailure and a human-readable reason if the reconciliation should put a condition on resource.
 	// ctx is the current operation context.
@@ -77,11 +77,11 @@ func PostReconcileCheckResultFailure(reason string) PostReconcileCheckResult {
 	}
 }
 
-func (r PostReconcileCheckResult) ReconciliationFailure() bool {
+func (r PostReconcileCheckResult) ReconciliationFailed() bool {
 	return r.action == postReconcileCheckResultTypeFailure
 }
 
-func (r PostReconcileCheckResult) ReconciliationSuccess() bool {
+func (r PostReconcileCheckResult) ReconciliationSucceeded() bool {
 	return r.action == postReconcileCheckResultTypeSuccess
 }
 
@@ -147,7 +147,6 @@ func CreatePostReconciliationChecker(
 
 // alwaysSucceed is a PostReconciliationChecker that always indicates a reconciliation is successful.
 // We have this here, so we can set up a chain, even if it's only one link long.
-// When we start doing proper comparisons between Spec and Status, we'll have an actual chain of checkers.
 func alwaysSucceed(
 	_ context.Context,
 	_ genruntime.MetaObject,
