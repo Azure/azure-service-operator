@@ -10,12 +10,17 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+	"sync"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/klog/v2"
+
+	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 
@@ -72,11 +77,6 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 		return nil, err // arm.ParseResourceID already returns a good error, no need to wrap
 	}
 
-	if because, skip := IsSystemResource(id); skip {
-		klog.Infof("Skipping %s: %s because %s", id.ResourceType, id.Name, because)
-		return nil, NewNotImportableError(id.ResourceType.String(), id.Name, because)
-	}
-
 	var ref genruntime.ResourceReference
 	ref, err = i.importResource(ctx, id)
 	if err != nil {
@@ -102,6 +102,7 @@ func (i *importableARMResource) importResource(
 	ctx context.Context,
 	id *arm.ResourceID,
 ) (genruntime.ResourceReference, error) {
+
 	// Create an importable blank object into which we capture the current state of the resource
 	importable, err := i.createImportableObjectFromID(i.owner, id)
 	if err != nil {
@@ -109,22 +110,17 @@ func (i *importableARMResource) importResource(
 		return genruntime.ResourceReference{}, err
 	}
 
-	// Get the current status of the object from ARM
-	status, err := i.getStatus(ctx, i.armID, importable)
+	loader := i.createImportFunction(importable, ctx)
+	result, err := loader(importable)
 	if err != nil {
-		// Error doesn't need additional context
 		return genruntime.ResourceReference{}, err
 	}
 
-	// Set up our object Spec
-	err = importable.InitializeSpec(status)
-	if err != nil {
-		return genruntime.ResourceReference{},
-			errors.Wrapf(err, "setting status on Kubernetes resource for resource %s", i.armID)
+	if because, skpped := result.Skipped(); skpped {
+		return genruntime.ResourceReference{}, NewNotImportableError(id.ResourceType.String(), id.Name, because)
 	}
 
 	gvk := importable.GetObjectKind().GroupVersionKind()
-
 	i.resource = importable
 
 	ref := genruntime.ResourceReference{
@@ -135,6 +131,53 @@ func (i *importableARMResource) importResource(
 	}
 
 	return ref, nil
+}
+
+func (i *importableARMResource) createImportFunction(
+	instance genruntime.ImportableARMResource,
+	ctx context.Context,
+) extensions.ImporterFunc {
+	// Loader is a function that does the actual loading
+	loader := i.loader(ctx)
+
+	// Check to see if we have an extension to customize loading, and if we do, wrap the loader
+	gvk := instance.GetObjectKind().GroupVersionKind()
+	if ex, ok := i.GetResourceExtension(gvk); ok {
+		next := loader
+		loader = func(resource genruntime.ImportableResource) (extensions.ImportResult, error) {
+			return ex.Import(resource, next)
+		}
+	}
+
+	return loader
+}
+
+func (i *importableARMResource) loader(ctx context.Context) func(resource genruntime.ImportableResource) (extensions.ImportResult, error) {
+	return func(
+		resource genruntime.ImportableResource,
+	) (extensions.ImportResult, error) {
+		importable, ok := resource.(genruntime.ImportableARMResource)
+		if !ok {
+			// Error doesn't need additional context
+			return extensions.ImportResult{}, errors.Errorf("resource %T is not an importable ARM resource", resource)
+		}
+
+		// Get the current status of the object from ARM
+		status, err := i.getStatus(ctx, i.armID, importable)
+		if err != nil {
+			// Error doesn't need additional context
+			return extensions.ImportResult{}, err
+		}
+
+		// Set up our object Spec
+		err = importable.InitializeSpec(status)
+		if err != nil {
+			return extensions.ImportResult{},
+				errors.Wrapf(err, "setting status on Kubernetes resource for resource %s", i.armID)
+		}
+
+		return extensions.NewImportSucceeded(), nil
+	}
 }
 
 func (i *importableARMResource) importChildResources(
@@ -293,7 +336,7 @@ func (i *importableARMResource) SetName(
 	if owner.Name != "" {
 		n = fmt.Sprintf("%s-%s", owner.Name, name)
 	}
-	
+
 	importable.SetName(n)
 
 	// AzureName needs to be exactly as specficied in the ARM URL
@@ -343,4 +386,31 @@ func (i *importableARMResource) SetOwner(
 
 type childReference struct {
 	ARMID string `json:"id,omitempty"`
+}
+
+var (
+	resourceExtensions     map[schema.GroupVersionKind]genruntime.ResourceExtension
+	resourceExtensionsOnce sync.Once
+)
+
+func (i *importableARMResource) GetResourceExtension(gvk schema.GroupVersionKind) (extensions.Importer, bool) {
+	resourceExtensionsOnce.Do(func() {
+		var err error
+		resourceExtensions, err = controllers.GetResourceExtensions(i.scheme)
+		if err != nil {
+			panic(err)
+		}
+	})
+
+	ext, ok := resourceExtensions[gvk]
+	if !ok {
+		return nil, false
+	}
+
+	imp, ok := ext.(extensions.Importer)
+	if !ok {
+		return nil, false
+	}
+
+	return imp, true
 }
