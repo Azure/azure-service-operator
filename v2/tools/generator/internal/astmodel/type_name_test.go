@@ -28,6 +28,7 @@ func TestSingular_GivesExpectedResults(t *testing.T) {
 		{"Exportservices", "Exportservice"},
 		{"AzureRedis", "AzureRedis"},
 		{"Aliases", "Alias"},
+		{"AdoptedFoxes", "AdoptedFox"},
 	}
 
 	ref := makeTestLocalPackageReference("Demo", "v2010")

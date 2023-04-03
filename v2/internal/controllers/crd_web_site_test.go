@@ -8,11 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
+	web "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Web_Site_CRUD(t *testing.T) {
@@ -30,10 +30,10 @@ func Test_Web_Site_CRUD(t *testing.T) {
 
 	// TODO: We need to add support for dynamically building siteConfig.appSettings.
 	// TODO: See https://github.com/Azure/azure-service-operator/pull/2465#discussion_r956475563 for more info
-	site := &v1api20220301.Site{
+	site := &web.Site{
 		ObjectMeta: tc.MakeObjectMeta("function"),
-		Spec: v1api20220301.Site_Spec{
-			Enabled:             to.BoolPtr(true),
+		Spec: web.Site_Spec{
+			Enabled:             to.Ptr(true),
 			Owner:               testcommon.AsOwner(rg),
 			Location:            &location,
 			ServerFarmReference: tc.MakeReferenceFromResource(serverFarm),
@@ -44,16 +44,16 @@ func Test_Web_Site_CRUD(t *testing.T) {
 
 	armId := *site.Status.Id
 	old := site.DeepCopy()
-	site.Spec.Enabled = to.BoolPtr(false)
+	site.Spec.Enabled = to.Ptr(false)
 	tc.PatchResourceAndWait(old, site)
-	tc.Expect(site.Status.Enabled).To(gomega.Equal(to.BoolPtr(false)))
+	tc.Expect(site.Status.Enabled).To(gomega.Equal(to.Ptr(false)))
 
 	tc.DeleteResourceAndWait(site)
 
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(v1api20220301.APIVersion_Value))
+		string(web.APIVersion_Value))
 	tc.Expect(err).ToNot(gomega.HaveOccurred())
 	tc.Expect(exists).To(gomega.BeFalse())
 }

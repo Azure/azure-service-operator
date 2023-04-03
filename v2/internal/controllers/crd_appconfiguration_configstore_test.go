@@ -8,12 +8,12 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	appconfig "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -37,7 +37,7 @@ func Test_AppConfiguration_ConfigurationStore_CRUD(t *testing.T) {
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),
 			Sku: &appconfig.Sku{
-				Name: to.StringPtr("standard"),
+				Name: to.Ptr("standard"),
 			},
 			PublicNetworkAccess: &publicNetworkAccessDisabled,
 		},

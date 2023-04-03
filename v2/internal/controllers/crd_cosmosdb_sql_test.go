@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -17,6 +16,7 @@ import (
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -54,7 +54,7 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(&acct),
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
-					MaxThroughput: to.IntPtr(4000),
+					MaxThroughput: to.Ptr(4000),
 				},
 			},
 			Resource: &documentdb.SqlDatabaseResource{
@@ -100,7 +100,7 @@ func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Ob
 		Spec: documentdb.DatabaseAccounts_SqlDatabases_Container_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
-				Throughput: to.IntPtr(400),
+				Throughput: to.Ptr(400),
 			},
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.SqlContainerResource{
@@ -108,14 +108,14 @@ func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Ob
 				ConflictResolutionPolicy: &documentdb.ConflictResolutionPolicy{
 					Mode: &lastWriterWins,
 				},
-				DefaultTtl: to.IntPtr(200),
+				DefaultTtl: to.Ptr(200),
 				IndexingPolicy: &documentdb.IndexingPolicy{
 					IndexingMode: &consistent,
 					IncludedPaths: []documentdb.IncludedPath{{
-						Path: to.StringPtr("/*"),
+						Path: to.Ptr("/*"),
 					}},
 					ExcludedPaths: []documentdb.ExcludedPath{{
-						Path: to.StringPtr("/myPathToNotIndex/*"),
+						Path: to.Ptr("/myPathToNotIndex/*"),
 					}},
 				},
 				PartitionKey: &documentdb.ContainerPartitionKey{
@@ -158,7 +158,7 @@ func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Ob
 
 	tc.T.Logf("Updating the default TTL on container %q", name)
 	old := container.DeepCopy()
-	container.Spec.Resource.DefaultTtl = to.IntPtr(400)
+	container.Spec.Resource.DefaultTtl = to.Ptr(400)
 	tc.PatchResourceAndWait(old, &container)
 	tc.Expect(container.Status.Resource).ToNot(BeNil())
 	tc.Expect(container.Status.Resource.DefaultTtl).ToNot(BeNil())
@@ -180,7 +180,7 @@ func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container clie
 				Id:               &name,
 				TriggerType:      &pre,
 				TriggerOperation: &create,
-				Body:             to.StringPtr(triggerBody),
+				Body:             to.Ptr(triggerBody),
 			},
 		},
 	}
@@ -221,7 +221,7 @@ func CosmosDB_SQL_StoredProcedure_CRUD(tc *testcommon.KubePerTestContext, contai
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlStoredProcedureResource{
 				Id:   &name,
-				Body: to.StringPtr(storedProcedureBody),
+				Body: to.Ptr(storedProcedureBody),
 			},
 		},
 	}
@@ -257,7 +257,7 @@ func CosmosDB_SQL_UserDefinedFunction_CRUD(tc *testcommon.KubePerTestContext, co
 			Owner:     testcommon.AsOwner(container),
 			Resource: &documentdb.SqlUserDefinedFunctionResource{
 				Id:   &name,
-				Body: to.StringPtr(userDefinedFunctionBody),
+				Body: to.Ptr(userDefinedFunctionBody),
 			},
 		},
 	}
@@ -297,7 +297,7 @@ func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestCon
 				// We cannot change this to be a fixed throughput as we already created the database using
 				// autoscale and they do not allow switching back to fixed from that.
 				AutoscaleSettings: &documentdb.AutoscaleSettingsResource{
-					MaxThroughput: to.IntPtr(5000),
+					MaxThroughput: to.Ptr(5000),
 				},
 			},
 		},
@@ -310,15 +310,15 @@ func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestCon
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.IntPtr(5000)))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.Ptr(5000)))
 
 	tc.T.Log("increase max throughput to 6000")
 	old := throughputSettings.DeepCopy()
-	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = to.IntPtr(6000)
+	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = to.Ptr(6000)
 	tc.PatchResourceAndWait(old, &throughputSettings)
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.IntPtr(6000)))
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(to.Ptr(6000)))
 	tc.T.Log("throughput successfully updated in status")
 }
 
@@ -328,7 +328,7 @@ func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc *testcommon.Kube
 		Spec: documentdb.DatabaseAccounts_SqlDatabases_Containers_ThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(container),
 			Resource: &documentdb.ThroughputSettingsResource{
-				Throughput: to.IntPtr(500),
+				Throughput: to.Ptr(500),
 			},
 		},
 	}
@@ -340,14 +340,14 @@ func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc *testcommon.Kube
 	// Ensure that the status is what we expect
 	tc.Expect(throughputSettings.Status.Id).ToNot(BeNil())
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.IntPtr(500)))
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.Ptr(500)))
 
 	tc.T.Log("increase throughput to 600")
 	old := throughputSettings.DeepCopy()
-	throughputSettings.Spec.Resource.Throughput = to.IntPtr(600)
+	throughputSettings.Spec.Resource.Throughput = to.Ptr(600)
 	tc.PatchResourceAndWait(old, &throughputSettings)
 	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
-	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.IntPtr(600)))
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.Ptr(600)))
 	tc.T.Log("throughput successfully updated in status")
 }
 

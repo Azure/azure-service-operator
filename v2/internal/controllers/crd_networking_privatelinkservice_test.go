@@ -8,13 +8,13 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	network20220701 "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -45,7 +45,7 @@ func Test_Networking_PrivateLinkService_CRUD(t *testing.T) {
 			},
 			IpConfigurations: []network20220701.PrivateLinkServiceIpConfiguration{
 				{
-					Name:                      to.StringPtr("config"),
+					Name:                      to.Ptr("config"),
 					PrivateIPAddressVersion:   &ipVersion,
 					PrivateIPAllocationMethod: &ipAllocationMethod,
 					Subnet: &network20220701.Subnet_PrivateLinkService_SubResourceEmbedded{
@@ -129,16 +129,16 @@ func newLoadBalancerForPLS(tc *testcommon.KubePerTestContext, rg *resources.Reso
 			},
 			InboundNatPools: []network20201101.InboundNatPool{
 				{
-					Name: to.StringPtr("MyFancyNatPool"),
+					Name: to.Ptr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network20201101.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: frontendIPConfigurationARMID,
 						},
 					},
 					Protocol:               &protocol,
-					FrontendPortRangeStart: to.IntPtr(50_000),
-					FrontendPortRangeEnd:   to.IntPtr(51_000),
-					BackendPort:            to.IntPtr(22),
+					FrontendPortRangeStart: to.Ptr(50_000),
+					FrontendPortRangeEnd:   to.Ptr(51_000),
+					BackendPort:            to.Ptr(22),
 				},
 			},
 		},

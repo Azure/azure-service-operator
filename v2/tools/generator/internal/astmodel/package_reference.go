@@ -275,10 +275,10 @@ func (v *versionComparer) isPreviewVersionLabel(identifier string) (int, bool) {
 	return -1, false
 }
 
-// containsPreviewVersionLabel checks the passed identifier to see if it contains one of our
+// ContainsPreviewVersionLabel checks the passed identifier to see if it contains one of our
 // special set, and if so returns its true. If the passed identifier does not contain one,
 // returns false.
-func containsPreviewVersionLabel(identifier string) bool {
+func ContainsPreviewVersionLabel(identifier string) bool {
 	for _, id := range previewVersionLabels {
 		if strings.LastIndex(identifier, id) > 0 {
 			return true

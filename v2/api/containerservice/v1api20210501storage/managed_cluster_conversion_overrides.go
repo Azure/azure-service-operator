@@ -4,9 +4,8 @@
 package v1api20210501storage
 
 import (
-	"github.com/Azure/go-autorest/autorest/to"
-
 	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -152,11 +151,11 @@ var _ augmentConversionForManagedClusterSKU = &ManagedClusterSKU{}
 
 func (cluster *ManagedClusterSKU) AssignPropertiesFrom(_ *v20230201s.ManagedClusterSKU) error {
 	// value will have already been set on cluster from code-generated conversion
-	if to.String(cluster.Name) == "Base" {
-		cluster.Name = to.StringPtr("Basic")
+	if to.Value(cluster.Name) == "Base" {
+		cluster.Name = to.Ptr("Basic")
 	}
-	if to.String(cluster.Tier) == "Standard" {
-		cluster.Tier = to.StringPtr("Paid")
+	if to.Value(cluster.Tier) == "Standard" {
+		cluster.Tier = to.Ptr("Paid")
 	}
 
 	return nil
@@ -164,11 +163,11 @@ func (cluster *ManagedClusterSKU) AssignPropertiesFrom(_ *v20230201s.ManagedClus
 
 func (_ *ManagedClusterSKU) AssignPropertiesTo(dst *v20230201s.ManagedClusterSKU) error {
 	// value will have already been set on dst from code-generated conversion
-	if to.String(dst.Name) == "Basic" {
-		dst.Name = to.StringPtr("Base")
+	if to.Value(dst.Name) == "Basic" {
+		dst.Name = to.Ptr("Base")
 	}
-	if to.String(dst.Tier) == "Paid" {
-		dst.Tier = to.StringPtr("Standard")
+	if to.Value(dst.Tier) == "Paid" {
+		dst.Tier = to.Ptr("Standard")
 	}
 
 	return nil
@@ -178,11 +177,11 @@ var _ augmentConversionForManagedClusterSKU_STATUS = &ManagedClusterSKU_STATUS{}
 
 func (cluster *ManagedClusterSKU_STATUS) AssignPropertiesFrom(_ *v20230201s.ManagedClusterSKU_STATUS) error {
 	// value will have already been set on cluster from code-generated conversion
-	if to.String(cluster.Name) == "Base" {
-		cluster.Name = to.StringPtr("Basic")
+	if to.Value(cluster.Name) == "Base" {
+		cluster.Name = to.Ptr("Basic")
 	}
-	if to.String(cluster.Tier) == "Standard" {
-		cluster.Tier = to.StringPtr("Paid")
+	if to.Value(cluster.Tier) == "Standard" {
+		cluster.Tier = to.Ptr("Paid")
 	}
 
 	return nil
@@ -190,11 +189,11 @@ func (cluster *ManagedClusterSKU_STATUS) AssignPropertiesFrom(_ *v20230201s.Mana
 
 func (_ *ManagedClusterSKU_STATUS) AssignPropertiesTo(dst *v20230201s.ManagedClusterSKU_STATUS) error {
 	// value will have already been set on dst from code-generated conversion
-	if to.String(dst.Name) == "Basic" {
-		dst.Name = to.StringPtr("Base")
+	if to.Value(dst.Name) == "Basic" {
+		dst.Name = to.Ptr("Base")
 	}
-	if to.String(dst.Tier) == "Paid" {
-		dst.Tier = to.StringPtr("Standard")
+	if to.Value(dst.Tier) == "Paid" {
+		dst.Tier = to.Ptr("Standard")
 	}
 
 	return nil

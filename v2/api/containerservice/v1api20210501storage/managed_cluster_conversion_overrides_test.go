@@ -6,12 +6,12 @@ package v1api20210501storage_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501"
 	v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501storage"
 	v20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -46,7 +46,7 @@ func Test_ManagedClusterAgentPoolProfile_RenamedPropertiesMapCorrectly(t *testin
 		NodePublicIPPrefixIDReference: &genruntime.ResourceReference{
 			ARMID: "Baz",
 		},
-		ProximityPlacementGroupID: to.StringPtr("Qux"),
+		ProximityPlacementGroupID: to.Ptr("Qux"),
 	}
 
 	nextProfile := v20230201s.ManagedClusterAgentPoolProfile{}

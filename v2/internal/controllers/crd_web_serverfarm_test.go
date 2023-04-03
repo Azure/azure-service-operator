@@ -8,12 +8,12 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/onsi/gomega"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Web_ServerFarm_CRUD(t *testing.T) {
@@ -32,9 +32,9 @@ func Test_Web_ServerFarm_CRUD(t *testing.T) {
 
 	armId := *serverFarm.Status.Id
 	old := serverFarm.DeepCopy()
-	serverFarm.Spec.PerSiteScaling = to.BoolPtr(true)
+	serverFarm.Spec.PerSiteScaling = to.Ptr(true)
 	tc.PatchResourceAndWait(old, serverFarm)
-	tc.Expect(serverFarm.Status.PerSiteScaling).To(gomega.Equal(to.BoolPtr(true)))
+	tc.Expect(serverFarm.Status.PerSiteScaling).To(gomega.Equal(to.Ptr(true)))
 
 	tc.DeleteResourcesAndWait(serverFarm)
 
@@ -54,7 +54,7 @@ func newServerFarm(tc *testcommon.KubePerTestContext, rg *resources.ResourceGrou
 			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &v1api20220301.SkuDescription{
-				Name: to.StringPtr("P1v2"),
+				Name: to.Ptr("P1v2"),
 			},
 		},
 	}

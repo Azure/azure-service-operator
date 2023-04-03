@@ -10,11 +10,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
-
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -24,7 +19,11 @@ import (
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
 
@@ -81,7 +80,7 @@ func secretsToWrite(obj *postgresql.FlexibleServer) ([]*v1.Secret, error) {
 	}
 
 	collector := secrets.NewCollector(obj.Namespace)
-	collector.AddValue(operatorSpecSecrets.FullyQualifiedDomainName, to.String(obj.Status.FullyQualifiedDomainName))
+	collector.AddValue(operatorSpecSecrets.FullyQualifiedDomainName, to.Value(obj.Status.FullyQualifiedDomainName))
 
 	return collector.Values()
 }

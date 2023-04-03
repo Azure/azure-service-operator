@@ -8,12 +8,12 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	compute2021 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -33,7 +33,7 @@ func Test_Compute_Image_20210701_CRUD(t *testing.T) {
 			CreationData: &compute2020.CreationData{
 				CreateOption: &createOption,
 			},
-			DiskSizeGB: to.IntPtr(32),
+			DiskSizeGB: to.Ptr(32),
 			Location:   tc.AzureRegion,
 			Owner:      testcommon.AsOwner(rg),
 		},
@@ -55,7 +55,7 @@ func Test_Compute_Image_20210701_CRUD(t *testing.T) {
 			Owner:            testcommon.AsOwner(rg),
 			StorageProfile: &compute2021.ImageStorageProfile{
 				OsDisk: &compute2021.ImageOSDisk{
-					DiskSizeGB: to.IntPtr(32),
+					DiskSizeGB: to.Ptr(32),
 					OsType:     &linuxOS,
 					OsState:    &linuxOSState,
 					Snapshot: &compute2021.SubResource{
