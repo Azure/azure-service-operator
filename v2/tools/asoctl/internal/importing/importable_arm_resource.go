@@ -117,7 +117,7 @@ func (i *importableARMResource) importResource(
 	}
 
 	if because, skpped := result.Skipped(); skpped {
-		return genruntime.ResourceReference{}, NewNotImportableError(id.ResourceType.String(), id.Name, because)
+		return genruntime.ResourceReference{}, NewNotImportableError(id.Name, because)
 	}
 
 	gvk := importable.GetObjectKind().GroupVersionKind()
