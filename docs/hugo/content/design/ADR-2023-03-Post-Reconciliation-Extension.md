@@ -43,7 +43,7 @@ package extensions
 
 type PostReconciliationChecker interface {
 	// PostReconcileCheck does a post-reconcile check to see if the resource is in a state to set 'Ready' condition.
-	// ARM resources should implement this to avoid reconciliation attempts that cannot possibly succeed.
+	// ARM resources should implement this if they need to defer the Ready condition until later.
 	// Returns PostReconcileCheckResultSuccess if the reconciliation is successful.
 	// Returns PostReconcileCheckResultFailure and a human-readable reason if the reconciliation should put a condition on resource.
 	// ctx is the current operation context.
