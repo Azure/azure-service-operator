@@ -227,8 +227,8 @@ func (i *importableARMResource) importChildResources(
 		return nil, errors.Wrapf(err, "unable to list resources of type %s", childResourceType)
 	}
 
-	// Do the list and find the ARM IDs of the child resources
-	subResources := make([]ImportableResource, 0, len(childResourceReferences))
+	klog.Infof("Found %d child resources of type %s", len(childResourceReferences), childResourceType)
+
 	for _, ref := range childResourceReferences {
 		importer, err := NewImportableARMResource(ref.ARMID, &owner, i.client, i.scheme)
 		if err != nil {

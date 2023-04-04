@@ -7,7 +7,6 @@ package importing
 
 import (
 	"context"
-	"strings"
 
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -60,24 +59,30 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 // Partial results are returned even in the case of an error.
 func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, error) {
 	var errs []error
-	var previousResource string
+	processed := 0
 	for len(ri.pending) > 0 {
 		// Remove the first pending importer
 		importer := ri.pending[0]
 		ri.pending = ri.pending[1:]
 
+		processed++
+		pendingCount := len(ri.pending)
+
 		// If we've already handled this resource, skip it
 		if _, ok := ri.completed[importer.Name()]; ok {
+			klog.Infof(
+				"Already imported %d/%d: %s",
+				processed,
+				processed+pendingCount,
+				importer.Name())
 			continue
 		}
 
-		thisResource := len(ri.completed) + 1
-		pendingResources := len(ri.pending)
 		klog.Infof(
 			"Importing %d/%d: %s",
-			thisResource,
-			thisResource+pendingResources,
-			ri.idToLog(importer.Name(), previousResource))
+			processed,
+			processed+pendingCount,
+			importer.Name())
 
 		// Import it
 		pending, err := importer.Import(ctx)
@@ -94,7 +99,6 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 
 		ri.completed[importer.Name()] = importer
 		ri.pending = append(ri.pending, pending...)
-		previousResource = importer.Name()
 	}
 
 	// Now we've imported everything, return the resources
@@ -106,26 +110,4 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 	return &ResourceImportResult{
 		resources: resources,
 	}, kerrors.NewAggregate(errs)
-}
-
-// idToLog removes any common path components from the ID and returns the result.
-// id is the ID of the resource being imported
-// priorId is the ID of the resource that was imported prior to this one
-func (ri *ResourceImporter) idToLog(id string, priorId string) string {
-	parts := strings.Split(id, "/")
-	priorParts := strings.Split(priorId, "/")
-	index := 0
-	for {
-		if index >= len(parts) || index >= len(priorParts) {
-			break
-		}
-
-		if parts[index] != priorParts[index] {
-			break
-		}
-
-		index++
-	}
-
-	return strings.Join(parts[index:], "/")
 }
