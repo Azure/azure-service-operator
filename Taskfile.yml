@@ -600,6 +600,7 @@ tasks:
     cmds:
       - mkdir -p bin # in case it doesn't exist
       - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k crd -v {{.VERSION}} > bin/azureserviceoperator_customresourcedefinitions_{{.VERSION}}.yaml"
 
   controller:make-multitenant-files:
     desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment

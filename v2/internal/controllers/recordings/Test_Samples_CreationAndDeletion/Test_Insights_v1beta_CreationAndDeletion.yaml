@@ -66,13 +66,239 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"web","location":"westus","name":"asotestppsmov","properties":{"Application_Type":"other"}}'
+    body: '{"location":"westcentralus","name":"sampleworkspace","properties":{"sku":{"name":"Standalone"}}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "99"
+      - "96"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace?api-version=2021-06-01
+    method: PUT
+  response:
+    body: '{"properties":{"customerId":"8d310f09-9904-436b-a6fe-8f720096231e","provisioningState":"Creating","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace","name":"sampleworkspace","type":"Microsoft.OperationalInsights/workspaces"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Api-Supported-Versions:
+      - 2015-03-20, 2020-08-01, 2020-10-01, 2021-06-01, 2022-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "845"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace?api-version=2021-06-01
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"properties":{"customerId":"8d310f09-9904-436b-a6fe-8f720096231e","provisioningState":"Creating","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace","name":"sampleworkspace","type":"Microsoft.OperationalInsights/workspaces"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Api-Supported-Versions:
+      - 2015-03-20, 2020-08-01, 2020-10-01, 2021-06-01, 2022-10-01
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"properties":{"customerId":"8d310f09-9904-436b-a6fe-8f720096231e","provisioningState":"Creating","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace","name":"sampleworkspace","type":"Microsoft.OperationalInsights/workspaces"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Api-Supported-Versions:
+      - 2015-03-20, 2020-08-01, 2020-10-01, 2021-06-01, 2022-10-01
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"properties":{"customerId":"8d310f09-9904-436b-a6fe-8f720096231e","provisioningState":"Creating","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace","name":"sampleworkspace","type":"Microsoft.OperationalInsights/workspaces"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Api-Supported-Versions:
+      - 2015-03-20, 2020-08-01, 2020-10-01, 2021-06-01, 2022-10-01
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"properties":{"customerId":"8d310f09-9904-436b-a6fe-8f720096231e","provisioningState":"Succeeded","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace","name":"sampleworkspace","type":"Microsoft.OperationalInsights/workspaces"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Api-Supported-Versions:
+      - 2015-03-20, 2020-08-01, 2020-10-01, 2021-06-01, 2022-10-01
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"properties":{"customerId":"8d310f09-9904-436b-a6fe-8f720096231e","provisioningState":"Succeeded","sku":{"name":"PerGB2018","lastSkuUpdate":"2001-02-03T04:05:06Z"},"retentionInDays":30,"features":{"legacy":0,"searchVersion":1,"enableLogAccessUsingOnlyResourcePermissions":true},"workspaceCapping":{"dailyQuotaGb":-1.0,"quotaNextResetTime":"2001-02-03T04:05:06Z","dataIngestionStatus":"RespectQuota"},"publicNetworkAccessForIngestion":"Enabled","publicNetworkAccessForQuery":"Enabled","createdDate":"2001-02-03T04:05:06Z","modifiedDate":"2001-02-03T04:05:06Z"},"location":"westcentralus","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace","name":"sampleworkspace","type":"Microsoft.OperationalInsights/workspaces"}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Api-Supported-Versions:
+      - 2015-03-20, 2020-08-01, 2020-10-01, 2021-06-01, 2022-10-01
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"kind":"web","location":"westus","name":"asotestppsmov","properties":{"Application_Type":"other","workspaceResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "275"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -83,15 +309,16 @@ interactions:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/microsoft.insights/components/asotestppsmov\",\r\n
       \ \"name\": \"asotestppsmov\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
       \ \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
-      \"\\\"98019e11-0000-0200-0000-635047a70000\\\"\",\r\n  \"properties\": {\r\n
-      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"9c99faf5-3a98-4779-8a1e-2edd3c558de2\",\r\n
+      \"\\\"e900e932-0000-0200-0000-6427b38c0000\\\"\",\r\n  \"properties\": {\r\n
+      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"afa9a7bd-062c-4cb0-80e7-f5f185d1371e\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
-      null,\r\n    \"InstrumentationKey\": \"cc53f11d-9fd7-4c0e-add6-433350a64aa2\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=cc53f11d-9fd7-4c0e-add6-433350a64aa2;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2022-10-19T18:53:27.3982089+00:00\",\r\n
+      null,\r\n    \"InstrumentationKey\": \"57a29aca-9a35-44e3-bb19-4281cdfcf2f2\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=57a29aca-9a35-44e3-bb19-4281cdfcf2f2;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2023-04-01T04:31:08.2533385+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
-      90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
+      90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace\",\r\n
+      \   \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\":
       \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\":
       \"v2\"\r\n  }\r\n}"
     headers:
@@ -134,15 +361,16 @@ interactions:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/microsoft.insights/components/asotestppsmov\",\r\n
       \ \"name\": \"asotestppsmov\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
       \ \"location\": \"westus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n  \"etag\":
-      \"\\\"98019e11-0000-0200-0000-635047a70000\\\"\",\r\n  \"properties\": {\r\n
-      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"9c99faf5-3a98-4779-8a1e-2edd3c558de2\",\r\n
+      \"\\\"e900e932-0000-0200-0000-6427b38c0000\\\"\",\r\n  \"properties\": {\r\n
+      \   \"ApplicationId\": \"asotestppsmov\",\r\n    \"AppId\": \"afa9a7bd-062c-4cb0-80e7-f5f185d1371e\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
-      null,\r\n    \"InstrumentationKey\": \"cc53f11d-9fd7-4c0e-add6-433350a64aa2\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=cc53f11d-9fd7-4c0e-add6-433350a64aa2;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
-      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2022-10-19T18:53:27.3982089+00:00\",\r\n
+      null,\r\n    \"InstrumentationKey\": \"57a29aca-9a35-44e3-bb19-4281cdfcf2f2\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=57a29aca-9a35-44e3-bb19-4281cdfcf2f2;IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"Name\": \"asotestppsmov\",\r\n    \"CreationDate\": \"2023-04-01T04:31:08.2533385+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
-      90,\r\n    \"IngestionMode\": \"ApplicationInsights\",\r\n    \"publicNetworkAccessForIngestion\":
+      90,\r\n    \"WorkspaceResourceId\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace\",\r\n
+      \   \"IngestionMode\": \"LogAnalytics\",\r\n    \"publicNetworkAccessForIngestion\":
       \"Enabled\",\r\n    \"publicNetworkAccessForQuery\": \"Enabled\",\r\n    \"Ver\":
       \"v2\"\r\n  }\r\n}"
     headers:
@@ -310,36 +538,6 @@ interactions:
       - "0"
       Expires:
       - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRZUUtPWVotV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRZUUtPWVotV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
       Pragma:
       - no-cache
       Strict-Transport-Security:
@@ -358,6 +556,39 @@ interactions:
       Test-Request-Attempt:
       - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.Insights/components/asotestppsmov?api-version=2020-02-02
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqkoyz''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-yqkoyz/providers/Microsoft.OperationalInsights/workspaces/sampleworkspace?api-version=2021-06-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-yqkoyz''
