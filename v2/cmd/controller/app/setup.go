@@ -145,11 +145,6 @@ type flags struct {
 	healthAddr           string
 	enableLeaderElection bool
 	crdPatterns          []string
-	preUpgradeCheck      bool
-}
-
-func (f flags) PreUpgradeCheck() bool {
-	return f.preUpgradeCheck
 }
 
 func ParseFlags(args []string) (flags, error) {
@@ -186,7 +181,6 @@ func ParseFlags(args []string) (flags, error) {
 		healthAddr:           healthAddr,
 		enableLeaderElection: enableLeaderElection,
 		crdPatterns:          crdPatterns,
-		preUpgradeCheck:      preUpgradeCheck,
 	}, nil
 }
 
