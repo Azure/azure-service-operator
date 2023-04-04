@@ -33,7 +33,6 @@ import (
 
 type importableARMResource struct {
 	importableResource
-	armID    string                           // The ARM ID of the resource to import
 	armID    *arm.ResourceID                  // The ARM ID of the resource to import
 	owner    *genruntime.ResourceReference    // The owner of the resource we're importing
 	client   *genericarmclient.GenericClient  // client for talking to ARM
@@ -47,7 +46,6 @@ var _ ImportableResource = &importableARMResource{}
 // client is the client to use to talk to ARM.
 // scheme is the scheme to use to create the resource.
 func NewImportableARMResource(
-	armID string,
 	id string,
 	owner *genruntime.ResourceReference,
 	client *genericarmclient.GenericClient,
@@ -92,8 +90,10 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 	}
 
 	var result []ImportableResource
-	subTypes := FindSubTypesForType(id.ResourceType.String())
-	for _, subType := range subTypes {
+
+	childTypes := FindChildResourcesForResourceType(i.armID.ResourceType.String())
+	childTypes = append(childTypes, FindExtensionTypes()...)
+	for _, subType := range childTypes {
 		subResources, err := i.importChildResources(ctx, ref, subType)
 		if err != nil {
 			return nil, errors.Wrapf(err, "importing child resources of type %s for resource %s", subType, i.armID)
@@ -334,7 +334,7 @@ func (i *importableARMResource) groupKindFromID(id *arm.ResourceID) (schema.Grou
 		return schema.GroupKind{}, errors.Errorf("unable to determine resource type from ID %s", id)
 	}
 
-	gk, ok := FindGroupKindForType(t)
+	gk, ok := FindGroupKindForResourceType(t)
 	if !ok {
 		return schema.GroupKind{}, errors.Errorf("unable to determine resource type from ID %s", id)
 	}
@@ -347,9 +347,18 @@ func (i *importableARMResource) nameFromID(id *arm.ResourceID) string {
 	return id.Name
 }
 
-func (i *importableARMResource) createContainerURI(id string, subType string) string {
+// createContainerURI creates the URI for a subcontainer of a resource
+// id is the ARM ID of the parent resource
+// subType is the type of the subresource, e.g. "Microsoft.Network/virtualNetworks/subnets"
+func (i *importableARMResource) createContainerURI(id *arm.ResourceID, subType string) string {
 	parts := strings.Split(subType, "/")
-	return fmt.Sprintf("%s/%s", id, parts[len(parts)-1])
+	if id.ResourceType.Namespace == parts[0] {
+		// This is a subresource in the same namespace as the parent resource
+		return fmt.Sprintf("%s/%s", id.String(), parts[len(parts)-1])
+	}
+
+	// This is a subresource in a different namespace
+	return fmt.Sprintf("%s/providers/%s", id.String(), subType)
 }
 
 func (i *importableARMResource) SetName(
