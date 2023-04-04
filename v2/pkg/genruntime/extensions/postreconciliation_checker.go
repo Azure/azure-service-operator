@@ -27,6 +27,7 @@ type PostReconciliationChecker interface {
 	// Returns PostReconcileCheckResultFailure and a human-readable reason if the reconciliation should put a condition on resource.
 	// ctx is the current operation context.
 	// obj is the resource about to be reconciled. The resource's State will be freshly updated.
+	// owner is the parent resource of obj. This can be nil in some cases like `ResourceGroups` and `Alias`.
 	// kubeClient allows access to the cluster for any required queries.
 	// armClient allows access to ARM for any required queries.
 	// log is the logger for the current operation.
