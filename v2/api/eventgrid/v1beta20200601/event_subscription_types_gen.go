@@ -103,17 +103,6 @@ func (subscription *EventSubscription) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the EventSubscription resource
 func (subscription *EventSubscription) defaultImpl() { subscription.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &EventSubscription{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (subscription *EventSubscription) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*EventSubscription_STATUS); ok {
-		return subscription.Spec.Initialize_From_EventSubscription_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type EventSubscription_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &EventSubscription{}
 
 // AzureName returns the Azure name of the resource
@@ -754,75 +743,6 @@ func (subscription *EventSubscription_Spec) AssignProperties_To_EventSubscriptio
 	return nil
 }
 
-// Initialize_From_EventSubscription_STATUS populates our EventSubscription_Spec from the provided source EventSubscription_STATUS
-func (subscription *EventSubscription_Spec) Initialize_From_EventSubscription_STATUS(source *EventSubscription_STATUS) error {
-
-	// DeadLetterDestination
-	if source.DeadLetterDestination != nil {
-		var deadLetterDestination DeadLetterDestination
-		err := deadLetterDestination.Initialize_From_DeadLetterDestination_STATUS(source.DeadLetterDestination)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DeadLetterDestination_STATUS() to populate field DeadLetterDestination")
-		}
-		subscription.DeadLetterDestination = &deadLetterDestination
-	} else {
-		subscription.DeadLetterDestination = nil
-	}
-
-	// Destination
-	if source.Destination != nil {
-		var destination EventSubscriptionDestination
-		err := destination.Initialize_From_EventSubscriptionDestination_STATUS(source.Destination)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EventSubscriptionDestination_STATUS() to populate field Destination")
-		}
-		subscription.Destination = &destination
-	} else {
-		subscription.Destination = nil
-	}
-
-	// EventDeliverySchema
-	if source.EventDeliverySchema != nil {
-		eventDeliverySchema := EventSubscriptionProperties_EventDeliverySchema(*source.EventDeliverySchema)
-		subscription.EventDeliverySchema = &eventDeliverySchema
-	} else {
-		subscription.EventDeliverySchema = nil
-	}
-
-	// ExpirationTimeUtc
-	subscription.ExpirationTimeUtc = genruntime.ClonePointerToString(source.ExpirationTimeUtc)
-
-	// Filter
-	if source.Filter != nil {
-		var filter EventSubscriptionFilter
-		err := filter.Initialize_From_EventSubscriptionFilter_STATUS(source.Filter)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EventSubscriptionFilter_STATUS() to populate field Filter")
-		}
-		subscription.Filter = &filter
-	} else {
-		subscription.Filter = nil
-	}
-
-	// Labels
-	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
-
-	// RetryPolicy
-	if source.RetryPolicy != nil {
-		var retryPolicy RetryPolicy
-		err := retryPolicy.Initialize_From_RetryPolicy_STATUS(source.RetryPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RetryPolicy_STATUS() to populate field RetryPolicy")
-		}
-		subscription.RetryPolicy = &retryPolicy
-	} else {
-		subscription.RetryPolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (subscription *EventSubscription_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1368,25 +1288,6 @@ func (destination *DeadLetterDestination) AssignProperties_To_DeadLetterDestinat
 	return nil
 }
 
-// Initialize_From_DeadLetterDestination_STATUS populates our DeadLetterDestination from the provided source DeadLetterDestination_STATUS
-func (destination *DeadLetterDestination) Initialize_From_DeadLetterDestination_STATUS(source *DeadLetterDestination_STATUS) error {
-
-	// StorageBlob
-	if source.StorageBlob != nil {
-		var storageBlob StorageBlobDeadLetterDestination
-		err := storageBlob.Initialize_From_StorageBlobDeadLetterDestination_STATUS(source.StorageBlob)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_StorageBlobDeadLetterDestination_STATUS() to populate field StorageBlob")
-		}
-		destination.StorageBlob = &storageBlob
-	} else {
-		destination.StorageBlob = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of DeadLetterDestination_STATUS. Use v1api20200601.DeadLetterDestination_STATUS instead
 type DeadLetterDestination_STATUS struct {
 	StorageBlob *StorageBlobDeadLetterDestination_STATUS `json:"storageBlob,omitempty"`
@@ -1838,97 +1739,6 @@ func (destination *EventSubscriptionDestination) AssignProperties_To_EventSubscr
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_EventSubscriptionDestination_STATUS populates our EventSubscriptionDestination from the provided source EventSubscriptionDestination_STATUS
-func (destination *EventSubscriptionDestination) Initialize_From_EventSubscriptionDestination_STATUS(source *EventSubscriptionDestination_STATUS) error {
-
-	// AzureFunction
-	if source.AzureFunction != nil {
-		var azureFunction AzureFunctionEventSubscriptionDestination
-		err := azureFunction.Initialize_From_AzureFunctionEventSubscriptionDestination_STATUS(source.AzureFunction)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureFunctionEventSubscriptionDestination_STATUS() to populate field AzureFunction")
-		}
-		destination.AzureFunction = &azureFunction
-	} else {
-		destination.AzureFunction = nil
-	}
-
-	// EventHub
-	if source.EventHub != nil {
-		var eventHub EventHubEventSubscriptionDestination
-		err := eventHub.Initialize_From_EventHubEventSubscriptionDestination_STATUS(source.EventHub)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EventHubEventSubscriptionDestination_STATUS() to populate field EventHub")
-		}
-		destination.EventHub = &eventHub
-	} else {
-		destination.EventHub = nil
-	}
-
-	// HybridConnection
-	if source.HybridConnection != nil {
-		var hybridConnection HybridConnectionEventSubscriptionDestination
-		err := hybridConnection.Initialize_From_HybridConnectionEventSubscriptionDestination_STATUS(source.HybridConnection)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HybridConnectionEventSubscriptionDestination_STATUS() to populate field HybridConnection")
-		}
-		destination.HybridConnection = &hybridConnection
-	} else {
-		destination.HybridConnection = nil
-	}
-
-	// ServiceBusQueue
-	if source.ServiceBusQueue != nil {
-		var serviceBusQueue ServiceBusQueueEventSubscriptionDestination
-		err := serviceBusQueue.Initialize_From_ServiceBusQueueEventSubscriptionDestination_STATUS(source.ServiceBusQueue)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ServiceBusQueueEventSubscriptionDestination_STATUS() to populate field ServiceBusQueue")
-		}
-		destination.ServiceBusQueue = &serviceBusQueue
-	} else {
-		destination.ServiceBusQueue = nil
-	}
-
-	// ServiceBusTopic
-	if source.ServiceBusTopic != nil {
-		var serviceBusTopic ServiceBusTopicEventSubscriptionDestination
-		err := serviceBusTopic.Initialize_From_ServiceBusTopicEventSubscriptionDestination_STATUS(source.ServiceBusTopic)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ServiceBusTopicEventSubscriptionDestination_STATUS() to populate field ServiceBusTopic")
-		}
-		destination.ServiceBusTopic = &serviceBusTopic
-	} else {
-		destination.ServiceBusTopic = nil
-	}
-
-	// StorageQueue
-	if source.StorageQueue != nil {
-		var storageQueue StorageQueueEventSubscriptionDestination
-		err := storageQueue.Initialize_From_StorageQueueEventSubscriptionDestination_STATUS(source.StorageQueue)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_StorageQueueEventSubscriptionDestination_STATUS() to populate field StorageQueue")
-		}
-		destination.StorageQueue = &storageQueue
-	} else {
-		destination.StorageQueue = nil
-	}
-
-	// WebHook
-	if source.WebHook != nil {
-		var webHook WebHookEventSubscriptionDestination
-		err := webHook.Initialize_From_WebHookEventSubscriptionDestination_STATUS(source.WebHook)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WebHookEventSubscriptionDestination_STATUS() to populate field WebHook")
-		}
-		destination.WebHook = &webHook
-	} else {
-		destination.WebHook = nil
 	}
 
 	// No error
@@ -2426,48 +2236,6 @@ func (filter *EventSubscriptionFilter) AssignProperties_To_EventSubscriptionFilt
 	return nil
 }
 
-// Initialize_From_EventSubscriptionFilter_STATUS populates our EventSubscriptionFilter from the provided source EventSubscriptionFilter_STATUS
-func (filter *EventSubscriptionFilter) Initialize_From_EventSubscriptionFilter_STATUS(source *EventSubscriptionFilter_STATUS) error {
-
-	// AdvancedFilters
-	if source.AdvancedFilters != nil {
-		advancedFilterList := make([]AdvancedFilter, len(source.AdvancedFilters))
-		for advancedFilterIndex, advancedFilterItem := range source.AdvancedFilters {
-			// Shadow the loop variable to avoid aliasing
-			advancedFilterItem := advancedFilterItem
-			var advancedFilter AdvancedFilter
-			err := advancedFilter.Initialize_From_AdvancedFilter_STATUS(&advancedFilterItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AdvancedFilter_STATUS() to populate field AdvancedFilters")
-			}
-			advancedFilterList[advancedFilterIndex] = advancedFilter
-		}
-		filter.AdvancedFilters = advancedFilterList
-	} else {
-		filter.AdvancedFilters = nil
-	}
-
-	// IncludedEventTypes
-	filter.IncludedEventTypes = genruntime.CloneSliceOfString(source.IncludedEventTypes)
-
-	// IsSubjectCaseSensitive
-	if source.IsSubjectCaseSensitive != nil {
-		isSubjectCaseSensitive := *source.IsSubjectCaseSensitive
-		filter.IsSubjectCaseSensitive = &isSubjectCaseSensitive
-	} else {
-		filter.IsSubjectCaseSensitive = nil
-	}
-
-	// SubjectBeginsWith
-	filter.SubjectBeginsWith = genruntime.ClonePointerToString(source.SubjectBeginsWith)
-
-	// SubjectEndsWith
-	filter.SubjectEndsWith = genruntime.ClonePointerToString(source.SubjectEndsWith)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of EventSubscriptionFilter_STATUS. Use v1api20200601.EventSubscriptionFilter_STATUS instead
 type EventSubscriptionFilter_STATUS struct {
 	AdvancedFilters        []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
@@ -2743,19 +2511,6 @@ func (policy *RetryPolicy) AssignProperties_To_RetryPolicy(destination *v2020060
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RetryPolicy_STATUS populates our RetryPolicy from the provided source RetryPolicy_STATUS
-func (policy *RetryPolicy) Initialize_From_RetryPolicy_STATUS(source *RetryPolicy_STATUS) error {
-
-	// EventTimeToLiveInMinutes
-	policy.EventTimeToLiveInMinutes = genruntime.ClonePointerToInt(source.EventTimeToLiveInMinutes)
-
-	// MaxDeliveryAttempts
-	policy.MaxDeliveryAttempts = genruntime.ClonePointerToInt(source.MaxDeliveryAttempts)
 
 	// No error
 	return nil
@@ -3438,157 +3193,6 @@ func (filter *AdvancedFilter) AssignProperties_To_AdvancedFilter(destination *v2
 	return nil
 }
 
-// Initialize_From_AdvancedFilter_STATUS populates our AdvancedFilter from the provided source AdvancedFilter_STATUS
-func (filter *AdvancedFilter) Initialize_From_AdvancedFilter_STATUS(source *AdvancedFilter_STATUS) error {
-
-	// BoolEquals
-	if source.BoolEquals != nil {
-		var boolEqual BoolEqualsAdvancedFilter
-		err := boolEqual.Initialize_From_BoolEqualsAdvancedFilter_STATUS(source.BoolEquals)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BoolEqualsAdvancedFilter_STATUS() to populate field BoolEquals")
-		}
-		filter.BoolEquals = &boolEqual
-	} else {
-		filter.BoolEquals = nil
-	}
-
-	// NumberGreaterThan
-	if source.NumberGreaterThan != nil {
-		var numberGreaterThan NumberGreaterThanAdvancedFilter
-		err := numberGreaterThan.Initialize_From_NumberGreaterThanAdvancedFilter_STATUS(source.NumberGreaterThan)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NumberGreaterThanAdvancedFilter_STATUS() to populate field NumberGreaterThan")
-		}
-		filter.NumberGreaterThan = &numberGreaterThan
-	} else {
-		filter.NumberGreaterThan = nil
-	}
-
-	// NumberGreaterThanOrEquals
-	if source.NumberGreaterThanOrEquals != nil {
-		var numberGreaterThanOrEqual NumberGreaterThanOrEqualsAdvancedFilter
-		err := numberGreaterThanOrEqual.Initialize_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(source.NumberGreaterThanOrEquals)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS() to populate field NumberGreaterThanOrEquals")
-		}
-		filter.NumberGreaterThanOrEquals = &numberGreaterThanOrEqual
-	} else {
-		filter.NumberGreaterThanOrEquals = nil
-	}
-
-	// NumberIn
-	if source.NumberIn != nil {
-		var numberIn NumberInAdvancedFilter
-		err := numberIn.Initialize_From_NumberInAdvancedFilter_STATUS(source.NumberIn)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NumberInAdvancedFilter_STATUS() to populate field NumberIn")
-		}
-		filter.NumberIn = &numberIn
-	} else {
-		filter.NumberIn = nil
-	}
-
-	// NumberLessThan
-	if source.NumberLessThan != nil {
-		var numberLessThan NumberLessThanAdvancedFilter
-		err := numberLessThan.Initialize_From_NumberLessThanAdvancedFilter_STATUS(source.NumberLessThan)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NumberLessThanAdvancedFilter_STATUS() to populate field NumberLessThan")
-		}
-		filter.NumberLessThan = &numberLessThan
-	} else {
-		filter.NumberLessThan = nil
-	}
-
-	// NumberLessThanOrEquals
-	if source.NumberLessThanOrEquals != nil {
-		var numberLessThanOrEqual NumberLessThanOrEqualsAdvancedFilter
-		err := numberLessThanOrEqual.Initialize_From_NumberLessThanOrEqualsAdvancedFilter_STATUS(source.NumberLessThanOrEquals)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NumberLessThanOrEqualsAdvancedFilter_STATUS() to populate field NumberLessThanOrEquals")
-		}
-		filter.NumberLessThanOrEquals = &numberLessThanOrEqual
-	} else {
-		filter.NumberLessThanOrEquals = nil
-	}
-
-	// NumberNotIn
-	if source.NumberNotIn != nil {
-		var numberNotIn NumberNotInAdvancedFilter
-		err := numberNotIn.Initialize_From_NumberNotInAdvancedFilter_STATUS(source.NumberNotIn)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NumberNotInAdvancedFilter_STATUS() to populate field NumberNotIn")
-		}
-		filter.NumberNotIn = &numberNotIn
-	} else {
-		filter.NumberNotIn = nil
-	}
-
-	// StringBeginsWith
-	if source.StringBeginsWith != nil {
-		var stringBeginsWith StringBeginsWithAdvancedFilter
-		err := stringBeginsWith.Initialize_From_StringBeginsWithAdvancedFilter_STATUS(source.StringBeginsWith)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_StringBeginsWithAdvancedFilter_STATUS() to populate field StringBeginsWith")
-		}
-		filter.StringBeginsWith = &stringBeginsWith
-	} else {
-		filter.StringBeginsWith = nil
-	}
-
-	// StringContains
-	if source.StringContains != nil {
-		var stringContain StringContainsAdvancedFilter
-		err := stringContain.Initialize_From_StringContainsAdvancedFilter_STATUS(source.StringContains)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_StringContainsAdvancedFilter_STATUS() to populate field StringContains")
-		}
-		filter.StringContains = &stringContain
-	} else {
-		filter.StringContains = nil
-	}
-
-	// StringEndsWith
-	if source.StringEndsWith != nil {
-		var stringEndsWith StringEndsWithAdvancedFilter
-		err := stringEndsWith.Initialize_From_StringEndsWithAdvancedFilter_STATUS(source.StringEndsWith)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_StringEndsWithAdvancedFilter_STATUS() to populate field StringEndsWith")
-		}
-		filter.StringEndsWith = &stringEndsWith
-	} else {
-		filter.StringEndsWith = nil
-	}
-
-	// StringIn
-	if source.StringIn != nil {
-		var stringIn StringInAdvancedFilter
-		err := stringIn.Initialize_From_StringInAdvancedFilter_STATUS(source.StringIn)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_StringInAdvancedFilter_STATUS() to populate field StringIn")
-		}
-		filter.StringIn = &stringIn
-	} else {
-		filter.StringIn = nil
-	}
-
-	// StringNotIn
-	if source.StringNotIn != nil {
-		var stringNotIn StringNotInAdvancedFilter
-		err := stringNotIn.Initialize_From_StringNotInAdvancedFilter_STATUS(source.StringNotIn)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_StringNotInAdvancedFilter_STATUS() to populate field StringNotIn")
-		}
-		filter.StringNotIn = &stringNotIn
-	} else {
-		filter.StringNotIn = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of AdvancedFilter_STATUS. Use v1api20200601.AdvancedFilter_STATUS instead
 type AdvancedFilter_STATUS struct {
 	BoolEquals                *BoolEqualsAdvancedFilter_STATUS                `json:"boolEquals,omitempty"`
@@ -4220,35 +3824,6 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignProperties_T
 	return nil
 }
 
-// Initialize_From_AzureFunctionEventSubscriptionDestination_STATUS populates our AzureFunctionEventSubscriptionDestination from the provided source AzureFunctionEventSubscriptionDestination_STATUS
-func (destination *AzureFunctionEventSubscriptionDestination) Initialize_From_AzureFunctionEventSubscriptionDestination_STATUS(source *AzureFunctionEventSubscriptionDestination_STATUS) error {
-
-	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := AzureFunctionEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
-
-	// MaxEventsPerBatch
-	destination.MaxEventsPerBatch = genruntime.ClonePointerToInt(source.MaxEventsPerBatch)
-
-	// PreferredBatchSizeInKilobytes
-	destination.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(source.PreferredBatchSizeInKilobytes)
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of AzureFunctionEventSubscriptionDestination_STATUS. Use v1api20200601.AzureFunctionEventSubscriptionDestination_STATUS instead
 type AzureFunctionEventSubscriptionDestination_STATUS struct {
 	EndpointType                  *AzureFunctionEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
@@ -4474,29 +4049,6 @@ func (destination *EventHubEventSubscriptionDestination) AssignProperties_To_Eve
 	return nil
 }
 
-// Initialize_From_EventHubEventSubscriptionDestination_STATUS populates our EventHubEventSubscriptionDestination from the provided source EventHubEventSubscriptionDestination_STATUS
-func (destination *EventHubEventSubscriptionDestination) Initialize_From_EventHubEventSubscriptionDestination_STATUS(source *EventHubEventSubscriptionDestination_STATUS) error {
-
-	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := EventHubEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of EventHubEventSubscriptionDestination_STATUS. Use v1api20200601.EventHubEventSubscriptionDestination_STATUS instead
 type EventHubEventSubscriptionDestination_STATUS struct {
 	EndpointType *EventHubEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
@@ -4684,29 +4236,6 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HybridConnectionEventSubscriptionDestination_STATUS populates our HybridConnectionEventSubscriptionDestination from the provided source HybridConnectionEventSubscriptionDestination_STATUS
-func (destination *HybridConnectionEventSubscriptionDestination) Initialize_From_HybridConnectionEventSubscriptionDestination_STATUS(source *HybridConnectionEventSubscriptionDestination_STATUS) error {
-
-	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := HybridConnectionEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
 	}
 
 	// No error
@@ -4906,29 +4435,6 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 	return nil
 }
 
-// Initialize_From_ServiceBusQueueEventSubscriptionDestination_STATUS populates our ServiceBusQueueEventSubscriptionDestination from the provided source ServiceBusQueueEventSubscriptionDestination_STATUS
-func (destination *ServiceBusQueueEventSubscriptionDestination) Initialize_From_ServiceBusQueueEventSubscriptionDestination_STATUS(source *ServiceBusQueueEventSubscriptionDestination_STATUS) error {
-
-	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := ServiceBusQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ServiceBusQueueEventSubscriptionDestination_STATUS. Use v1api20200601.ServiceBusQueueEventSubscriptionDestination_STATUS instead
 type ServiceBusQueueEventSubscriptionDestination_STATUS struct {
 	EndpointType *ServiceBusQueueEventSubscriptionDestination_EndpointType_STATUS `json:"endpointType,omitempty"`
@@ -5116,29 +4622,6 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServiceBusTopicEventSubscriptionDestination_STATUS populates our ServiceBusTopicEventSubscriptionDestination from the provided source ServiceBusTopicEventSubscriptionDestination_STATUS
-func (destination *ServiceBusTopicEventSubscriptionDestination) Initialize_From_ServiceBusTopicEventSubscriptionDestination_STATUS(source *ServiceBusTopicEventSubscriptionDestination_STATUS) error {
-
-	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := ServiceBusTopicEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
 	}
 
 	// No error
@@ -5353,32 +4836,6 @@ func (destination *StorageBlobDeadLetterDestination) AssignProperties_To_Storage
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageBlobDeadLetterDestination_STATUS populates our StorageBlobDeadLetterDestination from the provided source StorageBlobDeadLetterDestination_STATUS
-func (destination *StorageBlobDeadLetterDestination) Initialize_From_StorageBlobDeadLetterDestination_STATUS(source *StorageBlobDeadLetterDestination_STATUS) error {
-
-	// BlobContainerName
-	destination.BlobContainerName = genruntime.ClonePointerToString(source.BlobContainerName)
-
-	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := StorageBlobDeadLetterDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
 	}
 
 	// No error
@@ -5608,32 +5065,6 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignProperties_To
 		target.PropertyBag = propertyBag
 	} else {
 		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageQueueEventSubscriptionDestination_STATUS populates our StorageQueueEventSubscriptionDestination from the provided source StorageQueueEventSubscriptionDestination_STATUS
-func (destination *StorageQueueEventSubscriptionDestination) Initialize_From_StorageQueueEventSubscriptionDestination_STATUS(source *StorageQueueEventSubscriptionDestination_STATUS) error {
-
-	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := StorageQueueEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
-
-	// QueueName
-	destination.QueueName = genruntime.ClonePointerToString(source.QueueName)
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
 	}
 
 	// No error
@@ -5934,33 +5365,6 @@ func (destination *WebHookEventSubscriptionDestination) AssignProperties_To_WebH
 	return nil
 }
 
-// Initialize_From_WebHookEventSubscriptionDestination_STATUS populates our WebHookEventSubscriptionDestination from the provided source WebHookEventSubscriptionDestination_STATUS
-func (destination *WebHookEventSubscriptionDestination) Initialize_From_WebHookEventSubscriptionDestination_STATUS(source *WebHookEventSubscriptionDestination_STATUS) error {
-
-	// AzureActiveDirectoryApplicationIdOrUri
-	destination.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(source.AzureActiveDirectoryApplicationIdOrUri)
-
-	// AzureActiveDirectoryTenantId
-	destination.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(source.AzureActiveDirectoryTenantId)
-
-	// EndpointType
-	if source.EndpointType != nil {
-		endpointType := WebHookEventSubscriptionDestination_EndpointType(*source.EndpointType)
-		destination.EndpointType = &endpointType
-	} else {
-		destination.EndpointType = nil
-	}
-
-	// MaxEventsPerBatch
-	destination.MaxEventsPerBatch = genruntime.ClonePointerToInt(source.MaxEventsPerBatch)
-
-	// PreferredBatchSizeInKilobytes
-	destination.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(source.PreferredBatchSizeInKilobytes)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of WebHookEventSubscriptionDestination_STATUS. Use v1api20200601.WebHookEventSubscriptionDestination_STATUS instead
 type WebHookEventSubscriptionDestination_STATUS struct {
 	AzureActiveDirectoryApplicationIdOrUri *string                                                  `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
@@ -6248,32 +5652,6 @@ func (filter *BoolEqualsAdvancedFilter) AssignProperties_To_BoolEqualsAdvancedFi
 	return nil
 }
 
-// Initialize_From_BoolEqualsAdvancedFilter_STATUS populates our BoolEqualsAdvancedFilter from the provided source BoolEqualsAdvancedFilter_STATUS
-func (filter *BoolEqualsAdvancedFilter) Initialize_From_BoolEqualsAdvancedFilter_STATUS(source *BoolEqualsAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := BoolEqualsAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		filter.Value = &value
-	} else {
-		filter.Value = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of BoolEqualsAdvancedFilter_STATUS. Use v1api20200601.BoolEqualsAdvancedFilter_STATUS instead
 type BoolEqualsAdvancedFilter_STATUS struct {
 	Key          *string                                       `json:"key,omitempty"`
@@ -6530,32 +5908,6 @@ func (filter *NumberGreaterThanAdvancedFilter) AssignProperties_To_NumberGreater
 	return nil
 }
 
-// Initialize_From_NumberGreaterThanAdvancedFilter_STATUS populates our NumberGreaterThanAdvancedFilter from the provided source NumberGreaterThanAdvancedFilter_STATUS
-func (filter *NumberGreaterThanAdvancedFilter) Initialize_From_NumberGreaterThanAdvancedFilter_STATUS(source *NumberGreaterThanAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := NumberGreaterThanAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		filter.Value = &value
-	} else {
-		filter.Value = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of NumberGreaterThanAdvancedFilter_STATUS. Use v1api20200601.NumberGreaterThanAdvancedFilter_STATUS instead
 type NumberGreaterThanAdvancedFilter_STATUS struct {
 	Key          *string                                              `json:"key,omitempty"`
@@ -6780,32 +6132,6 @@ func (filter *NumberGreaterThanOrEqualsAdvancedFilter) AssignProperties_To_Numbe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS populates our NumberGreaterThanOrEqualsAdvancedFilter from the provided source NumberGreaterThanOrEqualsAdvancedFilter_STATUS
-func (filter *NumberGreaterThanOrEqualsAdvancedFilter) Initialize_From_NumberGreaterThanOrEqualsAdvancedFilter_STATUS(source *NumberGreaterThanOrEqualsAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := NumberGreaterThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		filter.Value = &value
-	} else {
-		filter.Value = nil
 	}
 
 	// No error
@@ -7044,37 +6370,6 @@ func (filter *NumberInAdvancedFilter) AssignProperties_To_NumberInAdvancedFilter
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NumberInAdvancedFilter_STATUS populates our NumberInAdvancedFilter from the provided source NumberInAdvancedFilter_STATUS
-func (filter *NumberInAdvancedFilter) Initialize_From_NumberInAdvancedFilter_STATUS(source *NumberInAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := NumberInAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Values
-	if source.Values != nil {
-		valueList := make([]float64, len(source.Values))
-		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
-			valueList[valueIndex] = valueItem
-		}
-		filter.Values = valueList
-	} else {
-		filter.Values = nil
 	}
 
 	// No error
@@ -7320,32 +6615,6 @@ func (filter *NumberLessThanAdvancedFilter) AssignProperties_To_NumberLessThanAd
 	return nil
 }
 
-// Initialize_From_NumberLessThanAdvancedFilter_STATUS populates our NumberLessThanAdvancedFilter from the provided source NumberLessThanAdvancedFilter_STATUS
-func (filter *NumberLessThanAdvancedFilter) Initialize_From_NumberLessThanAdvancedFilter_STATUS(source *NumberLessThanAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := NumberLessThanAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		filter.Value = &value
-	} else {
-		filter.Value = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of NumberLessThanAdvancedFilter_STATUS. Use v1api20200601.NumberLessThanAdvancedFilter_STATUS instead
 type NumberLessThanAdvancedFilter_STATUS struct {
 	Key          *string                                           `json:"key,omitempty"`
@@ -7570,32 +6839,6 @@ func (filter *NumberLessThanOrEqualsAdvancedFilter) AssignProperties_To_NumberLe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NumberLessThanOrEqualsAdvancedFilter_STATUS populates our NumberLessThanOrEqualsAdvancedFilter from the provided source NumberLessThanOrEqualsAdvancedFilter_STATUS
-func (filter *NumberLessThanOrEqualsAdvancedFilter) Initialize_From_NumberLessThanOrEqualsAdvancedFilter_STATUS(source *NumberLessThanOrEqualsAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := NumberLessThanOrEqualsAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		filter.Value = &value
-	} else {
-		filter.Value = nil
 	}
 
 	// No error
@@ -7834,37 +7077,6 @@ func (filter *NumberNotInAdvancedFilter) AssignProperties_To_NumberNotInAdvanced
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NumberNotInAdvancedFilter_STATUS populates our NumberNotInAdvancedFilter from the provided source NumberNotInAdvancedFilter_STATUS
-func (filter *NumberNotInAdvancedFilter) Initialize_From_NumberNotInAdvancedFilter_STATUS(source *NumberNotInAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := NumberNotInAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Values
-	if source.Values != nil {
-		valueList := make([]float64, len(source.Values))
-		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
-			valueList[valueIndex] = valueItem
-		}
-		filter.Values = valueList
-	} else {
-		filter.Values = nil
 	}
 
 	// No error
@@ -8150,27 +7362,6 @@ func (filter *StringBeginsWithAdvancedFilter) AssignProperties_To_StringBeginsWi
 	return nil
 }
 
-// Initialize_From_StringBeginsWithAdvancedFilter_STATUS populates our StringBeginsWithAdvancedFilter from the provided source StringBeginsWithAdvancedFilter_STATUS
-func (filter *StringBeginsWithAdvancedFilter) Initialize_From_StringBeginsWithAdvancedFilter_STATUS(source *StringBeginsWithAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := StringBeginsWithAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Values
-	filter.Values = genruntime.CloneSliceOfString(source.Values)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of StringBeginsWithAdvancedFilter_STATUS. Use v1api20200601.StringBeginsWithAdvancedFilter_STATUS instead
 type StringBeginsWithAdvancedFilter_STATUS struct {
 	Key          *string                                             `json:"key,omitempty"`
@@ -8373,27 +7564,6 @@ func (filter *StringContainsAdvancedFilter) AssignProperties_To_StringContainsAd
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StringContainsAdvancedFilter_STATUS populates our StringContainsAdvancedFilter from the provided source StringContainsAdvancedFilter_STATUS
-func (filter *StringContainsAdvancedFilter) Initialize_From_StringContainsAdvancedFilter_STATUS(source *StringContainsAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := StringContainsAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Values
-	filter.Values = genruntime.CloneSliceOfString(source.Values)
 
 	// No error
 	return nil
@@ -8606,27 +7776,6 @@ func (filter *StringEndsWithAdvancedFilter) AssignProperties_To_StringEndsWithAd
 	return nil
 }
 
-// Initialize_From_StringEndsWithAdvancedFilter_STATUS populates our StringEndsWithAdvancedFilter from the provided source StringEndsWithAdvancedFilter_STATUS
-func (filter *StringEndsWithAdvancedFilter) Initialize_From_StringEndsWithAdvancedFilter_STATUS(source *StringEndsWithAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := StringEndsWithAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Values
-	filter.Values = genruntime.CloneSliceOfString(source.Values)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of StringEndsWithAdvancedFilter_STATUS. Use v1api20200601.StringEndsWithAdvancedFilter_STATUS instead
 type StringEndsWithAdvancedFilter_STATUS struct {
 	Key          *string                                           `json:"key,omitempty"`
@@ -8834,27 +7983,6 @@ func (filter *StringInAdvancedFilter) AssignProperties_To_StringInAdvancedFilter
 	return nil
 }
 
-// Initialize_From_StringInAdvancedFilter_STATUS populates our StringInAdvancedFilter from the provided source StringInAdvancedFilter_STATUS
-func (filter *StringInAdvancedFilter) Initialize_From_StringInAdvancedFilter_STATUS(source *StringInAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := StringInAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Values
-	filter.Values = genruntime.CloneSliceOfString(source.Values)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of StringInAdvancedFilter_STATUS. Use v1api20200601.StringInAdvancedFilter_STATUS instead
 type StringInAdvancedFilter_STATUS struct {
 	Key          *string                                     `json:"key,omitempty"`
@@ -9057,27 +8185,6 @@ func (filter *StringNotInAdvancedFilter) AssignProperties_To_StringNotInAdvanced
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StringNotInAdvancedFilter_STATUS populates our StringNotInAdvancedFilter from the provided source StringNotInAdvancedFilter_STATUS
-func (filter *StringNotInAdvancedFilter) Initialize_From_StringNotInAdvancedFilter_STATUS(source *StringNotInAdvancedFilter_STATUS) error {
-
-	// Key
-	filter.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	if source.OperatorType != nil {
-		operatorType := StringNotInAdvancedFilter_OperatorType(*source.OperatorType)
-		filter.OperatorType = &operatorType
-	} else {
-		filter.OperatorType = nil
-	}
-
-	// Values
-	filter.Values = genruntime.CloneSliceOfString(source.Values)
 
 	// No error
 	return nil

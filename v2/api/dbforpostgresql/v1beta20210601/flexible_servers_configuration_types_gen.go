@@ -103,17 +103,6 @@ func (configuration *FlexibleServersConfiguration) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the FlexibleServersConfiguration resource
 func (configuration *FlexibleServersConfiguration) defaultImpl() { configuration.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &FlexibleServersConfiguration{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (configuration *FlexibleServersConfiguration) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServers_Configuration_STATUS); ok {
-		return configuration.Spec.Initialize_From_FlexibleServers_Configuration_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServers_Configuration_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &FlexibleServersConfiguration{}
 
 // AzureName returns the Azure name of the resource
@@ -528,19 +517,6 @@ func (configuration *FlexibleServers_Configuration_Spec) AssignProperties_To_Fle
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServers_Configuration_STATUS populates our FlexibleServers_Configuration_Spec from the provided source FlexibleServers_Configuration_STATUS
-func (configuration *FlexibleServers_Configuration_Spec) Initialize_From_FlexibleServers_Configuration_STATUS(source *FlexibleServers_Configuration_STATUS) error {
-
-	// Source
-	configuration.Source = genruntime.ClonePointerToString(source.Source)
-
-	// Value
-	configuration.Value = genruntime.ClonePointerToString(source.Value)
 
 	// No error
 	return nil

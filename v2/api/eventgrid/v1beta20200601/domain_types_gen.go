@@ -103,17 +103,6 @@ func (domain *Domain) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Domain resource
 func (domain *Domain) defaultImpl() { domain.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &Domain{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (domain *Domain) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Domain_STATUS); ok {
-		return domain.Spec.Initialize_From_Domain_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Domain_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &Domain{}
 
 // AzureName returns the Azure name of the resource
@@ -705,65 +694,6 @@ func (domain *Domain_Spec) AssignProperties_To_Domain_Spec(destination *v2020060
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Domain_STATUS populates our Domain_Spec from the provided source Domain_STATUS
-func (domain *Domain_Spec) Initialize_From_Domain_STATUS(source *Domain_STATUS) error {
-
-	// InboundIpRules
-	if source.InboundIpRules != nil {
-		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
-		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundIpRuleItem := inboundIpRuleItem
-			var inboundIpRule InboundIpRule
-			err := inboundIpRule.Initialize_From_InboundIpRule_STATUS(&inboundIpRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_InboundIpRule_STATUS() to populate field InboundIpRules")
-			}
-			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
-		}
-		domain.InboundIpRules = inboundIpRuleList
-	} else {
-		domain.InboundIpRules = nil
-	}
-
-	// InputSchema
-	if source.InputSchema != nil {
-		inputSchema := DomainProperties_InputSchema(*source.InputSchema)
-		domain.InputSchema = &inputSchema
-	} else {
-		domain.InputSchema = nil
-	}
-
-	// InputSchemaMapping
-	if source.InputSchemaMapping != nil {
-		var inputSchemaMapping InputSchemaMapping
-		err := inputSchemaMapping.Initialize_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
-		}
-		domain.InputSchemaMapping = &inputSchemaMapping
-	} else {
-		domain.InputSchemaMapping = nil
-	}
-
-	// Location
-	domain.Location = genruntime.ClonePointerToString(source.Location)
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := DomainProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		domain.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		domain.PublicNetworkAccess = nil
-	}
-
-	// Tags
-	domain.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1387,24 +1317,6 @@ func (rule *InboundIpRule) AssignProperties_To_InboundIpRule(destination *v20200
 	return nil
 }
 
-// Initialize_From_InboundIpRule_STATUS populates our InboundIpRule from the provided source InboundIpRule_STATUS
-func (rule *InboundIpRule) Initialize_From_InboundIpRule_STATUS(source *InboundIpRule_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		action := InboundIpRule_Action(*source.Action)
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
-
-	// IpMask
-	rule.IpMask = genruntime.ClonePointerToString(source.IpMask)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of InboundIpRule_STATUS. Use v1api20200601.InboundIpRule_STATUS instead
 type InboundIpRule_STATUS struct {
 	Action *InboundIpRule_Action_STATUS `json:"action,omitempty"`
@@ -1580,25 +1492,6 @@ func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_InputSchemaMapping_STATUS populates our InputSchemaMapping from the provided source InputSchemaMapping_STATUS
-func (mapping *InputSchemaMapping) Initialize_From_InputSchemaMapping_STATUS(source *InputSchemaMapping_STATUS) error {
-
-	// Json
-	if source.Json != nil {
-		var json JsonInputSchemaMapping
-		err := json.Initialize_From_JsonInputSchemaMapping_STATUS(source.Json)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_JsonInputSchemaMapping_STATUS() to populate field Json")
-		}
-		mapping.Json = &json
-	} else {
-		mapping.Json = nil
 	}
 
 	// No error
@@ -2271,93 +2164,6 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_To_JsonInputSchemaMappin
 	return nil
 }
 
-// Initialize_From_JsonInputSchemaMapping_STATUS populates our JsonInputSchemaMapping from the provided source JsonInputSchemaMapping_STATUS
-func (mapping *JsonInputSchemaMapping) Initialize_From_JsonInputSchemaMapping_STATUS(source *JsonInputSchemaMapping_STATUS) error {
-
-	// DataVersion
-	if source.DataVersion != nil {
-		var dataVersion JsonFieldWithDefault
-		err := dataVersion.Initialize_From_JsonFieldWithDefault_STATUS(source.DataVersion)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_JsonFieldWithDefault_STATUS() to populate field DataVersion")
-		}
-		mapping.DataVersion = &dataVersion
-	} else {
-		mapping.DataVersion = nil
-	}
-
-	// EventTime
-	if source.EventTime != nil {
-		var eventTime JsonField
-		err := eventTime.Initialize_From_JsonField_STATUS(source.EventTime)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_JsonField_STATUS() to populate field EventTime")
-		}
-		mapping.EventTime = &eventTime
-	} else {
-		mapping.EventTime = nil
-	}
-
-	// EventType
-	if source.EventType != nil {
-		var eventType JsonFieldWithDefault
-		err := eventType.Initialize_From_JsonFieldWithDefault_STATUS(source.EventType)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_JsonFieldWithDefault_STATUS() to populate field EventType")
-		}
-		mapping.EventType = &eventType
-	} else {
-		mapping.EventType = nil
-	}
-
-	// Id
-	if source.Id != nil {
-		var id JsonField
-		err := id.Initialize_From_JsonField_STATUS(source.Id)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_JsonField_STATUS() to populate field Id")
-		}
-		mapping.Id = &id
-	} else {
-		mapping.Id = nil
-	}
-
-	// InputSchemaMappingType
-	if source.InputSchemaMappingType != nil {
-		inputSchemaMappingType := JsonInputSchemaMapping_InputSchemaMappingType(*source.InputSchemaMappingType)
-		mapping.InputSchemaMappingType = &inputSchemaMappingType
-	} else {
-		mapping.InputSchemaMappingType = nil
-	}
-
-	// Subject
-	if source.Subject != nil {
-		var subject JsonFieldWithDefault
-		err := subject.Initialize_From_JsonFieldWithDefault_STATUS(source.Subject)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_JsonFieldWithDefault_STATUS() to populate field Subject")
-		}
-		mapping.Subject = &subject
-	} else {
-		mapping.Subject = nil
-	}
-
-	// Topic
-	if source.Topic != nil {
-		var topic JsonField
-		err := topic.Initialize_From_JsonField_STATUS(source.Topic)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_JsonField_STATUS() to populate field Topic")
-		}
-		mapping.Topic = &topic
-	} else {
-		mapping.Topic = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of JsonInputSchemaMapping_STATUS. Use v1api20200601.JsonInputSchemaMapping_STATUS instead
 type JsonInputSchemaMapping_STATUS struct {
 	DataVersion            *JsonFieldWithDefault_STATUS                          `json:"dataVersion,omitempty"`
@@ -2730,16 +2536,6 @@ func (field *JsonField) AssignProperties_To_JsonField(destination *v20200601s.Js
 	return nil
 }
 
-// Initialize_From_JsonField_STATUS populates our JsonField from the provided source JsonField_STATUS
-func (field *JsonField) Initialize_From_JsonField_STATUS(source *JsonField_STATUS) error {
-
-	// SourceField
-	field.SourceField = genruntime.ClonePointerToString(source.SourceField)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of JsonField_STATUS. Use v1api20200601.JsonField_STATUS instead
 type JsonField_STATUS struct {
 	SourceField *string `json:"sourceField,omitempty"`
@@ -2885,19 +2681,6 @@ func (withDefault *JsonFieldWithDefault) AssignProperties_To_JsonFieldWithDefaul
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_JsonFieldWithDefault_STATUS populates our JsonFieldWithDefault from the provided source JsonFieldWithDefault_STATUS
-func (withDefault *JsonFieldWithDefault) Initialize_From_JsonFieldWithDefault_STATUS(source *JsonFieldWithDefault_STATUS) error {
-
-	// DefaultValue
-	withDefault.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
-
-	// SourceField
-	withDefault.SourceField = genruntime.ClonePointerToString(source.SourceField)
 
 	// No error
 	return nil

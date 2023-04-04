@@ -29,8 +29,8 @@ func ImplementImportableResourceInterface(
 		func(ctx context.Context, state *State) (*State, error) {
 			defs := state.Definitions()
 
-			// Scan for the resources the ImportableResource interface injected
-			scanner := newSpecInitializationScanner(state.Definitions(), configuration)
+			// Scan for the resources requiring the ImportableResource interface injected
+			scanner := newSpecInitializationScanner(state.Definitions(), state.ConversionGraph(), configuration)
 			rsrcs, err := scanner.findResources()
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to find resources that support import")

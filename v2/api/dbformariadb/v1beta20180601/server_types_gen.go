@@ -103,17 +103,6 @@ func (server *Server) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the Server resource
 func (server *Server) defaultImpl() { server.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &Server{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (server *Server) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Server_STATUS); ok {
-		return server.Spec.Initialize_From_Server_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Server_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &Server{}
 
 // AzureName returns the Azure name of the resource
@@ -669,31 +658,6 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *v2018060
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Server_STATUS populates our Server_Spec from the provided source Server_STATUS
-func (server *Server_Spec) Initialize_From_Server_STATUS(source *Server_STATUS) error {
-
-	// Location
-	server.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		server.Sku = &sku
-	} else {
-		server.Sku = nil
-	}
-
-	// Tags
-	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1818,38 +1782,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20180601s.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	if source.Capacity != nil {
-		capacity := *source.Capacity
-		sku.Capacity = &capacity
-	} else {
-		sku.Capacity = nil
-	}
-
-	// Family
-	sku.Family = genruntime.ClonePointerToString(source.Family)
-
-	// Name
-	sku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Size
-	sku.Size = genruntime.ClonePointerToString(source.Size)
-
-	// Tier
-	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
 	}
 
 	// No error

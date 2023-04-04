@@ -103,17 +103,6 @@ func (connection *WorkspacesConnection) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the WorkspacesConnection resource
 func (connection *WorkspacesConnection) defaultImpl() { connection.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &WorkspacesConnection{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (connection *WorkspacesConnection) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Workspaces_Connection_STATUS); ok {
-		return connection.Spec.Initialize_From_Workspaces_Connection_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Workspaces_Connection_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &WorkspacesConnection{}
 
 // AzureName returns the Azure name of the resource
@@ -602,33 +591,6 @@ func (connection *Workspaces_Connection_Spec) AssignProperties_To_Workspaces_Con
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Workspaces_Connection_STATUS populates our Workspaces_Connection_Spec from the provided source Workspaces_Connection_STATUS
-func (connection *Workspaces_Connection_Spec) Initialize_From_Workspaces_Connection_STATUS(source *Workspaces_Connection_STATUS) error {
-
-	// AuthType
-	connection.AuthType = genruntime.ClonePointerToString(source.AuthType)
-
-	// Category
-	connection.Category = genruntime.ClonePointerToString(source.Category)
-
-	// Target
-	connection.Target = genruntime.ClonePointerToString(source.Target)
-
-	// Value
-	connection.Value = genruntime.ClonePointerToString(source.Value)
-
-	// ValueFormat
-	if source.ValueFormat != nil {
-		valueFormat := WorkspaceConnectionProps_ValueFormat(*source.ValueFormat)
-		connection.ValueFormat = &valueFormat
-	} else {
-		connection.ValueFormat = nil
 	}
 
 	// No error

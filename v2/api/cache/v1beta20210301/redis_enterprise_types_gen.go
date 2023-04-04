@@ -103,17 +103,6 @@ func (enterprise *RedisEnterprise) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the RedisEnterprise resource
 func (enterprise *RedisEnterprise) defaultImpl() { enterprise.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &RedisEnterprise{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (enterprise *RedisEnterprise) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisEnterprise_STATUS); ok {
-		return enterprise.Spec.Initialize_From_RedisEnterprise_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisEnterprise_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &RedisEnterprise{}
 
 // AzureName returns the Azure name of the resource
@@ -633,42 +622,6 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RedisEnterprise_STATUS populates our RedisEnterprise_Spec from the provided source RedisEnterprise_STATUS
-func (enterprise *RedisEnterprise_Spec) Initialize_From_RedisEnterprise_STATUS(source *RedisEnterprise_STATUS) error {
-
-	// Location
-	enterprise.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := ClusterProperties_MinimumTlsVersion(*source.MinimumTlsVersion)
-		enterprise.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		enterprise.MinimumTlsVersion = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		enterprise.Sku = &sku
-	} else {
-		enterprise.Sku = nil
-	}
-
-	// Tags
-	enterprise.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Zones
-	enterprise.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1270,24 +1223,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210301s.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Name
-	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
 	}
 
 	// No error

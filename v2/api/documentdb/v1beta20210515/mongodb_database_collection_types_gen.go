@@ -103,17 +103,6 @@ func (collection *MongodbDatabaseCollection) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the MongodbDatabaseCollection resource
 func (collection *MongodbDatabaseCollection) defaultImpl() { collection.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &MongodbDatabaseCollection{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (collection *MongodbDatabaseCollection) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DatabaseAccounts_MongodbDatabases_Collection_STATUS); ok {
-		return collection.Spec.Initialize_From_DatabaseAccounts_MongodbDatabases_Collection_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DatabaseAccounts_MongodbDatabases_Collection_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollection{}
 
 // AzureName returns the Azure name of the resource
@@ -626,43 +615,6 @@ func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) AssignPrope
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DatabaseAccounts_MongodbDatabases_Collection_STATUS populates our DatabaseAccounts_MongodbDatabases_Collection_Spec from the provided source DatabaseAccounts_MongodbDatabases_Collection_STATUS
-func (collection *DatabaseAccounts_MongodbDatabases_Collection_Spec) Initialize_From_DatabaseAccounts_MongodbDatabases_Collection_STATUS(source *DatabaseAccounts_MongodbDatabases_Collection_STATUS) error {
-
-	// Location
-	collection.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions
-		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
-		}
-		collection.Options = &option
-	} else {
-		collection.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource MongoDBCollectionResource
-		err := resource.Initialize_From_MongoDBCollectionGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_MongoDBCollectionGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		collection.Resource = &resource
-	} else {
-		collection.Resource = nil
-	}
-
-	// Tags
-	collection.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1283,40 +1235,6 @@ func (resource *MongoDBCollectionResource) AssignProperties_To_MongoDBCollection
 	return nil
 }
 
-// Initialize_From_MongoDBCollectionGetProperties_Resource_STATUS populates our MongoDBCollectionResource from the provided source MongoDBCollectionGetProperties_Resource_STATUS
-func (resource *MongoDBCollectionResource) Initialize_From_MongoDBCollectionGetProperties_Resource_STATUS(source *MongoDBCollectionGetProperties_Resource_STATUS) error {
-
-	// AnalyticalStorageTtl
-	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Indexes
-	if source.Indexes != nil {
-		indexList := make([]MongoIndex, len(source.Indexes))
-		for index, indexItem := range source.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
-			var indexLocal MongoIndex
-			err := indexLocal.Initialize_From_MongoIndex_STATUS(&indexItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_MongoIndex_STATUS() to populate field Indexes")
-			}
-			indexList[index] = indexLocal
-		}
-		resource.Indexes = indexList
-	} else {
-		resource.Indexes = nil
-	}
-
-	// ShardKey
-	resource.ShardKey = genruntime.CloneMapOfStringToString(source.ShardKey)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of MongoIndex. Use v1api20210515.MongoIndex instead
 type MongoIndex struct {
 	Key     *MongoIndexKeys    `json:"key,omitempty"`
@@ -1457,37 +1375,6 @@ func (index *MongoIndex) AssignProperties_To_MongoIndex(destination *v20210515s.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MongoIndex_STATUS populates our MongoIndex from the provided source MongoIndex_STATUS
-func (index *MongoIndex) Initialize_From_MongoIndex_STATUS(source *MongoIndex_STATUS) error {
-
-	// Key
-	if source.Key != nil {
-		var key MongoIndexKeys
-		err := key.Initialize_From_MongoIndexKeys_STATUS(source.Key)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_MongoIndexKeys_STATUS() to populate field Key")
-		}
-		index.Key = &key
-	} else {
-		index.Key = nil
-	}
-
-	// Options
-	if source.Options != nil {
-		var option MongoIndexOptions
-		err := option.Initialize_From_MongoIndexOptions_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_MongoIndexOptions_STATUS() to populate field Options")
-		}
-		index.Options = &option
-	} else {
-		index.Options = nil
 	}
 
 	// No error
@@ -1682,16 +1569,6 @@ func (keys *MongoIndexKeys) AssignProperties_To_MongoIndexKeys(destination *v202
 	return nil
 }
 
-// Initialize_From_MongoIndexKeys_STATUS populates our MongoIndexKeys from the provided source MongoIndexKeys_STATUS
-func (keys *MongoIndexKeys) Initialize_From_MongoIndexKeys_STATUS(source *MongoIndexKeys_STATUS) error {
-
-	// Keys
-	keys.Keys = genruntime.CloneSliceOfString(source.Keys)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of MongoIndexKeys_STATUS. Use v1api20210515.MongoIndexKeys_STATUS instead
 type MongoIndexKeys_STATUS struct {
 	Keys []string `json:"keys,omitempty"`
@@ -1845,24 +1722,6 @@ func (options *MongoIndexOptions) AssignProperties_To_MongoIndexOptions(destinat
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_MongoIndexOptions_STATUS populates our MongoIndexOptions from the provided source MongoIndexOptions_STATUS
-func (options *MongoIndexOptions) Initialize_From_MongoIndexOptions_STATUS(source *MongoIndexOptions_STATUS) error {
-
-	// ExpireAfterSeconds
-	options.ExpireAfterSeconds = genruntime.ClonePointerToInt(source.ExpireAfterSeconds)
-
-	// Unique
-	if source.Unique != nil {
-		unique := *source.Unique
-		options.Unique = &unique
-	} else {
-		options.Unique = nil
 	}
 
 	// No error
