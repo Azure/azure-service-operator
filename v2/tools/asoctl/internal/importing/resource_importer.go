@@ -115,13 +115,13 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 		}
 
 		ri.completed[importer.Name()] = importer
-		start := len(pending)
+		start := len(ri.pending)
 		for _, p := range pending {
 			ri.Add(p)
 		}
-		
-		if len(pending) > start {
-			klog.Infof("Queued %d new resources", len(pending)-start)
+
+		if len(ri.pending) > start {
+			klog.Infof("Queued %d new resources", len(ri.pending)-start)
 		}
 	}
 
