@@ -8,10 +8,12 @@ package importing
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"reflect"
 	"strings"
 	"sync"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -32,6 +34,7 @@ import (
 type importableARMResource struct {
 	importableResource
 	armID    string                           // The ARM ID of the resource to import
+	armID    *arm.ResourceID                  // The ARM ID of the resource to import
 	owner    *genruntime.ResourceReference    // The owner of the resource we're importing
 	client   *genericarmclient.GenericClient  // client for talking to ARM
 	resource genruntime.ImportableARMResource // The resource we've imported
@@ -45,10 +48,17 @@ var _ ImportableResource = &importableARMResource{}
 // scheme is the scheme to use to create the resource.
 func NewImportableARMResource(
 	armID string,
+	id string,
 	owner *genruntime.ResourceReference,
 	client *genericarmclient.GenericClient,
 	scheme *runtime.Scheme,
-) ImportableResource {
+) (ImportableResource, error) {
+	// Parse ARMID into a more useful form
+	armID, err := arm.ParseResourceID(id)
+	if err != nil {
+		return nil, err // arm.ParseResourceID already returns a good error, no need to wrap
+	}
+
 	return &importableARMResource{
 		importableResource: importableResource{
 			scheme: scheme,
@@ -56,12 +66,12 @@ func NewImportableARMResource(
 		armID:  armID,
 		owner:  owner,
 		client: client,
-	}
+	}, nil
 }
 
 // Name returns the ARM ID of the resource we're importing
 func (i *importableARMResource) Name() string {
-	return i.armID
+	return i.armID.String()
 }
 
 // Resource returns the actual resource that is being imported.
@@ -75,14 +85,8 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 // Returns a slice of child resources needing to be imported (if any), and/or an error.
 // Both are returned to allow returning partial results in the case of a partial failure.
 func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResource, error) {
-	// Parse ID into a more useful form
-	id, err := arm.ParseResourceID(i.armID)
-	if err != nil {
-		return nil, err // arm.ParseResourceID already returns a good error, no need to wrap
-	}
-
 	var ref genruntime.ResourceReference
-	ref, err = i.importResource(ctx, id)
+	ref, err := i.importResource(ctx, i.armID)
 	if err != nil {
 		return nil, err
 	}
@@ -131,7 +135,7 @@ func (i *importableARMResource) importResource(
 		Group: gvk.Group,
 		Kind:  gvk.Kind,
 		Name:  importable.GetName(),
-		ARMID: i.armID,
+		ARMID: i.armID.String(),
 	}
 
 	return ref, nil
@@ -167,7 +171,7 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 		}
 
 		// Get the current status of the object from ARM
-		status, err := i.getStatus(ctx, i.armID, importable)
+		status, err := i.getStatus(ctx, i.armID.String(), importable)
 		if err != nil {
 			// Error doesn't need additional context
 			return extensions.ImportResult{}, err
@@ -226,7 +230,11 @@ func (i *importableARMResource) importChildResources(
 	// Do the list and find the ARM IDs of the child resources
 	subResources := make([]ImportableResource, 0, len(childResourceReferences))
 	for _, ref := range childResourceReferences {
-		importer := NewImportableARMResource(ref.ID, &owner, i.client, i.scheme)
+		importer, err := NewImportableARMResource(ref.ARMID, &owner, i.client, i.scheme)
+		if err != nil {
+			return nil, errors.Wrapf(err, "unable to create importable resource for %s", ref.ARMID)
+		}
+
 		subResources = append(subResources, importer)
 	}
 

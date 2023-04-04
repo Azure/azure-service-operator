@@ -46,9 +46,14 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 }
 
 // AddARMID adds an ARM ID to the list of resources to import.
-func (ri *ResourceImporter) AddARMID(armID string) {
-	importer := NewImportableARMResource(armID, nil /* no owner */, ri.client, ri.scheme)
+func (ri *ResourceImporter) AddARMID(armID string) error {
+	importer, err := NewImportableARMResource(armID, nil /* no owner */, ri.client, ri.scheme)
+	if err != nil {
+		return errors.Wrapf(err, "failed to create importer for %q", armID)
+	}
+
 	ri.Add(importer)
+	return nil
 }
 
 // Import imports all the resources that have been added to the importer.
