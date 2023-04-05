@@ -21,7 +21,7 @@ func (extension *FlexibleServersConfigurationExtension) Import(
 	rsrc genruntime.ImportableResource,
 	next extensions.ImporterFunc,
 ) (extensions.ImportResult, error) {
-	result, err := next(ctx, rsrc)
+	result, err := next(ctx, rsrc, owner)
 	if err != nil {
 		return extensions.ImportResult{}, err
 	}

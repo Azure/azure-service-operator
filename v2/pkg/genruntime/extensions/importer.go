@@ -20,6 +20,7 @@ type Importer interface {
 	Import(
 		ctx context.Context,
 		rsrc genruntime.ImportableResource,
+		owner genruntime.ResourceReference,
 		next ImporterFunc,
 	) (ImportResult, error)
 }
@@ -33,6 +34,7 @@ type ImportResult struct {
 type ImporterFunc func(
 	ctx context.Context,
 	resource genruntime.ImportableResource,
+	owner genruntime.ResourceReference,
 ) (ImportResult, error)
 
 // ImportSucceeded creates a new ImportResult with a resource that was imported successfully.

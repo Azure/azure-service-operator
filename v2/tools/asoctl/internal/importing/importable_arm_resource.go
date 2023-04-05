@@ -110,7 +110,6 @@ func (i *importableARMResource) importResource(
 	ctx context.Context,
 	id *arm.ResourceID,
 ) (genruntime.ResourceReference, error) {
-
 	// Create an importable blank object into which we capture the current state of the resource
 	importable, err := i.createImportableObjectFromID(i.owner, id)
 	if err != nil {
@@ -119,7 +118,7 @@ func (i *importableARMResource) importResource(
 	}
 
 	loader := i.createImportFunction(importable)
-	result, err := loader(ctx, importable)
+	result, err := loader(ctx, importable, i.owner)
 	if err != nil {
 		return genruntime.ResourceReference{}, err
 	}
@@ -163,6 +162,7 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 	return func(
 		ctx context.Context,
 		resource genruntime.ImportableResource,
+		owner genruntime.ResourceReference,
 	) (extensions.ImportResult, error) {
 		importable, ok := resource.(genruntime.ImportableARMResource)
 		if !ok {
