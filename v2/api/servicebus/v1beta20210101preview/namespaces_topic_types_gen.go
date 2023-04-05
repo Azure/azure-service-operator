@@ -103,17 +103,6 @@ func (topic *NamespacesTopic) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the NamespacesTopic resource
 func (topic *NamespacesTopic) defaultImpl() { topic.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &NamespacesTopic{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (topic *NamespacesTopic) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_Topic_STATUS); ok {
-		return topic.Spec.Initialize_From_Namespaces_Topic_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_Topic_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &NamespacesTopic{}
 
 // AzureName returns the Azure name of the resource
@@ -727,65 +716,6 @@ func (topic *Namespaces_Topic_Spec) AssignProperties_To_Namespaces_Topic_Spec(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespaces_Topic_STATUS populates our Namespaces_Topic_Spec from the provided source Namespaces_Topic_STATUS
-func (topic *Namespaces_Topic_Spec) Initialize_From_Namespaces_Topic_STATUS(source *Namespaces_Topic_STATUS) error {
-
-	// AutoDeleteOnIdle
-	topic.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
-
-	// DefaultMessageTimeToLive
-	topic.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	topic.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if source.EnableBatchedOperations != nil {
-		enableBatchedOperation := *source.EnableBatchedOperations
-		topic.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		topic.EnableBatchedOperations = nil
-	}
-
-	// EnableExpress
-	if source.EnableExpress != nil {
-		enableExpress := *source.EnableExpress
-		topic.EnableExpress = &enableExpress
-	} else {
-		topic.EnableExpress = nil
-	}
-
-	// EnablePartitioning
-	if source.EnablePartitioning != nil {
-		enablePartitioning := *source.EnablePartitioning
-		topic.EnablePartitioning = &enablePartitioning
-	} else {
-		topic.EnablePartitioning = nil
-	}
-
-	// MaxSizeInMegabytes
-	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
-
-	// RequiresDuplicateDetection
-	if source.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *source.RequiresDuplicateDetection
-		topic.RequiresDuplicateDetection = &requiresDuplicateDetection
-	} else {
-		topic.RequiresDuplicateDetection = nil
-	}
-
-	// SupportOrdering
-	if source.SupportOrdering != nil {
-		supportOrdering := *source.SupportOrdering
-		topic.SupportOrdering = &supportOrdering
-	} else {
-		topic.SupportOrdering = nil
 	}
 
 	// No error

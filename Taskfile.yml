@@ -283,7 +283,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       # Setting GOGC to increase how much debris is tolerated before running GC
-      - GOGC=200 golangci-lint run --verbose --fast=false --timeout 10m --skip-dirs="(^|/)vendor($|/)" ./...
+      - GOGC=200 golangci-lint run --verbose --fast=false --timeout 15m --skip-dirs="(^|/)vendor($|/)" ./...
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource
@@ -600,6 +600,7 @@ tasks:
     cmds:
       - mkdir -p bin # in case it doesn't exist
       - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k crd -v {{.VERSION}} > bin/azureserviceoperator_customresourcedefinitions_{{.VERSION}}.yaml"
 
   controller:make-multitenant-files:
     desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment

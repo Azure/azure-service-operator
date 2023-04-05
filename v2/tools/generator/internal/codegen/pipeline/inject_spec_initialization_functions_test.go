@@ -85,8 +85,9 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(
 		state,
-		CreateStorageTypes(), // First create the storage types
-		InjectSpecInitializationFunctions(cfg, idFactory))
+		CreateStorageTypes(),            // First create the storage types
+		CreateConversionGraph(cfg, "v"), // Then create the conversion graph
+		InjectSpecInitializationFunctions(cfg, idFactory)) // Then create the spec initialization functions
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())

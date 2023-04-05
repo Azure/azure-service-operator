@@ -104,17 +104,6 @@ func (machine *VirtualMachine) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the VirtualMachine resource
 func (machine *VirtualMachine) defaultImpl() { machine.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &VirtualMachine{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (machine *VirtualMachine) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VirtualMachine_STATUS); ok {
-		return machine.Spec.Initialize_From_VirtualMachine_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type VirtualMachine_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &VirtualMachine{}
 
 // AzureName returns the Azure name of the resource
@@ -1448,239 +1437,6 @@ func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(dest
 	return nil
 }
 
-// Initialize_From_VirtualMachine_STATUS populates our VirtualMachine_Spec from the provided source VirtualMachine_STATUS
-func (machine *VirtualMachine_Spec) Initialize_From_VirtualMachine_STATUS(source *VirtualMachine_STATUS) error {
-
-	// AdditionalCapabilities
-	if source.AdditionalCapabilities != nil {
-		var additionalCapability AdditionalCapabilities
-		err := additionalCapability.Initialize_From_AdditionalCapabilities_STATUS(source.AdditionalCapabilities)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AdditionalCapabilities_STATUS() to populate field AdditionalCapabilities")
-		}
-		machine.AdditionalCapabilities = &additionalCapability
-	} else {
-		machine.AdditionalCapabilities = nil
-	}
-
-	// AvailabilitySet
-	if source.AvailabilitySet != nil {
-		var availabilitySet SubResource
-		err := availabilitySet.Initialize_From_SubResource_STATUS(source.AvailabilitySet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field AvailabilitySet")
-		}
-		machine.AvailabilitySet = &availabilitySet
-	} else {
-		machine.AvailabilitySet = nil
-	}
-
-	// BillingProfile
-	if source.BillingProfile != nil {
-		var billingProfile BillingProfile
-		err := billingProfile.Initialize_From_BillingProfile_STATUS(source.BillingProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BillingProfile_STATUS() to populate field BillingProfile")
-		}
-		machine.BillingProfile = &billingProfile
-	} else {
-		machine.BillingProfile = nil
-	}
-
-	// DiagnosticsProfile
-	if source.DiagnosticsProfile != nil {
-		var diagnosticsProfile DiagnosticsProfile
-		err := diagnosticsProfile.Initialize_From_DiagnosticsProfile_STATUS(source.DiagnosticsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DiagnosticsProfile_STATUS() to populate field DiagnosticsProfile")
-		}
-		machine.DiagnosticsProfile = &diagnosticsProfile
-	} else {
-		machine.DiagnosticsProfile = nil
-	}
-
-	// EvictionPolicy
-	if source.EvictionPolicy != nil {
-		evictionPolicy := EvictionPolicy(*source.EvictionPolicy)
-		machine.EvictionPolicy = &evictionPolicy
-	} else {
-		machine.EvictionPolicy = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		machine.ExtendedLocation = &extendedLocation
-	} else {
-		machine.ExtendedLocation = nil
-	}
-
-	// ExtensionsTimeBudget
-	machine.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
-
-	// HardwareProfile
-	if source.HardwareProfile != nil {
-		var hardwareProfile HardwareProfile
-		err := hardwareProfile.Initialize_From_HardwareProfile_STATUS(source.HardwareProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HardwareProfile_STATUS() to populate field HardwareProfile")
-		}
-		machine.HardwareProfile = &hardwareProfile
-	} else {
-		machine.HardwareProfile = nil
-	}
-
-	// Host
-	if source.Host != nil {
-		var host SubResource
-		err := host.Initialize_From_SubResource_STATUS(source.Host)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Host")
-		}
-		machine.Host = &host
-	} else {
-		machine.Host = nil
-	}
-
-	// HostGroup
-	if source.HostGroup != nil {
-		var hostGroup SubResource
-		err := hostGroup.Initialize_From_SubResource_STATUS(source.HostGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field HostGroup")
-		}
-		machine.HostGroup = &hostGroup
-	} else {
-		machine.HostGroup = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity VirtualMachineIdentity
-		err := identity.Initialize_From_VirtualMachineIdentity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachineIdentity_STATUS() to populate field Identity")
-		}
-		machine.Identity = &identity
-	} else {
-		machine.Identity = nil
-	}
-
-	// LicenseType
-	machine.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
-
-	// Location
-	machine.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkProfile
-	if source.NetworkProfile != nil {
-		var networkProfile NetworkProfile
-		err := networkProfile.Initialize_From_NetworkProfile_STATUS(source.NetworkProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkProfile_STATUS() to populate field NetworkProfile")
-		}
-		machine.NetworkProfile = &networkProfile
-	} else {
-		machine.NetworkProfile = nil
-	}
-
-	// OsProfile
-	if source.OsProfile != nil {
-		var osProfile OSProfile
-		err := osProfile.Initialize_From_OSProfile_STATUS(source.OsProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_OSProfile_STATUS() to populate field OsProfile")
-		}
-		machine.OsProfile = &osProfile
-	} else {
-		machine.OsProfile = nil
-	}
-
-	// Plan
-	if source.Plan != nil {
-		var plan Plan
-		err := plan.Initialize_From_Plan_STATUS(source.Plan)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Plan_STATUS() to populate field Plan")
-		}
-		machine.Plan = &plan
-	} else {
-		machine.Plan = nil
-	}
-
-	// PlatformFaultDomain
-	machine.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
-
-	// Priority
-	if source.Priority != nil {
-		priority := Priority(*source.Priority)
-		machine.Priority = &priority
-	} else {
-		machine.Priority = nil
-	}
-
-	// ProximityPlacementGroup
-	if source.ProximityPlacementGroup != nil {
-		var proximityPlacementGroup SubResource
-		err := proximityPlacementGroup.Initialize_From_SubResource_STATUS(source.ProximityPlacementGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ProximityPlacementGroup")
-		}
-		machine.ProximityPlacementGroup = &proximityPlacementGroup
-	} else {
-		machine.ProximityPlacementGroup = nil
-	}
-
-	// SecurityProfile
-	if source.SecurityProfile != nil {
-		var securityProfile SecurityProfile
-		err := securityProfile.Initialize_From_SecurityProfile_STATUS(source.SecurityProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SecurityProfile_STATUS() to populate field SecurityProfile")
-		}
-		machine.SecurityProfile = &securityProfile
-	} else {
-		machine.SecurityProfile = nil
-	}
-
-	// StorageProfile
-	if source.StorageProfile != nil {
-		var storageProfile StorageProfile
-		err := storageProfile.Initialize_From_StorageProfile_STATUS(source.StorageProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_StorageProfile_STATUS() to populate field StorageProfile")
-		}
-		machine.StorageProfile = &storageProfile
-	} else {
-		machine.StorageProfile = nil
-	}
-
-	// Tags
-	machine.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// VirtualMachineScaleSet
-	if source.VirtualMachineScaleSet != nil {
-		var virtualMachineScaleSet SubResource
-		err := virtualMachineScaleSet.Initialize_From_SubResource_STATUS(source.VirtualMachineScaleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualMachineScaleSet")
-		}
-		machine.VirtualMachineScaleSet = &virtualMachineScaleSet
-	} else {
-		machine.VirtualMachineScaleSet = nil
-	}
-
-	// Zones
-	machine.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (machine *VirtualMachine_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -2790,21 +2546,6 @@ func (capabilities *AdditionalCapabilities) AssignProperties_To_AdditionalCapabi
 	return nil
 }
 
-// Initialize_From_AdditionalCapabilities_STATUS populates our AdditionalCapabilities from the provided source AdditionalCapabilities_STATUS
-func (capabilities *AdditionalCapabilities) Initialize_From_AdditionalCapabilities_STATUS(source *AdditionalCapabilities_STATUS) error {
-
-	// UltraSSDEnabled
-	if source.UltraSSDEnabled != nil {
-		ultraSSDEnabled := *source.UltraSSDEnabled
-		capabilities.UltraSSDEnabled = &ultraSSDEnabled
-	} else {
-		capabilities.UltraSSDEnabled = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of AdditionalCapabilities_STATUS. Use v1api20201201.AdditionalCapabilities_STATUS instead
 type AdditionalCapabilities_STATUS struct {
 	UltraSSDEnabled *bool `json:"ultraSSDEnabled,omitempty"`
@@ -2950,21 +2691,6 @@ func (profile *BillingProfile) AssignProperties_To_BillingProfile(destination *v
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BillingProfile_STATUS populates our BillingProfile from the provided source BillingProfile_STATUS
-func (profile *BillingProfile) Initialize_From_BillingProfile_STATUS(source *BillingProfile_STATUS) error {
-
-	// MaxPrice
-	if source.MaxPrice != nil {
-		maxPrice := *source.MaxPrice
-		profile.MaxPrice = &maxPrice
-	} else {
-		profile.MaxPrice = nil
 	}
 
 	// No error
@@ -3133,25 +2859,6 @@ func (profile *DiagnosticsProfile) AssignProperties_To_DiagnosticsProfile(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DiagnosticsProfile_STATUS populates our DiagnosticsProfile from the provided source DiagnosticsProfile_STATUS
-func (profile *DiagnosticsProfile) Initialize_From_DiagnosticsProfile_STATUS(source *DiagnosticsProfile_STATUS) error {
-
-	// BootDiagnostics
-	if source.BootDiagnostics != nil {
-		var bootDiagnostic BootDiagnostics
-		err := bootDiagnostic.Initialize_From_BootDiagnostics_STATUS(source.BootDiagnostics)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_BootDiagnostics_STATUS() to populate field BootDiagnostics")
-		}
-		profile.BootDiagnostics = &bootDiagnostic
-	} else {
-		profile.BootDiagnostics = nil
 	}
 
 	// No error
@@ -3358,24 +3065,6 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
-// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
-
-	// Name
-	location.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ExtendedLocation_STATUS. Use v1api20201201.ExtendedLocation_STATUS instead
 type ExtendedLocation_STATUS struct {
 	Name *string                      `json:"name,omitempty"`
@@ -3534,21 +3223,6 @@ func (profile *HardwareProfile) AssignProperties_To_HardwareProfile(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HardwareProfile_STATUS populates our HardwareProfile from the provided source HardwareProfile_STATUS
-func (profile *HardwareProfile) Initialize_From_HardwareProfile_STATUS(source *HardwareProfile_STATUS) error {
-
-	// VmSize
-	if source.VmSize != nil {
-		vmSize := HardwareProfile_VmSize(*source.VmSize)
-		profile.VmSize = &vmSize
-	} else {
-		profile.VmSize = nil
 	}
 
 	// No error
@@ -3727,31 +3401,6 @@ func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *v
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkProfile_STATUS populates our NetworkProfile from the provided source NetworkProfile_STATUS
-func (profile *NetworkProfile) Initialize_From_NetworkProfile_STATUS(source *NetworkProfile_STATUS) error {
-
-	// NetworkInterfaces
-	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]NetworkInterfaceReference, len(source.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface NetworkInterfaceReference
-			err := networkInterface.Initialize_From_NetworkInterfaceReference_STATUS(&networkInterfaceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_NetworkInterfaceReference_STATUS() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		profile.NetworkInterfaces = networkInterfaceList
-	} else {
-		profile.NetworkInterfaces = nil
 	}
 
 	// No error
@@ -4196,80 +3845,6 @@ func (profile *OSProfile) AssignProperties_To_OSProfile(destination *v20201201s.
 	return nil
 }
 
-// Initialize_From_OSProfile_STATUS populates our OSProfile from the provided source OSProfile_STATUS
-func (profile *OSProfile) Initialize_From_OSProfile_STATUS(source *OSProfile_STATUS) error {
-
-	// AdminUsername
-	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
-
-	// AllowExtensionOperations
-	if source.AllowExtensionOperations != nil {
-		allowExtensionOperation := *source.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		profile.AllowExtensionOperations = nil
-	}
-
-	// ComputerName
-	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
-
-	// CustomData
-	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
-
-	// LinuxConfiguration
-	if source.LinuxConfiguration != nil {
-		var linuxConfiguration LinuxConfiguration
-		err := linuxConfiguration.Initialize_From_LinuxConfiguration_STATUS(source.LinuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_LinuxConfiguration_STATUS() to populate field LinuxConfiguration")
-		}
-		profile.LinuxConfiguration = &linuxConfiguration
-	} else {
-		profile.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if source.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
-		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		profile.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]VaultSecretGroup, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret VaultSecretGroup
-			err := secret.Initialize_From_VaultSecretGroup_STATUS(&secretItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VaultSecretGroup_STATUS() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		profile.Secrets = secretList
-	} else {
-		profile.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if source.WindowsConfiguration != nil {
-		var windowsConfiguration WindowsConfiguration
-		err := windowsConfiguration.Initialize_From_WindowsConfiguration_STATUS(source.WindowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WindowsConfiguration_STATUS() to populate field WindowsConfiguration")
-		}
-		profile.WindowsConfiguration = &windowsConfiguration
-	} else {
-		profile.WindowsConfiguration = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of OSProfile_STATUS. Use v1api20201201.OSProfile_STATUS instead
 type OSProfile_STATUS struct {
 	AdminUsername               *string                      `json:"adminUsername,omitempty"`
@@ -4649,25 +4224,6 @@ func (plan *Plan) AssignProperties_To_Plan(destination *v20201201s.Plan) error {
 	return nil
 }
 
-// Initialize_From_Plan_STATUS populates our Plan from the provided source Plan_STATUS
-func (plan *Plan) Initialize_From_Plan_STATUS(source *Plan_STATUS) error {
-
-	// Name
-	plan.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Product
-	plan.Product = genruntime.ClonePointerToString(source.Product)
-
-	// PromotionCode
-	plan.PromotionCode = genruntime.ClonePointerToString(source.PromotionCode)
-
-	// Publisher
-	plan.Publisher = genruntime.ClonePointerToString(source.Publisher)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of Plan_STATUS. Use v1api20201201.Plan_STATUS instead
 type Plan_STATUS struct {
 	Name          *string `json:"name,omitempty"`
@@ -4936,41 +4492,6 @@ func (profile *SecurityProfile) AssignProperties_To_SecurityProfile(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SecurityProfile_STATUS populates our SecurityProfile from the provided source SecurityProfile_STATUS
-func (profile *SecurityProfile) Initialize_From_SecurityProfile_STATUS(source *SecurityProfile_STATUS) error {
-
-	// EncryptionAtHost
-	if source.EncryptionAtHost != nil {
-		encryptionAtHost := *source.EncryptionAtHost
-		profile.EncryptionAtHost = &encryptionAtHost
-	} else {
-		profile.EncryptionAtHost = nil
-	}
-
-	// SecurityType
-	if source.SecurityType != nil {
-		securityType := SecurityProfile_SecurityType(*source.SecurityType)
-		profile.SecurityType = &securityType
-	} else {
-		profile.SecurityType = nil
-	}
-
-	// UefiSettings
-	if source.UefiSettings != nil {
-		var uefiSetting UefiSettings
-		err := uefiSetting.Initialize_From_UefiSettings_STATUS(source.UefiSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_UefiSettings_STATUS() to populate field UefiSettings")
-		}
-		profile.UefiSettings = &uefiSetting
-	} else {
-		profile.UefiSettings = nil
 	}
 
 	// No error
@@ -5306,55 +4827,6 @@ func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v
 	return nil
 }
 
-// Initialize_From_StorageProfile_STATUS populates our StorageProfile from the provided source StorageProfile_STATUS
-func (profile *StorageProfile) Initialize_From_StorageProfile_STATUS(source *StorageProfile_STATUS) error {
-
-	// DataDisks
-	if source.DataDisks != nil {
-		dataDiskList := make([]DataDisk, len(source.DataDisks))
-		for dataDiskIndex, dataDiskItem := range source.DataDisks {
-			// Shadow the loop variable to avoid aliasing
-			dataDiskItem := dataDiskItem
-			var dataDisk DataDisk
-			err := dataDisk.Initialize_From_DataDisk_STATUS(&dataDiskItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_DataDisk_STATUS() to populate field DataDisks")
-			}
-			dataDiskList[dataDiskIndex] = dataDisk
-		}
-		profile.DataDisks = dataDiskList
-	} else {
-		profile.DataDisks = nil
-	}
-
-	// ImageReference
-	if source.ImageReference != nil {
-		var imageReference ImageReference
-		err := imageReference.Initialize_From_ImageReference_STATUS(source.ImageReference)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ImageReference_STATUS() to populate field ImageReference")
-		}
-		profile.ImageReference = &imageReference
-	} else {
-		profile.ImageReference = nil
-	}
-
-	// OsDisk
-	if source.OsDisk != nil {
-		var osDisk OSDisk
-		err := osDisk.Initialize_From_OSDisk_STATUS(source.OsDisk)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_OSDisk_STATUS() to populate field OsDisk")
-		}
-		profile.OsDisk = &osDisk
-	} else {
-		profile.OsDisk = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of StorageProfile_STATUS. Use v1api20201201.StorageProfile_STATUS instead
 type StorageProfile_STATUS struct {
 	DataDisks      []DataDisk_STATUS      `json:"dataDisks,omitempty"`
@@ -5596,21 +5068,6 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *v20201
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
-func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
 	}
 
 	// No error
@@ -6111,21 +5568,6 @@ func (identity *VirtualMachineIdentity) AssignProperties_To_VirtualMachineIdenti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineIdentity_STATUS populates our VirtualMachineIdentity from the provided source VirtualMachineIdentity_STATUS
-func (identity *VirtualMachineIdentity) Initialize_From_VirtualMachineIdentity_STATUS(source *VirtualMachineIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := VirtualMachineIdentity_Type(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
 	}
 
 	// No error
@@ -6808,24 +6250,6 @@ func (diagnostics *BootDiagnostics) AssignProperties_To_BootDiagnostics(destinat
 	return nil
 }
 
-// Initialize_From_BootDiagnostics_STATUS populates our BootDiagnostics from the provided source BootDiagnostics_STATUS
-func (diagnostics *BootDiagnostics) Initialize_From_BootDiagnostics_STATUS(source *BootDiagnostics_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		diagnostics.Enabled = &enabled
-	} else {
-		diagnostics.Enabled = nil
-	}
-
-	// StorageUri
-	diagnostics.StorageUri = genruntime.ClonePointerToString(source.StorageUri)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of BootDiagnostics_STATUS. Use v1api20201201.BootDiagnostics_STATUS instead
 type BootDiagnostics_STATUS struct {
 	Enabled    *bool   `json:"enabled,omitempty"`
@@ -7406,98 +6830,6 @@ func (disk *DataDisk) AssignProperties_To_DataDisk(destination *v20201201s.DataD
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataDisk_STATUS populates our DataDisk from the provided source DataDisk_STATUS
-func (disk *DataDisk) Initialize_From_DataDisk_STATUS(source *DataDisk_STATUS) error {
-
-	// Caching
-	if source.Caching != nil {
-		caching := Caching(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
-
-	// CreateOption
-	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
-		disk.CreateOption = &createOption
-	} else {
-		disk.CreateOption = nil
-	}
-
-	// DetachOption
-	if source.DetachOption != nil {
-		detachOption := DetachOption(*source.DetachOption)
-		disk.DetachOption = &detachOption
-	} else {
-		disk.DetachOption = nil
-	}
-
-	// DiskSizeGB
-	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// Image
-	if source.Image != nil {
-		var image VirtualHardDisk
-		err := image.Initialize_From_VirtualHardDisk_STATUS(source.Image)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualHardDisk_STATUS() to populate field Image")
-		}
-		disk.Image = &image
-	} else {
-		disk.Image = nil
-	}
-
-	// Lun
-	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
-
-	// ManagedDisk
-	if source.ManagedDisk != nil {
-		var managedDisk ManagedDiskParameters
-		err := managedDisk.Initialize_From_ManagedDiskParameters_STATUS(source.ManagedDisk)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedDiskParameters_STATUS() to populate field ManagedDisk")
-		}
-		disk.ManagedDisk = &managedDisk
-	} else {
-		disk.ManagedDisk = nil
-	}
-
-	// Name
-	disk.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ToBeDetached
-	if source.ToBeDetached != nil {
-		toBeDetached := *source.ToBeDetached
-		disk.ToBeDetached = &toBeDetached
-	} else {
-		disk.ToBeDetached = nil
-	}
-
-	// Vhd
-	if source.Vhd != nil {
-		var vhd VirtualHardDisk
-		err := vhd.Initialize_From_VirtualHardDisk_STATUS(source.Vhd)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualHardDisk_STATUS() to populate field Vhd")
-		}
-		disk.Vhd = &vhd
-	} else {
-		disk.Vhd = nil
-	}
-
-	// WriteAcceleratorEnabled
-	if source.WriteAcceleratorEnabled != nil {
-		writeAcceleratorEnabled := *source.WriteAcceleratorEnabled
-		disk.WriteAcceleratorEnabled = &writeAcceleratorEnabled
-	} else {
-		disk.WriteAcceleratorEnabled = nil
 	}
 
 	// No error
@@ -8493,33 +7825,6 @@ func (reference *ImageReference) AssignProperties_To_ImageReference(destination 
 	return nil
 }
 
-// Initialize_From_ImageReference_STATUS populates our ImageReference from the provided source ImageReference_STATUS
-func (reference *ImageReference) Initialize_From_ImageReference_STATUS(source *ImageReference_STATUS) error {
-
-	// Offer
-	reference.Offer = genruntime.ClonePointerToString(source.Offer)
-
-	// Publisher
-	reference.Publisher = genruntime.ClonePointerToString(source.Publisher)
-
-	// Reference
-	if source.Id != nil {
-		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
-	}
-
-	// Sku
-	reference.Sku = genruntime.ClonePointerToString(source.Sku)
-
-	// Version
-	reference.Version = genruntime.ClonePointerToString(source.Version)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ImageReference_STATUS. Use v1api20201201.ImageReference_STATUS instead
 type ImageReference_STATUS struct {
 	ExactVersion *string `json:"exactVersion,omitempty"`
@@ -8967,53 +8272,6 @@ func (configuration *LinuxConfiguration) AssignProperties_To_LinuxConfiguration(
 	return nil
 }
 
-// Initialize_From_LinuxConfiguration_STATUS populates our LinuxConfiguration from the provided source LinuxConfiguration_STATUS
-func (configuration *LinuxConfiguration) Initialize_From_LinuxConfiguration_STATUS(source *LinuxConfiguration_STATUS) error {
-
-	// DisablePasswordAuthentication
-	if source.DisablePasswordAuthentication != nil {
-		disablePasswordAuthentication := *source.DisablePasswordAuthentication
-		configuration.DisablePasswordAuthentication = &disablePasswordAuthentication
-	} else {
-		configuration.DisablePasswordAuthentication = nil
-	}
-
-	// PatchSettings
-	if source.PatchSettings != nil {
-		var patchSetting LinuxPatchSettings
-		err := patchSetting.Initialize_From_LinuxPatchSettings_STATUS(source.PatchSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_LinuxPatchSettings_STATUS() to populate field PatchSettings")
-		}
-		configuration.PatchSettings = &patchSetting
-	} else {
-		configuration.PatchSettings = nil
-	}
-
-	// ProvisionVMAgent
-	if source.ProvisionVMAgent != nil {
-		provisionVMAgent := *source.ProvisionVMAgent
-		configuration.ProvisionVMAgent = &provisionVMAgent
-	} else {
-		configuration.ProvisionVMAgent = nil
-	}
-
-	// Ssh
-	if source.Ssh != nil {
-		var ssh SshConfiguration
-		err := ssh.Initialize_From_SshConfiguration_STATUS(source.Ssh)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SshConfiguration_STATUS() to populate field Ssh")
-		}
-		configuration.Ssh = &ssh
-	} else {
-		configuration.Ssh = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of LinuxConfiguration_STATUS. Use v1api20201201.LinuxConfiguration_STATUS instead
 type LinuxConfiguration_STATUS struct {
 	DisablePasswordAuthentication *bool                      `json:"disablePasswordAuthentication,omitempty"`
@@ -9445,29 +8703,6 @@ func (reference *NetworkInterfaceReference) AssignProperties_To_NetworkInterface
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkInterfaceReference_STATUS populates our NetworkInterfaceReference from the provided source NetworkInterfaceReference_STATUS
-func (reference *NetworkInterfaceReference) Initialize_From_NetworkInterfaceReference_STATUS(source *NetworkInterfaceReference_STATUS) error {
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		reference.Primary = &primary
-	} else {
-		reference.Primary = nil
-	}
-
-	// Reference
-	if source.Id != nil {
-		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
 	}
 
 	// No error
@@ -9998,111 +9233,6 @@ func (disk *OSDisk) AssignProperties_To_OSDisk(destination *v20201201s.OSDisk) e
 	return nil
 }
 
-// Initialize_From_OSDisk_STATUS populates our OSDisk from the provided source OSDisk_STATUS
-func (disk *OSDisk) Initialize_From_OSDisk_STATUS(source *OSDisk_STATUS) error {
-
-	// Caching
-	if source.Caching != nil {
-		caching := Caching(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
-
-	// CreateOption
-	if source.CreateOption != nil {
-		createOption := CreateOption(*source.CreateOption)
-		disk.CreateOption = &createOption
-	} else {
-		disk.CreateOption = nil
-	}
-
-	// DiffDiskSettings
-	if source.DiffDiskSettings != nil {
-		var diffDiskSetting DiffDiskSettings
-		err := diffDiskSetting.Initialize_From_DiffDiskSettings_STATUS(source.DiffDiskSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DiffDiskSettings_STATUS() to populate field DiffDiskSettings")
-		}
-		disk.DiffDiskSettings = &diffDiskSetting
-	} else {
-		disk.DiffDiskSettings = nil
-	}
-
-	// DiskSizeGB
-	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// EncryptionSettings
-	if source.EncryptionSettings != nil {
-		var encryptionSetting DiskEncryptionSettings
-		err := encryptionSetting.Initialize_From_DiskEncryptionSettings_STATUS(source.EncryptionSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DiskEncryptionSettings_STATUS() to populate field EncryptionSettings")
-		}
-		disk.EncryptionSettings = &encryptionSetting
-	} else {
-		disk.EncryptionSettings = nil
-	}
-
-	// Image
-	if source.Image != nil {
-		var image VirtualHardDisk
-		err := image.Initialize_From_VirtualHardDisk_STATUS(source.Image)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualHardDisk_STATUS() to populate field Image")
-		}
-		disk.Image = &image
-	} else {
-		disk.Image = nil
-	}
-
-	// ManagedDisk
-	if source.ManagedDisk != nil {
-		var managedDisk ManagedDiskParameters
-		err := managedDisk.Initialize_From_ManagedDiskParameters_STATUS(source.ManagedDisk)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagedDiskParameters_STATUS() to populate field ManagedDisk")
-		}
-		disk.ManagedDisk = &managedDisk
-	} else {
-		disk.ManagedDisk = nil
-	}
-
-	// Name
-	disk.Name = genruntime.ClonePointerToString(source.Name)
-
-	// OsType
-	if source.OsType != nil {
-		osType := OSDisk_OsType(*source.OsType)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
-
-	// Vhd
-	if source.Vhd != nil {
-		var vhd VirtualHardDisk
-		err := vhd.Initialize_From_VirtualHardDisk_STATUS(source.Vhd)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualHardDisk_STATUS() to populate field Vhd")
-		}
-		disk.Vhd = &vhd
-	} else {
-		disk.Vhd = nil
-	}
-
-	// WriteAcceleratorEnabled
-	if source.WriteAcceleratorEnabled != nil {
-		writeAcceleratorEnabled := *source.WriteAcceleratorEnabled
-		disk.WriteAcceleratorEnabled = &writeAcceleratorEnabled
-	} else {
-		disk.WriteAcceleratorEnabled = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of OSDisk_STATUS. Use v1api20201201.OSDisk_STATUS instead
 type OSDisk_STATUS struct {
 	Caching                 *Caching_STATUS                `json:"caching,omitempty"`
@@ -10569,29 +9699,6 @@ func (settings *UefiSettings) AssignProperties_To_UefiSettings(destination *v202
 	return nil
 }
 
-// Initialize_From_UefiSettings_STATUS populates our UefiSettings from the provided source UefiSettings_STATUS
-func (settings *UefiSettings) Initialize_From_UefiSettings_STATUS(source *UefiSettings_STATUS) error {
-
-	// SecureBootEnabled
-	if source.SecureBootEnabled != nil {
-		secureBootEnabled := *source.SecureBootEnabled
-		settings.SecureBootEnabled = &secureBootEnabled
-	} else {
-		settings.SecureBootEnabled = nil
-	}
-
-	// VTpmEnabled
-	if source.VTpmEnabled != nil {
-		vTpmEnabled := *source.VTpmEnabled
-		settings.VTpmEnabled = &vTpmEnabled
-	} else {
-		settings.VTpmEnabled = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of UefiSettings_STATUS. Use v1api20201201.UefiSettings_STATUS instead
 type UefiSettings_STATUS struct {
 	SecureBootEnabled *bool `json:"secureBootEnabled,omitempty"`
@@ -10833,43 +9940,6 @@ func (group *VaultSecretGroup) AssignProperties_To_VaultSecretGroup(destination 
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VaultSecretGroup_STATUS populates our VaultSecretGroup from the provided source VaultSecretGroup_STATUS
-func (group *VaultSecretGroup) Initialize_From_VaultSecretGroup_STATUS(source *VaultSecretGroup_STATUS) error {
-
-	// SourceVault
-	if source.SourceVault != nil {
-		var sourceVault SubResource
-		err := sourceVault.Initialize_From_SubResource_STATUS(source.SourceVault)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field SourceVault")
-		}
-		group.SourceVault = &sourceVault
-	} else {
-		group.SourceVault = nil
-	}
-
-	// VaultCertificates
-	if source.VaultCertificates != nil {
-		vaultCertificateList := make([]VaultCertificate, len(source.VaultCertificates))
-		for vaultCertificateIndex, vaultCertificateItem := range source.VaultCertificates {
-			// Shadow the loop variable to avoid aliasing
-			vaultCertificateItem := vaultCertificateItem
-			var vaultCertificate VaultCertificate
-			err := vaultCertificate.Initialize_From_VaultCertificate_STATUS(&vaultCertificateItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VaultCertificate_STATUS() to populate field VaultCertificates")
-			}
-			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
-		}
-		group.VaultCertificates = vaultCertificateList
-	} else {
-		group.VaultCertificates = nil
 	}
 
 	// No error
@@ -11867,74 +10937,6 @@ func (configuration *WindowsConfiguration) AssignProperties_To_WindowsConfigurat
 	return nil
 }
 
-// Initialize_From_WindowsConfiguration_STATUS populates our WindowsConfiguration from the provided source WindowsConfiguration_STATUS
-func (configuration *WindowsConfiguration) Initialize_From_WindowsConfiguration_STATUS(source *WindowsConfiguration_STATUS) error {
-
-	// AdditionalUnattendContent
-	if source.AdditionalUnattendContent != nil {
-		additionalUnattendContentList := make([]AdditionalUnattendContent, len(source.AdditionalUnattendContent))
-		for additionalUnattendContentIndex, additionalUnattendContentItem := range source.AdditionalUnattendContent {
-			// Shadow the loop variable to avoid aliasing
-			additionalUnattendContentItem := additionalUnattendContentItem
-			var additionalUnattendContent AdditionalUnattendContent
-			err := additionalUnattendContent.Initialize_From_AdditionalUnattendContent_STATUS(&additionalUnattendContentItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_AdditionalUnattendContent_STATUS() to populate field AdditionalUnattendContent")
-			}
-			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
-		}
-		configuration.AdditionalUnattendContent = additionalUnattendContentList
-	} else {
-		configuration.AdditionalUnattendContent = nil
-	}
-
-	// EnableAutomaticUpdates
-	if source.EnableAutomaticUpdates != nil {
-		enableAutomaticUpdate := *source.EnableAutomaticUpdates
-		configuration.EnableAutomaticUpdates = &enableAutomaticUpdate
-	} else {
-		configuration.EnableAutomaticUpdates = nil
-	}
-
-	// PatchSettings
-	if source.PatchSettings != nil {
-		var patchSetting PatchSettings
-		err := patchSetting.Initialize_From_PatchSettings_STATUS(source.PatchSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PatchSettings_STATUS() to populate field PatchSettings")
-		}
-		configuration.PatchSettings = &patchSetting
-	} else {
-		configuration.PatchSettings = nil
-	}
-
-	// ProvisionVMAgent
-	if source.ProvisionVMAgent != nil {
-		provisionVMAgent := *source.ProvisionVMAgent
-		configuration.ProvisionVMAgent = &provisionVMAgent
-	} else {
-		configuration.ProvisionVMAgent = nil
-	}
-
-	// TimeZone
-	configuration.TimeZone = genruntime.ClonePointerToString(source.TimeZone)
-
-	// WinRM
-	if source.WinRM != nil {
-		var winRM WinRMConfiguration
-		err := winRM.Initialize_From_WinRMConfiguration_STATUS(source.WinRM)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WinRMConfiguration_STATUS() to populate field WinRM")
-		}
-		configuration.WinRM = &winRM
-	} else {
-		configuration.WinRM = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of WindowsConfiguration_STATUS. Use v1api20201201.WindowsConfiguration_STATUS instead
 type WindowsConfiguration_STATUS struct {
 	AdditionalUnattendContent []AdditionalUnattendContent_STATUS `json:"additionalUnattendContent,omitempty"`
@@ -12312,40 +11314,6 @@ func (content *AdditionalUnattendContent) AssignProperties_To_AdditionalUnattend
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AdditionalUnattendContent_STATUS populates our AdditionalUnattendContent from the provided source AdditionalUnattendContent_STATUS
-func (content *AdditionalUnattendContent) Initialize_From_AdditionalUnattendContent_STATUS(source *AdditionalUnattendContent_STATUS) error {
-
-	// ComponentName
-	if source.ComponentName != nil {
-		componentName := AdditionalUnattendContent_ComponentName(*source.ComponentName)
-		content.ComponentName = &componentName
-	} else {
-		content.ComponentName = nil
-	}
-
-	// Content
-	content.Content = genruntime.ClonePointerToString(source.Content)
-
-	// PassName
-	if source.PassName != nil {
-		passName := AdditionalUnattendContent_PassName(*source.PassName)
-		content.PassName = &passName
-	} else {
-		content.PassName = nil
-	}
-
-	// SettingName
-	if source.SettingName != nil {
-		settingName := AdditionalUnattendContent_SettingName(*source.SettingName)
-		content.SettingName = &settingName
-	} else {
-		content.SettingName = nil
 	}
 
 	// No error
@@ -12832,29 +11800,6 @@ func (settings *DiffDiskSettings) AssignProperties_To_DiffDiskSettings(destinati
 	return nil
 }
 
-// Initialize_From_DiffDiskSettings_STATUS populates our DiffDiskSettings from the provided source DiffDiskSettings_STATUS
-func (settings *DiffDiskSettings) Initialize_From_DiffDiskSettings_STATUS(source *DiffDiskSettings_STATUS) error {
-
-	// Option
-	if source.Option != nil {
-		option := DiffDiskOption(*source.Option)
-		settings.Option = &option
-	} else {
-		settings.Option = nil
-	}
-
-	// Placement
-	if source.Placement != nil {
-		placement := DiffDiskPlacement(*source.Placement)
-		settings.Placement = &placement
-	} else {
-		settings.Placement = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of DiffDiskSettings_STATUS. Use v1api20201201.DiffDiskSettings_STATUS instead
 type DiffDiskSettings_STATUS struct {
 	Option    *DiffDiskOption_STATUS    `json:"option,omitempty"`
@@ -13115,45 +12060,6 @@ func (settings *DiskEncryptionSettings) AssignProperties_To_DiskEncryptionSettin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DiskEncryptionSettings_STATUS populates our DiskEncryptionSettings from the provided source DiskEncryptionSettings_STATUS
-func (settings *DiskEncryptionSettings) Initialize_From_DiskEncryptionSettings_STATUS(source *DiskEncryptionSettings_STATUS) error {
-
-	// DiskEncryptionKey
-	if source.DiskEncryptionKey != nil {
-		var diskEncryptionKey KeyVaultSecretReference
-		err := diskEncryptionKey.Initialize_From_KeyVaultSecretReference_STATUS(source.DiskEncryptionKey)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyVaultSecretReference_STATUS() to populate field DiskEncryptionKey")
-		}
-		settings.DiskEncryptionKey = &diskEncryptionKey
-	} else {
-		settings.DiskEncryptionKey = nil
-	}
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		settings.Enabled = &enabled
-	} else {
-		settings.Enabled = nil
-	}
-
-	// KeyEncryptionKey
-	if source.KeyEncryptionKey != nil {
-		var keyEncryptionKey KeyVaultKeyReference
-		err := keyEncryptionKey.Initialize_From_KeyVaultKeyReference_STATUS(source.KeyEncryptionKey)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyVaultKeyReference_STATUS() to populate field KeyEncryptionKey")
-		}
-		settings.KeyEncryptionKey = &keyEncryptionKey
-	} else {
-		settings.KeyEncryptionKey = nil
 	}
 
 	// No error
@@ -13623,21 +12529,6 @@ func (settings *LinuxPatchSettings) AssignProperties_To_LinuxPatchSettings(desti
 	return nil
 }
 
-// Initialize_From_LinuxPatchSettings_STATUS populates our LinuxPatchSettings from the provided source LinuxPatchSettings_STATUS
-func (settings *LinuxPatchSettings) Initialize_From_LinuxPatchSettings_STATUS(source *LinuxPatchSettings_STATUS) error {
-
-	// PatchMode
-	if source.PatchMode != nil {
-		patchMode := LinuxPatchSettings_PatchMode(*source.PatchMode)
-		settings.PatchMode = &patchMode
-	} else {
-		settings.PatchMode = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of LinuxPatchSettings_STATUS. Use v1api20201201.LinuxPatchSettings_STATUS instead
 type LinuxPatchSettings_STATUS struct {
 	PatchMode *LinuxPatchSettings_PatchMode_STATUS `json:"patchMode,omitempty"`
@@ -13869,41 +12760,6 @@ func (parameters *ManagedDiskParameters) AssignProperties_To_ManagedDiskParamete
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedDiskParameters_STATUS populates our ManagedDiskParameters from the provided source ManagedDiskParameters_STATUS
-func (parameters *ManagedDiskParameters) Initialize_From_ManagedDiskParameters_STATUS(source *ManagedDiskParameters_STATUS) error {
-
-	// DiskEncryptionSet
-	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet SubResource
-		err := diskEncryptionSet.Initialize_From_SubResource_STATUS(source.DiskEncryptionSet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field DiskEncryptionSet")
-		}
-		parameters.DiskEncryptionSet = &diskEncryptionSet
-	} else {
-		parameters.DiskEncryptionSet = nil
-	}
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		parameters.Reference = &reference
-	} else {
-		parameters.Reference = nil
-	}
-
-	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
-		parameters.StorageAccountType = &storageAccountType
-	} else {
-		parameters.StorageAccountType = nil
 	}
 
 	// No error
@@ -14156,29 +13012,6 @@ func (settings *PatchSettings) AssignProperties_To_PatchSettings(destination *v2
 	return nil
 }
 
-// Initialize_From_PatchSettings_STATUS populates our PatchSettings from the provided source PatchSettings_STATUS
-func (settings *PatchSettings) Initialize_From_PatchSettings_STATUS(source *PatchSettings_STATUS) error {
-
-	// EnableHotpatching
-	if source.EnableHotpatching != nil {
-		enableHotpatching := *source.EnableHotpatching
-		settings.EnableHotpatching = &enableHotpatching
-	} else {
-		settings.EnableHotpatching = nil
-	}
-
-	// PatchMode
-	if source.PatchMode != nil {
-		patchMode := PatchSettings_PatchMode(*source.PatchMode)
-		settings.PatchMode = &patchMode
-	} else {
-		settings.PatchMode = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of PatchSettings_STATUS. Use v1api20201201.PatchSettings_STATUS instead
 type PatchSettings_STATUS struct {
 	EnableHotpatching *bool                           `json:"enableHotpatching,omitempty"`
@@ -14380,31 +13213,6 @@ func (configuration *SshConfiguration) AssignProperties_To_SshConfiguration(dest
 	return nil
 }
 
-// Initialize_From_SshConfiguration_STATUS populates our SshConfiguration from the provided source SshConfiguration_STATUS
-func (configuration *SshConfiguration) Initialize_From_SshConfiguration_STATUS(source *SshConfiguration_STATUS) error {
-
-	// PublicKeys
-	if source.PublicKeys != nil {
-		publicKeyList := make([]SshPublicKeySpec, len(source.PublicKeys))
-		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
-			// Shadow the loop variable to avoid aliasing
-			publicKeyItem := publicKeyItem
-			var publicKey SshPublicKeySpec
-			err := publicKey.Initialize_From_SshPublicKey_STATUS(&publicKeyItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SshPublicKey_STATUS() to populate field PublicKeys")
-			}
-			publicKeyList[publicKeyIndex] = publicKey
-		}
-		configuration.PublicKeys = publicKeyList
-	} else {
-		configuration.PublicKeys = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of SshConfiguration_STATUS. Use v1api20201201.SshConfiguration_STATUS instead
 type SshConfiguration_STATUS struct {
 	PublicKeys []SshPublicKey_STATUS `json:"publicKeys,omitempty"`
@@ -14589,19 +13397,6 @@ func (certificate *VaultCertificate) AssignProperties_To_VaultCertificate(destin
 	return nil
 }
 
-// Initialize_From_VaultCertificate_STATUS populates our VaultCertificate from the provided source VaultCertificate_STATUS
-func (certificate *VaultCertificate) Initialize_From_VaultCertificate_STATUS(source *VaultCertificate_STATUS) error {
-
-	// CertificateStore
-	certificate.CertificateStore = genruntime.ClonePointerToString(source.CertificateStore)
-
-	// CertificateUrl
-	certificate.CertificateUrl = genruntime.ClonePointerToString(source.CertificateUrl)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of VaultCertificate_STATUS. Use v1api20201201.VaultCertificate_STATUS instead
 type VaultCertificate_STATUS struct {
 	CertificateStore *string `json:"certificateStore,omitempty"`
@@ -14741,16 +13536,6 @@ func (disk *VirtualHardDisk) AssignProperties_To_VirtualHardDisk(destination *v2
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualHardDisk_STATUS populates our VirtualHardDisk from the provided source VirtualHardDisk_STATUS
-func (disk *VirtualHardDisk) Initialize_From_VirtualHardDisk_STATUS(source *VirtualHardDisk_STATUS) error {
-
-	// Uri
-	disk.Uri = genruntime.ClonePointerToString(source.Uri)
 
 	// No error
 	return nil
@@ -15025,31 +13810,6 @@ func (configuration *WinRMConfiguration) AssignProperties_To_WinRMConfiguration(
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_WinRMConfiguration_STATUS populates our WinRMConfiguration from the provided source WinRMConfiguration_STATUS
-func (configuration *WinRMConfiguration) Initialize_From_WinRMConfiguration_STATUS(source *WinRMConfiguration_STATUS) error {
-
-	// Listeners
-	if source.Listeners != nil {
-		listenerList := make([]WinRMListener, len(source.Listeners))
-		for listenerIndex, listenerItem := range source.Listeners {
-			// Shadow the loop variable to avoid aliasing
-			listenerItem := listenerItem
-			var listener WinRMListener
-			err := listener.Initialize_From_WinRMListener_STATUS(&listenerItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_WinRMListener_STATUS() to populate field Listeners")
-			}
-			listenerList[listenerIndex] = listener
-		}
-		configuration.Listeners = listenerList
-	} else {
-		configuration.Listeners = nil
 	}
 
 	// No error
@@ -15520,28 +14280,6 @@ func (reference *KeyVaultKeyReference) AssignProperties_To_KeyVaultKeyReference(
 	return nil
 }
 
-// Initialize_From_KeyVaultKeyReference_STATUS populates our KeyVaultKeyReference from the provided source KeyVaultKeyReference_STATUS
-func (reference *KeyVaultKeyReference) Initialize_From_KeyVaultKeyReference_STATUS(source *KeyVaultKeyReference_STATUS) error {
-
-	// KeyUrl
-	reference.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
-
-	// SourceVault
-	if source.SourceVault != nil {
-		var sourceVault SubResource
-		err := sourceVault.Initialize_From_SubResource_STATUS(source.SourceVault)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field SourceVault")
-		}
-		reference.SourceVault = &sourceVault
-	} else {
-		reference.SourceVault = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of KeyVaultKeyReference_STATUS. Use v1api20201201.KeyVaultKeyReference_STATUS instead
 type KeyVaultKeyReference_STATUS struct {
 	KeyUrl      *string             `json:"keyUrl,omitempty"`
@@ -15752,28 +14490,6 @@ func (reference *KeyVaultSecretReference) AssignProperties_To_KeyVaultSecretRefe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KeyVaultSecretReference_STATUS populates our KeyVaultSecretReference from the provided source KeyVaultSecretReference_STATUS
-func (reference *KeyVaultSecretReference) Initialize_From_KeyVaultSecretReference_STATUS(source *KeyVaultSecretReference_STATUS) error {
-
-	// SecretUrl
-	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
-
-	// SourceVault
-	if source.SourceVault != nil {
-		var sourceVault SubResource
-		err := sourceVault.Initialize_From_SubResource_STATUS(source.SourceVault)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field SourceVault")
-		}
-		reference.SourceVault = &sourceVault
-	} else {
-		reference.SourceVault = nil
 	}
 
 	// No error
@@ -16085,19 +14801,6 @@ func (publicKey *SshPublicKeySpec) AssignProperties_To_SshPublicKeySpec(destinat
 	return nil
 }
 
-// Initialize_From_SshPublicKey_STATUS populates our SshPublicKeySpec from the provided source SshPublicKey_STATUS
-func (publicKey *SshPublicKeySpec) Initialize_From_SshPublicKey_STATUS(source *SshPublicKey_STATUS) error {
-
-	// KeyData
-	publicKey.KeyData = genruntime.ClonePointerToString(source.KeyData)
-
-	// Path
-	publicKey.Path = genruntime.ClonePointerToString(source.Path)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of StorageAccountType. Use v1api20201201.StorageAccountType instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
 type StorageAccountType string
@@ -16219,24 +14922,6 @@ func (listener *WinRMListener) AssignProperties_To_WinRMListener(destination *v2
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_WinRMListener_STATUS populates our WinRMListener from the provided source WinRMListener_STATUS
-func (listener *WinRMListener) Initialize_From_WinRMListener_STATUS(source *WinRMListener_STATUS) error {
-
-	// CertificateUrl
-	listener.CertificateUrl = genruntime.ClonePointerToString(source.CertificateUrl)
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := WinRMListener_Protocol(*source.Protocol)
-		listener.Protocol = &protocol
-	} else {
-		listener.Protocol = nil
 	}
 
 	// No error

@@ -103,17 +103,6 @@ func (database *SqlDatabase) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the SqlDatabase resource
 func (database *SqlDatabase) defaultImpl() { database.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &SqlDatabase{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (database *SqlDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DatabaseAccounts_SqlDatabase_STATUS); ok {
-		return database.Spec.Initialize_From_DatabaseAccounts_SqlDatabase_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlDatabase_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &SqlDatabase{}
 
 // AzureName returns the Azure name of the resource
@@ -631,43 +620,6 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_To_DatabaseA
 	return nil
 }
 
-// Initialize_From_DatabaseAccounts_SqlDatabase_STATUS populates our DatabaseAccounts_SqlDatabase_Spec from the provided source DatabaseAccounts_SqlDatabase_STATUS
-func (database *DatabaseAccounts_SqlDatabase_Spec) Initialize_From_DatabaseAccounts_SqlDatabase_STATUS(source *DatabaseAccounts_SqlDatabase_STATUS) error {
-
-	// Location
-	database.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions
-		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
-		}
-		database.Options = &option
-	} else {
-		database.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlDatabaseResource
-		err := resource.Initialize_From_SqlDatabaseGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		database.Resource = &resource
-	} else {
-		database.Resource = nil
-	}
-
-	// Tags
-	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (database *DatabaseAccounts_SqlDatabase_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1130,16 +1082,6 @@ func (resource *SqlDatabaseResource) AssignProperties_To_SqlDatabaseResource(des
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SqlDatabaseGetProperties_Resource_STATUS populates our SqlDatabaseResource from the provided source SqlDatabaseGetProperties_Resource_STATUS
-func (resource *SqlDatabaseResource) Initialize_From_SqlDatabaseGetProperties_Resource_STATUS(source *SqlDatabaseGetProperties_Resource_STATUS) error {
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil

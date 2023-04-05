@@ -103,17 +103,6 @@ func (subnet *VirtualNetworksSubnet) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the VirtualNetworksSubnet resource
 func (subnet *VirtualNetworksSubnet) defaultImpl() { subnet.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &VirtualNetworksSubnet{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (subnet *VirtualNetworksSubnet) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VirtualNetworks_Subnet_STATUS); ok {
-		return subnet.Spec.Initialize_From_VirtualNetworks_Subnet_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type VirtualNetworks_Subnet_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &VirtualNetworksSubnet{}
 
 // AzureName returns the Azure name of the resource
@@ -1023,161 +1012,6 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_S
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworks_Subnet_STATUS populates our VirtualNetworks_Subnet_Spec from the provided source VirtualNetworks_Subnet_STATUS
-func (subnet *VirtualNetworks_Subnet_Spec) Initialize_From_VirtualNetworks_Subnet_STATUS(source *VirtualNetworks_Subnet_STATUS) error {
-
-	// AddressPrefix
-	subnet.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
-
-	// AddressPrefixes
-	subnet.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
-
-	// ApplicationGatewayIpConfigurations
-	if source.ApplicationGatewayIpConfigurations != nil {
-		applicationGatewayIpConfigurationList := make([]ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded, len(source.ApplicationGatewayIpConfigurations))
-		for applicationGatewayIpConfigurationIndex, applicationGatewayIpConfigurationItem := range source.ApplicationGatewayIpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayIpConfigurationItem := applicationGatewayIpConfigurationItem
-			var applicationGatewayIpConfiguration ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded
-			err := applicationGatewayIpConfiguration.Initialize_From_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&applicationGatewayIpConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded() to populate field ApplicationGatewayIpConfigurations")
-			}
-			applicationGatewayIpConfigurationList[applicationGatewayIpConfigurationIndex] = applicationGatewayIpConfiguration
-		}
-		subnet.ApplicationGatewayIpConfigurations = applicationGatewayIpConfigurationList
-	} else {
-		subnet.ApplicationGatewayIpConfigurations = nil
-	}
-
-	// Delegations
-	if source.Delegations != nil {
-		delegationList := make([]Delegation, len(source.Delegations))
-		for delegationIndex, delegationItem := range source.Delegations {
-			// Shadow the loop variable to avoid aliasing
-			delegationItem := delegationItem
-			var delegation Delegation
-			err := delegation.Initialize_From_Delegation_STATUS(&delegationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Delegation_STATUS() to populate field Delegations")
-			}
-			delegationList[delegationIndex] = delegation
-		}
-		subnet.Delegations = delegationList
-	} else {
-		subnet.Delegations = nil
-	}
-
-	// IpAllocations
-	if source.IpAllocations != nil {
-		ipAllocationList := make([]SubResource, len(source.IpAllocations))
-		for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
-			// Shadow the loop variable to avoid aliasing
-			ipAllocationItem := ipAllocationItem
-			var ipAllocation SubResource
-			err := ipAllocation.Initialize_From_SubResource_STATUS(&ipAllocationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field IpAllocations")
-			}
-			ipAllocationList[ipAllocationIndex] = ipAllocation
-		}
-		subnet.IpAllocations = ipAllocationList
-	} else {
-		subnet.IpAllocations = nil
-	}
-
-	// NatGateway
-	if source.NatGateway != nil {
-		var natGateway SubResource
-		err := natGateway.Initialize_From_SubResource_STATUS(source.NatGateway)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field NatGateway")
-		}
-		subnet.NatGateway = &natGateway
-	} else {
-		subnet.NatGateway = nil
-	}
-
-	// NetworkSecurityGroup
-	if source.NetworkSecurityGroup != nil {
-		var networkSecurityGroup NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded
-		err := networkSecurityGroup.Initialize_From_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(source.NetworkSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded() to populate field NetworkSecurityGroup")
-		}
-		subnet.NetworkSecurityGroup = &networkSecurityGroup
-	} else {
-		subnet.NetworkSecurityGroup = nil
-	}
-
-	// PrivateEndpointNetworkPolicies
-	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := SubnetPropertiesFormat_PrivateEndpointNetworkPolicies(*source.PrivateEndpointNetworkPolicies)
-		subnet.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
-	} else {
-		subnet.PrivateEndpointNetworkPolicies = nil
-	}
-
-	// PrivateLinkServiceNetworkPolicies
-	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies(*source.PrivateLinkServiceNetworkPolicies)
-		subnet.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
-	} else {
-		subnet.PrivateLinkServiceNetworkPolicies = nil
-	}
-
-	// RouteTable
-	if source.RouteTable != nil {
-		var routeTable RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded
-		err := routeTable.Initialize_From_RouteTable_STATUS_SubResourceEmbedded(source.RouteTable)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RouteTable_STATUS_SubResourceEmbedded() to populate field RouteTable")
-		}
-		subnet.RouteTable = &routeTable
-	} else {
-		subnet.RouteTable = nil
-	}
-
-	// ServiceEndpointPolicies
-	if source.ServiceEndpointPolicies != nil {
-		serviceEndpointPolicyList := make([]ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded, len(source.ServiceEndpointPolicies))
-		for serviceEndpointPolicyIndex, serviceEndpointPolicyItem := range source.ServiceEndpointPolicies {
-			// Shadow the loop variable to avoid aliasing
-			serviceEndpointPolicyItem := serviceEndpointPolicyItem
-			var serviceEndpointPolicy ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded
-			err := serviceEndpointPolicy.Initialize_From_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(&serviceEndpointPolicyItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded() to populate field ServiceEndpointPolicies")
-			}
-			serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
-		}
-		subnet.ServiceEndpointPolicies = serviceEndpointPolicyList
-	} else {
-		subnet.ServiceEndpointPolicies = nil
-	}
-
-	// ServiceEndpoints
-	if source.ServiceEndpoints != nil {
-		serviceEndpointList := make([]ServiceEndpointPropertiesFormat, len(source.ServiceEndpoints))
-		for serviceEndpointIndex, serviceEndpointItem := range source.ServiceEndpoints {
-			// Shadow the loop variable to avoid aliasing
-			serviceEndpointItem := serviceEndpointItem
-			var serviceEndpoint ServiceEndpointPropertiesFormat
-			err := serviceEndpoint.Initialize_From_ServiceEndpointPropertiesFormat_STATUS(&serviceEndpointItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ServiceEndpointPropertiesFormat_STATUS() to populate field ServiceEndpoints")
-			}
-			serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
-		}
-		subnet.ServiceEndpoints = serviceEndpointList
-	} else {
-		subnet.ServiceEndpoints = nil
 	}
 
 	// No error
@@ -2235,21 +2069,6 @@ func (embedded *ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubReso
 	return nil
 }
 
-// Initialize_From_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded populates our ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded from the provided source ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
-func (embedded *ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded) Initialize_From_ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(source *ApplicationGatewayIPConfiguration_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of Delegation. Use v1api20201101.Delegation instead
 type Delegation struct {
 	Name        *string `json:"name,omitempty"`
@@ -2343,19 +2162,6 @@ func (delegation *Delegation) AssignProperties_To_Delegation(destination *v20201
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Delegation_STATUS populates our Delegation from the provided source Delegation_STATUS
-func (delegation *Delegation) Initialize_From_Delegation_STATUS(source *Delegation_STATUS) error {
-
-	// Name
-	delegation.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ServiceName
-	delegation.ServiceName = genruntime.ClonePointerToString(source.ServiceName)
 
 	// No error
 	return nil
@@ -2772,21 +2578,6 @@ func (embedded *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbed
 	return nil
 }
 
-// Initialize_From_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded populates our NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded from the provided source NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
-func (embedded *NetworkSecurityGroupSpec_VirtualNetworks_Subnet_SubResourceEmbedded) Initialize_From_NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(source *NetworkSecurityGroup_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded. Use v1api20201101.PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded instead
 type PrivateEndpoint_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded struct {
 	Id *string `json:"id,omitempty"`
@@ -3044,21 +2835,6 @@ func (embedded *RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) Assig
 	return nil
 }
 
-// Initialize_From_RouteTable_STATUS_SubResourceEmbedded populates our RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded from the provided source RouteTable_STATUS_SubResourceEmbedded
-func (embedded *RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded) Initialize_From_RouteTable_STATUS_SubResourceEmbedded(source *RouteTable_STATUS_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ServiceAssociationLink_STATUS. Use v1api20201101.ServiceAssociationLink_STATUS instead
 type ServiceAssociationLink_STATUS struct {
 	Id *string `json:"id,omitempty"`
@@ -3258,21 +3034,6 @@ func (embedded *ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbe
 	return nil
 }
 
-// Initialize_From_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded populates our ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded from the provided source ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded
-func (embedded *ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded) Initialize_From_ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded(source *ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ServiceEndpointPropertiesFormat. Use v1api20201101.ServiceEndpointPropertiesFormat instead
 type ServiceEndpointPropertiesFormat struct {
 	Locations []string `json:"locations,omitempty"`
@@ -3358,19 +3119,6 @@ func (format *ServiceEndpointPropertiesFormat) AssignProperties_To_ServiceEndpoi
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServiceEndpointPropertiesFormat_STATUS populates our ServiceEndpointPropertiesFormat from the provided source ServiceEndpointPropertiesFormat_STATUS
-func (format *ServiceEndpointPropertiesFormat) Initialize_From_ServiceEndpointPropertiesFormat_STATUS(source *ServiceEndpointPropertiesFormat_STATUS) error {
-
-	// Locations
-	format.Locations = genruntime.CloneSliceOfString(source.Locations)
-
-	// Service
-	format.Service = genruntime.ClonePointerToString(source.Service)
 
 	// No error
 	return nil

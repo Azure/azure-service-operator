@@ -103,17 +103,6 @@ func (server *RedisLinkedServer) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the RedisLinkedServer resource
 func (server *RedisLinkedServer) defaultImpl() { server.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &RedisLinkedServer{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (server *RedisLinkedServer) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Redis_LinkedServer_STATUS); ok {
-		return server.Spec.Initialize_From_Redis_LinkedServer_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Redis_LinkedServer_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &RedisLinkedServer{}
 
 // AzureName returns the Azure name of the resource
@@ -572,32 +561,6 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Sp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Redis_LinkedServer_STATUS populates our Redis_LinkedServer_Spec from the provided source Redis_LinkedServer_STATUS
-func (server *Redis_LinkedServer_Spec) Initialize_From_Redis_LinkedServer_STATUS(source *Redis_LinkedServer_STATUS) error {
-
-	// LinkedRedisCacheLocation
-	server.LinkedRedisCacheLocation = genruntime.ClonePointerToString(source.LinkedRedisCacheLocation)
-
-	// LinkedRedisCacheReference
-	if source.LinkedRedisCacheId != nil {
-		linkedRedisCacheReference := genruntime.CreateResourceReferenceFromARMID(*source.LinkedRedisCacheId)
-		server.LinkedRedisCacheReference = &linkedRedisCacheReference
-	} else {
-		server.LinkedRedisCacheReference = nil
-	}
-
-	// ServerRole
-	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerCreateProperties_ServerRole(*source.ServerRole)
-		server.ServerRole = &serverRole
-	} else {
-		server.ServerRole = nil
 	}
 
 	// No error
