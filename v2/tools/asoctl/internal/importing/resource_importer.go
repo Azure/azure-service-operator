@@ -123,7 +123,7 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 				// Import it
 				pending, err := rsrc.Import(ctx)
 				if err != nil {
-					var notImportable NotImportableError
+					var notImportable ImportSkippedError
 					if errors.As(err, &notImportable) {
 						klog.Infof(err.Error())
 						return nil
