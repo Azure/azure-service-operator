@@ -146,16 +146,23 @@ func (i *importableARMResource) createImportFunction(
 	// Loader is a function that does the actual loading
 	loader := i.loader()
 
-	// Check to see if we have an extension to customize loading, and if we do, wrap the loader
+	// Check to see if we have an extension to customize loading, and if we do, wrap importFn
 	gvk := instance.GetObjectKind().GroupVersionKind()
 	if ex, ok := i.GetResourceExtension(gvk); ok {
 		next := loader
-		loader = func(ctx context.Context, resource genruntime.ImportableResource) (extensions.ImportResult, error) {
-			return ex.Import(ctx, resource, next)
+		loader = func(
+            ctx context.Context, 
+            resource genruntime.ImportableResource,
+            owner genruntime.ResourceReference,
+        ) (extensions.ImportResult, error) {
+			return ex.Import(ctx, resource, owner, next)
 		}
 	}
 
-	return loader
+	// Lastly, we need to wrap importFn to remove Status
+	importFn = i.clearStatus(importFn)
+
+	return importFn
 }
 
 func (i *importableARMResource) loader() extensions.ImporterFunc {
@@ -190,14 +197,53 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 			return extensions.ImportResult{}, err
 		}
 
-		// Set up our object Spec
+		// Set up our objects Spec & Status
 		err = importable.InitializeSpec(status)
 		if err != nil {
 			return extensions.ImportResult{},
-				errors.Wrapf(err, "initializing spec on Kubernetes resource for resource %s", i.armID)
+				errors.Wrapf(err, "setting spec on Kubernetes resource for resource %s", i.armID)
+		}
+
+		// We set the status as well so that any import customization can use information on the status
+		err = importable.SetStatus(status)
+		if err != nil {
+			return extensions.ImportResult{},
+				errors.Wrapf(err, "setting status on Kubernetes resource for resource %s", i.armID)
 		}
 
 		return extensions.ImportSucceeded(), nil
+	}
+}
+
+func (i *importableARMResource) clearStatus(next extensions.ImporterFunc) extensions.ImporterFunc {
+	return func(
+		resource genruntime.ImportableResource,
+		owner genruntime.ResourceReference,
+	) (extensions.ImportResult, error) {
+		result, err := next(resource, owner)
+		if err != nil {
+			return extensions.ImportResult{}, err
+		}
+
+		rsrc, ok := resource.(genruntime.ImportableARMResource)
+		if !ok {
+			// Error doesn't need additional context
+			return extensions.ImportResult{}, errors.Errorf("resource %T is not an importable ARM resource", resource)
+		}
+
+		// Clear the status
+		status, err := genruntime.NewEmptyVersionedStatus(rsrc, i.scheme)
+		if err != nil {
+			return extensions.ImportResult{},
+				errors.Wrapf(err, "constructing status object for resource: %s", i.armID)
+		}
+
+		err = rsrc.SetStatus(status)
+		if err != nil {
+			return extensions.ImportResult{}, err
+		}
+
+		return result, nil
 	}
 }
 
