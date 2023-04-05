@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/errors"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701storage"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
