@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}
+// Deprecated version of RedisLinkedServer. Use v1api20201201.RedisLinkedServer instead
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &RedisLinkedServer{}
 
 // ConvertFrom populates our RedisLinkedServer from the provided hub RedisLinkedServer
 func (server *RedisLinkedServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201201s.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1beta20201201storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201201s.RedisLinkedServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_RedisLinkedServer(source)
+	err = server.AssignProperties_From_RedisLinkedServer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisLinkedServer from our RedisLinkedServer
 func (server *RedisLinkedServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201201s.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1beta20201201storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201201s.RedisLinkedServer
+	err := server.AssignProperties_To_RedisLinkedServer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_RedisLinkedServer(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redislinkedserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redislinkedservers,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redislinkedservers.cache.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (server *RedisLinkedServer) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the RedisLinkedServer resource
 func (server *RedisLinkedServer) defaultImpl() { server.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &RedisLinkedServer{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (server *RedisLinkedServer) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Redis_LinkedServer_STATUS); ok {
-		return server.Spec.Initialize_From_Redis_LinkedServer_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Redis_LinkedServer_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &RedisLinkedServer{}
 
@@ -323,9 +324,7 @@ func (server *RedisLinkedServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/linkedServers/{linkedServerName}
+// Deprecated version of RedisLinkedServer. Use v1api20201201.RedisLinkedServer instead
 type RedisLinkedServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -338,11 +337,9 @@ type Redis_LinkedServer_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// LinkedRedisCacheLocation: Location of the linked redis cache.
 	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// LinkedRedisCacheReference: Fully qualified resourceId of the linked redis cache.
 	LinkedRedisCacheReference *genruntime.ResourceReference `armReference:"LinkedRedisCacheId" json:"linkedRedisCacheReference,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -352,7 +349,6 @@ type Redis_LinkedServer_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 
 	// +kubebuilder:validation:Required
-	// ServerRole: Role of the linked server.
 	ServerRole *RedisLinkedServerCreateProperties_ServerRole `json:"serverRole,omitempty"`
 }
 
@@ -571,32 +567,6 @@ func (server *Redis_LinkedServer_Spec) AssignProperties_To_Redis_LinkedServer_Sp
 	return nil
 }
 
-// Initialize_From_Redis_LinkedServer_STATUS populates our Redis_LinkedServer_Spec from the provided source Redis_LinkedServer_STATUS
-func (server *Redis_LinkedServer_Spec) Initialize_From_Redis_LinkedServer_STATUS(source *Redis_LinkedServer_STATUS) error {
-
-	// LinkedRedisCacheLocation
-	server.LinkedRedisCacheLocation = genruntime.ClonePointerToString(source.LinkedRedisCacheLocation)
-
-	// LinkedRedisCacheReference
-	if source.LinkedRedisCacheId != nil {
-		linkedRedisCacheReference := genruntime.CreateResourceReferenceFromARMID(*source.LinkedRedisCacheId)
-		server.LinkedRedisCacheReference = &linkedRedisCacheReference
-	} else {
-		server.LinkedRedisCacheReference = nil
-	}
-
-	// ServerRole
-	if source.ServerRole != nil {
-		serverRole := RedisLinkedServerCreateProperties_ServerRole(*source.ServerRole)
-		server.ServerRole = &serverRole
-	} else {
-		server.ServerRole = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (server *Redis_LinkedServer_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -605,31 +575,17 @@ func (server *Redis_LinkedServer_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (server *Redis_LinkedServer_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
 
+// Deprecated version of Redis_LinkedServer_STATUS. Use v1api20201201.Redis_LinkedServer_STATUS instead
 type Redis_LinkedServer_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// LinkedRedisCacheId: Fully qualified resourceId of the linked redis cache.
-	LinkedRedisCacheId *string `json:"linkedRedisCacheId,omitempty"`
-
-	// LinkedRedisCacheLocation: Location of the linked redis cache.
-	LinkedRedisCacheLocation *string `json:"linkedRedisCacheLocation,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: Terminal state of the link between primary and secondary redis cache.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// ServerRole: Role of the linked server.
-	ServerRole *RedisLinkedServerProperties_ServerRole_STATUS `json:"serverRole,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions               []conditions.Condition                         `json:"conditions,omitempty"`
+	Id                       *string                                        `json:"id,omitempty"`
+	LinkedRedisCacheId       *string                                        `json:"linkedRedisCacheId,omitempty"`
+	LinkedRedisCacheLocation *string                                        `json:"linkedRedisCacheLocation,omitempty"`
+	Name                     *string                                        `json:"name,omitempty"`
+	ProvisioningState        *string                                        `json:"provisioningState,omitempty"`
+	ServerRole               *RedisLinkedServerProperties_ServerRole_STATUS `json:"serverRole,omitempty"`
+	Type                     *string                                        `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Redis_LinkedServer_STATUS{}
@@ -837,6 +793,8 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_To_Redis_LinkedServer_
 	return nil
 }
 
+// Deprecated version of RedisLinkedServerCreateProperties_ServerRole. Use
+// v1api20201201.RedisLinkedServerCreateProperties_ServerRole instead
 // +kubebuilder:validation:Enum={"Primary","Secondary"}
 type RedisLinkedServerCreateProperties_ServerRole string
 
@@ -845,6 +803,8 @@ const (
 	RedisLinkedServerCreateProperties_ServerRole_Secondary = RedisLinkedServerCreateProperties_ServerRole("Secondary")
 )
 
+// Deprecated version of RedisLinkedServerProperties_ServerRole_STATUS. Use
+// v1api20201201.RedisLinkedServerProperties_ServerRole_STATUS instead
 type RedisLinkedServerProperties_ServerRole_STATUS string
 
 const (

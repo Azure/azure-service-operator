@@ -1,0 +1,9 @@
+apiVersion: dbformysql.azure.com/v1api20210501
+kind: FlexibleServersDatabase
+metadata:
+  name: sampledb
+  namespace: default
+spec:
+  owner:
+    name: samplemysql
+  charset: utf8mb4

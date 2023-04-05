@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}
+// Deprecated version of Topic. Use v1api20200601.Topic instead
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Topic{}
 
 // ConvertFrom populates our Topic from the provided hub Topic
 func (topic *Topic) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200601s.Topic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1beta20200601storage/Topic but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20200601s.Topic
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return topic.AssignProperties_From_Topic(source)
+	err = topic.AssignProperties_From_Topic(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to topic")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Topic from our Topic
 func (topic *Topic) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200601s.Topic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1beta20200601storage/Topic but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20200601s.Topic
+	err := topic.AssignProperties_To_Topic(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from topic")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return topic.AssignProperties_To_Topic(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1beta20200601-topic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=topics,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.topics.eventgrid.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (topic *Topic) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Topic resource
 func (topic *Topic) defaultImpl() { topic.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &Topic{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (topic *Topic) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Topic_STATUS); ok {
-		return topic.Spec.Initialize_From_Topic_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Topic_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &Topic{}
 
@@ -323,9 +324,7 @@ func (topic *Topic) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}
+// Deprecated version of Topic. Use v1api20200601.Topic instead
 type TopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -335,36 +334,21 @@ type TopicList struct {
 type Topic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-	// only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRule `json:"inboundIpRules,omitempty"`
-
-	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
-	InputSchema *TopicProperties_InputSchema `json:"inputSchema,omitempty"`
-
-	// InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
-	// various properties of a source schema to various required properties of the EventGridEvent schema.
-	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+	AzureName          string                       `json:"azureName,omitempty"`
+	InboundIpRules     []InboundIpRule              `json:"inboundIpRules,omitempty"`
+	InputSchema        *TopicProperties_InputSchema `json:"inputSchema,omitempty"`
+	InputSchemaMapping *InputSchemaMapping          `json:"inputSchemaMapping,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Location of the resource.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	// You can further restrict to specific IPs by configuring <seealso
-	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
+	Owner               *genruntime.KnownResourceReference   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *TopicProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// Tags: Tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags                map[string]string                    `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Topic_Spec{}
@@ -709,65 +693,6 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *v20200601s.
 	return nil
 }
 
-// Initialize_From_Topic_STATUS populates our Topic_Spec from the provided source Topic_STATUS
-func (topic *Topic_Spec) Initialize_From_Topic_STATUS(source *Topic_STATUS) error {
-
-	// InboundIpRules
-	if source.InboundIpRules != nil {
-		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
-		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundIpRuleItem := inboundIpRuleItem
-			var inboundIpRule InboundIpRule
-			err := inboundIpRule.Initialize_From_InboundIpRule_STATUS(&inboundIpRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_InboundIpRule_STATUS() to populate field InboundIpRules")
-			}
-			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
-		}
-		topic.InboundIpRules = inboundIpRuleList
-	} else {
-		topic.InboundIpRules = nil
-	}
-
-	// InputSchema
-	if source.InputSchema != nil {
-		inputSchema := TopicProperties_InputSchema(*source.InputSchema)
-		topic.InputSchema = &inputSchema
-	} else {
-		topic.InputSchema = nil
-	}
-
-	// InputSchemaMapping
-	if source.InputSchemaMapping != nil {
-		var inputSchemaMapping InputSchemaMapping
-		err := inputSchemaMapping.Initialize_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
-		}
-		topic.InputSchemaMapping = &inputSchemaMapping
-	} else {
-		topic.InputSchemaMapping = nil
-	}
-
-	// Location
-	topic.Location = genruntime.ClonePointerToString(source.Location)
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := TopicProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		topic.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		topic.PublicNetworkAccess = nil
-	}
-
-	// Tags
-	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (topic *Topic_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -776,54 +701,24 @@ func (topic *Topic_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (topic *Topic_Spec) SetAzureName(azureName string) { topic.AzureName = azureName }
 
-// EventGrid Topic
+// Deprecated version of Topic_STATUS. Use v1api20200601.Topic_STATUS instead
 type Topic_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Endpoint: Endpoint for the topic.
-	Endpoint *string `json:"endpoint,omitempty"`
-
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
-	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
-	// only if PublicNetworkAccess is enabled.
-	InboundIpRules []InboundIpRule_STATUS `json:"inboundIpRules,omitempty"`
-
-	// InputSchema: This determines the format that Event Grid should expect for incoming events published to the topic.
-	InputSchema *TopicProperties_InputSchema_STATUS `json:"inputSchema,omitempty"`
-
-	// InputSchemaMapping: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map
-	// various properties of a source schema to various required properties of the EventGridEvent schema.
-	InputSchemaMapping *InputSchemaMapping_STATUS `json:"inputSchemaMapping,omitempty"`
-
-	// Location: Location of the resource.
-	Location *string `json:"location,omitempty"`
-
-	// MetricResourceId: Metric resource id for the topic.
-	MetricResourceId *string `json:"metricResourceId,omitempty"`
-
-	// Name: Name of the resource.
+	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
+	Endpoint                   *string                                                      `json:"endpoint,omitempty"`
+	Id                         *string                                                      `json:"id,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS                                       `json:"inboundIpRules,omitempty"`
+	InputSchema                *TopicProperties_InputSchema_STATUS                          `json:"inputSchema,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS                                   `json:"inputSchemaMapping,omitempty"`
+	Location                   *string                                                      `json:"location,omitempty"`
+	MetricResourceId           *string                                                      `json:"metricResourceId,omitempty"`
 	Name                       *string                                                      `json:"name,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the topic.
-	ProvisioningState *TopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
-	// You can further restrict to specific IPs by configuring <seealso
-	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
-	PublicNetworkAccess *TopicProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-
-	// SystemData: The system metadata relating to Topic resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	ProvisioningState          *TopicProperties_ProvisioningState_STATUS                    `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *TopicProperties_PublicNetworkAccess_STATUS                  `json:"publicNetworkAccess,omitempty"`
+	SystemData                 *SystemData_STATUS                                           `json:"systemData,omitempty"`
+	Tags                       map[string]string                                            `json:"tags,omitempty"`
+	Type                       *string                                                      `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Topic_STATUS{}
@@ -1263,8 +1158,8 @@ func (topic *Topic_STATUS) AssignProperties_To_Topic_STATUS(destination *v202006
 	return nil
 }
 
+// Deprecated version of PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded. Use v1api20200601.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded instead
 type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
-	// Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1321,6 +1216,7 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 	return nil
 }
 
+// Deprecated version of TopicProperties_InputSchema. Use v1api20200601.TopicProperties_InputSchema instead
 // +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
 type TopicProperties_InputSchema string
 
@@ -1330,6 +1226,7 @@ const (
 	TopicProperties_InputSchema_EventGridSchema      = TopicProperties_InputSchema("EventGridSchema")
 )
 
+// Deprecated version of TopicProperties_InputSchema_STATUS. Use v1api20200601.TopicProperties_InputSchema_STATUS instead
 type TopicProperties_InputSchema_STATUS string
 
 const (
@@ -1338,6 +1235,8 @@ const (
 	TopicProperties_InputSchema_STATUS_EventGridSchema      = TopicProperties_InputSchema_STATUS("EventGridSchema")
 )
 
+// Deprecated version of TopicProperties_ProvisioningState_STATUS. Use
+// v1api20200601.TopicProperties_ProvisioningState_STATUS instead
 type TopicProperties_ProvisioningState_STATUS string
 
 const (
@@ -1349,6 +1248,7 @@ const (
 	TopicProperties_ProvisioningState_STATUS_Updating  = TopicProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of TopicProperties_PublicNetworkAccess. Use v1api20200601.TopicProperties_PublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type TopicProperties_PublicNetworkAccess string
 
@@ -1357,6 +1257,8 @@ const (
 	TopicProperties_PublicNetworkAccess_Enabled  = TopicProperties_PublicNetworkAccess("Enabled")
 )
 
+// Deprecated version of TopicProperties_PublicNetworkAccess_STATUS. Use
+// v1api20200601.TopicProperties_PublicNetworkAccess_STATUS instead
 type TopicProperties_PublicNetworkAccess_STATUS string
 
 const (

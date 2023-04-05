@@ -154,7 +154,12 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.AddConfigMaps(configuration).UsedFor(pipeline.ARMTarget),
 
-		pipeline.CreateTypesForBackwardCompatibility("v2.0.0-alpha", configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
+		// prefix is "v2.0.0-" as we want to match anything that had a beta version. The prefix is applied to the
+		// supportedFrom field, meaning we need back-compat types for anything:
+		// - Added before beta (e.g. supportedFrom: v2.0.0-alpha.0)
+		// - Added during beta (e.g. supportedFrom: v2.0.0-beta.0)
+		// The only thing we don't want back-compat types for is something added in v2.0.0 or v2.1.0, etc.
+		pipeline.CreateTypesForBackwardCompatibility("v2.0.0-", configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
 
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 

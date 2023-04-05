@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}
+// Deprecated version of Webtest. Use v1api20180501preview.Webtest instead
 type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Webtest{}
 
 // ConvertFrom populates our Webtest from the provided hub Webtest
 func (webtest *Webtest) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20180501ps.Webtest)
-	if !ok {
-		return fmt.Errorf("expected insights/v1beta20180501previewstorage/Webtest but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20180501ps.Webtest
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return webtest.AssignProperties_From_Webtest(source)
+	err = webtest.AssignProperties_From_Webtest(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to webtest")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Webtest from our Webtest
 func (webtest *Webtest) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20180501ps.Webtest)
-	if !ok {
-		return fmt.Errorf("expected insights/v1beta20180501previewstorage/Webtest but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20180501ps.Webtest
+	err := webtest.AssignProperties_To_Webtest(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from webtest")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return webtest.AssignProperties_To_Webtest(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-insights-azure-com-v1beta20180501preview-webtest,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=insights.azure.com,resources=webtests,verbs=create;update,versions=v1beta20180501preview,name=default.v1beta20180501preview.webtests.insights.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (webtest *Webtest) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Webtest resource
 func (webtest *Webtest) defaultImpl() { webtest.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &Webtest{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (webtest *Webtest) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Webtest_STATUS); ok {
-		return webtest.Spec.Initialize_From_Webtest_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Webtest_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &Webtest{}
 
@@ -323,15 +324,14 @@ func (webtest *Webtest) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2018-05-01-preview/webTests_API.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}
+// Deprecated version of Webtest. Use v1api20180501preview.Webtest instead
 type WebtestList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Webtest `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20180501preview.APIVersion instead
 // +kubebuilder:validation:Enum={"2018-05-01-preview"}
 type APIVersion string
 
@@ -340,61 +340,37 @@ const APIVersion_Value = APIVersion("2018-05-01-preview")
 type Webtest_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Configuration: An XML configuration specification for a WebTest.
+	AzureName     string                           `json:"azureName,omitempty"`
 	Configuration *WebTestProperties_Configuration `json:"Configuration,omitempty"`
-
-	// Description: User defined description for this WebTest.
-	Description *string `json:"Description,omitempty"`
-
-	// Enabled: Is the test actively being monitored.
-	Enabled *bool `json:"Enabled,omitempty"`
-
-	// Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.
-	Frequency *int `json:"Frequency,omitempty"`
+	Description   *string                          `json:"Description,omitempty"`
+	Enabled       *bool                            `json:"Enabled,omitempty"`
+	Frequency     *int                             `json:"Frequency,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
 	Kind *WebTestProperties_Kind `json:"Kind,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-	// application.
 	Locations []WebTestGeolocation `json:"Locations,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: User defined name if this WebTest.
 	Name *string `json:"Name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Request: The collection of request properties
-	Request *WebTestProperties_Request `json:"Request,omitempty"`
-
-	// RetryEnabled: Allow for retries should this WebTest fail.
-	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Request      *WebTestProperties_Request         `json:"Request,omitempty"`
+	RetryEnabled *bool                              `json:"RetryEnabled,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
-	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
-	Timeout *int `json:"Timeout,omitempty"`
-
-	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
+	SyntheticMonitorId *string                            `json:"SyntheticMonitorId,omitempty"`
+	Tags               map[string]string                  `json:"tags,omitempty"`
+	Timeout            *int                               `json:"Timeout,omitempty"`
+	ValidationRules    *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Webtest_Spec{}
@@ -963,112 +939,6 @@ func (webtest *Webtest_Spec) AssignProperties_To_Webtest_Spec(destination *v2018
 	return nil
 }
 
-// Initialize_From_Webtest_STATUS populates our Webtest_Spec from the provided source Webtest_STATUS
-func (webtest *Webtest_Spec) Initialize_From_Webtest_STATUS(source *Webtest_STATUS) error {
-
-	// Configuration
-	if source.Configuration != nil {
-		var configuration WebTestProperties_Configuration
-		err := configuration.Initialize_From_WebTestProperties_Configuration_STATUS(source.Configuration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_Configuration_STATUS() to populate field Configuration")
-		}
-		webtest.Configuration = &configuration
-	} else {
-		webtest.Configuration = nil
-	}
-
-	// Description
-	webtest.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		webtest.Enabled = &enabled
-	} else {
-		webtest.Enabled = nil
-	}
-
-	// Frequency
-	webtest.Frequency = genruntime.ClonePointerToInt(source.Frequency)
-
-	// Kind
-	if source.Kind != nil {
-		kind := WebTestProperties_Kind(*source.Kind)
-		webtest.Kind = &kind
-	} else {
-		webtest.Kind = nil
-	}
-
-	// Location
-	webtest.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Locations
-	if source.Locations != nil {
-		locationList := make([]WebTestGeolocation, len(source.Locations))
-		for locationIndex, locationItem := range source.Locations {
-			// Shadow the loop variable to avoid aliasing
-			locationItem := locationItem
-			var location WebTestGeolocation
-			err := location.Initialize_From_WebTestGeolocation_STATUS(&locationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_WebTestGeolocation_STATUS() to populate field Locations")
-			}
-			locationList[locationIndex] = location
-		}
-		webtest.Locations = locationList
-	} else {
-		webtest.Locations = nil
-	}
-
-	// Name
-	webtest.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Request
-	if source.Request != nil {
-		var request WebTestProperties_Request
-		err := request.Initialize_From_WebTestProperties_Request_STATUS(source.Request)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_Request_STATUS() to populate field Request")
-		}
-		webtest.Request = &request
-	} else {
-		webtest.Request = nil
-	}
-
-	// RetryEnabled
-	if source.RetryEnabled != nil {
-		retryEnabled := *source.RetryEnabled
-		webtest.RetryEnabled = &retryEnabled
-	} else {
-		webtest.RetryEnabled = nil
-	}
-
-	// SyntheticMonitorId
-	webtest.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
-
-	// Tags
-	webtest.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Timeout
-	webtest.Timeout = genruntime.ClonePointerToInt(source.Timeout)
-
-	// ValidationRules
-	if source.ValidationRules != nil {
-		var validationRule WebTestProperties_ValidationRules
-		err := validationRule.Initialize_From_WebTestProperties_ValidationRules_STATUS(source.ValidationRules)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
-		}
-		webtest.ValidationRules = &validationRule
-	} else {
-		webtest.ValidationRules = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (webtest *Webtest_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1077,66 +947,28 @@ func (webtest *Webtest_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (webtest *Webtest_Spec) SetAzureName(azureName string) { webtest.AzureName = azureName }
 
+// Deprecated version of Webtest_STATUS. Use v1api20180501preview.Webtest_STATUS instead
 type Webtest_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestProperties_Configuration_STATUS `json:"Configuration,omitempty"`
-
-	// Description: User defined description for this WebTest.
-	Description *string `json:"Description,omitempty"`
-
-	// Enabled: Is the test actively being monitored.
-	Enabled *bool `json:"Enabled,omitempty"`
-
-	// Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.
-	Frequency *int `json:"Frequency,omitempty"`
-
-	// Id: Azure resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Kind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
-	Kind *WebTestProperties_Kind_STATUS `json:"Kind,omitempty"`
-
-	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// Locations: A list of where to physically run the tests from to give global coverage for accessibility of your
-	// application.
-	Locations []WebTestGeolocation_STATUS `json:"Locations,omitempty"`
-
-	// Name: Azure resource name
-	Name *string `json:"name,omitempty"`
-
-	// PropertiesName: User defined name if this WebTest.
-	PropertiesName *string `json:"properties_name,omitempty"`
-
-	// ProvisioningState: Current state of this component, whether or not is has been provisioned within the resource group it
-	// is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-	// Canceled, and Failed.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// Request: The collection of request properties
-	Request *WebTestProperties_Request_STATUS `json:"Request,omitempty"`
-
-	// RetryEnabled: Allow for retries should this WebTest fail.
-	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
-
-	// SyntheticMonitorId: Unique ID of this WebTest. This is typically the same value as the Name field.
-	SyntheticMonitorId *string `json:"SyntheticMonitorId,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
-	Timeout *int `json:"Timeout,omitempty"`
-
-	// Type: Azure resource type
-	Type *string `json:"type,omitempty"`
-
-	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
+	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
+	Configuration      *WebTestProperties_Configuration_STATUS   `json:"Configuration,omitempty"`
+	Description        *string                                   `json:"Description,omitempty"`
+	Enabled            *bool                                     `json:"Enabled,omitempty"`
+	Frequency          *int                                      `json:"Frequency,omitempty"`
+	Id                 *string                                   `json:"id,omitempty"`
+	Kind               *WebTestProperties_Kind_STATUS            `json:"Kind,omitempty"`
+	Location           *string                                   `json:"location,omitempty"`
+	Locations          []WebTestGeolocation_STATUS               `json:"Locations,omitempty"`
+	Name               *string                                   `json:"name,omitempty"`
+	PropertiesName     *string                                   `json:"properties_name,omitempty"`
+	ProvisioningState  *string                                   `json:"provisioningState,omitempty"`
+	Request            *WebTestProperties_Request_STATUS         `json:"Request,omitempty"`
+	RetryEnabled       *bool                                     `json:"RetryEnabled,omitempty"`
+	SyntheticMonitorId *string                                   `json:"SyntheticMonitorId,omitempty"`
+	Tags               map[string]string                         `json:"tags,omitempty"`
+	Timeout            *int                                      `json:"Timeout,omitempty"`
+	Type               *string                                   `json:"type,omitempty"`
+	ValidationRules    *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Webtest_STATUS{}
@@ -1628,9 +1460,8 @@ func (webtest *Webtest_STATUS) AssignProperties_To_Webtest_STATUS(destination *v
 	return nil
 }
 
-// Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
+// Deprecated version of WebTestGeolocation. Use v1api20180501preview.WebTestGeolocation instead
 type WebTestGeolocation struct {
-	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
 
@@ -1702,19 +1533,8 @@ func (geolocation *WebTestGeolocation) AssignProperties_To_WebTestGeolocation(de
 	return nil
 }
 
-// Initialize_From_WebTestGeolocation_STATUS populates our WebTestGeolocation from the provided source WebTestGeolocation_STATUS
-func (geolocation *WebTestGeolocation) Initialize_From_WebTestGeolocation_STATUS(source *WebTestGeolocation_STATUS) error {
-
-	// Id
-	geolocation.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
+// Deprecated version of WebTestGeolocation_STATUS. Use v1api20180501preview.WebTestGeolocation_STATUS instead
 type WebTestGeolocation_STATUS struct {
-	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
 }
 
@@ -1771,8 +1591,8 @@ func (geolocation *WebTestGeolocation_STATUS) AssignProperties_To_WebTestGeoloca
 	return nil
 }
 
+// Deprecated version of WebTestProperties_Configuration. Use v1api20180501preview.WebTestProperties_Configuration instead
 type WebTestProperties_Configuration struct {
-	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
@@ -1844,18 +1664,8 @@ func (configuration *WebTestProperties_Configuration) AssignProperties_To_WebTes
 	return nil
 }
 
-// Initialize_From_WebTestProperties_Configuration_STATUS populates our WebTestProperties_Configuration from the provided source WebTestProperties_Configuration_STATUS
-func (configuration *WebTestProperties_Configuration) Initialize_From_WebTestProperties_Configuration_STATUS(source *WebTestProperties_Configuration_STATUS) error {
-
-	// WebTest
-	configuration.WebTest = genruntime.ClonePointerToString(source.WebTest)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of WebTestProperties_Configuration_STATUS. Use v1api20180501preview.WebTestProperties_Configuration_STATUS instead
 type WebTestProperties_Configuration_STATUS struct {
-	// WebTest: The XML specification of a WebTest to run against an application.
 	WebTest *string `json:"WebTest,omitempty"`
 }
 
@@ -1912,6 +1722,7 @@ func (configuration *WebTestProperties_Configuration_STATUS) AssignProperties_To
 	return nil
 }
 
+// Deprecated version of WebTestProperties_Kind. Use v1api20180501preview.WebTestProperties_Kind instead
 // +kubebuilder:validation:Enum={"basic","multistep","ping","standard"}
 type WebTestProperties_Kind string
 
@@ -1922,6 +1733,7 @@ const (
 	WebTestProperties_Kind_Standard  = WebTestProperties_Kind("standard")
 )
 
+// Deprecated version of WebTestProperties_Kind_STATUS. Use v1api20180501preview.WebTestProperties_Kind_STATUS instead
 type WebTestProperties_Kind_STATUS string
 
 const (
@@ -1931,24 +1743,14 @@ const (
 	WebTestProperties_Kind_STATUS_Standard  = WebTestProperties_Kind_STATUS("standard")
 )
 
+// Deprecated version of WebTestProperties_Request. Use v1api20180501preview.WebTestProperties_Request instead
 type WebTestProperties_Request struct {
-	// FollowRedirects: Follow redirects for this web test.
-	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
-
-	// Headers: List of headers and their values to add to the WebTest call.
-	Headers []HeaderField `json:"Headers,omitempty"`
-
-	// HttpVerb: Http verb to use for this web test.
-	HttpVerb *string `json:"HttpVerb,omitempty"`
-
-	// ParseDependentRequests: Parse Dependent request for this WebTest.
-	ParseDependentRequests *bool `json:"ParseDependentRequests,omitempty"`
-
-	// RequestBody: Base64 encoded string body to send with this web test.
-	RequestBody *string `json:"RequestBody,omitempty"`
-
-	// RequestUrl: Url location to test.
-	RequestUrl *string `json:"RequestUrl,omitempty"`
+	FollowRedirects        *bool         `json:"FollowRedirects,omitempty"`
+	Headers                []HeaderField `json:"Headers,omitempty"`
+	HttpVerb               *string       `json:"HttpVerb,omitempty"`
+	ParseDependentRequests *bool         `json:"ParseDependentRequests,omitempty"`
+	RequestBody            *string       `json:"RequestBody,omitempty"`
+	RequestUrl             *string       `json:"RequestUrl,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WebTestProperties_Request{}
@@ -2166,74 +1968,14 @@ func (request *WebTestProperties_Request) AssignProperties_To_WebTestProperties_
 	return nil
 }
 
-// Initialize_From_WebTestProperties_Request_STATUS populates our WebTestProperties_Request from the provided source WebTestProperties_Request_STATUS
-func (request *WebTestProperties_Request) Initialize_From_WebTestProperties_Request_STATUS(source *WebTestProperties_Request_STATUS) error {
-
-	// FollowRedirects
-	if source.FollowRedirects != nil {
-		followRedirect := *source.FollowRedirects
-		request.FollowRedirects = &followRedirect
-	} else {
-		request.FollowRedirects = nil
-	}
-
-	// Headers
-	if source.Headers != nil {
-		headerList := make([]HeaderField, len(source.Headers))
-		for headerIndex, headerItem := range source.Headers {
-			// Shadow the loop variable to avoid aliasing
-			headerItem := headerItem
-			var header HeaderField
-			err := header.Initialize_From_HeaderField_STATUS(&headerItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_HeaderField_STATUS() to populate field Headers")
-			}
-			headerList[headerIndex] = header
-		}
-		request.Headers = headerList
-	} else {
-		request.Headers = nil
-	}
-
-	// HttpVerb
-	request.HttpVerb = genruntime.ClonePointerToString(source.HttpVerb)
-
-	// ParseDependentRequests
-	if source.ParseDependentRequests != nil {
-		parseDependentRequest := *source.ParseDependentRequests
-		request.ParseDependentRequests = &parseDependentRequest
-	} else {
-		request.ParseDependentRequests = nil
-	}
-
-	// RequestBody
-	request.RequestBody = genruntime.ClonePointerToString(source.RequestBody)
-
-	// RequestUrl
-	request.RequestUrl = genruntime.ClonePointerToString(source.RequestUrl)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of WebTestProperties_Request_STATUS. Use v1api20180501preview.WebTestProperties_Request_STATUS instead
 type WebTestProperties_Request_STATUS struct {
-	// FollowRedirects: Follow redirects for this web test.
-	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
-
-	// Headers: List of headers and their values to add to the WebTest call.
-	Headers []HeaderField_STATUS `json:"Headers,omitempty"`
-
-	// HttpVerb: Http verb to use for this web test.
-	HttpVerb *string `json:"HttpVerb,omitempty"`
-
-	// ParseDependentRequests: Parse Dependent request for this WebTest.
-	ParseDependentRequests *bool `json:"ParseDependentRequests,omitempty"`
-
-	// RequestBody: Base64 encoded string body to send with this web test.
-	RequestBody *string `json:"RequestBody,omitempty"`
-
-	// RequestUrl: Url location to test.
-	RequestUrl *string `json:"RequestUrl,omitempty"`
+	FollowRedirects        *bool                `json:"FollowRedirects,omitempty"`
+	Headers                []HeaderField_STATUS `json:"Headers,omitempty"`
+	HttpVerb               *string              `json:"HttpVerb,omitempty"`
+	ParseDependentRequests *bool                `json:"ParseDependentRequests,omitempty"`
+	RequestBody            *string              `json:"RequestBody,omitempty"`
+	RequestUrl             *string              `json:"RequestUrl,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WebTestProperties_Request_STATUS{}
@@ -2403,22 +2145,13 @@ func (request *WebTestProperties_Request_STATUS) AssignProperties_To_WebTestProp
 	return nil
 }
 
+// Deprecated version of WebTestProperties_ValidationRules. Use v1api20180501preview.WebTestProperties_ValidationRules instead
 type WebTestProperties_ValidationRules struct {
-	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestProperties_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
-
-	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
-	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
-
-	// IgnoreHttpsStatusCode: When set, validation will ignore the status code.
-	IgnoreHttpsStatusCode *bool `json:"IgnoreHttpsStatusCode,omitempty"`
-
-	// SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-	// must be positive and the SSLCheck must be set to true.
-	SSLCertRemainingLifetimeCheck *int `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-
-	// SSLCheck: Checks to see if the SSL cert is still valid.
-	SSLCheck *bool `json:"SSLCheck,omitempty"`
+	ContentValidation             *WebTestProperties_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
+	ExpectedHttpStatusCode        *int                                                 `json:"ExpectedHttpStatusCode,omitempty"`
+	IgnoreHttpsStatusCode         *bool                                                `json:"IgnoreHttpsStatusCode,omitempty"`
+	SSLCertRemainingLifetimeCheck *int                                                 `json:"SSLCertRemainingLifetimeCheck,omitempty"`
+	SSLCheck                      *bool                                                `json:"SSLCheck,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WebTestProperties_ValidationRules{}
@@ -2608,63 +2341,13 @@ func (rules *WebTestProperties_ValidationRules) AssignProperties_To_WebTestPrope
 	return nil
 }
 
-// Initialize_From_WebTestProperties_ValidationRules_STATUS populates our WebTestProperties_ValidationRules from the provided source WebTestProperties_ValidationRules_STATUS
-func (rules *WebTestProperties_ValidationRules) Initialize_From_WebTestProperties_ValidationRules_STATUS(source *WebTestProperties_ValidationRules_STATUS) error {
-
-	// ContentValidation
-	if source.ContentValidation != nil {
-		var contentValidation WebTestProperties_ValidationRules_ContentValidation
-		err := contentValidation.Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(source.ContentValidation)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS() to populate field ContentValidation")
-		}
-		rules.ContentValidation = &contentValidation
-	} else {
-		rules.ContentValidation = nil
-	}
-
-	// ExpectedHttpStatusCode
-	rules.ExpectedHttpStatusCode = genruntime.ClonePointerToInt(source.ExpectedHttpStatusCode)
-
-	// IgnoreHttpsStatusCode
-	if source.IgnoreHttpsStatusCode != nil {
-		ignoreHttpsStatusCode := *source.IgnoreHttpsStatusCode
-		rules.IgnoreHttpsStatusCode = &ignoreHttpsStatusCode
-	} else {
-		rules.IgnoreHttpsStatusCode = nil
-	}
-
-	// SSLCertRemainingLifetimeCheck
-	rules.SSLCertRemainingLifetimeCheck = genruntime.ClonePointerToInt(source.SSLCertRemainingLifetimeCheck)
-
-	// SSLCheck
-	if source.SSLCheck != nil {
-		sslCheck := *source.SSLCheck
-		rules.SSLCheck = &sslCheck
-	} else {
-		rules.SSLCheck = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of WebTestProperties_ValidationRules_STATUS. Use v1api20180501preview.WebTestProperties_ValidationRules_STATUS instead
 type WebTestProperties_ValidationRules_STATUS struct {
-	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestProperties_ValidationRules_ContentValidation_STATUS `json:"ContentValidation,omitempty"`
-
-	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
-	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
-
-	// IgnoreHttpsStatusCode: When set, validation will ignore the status code.
-	IgnoreHttpsStatusCode *bool `json:"IgnoreHttpsStatusCode,omitempty"`
-
-	// SSLCertRemainingLifetimeCheck: A number of days to check still remain before the the existing SSL cert expires.  Value
-	// must be positive and the SSLCheck must be set to true.
-	SSLCertRemainingLifetimeCheck *int `json:"SSLCertRemainingLifetimeCheck,omitempty"`
-
-	// SSLCheck: Checks to see if the SSL cert is still valid.
-	SSLCheck *bool `json:"SSLCheck,omitempty"`
+	ContentValidation             *WebTestProperties_ValidationRules_ContentValidation_STATUS `json:"ContentValidation,omitempty"`
+	ExpectedHttpStatusCode        *int                                                        `json:"ExpectedHttpStatusCode,omitempty"`
+	IgnoreHttpsStatusCode         *bool                                                       `json:"IgnoreHttpsStatusCode,omitempty"`
+	SSLCertRemainingLifetimeCheck *int                                                        `json:"SSLCertRemainingLifetimeCheck,omitempty"`
+	SSLCheck                      *bool                                                       `json:"SSLCheck,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WebTestProperties_ValidationRules_STATUS{}
@@ -2811,12 +2494,9 @@ func (rules *WebTestProperties_ValidationRules_STATUS) AssignProperties_To_WebTe
 	return nil
 }
 
-// A header to add to the WebTest.
+// Deprecated version of HeaderField. Use v1api20180501preview.HeaderField instead
 type HeaderField struct {
-	// Key: The name of the header.
-	Key *string `json:"key,omitempty"`
-
-	// Value: The value of the header.
+	Key   *string `json:"key,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -2906,25 +2586,9 @@ func (field *HeaderField) AssignProperties_To_HeaderField(destination *v20180501
 	return nil
 }
 
-// Initialize_From_HeaderField_STATUS populates our HeaderField from the provided source HeaderField_STATUS
-func (field *HeaderField) Initialize_From_HeaderField_STATUS(source *HeaderField_STATUS) error {
-
-	// Key
-	field.Key = genruntime.ClonePointerToString(source.Key)
-
-	// Value
-	field.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
-// A header to add to the WebTest.
+// Deprecated version of HeaderField_STATUS. Use v1api20180501preview.HeaderField_STATUS instead
 type HeaderField_STATUS struct {
-	// Key: The name of the header.
-	Key *string `json:"key,omitempty"`
-
-	// Value: The value of the header.
+	Key   *string `json:"key,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -2993,16 +2657,11 @@ func (field *HeaderField_STATUS) AssignProperties_To_HeaderField_STATUS(destinat
 	return nil
 }
 
+// Deprecated version of WebTestProperties_ValidationRules_ContentValidation. Use v1api20180501preview.WebTestProperties_ValidationRules_ContentValidation instead
 type WebTestProperties_ValidationRules_ContentValidation struct {
-	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
-	ContentMatch *string `json:"ContentMatch,omitempty"`
-
-	// IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.
-	IgnoreCase *bool `json:"IgnoreCase,omitempty"`
-
-	// PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-	// will fail if there is a match
-	PassIfTextFound *bool `json:"PassIfTextFound,omitempty"`
+	ContentMatch    *string `json:"ContentMatch,omitempty"`
+	IgnoreCase      *bool   `json:"IgnoreCase,omitempty"`
+	PassIfTextFound *bool   `json:"PassIfTextFound,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &WebTestProperties_ValidationRules_ContentValidation{}
@@ -3129,42 +2788,11 @@ func (validation *WebTestProperties_ValidationRules_ContentValidation) AssignPro
 	return nil
 }
 
-// Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS populates our WebTestProperties_ValidationRules_ContentValidation from the provided source WebTestProperties_ValidationRules_ContentValidation_STATUS
-func (validation *WebTestProperties_ValidationRules_ContentValidation) Initialize_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(source *WebTestProperties_ValidationRules_ContentValidation_STATUS) error {
-
-	// ContentMatch
-	validation.ContentMatch = genruntime.ClonePointerToString(source.ContentMatch)
-
-	// IgnoreCase
-	if source.IgnoreCase != nil {
-		ignoreCase := *source.IgnoreCase
-		validation.IgnoreCase = &ignoreCase
-	} else {
-		validation.IgnoreCase = nil
-	}
-
-	// PassIfTextFound
-	if source.PassIfTextFound != nil {
-		passIfTextFound := *source.PassIfTextFound
-		validation.PassIfTextFound = &passIfTextFound
-	} else {
-		validation.PassIfTextFound = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of WebTestProperties_ValidationRules_ContentValidation_STATUS. Use v1api20180501preview.WebTestProperties_ValidationRules_ContentValidation_STATUS instead
 type WebTestProperties_ValidationRules_ContentValidation_STATUS struct {
-	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
-	ContentMatch *string `json:"ContentMatch,omitempty"`
-
-	// IgnoreCase: When set, this value makes the ContentMatch validation case insensitive.
-	IgnoreCase *bool `json:"IgnoreCase,omitempty"`
-
-	// PassIfTextFound: When true, validation will pass if there is a match for the ContentMatch string.  If false, validation
-	// will fail if there is a match
-	PassIfTextFound *bool `json:"PassIfTextFound,omitempty"`
+	ContentMatch    *string `json:"ContentMatch,omitempty"`
+	IgnoreCase      *bool   `json:"IgnoreCase,omitempty"`
+	PassIfTextFound *bool   `json:"PassIfTextFound,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WebTestProperties_ValidationRules_ContentValidation_STATUS{}

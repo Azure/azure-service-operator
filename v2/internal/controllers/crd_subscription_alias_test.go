@@ -8,12 +8,12 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801preview"
-	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
+	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
+	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -56,7 +56,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("sub"),
 		Spec: subscription.Alias_Spec{
 			Properties: &subscription.PutAliasRequestProperties{
-				DisplayName:  to.StringPtr("Subscription for ASO testing"),
+				DisplayName:  to.Ptr("Subscription for ASO testing"),
 				Workload:     &workload,
 				BillingScope: &tc.AzureBillingInvoiceID,
 			},
@@ -75,7 +75,7 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 		Spec: authorization.RoleAssignment_Spec{
 			Owner: tc.AsExtensionOwner(sub),
 			//PrincipalId: mi.Status.PrincipalId,
-			PrincipalId: to.StringPtr("1605884e-16c3-4fc0-bf09-4220deecef02"), // 1605884e-16c3-4fc0-bf09-4220deecef02 == my user in PPE
+			PrincipalId: to.Ptr("1605884e-16c3-4fc0-bf09-4220deecef02"), // 1605884e-16c3-4fc0-bf09-4220deecef02 == my user in PPE
 			RoleDefinitionReference: &genruntime.ResourceReference{
 				ARMID: "/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635", // This is owner
 			},

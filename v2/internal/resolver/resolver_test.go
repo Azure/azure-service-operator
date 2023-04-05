@@ -9,7 +9,6 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
@@ -20,16 +19,16 @@ import (
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
-	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101"
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
-	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
-
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
+	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
@@ -92,7 +91,7 @@ func createResourceGroup(name string) *resources.ResourceGroup {
 			Namespace: testNamespace,
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location:  to.StringPtr("West US"),
+			Location:  to.Ptr("West US"),
 			AzureName: name, // defaulter webhook will copy Name to AzureName
 		},
 	}

@@ -8,13 +8,13 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipped(t *testing.T) {
@@ -27,7 +27,7 @@ func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipp
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 
 	// Update the tags but also skip reconcile
@@ -61,7 +61,7 @@ func Test_ReconcilePolicy_UnknownPolicyIsIgnored(t *testing.T) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 
 	// Update the tags but also reconcile policy
@@ -134,7 +134,7 @@ func testDeleteSkipped(t *testing.T, policy string) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.StringPtr("Succeeded")))
+	tc.Expect(rg.Status.Properties.ProvisioningState).To(Equal(to.Ptr("Succeeded")))
 	tc.Expect(rg.Status.Id).ToNot(BeNil())
 	armId := *rg.Status.Id
 

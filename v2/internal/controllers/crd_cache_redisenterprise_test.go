@@ -8,11 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
+	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
@@ -29,7 +29,7 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 			Owner:             testcommon.AsOwner(rg),
 			MinimumTlsVersion: &tls12,
 			Sku: &cache.Sku{
-				Capacity: to.IntPtr(2),
+				Capacity: to.Ptr(2),
 				Name:     &sku,
 			},
 			Tags: map[string]string{
@@ -95,16 +95,16 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 			ClusteringPolicy: &enterpriseCluster,
 			EvictionPolicy:   &allKeysLRU,
 			Modules: []cache.Module{{
-				Name: to.StringPtr("RedisBloom"),
-				Args: to.StringPtr("ERROR_RATE 0.1 INITIAL_SIZE 400"),
+				Name: to.Ptr("RedisBloom"),
+				Args: to.Ptr("ERROR_RATE 0.1 INITIAL_SIZE 400"),
 			}},
 			Persistence: &cache.Persistence{
-				AofEnabled:   to.BoolPtr(true),
+				AofEnabled:   to.Ptr(true),
 				AofFrequency: &always,
-				RdbEnabled:   to.BoolPtr(false),
+				RdbEnabled:   to.Ptr(false),
 			},
 			// Port is required to be 10000 at the moment.
-			Port: to.IntPtr(10000),
+			Port: to.Ptr(10000),
 		},
 	}
 
@@ -119,9 +119,9 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 
 	oneSecondStatus := cache.Persistence_AofFrequency_STATUS_1S
 	expectedPersistenceStatus := &cache.Persistence_STATUS{
-		AofEnabled:   to.BoolPtr(true),
+		AofEnabled:   to.Ptr(true),
 		AofFrequency: &oneSecondStatus,
-		RdbEnabled:   to.BoolPtr(false),
+		RdbEnabled:   to.Ptr(false),
 	}
 	tc.Expect(database.Status.Persistence).To(Equal(expectedPersistenceStatus))
 }

@@ -9,14 +9,14 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	managedidentity2018 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
-	managedidentity2022 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131preview"
+	managedidentity2018 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
+	managedidentity2022 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -80,9 +80,9 @@ func FederatedIdentityCredentials_CRUD(tc *testcommon.KubePerTestContext, umi *m
 			},
 			// For Workload Identity, Issuer should be the OIDC endpoint of the cluster. For AKS this will look like
 			// https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/
-			Issuer: to.StringPtr("https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/"),
+			Issuer: to.Ptr("https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/"),
 			// For Workload Identity, Subject should always be system:serviceaccount:<namespace>:<serviceaccount>
-			Subject: to.StringPtr(fmt.Sprintf("system:serviceaccount:%s:%s", tc.Namespace, "default")),
+			Subject: to.Ptr(fmt.Sprintf("system:serviceaccount:%s:%s", tc.Namespace, "default")),
 		},
 	}
 
@@ -93,7 +93,7 @@ func FederatedIdentityCredentials_CRUD(tc *testcommon.KubePerTestContext, umi *m
 
 	// Update the FIC
 	old := fic.DeepCopy()
-	fic.Spec.Issuer = to.StringPtr("https://oidc.prod-aks.azure.com/1234/")
+	fic.Spec.Issuer = to.Ptr("https://oidc.prod-aks.azure.com/1234/")
 	tc.Patch(old, fic)
 
 	objectKey := client.ObjectKeyFromObject(fic)
@@ -103,7 +103,7 @@ func FederatedIdentityCredentials_CRUD(tc *testcommon.KubePerTestContext, umi *m
 		updated := &managedidentity2022.FederatedIdentityCredential{}
 		tc.GetResource(objectKey, updated)
 		return updated.Status.Issuer
-	}).Should(Equal(to.StringPtr("https://oidc.prod-aks.azure.com/1234/")))
+	}).Should(Equal(to.Ptr("https://oidc.prod-aks.azure.com/1234/")))
 
 	tc.DeleteResourceAndWait(fic)
 

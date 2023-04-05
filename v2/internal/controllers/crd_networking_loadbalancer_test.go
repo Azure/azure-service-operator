@@ -10,14 +10,14 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -78,16 +78,16 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 			// TODO: The below stuff isn't really necessary for LB CRUD but is required for VMSS...
 			InboundNatPools: []network.InboundNatPool{
 				{
-					Name: to.StringPtr("MyFancyNatPool"),
+					Name: to.Ptr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
 						Reference: &genruntime.ResourceReference{
 							ARMID: frontendIPConfigurationARMID,
 						},
 					},
 					Protocol:               &protocol,
-					FrontendPortRangeStart: to.IntPtr(50_000),
-					FrontendPortRangeEnd:   to.IntPtr(51_000),
-					BackendPort:            to.IntPtr(22),
+					FrontendPortRangeStart: to.Ptr(50_000),
+					FrontendPortRangeEnd:   to.Ptr(51_000),
+					BackendPort:            to.Ptr(22),
 				},
 			},
 		},

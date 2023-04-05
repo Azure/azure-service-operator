@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}
+// Deprecated version of StorageAccountsBlobServicesContainer. Use v1api20210401.StorageAccountsBlobServicesContainer instead
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &StorageAccountsBlobServicesContainer{}
 
 // ConvertFrom populates our StorageAccountsBlobServicesContainer from the provided hub StorageAccountsBlobServicesContainer
 func (container *StorageAccountsBlobServicesContainer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210401s.StorageAccountsBlobServicesContainer)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210401s.StorageAccountsBlobServicesContainer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return container.AssignProperties_From_StorageAccountsBlobServicesContainer(source)
+	err = container.AssignProperties_From_StorageAccountsBlobServicesContainer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to container")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsBlobServicesContainer from our StorageAccountsBlobServicesContainer
 func (container *StorageAccountsBlobServicesContainer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210401s.StorageAccountsBlobServicesContainer)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsBlobServicesContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210401s.StorageAccountsBlobServicesContainer
+	err := container.AssignProperties_To_StorageAccountsBlobServicesContainer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from container")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return container.AssignProperties_To_StorageAccountsBlobServicesContainer(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1beta20210401-storageaccountsblobservicescontainer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsblobservicescontainers,verbs=create;update,versions=v1beta20210401,name=default.v1beta20210401.storageaccountsblobservicescontainers.storage.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (container *StorageAccountsBlobServicesContainer) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the StorageAccountsBlobServicesContainer resource
 func (container *StorageAccountsBlobServicesContainer) defaultImpl() { container.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &StorageAccountsBlobServicesContainer{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (container *StorageAccountsBlobServicesContainer) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccounts_BlobServices_Container_STATUS); ok {
-		return container.Spec.Initialize_From_StorageAccounts_BlobServices_Container_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type StorageAccounts_BlobServices_Container_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobServicesContainer{}
 
@@ -323,9 +324,7 @@ func (container *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.Gro
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}
+// Deprecated version of StorageAccountsBlobServicesContainer. Use v1api20210401.StorageAccountsBlobServicesContainer instead
 type StorageAccountsBlobServicesContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -337,29 +336,18 @@ type StorageAccounts_BlobServices_Container_Spec struct {
 	// +kubebuilder:validation:MinLength=3
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
-	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
-
-	// DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
-	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
-
-	// ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
-	// can only be set to true at the container creation time. Existing containers must undergo a migration process.
+	AzureName                      string                          `json:"azureName,omitempty"`
+	DefaultEncryptionScope         *string                         `json:"defaultEncryptionScope,omitempty"`
+	DenyEncryptionScopeOverride    *bool                           `json:"denyEncryptionScopeOverride,omitempty"`
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning `json:"immutableStorageWithVersioning,omitempty"`
-
-	// Metadata: A name-value pair to associate with the container as metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	Metadata                       map[string]string               `json:"metadata,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a storage.azure.com/StorageAccountsBlobService resource
-	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
-
-	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
+	PublicAccess *ContainerProperties_PublicAccess  `json:"publicAccess,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccounts_BlobServices_Container_Spec{}
@@ -651,47 +639,6 @@ func (container *StorageAccounts_BlobServices_Container_Spec) AssignProperties_T
 	return nil
 }
 
-// Initialize_From_StorageAccounts_BlobServices_Container_STATUS populates our StorageAccounts_BlobServices_Container_Spec from the provided source StorageAccounts_BlobServices_Container_STATUS
-func (container *StorageAccounts_BlobServices_Container_Spec) Initialize_From_StorageAccounts_BlobServices_Container_STATUS(source *StorageAccounts_BlobServices_Container_STATUS) error {
-
-	// DefaultEncryptionScope
-	container.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
-
-	// DenyEncryptionScopeOverride
-	if source.DenyEncryptionScopeOverride != nil {
-		denyEncryptionScopeOverride := *source.DenyEncryptionScopeOverride
-		container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
-	} else {
-		container.DenyEncryptionScopeOverride = nil
-	}
-
-	// ImmutableStorageWithVersioning
-	if source.ImmutableStorageWithVersioning != nil {
-		var immutableStorageWithVersioning ImmutableStorageWithVersioning
-		err := immutableStorageWithVersioning.Initialize_From_ImmutableStorageWithVersioning_STATUS(source.ImmutableStorageWithVersioning)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
-		}
-		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
-	} else {
-		container.ImmutableStorageWithVersioning = nil
-	}
-
-	// Metadata
-	container.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// PublicAccess
-	if source.PublicAccess != nil {
-		publicAccess := ContainerProperties_PublicAccess(*source.PublicAccess)
-		container.PublicAccess = &publicAccess
-	} else {
-		container.PublicAccess = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (container *StorageAccounts_BlobServices_Container_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -702,79 +649,31 @@ func (container *StorageAccounts_BlobServices_Container_Spec) SetAzureName(azure
 	container.AzureName = azureName
 }
 
+// Deprecated version of StorageAccounts_BlobServices_Container_STATUS. Use v1api20210401.StorageAccounts_BlobServices_Container_STATUS instead
 type StorageAccounts_BlobServices_Container_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
-	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
-
-	// Deleted: Indicates whether the blob container was deleted.
-	Deleted *bool `json:"deleted,omitempty"`
-
-	// DeletedTime: Blob container deletion time.
-	DeletedTime *string `json:"deletedTime,omitempty"`
-
-	// DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
-	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
-
-	// Etag: Resource Etag.
-	Etag *string `json:"etag,omitempty"`
-
-	// HasImmutabilityPolicy: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been
-	// created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has
-	// not been created for this container.
-	HasImmutabilityPolicy *bool `json:"hasImmutabilityPolicy,omitempty"`
-
-	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
-	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
-	// maximum of 1000 blob containers with hasLegalHold=true for a given account.
-	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// ImmutabilityPolicy: The ImmutabilityPolicy property of the container.
-	ImmutabilityPolicy *ImmutabilityPolicyProperties_STATUS `json:"immutabilityPolicy,omitempty"`
-
-	// ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
-	// can only be set to true at the container creation time. Existing containers must undergo a migration process.
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUS `json:"immutableStorageWithVersioning,omitempty"`
-
-	// LastModifiedTime: Returns the date and time the container was last modified.
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-
-	// LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
-	// leased.
-	LeaseDuration *ContainerProperties_LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
-
-	// LeaseState: Lease state of the container.
-	LeaseState *ContainerProperties_LeaseState_STATUS `json:"leaseState,omitempty"`
-
-	// LeaseStatus: The lease status of the container.
-	LeaseStatus *ContainerProperties_LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
-
-	// LegalHold: The LegalHold property of the container.
-	LegalHold *LegalHoldProperties_STATUS `json:"legalHold,omitempty"`
-
-	// Metadata: A name-value pair to associate with the container as metadata.
-	Metadata map[string]string `json:"metadata,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerProperties_PublicAccess_STATUS `json:"publicAccess,omitempty"`
-
-	// RemainingRetentionDays: Remaining retention days for soft deleted blob container.
-	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// Version: The version of the deleted blob container.
-	Version *string `json:"version,omitempty"`
+	Conditions                     []conditions.Condition                    `json:"conditions,omitempty"`
+	DefaultEncryptionScope         *string                                   `json:"defaultEncryptionScope,omitempty"`
+	Deleted                        *bool                                     `json:"deleted,omitempty"`
+	DeletedTime                    *string                                   `json:"deletedTime,omitempty"`
+	DenyEncryptionScopeOverride    *bool                                     `json:"denyEncryptionScopeOverride,omitempty"`
+	Etag                           *string                                   `json:"etag,omitempty"`
+	HasImmutabilityPolicy          *bool                                     `json:"hasImmutabilityPolicy,omitempty"`
+	HasLegalHold                   *bool                                     `json:"hasLegalHold,omitempty"`
+	Id                             *string                                   `json:"id,omitempty"`
+	ImmutabilityPolicy             *ImmutabilityPolicyProperties_STATUS      `json:"immutabilityPolicy,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUS    `json:"immutableStorageWithVersioning,omitempty"`
+	LastModifiedTime               *string                                   `json:"lastModifiedTime,omitempty"`
+	LeaseDuration                  *ContainerProperties_LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
+	LeaseState                     *ContainerProperties_LeaseState_STATUS    `json:"leaseState,omitempty"`
+	LeaseStatus                    *ContainerProperties_LeaseStatus_STATUS   `json:"leaseStatus,omitempty"`
+	LegalHold                      *LegalHoldProperties_STATUS               `json:"legalHold,omitempty"`
+	Metadata                       map[string]string                         `json:"metadata,omitempty"`
+	Name                           *string                                   `json:"name,omitempty"`
+	PublicAccess                   *ContainerProperties_PublicAccess_STATUS  `json:"publicAccess,omitempty"`
+	RemainingRetentionDays         *int                                      `json:"remainingRetentionDays,omitempty"`
+	Type                           *string                                   `json:"type,omitempty"`
+	Version                        *string                                   `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccounts_BlobServices_Container_STATUS{}
@@ -1330,6 +1229,8 @@ func (container *StorageAccounts_BlobServices_Container_STATUS) AssignProperties
 	return nil
 }
 
+// Deprecated version of ContainerProperties_LeaseDuration_STATUS. Use
+// v1api20210401.ContainerProperties_LeaseDuration_STATUS instead
 type ContainerProperties_LeaseDuration_STATUS string
 
 const (
@@ -1337,6 +1238,8 @@ const (
 	ContainerProperties_LeaseDuration_STATUS_Infinite = ContainerProperties_LeaseDuration_STATUS("Infinite")
 )
 
+// Deprecated version of ContainerProperties_LeaseState_STATUS. Use v1api20210401.ContainerProperties_LeaseState_STATUS
+// instead
 type ContainerProperties_LeaseState_STATUS string
 
 const (
@@ -1347,6 +1250,8 @@ const (
 	ContainerProperties_LeaseState_STATUS_Leased    = ContainerProperties_LeaseState_STATUS("Leased")
 )
 
+// Deprecated version of ContainerProperties_LeaseStatus_STATUS. Use v1api20210401.ContainerProperties_LeaseStatus_STATUS
+// instead
 type ContainerProperties_LeaseStatus_STATUS string
 
 const (
@@ -1354,6 +1259,7 @@ const (
 	ContainerProperties_LeaseStatus_STATUS_Unlocked = ContainerProperties_LeaseStatus_STATUS("Unlocked")
 )
 
+// Deprecated version of ContainerProperties_PublicAccess. Use v1api20210401.ContainerProperties_PublicAccess instead
 // +kubebuilder:validation:Enum={"Blob","Container","None"}
 type ContainerProperties_PublicAccess string
 
@@ -1363,6 +1269,8 @@ const (
 	ContainerProperties_PublicAccess_None      = ContainerProperties_PublicAccess("None")
 )
 
+// Deprecated version of ContainerProperties_PublicAccess_STATUS. Use v1api20210401.ContainerProperties_PublicAccess_STATUS
+// instead
 type ContainerProperties_PublicAccess_STATUS string
 
 const (
@@ -1371,26 +1279,13 @@ const (
 	ContainerProperties_PublicAccess_STATUS_None      = ContainerProperties_PublicAccess_STATUS("None")
 )
 
-// The properties of an ImmutabilityPolicy of a blob container.
+// Deprecated version of ImmutabilityPolicyProperties_STATUS. Use v1api20210401.ImmutabilityPolicyProperties_STATUS instead
 type ImmutabilityPolicyProperties_STATUS struct {
-	// AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
-	// new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
-	// can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
-	// ExtendImmutabilityPolicy API
-	AllowProtectedAppendWrites *bool `json:"allowProtectedAppendWrites,omitempty"`
-
-	// Etag: ImmutabilityPolicy Etag.
-	Etag *string `json:"etag,omitempty"`
-
-	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
-	// in days.
-	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
-
-	// State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
-	State *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
-
-	// UpdateHistory: The ImmutabilityPolicy update history of the blob container.
-	UpdateHistory []UpdateHistoryProperty_STATUS `json:"updateHistory,omitempty"`
+	AllowProtectedAppendWrites            *bool                                    `json:"allowProtectedAppendWrites,omitempty"`
+	Etag                                  *string                                  `json:"etag,omitempty"`
+	ImmutabilityPeriodSinceCreationInDays *int                                     `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
+	State                                 *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
+	UpdateHistory                         []UpdateHistoryProperty_STATUS           `json:"updateHistory,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImmutabilityPolicyProperties_STATUS{}
@@ -1557,9 +1452,8 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_To_Immut
 	return nil
 }
 
-// Object level immutability properties of the container.
+// Deprecated version of ImmutableStorageWithVersioning. Use v1api20210401.ImmutableStorageWithVersioning instead
 type ImmutableStorageWithVersioning struct {
-	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -1641,31 +1535,11 @@ func (versioning *ImmutableStorageWithVersioning) AssignProperties_To_ImmutableS
 	return nil
 }
 
-// Initialize_From_ImmutableStorageWithVersioning_STATUS populates our ImmutableStorageWithVersioning from the provided source ImmutableStorageWithVersioning_STATUS
-func (versioning *ImmutableStorageWithVersioning) Initialize_From_ImmutableStorageWithVersioning_STATUS(source *ImmutableStorageWithVersioning_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		versioning.Enabled = &enabled
-	} else {
-		versioning.Enabled = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Object level immutability properties of the container.
+// Deprecated version of ImmutableStorageWithVersioning_STATUS. Use v1api20210401.ImmutableStorageWithVersioning_STATUS instead
 type ImmutableStorageWithVersioning_STATUS struct {
-	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// MigrationState: This property denotes the container level immutability to object level immutability migration state.
+	Enabled        *bool                                                 `json:"enabled,omitempty"`
 	MigrationState *ImmutableStorageWithVersioning_MigrationState_STATUS `json:"migrationState,omitempty"`
-
-	// TimeStamp: Returns the date and time the object level immutability was enabled.
-	TimeStamp *string `json:"timeStamp,omitempty"`
+	TimeStamp      *string                                               `json:"timeStamp,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImmutableStorageWithVersioning_STATUS{}
@@ -1765,15 +1639,10 @@ func (versioning *ImmutableStorageWithVersioning_STATUS) AssignProperties_To_Imm
 	return nil
 }
 
-// The LegalHold property of a blob container.
+// Deprecated version of LegalHoldProperties_STATUS. Use v1api20210401.LegalHoldProperties_STATUS instead
 type LegalHoldProperties_STATUS struct {
-	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
-	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
-	// maximum of 1000 blob containers with hasLegalHold=true for a given account.
-	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
-
-	// Tags: The list of LegalHold tags of a blob container.
-	Tags []TagProperty_STATUS `json:"tags,omitempty"`
+	HasLegalHold *bool                `json:"hasLegalHold,omitempty"`
+	Tags         []TagProperty_STATUS `json:"tags,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LegalHoldProperties_STATUS{}
@@ -1885,6 +1754,8 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_To_LegalHoldPrope
 	return nil
 }
 
+// Deprecated version of ImmutabilityPolicyProperty_State_STATUS. Use v1api20210401.ImmutabilityPolicyProperty_State_STATUS
+// instead
 type ImmutabilityPolicyProperty_State_STATUS string
 
 const (
@@ -1892,6 +1763,8 @@ const (
 	ImmutabilityPolicyProperty_State_STATUS_Unlocked = ImmutabilityPolicyProperty_State_STATUS("Unlocked")
 )
 
+// Deprecated version of ImmutableStorageWithVersioning_MigrationState_STATUS. Use
+// v1api20210401.ImmutableStorageWithVersioning_MigrationState_STATUS instead
 type ImmutableStorageWithVersioning_MigrationState_STATUS string
 
 const (
@@ -1899,22 +1772,13 @@ const (
 	ImmutableStorageWithVersioning_MigrationState_STATUS_InProgress = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
 )
 
-// A tag of the LegalHold of a blob container.
+// Deprecated version of TagProperty_STATUS. Use v1api20210401.TagProperty_STATUS instead
 type TagProperty_STATUS struct {
-	// ObjectIdentifier: Returns the Object ID of the user who added the tag.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
-
-	// Tag: The tag value.
-	Tag *string `json:"tag,omitempty"`
-
-	// TenantId: Returns the Tenant ID that issued the token for the user who added the tag.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Timestamp: Returns the date and time the tag was added.
-	Timestamp *string `json:"timestamp,omitempty"`
-
-	// Upn: Returns the User Principal Name of the user who added the tag.
-	Upn *string `json:"upn,omitempty"`
+	Tag              *string `json:"tag,omitempty"`
+	TenantId         *string `json:"tenantId,omitempty"`
+	Timestamp        *string `json:"timestamp,omitempty"`
+	Upn              *string `json:"upn,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &TagProperty_STATUS{}
@@ -2018,26 +1882,14 @@ func (property *TagProperty_STATUS) AssignProperties_To_TagProperty_STATUS(desti
 	return nil
 }
 
-// An update history of the ImmutabilityPolicy of a blob container.
+// Deprecated version of UpdateHistoryProperty_STATUS. Use v1api20210401.UpdateHistoryProperty_STATUS instead
 type UpdateHistoryProperty_STATUS struct {
-	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
-	// in days.
-	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
-
-	// ObjectIdentifier: Returns the Object ID of the user who updated the ImmutabilityPolicy.
-	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
-
-	// TenantId: Returns the Tenant ID that issued the token for the user who updated the ImmutabilityPolicy.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Timestamp: Returns the date and time the ImmutabilityPolicy was updated.
-	Timestamp *string `json:"timestamp,omitempty"`
-
-	// Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
-	Update *UpdateHistoryProperty_Update_STATUS `json:"update,omitempty"`
-
-	// Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
-	Upn *string `json:"upn,omitempty"`
+	ImmutabilityPeriodSinceCreationInDays *int                                 `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
+	ObjectIdentifier                      *string                              `json:"objectIdentifier,omitempty"`
+	TenantId                              *string                              `json:"tenantId,omitempty"`
+	Timestamp                             *string                              `json:"timestamp,omitempty"`
+	Update                                *UpdateHistoryProperty_Update_STATUS `json:"update,omitempty"`
+	Upn                                   *string                              `json:"upn,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UpdateHistoryProperty_STATUS{}
@@ -2163,6 +2015,7 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_To_UpdateHistoryP
 	return nil
 }
 
+// Deprecated version of UpdateHistoryProperty_Update_STATUS. Use v1api20210401.UpdateHistoryProperty_Update_STATUS instead
 type UpdateHistoryProperty_Update_STATUS string
 
 const (

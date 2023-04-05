@@ -5,10 +5,9 @@ package v1beta20201201
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Redis_FirewallRule_Spec. Use v1api20201201.Redis_FirewallRule_Spec instead
 type Redis_FirewallRule_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: redis cache firewall rule properties
+	Name       string                           `json:"name,omitempty"`
 	Properties *RedisFirewallRuleProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,11 +28,8 @@ func (rule *Redis_FirewallRule_Spec_ARM) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"
 }
 
-// Specifies a range of IP addresses permitted to connect to the cache
+// Deprecated version of RedisFirewallRuleProperties. Use v1api20201201.RedisFirewallRuleProperties instead
 type RedisFirewallRuleProperties_ARM struct {
-	// EndIP: highest IP address included in the range
-	EndIP *string `json:"endIP,omitempty"`
-
-	// StartIP: lowest IP address included in the range
+	EndIP   *string `json:"endIP,omitempty"`
 	StartIP *string `json:"startIP,omitempty"`
 }

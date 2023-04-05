@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2021-07-01/compute.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
+// Deprecated version of Image. Use v1api20210701.Image instead
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -104,17 +102,6 @@ func (image *Image) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Image resource
 func (image *Image) defaultImpl() { image.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &Image{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (image *Image) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Image_STATUS); ok {
-		return image.Spec.Initialize_From_Image_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Image_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &Image{}
 
@@ -337,15 +324,14 @@ func (image *Image) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2021-07-01/compute.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
+// Deprecated version of Image. Use v1api20210701.Image instead
 type ImageList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Image `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20210701.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-07-01"}
 type APIVersion string
 
@@ -354,35 +340,21 @@ const APIVersion_Value = APIVersion("2021-07-01")
 type Image_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// ExtendedLocation: The extended location of the Image.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// HyperVGeneration: Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version
-	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
-	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
-	// resource.
+	AzureName        string                `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocation     `json:"extendedLocation,omitempty"`
 	HyperVGeneration *HyperVGenerationType `json:"hyperVGeneration,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: Resource location
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// SourceVirtualMachine: The source virtual machine from which Image is created.
-	SourceVirtualMachine *SubResource `json:"sourceVirtualMachine,omitempty"`
-
-	// StorageProfile: Specifies the storage settings for the virtual machine disks.
-	StorageProfile *ImageStorageProfile `json:"storageProfile,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
+	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfile               `json:"storageProfile,omitempty"`
+	Tags                 map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Image_Spec{}
@@ -732,63 +704,6 @@ func (image *Image_Spec) AssignProperties_To_Image_Spec(destination *v20210701s.
 	return nil
 }
 
-// Initialize_From_Image_STATUS populates our Image_Spec from the provided source Image_STATUS
-func (image *Image_Spec) Initialize_From_Image_STATUS(source *Image_STATUS) error {
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		image.ExtendedLocation = &extendedLocation
-	} else {
-		image.ExtendedLocation = nil
-	}
-
-	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := HyperVGenerationType(*source.HyperVGeneration)
-		image.HyperVGeneration = &hyperVGeneration
-	} else {
-		image.HyperVGeneration = nil
-	}
-
-	// Location
-	image.Location = genruntime.ClonePointerToString(source.Location)
-
-	// SourceVirtualMachine
-	if source.SourceVirtualMachine != nil {
-		var sourceVirtualMachine SubResource
-		err := sourceVirtualMachine.Initialize_From_SubResource_STATUS(source.SourceVirtualMachine)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field SourceVirtualMachine")
-		}
-		image.SourceVirtualMachine = &sourceVirtualMachine
-	} else {
-		image.SourceVirtualMachine = nil
-	}
-
-	// StorageProfile
-	if source.StorageProfile != nil {
-		var storageProfile ImageStorageProfile
-		err := storageProfile.Initialize_From_ImageStorageProfile_STATUS(source.StorageProfile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ImageStorageProfile_STATUS() to populate field StorageProfile")
-		}
-		image.StorageProfile = &storageProfile
-	} else {
-		image.StorageProfile = nil
-	}
-
-	// Tags
-	image.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (image *Image_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -797,44 +712,20 @@ func (image *Image_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (image *Image_Spec) SetAzureName(azureName string) { image.AzureName = azureName }
 
-// The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual
-// machine. If SourceImage is provided, the destination virtual hard drive must not exist.
+// Deprecated version of Image_STATUS. Use v1api20210701.Image_STATUS instead
 type Image_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// ExtendedLocation: The extended location of the Image.
-	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
-
-	// HyperVGeneration: Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version
-	// 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource
-	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
-	// resource.
-	HyperVGeneration *HyperVGenerationType_STATUS `json:"hyperVGeneration,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: The provisioning state.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// SourceVirtualMachine: The source virtual machine from which Image is created.
-	SourceVirtualMachine *SubResource_STATUS `json:"sourceVirtualMachine,omitempty"`
-
-	// StorageProfile: Specifies the storage settings for the virtual machine disks.
-	StorageProfile *ImageStorageProfile_STATUS `json:"storageProfile,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
+	Conditions           []conditions.Condition       `json:"conditions,omitempty"`
+	ExtendedLocation     *ExtendedLocation_STATUS     `json:"extendedLocation,omitempty"`
+	HyperVGeneration     *HyperVGenerationType_STATUS `json:"hyperVGeneration,omitempty"`
+	Id                   *string                      `json:"id,omitempty"`
+	Location             *string                      `json:"location,omitempty"`
+	Name                 *string                      `json:"name,omitempty"`
+	ProvisioningState    *string                      `json:"provisioningState,omitempty"`
+	SourceVirtualMachine *SubResource_STATUS          `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfile_STATUS  `json:"storageProfile,omitempty"`
+	Tags                 map[string]string            `json:"tags,omitempty"`
+	Type                 *string                      `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Image_STATUS{}
@@ -1149,12 +1040,9 @@ func (image *Image_STATUS) AssignProperties_To_Image_STATUS(destination *v202107
 	return nil
 }
 
-// The complex type of the extended location.
+// Deprecated version of ExtendedLocation. Use v1api20210701.ExtendedLocation instead
 type ExtendedLocation struct {
-	// Name: The name of the extended location.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the extended location.
+	Name *string               `json:"name,omitempty"`
 	Type *ExtendedLocationType `json:"type,omitempty"`
 }
 
@@ -1254,30 +1142,9 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
-// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
-
-	// Name
-	location.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := ExtendedLocationType(*source.Type)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The complex type of the extended location.
+// Deprecated version of ExtendedLocation_STATUS. Use v1api20210701.ExtendedLocation_STATUS instead
 type ExtendedLocation_STATUS struct {
-	// Name: The name of the extended location.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the extended location.
+	Name *string                      `json:"name,omitempty"`
 	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
@@ -1356,7 +1223,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
-// Specifies the HyperVGeneration Type
+// Deprecated version of HyperVGenerationType. Use v1api20210701.HyperVGenerationType instead
 // +kubebuilder:validation:Enum={"V1","V2"}
 type HyperVGenerationType string
 
@@ -1365,7 +1232,7 @@ const (
 	HyperVGenerationType_V2 = HyperVGenerationType("V2")
 )
 
-// Specifies the HyperVGeneration Type
+// Deprecated version of HyperVGenerationType_STATUS. Use v1api20210701.HyperVGenerationType_STATUS instead
 type HyperVGenerationType_STATUS string
 
 const (
@@ -1373,21 +1240,11 @@ const (
 	HyperVGenerationType_STATUS_V2 = HyperVGenerationType_STATUS("V2")
 )
 
-// Describes a storage profile.
+// Deprecated version of ImageStorageProfile. Use v1api20210701.ImageStorageProfile instead
 type ImageStorageProfile struct {
-	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks []ImageDataDisk `json:"dataDisks,omitempty"`
-
-	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	OsDisk *ImageOSDisk `json:"osDisk,omitempty"`
-
-	// ZoneResilient: Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be
-	// created only in regions that provide Zone Redundant Storage (ZRS).
-	ZoneResilient *bool `json:"zoneResilient,omitempty"`
+	DataDisks     []ImageDataDisk `json:"dataDisks,omitempty"`
+	OsDisk        *ImageOSDisk    `json:"osDisk,omitempty"`
+	ZoneResilient *bool           `json:"zoneResilient,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ImageStorageProfile{}
@@ -1568,66 +1425,11 @@ func (profile *ImageStorageProfile) AssignProperties_To_ImageStorageProfile(dest
 	return nil
 }
 
-// Initialize_From_ImageStorageProfile_STATUS populates our ImageStorageProfile from the provided source ImageStorageProfile_STATUS
-func (profile *ImageStorageProfile) Initialize_From_ImageStorageProfile_STATUS(source *ImageStorageProfile_STATUS) error {
-
-	// DataDisks
-	if source.DataDisks != nil {
-		dataDiskList := make([]ImageDataDisk, len(source.DataDisks))
-		for dataDiskIndex, dataDiskItem := range source.DataDisks {
-			// Shadow the loop variable to avoid aliasing
-			dataDiskItem := dataDiskItem
-			var dataDisk ImageDataDisk
-			err := dataDisk.Initialize_From_ImageDataDisk_STATUS(&dataDiskItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ImageDataDisk_STATUS() to populate field DataDisks")
-			}
-			dataDiskList[dataDiskIndex] = dataDisk
-		}
-		profile.DataDisks = dataDiskList
-	} else {
-		profile.DataDisks = nil
-	}
-
-	// OsDisk
-	if source.OsDisk != nil {
-		var osDisk ImageOSDisk
-		err := osDisk.Initialize_From_ImageOSDisk_STATUS(source.OsDisk)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ImageOSDisk_STATUS() to populate field OsDisk")
-		}
-		profile.OsDisk = &osDisk
-	} else {
-		profile.OsDisk = nil
-	}
-
-	// ZoneResilient
-	if source.ZoneResilient != nil {
-		zoneResilient := *source.ZoneResilient
-		profile.ZoneResilient = &zoneResilient
-	} else {
-		profile.ZoneResilient = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Describes a storage profile.
+// Deprecated version of ImageStorageProfile_STATUS. Use v1api20210701.ImageStorageProfile_STATUS instead
 type ImageStorageProfile_STATUS struct {
-	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	DataDisks []ImageDataDisk_STATUS `json:"dataDisks,omitempty"`
-
-	// OsDisk: Specifies information about the operating system disk used by the virtual machine.
-	// For more information about disks, see [About disks and VHDs for Azure virtual
-	// machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
-	OsDisk *ImageOSDisk_STATUS `json:"osDisk,omitempty"`
-
-	// ZoneResilient: Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be
-	// created only in regions that provide Zone Redundant Storage (ZRS).
-	ZoneResilient *bool `json:"zoneResilient,omitempty"`
+	DataDisks     []ImageDataDisk_STATUS `json:"dataDisks,omitempty"`
+	OsDisk        *ImageOSDisk_STATUS    `json:"osDisk,omitempty"`
+	ZoneResilient *bool                  `json:"zoneResilient,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImageStorageProfile_STATUS{}
@@ -1774,8 +1576,8 @@ func (profile *ImageStorageProfile_STATUS) AssignProperties_To_ImageStorageProfi
 	return nil
 }
 
+// Deprecated version of SubResource. Use v1api20210701.SubResource instead
 type SubResource struct {
-	// Reference: Resource Id
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -1857,23 +1659,8 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *v20210
 	return nil
 }
 
-// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
-func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of SubResource_STATUS. Use v1api20210701.SubResource_STATUS instead
 type SubResource_STATUS struct {
-	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1930,40 +1717,17 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
-// Describes a data disk.
+// Deprecated version of ImageDataDisk. Use v1api20210701.ImageDataDisk instead
 type ImageDataDisk struct {
-	// BlobUri: The Virtual Hard Disk.
-	BlobUri *string `json:"blobUri,omitempty"`
-
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageDataDisk_Caching `json:"caching,omitempty"`
-
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
-	DiskEncryptionSet *SubResource `json:"diskEncryptionSet,omitempty"`
-
-	// DiskSizeGB: Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
+	BlobUri           *string                `json:"blobUri,omitempty"`
+	Caching           *ImageDataDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet *SubResource           `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB        *int                   `json:"diskSizeGB,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
-	// therefore must be unique for each data disk attached to a VM.
-	Lun *int `json:"lun,omitempty"`
-
-	// ManagedDisk: The managedDisk.
-	ManagedDisk *SubResource `json:"managedDisk,omitempty"`
-
-	// Snapshot: The snapshot.
-	Snapshot *SubResource `json:"snapshot,omitempty"`
-
-	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	// data disks, it cannot be used with OS Disk.
+	Lun                *int                `json:"lun,omitempty"`
+	ManagedDisk        *SubResource        `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource        `json:"snapshot,omitempty"`
 	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
@@ -2262,108 +2026,16 @@ func (disk *ImageDataDisk) AssignProperties_To_ImageDataDisk(destination *v20210
 	return nil
 }
 
-// Initialize_From_ImageDataDisk_STATUS populates our ImageDataDisk from the provided source ImageDataDisk_STATUS
-func (disk *ImageDataDisk) Initialize_From_ImageDataDisk_STATUS(source *ImageDataDisk_STATUS) error {
-
-	// BlobUri
-	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
-
-	// Caching
-	if source.Caching != nil {
-		caching := ImageDataDisk_Caching(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
-
-	// DiskEncryptionSet
-	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet SubResource
-		err := diskEncryptionSet.Initialize_From_SubResource_STATUS(source.DiskEncryptionSet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field DiskEncryptionSet")
-		}
-		disk.DiskEncryptionSet = &diskEncryptionSet
-	} else {
-		disk.DiskEncryptionSet = nil
-	}
-
-	// DiskSizeGB
-	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// Lun
-	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
-
-	// ManagedDisk
-	if source.ManagedDisk != nil {
-		var managedDisk SubResource
-		err := managedDisk.Initialize_From_SubResource_STATUS(source.ManagedDisk)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ManagedDisk")
-		}
-		disk.ManagedDisk = &managedDisk
-	} else {
-		disk.ManagedDisk = nil
-	}
-
-	// Snapshot
-	if source.Snapshot != nil {
-		var snapshot SubResource
-		err := snapshot.Initialize_From_SubResource_STATUS(source.Snapshot)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Snapshot")
-		}
-		disk.Snapshot = &snapshot
-	} else {
-		disk.Snapshot = nil
-	}
-
-	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
-	} else {
-		disk.StorageAccountType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Describes a data disk.
+// Deprecated version of ImageDataDisk_STATUS. Use v1api20210701.ImageDataDisk_STATUS instead
 type ImageDataDisk_STATUS struct {
-	// BlobUri: The Virtual Hard Disk.
-	BlobUri *string `json:"blobUri,omitempty"`
-
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageDataDisk_Caching_STATUS `json:"caching,omitempty"`
-
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
-	DiskEncryptionSet *SubResource_STATUS `json:"diskEncryptionSet,omitempty"`
-
-	// DiskSizeGB: Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// Lun: Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and
-	// therefore must be unique for each data disk attached to a VM.
-	Lun *int `json:"lun,omitempty"`
-
-	// ManagedDisk: The managedDisk.
-	ManagedDisk *SubResource_STATUS `json:"managedDisk,omitempty"`
-
-	// Snapshot: The snapshot.
-	Snapshot *SubResource_STATUS `json:"snapshot,omitempty"`
-
-	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
+	BlobUri            *string                       `json:"blobUri,omitempty"`
+	Caching            *ImageDataDisk_Caching_STATUS `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUS           `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                          `json:"diskSizeGB,omitempty"`
+	Lun                *int                          `json:"lun,omitempty"`
+	ManagedDisk        *SubResource_STATUS           `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource_STATUS           `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS    `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImageDataDisk_STATUS{}
@@ -2592,47 +2264,20 @@ func (disk *ImageDataDisk_STATUS) AssignProperties_To_ImageDataDisk_STATUS(desti
 	return nil
 }
 
-// Describes an Operating System disk.
+// Deprecated version of ImageOSDisk. Use v1api20210701.ImageOSDisk instead
 type ImageOSDisk struct {
-	// BlobUri: The Virtual Hard Disk.
-	BlobUri *string `json:"blobUri,omitempty"`
-
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageOSDisk_Caching `json:"caching,omitempty"`
-
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
-	DiskEncryptionSet *SubResource `json:"diskEncryptionSet,omitempty"`
-
-	// DiskSizeGB: Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// ManagedDisk: The managedDisk.
-	ManagedDisk *SubResource `json:"managedDisk,omitempty"`
+	BlobUri           *string              `json:"blobUri,omitempty"`
+	Caching           *ImageOSDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet *SubResource         `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB        *int                 `json:"diskSizeGB,omitempty"`
+	ManagedDisk       *SubResource         `json:"managedDisk,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OsState: The OS State.
 	OsState *ImageOSDisk_OsState `json:"osState,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
-	// custom image.
-	// Possible values are:
-	// Windows
-	// Linux
-	OsType *ImageOSDisk_OsType `json:"osType,omitempty"`
-
-	// Snapshot: The snapshot.
-	Snapshot *SubResource `json:"snapshot,omitempty"`
-
-	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	// data disks, it cannot be used with OS Disk.
+	OsType             *ImageOSDisk_OsType `json:"osType,omitempty"`
+	Snapshot           *SubResource        `json:"snapshot,omitempty"`
 	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
@@ -2969,127 +2614,17 @@ func (disk *ImageOSDisk) AssignProperties_To_ImageOSDisk(destination *v20210701s
 	return nil
 }
 
-// Initialize_From_ImageOSDisk_STATUS populates our ImageOSDisk from the provided source ImageOSDisk_STATUS
-func (disk *ImageOSDisk) Initialize_From_ImageOSDisk_STATUS(source *ImageOSDisk_STATUS) error {
-
-	// BlobUri
-	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
-
-	// Caching
-	if source.Caching != nil {
-		caching := ImageOSDisk_Caching(*source.Caching)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
-
-	// DiskEncryptionSet
-	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet SubResource
-		err := diskEncryptionSet.Initialize_From_SubResource_STATUS(source.DiskEncryptionSet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field DiskEncryptionSet")
-		}
-		disk.DiskEncryptionSet = &diskEncryptionSet
-	} else {
-		disk.DiskEncryptionSet = nil
-	}
-
-	// DiskSizeGB
-	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// ManagedDisk
-	if source.ManagedDisk != nil {
-		var managedDisk SubResource
-		err := managedDisk.Initialize_From_SubResource_STATUS(source.ManagedDisk)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ManagedDisk")
-		}
-		disk.ManagedDisk = &managedDisk
-	} else {
-		disk.ManagedDisk = nil
-	}
-
-	// OsState
-	if source.OsState != nil {
-		osState := ImageOSDisk_OsState(*source.OsState)
-		disk.OsState = &osState
-	} else {
-		disk.OsState = nil
-	}
-
-	// OsType
-	if source.OsType != nil {
-		osType := ImageOSDisk_OsType(*source.OsType)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
-
-	// Snapshot
-	if source.Snapshot != nil {
-		var snapshot SubResource
-		err := snapshot.Initialize_From_SubResource_STATUS(source.Snapshot)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Snapshot")
-		}
-		disk.Snapshot = &snapshot
-	} else {
-		disk.Snapshot = nil
-	}
-
-	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType(*source.StorageAccountType)
-		disk.StorageAccountType = &storageAccountType
-	} else {
-		disk.StorageAccountType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Describes an Operating System disk.
+// Deprecated version of ImageOSDisk_STATUS. Use v1api20210701.ImageOSDisk_STATUS instead
 type ImageOSDisk_STATUS struct {
-	// BlobUri: The Virtual Hard Disk.
-	BlobUri *string `json:"blobUri,omitempty"`
-
-	// Caching: Specifies the caching requirements.
-	// Possible values are:
-	// None
-	// ReadOnly
-	// ReadWrite
-	// Default: None for Standard storage. ReadOnly for Premium storage
-	Caching *ImageOSDisk_Caching_STATUS `json:"caching,omitempty"`
-
-	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed image disk.
-	DiskEncryptionSet *SubResource_STATUS `json:"diskEncryptionSet,omitempty"`
-
-	// DiskSizeGB: Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the
-	// disk in a virtual machine image.
-	// This value cannot be larger than 1023 GB
-	DiskSizeGB *int `json:"diskSizeGB,omitempty"`
-
-	// ManagedDisk: The managedDisk.
-	ManagedDisk *SubResource_STATUS `json:"managedDisk,omitempty"`
-
-	// OsState: The OS State.
-	OsState *ImageOSDisk_OsState_STATUS `json:"osState,omitempty"`
-
-	// OsType: This property allows you to specify the type of the OS that is included in the disk if creating a VM from a
-	// custom image.
-	// Possible values are:
-	// Windows
-	// Linux
-	OsType *ImageOSDisk_OsType_STATUS `json:"osType,omitempty"`
-
-	// Snapshot: The snapshot.
-	Snapshot *SubResource_STATUS `json:"snapshot,omitempty"`
-
-	// StorageAccountType: Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with
-	// data disks, it cannot be used with OS Disk.
-	StorageAccountType *StorageAccountType_STATUS `json:"storageAccountType,omitempty"`
+	BlobUri            *string                     `json:"blobUri,omitempty"`
+	Caching            *ImageOSDisk_Caching_STATUS `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUS         `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                        `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource_STATUS         `json:"managedDisk,omitempty"`
+	OsState            *ImageOSDisk_OsState_STATUS `json:"osState,omitempty"`
+	OsType             *ImageOSDisk_OsType_STATUS  `json:"osType,omitempty"`
+	Snapshot           *SubResource_STATUS         `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS  `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImageOSDisk_STATUS{}
@@ -3350,6 +2885,7 @@ func (disk *ImageOSDisk_STATUS) AssignProperties_To_ImageOSDisk_STATUS(destinati
 	return nil
 }
 
+// Deprecated version of ImageDataDisk_Caching. Use v1api20210701.ImageDataDisk_Caching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type ImageDataDisk_Caching string
 
@@ -3359,6 +2895,7 @@ const (
 	ImageDataDisk_Caching_ReadWrite = ImageDataDisk_Caching("ReadWrite")
 )
 
+// Deprecated version of ImageDataDisk_Caching_STATUS. Use v1api20210701.ImageDataDisk_Caching_STATUS instead
 type ImageDataDisk_Caching_STATUS string
 
 const (
@@ -3367,6 +2904,7 @@ const (
 	ImageDataDisk_Caching_STATUS_ReadWrite = ImageDataDisk_Caching_STATUS("ReadWrite")
 )
 
+// Deprecated version of ImageOSDisk_Caching. Use v1api20210701.ImageOSDisk_Caching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
 type ImageOSDisk_Caching string
 
@@ -3376,6 +2914,7 @@ const (
 	ImageOSDisk_Caching_ReadWrite = ImageOSDisk_Caching("ReadWrite")
 )
 
+// Deprecated version of ImageOSDisk_Caching_STATUS. Use v1api20210701.ImageOSDisk_Caching_STATUS instead
 type ImageOSDisk_Caching_STATUS string
 
 const (
@@ -3384,6 +2923,7 @@ const (
 	ImageOSDisk_Caching_STATUS_ReadWrite = ImageOSDisk_Caching_STATUS("ReadWrite")
 )
 
+// Deprecated version of ImageOSDisk_OsState. Use v1api20210701.ImageOSDisk_OsState instead
 // +kubebuilder:validation:Enum={"Generalized","Specialized"}
 type ImageOSDisk_OsState string
 
@@ -3392,6 +2932,7 @@ const (
 	ImageOSDisk_OsState_Specialized = ImageOSDisk_OsState("Specialized")
 )
 
+// Deprecated version of ImageOSDisk_OsState_STATUS. Use v1api20210701.ImageOSDisk_OsState_STATUS instead
 type ImageOSDisk_OsState_STATUS string
 
 const (
@@ -3399,6 +2940,7 @@ const (
 	ImageOSDisk_OsState_STATUS_Specialized = ImageOSDisk_OsState_STATUS("Specialized")
 )
 
+// Deprecated version of ImageOSDisk_OsType. Use v1api20210701.ImageOSDisk_OsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type ImageOSDisk_OsType string
 
@@ -3407,6 +2949,7 @@ const (
 	ImageOSDisk_OsType_Windows = ImageOSDisk_OsType("Windows")
 )
 
+// Deprecated version of ImageOSDisk_OsType_STATUS. Use v1api20210701.ImageOSDisk_OsType_STATUS instead
 type ImageOSDisk_OsType_STATUS string
 
 const (
@@ -3414,13 +2957,7 @@ const (
 	ImageOSDisk_OsType_STATUS_Windows = ImageOSDisk_OsType_STATUS("Windows")
 )
 
-// Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you
-// create the scale set. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS
-// uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk.
-// Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant storage. For more
-// information regarding disks supported for Windows Virtual Machines, refer to
-// https://docs.microsoft.com/azure/virtual-machines/windows/disks-types and, for Linux Virtual Machines, refer to
-// https://docs.microsoft.com/azure/virtual-machines/linux/disks-types
+// Deprecated version of StorageAccountType. Use v1api20210701.StorageAccountType instead
 // +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
 type StorageAccountType string
 
@@ -3433,13 +2970,7 @@ const (
 	StorageAccountType_UltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
 )
 
-// Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you
-// create the scale set. NOTE: UltraSSD_LRS can only be used with data disks. It cannot be used with OS Disk. Standard_LRS
-// uses Standard HDD. StandardSSD_LRS uses Standard SSD. Premium_LRS uses Premium SSD. UltraSSD_LRS uses Ultra disk.
-// Premium_ZRS uses Premium SSD zone redundant storage. StandardSSD_ZRS uses Standard SSD zone redundant storage. For more
-// information regarding disks supported for Windows Virtual Machines, refer to
-// https://docs.microsoft.com/azure/virtual-machines/windows/disks-types and, for Linux Virtual Machines, refer to
-// https://docs.microsoft.com/azure/virtual-machines/linux/disks-types
+// Deprecated version of StorageAccountType_STATUS. Use v1api20210701.StorageAccountType_STATUS instead
 type StorageAccountType_STATUS string
 
 const (

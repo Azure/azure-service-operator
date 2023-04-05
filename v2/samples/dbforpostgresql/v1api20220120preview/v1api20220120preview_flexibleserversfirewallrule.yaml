@@ -1,0 +1,10 @@
+apiVersion: dbforpostgresql.azure.com/v1api20220120preview
+kind: FlexibleServersFirewallRule
+metadata:
+  name: samplefirewallrule
+  namespace: default
+spec:
+  owner:
+    name: samplepostgresql
+  startIpAddress: 1.2.3.4
+  endIpAddress: 1.2.3.4

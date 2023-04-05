@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}
+// Deprecated version of SqlDatabase. Use v1api20210515.SqlDatabase instead
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &SqlDatabase{}
 
 // ConvertFrom populates our SqlDatabase from the provided hub SqlDatabase
 func (database *SqlDatabase) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210515s.SqlDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210515s.SqlDatabase
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return database.AssignProperties_From_SqlDatabase(source)
+	err = database.AssignProperties_From_SqlDatabase(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to database")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabase from our SqlDatabase
 func (database *SqlDatabase) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210515s.SqlDatabase)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlDatabase but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210515s.SqlDatabase
+	err := database.AssignProperties_To_SqlDatabase(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from database")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return database.AssignProperties_To_SqlDatabase(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqldatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabases,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqldatabases.documentdb.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (database *SqlDatabase) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the SqlDatabase resource
 func (database *SqlDatabase) defaultImpl() { database.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &SqlDatabase{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (database *SqlDatabase) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DatabaseAccounts_SqlDatabase_STATUS); ok {
-		return database.Spec.Initialize_From_DatabaseAccounts_SqlDatabase_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlDatabase_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &SqlDatabase{}
 
@@ -323,9 +324,7 @@ func (database *SqlDatabase) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}
+// Deprecated version of SqlDatabase. Use v1api20210515.SqlDatabase instead
 type SqlDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -335,14 +334,9 @@ type SqlDatabaseList struct {
 type DatabaseAccounts_SqlDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions `json:"options,omitempty"`
+	AzureName string               `json:"azureName,omitempty"`
+	Location  *string              `json:"location,omitempty"`
+	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -351,7 +345,6 @@ type DatabaseAccounts_SqlDatabase_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccount"`
 
 	// +kubebuilder:validation:Required
-	// Resource: The standard JSON format of a SQL database
 	Resource *SqlDatabaseResource `json:"resource,omitempty"`
 	Tags     map[string]string    `json:"tags,omitempty"`
 }
@@ -627,43 +620,6 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) AssignProperties_To_DatabaseA
 	return nil
 }
 
-// Initialize_From_DatabaseAccounts_SqlDatabase_STATUS populates our DatabaseAccounts_SqlDatabase_Spec from the provided source DatabaseAccounts_SqlDatabase_STATUS
-func (database *DatabaseAccounts_SqlDatabase_Spec) Initialize_From_DatabaseAccounts_SqlDatabase_STATUS(source *DatabaseAccounts_SqlDatabase_STATUS) error {
-
-	// Location
-	database.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions
-		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
-		}
-		database.Options = &option
-	} else {
-		database.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlDatabaseResource
-		err := resource.Initialize_From_SqlDatabaseGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		database.Resource = &resource
-	} else {
-		database.Resource = nil
-	}
-
-	// Tags
-	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (database *DatabaseAccounts_SqlDatabase_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -674,26 +630,17 @@ func (database *DatabaseAccounts_SqlDatabase_Spec) SetAzureName(azureName string
 	database.AzureName = azureName
 }
 
+// Deprecated version of DatabaseAccounts_SqlDatabase_STATUS. Use v1api20210515.DatabaseAccounts_SqlDatabase_STATUS instead
 type DatabaseAccounts_SqlDatabase_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Options: Cosmos DB options resource object
-	Options  *OptionsResource_STATUS                   `json:"options,omitempty"`
-	Resource *SqlDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string                         `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                    `json:"conditions,omitempty"`
+	Id         *string                                   `json:"id,omitempty"`
+	Location   *string                                   `json:"location,omitempty"`
+	Name       *string                                   `json:"name,omitempty"`
+	Options    *OptionsResource_STATUS                   `json:"options,omitempty"`
+	Resource   *SqlDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags       map[string]string                         `json:"tags,omitempty"`
+	Type       *string                                   `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabase_STATUS{}
@@ -933,24 +880,14 @@ func (database *DatabaseAccounts_SqlDatabase_STATUS) AssignProperties_To_Databas
 	return nil
 }
 
+// Deprecated version of SqlDatabaseGetProperties_Resource_STATUS. Use v1api20210515.SqlDatabaseGetProperties_Resource_STATUS instead
 type SqlDatabaseGetProperties_Resource_STATUS struct {
-	// Colls: A system generated property that specified the addressable path of the collections resource.
-	Colls *string `json:"_colls,omitempty"`
-
-	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	// Id: Name of the Cosmos DB SQL database
-	Id *string `json:"id,omitempty"`
-
-	// Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	// Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
-
-	// Users: A system generated property that specifies the addressable path of the users resource.
-	Users *string `json:"_users,omitempty"`
+	Colls *string  `json:"_colls,omitempty"`
+	Etag  *string  `json:"_etag,omitempty"`
+	Id    *string  `json:"id,omitempty"`
+	Rid   *string  `json:"_rid,omitempty"`
+	Ts    *float64 `json:"_ts,omitempty"`
+	Users *string  `json:"_users,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SqlDatabaseGetProperties_Resource_STATUS{}
@@ -1076,10 +1013,9 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignProperties_To_Sq
 	return nil
 }
 
-// Cosmos DB SQL database resource object
+// Deprecated version of SqlDatabaseResource. Use v1api20210515.SqlDatabaseResource instead
 type SqlDatabaseResource struct {
 	// +kubebuilder:validation:Required
-	// Id: Name of the Cosmos DB SQL database
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1146,16 +1082,6 @@ func (resource *SqlDatabaseResource) AssignProperties_To_SqlDatabaseResource(des
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SqlDatabaseGetProperties_Resource_STATUS populates our SqlDatabaseResource from the provided source SqlDatabaseGetProperties_Resource_STATUS
-func (resource *SqlDatabaseResource) Initialize_From_SqlDatabaseGetProperties_Resource_STATUS(source *SqlDatabaseGetProperties_Resource_STATUS) error {
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil

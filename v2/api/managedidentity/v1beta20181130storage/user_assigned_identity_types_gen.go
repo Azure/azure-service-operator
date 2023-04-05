@@ -5,6 +5,8 @@ package v1beta20181130storage
 
 import (
 	"context"
+	"fmt"
+	v1api20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -14,22 +16,17 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=managedidentity.azure.com,resources=userassignedidentities,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=managedidentity.azure.com,resources={userassignedidentities/status,userassignedidentities/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20181130.UserAssignedIdentity
-// Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}
+// Deprecated version of UserAssignedIdentity. Use v1api20181130.UserAssignedIdentity instead
 type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -47,6 +44,28 @@ func (identity *UserAssignedIdentity) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (identity *UserAssignedIdentity) SetConditions(conditions conditions.Conditions) {
 	identity.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &UserAssignedIdentity{}
+
+// ConvertFrom populates our UserAssignedIdentity from the provided hub UserAssignedIdentity
+func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1api20181130s.UserAssignedIdentity)
+	if !ok {
+		return fmt.Errorf("expected managedidentity/v1api20181130storage/UserAssignedIdentity but received %T instead", hub)
+	}
+
+	return identity.AssignProperties_From_UserAssignedIdentity(source)
+}
+
+// ConvertTo populates the provided hub UserAssignedIdentity from our UserAssignedIdentity
+func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1api20181130s.UserAssignedIdentity)
+	if !ok {
+		return fmt.Errorf("expected managedidentity/v1api20181130storage/UserAssignedIdentity but received %T instead", hub)
+	}
+
+	return identity.AssignProperties_To_UserAssignedIdentity(destination)
 }
 
 var _ genruntime.KubernetesExporter = &UserAssignedIdentity{}
@@ -142,8 +161,75 @@ func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// Hub marks that this UserAssignedIdentity is the hub type for conversion
-func (identity *UserAssignedIdentity) Hub() {}
+// AssignProperties_From_UserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
+func (identity *UserAssignedIdentity) AssignProperties_From_UserAssignedIdentity(source *v1api20181130s.UserAssignedIdentity) error {
+
+	// ObjectMeta
+	identity.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec UserAssignedIdentity_Spec
+	err := spec.AssignProperties_From_UserAssignedIdentity_Spec(&source.Spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_Spec() to populate field Spec")
+	}
+	identity.Spec = spec
+
+	// Status
+	var status UserAssignedIdentity_STATUS
+	err = status.AssignProperties_From_UserAssignedIdentity_STATUS(&source.Status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentity_STATUS() to populate field Status")
+	}
+	identity.Status = status
+
+	// Invoke the augmentConversionForUserAssignedIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
+func (identity *UserAssignedIdentity) AssignProperties_To_UserAssignedIdentity(destination *v1api20181130s.UserAssignedIdentity) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *identity.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec v1api20181130s.UserAssignedIdentity_Spec
+	err := identity.Spec.AssignProperties_To_UserAssignedIdentity_Spec(&spec)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status v1api20181130s.UserAssignedIdentity_STATUS
+	err = identity.Status.AssignProperties_To_UserAssignedIdentity_STATUS(&status)
+	if err != nil {
+		return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentity_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForUserAssignedIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (identity *UserAssignedIdentity) OriginalGVK() *schema.GroupVersionKind {
@@ -156,9 +242,7 @@ func (identity *UserAssignedIdentity) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20181130.UserAssignedIdentity
-// Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}
+// Deprecated version of UserAssignedIdentity. Use v1api20181130.UserAssignedIdentity instead
 type UserAssignedIdentityList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -166,10 +250,16 @@ type UserAssignedIdentityList struct {
 }
 
 // Storage version of v1beta20181130.APIVersion
+// Deprecated version of APIVersion. Use v1api20181130.APIVersion instead
 // +kubebuilder:validation:Enum={"2018-11-30"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2018-11-30")
+
+type augmentConversionForUserAssignedIdentity interface {
+	AssignPropertiesFrom(src *v1api20181130s.UserAssignedIdentity) error
+	AssignPropertiesTo(dst *v1api20181130s.UserAssignedIdentity) error
+}
 
 // Storage version of v1beta20181130.UserAssignedIdentity_Spec
 type UserAssignedIdentity_Spec struct {
@@ -193,23 +283,168 @@ var _ genruntime.ConvertibleSpec = &UserAssignedIdentity_Spec{}
 
 // ConvertSpecFrom populates our UserAssignedIdentity_Spec from the provided source
 func (identity *UserAssignedIdentity_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*v1api20181130s.UserAssignedIdentity_Spec)
+	if ok {
+		// Populate our instance from source
+		return identity.AssignProperties_From_UserAssignedIdentity_Spec(src)
 	}
 
-	return source.ConvertSpecTo(identity)
+	// Convert to an intermediate form
+	src = &v1api20181130s.UserAssignedIdentity_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = identity.AssignProperties_From_UserAssignedIdentity_Spec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our UserAssignedIdentity_Spec
 func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*v1api20181130s.UserAssignedIdentity_Spec)
+	if ok {
+		// Populate destination from our instance
+		return identity.AssignProperties_To_UserAssignedIdentity_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(identity)
+	// Convert to an intermediate form
+	dst = &v1api20181130s.UserAssignedIdentity_Spec{}
+	err := identity.AssignProperties_To_UserAssignedIdentity_Spec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentity_Spec populates our UserAssignedIdentity_Spec from the provided source UserAssignedIdentity_Spec
+func (identity *UserAssignedIdentity_Spec) AssignProperties_From_UserAssignedIdentity_Spec(source *v1api20181130s.UserAssignedIdentity_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	identity.AzureName = source.AzureName
+
+	// Location
+	identity.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec UserAssignedIdentityOperatorSpec
+		err := operatorSpec.AssignProperties_From_UserAssignedIdentityOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
+		}
+		identity.OperatorSpec = &operatorSpec
+	} else {
+		identity.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	identity.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		identity.Owner = &owner
+	} else {
+		identity.Owner = nil
+	}
+
+	// Tags
+	identity.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentity_Spec interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_Spec); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentity_Spec populates the provided destination UserAssignedIdentity_Spec from our UserAssignedIdentity_Spec
+func (identity *UserAssignedIdentity_Spec) AssignProperties_To_UserAssignedIdentity_Spec(destination *v1api20181130s.UserAssignedIdentity_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// AzureName
+	destination.AzureName = identity.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(identity.Location)
+
+	// OperatorSpec
+	if identity.OperatorSpec != nil {
+		var operatorSpec v1api20181130s.UserAssignedIdentityOperatorSpec
+		err := identity.OperatorSpec.AssignProperties_To_UserAssignedIdentityOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = identity.OriginalVersion
+
+	// Owner
+	if identity.Owner != nil {
+		owner := identity.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(identity.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentity_Spec interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_Spec); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1beta20181130.UserAssignedIdentity_STATUS
+// Deprecated version of UserAssignedIdentity_STATUS. Use v1api20181130.UserAssignedIdentity_STATUS instead
 type UserAssignedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
@@ -227,20 +462,164 @@ var _ genruntime.ConvertibleStatus = &UserAssignedIdentity_STATUS{}
 
 // ConvertStatusFrom populates our UserAssignedIdentity_STATUS from the provided source
 func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*v1api20181130s.UserAssignedIdentity_STATUS)
+	if ok {
+		// Populate our instance from source
+		return identity.AssignProperties_From_UserAssignedIdentity_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(identity)
+	// Convert to an intermediate form
+	src = &v1api20181130s.UserAssignedIdentity_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = identity.AssignProperties_From_UserAssignedIdentity_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our UserAssignedIdentity_STATUS
 func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == identity {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*v1api20181130s.UserAssignedIdentity_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return identity.AssignProperties_To_UserAssignedIdentity_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(identity)
+	// Convert to an intermediate form
+	dst = &v1api20181130s.UserAssignedIdentity_STATUS{}
+	err := identity.AssignProperties_To_UserAssignedIdentity_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_UserAssignedIdentity_STATUS populates our UserAssignedIdentity_STATUS from the provided source UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_From_UserAssignedIdentity_STATUS(source *v1api20181130s.UserAssignedIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ClientId
+	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// Conditions
+	identity.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	identity.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	identity.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	identity.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// Tags
+	identity.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentity_STATUS populates the provided destination UserAssignedIdentity_STATUS from our UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) AssignProperties_To_UserAssignedIdentity_STATUS(destination *v1api20181130s.UserAssignedIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(identity.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(identity.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(identity.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(identity.Name)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(identity.Tags)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForUserAssignedIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForUserAssignedIdentity_Spec interface {
+	AssignPropertiesFrom(src *v1api20181130s.UserAssignedIdentity_Spec) error
+	AssignPropertiesTo(dst *v1api20181130s.UserAssignedIdentity_Spec) error
+}
+
+type augmentConversionForUserAssignedIdentity_STATUS interface {
+	AssignPropertiesFrom(src *v1api20181130s.UserAssignedIdentity_STATUS) error
+	AssignPropertiesTo(dst *v1api20181130s.UserAssignedIdentity_STATUS) error
 }
 
 // Storage version of v1beta20181130.UserAssignedIdentityOperatorSpec
@@ -250,12 +629,194 @@ type UserAssignedIdentityOperatorSpec struct {
 	PropertyBag genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_UserAssignedIdentityOperatorSpec populates our UserAssignedIdentityOperatorSpec from the provided source UserAssignedIdentityOperatorSpec
+func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_From_UserAssignedIdentityOperatorSpec(source *v1api20181130s.UserAssignedIdentityOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap UserAssignedIdentityOperatorConfigMaps
+		err := configMap.AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForUserAssignedIdentityOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityOperatorSpec populates the provided destination UserAssignedIdentityOperatorSpec from our UserAssignedIdentityOperatorSpec
+func (operator *UserAssignedIdentityOperatorSpec) AssignProperties_To_UserAssignedIdentityOperatorSpec(destination *v1api20181130s.UserAssignedIdentityOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v1api20181130s.UserAssignedIdentityOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForUserAssignedIdentityOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForUserAssignedIdentityOperatorSpec interface {
+	AssignPropertiesFrom(src *v1api20181130s.UserAssignedIdentityOperatorSpec) error
+	AssignPropertiesTo(dst *v1api20181130s.UserAssignedIdentityOperatorSpec) error
+}
+
 // Storage version of v1beta20181130.UserAssignedIdentityOperatorConfigMaps
 type UserAssignedIdentityOperatorConfigMaps struct {
 	ClientId    *genruntime.ConfigMapDestination `json:"clientId,omitempty"`
 	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	TenantId    *genruntime.ConfigMapDestination `json:"tenantId,omitempty"`
+}
+
+// AssignProperties_From_UserAssignedIdentityOperatorConfigMaps populates our UserAssignedIdentityOperatorConfigMaps from the provided source UserAssignedIdentityOperatorConfigMaps
+func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAssignedIdentityOperatorConfigMaps(source *v1api20181130s.UserAssignedIdentityOperatorConfigMaps) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ClientId
+	if source.ClientId != nil {
+		clientId := source.ClientId.Copy()
+		maps.ClientId = &clientId
+	} else {
+		maps.ClientId = nil
+	}
+
+	// PrincipalId
+	if source.PrincipalId != nil {
+		principalId := source.PrincipalId.Copy()
+		maps.PrincipalId = &principalId
+	} else {
+		maps.PrincipalId = nil
+	}
+
+	// TenantId
+	if source.TenantId != nil {
+		tenantId := source.TenantId.Copy()
+		maps.TenantId = &tenantId
+	} else {
+		maps.TenantId = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		maps.PropertyBag = propertyBag
+	} else {
+		maps.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityOperatorConfigMaps interface (if implemented) to customize the conversion
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForUserAssignedIdentityOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityOperatorConfigMaps populates the provided destination UserAssignedIdentityOperatorConfigMaps from our UserAssignedIdentityOperatorConfigMaps
+func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssignedIdentityOperatorConfigMaps(destination *v1api20181130s.UserAssignedIdentityOperatorConfigMaps) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(maps.PropertyBag)
+
+	// ClientId
+	if maps.ClientId != nil {
+		clientId := maps.ClientId.Copy()
+		destination.ClientId = &clientId
+	} else {
+		destination.ClientId = nil
+	}
+
+	// PrincipalId
+	if maps.PrincipalId != nil {
+		principalId := maps.PrincipalId.Copy()
+		destination.PrincipalId = &principalId
+	} else {
+		destination.PrincipalId = nil
+	}
+
+	// TenantId
+	if maps.TenantId != nil {
+		tenantId := maps.TenantId.Copy()
+		destination.TenantId = &tenantId
+	} else {
+		destination.TenantId = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserAssignedIdentityOperatorConfigMaps interface (if implemented) to customize the conversion
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForUserAssignedIdentityOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForUserAssignedIdentityOperatorConfigMaps interface {
+	AssignPropertiesFrom(src *v1api20181130s.UserAssignedIdentityOperatorConfigMaps) error
+	AssignPropertiesTo(dst *v1api20181130s.UserAssignedIdentityOperatorConfigMaps) error
 }
 
 func init() {

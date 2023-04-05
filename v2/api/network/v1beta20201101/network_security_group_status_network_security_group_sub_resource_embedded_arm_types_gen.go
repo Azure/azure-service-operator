@@ -3,74 +3,44 @@
 // Licensed under the MIT license.
 package v1beta20201101
 
-// NetworkSecurityGroup resource.
+// Deprecated version of NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1api20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the network security group.
+	Etag       *string                                          `json:"etag,omitempty"`
+	Id         *string                                          `json:"id,omitempty"`
+	Location   *string                                          `json:"location,omitempty"`
+	Name       *string                                          `json:"name,omitempty"`
 	Properties *NetworkSecurityGroupPropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Tags       map[string]string                                `json:"tags,omitempty"`
+	Type       *string                                          `json:"type,omitempty"`
 }
 
-// Network Security Group resource.
+// Deprecated version of NetworkSecurityGroupPropertiesFormat_STATUS. Use v1api20201101.NetworkSecurityGroupPropertiesFormat_STATUS instead
 type NetworkSecurityGroupPropertiesFormat_STATUS_ARM struct {
-	// DefaultSecurityRules: The default security rules of network security group.
-	DefaultSecurityRules []SecurityRule_STATUS_ARM `json:"defaultSecurityRules,omitempty"`
-
-	// FlowLogs: A collection of references to flow log resources.
-	FlowLogs []FlowLog_STATUS_ARM `json:"flowLogs,omitempty"`
-
-	// NetworkInterfaces: A collection of references to network interfaces.
-	NetworkInterfaces []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"networkInterfaces,omitempty"`
-
-	// ProvisioningState: The provisioning state of the network security group resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resource GUID property of the network security group resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	// SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRule_STATUS_ARM `json:"securityRules,omitempty"`
-
-	// Subnets: A collection of references to subnets.
-	Subnets []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"subnets,omitempty"`
+	DefaultSecurityRules []SecurityRule_STATUS_ARM                                              `json:"defaultSecurityRules,omitempty"`
+	FlowLogs             []FlowLog_STATUS_ARM                                                   `json:"flowLogs,omitempty"`
+	NetworkInterfaces    []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM `json:"networkInterfaces,omitempty"`
+	ProvisioningState    *ProvisioningState_STATUS                                              `json:"provisioningState,omitempty"`
+	ResourceGuid         *string                                                                `json:"resourceGuid,omitempty"`
+	SecurityRules        []SecurityRule_STATUS_ARM                                              `json:"securityRules,omitempty"`
+	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM           `json:"subnets,omitempty"`
 }
 
-// A flow log resource.
+// Deprecated version of FlowLog_STATUS. Use v1api20201101.FlowLog_STATUS instead
 type FlowLog_STATUS_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// A network interface in a resource group.
+// Deprecated version of NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1api20201101.NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
 type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// Network security rule.
+// Deprecated version of SecurityRule_STATUS. Use v1api20201101.SecurityRule_STATUS instead
 type SecurityRule_STATUS_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// Subnet in a virtual network resource.
+// Deprecated version of Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1api20201101.Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
 type Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }

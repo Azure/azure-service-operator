@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/AuthorizationRules.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}
+// Deprecated version of NamespacesAuthorizationRule. Use v1api20211101.NamespacesAuthorizationRule instead
 type NamespacesAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &NamespacesAuthorizationRule{}
 
 // ConvertFrom populates our NamespacesAuthorizationRule from the provided hub NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211101s.NamespacesAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1beta20211101storage/NamespacesAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20211101s.NamespacesAuthorizationRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NamespacesAuthorizationRule(source)
+	err = rule.AssignProperties_From_NamespacesAuthorizationRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesAuthorizationRule from our NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211101s.NamespacesAuthorizationRule)
-	if !ok {
-		return fmt.Errorf("expected eventhub/v1beta20211101storage/NamespacesAuthorizationRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20211101s.NamespacesAuthorizationRule
+	err := rule.AssignProperties_To_NamespacesAuthorizationRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NamespacesAuthorizationRule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1beta20211101-namespacesauthorizationrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespacesauthorizationrules,verbs=create;update,versions=v1beta20211101,name=default.v1beta20211101.namespacesauthorizationrules.eventhub.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (rule *NamespacesAuthorizationRule) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesAuthorizationRule resource
 func (rule *NamespacesAuthorizationRule) defaultImpl() { rule.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &NamespacesAuthorizationRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *NamespacesAuthorizationRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_AuthorizationRule_STATUS); ok {
-		return rule.Spec.Initialize_From_Namespaces_AuthorizationRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_AuthorizationRule_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &NamespacesAuthorizationRule{}
 
@@ -323,9 +324,7 @@ func (rule *NamespacesAuthorizationRule) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/AuthorizationRules.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}
+// Deprecated version of NamespacesAuthorizationRule. Use v1api20211101.NamespacesAuthorizationRule instead
 type NamespacesAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -345,7 +344,6 @@ type Namespaces_AuthorizationRule_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"Namespace"`
 
 	// +kubebuilder:validation:Required
-	// Rights: The rights associated with the rule.
 	Rights []Namespaces_AuthorizationRule_Properties_Rights_Spec `json:"rights,omitempty"`
 }
 
@@ -525,27 +523,6 @@ func (rule *Namespaces_AuthorizationRule_Spec) AssignProperties_To_Namespaces_Au
 	return nil
 }
 
-// Initialize_From_Namespaces_AuthorizationRule_STATUS populates our Namespaces_AuthorizationRule_Spec from the provided source Namespaces_AuthorizationRule_STATUS
-func (rule *Namespaces_AuthorizationRule_Spec) Initialize_From_Namespaces_AuthorizationRule_STATUS(source *Namespaces_AuthorizationRule_STATUS) error {
-
-	// Rights
-	if source.Rights != nil {
-		rightList := make([]Namespaces_AuthorizationRule_Properties_Rights_Spec, len(source.Rights))
-		for rightIndex, rightItem := range source.Rights {
-			// Shadow the loop variable to avoid aliasing
-			rightItem := rightItem
-			right := Namespaces_AuthorizationRule_Properties_Rights_Spec(rightItem)
-			rightList[rightIndex] = right
-		}
-		rule.Rights = rightList
-	} else {
-		rule.Rights = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (rule *Namespaces_AuthorizationRule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -556,28 +533,16 @@ func (rule *Namespaces_AuthorizationRule_Spec) SetAzureName(azureName string) {
 	rule.AzureName = azureName
 }
 
+// Deprecated version of Namespaces_AuthorizationRule_STATUS. Use v1api20211101.Namespaces_AuthorizationRule_STATUS instead
 type Namespaces_AuthorizationRule_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Rights: The rights associated with the rule.
-	Rights []Namespaces_AuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                                  `json:"conditions,omitempty"`
+	Id         *string                                                 `json:"id,omitempty"`
+	Location   *string                                                 `json:"location,omitempty"`
+	Name       *string                                                 `json:"name,omitempty"`
+	Rights     []Namespaces_AuthorizationRule_Properties_Rights_STATUS `json:"rights,omitempty"`
+	SystemData *SystemData_STATUS                                      `json:"systemData,omitempty"`
+	Type       *string                                                 `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Namespaces_AuthorizationRule_STATUS{}
@@ -796,6 +761,8 @@ func (rule *Namespaces_AuthorizationRule_STATUS) AssignProperties_To_Namespaces_
 	return nil
 }
 
+// Deprecated version of Namespaces_AuthorizationRule_Properties_Rights_Spec. Use
+// v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_Spec instead
 // +kubebuilder:validation:Enum={"Listen","Manage","Send"}
 type Namespaces_AuthorizationRule_Properties_Rights_Spec string
 
@@ -805,6 +772,8 @@ const (
 	Namespaces_AuthorizationRule_Properties_Rights_Spec_Send   = Namespaces_AuthorizationRule_Properties_Rights_Spec("Send")
 )
 
+// Deprecated version of Namespaces_AuthorizationRule_Properties_Rights_STATUS. Use
+// v1api20211101.Namespaces_AuthorizationRule_Properties_Rights_STATUS instead
 type Namespaces_AuthorizationRule_Properties_Rights_STATUS string
 
 const (

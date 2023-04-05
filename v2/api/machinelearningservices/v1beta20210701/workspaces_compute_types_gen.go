@@ -25,9 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/machineLearningServices.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}
+// Deprecated version of WorkspacesCompute. Use v1api20210701.WorkspacesCompute instead
 type WorkspacesCompute struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -51,22 +49,36 @@ var _ conversion.Convertible = &WorkspacesCompute{}
 
 // ConvertFrom populates our WorkspacesCompute from the provided hub WorkspacesCompute
 func (compute *WorkspacesCompute) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210701s.WorkspacesCompute)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/WorkspacesCompute but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210701s.WorkspacesCompute
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return compute.AssignProperties_From_WorkspacesCompute(source)
+	err = compute.AssignProperties_From_WorkspacesCompute(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to compute")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub WorkspacesCompute from our WorkspacesCompute
 func (compute *WorkspacesCompute) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210701s.WorkspacesCompute)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/WorkspacesCompute but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210701s.WorkspacesCompute
+	err := compute.AssignProperties_To_WorkspacesCompute(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from compute")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return compute.AssignProperties_To_WorkspacesCompute(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1beta20210701-workspacescompute,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspacescomputes,verbs=create;update,versions=v1beta20210701,name=default.v1beta20210701.workspacescomputes.machinelearningservices.azure.com,admissionReviewVersions=v1
@@ -91,17 +103,6 @@ func (compute *WorkspacesCompute) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the WorkspacesCompute resource
 func (compute *WorkspacesCompute) defaultImpl() { compute.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &WorkspacesCompute{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (compute *WorkspacesCompute) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Workspaces_Compute_STATUS); ok {
-		return compute.Spec.Initialize_From_Workspaces_Compute_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Workspaces_Compute_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &WorkspacesCompute{}
 
@@ -324,9 +325,7 @@ func (compute *WorkspacesCompute) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/machineLearningServices.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}
+// Deprecated version of WorkspacesCompute. Use v1api20210701.WorkspacesCompute instead
 type WorkspacesComputeList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -336,31 +335,19 @@ type WorkspacesComputeList struct {
 type Workspaces_Compute_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity `json:"identity,omitempty"`
-
-	// Location: Specifies the location of the resource.
-	Location *string `json:"location,omitempty"`
+	AzureName string    `json:"azureName,omitempty"`
+	Identity  *Identity `json:"identity,omitempty"`
+	Location  *string   `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a machinelearningservices.azure.com/Workspace resource
-	Owner *genruntime.KnownResourceReference `group:"machinelearningservices.azure.com" json:"owner,omitempty" kind:"Workspace"`
-
-	// Properties: Compute properties
-	Properties *Compute `json:"properties,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// SystemData: System data
-	SystemData *SystemData `json:"systemData,omitempty"`
-
-	// Tags: Contains resource tags defined as key/value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
+	Owner      *genruntime.KnownResourceReference `group:"machinelearningservices.azure.com" json:"owner,omitempty" kind:"Workspace"`
+	Properties *Compute                           `json:"properties,omitempty"`
+	Sku        *Sku                               `json:"sku,omitempty"`
+	SystemData *SystemData                        `json:"systemData,omitempty"`
+	Tags       map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Workspaces_Compute_Spec{}
@@ -717,67 +704,6 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 	return nil
 }
 
-// Initialize_From_Workspaces_Compute_STATUS populates our Workspaces_Compute_Spec from the provided source Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_Spec) Initialize_From_Workspaces_Compute_STATUS(source *Workspaces_Compute_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity
-		err := identity.Initialize_From_Identity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
-		}
-		compute.Identity = &identity
-	} else {
-		compute.Identity = nil
-	}
-
-	// Location
-	compute.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Properties
-	if source.Properties != nil {
-		var property Compute
-		err := property.Initialize_From_Compute_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Compute_STATUS() to populate field Properties")
-		}
-		compute.Properties = &property
-	} else {
-		compute.Properties = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		compute.Sku = &sku
-	} else {
-		compute.Sku = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.Initialize_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
-		}
-		compute.SystemData = &systemDatum
-	} else {
-		compute.SystemData = nil
-	}
-
-	// Tags
-	compute.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (compute *Workspaces_Compute_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -786,37 +712,19 @@ func (compute *Workspaces_Compute_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (compute *Workspaces_Compute_Spec) SetAzureName(azureName string) { compute.AzureName = azureName }
 
+// Deprecated version of Workspaces_Compute_STATUS. Use v1api20210701.Workspaces_Compute_STATUS instead
 type Workspaces_Compute_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity_STATUS `json:"identity,omitempty"`
-
-	// Location: Specifies the location of the resource.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Compute properties
-	Properties *Compute_STATUS `json:"properties,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// SystemData: System data
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Contains resource tags defined as key/value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Id         *string                `json:"id,omitempty"`
+	Identity   *Identity_STATUS       `json:"identity,omitempty"`
+	Location   *string                `json:"location,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	Properties *Compute_STATUS        `json:"properties,omitempty"`
+	Sku        *Sku_STATUS            `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS     `json:"systemData,omitempty"`
+	Tags       map[string]string      `json:"tags,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Workspaces_Compute_STATUS{}
@@ -1120,36 +1028,18 @@ func (compute *Workspaces_Compute_STATUS) AssignProperties_To_Workspaces_Compute
 	return nil
 }
 
+// Deprecated version of Compute. Use v1api20210701.Compute instead
 type Compute struct {
-	// AKS: Mutually exclusive with all other properties
-	AKS *AKS `json:"aks,omitempty"`
-
-	// AmlCompute: Mutually exclusive with all other properties
-	AmlCompute *AmlCompute `json:"amlCompute,omitempty"`
-
-	// ComputeInstance: Mutually exclusive with all other properties
-	ComputeInstance *ComputeInstance `json:"computeInstance,omitempty"`
-
-	// DataFactory: Mutually exclusive with all other properties
-	DataFactory *DataFactory `json:"dataFactory,omitempty"`
-
-	// DataLakeAnalytics: Mutually exclusive with all other properties
+	AKS               *AKS               `json:"aks,omitempty"`
+	AmlCompute        *AmlCompute        `json:"amlCompute,omitempty"`
+	ComputeInstance   *ComputeInstance   `json:"computeInstance,omitempty"`
+	DataFactory       *DataFactory       `json:"dataFactory,omitempty"`
 	DataLakeAnalytics *DataLakeAnalytics `json:"dataLakeAnalytics,omitempty"`
-
-	// Databricks: Mutually exclusive with all other properties
-	Databricks *Databricks `json:"databricks,omitempty"`
-
-	// HDInsight: Mutually exclusive with all other properties
-	HDInsight *HDInsight `json:"hdInsight,omitempty"`
-
-	// Kubernetes: Mutually exclusive with all other properties
-	Kubernetes *Kubernetes `json:"kubernetes,omitempty"`
-
-	// SynapseSpark: Mutually exclusive with all other properties
-	SynapseSpark *SynapseSpark `json:"synapseSpark,omitempty"`
-
-	// VirtualMachine: Mutually exclusive with all other properties
-	VirtualMachine *VirtualMachine `json:"virtualMachine,omitempty"`
+	Databricks        *Databricks        `json:"databricks,omitempty"`
+	HDInsight         *HDInsight         `json:"hdInsight,omitempty"`
+	Kubernetes        *Kubernetes        `json:"kubernetes,omitempty"`
+	SynapseSpark      *SynapseSpark      `json:"synapseSpark,omitempty"`
+	VirtualMachine    *VirtualMachine    `json:"virtualMachine,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Compute{}
@@ -1652,163 +1542,18 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v20210701s.Comp
 	return nil
 }
 
-// Initialize_From_Compute_STATUS populates our Compute from the provided source Compute_STATUS
-func (compute *Compute) Initialize_From_Compute_STATUS(source *Compute_STATUS) error {
-
-	// AKS
-	if source.AKS != nil {
-		var aks AKS
-		err := aks.Initialize_From_AKS_STATUS(source.AKS)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AKS_STATUS() to populate field AKS")
-		}
-		compute.AKS = &aks
-	} else {
-		compute.AKS = nil
-	}
-
-	// AmlCompute
-	if source.AmlCompute != nil {
-		var amlCompute AmlCompute
-		err := amlCompute.Initialize_From_AmlCompute_STATUS(source.AmlCompute)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AmlCompute_STATUS() to populate field AmlCompute")
-		}
-		compute.AmlCompute = &amlCompute
-	} else {
-		compute.AmlCompute = nil
-	}
-
-	// ComputeInstance
-	if source.ComputeInstance != nil {
-		var computeInstance ComputeInstance
-		err := computeInstance.Initialize_From_ComputeInstance_STATUS(source.ComputeInstance)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ComputeInstance_STATUS() to populate field ComputeInstance")
-		}
-		compute.ComputeInstance = &computeInstance
-	} else {
-		compute.ComputeInstance = nil
-	}
-
-	// DataFactory
-	if source.DataFactory != nil {
-		var dataFactory DataFactory
-		err := dataFactory.Initialize_From_DataFactory_STATUS(source.DataFactory)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataFactory_STATUS() to populate field DataFactory")
-		}
-		compute.DataFactory = &dataFactory
-	} else {
-		compute.DataFactory = nil
-	}
-
-	// DataLakeAnalytics
-	if source.DataLakeAnalytics != nil {
-		var dataLakeAnalytic DataLakeAnalytics
-		err := dataLakeAnalytic.Initialize_From_DataLakeAnalytics_STATUS(source.DataLakeAnalytics)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataLakeAnalytics_STATUS() to populate field DataLakeAnalytics")
-		}
-		compute.DataLakeAnalytics = &dataLakeAnalytic
-	} else {
-		compute.DataLakeAnalytics = nil
-	}
-
-	// Databricks
-	if source.Databricks != nil {
-		var databrick Databricks
-		err := databrick.Initialize_From_Databricks_STATUS(source.Databricks)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Databricks_STATUS() to populate field Databricks")
-		}
-		compute.Databricks = &databrick
-	} else {
-		compute.Databricks = nil
-	}
-
-	// HDInsight
-	if source.HDInsight != nil {
-		var hdInsight HDInsight
-		err := hdInsight.Initialize_From_HDInsight_STATUS(source.HDInsight)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HDInsight_STATUS() to populate field HDInsight")
-		}
-		compute.HDInsight = &hdInsight
-	} else {
-		compute.HDInsight = nil
-	}
-
-	// Kubernetes
-	if source.Kubernetes != nil {
-		var kubernete Kubernetes
-		err := kubernete.Initialize_From_Kubernetes_STATUS(source.Kubernetes)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Kubernetes_STATUS() to populate field Kubernetes")
-		}
-		compute.Kubernetes = &kubernete
-	} else {
-		compute.Kubernetes = nil
-	}
-
-	// SynapseSpark
-	if source.SynapseSpark != nil {
-		var synapseSpark SynapseSpark
-		err := synapseSpark.Initialize_From_SynapseSpark_STATUS(source.SynapseSpark)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SynapseSpark_STATUS() to populate field SynapseSpark")
-		}
-		compute.SynapseSpark = &synapseSpark
-	} else {
-		compute.SynapseSpark = nil
-	}
-
-	// VirtualMachine
-	if source.VirtualMachine != nil {
-		var virtualMachine VirtualMachine
-		err := virtualMachine.Initialize_From_VirtualMachine_STATUS(source.VirtualMachine)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachine_STATUS() to populate field VirtualMachine")
-		}
-		compute.VirtualMachine = &virtualMachine
-	} else {
-		compute.VirtualMachine = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of Compute_STATUS. Use v1api20210701.Compute_STATUS instead
 type Compute_STATUS struct {
-	// AKS: Mutually exclusive with all other properties
-	AKS *AKS_STATUS `json:"aks,omitempty"`
-
-	// AmlCompute: Mutually exclusive with all other properties
-	AmlCompute *AmlCompute_STATUS `json:"amlCompute,omitempty"`
-
-	// ComputeInstance: Mutually exclusive with all other properties
-	ComputeInstance *ComputeInstance_STATUS `json:"computeInstance,omitempty"`
-
-	// DataFactory: Mutually exclusive with all other properties
-	DataFactory *DataFactory_STATUS `json:"dataFactory,omitempty"`
-
-	// DataLakeAnalytics: Mutually exclusive with all other properties
+	AKS               *AKS_STATUS               `json:"aks,omitempty"`
+	AmlCompute        *AmlCompute_STATUS        `json:"amlCompute,omitempty"`
+	ComputeInstance   *ComputeInstance_STATUS   `json:"computeInstance,omitempty"`
+	DataFactory       *DataFactory_STATUS       `json:"dataFactory,omitempty"`
 	DataLakeAnalytics *DataLakeAnalytics_STATUS `json:"dataLakeAnalytics,omitempty"`
-
-	// Databricks: Mutually exclusive with all other properties
-	Databricks *Databricks_STATUS `json:"databricks,omitempty"`
-
-	// HDInsight: Mutually exclusive with all other properties
-	HDInsight *HDInsight_STATUS `json:"hdInsight,omitempty"`
-
-	// Kubernetes: Mutually exclusive with all other properties
-	Kubernetes *Kubernetes_STATUS `json:"kubernetes,omitempty"`
-
-	// SynapseSpark: Mutually exclusive with all other properties
-	SynapseSpark *SynapseSpark_STATUS `json:"synapseSpark,omitempty"`
-
-	// VirtualMachine: Mutually exclusive with all other properties
-	VirtualMachine *VirtualMachine_STATUS `json:"virtualMachine,omitempty"`
+	Databricks        *Databricks_STATUS        `json:"databricks,omitempty"`
+	HDInsight         *HDInsight_STATUS         `json:"hdInsight,omitempty"`
+	Kubernetes        *Kubernetes_STATUS        `json:"kubernetes,omitempty"`
+	SynapseSpark      *SynapseSpark_STATUS      `json:"synapseSpark,omitempty"`
+	VirtualMachine    *VirtualMachine_STATUS    `json:"virtualMachine,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Compute_STATUS{}
@@ -2202,25 +1947,15 @@ func (compute *Compute_STATUS) AssignProperties_To_Compute_STATUS(destination *v
 	return nil
 }
 
+// Deprecated version of AKS. Use v1api20210701.AKS instead
 type AKS struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *AKS_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Properties: AKS properties
-	Properties *AKS_Properties `json:"properties,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
+	ComputeType       *AKS_ComputeType              `json:"computeType,omitempty"`
+	Description       *string                       `json:"description,omitempty"`
+	DisableLocalAuth  *bool                         `json:"disableLocalAuth,omitempty"`
+	Properties        *AKS_Properties               `json:"properties,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -2435,91 +2170,19 @@ func (aks *AKS) AssignProperties_To_AKS(destination *v20210701s.AKS) error {
 	return nil
 }
 
-// Initialize_From_AKS_STATUS populates our AKS from the provided source AKS_STATUS
-func (aks *AKS) Initialize_From_AKS_STATUS(source *AKS_STATUS) error {
-
-	// ComputeLocation
-	aks.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := AKS_ComputeType(*source.ComputeType)
-		aks.ComputeType = &computeType
-	} else {
-		aks.ComputeType = nil
-	}
-
-	// Description
-	aks.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		aks.DisableLocalAuth = &disableLocalAuth
-	} else {
-		aks.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property AKS_Properties
-		err := property.Initialize_From_AKS_Properties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AKS_Properties_STATUS() to populate field Properties")
-		}
-		aks.Properties = &property
-	} else {
-		aks.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		aks.ResourceReference = &resourceReference
-	} else {
-		aks.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of AKS_STATUS. Use v1api20210701.AKS_STATUS instead
 type AKS_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *AKS_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: AKS properties
-	Properties *AKS_Properties_STATUS `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *AKS_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                       `json:"computeLocation,omitempty"`
+	ComputeType        *AKS_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                       `json:"createdOn,omitempty"`
+	Description        *string                       `json:"description,omitempty"`
+	DisableLocalAuth   *bool                         `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                         `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                       `json:"modifiedOn,omitempty"`
+	Properties         *AKS_Properties_STATUS        `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS        `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *AKS_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                       `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AKS_STATUS{}
@@ -2789,25 +2452,15 @@ func (aks *AKS_STATUS) AssignProperties_To_AKS_STATUS(destination *v20210701s.AK
 	return nil
 }
 
+// Deprecated version of AmlCompute. Use v1api20210701.AmlCompute instead
 type AmlCompute struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *AmlCompute_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Properties: Properties of AmlCompute
-	Properties *AmlComputeProperties `json:"properties,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
+	ComputeType       *AmlCompute_ComputeType       `json:"computeType,omitempty"`
+	Description       *string                       `json:"description,omitempty"`
+	DisableLocalAuth  *bool                         `json:"disableLocalAuth,omitempty"`
+	Properties        *AmlComputeProperties         `json:"properties,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -3022,91 +2675,19 @@ func (compute *AmlCompute) AssignProperties_To_AmlCompute(destination *v20210701
 	return nil
 }
 
-// Initialize_From_AmlCompute_STATUS populates our AmlCompute from the provided source AmlCompute_STATUS
-func (compute *AmlCompute) Initialize_From_AmlCompute_STATUS(source *AmlCompute_STATUS) error {
-
-	// ComputeLocation
-	compute.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := AmlCompute_ComputeType(*source.ComputeType)
-		compute.ComputeType = &computeType
-	} else {
-		compute.ComputeType = nil
-	}
-
-	// Description
-	compute.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		compute.DisableLocalAuth = &disableLocalAuth
-	} else {
-		compute.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property AmlComputeProperties
-		err := property.Initialize_From_AmlComputeProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AmlComputeProperties_STATUS() to populate field Properties")
-		}
-		compute.Properties = &property
-	} else {
-		compute.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		compute.ResourceReference = &resourceReference
-	} else {
-		compute.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of AmlCompute_STATUS. Use v1api20210701.AmlCompute_STATUS instead
 type AmlCompute_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *AmlCompute_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: Properties of AmlCompute
-	Properties *AmlComputeProperties_STATUS `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *AmlCompute_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                              `json:"computeLocation,omitempty"`
+	ComputeType        *AmlCompute_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                              `json:"createdOn,omitempty"`
+	Description        *string                              `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                              `json:"modifiedOn,omitempty"`
+	Properties         *AmlComputeProperties_STATUS         `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS               `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *AmlCompute_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                              `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AmlCompute_STATUS{}
@@ -3376,25 +2957,15 @@ func (compute *AmlCompute_STATUS) AssignProperties_To_AmlCompute_STATUS(destinat
 	return nil
 }
 
+// Deprecated version of ComputeInstance. Use v1api20210701.ComputeInstance instead
 type ComputeInstance struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *ComputeInstance_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Properties: Properties of ComputeInstance
-	Properties *ComputeInstanceProperties `json:"properties,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
+	ComputeType       *ComputeInstance_ComputeType  `json:"computeType,omitempty"`
+	Description       *string                       `json:"description,omitempty"`
+	DisableLocalAuth  *bool                         `json:"disableLocalAuth,omitempty"`
+	Properties        *ComputeInstanceProperties    `json:"properties,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -3609,91 +3180,19 @@ func (instance *ComputeInstance) AssignProperties_To_ComputeInstance(destination
 	return nil
 }
 
-// Initialize_From_ComputeInstance_STATUS populates our ComputeInstance from the provided source ComputeInstance_STATUS
-func (instance *ComputeInstance) Initialize_From_ComputeInstance_STATUS(source *ComputeInstance_STATUS) error {
-
-	// ComputeLocation
-	instance.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := ComputeInstance_ComputeType(*source.ComputeType)
-		instance.ComputeType = &computeType
-	} else {
-		instance.ComputeType = nil
-	}
-
-	// Description
-	instance.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		instance.DisableLocalAuth = &disableLocalAuth
-	} else {
-		instance.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property ComputeInstanceProperties
-		err := property.Initialize_From_ComputeInstanceProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ComputeInstanceProperties_STATUS() to populate field Properties")
-		}
-		instance.Properties = &property
-	} else {
-		instance.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		instance.ResourceReference = &resourceReference
-	} else {
-		instance.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of ComputeInstance_STATUS. Use v1api20210701.ComputeInstance_STATUS instead
 type ComputeInstance_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *ComputeInstance_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: Properties of ComputeInstance
-	Properties *ComputeInstanceProperties_STATUS `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *ComputeInstance_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                                   `json:"computeLocation,omitempty"`
+	ComputeType        *ComputeInstance_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                                   `json:"createdOn,omitempty"`
+	Description        *string                                   `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                     `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                     `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                                   `json:"modifiedOn,omitempty"`
+	Properties         *ComputeInstanceProperties_STATUS         `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS                    `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *ComputeInstance_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                                   `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ComputeInstance_STATUS{}
@@ -3963,25 +3462,15 @@ func (instance *ComputeInstance_STATUS) AssignProperties_To_ComputeInstance_STAT
 	return nil
 }
 
+// Deprecated version of Databricks. Use v1api20210701.Databricks instead
 type Databricks struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *Databricks_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Properties: Properties of Databricks
-	Properties *DatabricksProperties `json:"properties,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
+	ComputeType       *Databricks_ComputeType       `json:"computeType,omitempty"`
+	Description       *string                       `json:"description,omitempty"`
+	DisableLocalAuth  *bool                         `json:"disableLocalAuth,omitempty"`
+	Properties        *DatabricksProperties         `json:"properties,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -4196,91 +3685,19 @@ func (databricks *Databricks) AssignProperties_To_Databricks(destination *v20210
 	return nil
 }
 
-// Initialize_From_Databricks_STATUS populates our Databricks from the provided source Databricks_STATUS
-func (databricks *Databricks) Initialize_From_Databricks_STATUS(source *Databricks_STATUS) error {
-
-	// ComputeLocation
-	databricks.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := Databricks_ComputeType(*source.ComputeType)
-		databricks.ComputeType = &computeType
-	} else {
-		databricks.ComputeType = nil
-	}
-
-	// Description
-	databricks.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		databricks.DisableLocalAuth = &disableLocalAuth
-	} else {
-		databricks.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property DatabricksProperties
-		err := property.Initialize_From_DatabricksProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DatabricksProperties_STATUS() to populate field Properties")
-		}
-		databricks.Properties = &property
-	} else {
-		databricks.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		databricks.ResourceReference = &resourceReference
-	} else {
-		databricks.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of Databricks_STATUS. Use v1api20210701.Databricks_STATUS instead
 type Databricks_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *Databricks_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: Properties of Databricks
-	Properties *DatabricksProperties_STATUS `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *Databricks_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                              `json:"computeLocation,omitempty"`
+	ComputeType        *Databricks_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                              `json:"createdOn,omitempty"`
+	Description        *string                              `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                              `json:"modifiedOn,omitempty"`
+	Properties         *DatabricksProperties_STATUS         `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS               `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *Databricks_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                              `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Databricks_STATUS{}
@@ -4550,22 +3967,14 @@ func (databricks *Databricks_STATUS) AssignProperties_To_Databricks_STATUS(desti
 	return nil
 }
 
+// Deprecated version of DataFactory. Use v1api20210701.DataFactory instead
 type DataFactory struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *DataFactory_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
+	ComputeType       *DataFactory_ComputeType      `json:"computeType,omitempty"`
+	Description       *string                       `json:"description,omitempty"`
+	DisableLocalAuth  *bool                         `json:"disableLocalAuth,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -4735,76 +4144,18 @@ func (factory *DataFactory) AssignProperties_To_DataFactory(destination *v202107
 	return nil
 }
 
-// Initialize_From_DataFactory_STATUS populates our DataFactory from the provided source DataFactory_STATUS
-func (factory *DataFactory) Initialize_From_DataFactory_STATUS(source *DataFactory_STATUS) error {
-
-	// ComputeLocation
-	factory.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := DataFactory_ComputeType(*source.ComputeType)
-		factory.ComputeType = &computeType
-	} else {
-		factory.ComputeType = nil
-	}
-
-	// Description
-	factory.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		factory.DisableLocalAuth = &disableLocalAuth
-	} else {
-		factory.DisableLocalAuth = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		factory.ResourceReference = &resourceReference
-	} else {
-		factory.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of DataFactory_STATUS. Use v1api20210701.DataFactory_STATUS instead
 type DataFactory_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *DataFactory_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *DataFactory_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                               `json:"computeLocation,omitempty"`
+	ComputeType        *DataFactory_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                               `json:"createdOn,omitempty"`
+	Description        *string                               `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                 `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                 `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                               `json:"modifiedOn,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS                `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *DataFactory_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                               `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DataFactory_STATUS{}
@@ -5039,24 +4390,16 @@ func (factory *DataFactory_STATUS) AssignProperties_To_DataFactory_STATUS(destin
 	return nil
 }
 
+// Deprecated version of DataLakeAnalytics. Use v1api20210701.DataLakeAnalytics instead
 type DataLakeAnalytics struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *DataLakeAnalytics_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool                         `json:"disableLocalAuth,omitempty"`
-	Properties       *DataLakeAnalytics_Properties `json:"properties,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
+	ComputeType       *DataLakeAnalytics_ComputeType `json:"computeType,omitempty"`
+	Description       *string                        `json:"description,omitempty"`
+	DisableLocalAuth  *bool                          `json:"disableLocalAuth,omitempty"`
+	Properties        *DataLakeAnalytics_Properties  `json:"properties,omitempty"`
+	ResourceReference *genruntime.ResourceReference  `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DataLakeAnalytics{}
@@ -5270,89 +4613,19 @@ func (analytics *DataLakeAnalytics) AssignProperties_To_DataLakeAnalytics(destin
 	return nil
 }
 
-// Initialize_From_DataLakeAnalytics_STATUS populates our DataLakeAnalytics from the provided source DataLakeAnalytics_STATUS
-func (analytics *DataLakeAnalytics) Initialize_From_DataLakeAnalytics_STATUS(source *DataLakeAnalytics_STATUS) error {
-
-	// ComputeLocation
-	analytics.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := DataLakeAnalytics_ComputeType(*source.ComputeType)
-		analytics.ComputeType = &computeType
-	} else {
-		analytics.ComputeType = nil
-	}
-
-	// Description
-	analytics.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		analytics.DisableLocalAuth = &disableLocalAuth
-	} else {
-		analytics.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property DataLakeAnalytics_Properties
-		err := property.Initialize_From_DataLakeAnalytics_Properties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataLakeAnalytics_Properties_STATUS() to populate field Properties")
-		}
-		analytics.Properties = &property
-	} else {
-		analytics.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		analytics.ResourceReference = &resourceReference
-	} else {
-		analytics.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of DataLakeAnalytics_STATUS. Use v1api20210701.DataLakeAnalytics_STATUS instead
 type DataLakeAnalytics_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *DataLakeAnalytics_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                              `json:"modifiedOn,omitempty"`
-	Properties *DataLakeAnalytics_Properties_STATUS `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *DataLakeAnalytics_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                                     `json:"computeLocation,omitempty"`
+	ComputeType        *DataLakeAnalytics_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                                     `json:"createdOn,omitempty"`
+	Description        *string                                     `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                       `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                       `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                                     `json:"modifiedOn,omitempty"`
+	Properties         *DataLakeAnalytics_Properties_STATUS        `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS                      `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *DataLakeAnalytics_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                                     `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DataLakeAnalytics_STATUS{}
@@ -5622,25 +4895,15 @@ func (analytics *DataLakeAnalytics_STATUS) AssignProperties_To_DataLakeAnalytics
 	return nil
 }
 
+// Deprecated version of HDInsight. Use v1api20210701.HDInsight instead
 type HDInsight struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *HDInsight_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Properties: HDInsight compute properties
-	Properties *HDInsightProperties `json:"properties,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
+	ComputeType       *HDInsight_ComputeType        `json:"computeType,omitempty"`
+	Description       *string                       `json:"description,omitempty"`
+	DisableLocalAuth  *bool                         `json:"disableLocalAuth,omitempty"`
+	Properties        *HDInsightProperties          `json:"properties,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -5855,91 +5118,19 @@ func (insight *HDInsight) AssignProperties_To_HDInsight(destination *v20210701s.
 	return nil
 }
 
-// Initialize_From_HDInsight_STATUS populates our HDInsight from the provided source HDInsight_STATUS
-func (insight *HDInsight) Initialize_From_HDInsight_STATUS(source *HDInsight_STATUS) error {
-
-	// ComputeLocation
-	insight.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := HDInsight_ComputeType(*source.ComputeType)
-		insight.ComputeType = &computeType
-	} else {
-		insight.ComputeType = nil
-	}
-
-	// Description
-	insight.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		insight.DisableLocalAuth = &disableLocalAuth
-	} else {
-		insight.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property HDInsightProperties
-		err := property.Initialize_From_HDInsightProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HDInsightProperties_STATUS() to populate field Properties")
-		}
-		insight.Properties = &property
-	} else {
-		insight.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		insight.ResourceReference = &resourceReference
-	} else {
-		insight.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of HDInsight_STATUS. Use v1api20210701.HDInsight_STATUS instead
 type HDInsight_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *HDInsight_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: HDInsight compute properties
-	Properties *HDInsightProperties_STATUS `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *HDInsight_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                             `json:"computeLocation,omitempty"`
+	ComputeType        *HDInsight_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                             `json:"createdOn,omitempty"`
+	Description        *string                             `json:"description,omitempty"`
+	DisableLocalAuth   *bool                               `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                               `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                             `json:"modifiedOn,omitempty"`
+	Properties         *HDInsightProperties_STATUS         `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS              `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *HDInsight_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                             `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HDInsight_STATUS{}
@@ -6209,25 +5400,15 @@ func (insight *HDInsight_STATUS) AssignProperties_To_HDInsight_STATUS(destinatio
 	return nil
 }
 
+// Deprecated version of Kubernetes. Use v1api20210701.Kubernetes instead
 type Kubernetes struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *Kubernetes_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// Properties: Properties of Kubernetes
-	Properties *KubernetesProperties `json:"properties,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
+	ComputeType       *Kubernetes_ComputeType       `json:"computeType,omitempty"`
+	Description       *string                       `json:"description,omitempty"`
+	DisableLocalAuth  *bool                         `json:"disableLocalAuth,omitempty"`
+	Properties        *KubernetesProperties         `json:"properties,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -6442,91 +5623,19 @@ func (kubernetes *Kubernetes) AssignProperties_To_Kubernetes(destination *v20210
 	return nil
 }
 
-// Initialize_From_Kubernetes_STATUS populates our Kubernetes from the provided source Kubernetes_STATUS
-func (kubernetes *Kubernetes) Initialize_From_Kubernetes_STATUS(source *Kubernetes_STATUS) error {
-
-	// ComputeLocation
-	kubernetes.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := Kubernetes_ComputeType(*source.ComputeType)
-		kubernetes.ComputeType = &computeType
-	} else {
-		kubernetes.ComputeType = nil
-	}
-
-	// Description
-	kubernetes.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		kubernetes.DisableLocalAuth = &disableLocalAuth
-	} else {
-		kubernetes.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property KubernetesProperties
-		err := property.Initialize_From_KubernetesProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KubernetesProperties_STATUS() to populate field Properties")
-		}
-		kubernetes.Properties = &property
-	} else {
-		kubernetes.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		kubernetes.ResourceReference = &resourceReference
-	} else {
-		kubernetes.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of Kubernetes_STATUS. Use v1api20210701.Kubernetes_STATUS instead
 type Kubernetes_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *Kubernetes_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string `json:"modifiedOn,omitempty"`
-
-	// Properties: Properties of Kubernetes
-	Properties *KubernetesProperties_STATUS `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *Kubernetes_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                              `json:"computeLocation,omitempty"`
+	ComputeType        *Kubernetes_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                              `json:"createdOn,omitempty"`
+	Description        *string                              `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                              `json:"modifiedOn,omitempty"`
+	Properties         *KubernetesProperties_STATUS         `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS               `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *Kubernetes_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                              `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Kubernetes_STATUS{}
@@ -6796,23 +5905,15 @@ func (kubernetes *Kubernetes_STATUS) AssignProperties_To_Kubernetes_STATUS(desti
 	return nil
 }
 
+// Deprecated version of SynapseSpark. Use v1api20210701.SynapseSpark instead
 type SynapseSpark struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *SynapseSpark_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool                    `json:"disableLocalAuth,omitempty"`
-	Properties       *SynapseSpark_Properties `json:"properties,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
+	ComputeType       *SynapseSpark_ComputeType     `json:"computeType,omitempty"`
+	Description       *string                       `json:"description,omitempty"`
+	DisableLocalAuth  *bool                         `json:"disableLocalAuth,omitempty"`
+	Properties        *SynapseSpark_Properties      `json:"properties,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -7027,89 +6128,19 @@ func (spark *SynapseSpark) AssignProperties_To_SynapseSpark(destination *v202107
 	return nil
 }
 
-// Initialize_From_SynapseSpark_STATUS populates our SynapseSpark from the provided source SynapseSpark_STATUS
-func (spark *SynapseSpark) Initialize_From_SynapseSpark_STATUS(source *SynapseSpark_STATUS) error {
-
-	// ComputeLocation
-	spark.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := SynapseSpark_ComputeType(*source.ComputeType)
-		spark.ComputeType = &computeType
-	} else {
-		spark.ComputeType = nil
-	}
-
-	// Description
-	spark.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		spark.DisableLocalAuth = &disableLocalAuth
-	} else {
-		spark.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property SynapseSpark_Properties
-		err := property.Initialize_From_SynapseSpark_Properties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SynapseSpark_Properties_STATUS() to populate field Properties")
-		}
-		spark.Properties = &property
-	} else {
-		spark.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		spark.ResourceReference = &resourceReference
-	} else {
-		spark.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of SynapseSpark_STATUS. Use v1api20210701.SynapseSpark_STATUS instead
 type SynapseSpark_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *SynapseSpark_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                         `json:"modifiedOn,omitempty"`
-	Properties *SynapseSpark_Properties_STATUS `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *SynapseSpark_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                                `json:"computeLocation,omitempty"`
+	ComputeType        *SynapseSpark_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                                `json:"createdOn,omitempty"`
+	Description        *string                                `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                  `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                  `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                                `json:"modifiedOn,omitempty"`
+	Properties         *SynapseSpark_Properties_STATUS        `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS                 `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *SynapseSpark_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                                `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SynapseSpark_STATUS{}
@@ -7379,23 +6410,15 @@ func (spark *SynapseSpark_STATUS) AssignProperties_To_SynapseSpark_STATUS(destin
 	return nil
 }
 
+// Deprecated version of VirtualMachine. Use v1api20210701.VirtualMachine instead
 type VirtualMachine struct {
-	// ComputeLocation: Location for the underlying compute
 	ComputeLocation *string `json:"computeLocation,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ComputeType: The type of compute
-	ComputeType *VirtualMachine_ComputeType `json:"computeType,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool                      `json:"disableLocalAuth,omitempty"`
-	Properties       *VirtualMachine_Properties `json:"properties,omitempty"`
-
-	// ResourceReference: ARM resource id of the underlying compute
+	ComputeType       *VirtualMachine_ComputeType   `json:"computeType,omitempty"`
+	Description       *string                       `json:"description,omitempty"`
+	DisableLocalAuth  *bool                         `json:"disableLocalAuth,omitempty"`
+	Properties        *VirtualMachine_Properties    `json:"properties,omitempty"`
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
 }
 
@@ -7610,89 +6633,19 @@ func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *v
 	return nil
 }
 
-// Initialize_From_VirtualMachine_STATUS populates our VirtualMachine from the provided source VirtualMachine_STATUS
-func (machine *VirtualMachine) Initialize_From_VirtualMachine_STATUS(source *VirtualMachine_STATUS) error {
-
-	// ComputeLocation
-	machine.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := VirtualMachine_ComputeType(*source.ComputeType)
-		machine.ComputeType = &computeType
-	} else {
-		machine.ComputeType = nil
-	}
-
-	// Description
-	machine.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		machine.DisableLocalAuth = &disableLocalAuth
-	} else {
-		machine.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property VirtualMachine_Properties
-		err := property.Initialize_From_VirtualMachine_Properties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachine_Properties_STATUS() to populate field Properties")
-		}
-		machine.Properties = &property
-	} else {
-		machine.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		machine.ResourceReference = &resourceReference
-	} else {
-		machine.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of VirtualMachine_STATUS. Use v1api20210701.VirtualMachine_STATUS instead
 type VirtualMachine_STATUS struct {
-	// ComputeLocation: Location for the underlying compute
-	ComputeLocation *string `json:"computeLocation,omitempty"`
-
-	// ComputeType: The type of compute
-	ComputeType *VirtualMachine_ComputeType_STATUS `json:"computeType,omitempty"`
-
-	// CreatedOn: The time at which the compute was created.
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// Description: The description of the Machine Learning compute.
-	Description *string `json:"description,omitempty"`
-
-	// DisableLocalAuth: Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for
-	// authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// IsAttachedCompute: Indicating whether the compute was provisioned by user and brought from outside if true, or machine
-	// learning service provisioned it if false.
-	IsAttachedCompute *bool `json:"isAttachedCompute,omitempty"`
-
-	// ModifiedOn: The time at which the compute was last modified.
-	ModifiedOn *string                           `json:"modifiedOn,omitempty"`
-	Properties *VirtualMachine_Properties_STATUS `json:"properties,omitempty"`
-
-	// ProvisioningErrors: Errors during provisioning
-	ProvisioningErrors []ErrorResponse_STATUS `json:"provisioningErrors,omitempty"`
-
-	// ProvisioningState: The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and
-	// Failed.
-	ProvisioningState *VirtualMachine_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceId: ARM resource id of the underlying compute
-	ResourceId *string `json:"resourceId,omitempty"`
+	ComputeLocation    *string                                  `json:"computeLocation,omitempty"`
+	ComputeType        *VirtualMachine_ComputeType_STATUS       `json:"computeType,omitempty"`
+	CreatedOn          *string                                  `json:"createdOn,omitempty"`
+	Description        *string                                  `json:"description,omitempty"`
+	DisableLocalAuth   *bool                                    `json:"disableLocalAuth,omitempty"`
+	IsAttachedCompute  *bool                                    `json:"isAttachedCompute,omitempty"`
+	ModifiedOn         *string                                  `json:"modifiedOn,omitempty"`
+	Properties         *VirtualMachine_Properties_STATUS        `json:"properties,omitempty"`
+	ProvisioningErrors []ErrorResponse_STATUS                   `json:"provisioningErrors,omitempty"`
+	ProvisioningState  *VirtualMachine_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceId         *string                                  `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachine_STATUS{}
@@ -7962,31 +6915,17 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 	return nil
 }
 
+// Deprecated version of AKS_Properties. Use v1api20210701.AKS_Properties instead
 type AKS_Properties struct {
 	// +kubebuilder:validation:Minimum=0
-	// AgentCount: Number of agents
-	AgentCount *int `json:"agentCount,omitempty"`
-
-	// AgentVmSize: Agent virtual machine size
-	AgentVmSize *string `json:"agentVmSize,omitempty"`
-
-	// AksNetworkingConfiguration: AKS networking configuration for vnet
-	AksNetworkingConfiguration *AksNetworkingConfiguration `json:"aksNetworkingConfiguration,omitempty"`
-
-	// ClusterFqdn: Cluster full qualified domain name
-	ClusterFqdn *string `json:"clusterFqdn,omitempty"`
-
-	// ClusterPurpose: Intended usage of the cluster
-	ClusterPurpose *AKS_Properties_ClusterPurpose `json:"clusterPurpose,omitempty"`
-
-	// LoadBalancerSubnet: Load Balancer Subnet
-	LoadBalancerSubnet *string `json:"loadBalancerSubnet,omitempty"`
-
-	// LoadBalancerType: Load Balancer Type
-	LoadBalancerType *AKS_Properties_LoadBalancerType `json:"loadBalancerType,omitempty"`
-
-	// SslConfiguration: SSL configuration
-	SslConfiguration *SslConfiguration `json:"sslConfiguration,omitempty"`
+	AgentCount                 *int                             `json:"agentCount,omitempty"`
+	AgentVmSize                *string                          `json:"agentVmSize,omitempty"`
+	AksNetworkingConfiguration *AksNetworkingConfiguration      `json:"aksNetworkingConfiguration,omitempty"`
+	ClusterFqdn                *string                          `json:"clusterFqdn,omitempty"`
+	ClusterPurpose             *AKS_Properties_ClusterPurpose   `json:"clusterPurpose,omitempty"`
+	LoadBalancerSubnet         *string                          `json:"loadBalancerSubnet,omitempty"`
+	LoadBalancerType           *AKS_Properties_LoadBalancerType `json:"loadBalancerType,omitempty"`
+	SslConfiguration           *SslConfiguration                `json:"sslConfiguration,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AKS_Properties{}
@@ -8267,97 +7206,17 @@ func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination
 	return nil
 }
 
-// Initialize_From_AKS_Properties_STATUS populates our AKS_Properties from the provided source AKS_Properties_STATUS
-func (properties *AKS_Properties) Initialize_From_AKS_Properties_STATUS(source *AKS_Properties_STATUS) error {
-
-	// AgentCount
-	if source.AgentCount != nil {
-		agentCount := *source.AgentCount
-		properties.AgentCount = &agentCount
-	} else {
-		properties.AgentCount = nil
-	}
-
-	// AgentVmSize
-	properties.AgentVmSize = genruntime.ClonePointerToString(source.AgentVmSize)
-
-	// AksNetworkingConfiguration
-	if source.AksNetworkingConfiguration != nil {
-		var aksNetworkingConfiguration AksNetworkingConfiguration
-		err := aksNetworkingConfiguration.Initialize_From_AksNetworkingConfiguration_STATUS(source.AksNetworkingConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AksNetworkingConfiguration_STATUS() to populate field AksNetworkingConfiguration")
-		}
-		properties.AksNetworkingConfiguration = &aksNetworkingConfiguration
-	} else {
-		properties.AksNetworkingConfiguration = nil
-	}
-
-	// ClusterFqdn
-	properties.ClusterFqdn = genruntime.ClonePointerToString(source.ClusterFqdn)
-
-	// ClusterPurpose
-	if source.ClusterPurpose != nil {
-		clusterPurpose := AKS_Properties_ClusterPurpose(*source.ClusterPurpose)
-		properties.ClusterPurpose = &clusterPurpose
-	} else {
-		properties.ClusterPurpose = nil
-	}
-
-	// LoadBalancerSubnet
-	properties.LoadBalancerSubnet = genruntime.ClonePointerToString(source.LoadBalancerSubnet)
-
-	// LoadBalancerType
-	if source.LoadBalancerType != nil {
-		loadBalancerType := AKS_Properties_LoadBalancerType(*source.LoadBalancerType)
-		properties.LoadBalancerType = &loadBalancerType
-	} else {
-		properties.LoadBalancerType = nil
-	}
-
-	// SslConfiguration
-	if source.SslConfiguration != nil {
-		var sslConfiguration SslConfiguration
-		err := sslConfiguration.Initialize_From_SslConfiguration_STATUS(source.SslConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SslConfiguration_STATUS() to populate field SslConfiguration")
-		}
-		properties.SslConfiguration = &sslConfiguration
-	} else {
-		properties.SslConfiguration = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of AKS_Properties_STATUS. Use v1api20210701.AKS_Properties_STATUS instead
 type AKS_Properties_STATUS struct {
-	// AgentCount: Number of agents
-	AgentCount *int `json:"agentCount,omitempty"`
-
-	// AgentVmSize: Agent virtual machine size
-	AgentVmSize *string `json:"agentVmSize,omitempty"`
-
-	// AksNetworkingConfiguration: AKS networking configuration for vnet
-	AksNetworkingConfiguration *AksNetworkingConfiguration_STATUS `json:"aksNetworkingConfiguration,omitempty"`
-
-	// ClusterFqdn: Cluster full qualified domain name
-	ClusterFqdn *string `json:"clusterFqdn,omitempty"`
-
-	// ClusterPurpose: Intended usage of the cluster
-	ClusterPurpose *AKS_Properties_ClusterPurpose_STATUS `json:"clusterPurpose,omitempty"`
-
-	// LoadBalancerSubnet: Load Balancer Subnet
-	LoadBalancerSubnet *string `json:"loadBalancerSubnet,omitempty"`
-
-	// LoadBalancerType: Load Balancer Type
-	LoadBalancerType *AKS_Properties_LoadBalancerType_STATUS `json:"loadBalancerType,omitempty"`
-
-	// SslConfiguration: SSL configuration
-	SslConfiguration *SslConfiguration_STATUS `json:"sslConfiguration,omitempty"`
-
-	// SystemServices: System services
-	SystemServices []SystemService_STATUS `json:"systemServices,omitempty"`
+	AgentCount                 *int                                    `json:"agentCount,omitempty"`
+	AgentVmSize                *string                                 `json:"agentVmSize,omitempty"`
+	AksNetworkingConfiguration *AksNetworkingConfiguration_STATUS      `json:"aksNetworkingConfiguration,omitempty"`
+	ClusterFqdn                *string                                 `json:"clusterFqdn,omitempty"`
+	ClusterPurpose             *AKS_Properties_ClusterPurpose_STATUS   `json:"clusterPurpose,omitempty"`
+	LoadBalancerSubnet         *string                                 `json:"loadBalancerSubnet,omitempty"`
+	LoadBalancerType           *AKS_Properties_LoadBalancerType_STATUS `json:"loadBalancerType,omitempty"`
+	SslConfiguration           *SslConfiguration_STATUS                `json:"sslConfiguration,omitempty"`
+	SystemServices             []SystemService_STATUS                  `json:"systemServices,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AKS_Properties_STATUS{}
@@ -8609,43 +7468,18 @@ func (properties *AKS_Properties_STATUS) AssignProperties_To_AKS_Properties_STAT
 	return nil
 }
 
-// AML Compute properties
+// Deprecated version of AmlComputeProperties. Use v1api20210701.AmlComputeProperties instead
 type AmlComputeProperties struct {
-	// EnableNodePublicIp: Enable or disable node public IP address provisioning. Possible values are: Possible values are:
-	// true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will
-	// have a private endpoint and no public IPs.
-	EnableNodePublicIp *bool `json:"enableNodePublicIp,omitempty"`
-
-	// IsolatedNetwork: Network is isolated or not
-	IsolatedNetwork *bool `json:"isolatedNetwork,omitempty"`
-
-	// OsType: Compute OS Type
-	OsType *AmlComputeProperties_OsType `json:"osType,omitempty"`
-
-	// RemoteLoginPortPublicAccess: State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh
-	// port is closed on all nodes of the cluster. Enabled - Indicates that the public ssh port is open on all nodes of the
-	// cluster. NotSpecified - Indicates that the public ssh port is closed on all nodes of the cluster if VNet is defined,
-	// else is open all public nodes. It can be default only during cluster creation time, after creation it will be either
-	// enabled or disabled.
+	EnableNodePublicIp          *bool                                             `json:"enableNodePublicIp,omitempty"`
+	IsolatedNetwork             *bool                                             `json:"isolatedNetwork,omitempty"`
+	OsType                      *AmlComputeProperties_OsType                      `json:"osType,omitempty"`
 	RemoteLoginPortPublicAccess *AmlComputeProperties_RemoteLoginPortPublicAccess `json:"remoteLoginPortPublicAccess,omitempty"`
-
-	// ScaleSettings: Scale settings for AML Compute
-	ScaleSettings *ScaleSettings `json:"scaleSettings,omitempty"`
-
-	// Subnet: Virtual network subnet resource ID the compute nodes belong to.
-	Subnet *ResourceId `json:"subnet,omitempty"`
-
-	// UserAccountCredentials: Credentials for an administrator user account that will be created on each compute node.
-	UserAccountCredentials *UserAccountCredentials `json:"userAccountCredentials,omitempty"`
-
-	// VirtualMachineImage: Virtual Machine image for AML Compute - windows only
-	VirtualMachineImage *VirtualMachineImage `json:"virtualMachineImage,omitempty"`
-
-	// VmPriority: Virtual Machine priority
-	VmPriority *AmlComputeProperties_VmPriority `json:"vmPriority,omitempty"`
-
-	// VmSize: Virtual Machine Size
-	VmSize *string `json:"vmSize,omitempty"`
+	ScaleSettings               *ScaleSettings                                    `json:"scaleSettings,omitempty"`
+	Subnet                      *ResourceId                                       `json:"subnet,omitempty"`
+	UserAccountCredentials      *UserAccountCredentials                           `json:"userAccountCredentials,omitempty"`
+	VirtualMachineImage         *VirtualMachineImage                              `json:"virtualMachineImage,omitempty"`
+	VmPriority                  *AmlComputeProperties_VmPriority                  `json:"vmPriority,omitempty"`
+	VmSize                      *string                                           `json:"vmSize,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AmlComputeProperties{}
@@ -9036,164 +7870,24 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 	return nil
 }
 
-// Initialize_From_AmlComputeProperties_STATUS populates our AmlComputeProperties from the provided source AmlComputeProperties_STATUS
-func (properties *AmlComputeProperties) Initialize_From_AmlComputeProperties_STATUS(source *AmlComputeProperties_STATUS) error {
-
-	// EnableNodePublicIp
-	if source.EnableNodePublicIp != nil {
-		enableNodePublicIp := *source.EnableNodePublicIp
-		properties.EnableNodePublicIp = &enableNodePublicIp
-	} else {
-		properties.EnableNodePublicIp = nil
-	}
-
-	// IsolatedNetwork
-	if source.IsolatedNetwork != nil {
-		isolatedNetwork := *source.IsolatedNetwork
-		properties.IsolatedNetwork = &isolatedNetwork
-	} else {
-		properties.IsolatedNetwork = nil
-	}
-
-	// OsType
-	if source.OsType != nil {
-		osType := AmlComputeProperties_OsType(*source.OsType)
-		properties.OsType = &osType
-	} else {
-		properties.OsType = nil
-	}
-
-	// RemoteLoginPortPublicAccess
-	if source.RemoteLoginPortPublicAccess != nil {
-		remoteLoginPortPublicAccess := AmlComputeProperties_RemoteLoginPortPublicAccess(*source.RemoteLoginPortPublicAccess)
-		properties.RemoteLoginPortPublicAccess = &remoteLoginPortPublicAccess
-	} else {
-		properties.RemoteLoginPortPublicAccess = nil
-	}
-
-	// ScaleSettings
-	if source.ScaleSettings != nil {
-		var scaleSetting ScaleSettings
-		err := scaleSetting.Initialize_From_ScaleSettings_STATUS(source.ScaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScaleSettings_STATUS() to populate field ScaleSettings")
-		}
-		properties.ScaleSettings = &scaleSetting
-	} else {
-		properties.ScaleSettings = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet ResourceId
-		err := subnet.Initialize_From_ResourceId_STATUS(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceId_STATUS() to populate field Subnet")
-		}
-		properties.Subnet = &subnet
-	} else {
-		properties.Subnet = nil
-	}
-
-	// UserAccountCredentials
-	if source.UserAccountCredentials != nil {
-		var userAccountCredential UserAccountCredentials
-		err := userAccountCredential.Initialize_From_UserAccountCredentials_STATUS(source.UserAccountCredentials)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_UserAccountCredentials_STATUS() to populate field UserAccountCredentials")
-		}
-		properties.UserAccountCredentials = &userAccountCredential
-	} else {
-		properties.UserAccountCredentials = nil
-	}
-
-	// VirtualMachineImage
-	if source.VirtualMachineImage != nil {
-		var virtualMachineImage VirtualMachineImage
-		err := virtualMachineImage.Initialize_From_VirtualMachineImage_STATUS(source.VirtualMachineImage)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachineImage_STATUS() to populate field VirtualMachineImage")
-		}
-		properties.VirtualMachineImage = &virtualMachineImage
-	} else {
-		properties.VirtualMachineImage = nil
-	}
-
-	// VmPriority
-	if source.VmPriority != nil {
-		vmPriority := AmlComputeProperties_VmPriority(*source.VmPriority)
-		properties.VmPriority = &vmPriority
-	} else {
-		properties.VmPriority = nil
-	}
-
-	// VmSize
-	properties.VmSize = genruntime.ClonePointerToString(source.VmSize)
-
-	// No error
-	return nil
-}
-
-// AML Compute properties
+// Deprecated version of AmlComputeProperties_STATUS. Use v1api20210701.AmlComputeProperties_STATUS instead
 type AmlComputeProperties_STATUS struct {
-	// AllocationState: Allocation state of the compute. Possible values are: steady - Indicates that the compute is not
-	// resizing. There are no changes to the number of compute nodes in the compute in progress. A compute enters this state
-	// when it is created and when no operations are being performed on the compute to change the number of compute nodes.
-	// resizing - Indicates that the compute is resizing; that is, compute nodes are being added to or removed from the compute.
-	AllocationState *AmlComputeProperties_AllocationState_STATUS `json:"allocationState,omitempty"`
-
-	// AllocationStateTransitionTime: The time at which the compute entered its current allocation state.
-	AllocationStateTransitionTime *string `json:"allocationStateTransitionTime,omitempty"`
-
-	// CurrentNodeCount: The number of compute nodes currently assigned to the compute.
-	CurrentNodeCount *int `json:"currentNodeCount,omitempty"`
-
-	// EnableNodePublicIp: Enable or disable node public IP address provisioning. Possible values are: Possible values are:
-	// true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will
-	// have a private endpoint and no public IPs.
-	EnableNodePublicIp *bool `json:"enableNodePublicIp,omitempty"`
-
-	// Errors: Collection of errors encountered by various compute nodes during node setup.
-	Errors []ErrorResponse_STATUS `json:"errors,omitempty"`
-
-	// IsolatedNetwork: Network is isolated or not
-	IsolatedNetwork *bool `json:"isolatedNetwork,omitempty"`
-
-	// NodeStateCounts: Counts of various node states on the compute.
-	NodeStateCounts *NodeStateCounts_STATUS `json:"nodeStateCounts,omitempty"`
-
-	// OsType: Compute OS Type
-	OsType *AmlComputeProperties_OsType_STATUS `json:"osType,omitempty"`
-
-	// RemoteLoginPortPublicAccess: State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh
-	// port is closed on all nodes of the cluster. Enabled - Indicates that the public ssh port is open on all nodes of the
-	// cluster. NotSpecified - Indicates that the public ssh port is closed on all nodes of the cluster if VNet is defined,
-	// else is open all public nodes. It can be default only during cluster creation time, after creation it will be either
-	// enabled or disabled.
-	RemoteLoginPortPublicAccess *AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS `json:"remoteLoginPortPublicAccess,omitempty"`
-
-	// ScaleSettings: Scale settings for AML Compute
-	ScaleSettings *ScaleSettings_STATUS `json:"scaleSettings,omitempty"`
-
-	// Subnet: Virtual network subnet resource ID the compute nodes belong to.
-	Subnet *ResourceId_STATUS `json:"subnet,omitempty"`
-
-	// TargetNodeCount: The target number of compute nodes for the compute. If the allocationState is resizing, this property
-	// denotes the target node count for the ongoing resize operation. If the allocationState is steady, this property denotes
-	// the target node count for the previous resize operation.
-	TargetNodeCount *int `json:"targetNodeCount,omitempty"`
-
-	// UserAccountCredentials: Credentials for an administrator user account that will be created on each compute node.
-	UserAccountCredentials *UserAccountCredentials_STATUS `json:"userAccountCredentials,omitempty"`
-
-	// VirtualMachineImage: Virtual Machine image for AML Compute - windows only
-	VirtualMachineImage *VirtualMachineImage_STATUS `json:"virtualMachineImage,omitempty"`
-
-	// VmPriority: Virtual Machine priority
-	VmPriority *AmlComputeProperties_VmPriority_STATUS `json:"vmPriority,omitempty"`
-
-	// VmSize: Virtual Machine Size
-	VmSize *string `json:"vmSize,omitempty"`
+	AllocationState               *AmlComputeProperties_AllocationState_STATUS             `json:"allocationState,omitempty"`
+	AllocationStateTransitionTime *string                                                  `json:"allocationStateTransitionTime,omitempty"`
+	CurrentNodeCount              *int                                                     `json:"currentNodeCount,omitempty"`
+	EnableNodePublicIp            *bool                                                    `json:"enableNodePublicIp,omitempty"`
+	Errors                        []ErrorResponse_STATUS                                   `json:"errors,omitempty"`
+	IsolatedNetwork               *bool                                                    `json:"isolatedNetwork,omitempty"`
+	NodeStateCounts               *NodeStateCounts_STATUS                                  `json:"nodeStateCounts,omitempty"`
+	OsType                        *AmlComputeProperties_OsType_STATUS                      `json:"osType,omitempty"`
+	RemoteLoginPortPublicAccess   *AmlComputeProperties_RemoteLoginPortPublicAccess_STATUS `json:"remoteLoginPortPublicAccess,omitempty"`
+	ScaleSettings                 *ScaleSettings_STATUS                                    `json:"scaleSettings,omitempty"`
+	Subnet                        *ResourceId_STATUS                                       `json:"subnet,omitempty"`
+	TargetNodeCount               *int                                                     `json:"targetNodeCount,omitempty"`
+	UserAccountCredentials        *UserAccountCredentials_STATUS                           `json:"userAccountCredentials,omitempty"`
+	VirtualMachineImage           *VirtualMachineImage_STATUS                              `json:"virtualMachineImage,omitempty"`
+	VmPriority                    *AmlComputeProperties_VmPriority_STATUS                  `json:"vmPriority,omitempty"`
+	VmSize                        *string                                                  `json:"vmSize,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AmlComputeProperties_STATUS{}
@@ -9638,30 +8332,15 @@ func (properties *AmlComputeProperties_STATUS) AssignProperties_To_AmlComputePro
 	return nil
 }
 
-// Compute Instance properties
+// Deprecated version of ComputeInstanceProperties. Use v1api20210701.ComputeInstanceProperties instead
 type ComputeInstanceProperties struct {
-	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
-	// Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access
-	// applications on this instance depending on his/her assigned role.
-	ApplicationSharingPolicy *ComputeInstanceProperties_ApplicationSharingPolicy `json:"applicationSharingPolicy,omitempty"`
-
-	// ComputeInstanceAuthorizationType: The Compute Instance Authorization type. Available values are personal (default).
+	ApplicationSharingPolicy         *ComputeInstanceProperties_ApplicationSharingPolicy         `json:"applicationSharingPolicy,omitempty"`
 	ComputeInstanceAuthorizationType *ComputeInstanceProperties_ComputeInstanceAuthorizationType `json:"computeInstanceAuthorizationType,omitempty"`
-
-	// PersonalComputeInstanceSettings: Settings for a personal compute instance.
-	PersonalComputeInstanceSettings *PersonalComputeInstanceSettings `json:"personalComputeInstanceSettings,omitempty"`
-
-	// SetupScripts: Details of customized scripts to execute for setting up the cluster.
-	SetupScripts *SetupScripts `json:"setupScripts,omitempty"`
-
-	// SshSettings: Specifies policy and settings for SSH access.
-	SshSettings *ComputeInstanceSshSettings `json:"sshSettings,omitempty"`
-
-	// Subnet: Virtual network subnet resource ID the compute nodes belong to.
-	Subnet *ResourceId `json:"subnet,omitempty"`
-
-	// VmSize: Virtual Machine Size
-	VmSize *string `json:"vmSize,omitempty"`
+	PersonalComputeInstanceSettings  *PersonalComputeInstanceSettings                            `json:"personalComputeInstanceSettings,omitempty"`
+	SetupScripts                     *SetupScripts                                               `json:"setupScripts,omitempty"`
+	SshSettings                      *ComputeInstanceSshSettings                                 `json:"sshSettings,omitempty"`
+	Subnet                           *ResourceId                                                 `json:"subnet,omitempty"`
+	VmSize                           *string                                                     `json:"vmSize,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ComputeInstanceProperties{}
@@ -9968,122 +8647,21 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 	return nil
 }
 
-// Initialize_From_ComputeInstanceProperties_STATUS populates our ComputeInstanceProperties from the provided source ComputeInstanceProperties_STATUS
-func (properties *ComputeInstanceProperties) Initialize_From_ComputeInstanceProperties_STATUS(source *ComputeInstanceProperties_STATUS) error {
-
-	// ApplicationSharingPolicy
-	if source.ApplicationSharingPolicy != nil {
-		applicationSharingPolicy := ComputeInstanceProperties_ApplicationSharingPolicy(*source.ApplicationSharingPolicy)
-		properties.ApplicationSharingPolicy = &applicationSharingPolicy
-	} else {
-		properties.ApplicationSharingPolicy = nil
-	}
-
-	// ComputeInstanceAuthorizationType
-	if source.ComputeInstanceAuthorizationType != nil {
-		computeInstanceAuthorizationType := ComputeInstanceProperties_ComputeInstanceAuthorizationType(*source.ComputeInstanceAuthorizationType)
-		properties.ComputeInstanceAuthorizationType = &computeInstanceAuthorizationType
-	} else {
-		properties.ComputeInstanceAuthorizationType = nil
-	}
-
-	// PersonalComputeInstanceSettings
-	if source.PersonalComputeInstanceSettings != nil {
-		var personalComputeInstanceSetting PersonalComputeInstanceSettings
-		err := personalComputeInstanceSetting.Initialize_From_PersonalComputeInstanceSettings_STATUS(source.PersonalComputeInstanceSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PersonalComputeInstanceSettings_STATUS() to populate field PersonalComputeInstanceSettings")
-		}
-		properties.PersonalComputeInstanceSettings = &personalComputeInstanceSetting
-	} else {
-		properties.PersonalComputeInstanceSettings = nil
-	}
-
-	// SetupScripts
-	if source.SetupScripts != nil {
-		var setupScript SetupScripts
-		err := setupScript.Initialize_From_SetupScripts_STATUS(source.SetupScripts)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SetupScripts_STATUS() to populate field SetupScripts")
-		}
-		properties.SetupScripts = &setupScript
-	} else {
-		properties.SetupScripts = nil
-	}
-
-	// SshSettings
-	if source.SshSettings != nil {
-		var sshSetting ComputeInstanceSshSettings
-		err := sshSetting.Initialize_From_ComputeInstanceSshSettings_STATUS(source.SshSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ComputeInstanceSshSettings_STATUS() to populate field SshSettings")
-		}
-		properties.SshSettings = &sshSetting
-	} else {
-		properties.SshSettings = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet ResourceId
-		err := subnet.Initialize_From_ResourceId_STATUS(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceId_STATUS() to populate field Subnet")
-		}
-		properties.Subnet = &subnet
-	} else {
-		properties.Subnet = nil
-	}
-
-	// VmSize
-	properties.VmSize = genruntime.ClonePointerToString(source.VmSize)
-
-	// No error
-	return nil
-}
-
-// Compute Instance properties
+// Deprecated version of ComputeInstanceProperties_STATUS. Use v1api20210701.ComputeInstanceProperties_STATUS instead
 type ComputeInstanceProperties_STATUS struct {
-	// ApplicationSharingPolicy: Policy for sharing applications on this compute instance among users of parent workspace. If
-	// Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access
-	// applications on this instance depending on his/her assigned role.
-	ApplicationSharingPolicy *ComputeInstanceProperties_ApplicationSharingPolicy_STATUS `json:"applicationSharingPolicy,omitempty"`
-
-	// Applications: Describes available applications and their endpoints on this ComputeInstance.
-	Applications []ComputeInstanceApplication_STATUS `json:"applications,omitempty"`
-
-	// ComputeInstanceAuthorizationType: The Compute Instance Authorization type. Available values are personal (default).
+	ApplicationSharingPolicy         *ComputeInstanceProperties_ApplicationSharingPolicy_STATUS         `json:"applicationSharingPolicy,omitempty"`
+	Applications                     []ComputeInstanceApplication_STATUS                                `json:"applications,omitempty"`
 	ComputeInstanceAuthorizationType *ComputeInstanceProperties_ComputeInstanceAuthorizationType_STATUS `json:"computeInstanceAuthorizationType,omitempty"`
-
-	// ConnectivityEndpoints: Describes all connectivity endpoints available for this ComputeInstance.
-	ConnectivityEndpoints *ComputeInstanceConnectivityEndpoints_STATUS `json:"connectivityEndpoints,omitempty"`
-
-	// CreatedBy: Describes information on user who created this ComputeInstance.
-	CreatedBy *ComputeInstanceCreatedBy_STATUS `json:"createdBy,omitempty"`
-
-	// Errors: Collection of errors encountered on this ComputeInstance.
-	Errors []ErrorResponse_STATUS `json:"errors,omitempty"`
-
-	// LastOperation: The last operation on ComputeInstance.
-	LastOperation *ComputeInstanceLastOperation_STATUS `json:"lastOperation,omitempty"`
-
-	// PersonalComputeInstanceSettings: Settings for a personal compute instance.
-	PersonalComputeInstanceSettings *PersonalComputeInstanceSettings_STATUS `json:"personalComputeInstanceSettings,omitempty"`
-
-	// SetupScripts: Details of customized scripts to execute for setting up the cluster.
-	SetupScripts *SetupScripts_STATUS `json:"setupScripts,omitempty"`
-
-	// SshSettings: Specifies policy and settings for SSH access.
-	SshSettings *ComputeInstanceSshSettings_STATUS `json:"sshSettings,omitempty"`
-
-	// State: The current state of this ComputeInstance.
-	State *ComputeInstanceState_STATUS `json:"state,omitempty"`
-
-	// Subnet: Virtual network subnet resource ID the compute nodes belong to.
-	Subnet *ResourceId_STATUS `json:"subnet,omitempty"`
-
-	// VmSize: Virtual Machine Size
-	VmSize *string `json:"vmSize,omitempty"`
+	ConnectivityEndpoints            *ComputeInstanceConnectivityEndpoints_STATUS                       `json:"connectivityEndpoints,omitempty"`
+	CreatedBy                        *ComputeInstanceCreatedBy_STATUS                                   `json:"createdBy,omitempty"`
+	Errors                           []ErrorResponse_STATUS                                             `json:"errors,omitempty"`
+	LastOperation                    *ComputeInstanceLastOperation_STATUS                               `json:"lastOperation,omitempty"`
+	PersonalComputeInstanceSettings  *PersonalComputeInstanceSettings_STATUS                            `json:"personalComputeInstanceSettings,omitempty"`
+	SetupScripts                     *SetupScripts_STATUS                                               `json:"setupScripts,omitempty"`
+	SshSettings                      *ComputeInstanceSshSettings_STATUS                                 `json:"sshSettings,omitempty"`
+	State                            *ComputeInstanceState_STATUS                                       `json:"state,omitempty"`
+	Subnet                           *ResourceId_STATUS                                                 `json:"subnet,omitempty"`
+	VmSize                           *string                                                            `json:"vmSize,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ComputeInstanceProperties_STATUS{}
@@ -10542,13 +9120,10 @@ func (properties *ComputeInstanceProperties_STATUS) AssignProperties_To_ComputeI
 	return nil
 }
 
-// Properties of Databricks
+// Deprecated version of DatabricksProperties. Use v1api20210701.DatabricksProperties instead
 type DatabricksProperties struct {
-	// DatabricksAccessToken: Databricks access token
 	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
-
-	// WorkspaceUrl: Workspace Url
-	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
+	WorkspaceUrl          *string `json:"workspaceUrl,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabricksProperties{}
@@ -10637,26 +9212,10 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 	return nil
 }
 
-// Initialize_From_DatabricksProperties_STATUS populates our DatabricksProperties from the provided source DatabricksProperties_STATUS
-func (properties *DatabricksProperties) Initialize_From_DatabricksProperties_STATUS(source *DatabricksProperties_STATUS) error {
-
-	// DatabricksAccessToken
-	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
-
-	// WorkspaceUrl
-	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
-
-	// No error
-	return nil
-}
-
-// Properties of Databricks
+// Deprecated version of DatabricksProperties_STATUS. Use v1api20210701.DatabricksProperties_STATUS instead
 type DatabricksProperties_STATUS struct {
-	// DatabricksAccessToken: Databricks access token
 	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
-
-	// WorkspaceUrl: Workspace Url
-	WorkspaceUrl *string `json:"workspaceUrl,omitempty"`
+	WorkspaceUrl          *string `json:"workspaceUrl,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DatabricksProperties_STATUS{}
@@ -10724,8 +9283,8 @@ func (properties *DatabricksProperties_STATUS) AssignProperties_To_DatabricksPro
 	return nil
 }
 
+// Deprecated version of DataLakeAnalytics_Properties. Use v1api20210701.DataLakeAnalytics_Properties instead
 type DataLakeAnalytics_Properties struct {
-	// DataLakeStoreAccountName: DataLake Store Account Name
 	DataLakeStoreAccountName *string `json:"dataLakeStoreAccountName,omitempty"`
 }
 
@@ -10797,18 +9356,8 @@ func (properties *DataLakeAnalytics_Properties) AssignProperties_To_DataLakeAnal
 	return nil
 }
 
-// Initialize_From_DataLakeAnalytics_Properties_STATUS populates our DataLakeAnalytics_Properties from the provided source DataLakeAnalytics_Properties_STATUS
-func (properties *DataLakeAnalytics_Properties) Initialize_From_DataLakeAnalytics_Properties_STATUS(source *DataLakeAnalytics_Properties_STATUS) error {
-
-	// DataLakeStoreAccountName
-	properties.DataLakeStoreAccountName = genruntime.ClonePointerToString(source.DataLakeStoreAccountName)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of DataLakeAnalytics_Properties_STATUS. Use v1api20210701.DataLakeAnalytics_Properties_STATUS instead
 type DataLakeAnalytics_Properties_STATUS struct {
-	// DataLakeStoreAccountName: DataLake Store Account Name
 	DataLakeStoreAccountName *string `json:"dataLakeStoreAccountName,omitempty"`
 }
 
@@ -10865,10 +9414,8 @@ func (properties *DataLakeAnalytics_Properties_STATUS) AssignProperties_To_DataL
 	return nil
 }
 
-// Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also
-// follows the OData error response format.).
+// Deprecated version of ErrorResponse_STATUS. Use v1api20210701.ErrorResponse_STATUS instead
 type ErrorResponse_STATUS struct {
-	// Error: The error object.
 	Error *ErrorDetail_STATUS `json:"error,omitempty"`
 }
 
@@ -10948,16 +9495,11 @@ func (response *ErrorResponse_STATUS) AssignProperties_To_ErrorResponse_STATUS(d
 	return nil
 }
 
-// HDInsight compute properties
+// Deprecated version of HDInsightProperties. Use v1api20210701.HDInsightProperties instead
 type HDInsightProperties struct {
-	// Address: Public IP address of the master node of the cluster.
-	Address *string `json:"address,omitempty"`
-
-	// AdministratorAccount: Admin credentials for master node of the cluster
+	Address              *string                       `json:"address,omitempty"`
 	AdministratorAccount *VirtualMachineSshCredentials `json:"administratorAccount,omitempty"`
-
-	// SshPort: Port open for ssh connections on the master node of the cluster.
-	SshPort *int `json:"sshPort,omitempty"`
+	SshPort              *int                          `json:"sshPort,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HDInsightProperties{}
@@ -11091,41 +9633,11 @@ func (properties *HDInsightProperties) AssignProperties_To_HDInsightProperties(d
 	return nil
 }
 
-// Initialize_From_HDInsightProperties_STATUS populates our HDInsightProperties from the provided source HDInsightProperties_STATUS
-func (properties *HDInsightProperties) Initialize_From_HDInsightProperties_STATUS(source *HDInsightProperties_STATUS) error {
-
-	// Address
-	properties.Address = genruntime.ClonePointerToString(source.Address)
-
-	// AdministratorAccount
-	if source.AdministratorAccount != nil {
-		var administratorAccount VirtualMachineSshCredentials
-		err := administratorAccount.Initialize_From_VirtualMachineSshCredentials_STATUS(source.AdministratorAccount)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
-		}
-		properties.AdministratorAccount = &administratorAccount
-	} else {
-		properties.AdministratorAccount = nil
-	}
-
-	// SshPort
-	properties.SshPort = genruntime.ClonePointerToInt(source.SshPort)
-
-	// No error
-	return nil
-}
-
-// HDInsight compute properties
+// Deprecated version of HDInsightProperties_STATUS. Use v1api20210701.HDInsightProperties_STATUS instead
 type HDInsightProperties_STATUS struct {
-	// Address: Public IP address of the master node of the cluster.
-	Address *string `json:"address,omitempty"`
-
-	// AdministratorAccount: Admin credentials for master node of the cluster
+	Address              *string                              `json:"address,omitempty"`
 	AdministratorAccount *VirtualMachineSshCredentials_STATUS `json:"administratorAccount,omitempty"`
-
-	// SshPort: Port open for ssh connections on the master node of the cluster.
-	SshPort *int `json:"sshPort,omitempty"`
+	SshPort              *int                                 `json:"sshPort,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &HDInsightProperties_STATUS{}
@@ -11228,31 +9740,16 @@ func (properties *HDInsightProperties_STATUS) AssignProperties_To_HDInsightPrope
 	return nil
 }
 
-// Kubernetes properties
+// Deprecated version of KubernetesProperties. Use v1api20210701.KubernetesProperties instead
 type KubernetesProperties struct {
-	// DefaultInstanceType: Default instance type
-	DefaultInstanceType *string `json:"defaultInstanceType,omitempty"`
-
-	// ExtensionInstanceReleaseTrain: Extension instance release train.
-	ExtensionInstanceReleaseTrain *string `json:"extensionInstanceReleaseTrain,omitempty"`
-
-	// ExtensionPrincipalId: Extension principal-id.
-	ExtensionPrincipalId *string `json:"extensionPrincipalId,omitempty"`
-
-	// InstanceTypes: Instance Type Schema
-	InstanceTypes map[string]InstanceTypeSchema `json:"instanceTypes,omitempty"`
-
-	// Namespace: Compute namespace
-	Namespace *string `json:"namespace,omitempty"`
-
-	// RelayConnectionString: Relay connection string.
-	RelayConnectionString *genruntime.SecretReference `json:"relayConnectionString,omitempty"`
-
-	// ServiceBusConnectionString: ServiceBus connection string.
-	ServiceBusConnectionString *genruntime.SecretReference `json:"serviceBusConnectionString,omitempty"`
-
-	// VcName: VC name.
-	VcName *string `json:"vcName,omitempty"`
+	DefaultInstanceType           *string                       `json:"defaultInstanceType,omitempty"`
+	ExtensionInstanceReleaseTrain *string                       `json:"extensionInstanceReleaseTrain,omitempty"`
+	ExtensionPrincipalId          *string                       `json:"extensionPrincipalId,omitempty"`
+	InstanceTypes                 map[string]InstanceTypeSchema `json:"instanceTypes,omitempty"`
+	Namespace                     *string                       `json:"namespace,omitempty"`
+	RelayConnectionString         *genruntime.SecretReference   `json:"relayConnectionString,omitempty"`
+	ServiceBusConnectionString    *genruntime.SecretReference   `json:"serviceBusConnectionString,omitempty"`
+	VcName                        *string                       `json:"vcName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KubernetesProperties{}
@@ -11512,65 +10009,14 @@ func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties
 	return nil
 }
 
-// Initialize_From_KubernetesProperties_STATUS populates our KubernetesProperties from the provided source KubernetesProperties_STATUS
-func (properties *KubernetesProperties) Initialize_From_KubernetesProperties_STATUS(source *KubernetesProperties_STATUS) error {
-
-	// DefaultInstanceType
-	properties.DefaultInstanceType = genruntime.ClonePointerToString(source.DefaultInstanceType)
-
-	// ExtensionInstanceReleaseTrain
-	properties.ExtensionInstanceReleaseTrain = genruntime.ClonePointerToString(source.ExtensionInstanceReleaseTrain)
-
-	// ExtensionPrincipalId
-	properties.ExtensionPrincipalId = genruntime.ClonePointerToString(source.ExtensionPrincipalId)
-
-	// InstanceTypes
-	if source.InstanceTypes != nil {
-		instanceTypeMap := make(map[string]InstanceTypeSchema, len(source.InstanceTypes))
-		for instanceTypeKey, instanceTypeValue := range source.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
-			var instanceType InstanceTypeSchema
-			err := instanceType.Initialize_From_InstanceTypeSchema_STATUS(&instanceTypeValue)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_InstanceTypeSchema_STATUS() to populate field InstanceTypes")
-			}
-			instanceTypeMap[instanceTypeKey] = instanceType
-		}
-		properties.InstanceTypes = instanceTypeMap
-	} else {
-		properties.InstanceTypes = nil
-	}
-
-	// Namespace
-	properties.Namespace = genruntime.ClonePointerToString(source.Namespace)
-
-	// VcName
-	properties.VcName = genruntime.ClonePointerToString(source.VcName)
-
-	// No error
-	return nil
-}
-
-// Kubernetes properties
+// Deprecated version of KubernetesProperties_STATUS. Use v1api20210701.KubernetesProperties_STATUS instead
 type KubernetesProperties_STATUS struct {
-	// DefaultInstanceType: Default instance type
-	DefaultInstanceType *string `json:"defaultInstanceType,omitempty"`
-
-	// ExtensionInstanceReleaseTrain: Extension instance release train.
-	ExtensionInstanceReleaseTrain *string `json:"extensionInstanceReleaseTrain,omitempty"`
-
-	// ExtensionPrincipalId: Extension principal-id.
-	ExtensionPrincipalId *string `json:"extensionPrincipalId,omitempty"`
-
-	// InstanceTypes: Instance Type Schema
-	InstanceTypes map[string]InstanceTypeSchema_STATUS `json:"instanceTypes,omitempty"`
-
-	// Namespace: Compute namespace
-	Namespace *string `json:"namespace,omitempty"`
-
-	// VcName: VC name.
-	VcName *string `json:"vcName,omitempty"`
+	DefaultInstanceType           *string                              `json:"defaultInstanceType,omitempty"`
+	ExtensionInstanceReleaseTrain *string                              `json:"extensionInstanceReleaseTrain,omitempty"`
+	ExtensionPrincipalId          *string                              `json:"extensionPrincipalId,omitempty"`
+	InstanceTypes                 map[string]InstanceTypeSchema_STATUS `json:"instanceTypes,omitempty"`
+	Namespace                     *string                              `json:"namespace,omitempty"`
+	VcName                        *string                              `json:"vcName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KubernetesProperties_STATUS{}
@@ -11723,36 +10169,18 @@ func (properties *KubernetesProperties_STATUS) AssignProperties_To_KubernetesPro
 	return nil
 }
 
+// Deprecated version of SynapseSpark_Properties. Use v1api20210701.SynapseSpark_Properties instead
 type SynapseSpark_Properties struct {
-	// AutoPauseProperties: Auto pause properties.
 	AutoPauseProperties *AutoPauseProperties `json:"autoPauseProperties,omitempty"`
-
-	// AutoScaleProperties: Auto scale properties.
 	AutoScaleProperties *AutoScaleProperties `json:"autoScaleProperties,omitempty"`
-
-	// NodeCount: The number of compute nodes currently assigned to the compute.
-	NodeCount *int `json:"nodeCount,omitempty"`
-
-	// NodeSize: Node size.
-	NodeSize *string `json:"nodeSize,omitempty"`
-
-	// NodeSizeFamily: Node size family.
-	NodeSizeFamily *string `json:"nodeSizeFamily,omitempty"`
-
-	// PoolName: Pool name.
-	PoolName *string `json:"poolName,omitempty"`
-
-	// ResourceGroup: Name of the resource group in which workspace is located.
-	ResourceGroup *string `json:"resourceGroup,omitempty"`
-
-	// SparkVersion: Spark version.
-	SparkVersion *string `json:"sparkVersion,omitempty"`
-
-	// SubscriptionId: Azure subscription identifier.
-	SubscriptionId *string `json:"subscriptionId,omitempty"`
-
-	// WorkspaceName: Name of Azure Machine Learning workspace.
-	WorkspaceName *string `json:"workspaceName,omitempty"`
+	NodeCount           *int                 `json:"nodeCount,omitempty"`
+	NodeSize            *string              `json:"nodeSize,omitempty"`
+	NodeSizeFamily      *string              `json:"nodeSizeFamily,omitempty"`
+	PoolName            *string              `json:"poolName,omitempty"`
+	ResourceGroup       *string              `json:"resourceGroup,omitempty"`
+	SparkVersion        *string              `json:"sparkVersion,omitempty"`
+	SubscriptionId      *string              `json:"subscriptionId,omitempty"`
+	WorkspaceName       *string              `json:"workspaceName,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SynapseSpark_Properties{}
@@ -12039,91 +10467,18 @@ func (properties *SynapseSpark_Properties) AssignProperties_To_SynapseSpark_Prop
 	return nil
 }
 
-// Initialize_From_SynapseSpark_Properties_STATUS populates our SynapseSpark_Properties from the provided source SynapseSpark_Properties_STATUS
-func (properties *SynapseSpark_Properties) Initialize_From_SynapseSpark_Properties_STATUS(source *SynapseSpark_Properties_STATUS) error {
-
-	// AutoPauseProperties
-	if source.AutoPauseProperties != nil {
-		var autoPauseProperty AutoPauseProperties
-		err := autoPauseProperty.Initialize_From_AutoPauseProperties_STATUS(source.AutoPauseProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoPauseProperties_STATUS() to populate field AutoPauseProperties")
-		}
-		properties.AutoPauseProperties = &autoPauseProperty
-	} else {
-		properties.AutoPauseProperties = nil
-	}
-
-	// AutoScaleProperties
-	if source.AutoScaleProperties != nil {
-		var autoScaleProperty AutoScaleProperties
-		err := autoScaleProperty.Initialize_From_AutoScaleProperties_STATUS(source.AutoScaleProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoScaleProperties_STATUS() to populate field AutoScaleProperties")
-		}
-		properties.AutoScaleProperties = &autoScaleProperty
-	} else {
-		properties.AutoScaleProperties = nil
-	}
-
-	// NodeCount
-	properties.NodeCount = genruntime.ClonePointerToInt(source.NodeCount)
-
-	// NodeSize
-	properties.NodeSize = genruntime.ClonePointerToString(source.NodeSize)
-
-	// NodeSizeFamily
-	properties.NodeSizeFamily = genruntime.ClonePointerToString(source.NodeSizeFamily)
-
-	// PoolName
-	properties.PoolName = genruntime.ClonePointerToString(source.PoolName)
-
-	// ResourceGroup
-	properties.ResourceGroup = genruntime.ClonePointerToString(source.ResourceGroup)
-
-	// SparkVersion
-	properties.SparkVersion = genruntime.ClonePointerToString(source.SparkVersion)
-
-	// SubscriptionId
-	properties.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
-
-	// WorkspaceName
-	properties.WorkspaceName = genruntime.ClonePointerToString(source.WorkspaceName)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of SynapseSpark_Properties_STATUS. Use v1api20210701.SynapseSpark_Properties_STATUS instead
 type SynapseSpark_Properties_STATUS struct {
-	// AutoPauseProperties: Auto pause properties.
 	AutoPauseProperties *AutoPauseProperties_STATUS `json:"autoPauseProperties,omitempty"`
-
-	// AutoScaleProperties: Auto scale properties.
 	AutoScaleProperties *AutoScaleProperties_STATUS `json:"autoScaleProperties,omitempty"`
-
-	// NodeCount: The number of compute nodes currently assigned to the compute.
-	NodeCount *int `json:"nodeCount,omitempty"`
-
-	// NodeSize: Node size.
-	NodeSize *string `json:"nodeSize,omitempty"`
-
-	// NodeSizeFamily: Node size family.
-	NodeSizeFamily *string `json:"nodeSizeFamily,omitempty"`
-
-	// PoolName: Pool name.
-	PoolName *string `json:"poolName,omitempty"`
-
-	// ResourceGroup: Name of the resource group in which workspace is located.
-	ResourceGroup *string `json:"resourceGroup,omitempty"`
-
-	// SparkVersion: Spark version.
-	SparkVersion *string `json:"sparkVersion,omitempty"`
-
-	// SubscriptionId: Azure subscription identifier.
-	SubscriptionId *string `json:"subscriptionId,omitempty"`
-
-	// WorkspaceName: Name of Azure Machine Learning workspace.
-	WorkspaceName *string `json:"workspaceName,omitempty"`
+	NodeCount           *int                        `json:"nodeCount,omitempty"`
+	NodeSize            *string                     `json:"nodeSize,omitempty"`
+	NodeSizeFamily      *string                     `json:"nodeSizeFamily,omitempty"`
+	PoolName            *string                     `json:"poolName,omitempty"`
+	ResourceGroup       *string                     `json:"resourceGroup,omitempty"`
+	SparkVersion        *string                     `json:"sparkVersion,omitempty"`
+	SubscriptionId      *string                     `json:"subscriptionId,omitempty"`
+	WorkspaceName       *string                     `json:"workspaceName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SynapseSpark_Properties_STATUS{}
@@ -12333,21 +10688,13 @@ func (properties *SynapseSpark_Properties_STATUS) AssignProperties_To_SynapseSpa
 	return nil
 }
 
+// Deprecated version of VirtualMachine_Properties. Use v1api20210701.VirtualMachine_Properties instead
 type VirtualMachine_Properties struct {
-	// Address: Public IP address of the virtual machine.
-	Address *string `json:"address,omitempty"`
-
-	// AdministratorAccount: Admin credentials for virtual machine
-	AdministratorAccount *VirtualMachineSshCredentials `json:"administratorAccount,omitempty"`
-
-	// IsNotebookInstanceCompute: Indicates whether this compute will be used for running notebooks.
-	IsNotebookInstanceCompute *bool `json:"isNotebookInstanceCompute,omitempty"`
-
-	// SshPort: Port open for ssh connections.
-	SshPort *int `json:"sshPort,omitempty"`
-
-	// VirtualMachineSize: Virtual Machine size
-	VirtualMachineSize *string `json:"virtualMachineSize,omitempty"`
+	Address                   *string                       `json:"address,omitempty"`
+	AdministratorAccount      *VirtualMachineSshCredentials `json:"administratorAccount,omitempty"`
+	IsNotebookInstanceCompute *bool                         `json:"isNotebookInstanceCompute,omitempty"`
+	SshPort                   *int                          `json:"sshPort,omitempty"`
+	VirtualMachineSize        *string                       `json:"virtualMachineSize,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachine_Properties{}
@@ -12527,57 +10874,13 @@ func (properties *VirtualMachine_Properties) AssignProperties_To_VirtualMachine_
 	return nil
 }
 
-// Initialize_From_VirtualMachine_Properties_STATUS populates our VirtualMachine_Properties from the provided source VirtualMachine_Properties_STATUS
-func (properties *VirtualMachine_Properties) Initialize_From_VirtualMachine_Properties_STATUS(source *VirtualMachine_Properties_STATUS) error {
-
-	// Address
-	properties.Address = genruntime.ClonePointerToString(source.Address)
-
-	// AdministratorAccount
-	if source.AdministratorAccount != nil {
-		var administratorAccount VirtualMachineSshCredentials
-		err := administratorAccount.Initialize_From_VirtualMachineSshCredentials_STATUS(source.AdministratorAccount)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
-		}
-		properties.AdministratorAccount = &administratorAccount
-	} else {
-		properties.AdministratorAccount = nil
-	}
-
-	// IsNotebookInstanceCompute
-	if source.IsNotebookInstanceCompute != nil {
-		isNotebookInstanceCompute := *source.IsNotebookInstanceCompute
-		properties.IsNotebookInstanceCompute = &isNotebookInstanceCompute
-	} else {
-		properties.IsNotebookInstanceCompute = nil
-	}
-
-	// SshPort
-	properties.SshPort = genruntime.ClonePointerToInt(source.SshPort)
-
-	// VirtualMachineSize
-	properties.VirtualMachineSize = genruntime.ClonePointerToString(source.VirtualMachineSize)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of VirtualMachine_Properties_STATUS. Use v1api20210701.VirtualMachine_Properties_STATUS instead
 type VirtualMachine_Properties_STATUS struct {
-	// Address: Public IP address of the virtual machine.
-	Address *string `json:"address,omitempty"`
-
-	// AdministratorAccount: Admin credentials for virtual machine
-	AdministratorAccount *VirtualMachineSshCredentials_STATUS `json:"administratorAccount,omitempty"`
-
-	// IsNotebookInstanceCompute: Indicates whether this compute will be used for running notebooks.
-	IsNotebookInstanceCompute *bool `json:"isNotebookInstanceCompute,omitempty"`
-
-	// SshPort: Port open for ssh connections.
-	SshPort *int `json:"sshPort,omitempty"`
-
-	// VirtualMachineSize: Virtual Machine size
-	VirtualMachineSize *string `json:"virtualMachineSize,omitempty"`
+	Address                   *string                              `json:"address,omitempty"`
+	AdministratorAccount      *VirtualMachineSshCredentials_STATUS `json:"administratorAccount,omitempty"`
+	IsNotebookInstanceCompute *bool                                `json:"isNotebookInstanceCompute,omitempty"`
+	SshPort                   *int                                 `json:"sshPort,omitempty"`
+	VirtualMachineSize        *string                              `json:"virtualMachineSize,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachine_Properties_STATUS{}
@@ -12714,24 +11017,16 @@ func (properties *VirtualMachine_Properties_STATUS) AssignProperties_To_VirtualM
 	return nil
 }
 
-// Advance configuration for AKS networking
+// Deprecated version of AksNetworkingConfiguration. Use v1api20210701.AksNetworkingConfiguration instead
 type AksNetworkingConfiguration struct {
 	// +kubebuilder:validation:Pattern="^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
-	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
-	// range specified in serviceCidr.
 	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
-	// DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP
-	// ranges or the Kubernetes service address range.
 	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^([0-9]{1,3}\\.){3}[0-9]{1,3}(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
-	// ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP
-	// ranges.
-	ServiceCidr *string `json:"serviceCidr,omitempty"`
-
-	// SubnetReference: Virtual network subnet resource ID the compute nodes belong to
+	ServiceCidr     *string                       `json:"serviceCidr,omitempty"`
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 }
 
@@ -12897,61 +11192,12 @@ func (configuration *AksNetworkingConfiguration) AssignProperties_To_AksNetworki
 	return nil
 }
 
-// Initialize_From_AksNetworkingConfiguration_STATUS populates our AksNetworkingConfiguration from the provided source AksNetworkingConfiguration_STATUS
-func (configuration *AksNetworkingConfiguration) Initialize_From_AksNetworkingConfiguration_STATUS(source *AksNetworkingConfiguration_STATUS) error {
-
-	// DnsServiceIP
-	if source.DnsServiceIP != nil {
-		dnsServiceIP := *source.DnsServiceIP
-		configuration.DnsServiceIP = &dnsServiceIP
-	} else {
-		configuration.DnsServiceIP = nil
-	}
-
-	// DockerBridgeCidr
-	if source.DockerBridgeCidr != nil {
-		dockerBridgeCidr := *source.DockerBridgeCidr
-		configuration.DockerBridgeCidr = &dockerBridgeCidr
-	} else {
-		configuration.DockerBridgeCidr = nil
-	}
-
-	// ServiceCidr
-	if source.ServiceCidr != nil {
-		serviceCidr := *source.ServiceCidr
-		configuration.ServiceCidr = &serviceCidr
-	} else {
-		configuration.ServiceCidr = nil
-	}
-
-	// SubnetReference
-	if source.SubnetId != nil {
-		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
-		configuration.SubnetReference = &subnetReference
-	} else {
-		configuration.SubnetReference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Advance configuration for AKS networking
+// Deprecated version of AksNetworkingConfiguration_STATUS. Use v1api20210701.AksNetworkingConfiguration_STATUS instead
 type AksNetworkingConfiguration_STATUS struct {
-	// DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address
-	// range specified in serviceCidr.
-	DnsServiceIP *string `json:"dnsServiceIP,omitempty"`
-
-	// DockerBridgeCidr: A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP
-	// ranges or the Kubernetes service address range.
+	DnsServiceIP     *string `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr *string `json:"dockerBridgeCidr,omitempty"`
-
-	// ServiceCidr: A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP
-	// ranges.
-	ServiceCidr *string `json:"serviceCidr,omitempty"`
-
-	// SubnetId: Virtual network subnet resource ID the compute nodes belong to
-	SubnetId *string `json:"subnetId,omitempty"`
+	ServiceCidr      *string `json:"serviceCidr,omitempty"`
+	SubnetId         *string `json:"subnetId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &AksNetworkingConfiguration_STATUS{}
@@ -13043,7 +11289,7 @@ func (configuration *AksNetworkingConfiguration_STATUS) AssignProperties_To_AksN
 	return nil
 }
 
-// Auto pause properties
+// Deprecated version of AutoPauseProperties. Use v1api20210701.AutoPauseProperties instead
 type AutoPauseProperties struct {
 	DelayInMinutes *int  `json:"delayInMinutes,omitempty"`
 	Enabled        *bool `json:"enabled,omitempty"`
@@ -13145,25 +11391,7 @@ func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(d
 	return nil
 }
 
-// Initialize_From_AutoPauseProperties_STATUS populates our AutoPauseProperties from the provided source AutoPauseProperties_STATUS
-func (properties *AutoPauseProperties) Initialize_From_AutoPauseProperties_STATUS(source *AutoPauseProperties_STATUS) error {
-
-	// DelayInMinutes
-	properties.DelayInMinutes = genruntime.ClonePointerToInt(source.DelayInMinutes)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		properties.Enabled = &enabled
-	} else {
-		properties.Enabled = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Auto pause properties
+// Deprecated version of AutoPauseProperties_STATUS. Use v1api20210701.AutoPauseProperties_STATUS instead
 type AutoPauseProperties_STATUS struct {
 	DelayInMinutes *int  `json:"delayInMinutes,omitempty"`
 	Enabled        *bool `json:"enabled,omitempty"`
@@ -13244,7 +11472,7 @@ func (properties *AutoPauseProperties_STATUS) AssignProperties_To_AutoPausePrope
 	return nil
 }
 
-// Auto scale properties
+// Deprecated version of AutoScaleProperties. Use v1api20210701.AutoScaleProperties instead
 type AutoScaleProperties struct {
 	Enabled      *bool `json:"enabled,omitempty"`
 	MaxNodeCount *int  `json:"maxNodeCount,omitempty"`
@@ -13365,28 +11593,7 @@ func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(d
 	return nil
 }
 
-// Initialize_From_AutoScaleProperties_STATUS populates our AutoScaleProperties from the provided source AutoScaleProperties_STATUS
-func (properties *AutoScaleProperties) Initialize_From_AutoScaleProperties_STATUS(source *AutoScaleProperties_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		properties.Enabled = &enabled
-	} else {
-		properties.Enabled = nil
-	}
-
-	// MaxNodeCount
-	properties.MaxNodeCount = genruntime.ClonePointerToInt(source.MaxNodeCount)
-
-	// MinNodeCount
-	properties.MinNodeCount = genruntime.ClonePointerToInt(source.MinNodeCount)
-
-	// No error
-	return nil
-}
-
-// Auto scale properties
+// Deprecated version of AutoScaleProperties_STATUS. Use v1api20210701.AutoScaleProperties_STATUS instead
 type AutoScaleProperties_STATUS struct {
 	Enabled      *bool `json:"enabled,omitempty"`
 	MaxNodeCount *int  `json:"maxNodeCount,omitempty"`
@@ -13480,12 +11687,9 @@ func (properties *AutoScaleProperties_STATUS) AssignProperties_To_AutoScalePrope
 	return nil
 }
 
-// Defines an Aml Instance application and its connectivity endpoint URI.
+// Deprecated version of ComputeInstanceApplication_STATUS. Use v1api20210701.ComputeInstanceApplication_STATUS instead
 type ComputeInstanceApplication_STATUS struct {
-	// DisplayName: Name of the ComputeInstance application.
 	DisplayName *string `json:"displayName,omitempty"`
-
-	// EndpointUri: Application' endpoint URI.
 	EndpointUri *string `json:"endpointUri,omitempty"`
 }
 
@@ -13554,14 +11758,10 @@ func (application *ComputeInstanceApplication_STATUS) AssignProperties_To_Comput
 	return nil
 }
 
-// Defines all connectivity endpoints and properties for an ComputeInstance.
+// Deprecated version of ComputeInstanceConnectivityEndpoints_STATUS. Use v1api20210701.ComputeInstanceConnectivityEndpoints_STATUS instead
 type ComputeInstanceConnectivityEndpoints_STATUS struct {
-	// PrivateIpAddress: Private IP Address of this ComputeInstance (local to the VNET in which the compute instance is
-	// deployed).
 	PrivateIpAddress *string `json:"privateIpAddress,omitempty"`
-
-	// PublicIpAddress: Public IP Address of this ComputeInstance.
-	PublicIpAddress *string `json:"publicIpAddress,omitempty"`
+	PublicIpAddress  *string `json:"publicIpAddress,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ComputeInstanceConnectivityEndpoints_STATUS{}
@@ -13629,15 +11829,10 @@ func (endpoints *ComputeInstanceConnectivityEndpoints_STATUS) AssignProperties_T
 	return nil
 }
 
-// Describes information on user who created this ComputeInstance.
+// Deprecated version of ComputeInstanceCreatedBy_STATUS. Use v1api20210701.ComputeInstanceCreatedBy_STATUS instead
 type ComputeInstanceCreatedBy_STATUS struct {
-	// UserId: Uniquely identifies the user within his/her organization.
-	UserId *string `json:"userId,omitempty"`
-
-	// UserName: Name of the user.
-	UserName *string `json:"userName,omitempty"`
-
-	// UserOrgId: Uniquely identifies user' Azure Active Directory organization.
+	UserId    *string `json:"userId,omitempty"`
+	UserName  *string `json:"userName,omitempty"`
 	UserOrgId *string `json:"userOrgId,omitempty"`
 }
 
@@ -13718,16 +11913,11 @@ func (createdBy *ComputeInstanceCreatedBy_STATUS) AssignProperties_To_ComputeIns
 	return nil
 }
 
-// The last operation on ComputeInstance.
+// Deprecated version of ComputeInstanceLastOperation_STATUS. Use v1api20210701.ComputeInstanceLastOperation_STATUS instead
 type ComputeInstanceLastOperation_STATUS struct {
-	// OperationName: Name of the last operation.
-	OperationName *ComputeInstanceLastOperation_OperationName_STATUS `json:"operationName,omitempty"`
-
-	// OperationStatus: Operation status.
+	OperationName   *ComputeInstanceLastOperation_OperationName_STATUS   `json:"operationName,omitempty"`
 	OperationStatus *ComputeInstanceLastOperation_OperationStatus_STATUS `json:"operationStatus,omitempty"`
-
-	// OperationTime: Time of the last operation.
-	OperationTime *string `json:"operationTime,omitempty"`
+	OperationTime   *string                                              `json:"operationTime,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ComputeInstanceLastOperation_STATUS{}
@@ -13827,15 +12017,9 @@ func (operation *ComputeInstanceLastOperation_STATUS) AssignProperties_To_Comput
 	return nil
 }
 
-// Specifies policy and settings for SSH access.
+// Deprecated version of ComputeInstanceSshSettings. Use v1api20210701.ComputeInstanceSshSettings instead
 type ComputeInstanceSshSettings struct {
-	// AdminPublicKey: Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH
-	// key pairs.
-	AdminPublicKey *string `json:"adminPublicKey,omitempty"`
-
-	// SshPublicAccess: State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is
-	// closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the
-	// VNet/subnet policy if applicable.
+	AdminPublicKey  *string                                     `json:"adminPublicKey,omitempty"`
 	SshPublicAccess *ComputeInstanceSshSettings_SshPublicAccess `json:"sshPublicAccess,omitempty"`
 }
 
@@ -13935,39 +12119,11 @@ func (settings *ComputeInstanceSshSettings) AssignProperties_To_ComputeInstanceS
 	return nil
 }
 
-// Initialize_From_ComputeInstanceSshSettings_STATUS populates our ComputeInstanceSshSettings from the provided source ComputeInstanceSshSettings_STATUS
-func (settings *ComputeInstanceSshSettings) Initialize_From_ComputeInstanceSshSettings_STATUS(source *ComputeInstanceSshSettings_STATUS) error {
-
-	// AdminPublicKey
-	settings.AdminPublicKey = genruntime.ClonePointerToString(source.AdminPublicKey)
-
-	// SshPublicAccess
-	if source.SshPublicAccess != nil {
-		sshPublicAccess := ComputeInstanceSshSettings_SshPublicAccess(*source.SshPublicAccess)
-		settings.SshPublicAccess = &sshPublicAccess
-	} else {
-		settings.SshPublicAccess = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Specifies policy and settings for SSH access.
+// Deprecated version of ComputeInstanceSshSettings_STATUS. Use v1api20210701.ComputeInstanceSshSettings_STATUS instead
 type ComputeInstanceSshSettings_STATUS struct {
-	// AdminPublicKey: Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH
-	// key pairs.
-	AdminPublicKey *string `json:"adminPublicKey,omitempty"`
-
-	// AdminUserName: Describes the admin user name.
-	AdminUserName *string `json:"adminUserName,omitempty"`
-
-	// SshPort: Describes the port for connecting through SSH.
-	SshPort *int `json:"sshPort,omitempty"`
-
-	// SshPublicAccess: State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is
-	// closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the
-	// VNet/subnet policy if applicable.
+	AdminPublicKey  *string                                            `json:"adminPublicKey,omitempty"`
+	AdminUserName   *string                                            `json:"adminUserName,omitempty"`
+	SshPort         *int                                               `json:"sshPort,omitempty"`
 	SshPublicAccess *ComputeInstanceSshSettings_SshPublicAccess_STATUS `json:"sshPublicAccess,omitempty"`
 }
 
@@ -14070,22 +12226,13 @@ func (settings *ComputeInstanceSshSettings_STATUS) AssignProperties_To_ComputeIn
 	return nil
 }
 
-// The error detail.
+// Deprecated version of ErrorDetail_STATUS. Use v1api20210701.ErrorDetail_STATUS instead
 type ErrorDetail_STATUS struct {
-	// AdditionalInfo: The error additional info.
-	AdditionalInfo []ErrorAdditionalInfo_STATUS `json:"additionalInfo,omitempty"`
-
-	// Code: The error code.
-	Code *string `json:"code,omitempty"`
-
-	// Details: The error details.
-	Details []ErrorDetail_STATUS_Unrolled `json:"details,omitempty"`
-
-	// Message: The error message.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The error target.
-	Target *string `json:"target,omitempty"`
+	AdditionalInfo []ErrorAdditionalInfo_STATUS  `json:"additionalInfo,omitempty"`
+	Code           *string                       `json:"code,omitempty"`
+	Details        []ErrorDetail_STATUS_Unrolled `json:"details,omitempty"`
+	Message        *string                       `json:"message,omitempty"`
+	Target         *string                       `json:"target,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ErrorDetail_STATUS{}
@@ -14257,13 +12404,10 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 	return nil
 }
 
-// Instance type schema.
+// Deprecated version of InstanceTypeSchema. Use v1api20210701.InstanceTypeSchema instead
 type InstanceTypeSchema struct {
-	// NodeSelector: Node Selector
-	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
-
-	// Resources: Resource requests/limits for this instance type
-	Resources *InstanceTypeSchema_Resources `json:"resources,omitempty"`
+	NodeSelector map[string]string             `json:"nodeSelector,omitempty"`
+	Resources    *InstanceTypeSchema_Resources `json:"resources,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &InstanceTypeSchema{}
@@ -14383,35 +12527,10 @@ func (schema *InstanceTypeSchema) AssignProperties_To_InstanceTypeSchema(destina
 	return nil
 }
 
-// Initialize_From_InstanceTypeSchema_STATUS populates our InstanceTypeSchema from the provided source InstanceTypeSchema_STATUS
-func (schema *InstanceTypeSchema) Initialize_From_InstanceTypeSchema_STATUS(source *InstanceTypeSchema_STATUS) error {
-
-	// NodeSelector
-	schema.NodeSelector = genruntime.CloneMapOfStringToString(source.NodeSelector)
-
-	// Resources
-	if source.Resources != nil {
-		var resource InstanceTypeSchema_Resources
-		err := resource.Initialize_From_InstanceTypeSchema_Resources_STATUS(source.Resources)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_InstanceTypeSchema_Resources_STATUS() to populate field Resources")
-		}
-		schema.Resources = &resource
-	} else {
-		schema.Resources = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Instance type schema.
+// Deprecated version of InstanceTypeSchema_STATUS. Use v1api20210701.InstanceTypeSchema_STATUS instead
 type InstanceTypeSchema_STATUS struct {
-	// NodeSelector: Node Selector
-	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
-
-	// Resources: Resource requests/limits for this instance type
-	Resources *InstanceTypeSchema_Resources_STATUS `json:"resources,omitempty"`
+	NodeSelector map[string]string                    `json:"nodeSelector,omitempty"`
+	Resources    *InstanceTypeSchema_Resources_STATUS `json:"resources,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InstanceTypeSchema_STATUS{}
@@ -14504,25 +12623,14 @@ func (schema *InstanceTypeSchema_STATUS) AssignProperties_To_InstanceTypeSchema_
 	return nil
 }
 
-// Counts of various compute node states on the amlCompute.
+// Deprecated version of NodeStateCounts_STATUS. Use v1api20210701.NodeStateCounts_STATUS instead
 type NodeStateCounts_STATUS struct {
-	// IdleNodeCount: Number of compute nodes in idle state.
-	IdleNodeCount *int `json:"idleNodeCount,omitempty"`
-
-	// LeavingNodeCount: Number of compute nodes which are leaving the amlCompute.
-	LeavingNodeCount *int `json:"leavingNodeCount,omitempty"`
-
-	// PreemptedNodeCount: Number of compute nodes which are in preempted state.
+	IdleNodeCount      *int `json:"idleNodeCount,omitempty"`
+	LeavingNodeCount   *int `json:"leavingNodeCount,omitempty"`
 	PreemptedNodeCount *int `json:"preemptedNodeCount,omitempty"`
-
-	// PreparingNodeCount: Number of compute nodes which are being prepared.
 	PreparingNodeCount *int `json:"preparingNodeCount,omitempty"`
-
-	// RunningNodeCount: Number of compute nodes which are running jobs.
-	RunningNodeCount *int `json:"runningNodeCount,omitempty"`
-
-	// UnusableNodeCount: Number of compute nodes which are in unusable state.
-	UnusableNodeCount *int `json:"unusableNodeCount,omitempty"`
+	RunningNodeCount   *int `json:"runningNodeCount,omitempty"`
+	UnusableNodeCount  *int `json:"unusableNodeCount,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NodeStateCounts_STATUS{}
@@ -14638,9 +12746,8 @@ func (counts *NodeStateCounts_STATUS) AssignProperties_To_NodeStateCounts_STATUS
 	return nil
 }
 
-// Settings for a personal compute instance.
+// Deprecated version of PersonalComputeInstanceSettings. Use v1api20210701.PersonalComputeInstanceSettings instead
 type PersonalComputeInstanceSettings struct {
-	// AssignedUser: A user explicitly assigned to a personal compute instance.
 	AssignedUser *AssignedUser `json:"assignedUser,omitempty"`
 }
 
@@ -14739,28 +12846,8 @@ func (settings *PersonalComputeInstanceSettings) AssignProperties_To_PersonalCom
 	return nil
 }
 
-// Initialize_From_PersonalComputeInstanceSettings_STATUS populates our PersonalComputeInstanceSettings from the provided source PersonalComputeInstanceSettings_STATUS
-func (settings *PersonalComputeInstanceSettings) Initialize_From_PersonalComputeInstanceSettings_STATUS(source *PersonalComputeInstanceSettings_STATUS) error {
-
-	// AssignedUser
-	if source.AssignedUser != nil {
-		var assignedUser AssignedUser
-		err := assignedUser.Initialize_From_AssignedUser_STATUS(source.AssignedUser)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AssignedUser_STATUS() to populate field AssignedUser")
-		}
-		settings.AssignedUser = &assignedUser
-	} else {
-		settings.AssignedUser = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Settings for a personal compute instance.
+// Deprecated version of PersonalComputeInstanceSettings_STATUS. Use v1api20210701.PersonalComputeInstanceSettings_STATUS instead
 type PersonalComputeInstanceSettings_STATUS struct {
-	// AssignedUser: A user explicitly assigned to a personal compute instance.
 	AssignedUser *AssignedUser_STATUS `json:"assignedUser,omitempty"`
 }
 
@@ -14840,10 +12927,9 @@ func (settings *PersonalComputeInstanceSettings_STATUS) AssignProperties_To_Pers
 	return nil
 }
 
-// Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+// Deprecated version of ResourceId. Use v1api20210701.ResourceId instead
 type ResourceId struct {
 	// +kubebuilder:validation:Required
-	// Reference: The ID of the resource
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -14925,24 +13011,8 @@ func (resourceId *ResourceId) AssignProperties_To_ResourceId(destination *v20210
 	return nil
 }
 
-// Initialize_From_ResourceId_STATUS populates our ResourceId from the provided source ResourceId_STATUS
-func (resourceId *ResourceId) Initialize_From_ResourceId_STATUS(source *ResourceId_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resourceId.Reference = &reference
-	} else {
-		resourceId.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
+// Deprecated version of ResourceId_STATUS. Use v1api20210701.ResourceId_STATUS instead
 type ResourceId_STATUS struct {
-	// Id: The ID of the resource
 	Id *string `json:"id,omitempty"`
 }
 
@@ -14999,16 +13069,11 @@ func (resourceId *ResourceId_STATUS) AssignProperties_To_ResourceId_STATUS(desti
 	return nil
 }
 
-// scale settings for AML Compute
+// Deprecated version of ScaleSettings. Use v1api20210701.ScaleSettings instead
 type ScaleSettings struct {
 	// +kubebuilder:validation:Required
-	// MaxNodeCount: Max number of nodes to use
-	MaxNodeCount *int `json:"maxNodeCount,omitempty"`
-
-	// MinNodeCount: Min number of nodes to use
-	MinNodeCount *int `json:"minNodeCount,omitempty"`
-
-	// NodeIdleTimeBeforeScaleDown: Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format.
+	MaxNodeCount                *int    `json:"maxNodeCount,omitempty"`
+	MinNodeCount                *int    `json:"minNodeCount,omitempty"`
 	NodeIdleTimeBeforeScaleDown *string `json:"nodeIdleTimeBeforeScaleDown,omitempty"`
 }
 
@@ -15116,31 +13181,10 @@ func (settings *ScaleSettings) AssignProperties_To_ScaleSettings(destination *v2
 	return nil
 }
 
-// Initialize_From_ScaleSettings_STATUS populates our ScaleSettings from the provided source ScaleSettings_STATUS
-func (settings *ScaleSettings) Initialize_From_ScaleSettings_STATUS(source *ScaleSettings_STATUS) error {
-
-	// MaxNodeCount
-	settings.MaxNodeCount = genruntime.ClonePointerToInt(source.MaxNodeCount)
-
-	// MinNodeCount
-	settings.MinNodeCount = genruntime.ClonePointerToInt(source.MinNodeCount)
-
-	// NodeIdleTimeBeforeScaleDown
-	settings.NodeIdleTimeBeforeScaleDown = genruntime.ClonePointerToString(source.NodeIdleTimeBeforeScaleDown)
-
-	// No error
-	return nil
-}
-
-// scale settings for AML Compute
+// Deprecated version of ScaleSettings_STATUS. Use v1api20210701.ScaleSettings_STATUS instead
 type ScaleSettings_STATUS struct {
-	// MaxNodeCount: Max number of nodes to use
-	MaxNodeCount *int `json:"maxNodeCount,omitempty"`
-
-	// MinNodeCount: Min number of nodes to use
-	MinNodeCount *int `json:"minNodeCount,omitempty"`
-
-	// NodeIdleTimeBeforeScaleDown: Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format.
+	MaxNodeCount                *int    `json:"maxNodeCount,omitempty"`
+	MinNodeCount                *int    `json:"minNodeCount,omitempty"`
 	NodeIdleTimeBeforeScaleDown *string `json:"nodeIdleTimeBeforeScaleDown,omitempty"`
 }
 
@@ -15221,9 +13265,8 @@ func (settings *ScaleSettings_STATUS) AssignProperties_To_ScaleSettings_STATUS(d
 	return nil
 }
 
-// Details of customized scripts to execute for setting up the cluster.
+// Deprecated version of SetupScripts. Use v1api20210701.SetupScripts instead
 type SetupScripts struct {
-	// Scripts: Customized setup scripts
 	Scripts *ScriptsToExecute `json:"scripts,omitempty"`
 }
 
@@ -15322,28 +13365,8 @@ func (scripts *SetupScripts) AssignProperties_To_SetupScripts(destination *v2021
 	return nil
 }
 
-// Initialize_From_SetupScripts_STATUS populates our SetupScripts from the provided source SetupScripts_STATUS
-func (scripts *SetupScripts) Initialize_From_SetupScripts_STATUS(source *SetupScripts_STATUS) error {
-
-	// Scripts
-	if source.Scripts != nil {
-		var script ScriptsToExecute
-		err := script.Initialize_From_ScriptsToExecute_STATUS(source.Scripts)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScriptsToExecute_STATUS() to populate field Scripts")
-		}
-		scripts.Scripts = &script
-	} else {
-		scripts.Scripts = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Details of customized scripts to execute for setting up the cluster.
+// Deprecated version of SetupScripts_STATUS. Use v1api20210701.SetupScripts_STATUS instead
 type SetupScripts_STATUS struct {
-	// Scripts: Customized setup scripts
 	Scripts *ScriptsToExecute_STATUS `json:"scripts,omitempty"`
 }
 
@@ -15423,25 +13446,14 @@ func (scripts *SetupScripts_STATUS) AssignProperties_To_SetupScripts_STATUS(dest
 	return nil
 }
 
-// The ssl configuration for scoring
+// Deprecated version of SslConfiguration. Use v1api20210701.SslConfiguration instead
 type SslConfiguration struct {
-	// Cert: Cert data
-	Cert *string `json:"cert,omitempty"`
-
-	// Cname: CNAME of the cert
-	Cname *string `json:"cname,omitempty"`
-
-	// Key: Key data
-	Key *string `json:"key,omitempty"`
-
-	// LeafDomainLabel: Leaf domain label of public endpoint
-	LeafDomainLabel *string `json:"leafDomainLabel,omitempty"`
-
-	// OverwriteExistingDomain: Indicates whether to overwrite existing domain label.
-	OverwriteExistingDomain *bool `json:"overwriteExistingDomain,omitempty"`
-
-	// Status: Enable or disable ssl for scoring
-	Status *SslConfiguration_Status `json:"status,omitempty"`
+	Cert                    *string                  `json:"cert,omitempty"`
+	Cname                   *string                  `json:"cname,omitempty"`
+	Key                     *string                  `json:"key,omitempty"`
+	LeafDomainLabel         *string                  `json:"leafDomainLabel,omitempty"`
+	OverwriteExistingDomain *bool                    `json:"overwriteExistingDomain,omitempty"`
+	Status                  *SslConfiguration_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SslConfiguration{}
@@ -15622,60 +13634,14 @@ func (configuration *SslConfiguration) AssignProperties_To_SslConfiguration(dest
 	return nil
 }
 
-// Initialize_From_SslConfiguration_STATUS populates our SslConfiguration from the provided source SslConfiguration_STATUS
-func (configuration *SslConfiguration) Initialize_From_SslConfiguration_STATUS(source *SslConfiguration_STATUS) error {
-
-	// Cert
-	configuration.Cert = genruntime.ClonePointerToString(source.Cert)
-
-	// Cname
-	configuration.Cname = genruntime.ClonePointerToString(source.Cname)
-
-	// Key
-	configuration.Key = genruntime.ClonePointerToString(source.Key)
-
-	// LeafDomainLabel
-	configuration.LeafDomainLabel = genruntime.ClonePointerToString(source.LeafDomainLabel)
-
-	// OverwriteExistingDomain
-	if source.OverwriteExistingDomain != nil {
-		overwriteExistingDomain := *source.OverwriteExistingDomain
-		configuration.OverwriteExistingDomain = &overwriteExistingDomain
-	} else {
-		configuration.OverwriteExistingDomain = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := SslConfiguration_Status(*source.Status)
-		configuration.Status = &status
-	} else {
-		configuration.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The ssl configuration for scoring
+// Deprecated version of SslConfiguration_STATUS. Use v1api20210701.SslConfiguration_STATUS instead
 type SslConfiguration_STATUS struct {
-	// Cert: Cert data
-	Cert *string `json:"cert,omitempty"`
-
-	// Cname: CNAME of the cert
-	Cname *string `json:"cname,omitempty"`
-
-	// Key: Key data
-	Key *string `json:"key,omitempty"`
-
-	// LeafDomainLabel: Leaf domain label of public endpoint
-	LeafDomainLabel *string `json:"leafDomainLabel,omitempty"`
-
-	// OverwriteExistingDomain: Indicates whether to overwrite existing domain label.
-	OverwriteExistingDomain *bool `json:"overwriteExistingDomain,omitempty"`
-
-	// Status: Enable or disable ssl for scoring
-	Status *SslConfiguration_Status_STATUS `json:"status,omitempty"`
+	Cert                    *string                         `json:"cert,omitempty"`
+	Cname                   *string                         `json:"cname,omitempty"`
+	Key                     *string                         `json:"key,omitempty"`
+	LeafDomainLabel         *string                         `json:"leafDomainLabel,omitempty"`
+	OverwriteExistingDomain *bool                           `json:"overwriteExistingDomain,omitempty"`
+	Status                  *SslConfiguration_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SslConfiguration_STATUS{}
@@ -15811,16 +13777,11 @@ func (configuration *SslConfiguration_STATUS) AssignProperties_To_SslConfigurati
 	return nil
 }
 
-// A system service running on a compute.
+// Deprecated version of SystemService_STATUS. Use v1api20210701.SystemService_STATUS instead
 type SystemService_STATUS struct {
-	// PublicIpAddress: Public IP address
-	PublicIpAddress *string `json:"publicIpAddress,omitempty"`
-
-	// SystemServiceType: The type of this system service.
+	PublicIpAddress   *string `json:"publicIpAddress,omitempty"`
 	SystemServiceType *string `json:"systemServiceType,omitempty"`
-
-	// Version: The version for this type.
-	Version *string `json:"version,omitempty"`
+	Version           *string `json:"version,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SystemService_STATUS{}
@@ -15900,16 +13861,11 @@ func (service *SystemService_STATUS) AssignProperties_To_SystemService_STATUS(de
 	return nil
 }
 
-// Settings for user account that gets created on each on the nodes of a compute.
+// Deprecated version of UserAccountCredentials. Use v1api20210701.UserAccountCredentials instead
 type UserAccountCredentials struct {
 	// +kubebuilder:validation:Required
-	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
-	AdminUserName *string `json:"adminUserName,omitempty"`
-
-	// AdminUserPassword: Password of the administrator user account.
-	AdminUserPassword *genruntime.SecretReference `json:"adminUserPassword,omitempty"`
-
-	// AdminUserSshPublicKey: SSH public key of the administrator user account.
+	AdminUserName         *string                     `json:"adminUserName,omitempty"`
+	AdminUserPassword     *genruntime.SecretReference `json:"adminUserPassword,omitempty"`
 	AdminUserSshPublicKey *genruntime.SecretReference `json:"adminUserSshPublicKey,omitempty"`
 }
 
@@ -16037,37 +13993,10 @@ func (credentials *UserAccountCredentials) AssignProperties_To_UserAccountCreden
 	return nil
 }
 
-// Initialize_From_UserAccountCredentials_STATUS populates our UserAccountCredentials from the provided source UserAccountCredentials_STATUS
-func (credentials *UserAccountCredentials) Initialize_From_UserAccountCredentials_STATUS(source *UserAccountCredentials_STATUS) error {
-
-	// AdminUserName
-	credentials.AdminUserName = genruntime.ClonePointerToString(source.AdminUserName)
-
-	// AdminUserPassword
-	if source.AdminUserPassword != nil {
-	} else {
-		credentials.AdminUserPassword = nil
-	}
-
-	// AdminUserSshPublicKey
-	if source.AdminUserSshPublicKey != nil {
-	} else {
-		credentials.AdminUserSshPublicKey = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Settings for user account that gets created on each on the nodes of a compute.
+// Deprecated version of UserAccountCredentials_STATUS. Use v1api20210701.UserAccountCredentials_STATUS instead
 type UserAccountCredentials_STATUS struct {
-	// AdminUserName: Name of the administrator user account which can be used to SSH to nodes.
-	AdminUserName *string `json:"adminUserName,omitempty"`
-
-	// AdminUserPassword: Password of the administrator user account.
-	AdminUserPassword *string `json:"adminUserPassword,omitempty"`
-
-	// AdminUserSshPublicKey: SSH public key of the administrator user account.
+	AdminUserName         *string `json:"adminUserName,omitempty"`
+	AdminUserPassword     *string `json:"adminUserPassword,omitempty"`
 	AdminUserSshPublicKey *string `json:"adminUserSshPublicKey,omitempty"`
 }
 
@@ -16148,10 +14077,9 @@ func (credentials *UserAccountCredentials_STATUS) AssignProperties_To_UserAccoun
 	return nil
 }
 
-// Virtual Machine image for Windows AML Compute
+// Deprecated version of VirtualMachineImage. Use v1api20210701.VirtualMachineImage instead
 type VirtualMachineImage struct {
 	// +kubebuilder:validation:Required
-	// Reference: Virtual Machine image path
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -16233,24 +14161,8 @@ func (image *VirtualMachineImage) AssignProperties_To_VirtualMachineImage(destin
 	return nil
 }
 
-// Initialize_From_VirtualMachineImage_STATUS populates our VirtualMachineImage from the provided source VirtualMachineImage_STATUS
-func (image *VirtualMachineImage) Initialize_From_VirtualMachineImage_STATUS(source *VirtualMachineImage_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		image.Reference = &reference
-	} else {
-		image.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Virtual Machine image for Windows AML Compute
+// Deprecated version of VirtualMachineImage_STATUS. Use v1api20210701.VirtualMachineImage_STATUS instead
 type VirtualMachineImage_STATUS struct {
-	// Id: Virtual Machine image path
 	Id *string `json:"id,omitempty"`
 }
 
@@ -16307,19 +14219,12 @@ func (image *VirtualMachineImage_STATUS) AssignProperties_To_VirtualMachineImage
 	return nil
 }
 
-// Admin credentials for virtual machine
+// Deprecated version of VirtualMachineSshCredentials. Use v1api20210701.VirtualMachineSshCredentials instead
 type VirtualMachineSshCredentials struct {
-	// Password: Password of admin account
-	Password *genruntime.SecretReference `json:"password,omitempty"`
-
-	// PrivateKeyData: Private key data
-	PrivateKeyData *string `json:"privateKeyData,omitempty"`
-
-	// PublicKeyData: Public key data
-	PublicKeyData *string `json:"publicKeyData,omitempty"`
-
-	// Username: Username of admin account
-	Username *string `json:"username,omitempty"`
+	Password       *genruntime.SecretReference `json:"password,omitempty"`
+	PrivateKeyData *string                     `json:"privateKeyData,omitempty"`
+	PublicKeyData  *string                     `json:"publicKeyData,omitempty"`
+	Username       *string                     `json:"username,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineSshCredentials{}
@@ -16454,41 +14359,12 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMach
 	return nil
 }
 
-// Initialize_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials from the provided source VirtualMachineSshCredentials_STATUS
-func (credentials *VirtualMachineSshCredentials) Initialize_From_VirtualMachineSshCredentials_STATUS(source *VirtualMachineSshCredentials_STATUS) error {
-
-	// Password
-	if source.Password != nil {
-	} else {
-		credentials.Password = nil
-	}
-
-	// PrivateKeyData
-	credentials.PrivateKeyData = genruntime.ClonePointerToString(source.PrivateKeyData)
-
-	// PublicKeyData
-	credentials.PublicKeyData = genruntime.ClonePointerToString(source.PublicKeyData)
-
-	// Username
-	credentials.Username = genruntime.ClonePointerToString(source.Username)
-
-	// No error
-	return nil
-}
-
-// Admin credentials for virtual machine
+// Deprecated version of VirtualMachineSshCredentials_STATUS. Use v1api20210701.VirtualMachineSshCredentials_STATUS instead
 type VirtualMachineSshCredentials_STATUS struct {
-	// Password: Password of admin account
-	Password *string `json:"password,omitempty"`
-
-	// PrivateKeyData: Private key data
+	Password       *string `json:"password,omitempty"`
 	PrivateKeyData *string `json:"privateKeyData,omitempty"`
-
-	// PublicKeyData: Public key data
-	PublicKeyData *string `json:"publicKeyData,omitempty"`
-
-	// Username: Username of admin account
-	Username *string `json:"username,omitempty"`
+	PublicKeyData  *string `json:"publicKeyData,omitempty"`
+	Username       *string `json:"username,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualMachineSshCredentials_STATUS{}
@@ -16580,14 +14456,12 @@ func (credentials *VirtualMachineSshCredentials_STATUS) AssignProperties_To_Virt
 	return nil
 }
 
-// A user that can be assigned to a compute instance.
+// Deprecated version of AssignedUser. Use v1api20210701.AssignedUser instead
 type AssignedUser struct {
 	// +kubebuilder:validation:Required
-	// ObjectId: User’s AAD Object Id.
 	ObjectId *string `json:"objectId,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// TenantId: User’s AAD Tenant Id.
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
@@ -16677,25 +14551,9 @@ func (user *AssignedUser) AssignProperties_To_AssignedUser(destination *v2021070
 	return nil
 }
 
-// Initialize_From_AssignedUser_STATUS populates our AssignedUser from the provided source AssignedUser_STATUS
-func (user *AssignedUser) Initialize_From_AssignedUser_STATUS(source *AssignedUser_STATUS) error {
-
-	// ObjectId
-	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// TenantId
-	user.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// No error
-	return nil
-}
-
-// A user that can be assigned to a compute instance.
+// Deprecated version of AssignedUser_STATUS. Use v1api20210701.AssignedUser_STATUS instead
 type AssignedUser_STATUS struct {
-	// ObjectId: User’s AAD Object Id.
 	ObjectId *string `json:"objectId,omitempty"`
-
-	// TenantId: User’s AAD Tenant Id.
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
@@ -16764,13 +14622,10 @@ func (user *AssignedUser_STATUS) AssignProperties_To_AssignedUser_STATUS(destina
 	return nil
 }
 
-// The resource management error additional info.
+// Deprecated version of ErrorAdditionalInfo_STATUS. Use v1api20210701.ErrorAdditionalInfo_STATUS instead
 type ErrorAdditionalInfo_STATUS struct {
-	// Info: The additional info.
 	Info map[string]v1.JSON `json:"info,omitempty"`
-
-	// Type: The additional info type.
-	Type *string `json:"type,omitempty"`
+	Type *string            `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ErrorAdditionalInfo_STATUS{}
@@ -16860,18 +14715,12 @@ func (info *ErrorAdditionalInfo_STATUS) AssignProperties_To_ErrorAdditionalInfo_
 	return nil
 }
 
+// Deprecated version of ErrorDetail_STATUS_Unrolled. Use v1api20210701.ErrorDetail_STATUS_Unrolled instead
 type ErrorDetail_STATUS_Unrolled struct {
-	// AdditionalInfo: The error additional info.
 	AdditionalInfo []ErrorAdditionalInfo_STATUS `json:"additionalInfo,omitempty"`
-
-	// Code: The error code.
-	Code *string `json:"code,omitempty"`
-
-	// Message: The error message.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The error target.
-	Target *string `json:"target,omitempty"`
+	Code           *string                      `json:"code,omitempty"`
+	Message        *string                      `json:"message,omitempty"`
+	Target         *string                      `json:"target,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ErrorDetail_STATUS_Unrolled{}
@@ -16997,11 +14846,9 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STA
 	return nil
 }
 
+// Deprecated version of InstanceTypeSchema_Resources. Use v1api20210701.InstanceTypeSchema_Resources instead
 type InstanceTypeSchema_Resources struct {
-	// Limits: Resource limits for this instance type
-	Limits map[string]string `json:"limits,omitempty"`
-
-	// Requests: Resource requests for this instance type
+	Limits   map[string]string `json:"limits,omitempty"`
 	Requests map[string]string `json:"requests,omitempty"`
 }
 
@@ -17099,24 +14946,9 @@ func (resources *InstanceTypeSchema_Resources) AssignProperties_To_InstanceTypeS
 	return nil
 }
 
-// Initialize_From_InstanceTypeSchema_Resources_STATUS populates our InstanceTypeSchema_Resources from the provided source InstanceTypeSchema_Resources_STATUS
-func (resources *InstanceTypeSchema_Resources) Initialize_From_InstanceTypeSchema_Resources_STATUS(source *InstanceTypeSchema_Resources_STATUS) error {
-
-	// Limits
-	resources.Limits = genruntime.CloneMapOfStringToString(source.Limits)
-
-	// Requests
-	resources.Requests = genruntime.CloneMapOfStringToString(source.Requests)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of InstanceTypeSchema_Resources_STATUS. Use v1api20210701.InstanceTypeSchema_Resources_STATUS instead
 type InstanceTypeSchema_Resources_STATUS struct {
-	// Limits: Resource limits for this instance type
-	Limits map[string]string `json:"limits,omitempty"`
-
-	// Requests: Resource requests for this instance type
+	Limits   map[string]string `json:"limits,omitempty"`
 	Requests map[string]string `json:"requests,omitempty"`
 }
 
@@ -17189,13 +15021,10 @@ func (resources *InstanceTypeSchema_Resources_STATUS) AssignProperties_To_Instan
 	return nil
 }
 
-// Customized setup scripts
+// Deprecated version of ScriptsToExecute. Use v1api20210701.ScriptsToExecute instead
 type ScriptsToExecute struct {
-	// CreationScript: Script that's run only once during provision of the compute.
 	CreationScript *ScriptReference `json:"creationScript,omitempty"`
-
-	// StartupScript: Script that's run every time the machine starts.
-	StartupScript *ScriptReference `json:"startupScript,omitempty"`
+	StartupScript  *ScriptReference `json:"startupScript,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ScriptsToExecute{}
@@ -17338,44 +15167,10 @@ func (execute *ScriptsToExecute) AssignProperties_To_ScriptsToExecute(destinatio
 	return nil
 }
 
-// Initialize_From_ScriptsToExecute_STATUS populates our ScriptsToExecute from the provided source ScriptsToExecute_STATUS
-func (execute *ScriptsToExecute) Initialize_From_ScriptsToExecute_STATUS(source *ScriptsToExecute_STATUS) error {
-
-	// CreationScript
-	if source.CreationScript != nil {
-		var creationScript ScriptReference
-		err := creationScript.Initialize_From_ScriptReference_STATUS(source.CreationScript)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScriptReference_STATUS() to populate field CreationScript")
-		}
-		execute.CreationScript = &creationScript
-	} else {
-		execute.CreationScript = nil
-	}
-
-	// StartupScript
-	if source.StartupScript != nil {
-		var startupScript ScriptReference
-		err := startupScript.Initialize_From_ScriptReference_STATUS(source.StartupScript)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScriptReference_STATUS() to populate field StartupScript")
-		}
-		execute.StartupScript = &startupScript
-	} else {
-		execute.StartupScript = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Customized setup scripts
+// Deprecated version of ScriptsToExecute_STATUS. Use v1api20210701.ScriptsToExecute_STATUS instead
 type ScriptsToExecute_STATUS struct {
-	// CreationScript: Script that's run only once during provision of the compute.
 	CreationScript *ScriptReference_STATUS `json:"creationScript,omitempty"`
-
-	// StartupScript: Script that's run every time the machine starts.
-	StartupScript *ScriptReference_STATUS `json:"startupScript,omitempty"`
+	StartupScript  *ScriptReference_STATUS `json:"startupScript,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ScriptsToExecute_STATUS{}
@@ -17489,19 +15284,12 @@ func (execute *ScriptsToExecute_STATUS) AssignProperties_To_ScriptsToExecute_STA
 	return nil
 }
 
-// Script reference
+// Deprecated version of ScriptReference. Use v1api20210701.ScriptReference instead
 type ScriptReference struct {
-	// ScriptArguments: Optional command line arguments passed to the script to run.
 	ScriptArguments *string `json:"scriptArguments,omitempty"`
-
-	// ScriptData: The location of scripts in the mounted volume.
-	ScriptData *string `json:"scriptData,omitempty"`
-
-	// ScriptSource: The storage source of the script: inline, workspace.
-	ScriptSource *string `json:"scriptSource,omitempty"`
-
-	// Timeout: Optional time period passed to timeout command.
-	Timeout *string `json:"timeout,omitempty"`
+	ScriptData      *string `json:"scriptData,omitempty"`
+	ScriptSource    *string `json:"scriptSource,omitempty"`
+	Timeout         *string `json:"timeout,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ScriptReference{}
@@ -17626,38 +15414,12 @@ func (reference *ScriptReference) AssignProperties_To_ScriptReference(destinatio
 	return nil
 }
 
-// Initialize_From_ScriptReference_STATUS populates our ScriptReference from the provided source ScriptReference_STATUS
-func (reference *ScriptReference) Initialize_From_ScriptReference_STATUS(source *ScriptReference_STATUS) error {
-
-	// ScriptArguments
-	reference.ScriptArguments = genruntime.ClonePointerToString(source.ScriptArguments)
-
-	// ScriptData
-	reference.ScriptData = genruntime.ClonePointerToString(source.ScriptData)
-
-	// ScriptSource
-	reference.ScriptSource = genruntime.ClonePointerToString(source.ScriptSource)
-
-	// Timeout
-	reference.Timeout = genruntime.ClonePointerToString(source.Timeout)
-
-	// No error
-	return nil
-}
-
-// Script reference
+// Deprecated version of ScriptReference_STATUS. Use v1api20210701.ScriptReference_STATUS instead
 type ScriptReference_STATUS struct {
-	// ScriptArguments: Optional command line arguments passed to the script to run.
 	ScriptArguments *string `json:"scriptArguments,omitempty"`
-
-	// ScriptData: The location of scripts in the mounted volume.
-	ScriptData *string `json:"scriptData,omitempty"`
-
-	// ScriptSource: The storage source of the script: inline, workspace.
-	ScriptSource *string `json:"scriptSource,omitempty"`
-
-	// Timeout: Optional time period passed to timeout command.
-	Timeout *string `json:"timeout,omitempty"`
+	ScriptData      *string `json:"scriptData,omitempty"`
+	ScriptSource    *string `json:"scriptSource,omitempty"`
+	Timeout         *string `json:"timeout,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ScriptReference_STATUS{}

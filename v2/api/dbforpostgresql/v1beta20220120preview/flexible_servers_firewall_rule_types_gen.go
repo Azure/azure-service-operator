@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
+// Deprecated version of FlexibleServersFirewallRule. Use v1api20220120preview.FlexibleServersFirewallRule instead
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -104,17 +102,6 @@ func (rule *FlexibleServersFirewallRule) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the FlexibleServersFirewallRule resource
 func (rule *FlexibleServersFirewallRule) defaultImpl() { rule.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &FlexibleServersFirewallRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *FlexibleServersFirewallRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServers_FirewallRule_STATUS); ok {
-		return rule.Spec.Initialize_From_FlexibleServers_FirewallRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServers_FirewallRule_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &FlexibleServersFirewallRule{}
 
@@ -337,9 +324,7 @@ func (rule *FlexibleServersFirewallRule) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2022-01-20-preview/postgresql.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/flexibleServers/{serverName}/firewallRules/{firewallRuleName}
+// Deprecated version of FlexibleServersFirewallRule. Use v1api20220120preview.FlexibleServersFirewallRule instead
 type FlexibleServersFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -353,7 +338,6 @@ type FlexibleServers_FirewallRule_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	// EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -364,7 +348,6 @@ type FlexibleServers_FirewallRule_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	// StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
 	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }
 
@@ -565,29 +548,6 @@ func (rule *FlexibleServers_FirewallRule_Spec) AssignProperties_To_FlexibleServe
 	return nil
 }
 
-// Initialize_From_FlexibleServers_FirewallRule_STATUS populates our FlexibleServers_FirewallRule_Spec from the provided source FlexibleServers_FirewallRule_STATUS
-func (rule *FlexibleServers_FirewallRule_Spec) Initialize_From_FlexibleServers_FirewallRule_STATUS(source *FlexibleServers_FirewallRule_STATUS) error {
-
-	// EndIpAddress
-	if source.EndIpAddress != nil {
-		endIpAddress := *source.EndIpAddress
-		rule.EndIpAddress = &endIpAddress
-	} else {
-		rule.EndIpAddress = nil
-	}
-
-	// StartIpAddress
-	if source.StartIpAddress != nil {
-		startIpAddress := *source.StartIpAddress
-		rule.StartIpAddress = &startIpAddress
-	} else {
-		rule.StartIpAddress = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (rule *FlexibleServers_FirewallRule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -598,28 +558,16 @@ func (rule *FlexibleServers_FirewallRule_Spec) SetAzureName(azureName string) {
 	rule.AzureName = azureName
 }
 
+// Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1api20220120preview.FlexibleServers_FirewallRule_STATUS instead
 type FlexibleServers_FirewallRule_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.
-	EndIpAddress *string `json:"endIpAddress,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.
-	StartIpAddress *string `json:"startIpAddress,omitempty"`
-
-	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions     []conditions.Condition `json:"conditions,omitempty"`
+	EndIpAddress   *string                `json:"endIpAddress,omitempty"`
+	Id             *string                `json:"id,omitempty"`
+	Name           *string                `json:"name,omitempty"`
+	StartIpAddress *string                `json:"startIpAddress,omitempty"`
+	SystemData     *SystemData_STATUS     `json:"systemData,omitempty"`
+	Type           *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &FlexibleServers_FirewallRule_STATUS{}

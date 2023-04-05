@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
-// - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
+// Deprecated version of RoleAssignment. Use v1api20200801preview.RoleAssignment instead
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &RoleAssignment{}
 
 // ConvertFrom populates our RoleAssignment from the provided hub RoleAssignment
 func (assignment *RoleAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200801ps.RoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1beta20200801previewstorage/RoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20200801ps.RoleAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_RoleAssignment(source)
+	err = assignment.AssignProperties_From_RoleAssignment(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RoleAssignment from our RoleAssignment
 func (assignment *RoleAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200801ps.RoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1beta20200801previewstorage/RoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20200801ps.RoleAssignment
+	err := assignment.AssignProperties_To_RoleAssignment(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_RoleAssignment(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-authorization-azure-com-v1beta20200801preview-roleassignment,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1beta20200801preview,name=default.v1beta20200801preview.roleassignments.authorization.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (assignment *RoleAssignment) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the RoleAssignment resource
 func (assignment *RoleAssignment) defaultImpl() { assignment.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &RoleAssignment{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (assignment *RoleAssignment) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RoleAssignment_STATUS); ok {
-		return assignment.Spec.Initialize_From_RoleAssignment_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RoleAssignment_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &RoleAssignment{}
 
@@ -335,15 +336,14 @@ func (assignment *RoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
-// - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
+// Deprecated version of RoleAssignment. Use v1api20200801preview.RoleAssignment instead
 type RoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RoleAssignment `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20200801preview.APIVersion instead
 // +kubebuilder:validation:Enum={"2020-08-01-preview"}
 type APIVersion string
 
@@ -352,39 +352,22 @@ const APIVersion_Value = APIVersion("2020-08-01-preview")
 type RoleAssignment_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-	// 'foo_storage_container'
-	Condition *string `json:"condition,omitempty"`
-
-	// ConditionVersion: Version of the condition. Currently accepted value is '2.0'
-	ConditionVersion *string `json:"conditionVersion,omitempty"`
-
-	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
+	AzureName                          string  `json:"azureName,omitempty"`
+	Condition                          *string `json:"condition,omitempty"`
+	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
-
-	// Description: Description of role assignment
-	Description *string `json:"description,omitempty"`
+	Description                        *string `json:"description,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
 	// extension resource, which means that any other Azure resource can be its owner.
-	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
-
-	// PrincipalId: The principal ID.
-	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
-
-	// PrincipalIdFromConfig: The principal ID.
-	PrincipalIdFromConfig *genruntime.ConfigMapReference `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
-
-	// PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
+	Owner                 *genruntime.ArbitraryOwnerReference     `json:"owner,omitempty"`
+	PrincipalId           *string                                 `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalIdFromConfig *genruntime.ConfigMapReference          `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalType         *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// RoleDefinitionReference: The role definition ID.
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
 }
 
@@ -710,44 +693,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 	return nil
 }
 
-// Initialize_From_RoleAssignment_STATUS populates our RoleAssignment_Spec from the provided source RoleAssignment_STATUS
-func (assignment *RoleAssignment_Spec) Initialize_From_RoleAssignment_STATUS(source *RoleAssignment_STATUS) error {
-
-	// Condition
-	assignment.Condition = genruntime.ClonePointerToString(source.Condition)
-
-	// ConditionVersion
-	assignment.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
-
-	// DelegatedManagedIdentityResourceId
-	assignment.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
-
-	// Description
-	assignment.Description = genruntime.ClonePointerToString(source.Description)
-
-	// PrincipalId
-	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// PrincipalType
-	if source.PrincipalType != nil {
-		principalType := RoleAssignmentProperties_PrincipalType(*source.PrincipalType)
-		assignment.PrincipalType = &principalType
-	} else {
-		assignment.PrincipalType = nil
-	}
-
-	// RoleDefinitionReference
-	if source.RoleDefinitionId != nil {
-		roleDefinitionReference := genruntime.CreateResourceReferenceFromARMID(*source.RoleDefinitionId)
-		assignment.RoleDefinitionReference = &roleDefinitionReference
-	} else {
-		assignment.RoleDefinitionReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (assignment *RoleAssignment_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -758,57 +703,26 @@ func (assignment *RoleAssignment_Spec) SetAzureName(azureName string) {
 	assignment.AzureName = azureName
 }
 
-// Role Assignments
+// Deprecated version of RoleAssignment_STATUS. Use v1api20200801preview.RoleAssignment_STATUS instead
 type RoleAssignment_STATUS struct {
-	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-	// @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-	// 'foo_storage_container'
-	Condition *string `json:"condition,omitempty"`
-
-	// ConditionVersion: Version of the condition. Currently accepted value is '2.0'
+	Condition        *string `json:"condition,omitempty"`
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CreatedBy: Id of the user who created the assignment
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedOn: Time it was created
-	CreatedOn *string `json:"createdOn,omitempty"`
-
-	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
-	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
-
-	// Description: Description of role assignment
-	Description *string `json:"description,omitempty"`
-
-	// Id: The role assignment ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The role assignment name.
-	Name *string `json:"name,omitempty"`
-
-	// PrincipalId: The principal ID.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// PrincipalType: The principal type of the assigned principal ID.
-	PrincipalType *RoleAssignmentProperties_PrincipalType_STATUS `json:"principalType,omitempty"`
-
-	// RoleDefinitionId: The role definition ID.
-	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
-
-	// Scope: The role assignment scope.
-	Scope *string `json:"scope,omitempty"`
-
-	// Type: The role assignment type.
-	Type *string `json:"type,omitempty"`
-
-	// UpdatedBy: Id of the user who updated the assignment
-	UpdatedBy *string `json:"updatedBy,omitempty"`
-
-	// UpdatedOn: Time it was updated
-	UpdatedOn *string `json:"updatedOn,omitempty"`
+	Conditions                         []conditions.Condition                         `json:"conditions,omitempty"`
+	CreatedBy                          *string                                        `json:"createdBy,omitempty"`
+	CreatedOn                          *string                                        `json:"createdOn,omitempty"`
+	DelegatedManagedIdentityResourceId *string                                        `json:"delegatedManagedIdentityResourceId,omitempty"`
+	Description                        *string                                        `json:"description,omitempty"`
+	Id                                 *string                                        `json:"id,omitempty"`
+	Name                               *string                                        `json:"name,omitempty"`
+	PrincipalId                        *string                                        `json:"principalId,omitempty"`
+	PrincipalType                      *RoleAssignmentProperties_PrincipalType_STATUS `json:"principalType,omitempty"`
+	RoleDefinitionId                   *string                                        `json:"roleDefinitionId,omitempty"`
+	Scope                              *string                                        `json:"scope,omitempty"`
+	Type                               *string                                        `json:"type,omitempty"`
+	UpdatedBy                          *string                                        `json:"updatedBy,omitempty"`
+	UpdatedOn                          *string                                        `json:"updatedOn,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &RoleAssignment_STATUS{}
@@ -1136,6 +1050,8 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_To_RoleAssignment_STAT
 	return nil
 }
 
+// Deprecated version of RoleAssignmentProperties_PrincipalType. Use
+// v1api20200801preview.RoleAssignmentProperties_PrincipalType instead
 // +kubebuilder:validation:Enum={"ForeignGroup","Group","ServicePrincipal","User"}
 type RoleAssignmentProperties_PrincipalType string
 
@@ -1146,6 +1062,8 @@ const (
 	RoleAssignmentProperties_PrincipalType_User             = RoleAssignmentProperties_PrincipalType("User")
 )
 
+// Deprecated version of RoleAssignmentProperties_PrincipalType_STATUS. Use
+// v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS instead
 type RoleAssignmentProperties_PrincipalType_STATUS string
 
 const (

@@ -8,11 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	containerinstance "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001"
+	containerinstance "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
@@ -38,17 +38,17 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 			Containers: []containerinstance.Container{
 				{
 					Name:  &name,
-					Image: to.StringPtr("mcr.microsoft.com/azuredocs/aci-helloworld"),
+					Image: to.Ptr("mcr.microsoft.com/azuredocs/aci-helloworld"),
 					Ports: []containerinstance.ContainerPort{
 						{
-							Port:     to.IntPtr(80),
+							Port:     to.Ptr(80),
 							Protocol: &protocol,
 						},
 					},
 					Resources: &containerinstance.ResourceRequirements{
 						Requests: &containerinstance.ResourceRequests{
-							Cpu:        to.Float64Ptr(1),
-							MemoryInGB: to.Float64Ptr(2),
+							Cpu:        to.Ptr(float64(1)),
+							MemoryInGB: to.Ptr(float64(2)),
 						},
 					},
 				},
@@ -59,7 +59,7 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 				Type: &ipAddressType,
 				Ports: []containerinstance.Port{
 					{
-						Port:     to.IntPtr(80),
+						Port:     to.Ptr(80),
 						Protocol: &portProtocol,
 					},
 				},

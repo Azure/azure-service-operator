@@ -5,11 +5,9 @@ package v1beta20201101
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of RouteTables_Route_Spec. Use v1api20201101.RouteTables_Route_Spec instead
 type RouteTables_Route_Spec_ARM struct {
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties of the route.
+	Name       string                     `json:"name,omitempty"`
 	Properties *RoutePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
@@ -30,18 +28,10 @@ func (route *RouteTables_Route_Spec_ARM) GetType() string {
 	return "Microsoft.Network/routeTables/routes"
 }
 
-// Route resource.
+// Deprecated version of RoutePropertiesFormat. Use v1api20201101.RoutePropertiesFormat instead
 type RoutePropertiesFormat_ARM struct {
-	// AddressPrefix: The destination CIDR to which the route applies.
-	AddressPrefix *string `json:"addressPrefix,omitempty"`
-
-	// HasBgpOverride: A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
-	HasBgpOverride *bool `json:"hasBgpOverride,omitempty"`
-
-	// NextHopIpAddress: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the
-	// next hop type is VirtualAppliance.
-	NextHopIpAddress *string `json:"nextHopIpAddress,omitempty"`
-
-	// NextHopType: The type of Azure hop the packet should be sent to.
-	NextHopType *RouteNextHopType `json:"nextHopType,omitempty"`
+	AddressPrefix    *string           `json:"addressPrefix,omitempty"`
+	HasBgpOverride   *bool             `json:"hasBgpOverride,omitempty"`
+	NextHopIpAddress *string           `json:"nextHopIpAddress,omitempty"`
+	NextHopType      *RouteNextHopType `json:"nextHopType,omitempty"`
 }

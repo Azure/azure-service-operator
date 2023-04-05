@@ -29,15 +29,10 @@ jobs:
           docker start "$container_id"
           echo "id=$container_id" >> $GITHUB_OUTPUT
         
-      - name: Run Kustomize 
+      - name: Build required release files
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:run-kustomize
-
-      - name: Make multitenant files
-        run: |
-          container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:make-multitenant-files
+          docker exec "$container_id" task make-release-artifacts
 
       - name: Build & tag Docker image
         run: |
@@ -47,11 +42,11 @@ jobs:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}
 
       - name: Upload release assets
-        uses: svenstaro/upload-release-action@2f88c7710e85b1f8b5f6c3a2fcadaa7f865af713 # this is v2, but pinned
+        uses: svenstaro/upload-release-action@7319e4733ec7a184d739a6f412c40ffc339b69c7 # this is v2.5.0, but pinned
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
-          file: "v2/bin/{azureserviceoperator,multitenant-cluster,multitenant-tenant}_*.yaml"
+          file: "v2/out/release/*"
           file_glob: true
 
       - name: Login to registry

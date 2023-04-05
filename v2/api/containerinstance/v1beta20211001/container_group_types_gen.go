@@ -25,9 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
+// Deprecated version of ContainerGroup. Use v1api20211001.ContainerGroup instead
 type ContainerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -51,22 +49,36 @@ var _ conversion.Convertible = &ContainerGroup{}
 
 // ConvertFrom populates our ContainerGroup from the provided hub ContainerGroup
 func (group *ContainerGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211001s.ContainerGroup)
-	if !ok {
-		return fmt.Errorf("expected containerinstance/v1beta20211001storage/ContainerGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20211001s.ContainerGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_ContainerGroup(source)
+	err = group.AssignProperties_From_ContainerGroup(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ContainerGroup from our ContainerGroup
 func (group *ContainerGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211001s.ContainerGroup)
-	if !ok {
-		return fmt.Errorf("expected containerinstance/v1beta20211001storage/ContainerGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20211001s.ContainerGroup
+	err := group.AssignProperties_To_ContainerGroup(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_ContainerGroup(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1
@@ -91,17 +103,6 @@ func (group *ContainerGroup) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the ContainerGroup resource
 func (group *ContainerGroup) defaultImpl() { group.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &ContainerGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *ContainerGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ContainerGroup_STATUS); ok {
-		return group.Spec.Initialize_From_ContainerGroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ContainerGroup_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &ContainerGroup{}
 
@@ -324,15 +325,14 @@ func (group *ContainerGroup) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/containerInstance.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}
+// Deprecated version of ContainerGroup. Use v1api20211001.ContainerGroup instead
 type ContainerGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ContainerGroup `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20211001.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
@@ -344,63 +344,30 @@ type ContainerGroup_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Containers: The containers within the container group.
-	Containers []Container `json:"containers,omitempty"`
-
-	// Diagnostics: The diagnostic information for a container group.
-	Diagnostics *ContainerGroupDiagnostics `json:"diagnostics,omitempty"`
-
-	// DnsConfig: The DNS config information for a container group.
-	DnsConfig *DnsConfiguration `json:"dnsConfig,omitempty"`
-
-	// EncryptionProperties: The encryption properties for a container group.
-	EncryptionProperties *EncryptionProperties `json:"encryptionProperties,omitempty"`
-
-	// Identity: The identity of the container group, if configured.
-	Identity *ContainerGroupIdentity `json:"identity,omitempty"`
-
-	// ImageRegistryCredentials: The image registry credentials by which the container group is created from.
-	ImageRegistryCredentials []ImageRegistryCredential `json:"imageRegistryCredentials,omitempty"`
-
-	// InitContainers: The init containers for a container group.
-	InitContainers []InitContainerDefinition `json:"initContainers,omitempty"`
-
-	// IpAddress: The IP address type of the container group.
-	IpAddress *IpAddress `json:"ipAddress,omitempty"`
-
-	// Location: The resource location.
-	Location *string `json:"location,omitempty"`
+	Containers               []Container                `json:"containers,omitempty"`
+	Diagnostics              *ContainerGroupDiagnostics `json:"diagnostics,omitempty"`
+	DnsConfig                *DnsConfiguration          `json:"dnsConfig,omitempty"`
+	EncryptionProperties     *EncryptionProperties      `json:"encryptionProperties,omitempty"`
+	Identity                 *ContainerGroupIdentity    `json:"identity,omitempty"`
+	ImageRegistryCredentials []ImageRegistryCredential  `json:"imageRegistryCredentials,omitempty"`
+	InitContainers           []InitContainerDefinition  `json:"initContainers,omitempty"`
+	IpAddress                *IpAddress                 `json:"ipAddress,omitempty"`
+	Location                 *string                    `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// OsType: The operating system type required by the containers in the container group.
 	OsType *ContainerGroup_Properties_OsType_Spec `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// RestartPolicy: Restart policy for all containers within the container group.
-	// - `Always` Always restart
-	// - `OnFailure` Restart on failure
-	// - `Never` Never restart
+	Owner         *genruntime.KnownResourceReference            `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	RestartPolicy *ContainerGroup_Properties_RestartPolicy_Spec `json:"restartPolicy,omitempty"`
-
-	// Sku: The SKU for a container group.
-	Sku *ContainerGroupSku `json:"sku,omitempty"`
-
-	// SubnetIds: The subnet resource IDs for a container group.
-	SubnetIds []ContainerGroupSubnetId `json:"subnetIds,omitempty"`
-
-	// Tags: The resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Volumes: The list of volumes that can be mounted by containers in this container group.
-	Volumes []Volume `json:"volumes,omitempty"`
-
-	// Zones: The zones for the container group.
-	Zones []string `json:"zones,omitempty"`
+	Sku           *ContainerGroupSku                            `json:"sku,omitempty"`
+	SubnetIds     []ContainerGroupSubnetId                      `json:"subnetIds,omitempty"`
+	Tags          map[string]string                             `json:"tags,omitempty"`
+	Volumes       []Volume                                      `json:"volumes,omitempty"`
+	Zones         []string                                      `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContainerGroup_Spec{}
@@ -1205,196 +1172,6 @@ func (group *ContainerGroup_Spec) AssignProperties_To_ContainerGroup_Spec(destin
 	return nil
 }
 
-// Initialize_From_ContainerGroup_STATUS populates our ContainerGroup_Spec from the provided source ContainerGroup_STATUS
-func (group *ContainerGroup_Spec) Initialize_From_ContainerGroup_STATUS(source *ContainerGroup_STATUS) error {
-
-	// Containers
-	if source.Containers != nil {
-		containerList := make([]Container, len(source.Containers))
-		for containerIndex, containerItem := range source.Containers {
-			// Shadow the loop variable to avoid aliasing
-			containerItem := containerItem
-			var container Container
-			err := container.Initialize_From_Container_STATUS(&containerItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Container_STATUS() to populate field Containers")
-			}
-			containerList[containerIndex] = container
-		}
-		group.Containers = containerList
-	} else {
-		group.Containers = nil
-	}
-
-	// Diagnostics
-	if source.Diagnostics != nil {
-		var diagnostic ContainerGroupDiagnostics
-		err := diagnostic.Initialize_From_ContainerGroupDiagnostics_STATUS(source.Diagnostics)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerGroupDiagnostics_STATUS() to populate field Diagnostics")
-		}
-		group.Diagnostics = &diagnostic
-	} else {
-		group.Diagnostics = nil
-	}
-
-	// DnsConfig
-	if source.DnsConfig != nil {
-		var dnsConfig DnsConfiguration
-		err := dnsConfig.Initialize_From_DnsConfiguration_STATUS(source.DnsConfig)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DnsConfiguration_STATUS() to populate field DnsConfig")
-		}
-		group.DnsConfig = &dnsConfig
-	} else {
-		group.DnsConfig = nil
-	}
-
-	// EncryptionProperties
-	if source.EncryptionProperties != nil {
-		var encryptionProperty EncryptionProperties
-		err := encryptionProperty.Initialize_From_EncryptionProperties_STATUS(source.EncryptionProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionProperties_STATUS() to populate field EncryptionProperties")
-		}
-		group.EncryptionProperties = &encryptionProperty
-	} else {
-		group.EncryptionProperties = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ContainerGroupIdentity
-		err := identity.Initialize_From_ContainerGroupIdentity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerGroupIdentity_STATUS() to populate field Identity")
-		}
-		group.Identity = &identity
-	} else {
-		group.Identity = nil
-	}
-
-	// ImageRegistryCredentials
-	if source.ImageRegistryCredentials != nil {
-		imageRegistryCredentialList := make([]ImageRegistryCredential, len(source.ImageRegistryCredentials))
-		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range source.ImageRegistryCredentials {
-			// Shadow the loop variable to avoid aliasing
-			imageRegistryCredentialItem := imageRegistryCredentialItem
-			var imageRegistryCredential ImageRegistryCredential
-			err := imageRegistryCredential.Initialize_From_ImageRegistryCredential_STATUS(&imageRegistryCredentialItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ImageRegistryCredential_STATUS() to populate field ImageRegistryCredentials")
-			}
-			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
-		}
-		group.ImageRegistryCredentials = imageRegistryCredentialList
-	} else {
-		group.ImageRegistryCredentials = nil
-	}
-
-	// InitContainers
-	if source.InitContainers != nil {
-		initContainerList := make([]InitContainerDefinition, len(source.InitContainers))
-		for initContainerIndex, initContainerItem := range source.InitContainers {
-			// Shadow the loop variable to avoid aliasing
-			initContainerItem := initContainerItem
-			var initContainer InitContainerDefinition
-			err := initContainer.Initialize_From_InitContainerDefinition_STATUS(&initContainerItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_InitContainerDefinition_STATUS() to populate field InitContainers")
-			}
-			initContainerList[initContainerIndex] = initContainer
-		}
-		group.InitContainers = initContainerList
-	} else {
-		group.InitContainers = nil
-	}
-
-	// IpAddress
-	if source.IpAddress != nil {
-		var ipAddress IpAddress
-		err := ipAddress.Initialize_From_IpAddress_STATUS(source.IpAddress)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IpAddress_STATUS() to populate field IpAddress")
-		}
-		group.IpAddress = &ipAddress
-	} else {
-		group.IpAddress = nil
-	}
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OsType
-	if source.OsType != nil {
-		osType := ContainerGroup_Properties_OsType_Spec(*source.OsType)
-		group.OsType = &osType
-	} else {
-		group.OsType = nil
-	}
-
-	// RestartPolicy
-	if source.RestartPolicy != nil {
-		restartPolicy := ContainerGroup_Properties_RestartPolicy_Spec(*source.RestartPolicy)
-		group.RestartPolicy = &restartPolicy
-	} else {
-		group.RestartPolicy = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		sku := ContainerGroupSku(*source.Sku)
-		group.Sku = &sku
-	} else {
-		group.Sku = nil
-	}
-
-	// SubnetIds
-	if source.SubnetIds != nil {
-		subnetIdList := make([]ContainerGroupSubnetId, len(source.SubnetIds))
-		for subnetIdIndex, subnetIdItem := range source.SubnetIds {
-			// Shadow the loop variable to avoid aliasing
-			subnetIdItem := subnetIdItem
-			var subnetId ContainerGroupSubnetId
-			err := subnetId.Initialize_From_ContainerGroupSubnetId_STATUS(&subnetIdItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ContainerGroupSubnetId_STATUS() to populate field SubnetIds")
-			}
-			subnetIdList[subnetIdIndex] = subnetId
-		}
-		group.SubnetIds = subnetIdList
-	} else {
-		group.SubnetIds = nil
-	}
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Volumes
-	if source.Volumes != nil {
-		volumeList := make([]Volume, len(source.Volumes))
-		for volumeIndex, volumeItem := range source.Volumes {
-			// Shadow the loop variable to avoid aliasing
-			volumeItem := volumeItem
-			var volume Volume
-			err := volume.Initialize_From_Volume_STATUS(&volumeItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Volume_STATUS() to populate field Volumes")
-			}
-			volumeList[volumeIndex] = volume
-		}
-		group.Volumes = volumeList
-	} else {
-		group.Volumes = nil
-	}
-
-	// Zones
-	group.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (group *ContainerGroup_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1403,76 +1180,31 @@ func (group *ContainerGroup_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (group *ContainerGroup_Spec) SetAzureName(azureName string) { group.AzureName = azureName }
 
-// A container group.
+// Deprecated version of ContainerGroup_STATUS. Use v1api20211001.ContainerGroup_STATUS instead
 type ContainerGroup_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Containers: The containers within the container group.
-	Containers []Container_STATUS `json:"containers,omitempty"`
-
-	// Diagnostics: The diagnostic information for a container group.
-	Diagnostics *ContainerGroupDiagnostics_STATUS `json:"diagnostics,omitempty"`
-
-	// DnsConfig: The DNS config information for a container group.
-	DnsConfig *DnsConfiguration_STATUS `json:"dnsConfig,omitempty"`
-
-	// EncryptionProperties: The encryption properties for a container group.
-	EncryptionProperties *EncryptionProperties_STATUS `json:"encryptionProperties,omitempty"`
-
-	// Id: The resource id.
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the container group, if configured.
-	Identity *ContainerGroupIdentity_STATUS `json:"identity,omitempty"`
-
-	// ImageRegistryCredentials: The image registry credentials by which the container group is created from.
-	ImageRegistryCredentials []ImageRegistryCredential_STATUS `json:"imageRegistryCredentials,omitempty"`
-
-	// InitContainers: The init containers for a container group.
-	InitContainers []InitContainerDefinition_STATUS `json:"initContainers,omitempty"`
-
-	// InstanceView: The instance view of the container group. Only valid in response.
-	InstanceView *ContainerGroup_Properties_InstanceView_STATUS `json:"instanceView,omitempty"`
-
-	// IpAddress: The IP address type of the container group.
-	IpAddress *IpAddress_STATUS `json:"ipAddress,omitempty"`
-
-	// Location: The resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The resource name.
-	Name *string `json:"name,omitempty"`
-
-	// OsType: The operating system type required by the containers in the container group.
-	OsType *ContainerGroup_Properties_OsType_STATUS `json:"osType,omitempty"`
-
-	// ProvisioningState: The provisioning state of the container group. This only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// RestartPolicy: Restart policy for all containers within the container group.
-	// - `Always` Always restart
-	// - `OnFailure` Restart on failure
-	// - `Never` Never restart
-	RestartPolicy *ContainerGroup_Properties_RestartPolicy_STATUS `json:"restartPolicy,omitempty"`
-
-	// Sku: The SKU for a container group.
-	Sku *ContainerGroupSku_STATUS `json:"sku,omitempty"`
-
-	// SubnetIds: The subnet resource IDs for a container group.
-	SubnetIds []ContainerGroupSubnetId_STATUS `json:"subnetIds,omitempty"`
-
-	// Tags: The resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The resource type.
-	Type *string `json:"type,omitempty"`
-
-	// Volumes: The list of volumes that can be mounted by containers in this container group.
-	Volumes []Volume_STATUS `json:"volumes,omitempty"`
-
-	// Zones: The zones for the container group.
-	Zones []string `json:"zones,omitempty"`
+	Conditions               []conditions.Condition                          `json:"conditions,omitempty"`
+	Containers               []Container_STATUS                              `json:"containers,omitempty"`
+	Diagnostics              *ContainerGroupDiagnostics_STATUS               `json:"diagnostics,omitempty"`
+	DnsConfig                *DnsConfiguration_STATUS                        `json:"dnsConfig,omitempty"`
+	EncryptionProperties     *EncryptionProperties_STATUS                    `json:"encryptionProperties,omitempty"`
+	Id                       *string                                         `json:"id,omitempty"`
+	Identity                 *ContainerGroupIdentity_STATUS                  `json:"identity,omitempty"`
+	ImageRegistryCredentials []ImageRegistryCredential_STATUS                `json:"imageRegistryCredentials,omitempty"`
+	InitContainers           []InitContainerDefinition_STATUS                `json:"initContainers,omitempty"`
+	InstanceView             *ContainerGroup_Properties_InstanceView_STATUS  `json:"instanceView,omitempty"`
+	IpAddress                *IpAddress_STATUS                               `json:"ipAddress,omitempty"`
+	Location                 *string                                         `json:"location,omitempty"`
+	Name                     *string                                         `json:"name,omitempty"`
+	OsType                   *ContainerGroup_Properties_OsType_STATUS        `json:"osType,omitempty"`
+	ProvisioningState        *string                                         `json:"provisioningState,omitempty"`
+	RestartPolicy            *ContainerGroup_Properties_RestartPolicy_STATUS `json:"restartPolicy,omitempty"`
+	Sku                      *ContainerGroupSku_STATUS                       `json:"sku,omitempty"`
+	SubnetIds                []ContainerGroupSubnetId_STATUS                 `json:"subnetIds,omitempty"`
+	Tags                     map[string]string                               `json:"tags,omitempty"`
+	Type                     *string                                         `json:"type,omitempty"`
+	Volumes                  []Volume_STATUS                                 `json:"volumes,omitempty"`
+	Zones                    []string                                        `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &ContainerGroup_STATUS{}
@@ -2207,37 +1939,23 @@ func (group *ContainerGroup_STATUS) AssignProperties_To_ContainerGroup_STATUS(de
 	return nil
 }
 
-// A container instance.
+// Deprecated version of Container. Use v1api20211001.Container instead
 type Container struct {
-	// Command: The commands to execute within the container instance in exec form.
-	Command []string `json:"command,omitempty"`
-
-	// EnvironmentVariables: The environment variables to set in the container instance.
+	Command              []string              `json:"command,omitempty"`
 	EnvironmentVariables []EnvironmentVariable `json:"environmentVariables,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Image: The name of the image used to create the container instance.
-	Image *string `json:"image,omitempty"`
-
-	// LivenessProbe: The liveness probe.
+	Image         *string         `json:"image,omitempty"`
 	LivenessProbe *ContainerProbe `json:"livenessProbe,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The user-provided name of the container instance.
-	Name *string `json:"name,omitempty"`
-
-	// Ports: The exposed ports on the container instance.
-	Ports []ContainerPort `json:"ports,omitempty"`
-
-	// ReadinessProbe: The readiness probe.
+	Name           *string         `json:"name,omitempty"`
+	Ports          []ContainerPort `json:"ports,omitempty"`
 	ReadinessProbe *ContainerProbe `json:"readinessProbe,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Resources: The resource requirements of the container instance.
-	Resources *ResourceRequirements `json:"resources,omitempty"`
-
-	// VolumeMounts: The volume mounts available to the container instance.
-	VolumeMounts []VolumeMount `json:"volumeMounts,omitempty"`
+	Resources    *ResourceRequirements `json:"resources,omitempty"`
+	VolumeMounts []VolumeMount         `json:"volumeMounts,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Container{}
@@ -2662,143 +2380,18 @@ func (container *Container) AssignProperties_To_Container(destination *v20211001
 	return nil
 }
 
-// Initialize_From_Container_STATUS populates our Container from the provided source Container_STATUS
-func (container *Container) Initialize_From_Container_STATUS(source *Container_STATUS) error {
-
-	// Command
-	container.Command = genruntime.CloneSliceOfString(source.Command)
-
-	// EnvironmentVariables
-	if source.EnvironmentVariables != nil {
-		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
-		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
-			var environmentVariable EnvironmentVariable
-			err := environmentVariable.Initialize_From_EnvironmentVariable_STATUS(&environmentVariableItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EnvironmentVariable_STATUS() to populate field EnvironmentVariables")
-			}
-			environmentVariableList[environmentVariableIndex] = environmentVariable
-		}
-		container.EnvironmentVariables = environmentVariableList
-	} else {
-		container.EnvironmentVariables = nil
-	}
-
-	// Image
-	container.Image = genruntime.ClonePointerToString(source.Image)
-
-	// LivenessProbe
-	if source.LivenessProbe != nil {
-		var livenessProbe ContainerProbe
-		err := livenessProbe.Initialize_From_ContainerProbe_STATUS(source.LivenessProbe)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerProbe_STATUS() to populate field LivenessProbe")
-		}
-		container.LivenessProbe = &livenessProbe
-	} else {
-		container.LivenessProbe = nil
-	}
-
-	// Name
-	container.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Ports
-	if source.Ports != nil {
-		portList := make([]ContainerPort, len(source.Ports))
-		for portIndex, portItem := range source.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
-			var port ContainerPort
-			err := port.Initialize_From_ContainerPort_STATUS(&portItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ContainerPort_STATUS() to populate field Ports")
-			}
-			portList[portIndex] = port
-		}
-		container.Ports = portList
-	} else {
-		container.Ports = nil
-	}
-
-	// ReadinessProbe
-	if source.ReadinessProbe != nil {
-		var readinessProbe ContainerProbe
-		err := readinessProbe.Initialize_From_ContainerProbe_STATUS(source.ReadinessProbe)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerProbe_STATUS() to populate field ReadinessProbe")
-		}
-		container.ReadinessProbe = &readinessProbe
-	} else {
-		container.ReadinessProbe = nil
-	}
-
-	// Resources
-	if source.Resources != nil {
-		var resource ResourceRequirements
-		err := resource.Initialize_From_ResourceRequirements_STATUS(source.Resources)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceRequirements_STATUS() to populate field Resources")
-		}
-		container.Resources = &resource
-	} else {
-		container.Resources = nil
-	}
-
-	// VolumeMounts
-	if source.VolumeMounts != nil {
-		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
-		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
-			var volumeMount VolumeMount
-			err := volumeMount.Initialize_From_VolumeMount_STATUS(&volumeMountItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VolumeMount_STATUS() to populate field VolumeMounts")
-			}
-			volumeMountList[volumeMountIndex] = volumeMount
-		}
-		container.VolumeMounts = volumeMountList
-	} else {
-		container.VolumeMounts = nil
-	}
-
-	// No error
-	return nil
-}
-
-// A container instance.
+// Deprecated version of Container_STATUS. Use v1api20211001.Container_STATUS instead
 type Container_STATUS struct {
-	// Command: The commands to execute within the container instance in exec form.
-	Command []string `json:"command,omitempty"`
-
-	// EnvironmentVariables: The environment variables to set in the container instance.
-	EnvironmentVariables []EnvironmentVariable_STATUS `json:"environmentVariables,omitempty"`
-
-	// Image: The name of the image used to create the container instance.
-	Image *string `json:"image,omitempty"`
-
-	// InstanceView: The instance view of the container instance. Only valid in response.
-	InstanceView *ContainerProperties_InstanceView_STATUS `json:"instanceView,omitempty"`
-
-	// LivenessProbe: The liveness probe.
-	LivenessProbe *ContainerProbe_STATUS `json:"livenessProbe,omitempty"`
-
-	// Name: The user-provided name of the container instance.
-	Name *string `json:"name,omitempty"`
-
-	// Ports: The exposed ports on the container instance.
-	Ports []ContainerPort_STATUS `json:"ports,omitempty"`
-
-	// ReadinessProbe: The readiness probe.
-	ReadinessProbe *ContainerProbe_STATUS `json:"readinessProbe,omitempty"`
-
-	// Resources: The resource requirements of the container instance.
-	Resources *ResourceRequirements_STATUS `json:"resources,omitempty"`
-
-	// VolumeMounts: The volume mounts available to the container instance.
-	VolumeMounts []VolumeMount_STATUS `json:"volumeMounts,omitempty"`
+	Command              []string                                 `json:"command,omitempty"`
+	EnvironmentVariables []EnvironmentVariable_STATUS             `json:"environmentVariables,omitempty"`
+	Image                *string                                  `json:"image,omitempty"`
+	InstanceView         *ContainerProperties_InstanceView_STATUS `json:"instanceView,omitempty"`
+	LivenessProbe        *ContainerProbe_STATUS                   `json:"livenessProbe,omitempty"`
+	Name                 *string                                  `json:"name,omitempty"`
+	Ports                []ContainerPort_STATUS                   `json:"ports,omitempty"`
+	ReadinessProbe       *ContainerProbe_STATUS                   `json:"readinessProbe,omitempty"`
+	Resources            *ResourceRequirements_STATUS             `json:"resources,omitempty"`
+	VolumeMounts         []VolumeMount_STATUS                     `json:"volumeMounts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Container_STATUS{}
@@ -3182,12 +2775,10 @@ func (container *Container_STATUS) AssignProperties_To_Container_STATUS(destinat
 	return nil
 }
 
+// Deprecated version of ContainerGroup_Properties_InstanceView_STATUS. Use v1api20211001.ContainerGroup_Properties_InstanceView_STATUS instead
 type ContainerGroup_Properties_InstanceView_STATUS struct {
-	// Events: The events of this container group.
 	Events []Event_STATUS `json:"events,omitempty"`
-
-	// State: The state of the container group. Only valid in response.
-	State *string `json:"state,omitempty"`
+	State  *string        `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerGroup_Properties_InstanceView_STATUS{}
@@ -3289,6 +2880,8 @@ func (view *ContainerGroup_Properties_InstanceView_STATUS) AssignProperties_To_C
 	return nil
 }
 
+// Deprecated version of ContainerGroup_Properties_OsType_Spec. Use v1api20211001.ContainerGroup_Properties_OsType_Spec
+// instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type ContainerGroup_Properties_OsType_Spec string
 
@@ -3297,6 +2890,8 @@ const (
 	ContainerGroup_Properties_OsType_Spec_Windows = ContainerGroup_Properties_OsType_Spec("Windows")
 )
 
+// Deprecated version of ContainerGroup_Properties_OsType_STATUS. Use v1api20211001.ContainerGroup_Properties_OsType_STATUS
+// instead
 type ContainerGroup_Properties_OsType_STATUS string
 
 const (
@@ -3304,6 +2899,8 @@ const (
 	ContainerGroup_Properties_OsType_STATUS_Windows = ContainerGroup_Properties_OsType_STATUS("Windows")
 )
 
+// Deprecated version of ContainerGroup_Properties_RestartPolicy_Spec. Use
+// v1api20211001.ContainerGroup_Properties_RestartPolicy_Spec instead
 // +kubebuilder:validation:Enum={"Always","Never","OnFailure"}
 type ContainerGroup_Properties_RestartPolicy_Spec string
 
@@ -3313,6 +2910,8 @@ const (
 	ContainerGroup_Properties_RestartPolicy_Spec_OnFailure = ContainerGroup_Properties_RestartPolicy_Spec("OnFailure")
 )
 
+// Deprecated version of ContainerGroup_Properties_RestartPolicy_STATUS. Use
+// v1api20211001.ContainerGroup_Properties_RestartPolicy_STATUS instead
 type ContainerGroup_Properties_RestartPolicy_STATUS string
 
 const (
@@ -3321,9 +2920,8 @@ const (
 	ContainerGroup_Properties_RestartPolicy_STATUS_OnFailure = ContainerGroup_Properties_RestartPolicy_STATUS("OnFailure")
 )
 
-// Container group diagnostic information.
+// Deprecated version of ContainerGroupDiagnostics. Use v1api20211001.ContainerGroupDiagnostics instead
 type ContainerGroupDiagnostics struct {
-	// LogAnalytics: Container group log analytics information.
 	LogAnalytics *LogAnalytics `json:"logAnalytics,omitempty"`
 }
 
@@ -3422,28 +3020,8 @@ func (diagnostics *ContainerGroupDiagnostics) AssignProperties_To_ContainerGroup
 	return nil
 }
 
-// Initialize_From_ContainerGroupDiagnostics_STATUS populates our ContainerGroupDiagnostics from the provided source ContainerGroupDiagnostics_STATUS
-func (diagnostics *ContainerGroupDiagnostics) Initialize_From_ContainerGroupDiagnostics_STATUS(source *ContainerGroupDiagnostics_STATUS) error {
-
-	// LogAnalytics
-	if source.LogAnalytics != nil {
-		var logAnalytic LogAnalytics
-		err := logAnalytic.Initialize_From_LogAnalytics_STATUS(source.LogAnalytics)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_LogAnalytics_STATUS() to populate field LogAnalytics")
-		}
-		diagnostics.LogAnalytics = &logAnalytic
-	} else {
-		diagnostics.LogAnalytics = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Container group diagnostic information.
+// Deprecated version of ContainerGroupDiagnostics_STATUS. Use v1api20211001.ContainerGroupDiagnostics_STATUS instead
 type ContainerGroupDiagnostics_STATUS struct {
-	// LogAnalytics: Container group log analytics information.
 	LogAnalytics *LogAnalytics_STATUS `json:"logAnalytics,omitempty"`
 }
 
@@ -3523,11 +3101,8 @@ func (diagnostics *ContainerGroupDiagnostics_STATUS) AssignProperties_To_Contain
 	return nil
 }
 
-// Identity for the container group.
+// Deprecated version of ContainerGroupIdentity. Use v1api20211001.ContainerGroupIdentity instead
 type ContainerGroupIdentity struct {
-	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
-	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
-	// container group.
 	Type *ContainerGroupIdentity_Type `json:"type,omitempty"`
 }
 
@@ -3609,37 +3184,11 @@ func (identity *ContainerGroupIdentity) AssignProperties_To_ContainerGroupIdenti
 	return nil
 }
 
-// Initialize_From_ContainerGroupIdentity_STATUS populates our ContainerGroupIdentity from the provided source ContainerGroupIdentity_STATUS
-func (identity *ContainerGroupIdentity) Initialize_From_ContainerGroupIdentity_STATUS(source *ContainerGroupIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := ContainerGroupIdentity_Type(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Identity for the container group.
+// Deprecated version of ContainerGroupIdentity_STATUS. Use v1api20211001.ContainerGroupIdentity_STATUS instead
 type ContainerGroupIdentity_STATUS struct {
-	// PrincipalId: The principal id of the container group identity. This property will only be provided for a system assigned
-	// identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the container group. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
-	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
-	// container group.
-	Type *ContainerGroupIdentity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the container group.
+	PrincipalId            *string                                  `json:"principalId,omitempty"`
+	TenantId               *string                                  `json:"tenantId,omitempty"`
+	Type                   *ContainerGroupIdentity_Type_STATUS      `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -3779,7 +3328,7 @@ func (identity *ContainerGroupIdentity_STATUS) AssignProperties_To_ContainerGrou
 	return nil
 }
 
-// The container group SKU.
+// Deprecated version of ContainerGroupSku. Use v1api20211001.ContainerGroupSku instead
 // +kubebuilder:validation:Enum={"Dedicated","Standard"}
 type ContainerGroupSku string
 
@@ -3788,7 +3337,7 @@ const (
 	ContainerGroupSku_Standard  = ContainerGroupSku("Standard")
 )
 
-// The container group SKU.
+// Deprecated version of ContainerGroupSku_STATUS. Use v1api20211001.ContainerGroupSku_STATUS instead
 type ContainerGroupSku_STATUS string
 
 const (
@@ -3796,13 +3345,11 @@ const (
 	ContainerGroupSku_STATUS_Standard  = ContainerGroupSku_STATUS("Standard")
 )
 
-// Container group subnet information.
+// Deprecated version of ContainerGroupSubnetId. Use v1api20211001.ContainerGroupSubnetId instead
 type ContainerGroupSubnetId struct {
-	// Name: Friendly name for the subnet.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Reference: Resource ID of virtual network and subnet.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -3902,30 +3449,9 @@ func (subnetId *ContainerGroupSubnetId) AssignProperties_To_ContainerGroupSubnet
 	return nil
 }
 
-// Initialize_From_ContainerGroupSubnetId_STATUS populates our ContainerGroupSubnetId from the provided source ContainerGroupSubnetId_STATUS
-func (subnetId *ContainerGroupSubnetId) Initialize_From_ContainerGroupSubnetId_STATUS(source *ContainerGroupSubnetId_STATUS) error {
-
-	// Name
-	subnetId.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		subnetId.Reference = &reference
-	} else {
-		subnetId.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Container group subnet information.
+// Deprecated version of ContainerGroupSubnetId_STATUS. Use v1api20211001.ContainerGroupSubnetId_STATUS instead
 type ContainerGroupSubnetId_STATUS struct {
-	// Id: Resource ID of virtual network and subnet.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Friendly name for the subnet.
+	Id   *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
 }
 
@@ -3994,17 +3520,12 @@ func (subnetId *ContainerGroupSubnetId_STATUS) AssignProperties_To_ContainerGrou
 	return nil
 }
 
-// DNS configuration for the container group.
+// Deprecated version of DnsConfiguration. Use v1api20211001.DnsConfiguration instead
 type DnsConfiguration struct {
 	// +kubebuilder:validation:Required
-	// NameServers: The DNS servers for the container group.
-	NameServers []string `json:"nameServers,omitempty"`
-
-	// Options: The DNS options for the container group.
-	Options *string `json:"options,omitempty"`
-
-	// SearchDomains: The DNS search domains for hostname lookup in the container group.
-	SearchDomains *string `json:"searchDomains,omitempty"`
+	NameServers   []string `json:"nameServers,omitempty"`
+	Options       *string  `json:"options,omitempty"`
+	SearchDomains *string  `json:"searchDomains,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DnsConfiguration{}
@@ -4109,32 +3630,11 @@ func (configuration *DnsConfiguration) AssignProperties_To_DnsConfiguration(dest
 	return nil
 }
 
-// Initialize_From_DnsConfiguration_STATUS populates our DnsConfiguration from the provided source DnsConfiguration_STATUS
-func (configuration *DnsConfiguration) Initialize_From_DnsConfiguration_STATUS(source *DnsConfiguration_STATUS) error {
-
-	// NameServers
-	configuration.NameServers = genruntime.CloneSliceOfString(source.NameServers)
-
-	// Options
-	configuration.Options = genruntime.ClonePointerToString(source.Options)
-
-	// SearchDomains
-	configuration.SearchDomains = genruntime.ClonePointerToString(source.SearchDomains)
-
-	// No error
-	return nil
-}
-
-// DNS configuration for the container group.
+// Deprecated version of DnsConfiguration_STATUS. Use v1api20211001.DnsConfiguration_STATUS instead
 type DnsConfiguration_STATUS struct {
-	// NameServers: The DNS servers for the container group.
-	NameServers []string `json:"nameServers,omitempty"`
-
-	// Options: The DNS options for the container group.
-	Options *string `json:"options,omitempty"`
-
-	// SearchDomains: The DNS search domains for hostname lookup in the container group.
-	SearchDomains *string `json:"searchDomains,omitempty"`
+	NameServers   []string `json:"nameServers,omitempty"`
+	Options       *string  `json:"options,omitempty"`
+	SearchDomains *string  `json:"searchDomains,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DnsConfiguration_STATUS{}
@@ -4213,18 +3713,15 @@ func (configuration *DnsConfiguration_STATUS) AssignProperties_To_DnsConfigurati
 	return nil
 }
 
-// The container group encryption properties.
+// Deprecated version of EncryptionProperties. Use v1api20211001.EncryptionProperties instead
 type EncryptionProperties struct {
 	// +kubebuilder:validation:Required
-	// KeyName: The encryption key name.
 	KeyName *string `json:"keyName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// KeyVersion: The encryption key version.
 	KeyVersion *string `json:"keyVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// VaultBaseUrl: The keyvault base url.
 	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
 }
 
@@ -4332,31 +3829,10 @@ func (properties *EncryptionProperties) AssignProperties_To_EncryptionProperties
 	return nil
 }
 
-// Initialize_From_EncryptionProperties_STATUS populates our EncryptionProperties from the provided source EncryptionProperties_STATUS
-func (properties *EncryptionProperties) Initialize_From_EncryptionProperties_STATUS(source *EncryptionProperties_STATUS) error {
-
-	// KeyName
-	properties.KeyName = genruntime.ClonePointerToString(source.KeyName)
-
-	// KeyVersion
-	properties.KeyVersion = genruntime.ClonePointerToString(source.KeyVersion)
-
-	// VaultBaseUrl
-	properties.VaultBaseUrl = genruntime.ClonePointerToString(source.VaultBaseUrl)
-
-	// No error
-	return nil
-}
-
-// The container group encryption properties.
+// Deprecated version of EncryptionProperties_STATUS. Use v1api20211001.EncryptionProperties_STATUS instead
 type EncryptionProperties_STATUS struct {
-	// KeyName: The encryption key name.
-	KeyName *string `json:"keyName,omitempty"`
-
-	// KeyVersion: The encryption key version.
-	KeyVersion *string `json:"keyVersion,omitempty"`
-
-	// VaultBaseUrl: The keyvault base url.
+	KeyName      *string `json:"keyName,omitempty"`
+	KeyVersion   *string `json:"keyVersion,omitempty"`
 	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
 }
 
@@ -4437,22 +3913,14 @@ func (properties *EncryptionProperties_STATUS) AssignProperties_To_EncryptionPro
 	return nil
 }
 
-// Image registry credential.
+// Deprecated version of ImageRegistryCredential. Use v1api20211001.ImageRegistryCredential instead
 type ImageRegistryCredential struct {
-	// Identity: The identity for the private registry.
-	Identity *string `json:"identity,omitempty"`
-
-	// IdentityUrl: The identity URL for the private registry.
-	IdentityUrl *string `json:"identityUrl,omitempty"`
-
-	// Password: The password for the private registry.
-	Password *genruntime.SecretReference `json:"password,omitempty"`
+	Identity    *string                     `json:"identity,omitempty"`
+	IdentityUrl *string                     `json:"identityUrl,omitempty"`
+	Password    *genruntime.SecretReference `json:"password,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Server: The Docker image registry server without a protocol such as "http" and "https".
-	Server *string `json:"server,omitempty"`
-
-	// Username: The username for the private registry.
+	Server   *string `json:"server,omitempty"`
 	Username *string `json:"username,omitempty"`
 }
 
@@ -4606,38 +4074,12 @@ func (credential *ImageRegistryCredential) AssignProperties_To_ImageRegistryCred
 	return nil
 }
 
-// Initialize_From_ImageRegistryCredential_STATUS populates our ImageRegistryCredential from the provided source ImageRegistryCredential_STATUS
-func (credential *ImageRegistryCredential) Initialize_From_ImageRegistryCredential_STATUS(source *ImageRegistryCredential_STATUS) error {
-
-	// Identity
-	credential.Identity = genruntime.ClonePointerToString(source.Identity)
-
-	// IdentityUrl
-	credential.IdentityUrl = genruntime.ClonePointerToString(source.IdentityUrl)
-
-	// Server
-	credential.Server = genruntime.ClonePointerToString(source.Server)
-
-	// Username
-	credential.Username = genruntime.ClonePointerToString(source.Username)
-
-	// No error
-	return nil
-}
-
-// Image registry credential.
+// Deprecated version of ImageRegistryCredential_STATUS. Use v1api20211001.ImageRegistryCredential_STATUS instead
 type ImageRegistryCredential_STATUS struct {
-	// Identity: The identity for the private registry.
-	Identity *string `json:"identity,omitempty"`
-
-	// IdentityUrl: The identity URL for the private registry.
+	Identity    *string `json:"identity,omitempty"`
 	IdentityUrl *string `json:"identityUrl,omitempty"`
-
-	// Server: The Docker image registry server without a protocol such as "http" and "https".
-	Server *string `json:"server,omitempty"`
-
-	// Username: The username for the private registry.
-	Username *string `json:"username,omitempty"`
+	Server      *string `json:"server,omitempty"`
+	Username    *string `json:"username,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ImageRegistryCredential_STATUS{}
@@ -4729,22 +4171,14 @@ func (credential *ImageRegistryCredential_STATUS) AssignProperties_To_ImageRegis
 	return nil
 }
 
-// The init container definition.
+// Deprecated version of InitContainerDefinition. Use v1api20211001.InitContainerDefinition instead
 type InitContainerDefinition struct {
-	// Command: The command to execute within the init container in exec form.
-	Command []string `json:"command,omitempty"`
-
-	// EnvironmentVariables: The environment variables to set in the init container.
+	Command              []string              `json:"command,omitempty"`
 	EnvironmentVariables []EnvironmentVariable `json:"environmentVariables,omitempty"`
-
-	// Image: The image of the init container.
-	Image *string `json:"image,omitempty"`
+	Image                *string               `json:"image,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The name for the init container.
-	Name *string `json:"name,omitempty"`
-
-	// VolumeMounts: The volume mounts available to the init container.
+	Name         *string       `json:"name,omitempty"`
 	VolumeMounts []VolumeMount `json:"volumeMounts,omitempty"`
 }
 
@@ -4972,77 +4406,14 @@ func (definition *InitContainerDefinition) AssignProperties_To_InitContainerDefi
 	return nil
 }
 
-// Initialize_From_InitContainerDefinition_STATUS populates our InitContainerDefinition from the provided source InitContainerDefinition_STATUS
-func (definition *InitContainerDefinition) Initialize_From_InitContainerDefinition_STATUS(source *InitContainerDefinition_STATUS) error {
-
-	// Command
-	definition.Command = genruntime.CloneSliceOfString(source.Command)
-
-	// EnvironmentVariables
-	if source.EnvironmentVariables != nil {
-		environmentVariableList := make([]EnvironmentVariable, len(source.EnvironmentVariables))
-		for environmentVariableIndex, environmentVariableItem := range source.EnvironmentVariables {
-			// Shadow the loop variable to avoid aliasing
-			environmentVariableItem := environmentVariableItem
-			var environmentVariable EnvironmentVariable
-			err := environmentVariable.Initialize_From_EnvironmentVariable_STATUS(&environmentVariableItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_EnvironmentVariable_STATUS() to populate field EnvironmentVariables")
-			}
-			environmentVariableList[environmentVariableIndex] = environmentVariable
-		}
-		definition.EnvironmentVariables = environmentVariableList
-	} else {
-		definition.EnvironmentVariables = nil
-	}
-
-	// Image
-	definition.Image = genruntime.ClonePointerToString(source.Image)
-
-	// Name
-	definition.Name = genruntime.ClonePointerToString(source.Name)
-
-	// VolumeMounts
-	if source.VolumeMounts != nil {
-		volumeMountList := make([]VolumeMount, len(source.VolumeMounts))
-		for volumeMountIndex, volumeMountItem := range source.VolumeMounts {
-			// Shadow the loop variable to avoid aliasing
-			volumeMountItem := volumeMountItem
-			var volumeMount VolumeMount
-			err := volumeMount.Initialize_From_VolumeMount_STATUS(&volumeMountItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VolumeMount_STATUS() to populate field VolumeMounts")
-			}
-			volumeMountList[volumeMountIndex] = volumeMount
-		}
-		definition.VolumeMounts = volumeMountList
-	} else {
-		definition.VolumeMounts = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The init container definition.
+// Deprecated version of InitContainerDefinition_STATUS. Use v1api20211001.InitContainerDefinition_STATUS instead
 type InitContainerDefinition_STATUS struct {
-	// Command: The command to execute within the init container in exec form.
-	Command []string `json:"command,omitempty"`
-
-	// EnvironmentVariables: The environment variables to set in the init container.
-	EnvironmentVariables []EnvironmentVariable_STATUS `json:"environmentVariables,omitempty"`
-
-	// Image: The image of the init container.
-	Image *string `json:"image,omitempty"`
-
-	// InstanceView: The instance view of the init container. Only valid in response.
-	InstanceView *InitContainerPropertiesDefinition_InstanceView_STATUS `json:"instanceView,omitempty"`
-
-	// Name: The name for the init container.
-	Name *string `json:"name,omitempty"`
-
-	// VolumeMounts: The volume mounts available to the init container.
-	VolumeMounts []VolumeMount_STATUS `json:"volumeMounts,omitempty"`
+	Command              []string                                               `json:"command,omitempty"`
+	EnvironmentVariables []EnvironmentVariable_STATUS                           `json:"environmentVariables,omitempty"`
+	Image                *string                                                `json:"image,omitempty"`
+	InstanceView         *InitContainerPropertiesDefinition_InstanceView_STATUS `json:"instanceView,omitempty"`
+	Name                 *string                                                `json:"name,omitempty"`
+	VolumeMounts         []VolumeMount_STATUS                                   `json:"volumeMounts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InitContainerDefinition_STATUS{}
@@ -5263,29 +4634,16 @@ func (definition *InitContainerDefinition_STATUS) AssignProperties_To_InitContai
 	return nil
 }
 
-// IP address for the container group.
+// Deprecated version of IpAddress. Use v1api20211001.IpAddress instead
 type IpAddress struct {
-	// AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
-	// if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse'
-	// value is the default value if selected and means the object's domain name label can be reused within the same tenant.
-	// The 'SubscriptionReuse' value means the object's domain name label can be reused within the same subscription. The
-	// 'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The
-	// 'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or
-	// tenant.
 	AutoGeneratedDomainNameLabelScope *IpAddress_AutoGeneratedDomainNameLabelScope `json:"autoGeneratedDomainNameLabelScope,omitempty"`
-
-	// DnsNameLabel: The Dns name label for the IP.
-	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
-
-	// Ip: The IP exposed to the public internet.
-	Ip *string `json:"ip,omitempty"`
+	DnsNameLabel                      *string                                      `json:"dnsNameLabel,omitempty"`
+	Ip                                *string                                      `json:"ip,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Ports: The list of ports exposed on the container group.
 	Ports []Port `json:"ports,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Type: Specifies if the IP is exposed to the public internet or private VNET.
 	Type *IpAddress_Type `json:"type,omitempty"`
 }
 
@@ -5486,78 +4844,14 @@ func (address *IpAddress) AssignProperties_To_IpAddress(destination *v20211001s.
 	return nil
 }
 
-// Initialize_From_IpAddress_STATUS populates our IpAddress from the provided source IpAddress_STATUS
-func (address *IpAddress) Initialize_From_IpAddress_STATUS(source *IpAddress_STATUS) error {
-
-	// AutoGeneratedDomainNameLabelScope
-	if source.AutoGeneratedDomainNameLabelScope != nil {
-		autoGeneratedDomainNameLabelScope := IpAddress_AutoGeneratedDomainNameLabelScope(*source.AutoGeneratedDomainNameLabelScope)
-		address.AutoGeneratedDomainNameLabelScope = &autoGeneratedDomainNameLabelScope
-	} else {
-		address.AutoGeneratedDomainNameLabelScope = nil
-	}
-
-	// DnsNameLabel
-	address.DnsNameLabel = genruntime.ClonePointerToString(source.DnsNameLabel)
-
-	// Ip
-	address.Ip = genruntime.ClonePointerToString(source.Ip)
-
-	// Ports
-	if source.Ports != nil {
-		portList := make([]Port, len(source.Ports))
-		for portIndex, portItem := range source.Ports {
-			// Shadow the loop variable to avoid aliasing
-			portItem := portItem
-			var port Port
-			err := port.Initialize_From_Port_STATUS(&portItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Port_STATUS() to populate field Ports")
-			}
-			portList[portIndex] = port
-		}
-		address.Ports = portList
-	} else {
-		address.Ports = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := IpAddress_Type(*source.Type)
-		address.Type = &typeVar
-	} else {
-		address.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// IP address for the container group.
+// Deprecated version of IpAddress_STATUS. Use v1api20211001.IpAddress_STATUS instead
 type IpAddress_STATUS struct {
-	// AutoGeneratedDomainNameLabelScope: The value representing the security enum. The 'Unsecure' value is the default value
-	// if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse'
-	// value is the default value if selected and means the object's domain name label can be reused within the same tenant.
-	// The 'SubscriptionReuse' value means the object's domain name label can be reused within the same subscription. The
-	// 'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The
-	// 'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or
-	// tenant.
 	AutoGeneratedDomainNameLabelScope *IpAddress_AutoGeneratedDomainNameLabelScope_STATUS `json:"autoGeneratedDomainNameLabelScope,omitempty"`
-
-	// DnsNameLabel: The Dns name label for the IP.
-	DnsNameLabel *string `json:"dnsNameLabel,omitempty"`
-
-	// Fqdn: The FQDN for the IP.
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	// Ip: The IP exposed to the public internet.
-	Ip *string `json:"ip,omitempty"`
-
-	// Ports: The list of ports exposed on the container group.
-	Ports []Port_STATUS `json:"ports,omitempty"`
-
-	// Type: Specifies if the IP is exposed to the public internet or private VNET.
-	Type *IpAddress_Type_STATUS `json:"type,omitempty"`
+	DnsNameLabel                      *string                                             `json:"dnsNameLabel,omitempty"`
+	Fqdn                              *string                                             `json:"fqdn,omitempty"`
+	Ip                                *string                                             `json:"ip,omitempty"`
+	Ports                             []Port_STATUS                                       `json:"ports,omitempty"`
+	Type                              *IpAddress_Type_STATUS                              `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IpAddress_STATUS{}
@@ -5727,22 +5021,14 @@ func (address *IpAddress_STATUS) AssignProperties_To_IpAddress_STATUS(destinatio
 	return nil
 }
 
-// The properties of the volume.
+// Deprecated version of Volume. Use v1api20211001.Volume instead
 type Volume struct {
-	// AzureFile: The Azure File volume.
-	AzureFile *AzureFileVolume `json:"azureFile,omitempty"`
-
-	// EmptyDir: The empty directory volume.
-	EmptyDir map[string]v1.JSON `json:"emptyDir,omitempty"`
-
-	// GitRepo: The git repo volume.
-	GitRepo *GitRepoVolume `json:"gitRepo,omitempty"`
+	AzureFile *AzureFileVolume   `json:"azureFile,omitempty"`
+	EmptyDir  map[string]v1.JSON `json:"emptyDir,omitempty"`
+	GitRepo   *GitRepoVolume     `json:"gitRepo,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The name of the volume.
-	Name *string `json:"name,omitempty"`
-
-	// Secret: The secret volume.
+	Name   *string           `json:"name,omitempty"`
 	Secret map[string]string `json:"secret,omitempty"`
 }
 
@@ -5968,72 +5254,13 @@ func (volume *Volume) AssignProperties_To_Volume(destination *v20211001s.Volume)
 	return nil
 }
 
-// Initialize_From_Volume_STATUS populates our Volume from the provided source Volume_STATUS
-func (volume *Volume) Initialize_From_Volume_STATUS(source *Volume_STATUS) error {
-
-	// AzureFile
-	if source.AzureFile != nil {
-		var azureFile AzureFileVolume
-		err := azureFile.Initialize_From_AzureFileVolume_STATUS(source.AzureFile)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AzureFileVolume_STATUS() to populate field AzureFile")
-		}
-		volume.AzureFile = &azureFile
-	} else {
-		volume.AzureFile = nil
-	}
-
-	// EmptyDir
-	if source.EmptyDir != nil {
-		emptyDirMap := make(map[string]v1.JSON, len(source.EmptyDir))
-		for emptyDirKey, emptyDirValue := range source.EmptyDir {
-			// Shadow the loop variable to avoid aliasing
-			emptyDirValue := emptyDirValue
-			emptyDirMap[emptyDirKey] = *emptyDirValue.DeepCopy()
-		}
-		volume.EmptyDir = emptyDirMap
-	} else {
-		volume.EmptyDir = nil
-	}
-
-	// GitRepo
-	if source.GitRepo != nil {
-		var gitRepo GitRepoVolume
-		err := gitRepo.Initialize_From_GitRepoVolume_STATUS(source.GitRepo)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_GitRepoVolume_STATUS() to populate field GitRepo")
-		}
-		volume.GitRepo = &gitRepo
-	} else {
-		volume.GitRepo = nil
-	}
-
-	// Name
-	volume.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Secret
-	volume.Secret = genruntime.CloneMapOfStringToString(source.Secret)
-
-	// No error
-	return nil
-}
-
-// The properties of the volume.
+// Deprecated version of Volume_STATUS. Use v1api20211001.Volume_STATUS instead
 type Volume_STATUS struct {
-	// AzureFile: The Azure File volume.
 	AzureFile *AzureFileVolume_STATUS `json:"azureFile,omitempty"`
-
-	// EmptyDir: The empty directory volume.
-	EmptyDir map[string]v1.JSON `json:"emptyDir,omitempty"`
-
-	// GitRepo: The git repo volume.
-	GitRepo *GitRepoVolume_STATUS `json:"gitRepo,omitempty"`
-
-	// Name: The name of the volume.
-	Name *string `json:"name,omitempty"`
-
-	// Secret: The secret volume.
-	Secret map[string]string `json:"secret,omitempty"`
+	EmptyDir  map[string]v1.JSON      `json:"emptyDir,omitempty"`
+	GitRepo   *GitRepoVolume_STATUS   `json:"gitRepo,omitempty"`
+	Name      *string                 `json:"name,omitempty"`
+	Secret    map[string]string       `json:"secret,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Volume_STATUS{}
@@ -6207,20 +5434,15 @@ func (volume *Volume_STATUS) AssignProperties_To_Volume_STATUS(destination *v202
 	return nil
 }
 
-// The properties of the Azure File volume. Azure File shares are mounted as volumes.
+// Deprecated version of AzureFileVolume. Use v1api20211001.AzureFileVolume instead
 type AzureFileVolume struct {
-	// ReadOnly: The flag indicating whether the Azure File shared mounted as a volume is read-only.
 	ReadOnly *bool `json:"readOnly,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ShareName: The name of the Azure File share to be mounted as a volume.
-	ShareName *string `json:"shareName,omitempty"`
-
-	// StorageAccountKey: The storage account access key used to access the Azure File share.
+	ShareName         *string `json:"shareName,omitempty"`
 	StorageAccountKey *string `json:"storageAccountKey,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// StorageAccountName: The name of the storage account that contains the Azure File share.
 	StorageAccountName *string `json:"storageAccountName,omitempty"`
 }
 
@@ -6356,42 +5578,11 @@ func (volume *AzureFileVolume) AssignProperties_To_AzureFileVolume(destination *
 	return nil
 }
 
-// Initialize_From_AzureFileVolume_STATUS populates our AzureFileVolume from the provided source AzureFileVolume_STATUS
-func (volume *AzureFileVolume) Initialize_From_AzureFileVolume_STATUS(source *AzureFileVolume_STATUS) error {
-
-	// ReadOnly
-	if source.ReadOnly != nil {
-		readOnly := *source.ReadOnly
-		volume.ReadOnly = &readOnly
-	} else {
-		volume.ReadOnly = nil
-	}
-
-	// ShareName
-	volume.ShareName = genruntime.ClonePointerToString(source.ShareName)
-
-	// StorageAccountKey
-	volume.StorageAccountKey = genruntime.ClonePointerToString(source.StorageAccountKey)
-
-	// StorageAccountName
-	volume.StorageAccountName = genruntime.ClonePointerToString(source.StorageAccountName)
-
-	// No error
-	return nil
-}
-
-// The properties of the Azure File volume. Azure File shares are mounted as volumes.
+// Deprecated version of AzureFileVolume_STATUS. Use v1api20211001.AzureFileVolume_STATUS instead
 type AzureFileVolume_STATUS struct {
-	// ReadOnly: The flag indicating whether the Azure File shared mounted as a volume is read-only.
-	ReadOnly *bool `json:"readOnly,omitempty"`
-
-	// ShareName: The name of the Azure File share to be mounted as a volume.
-	ShareName *string `json:"shareName,omitempty"`
-
-	// StorageAccountKey: The storage account access key used to access the Azure File share.
-	StorageAccountKey *string `json:"storageAccountKey,omitempty"`
-
-	// StorageAccountName: The name of the storage account that contains the Azure File share.
+	ReadOnly           *bool   `json:"readOnly,omitempty"`
+	ShareName          *string `json:"shareName,omitempty"`
+	StorageAccountKey  *string `json:"storageAccountKey,omitempty"`
 	StorageAccountName *string `json:"storageAccountName,omitempty"`
 }
 
@@ -6494,13 +5685,10 @@ func (volume *AzureFileVolume_STATUS) AssignProperties_To_AzureFileVolume_STATUS
 	return nil
 }
 
-// The port exposed on the container instance.
+// Deprecated version of ContainerPort. Use v1api20211001.ContainerPort instead
 type ContainerPort struct {
 	// +kubebuilder:validation:Required
-	// Port: The port number exposed within the container group.
-	Port *int `json:"port,omitempty"`
-
-	// Protocol: The protocol associated with the port.
+	Port     *int                    `json:"port,omitempty"`
 	Protocol *ContainerPort_Protocol `json:"protocol,omitempty"`
 }
 
@@ -6600,30 +5788,9 @@ func (port *ContainerPort) AssignProperties_To_ContainerPort(destination *v20211
 	return nil
 }
 
-// Initialize_From_ContainerPort_STATUS populates our ContainerPort from the provided source ContainerPort_STATUS
-func (port *ContainerPort) Initialize_From_ContainerPort_STATUS(source *ContainerPort_STATUS) error {
-
-	// Port
-	port.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := ContainerPort_Protocol(*source.Protocol)
-		port.Protocol = &protocol
-	} else {
-		port.Protocol = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The port exposed on the container instance.
+// Deprecated version of ContainerPort_STATUS. Use v1api20211001.ContainerPort_STATUS instead
 type ContainerPort_STATUS struct {
-	// Port: The port number exposed within the container group.
-	Port *int `json:"port,omitempty"`
-
-	// Protocol: The protocol associated with the port.
+	Port     *int                           `json:"port,omitempty"`
 	Protocol *ContainerPort_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
@@ -6702,28 +5869,15 @@ func (port *ContainerPort_STATUS) AssignProperties_To_ContainerPort_STATUS(desti
 	return nil
 }
 
-// The container probe, for liveness or readiness
+// Deprecated version of ContainerProbe. Use v1api20211001.ContainerProbe instead
 type ContainerProbe struct {
-	// Exec: The execution command to probe
-	Exec *ContainerExec `json:"exec,omitempty"`
-
-	// FailureThreshold: The failure threshold.
-	FailureThreshold *int `json:"failureThreshold,omitempty"`
-
-	// HttpGet: The Http Get settings to probe
-	HttpGet *ContainerHttpGet `json:"httpGet,omitempty"`
-
-	// InitialDelaySeconds: The initial delay seconds.
-	InitialDelaySeconds *int `json:"initialDelaySeconds,omitempty"`
-
-	// PeriodSeconds: The period seconds.
-	PeriodSeconds *int `json:"periodSeconds,omitempty"`
-
-	// SuccessThreshold: The success threshold.
-	SuccessThreshold *int `json:"successThreshold,omitempty"`
-
-	// TimeoutSeconds: The timeout seconds.
-	TimeoutSeconds *int `json:"timeoutSeconds,omitempty"`
+	Exec                *ContainerExec    `json:"exec,omitempty"`
+	FailureThreshold    *int              `json:"failureThreshold,omitempty"`
+	HttpGet             *ContainerHttpGet `json:"httpGet,omitempty"`
+	InitialDelaySeconds *int              `json:"initialDelaySeconds,omitempty"`
+	PeriodSeconds       *int              `json:"periodSeconds,omitempty"`
+	SuccessThreshold    *int              `json:"successThreshold,omitempty"`
+	TimeoutSeconds      *int              `json:"timeoutSeconds,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContainerProbe{}
@@ -6956,74 +6110,15 @@ func (probe *ContainerProbe) AssignProperties_To_ContainerProbe(destination *v20
 	return nil
 }
 
-// Initialize_From_ContainerProbe_STATUS populates our ContainerProbe from the provided source ContainerProbe_STATUS
-func (probe *ContainerProbe) Initialize_From_ContainerProbe_STATUS(source *ContainerProbe_STATUS) error {
-
-	// Exec
-	if source.Exec != nil {
-		var exec ContainerExec
-		err := exec.Initialize_From_ContainerExec_STATUS(source.Exec)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerExec_STATUS() to populate field Exec")
-		}
-		probe.Exec = &exec
-	} else {
-		probe.Exec = nil
-	}
-
-	// FailureThreshold
-	probe.FailureThreshold = genruntime.ClonePointerToInt(source.FailureThreshold)
-
-	// HttpGet
-	if source.HttpGet != nil {
-		var httpGet ContainerHttpGet
-		err := httpGet.Initialize_From_ContainerHttpGet_STATUS(source.HttpGet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerHttpGet_STATUS() to populate field HttpGet")
-		}
-		probe.HttpGet = &httpGet
-	} else {
-		probe.HttpGet = nil
-	}
-
-	// InitialDelaySeconds
-	probe.InitialDelaySeconds = genruntime.ClonePointerToInt(source.InitialDelaySeconds)
-
-	// PeriodSeconds
-	probe.PeriodSeconds = genruntime.ClonePointerToInt(source.PeriodSeconds)
-
-	// SuccessThreshold
-	probe.SuccessThreshold = genruntime.ClonePointerToInt(source.SuccessThreshold)
-
-	// TimeoutSeconds
-	probe.TimeoutSeconds = genruntime.ClonePointerToInt(source.TimeoutSeconds)
-
-	// No error
-	return nil
-}
-
-// The container probe, for liveness or readiness
+// Deprecated version of ContainerProbe_STATUS. Use v1api20211001.ContainerProbe_STATUS instead
 type ContainerProbe_STATUS struct {
-	// Exec: The execution command to probe
-	Exec *ContainerExec_STATUS `json:"exec,omitempty"`
-
-	// FailureThreshold: The failure threshold.
-	FailureThreshold *int `json:"failureThreshold,omitempty"`
-
-	// HttpGet: The Http Get settings to probe
-	HttpGet *ContainerHttpGet_STATUS `json:"httpGet,omitempty"`
-
-	// InitialDelaySeconds: The initial delay seconds.
-	InitialDelaySeconds *int `json:"initialDelaySeconds,omitempty"`
-
-	// PeriodSeconds: The period seconds.
-	PeriodSeconds *int `json:"periodSeconds,omitempty"`
-
-	// SuccessThreshold: The success threshold.
-	SuccessThreshold *int `json:"successThreshold,omitempty"`
-
-	// TimeoutSeconds: The timeout seconds.
-	TimeoutSeconds *int `json:"timeoutSeconds,omitempty"`
+	Exec                *ContainerExec_STATUS    `json:"exec,omitempty"`
+	FailureThreshold    *int                     `json:"failureThreshold,omitempty"`
+	HttpGet             *ContainerHttpGet_STATUS `json:"httpGet,omitempty"`
+	InitialDelaySeconds *int                     `json:"initialDelaySeconds,omitempty"`
+	PeriodSeconds       *int                     `json:"periodSeconds,omitempty"`
+	SuccessThreshold    *int                     `json:"successThreshold,omitempty"`
+	TimeoutSeconds      *int                     `json:"timeoutSeconds,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerProbe_STATUS{}
@@ -7197,18 +6292,12 @@ func (probe *ContainerProbe_STATUS) AssignProperties_To_ContainerProbe_STATUS(de
 	return nil
 }
 
+// Deprecated version of ContainerProperties_InstanceView_STATUS. Use v1api20211001.ContainerProperties_InstanceView_STATUS instead
 type ContainerProperties_InstanceView_STATUS struct {
-	// CurrentState: Current container instance state.
-	CurrentState *ContainerState_STATUS `json:"currentState,omitempty"`
-
-	// Events: The events of the container instance.
-	Events []Event_STATUS `json:"events,omitempty"`
-
-	// PreviousState: Previous container instance state.
+	CurrentState  *ContainerState_STATUS `json:"currentState,omitempty"`
+	Events        []Event_STATUS         `json:"events,omitempty"`
 	PreviousState *ContainerState_STATUS `json:"previousState,omitempty"`
-
-	// RestartCount: The number of times that the container instance has been restarted.
-	RestartCount *int `json:"restartCount,omitempty"`
+	RestartCount  *int                   `json:"restartCount,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerProperties_InstanceView_STATUS{}
@@ -7380,17 +6469,12 @@ func (view *ContainerProperties_InstanceView_STATUS) AssignProperties_To_Contain
 	return nil
 }
 
-// The environment variable to set within the container instance.
+// Deprecated version of EnvironmentVariable. Use v1api20211001.EnvironmentVariable instead
 type EnvironmentVariable struct {
 	// +kubebuilder:validation:Required
-	// Name: The name of the environment variable.
-	Name *string `json:"name,omitempty"`
-
-	// SecureValue: The value of the secure environment variable.
+	Name        *string                     `json:"name,omitempty"`
 	SecureValue *genruntime.SecretReference `json:"secureValue,omitempty"`
-
-	// Value: The value of the environment variable.
-	Value *string `json:"value,omitempty"`
+	Value       *string                     `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EnvironmentVariable{}
@@ -7507,25 +6591,9 @@ func (variable *EnvironmentVariable) AssignProperties_To_EnvironmentVariable(des
 	return nil
 }
 
-// Initialize_From_EnvironmentVariable_STATUS populates our EnvironmentVariable from the provided source EnvironmentVariable_STATUS
-func (variable *EnvironmentVariable) Initialize_From_EnvironmentVariable_STATUS(source *EnvironmentVariable_STATUS) error {
-
-	// Name
-	variable.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Value
-	variable.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
-// The environment variable to set within the container instance.
+// Deprecated version of EnvironmentVariable_STATUS. Use v1api20211001.EnvironmentVariable_STATUS instead
 type EnvironmentVariable_STATUS struct {
-	// Name: The name of the environment variable.
-	Name *string `json:"name,omitempty"`
-
-	// Value: The value of the environment variable.
+	Name  *string `json:"name,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -7594,25 +6662,14 @@ func (variable *EnvironmentVariable_STATUS) AssignProperties_To_EnvironmentVaria
 	return nil
 }
 
-// A container group or container instance event.
+// Deprecated version of Event_STATUS. Use v1api20211001.Event_STATUS instead
 type Event_STATUS struct {
-	// Count: The count of the event.
-	Count *int `json:"count,omitempty"`
-
-	// FirstTimestamp: The date-time of the earliest logged event.
+	Count          *int    `json:"count,omitempty"`
 	FirstTimestamp *string `json:"firstTimestamp,omitempty"`
-
-	// LastTimestamp: The date-time of the latest logged event.
-	LastTimestamp *string `json:"lastTimestamp,omitempty"`
-
-	// Message: The event message.
-	Message *string `json:"message,omitempty"`
-
-	// Name: The event name.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The event type.
-	Type *string `json:"type,omitempty"`
+	LastTimestamp  *string `json:"lastTimestamp,omitempty"`
+	Message        *string `json:"message,omitempty"`
+	Name           *string `json:"name,omitempty"`
+	Type           *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Event_STATUS{}
@@ -7728,19 +6785,13 @@ func (event *Event_STATUS) AssignProperties_To_Event_STATUS(destination *v202110
 	return nil
 }
 
-// Represents a volume that is populated with the contents of a git repository
+// Deprecated version of GitRepoVolume. Use v1api20211001.GitRepoVolume instead
 type GitRepoVolume struct {
-	// Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
-	// the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
-	// given name.
 	Directory *string `json:"directory,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Repository: Repository URL
 	Repository *string `json:"repository,omitempty"`
-
-	// Revision: Commit hash for the specified revision.
-	Revision *string `json:"revision,omitempty"`
+	Revision   *string `json:"revision,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &GitRepoVolume{}
@@ -7847,34 +6898,11 @@ func (volume *GitRepoVolume) AssignProperties_To_GitRepoVolume(destination *v202
 	return nil
 }
 
-// Initialize_From_GitRepoVolume_STATUS populates our GitRepoVolume from the provided source GitRepoVolume_STATUS
-func (volume *GitRepoVolume) Initialize_From_GitRepoVolume_STATUS(source *GitRepoVolume_STATUS) error {
-
-	// Directory
-	volume.Directory = genruntime.ClonePointerToString(source.Directory)
-
-	// Repository
-	volume.Repository = genruntime.ClonePointerToString(source.Repository)
-
-	// Revision
-	volume.Revision = genruntime.ClonePointerToString(source.Revision)
-
-	// No error
-	return nil
-}
-
-// Represents a volume that is populated with the contents of a git repository
+// Deprecated version of GitRepoVolume_STATUS. Use v1api20211001.GitRepoVolume_STATUS instead
 type GitRepoVolume_STATUS struct {
-	// Directory: Target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be
-	// the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the
-	// given name.
-	Directory *string `json:"directory,omitempty"`
-
-	// Repository: Repository URL
+	Directory  *string `json:"directory,omitempty"`
 	Repository *string `json:"repository,omitempty"`
-
-	// Revision: Commit hash for the specified revision.
-	Revision *string `json:"revision,omitempty"`
+	Revision   *string `json:"revision,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &GitRepoVolume_STATUS{}
@@ -7954,18 +6982,12 @@ func (volume *GitRepoVolume_STATUS) AssignProperties_To_GitRepoVolume_STATUS(des
 	return nil
 }
 
+// Deprecated version of InitContainerPropertiesDefinition_InstanceView_STATUS. Use v1api20211001.InitContainerPropertiesDefinition_InstanceView_STATUS instead
 type InitContainerPropertiesDefinition_InstanceView_STATUS struct {
-	// CurrentState: The current state of the init container.
-	CurrentState *ContainerState_STATUS `json:"currentState,omitempty"`
-
-	// Events: The events of the init container.
-	Events []Event_STATUS `json:"events,omitempty"`
-
-	// PreviousState: The previous state of the init container.
+	CurrentState  *ContainerState_STATUS `json:"currentState,omitempty"`
+	Events        []Event_STATUS         `json:"events,omitempty"`
 	PreviousState *ContainerState_STATUS `json:"previousState,omitempty"`
-
-	// RestartCount: The number of times that the init container has been restarted.
-	RestartCount *int `json:"restartCount,omitempty"`
+	RestartCount  *int                   `json:"restartCount,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &InitContainerPropertiesDefinition_InstanceView_STATUS{}
@@ -8137,6 +7159,8 @@ func (view *InitContainerPropertiesDefinition_InstanceView_STATUS) AssignPropert
 	return nil
 }
 
+// Deprecated version of IpAddress_AutoGeneratedDomainNameLabelScope. Use
+// v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope instead
 // +kubebuilder:validation:Enum={"Noreuse","ResourceGroupReuse","SubscriptionReuse","TenantReuse","Unsecure"}
 type IpAddress_AutoGeneratedDomainNameLabelScope string
 
@@ -8148,6 +7172,8 @@ const (
 	IpAddress_AutoGeneratedDomainNameLabelScope_Unsecure           = IpAddress_AutoGeneratedDomainNameLabelScope("Unsecure")
 )
 
+// Deprecated version of IpAddress_AutoGeneratedDomainNameLabelScope_STATUS. Use
+// v1api20211001.IpAddress_AutoGeneratedDomainNameLabelScope_STATUS instead
 type IpAddress_AutoGeneratedDomainNameLabelScope_STATUS string
 
 const (
@@ -8158,6 +7184,7 @@ const (
 	IpAddress_AutoGeneratedDomainNameLabelScope_STATUS_Unsecure           = IpAddress_AutoGeneratedDomainNameLabelScope_STATUS("Unsecure")
 )
 
+// Deprecated version of IpAddress_Type. Use v1api20211001.IpAddress_Type instead
 // +kubebuilder:validation:Enum={"Private","Public"}
 type IpAddress_Type string
 
@@ -8166,6 +7193,7 @@ const (
 	IpAddress_Type_Public  = IpAddress_Type("Public")
 )
 
+// Deprecated version of IpAddress_Type_STATUS. Use v1api20211001.IpAddress_Type_STATUS instead
 type IpAddress_Type_STATUS string
 
 const (
@@ -8173,23 +7201,16 @@ const (
 	IpAddress_Type_STATUS_Public  = IpAddress_Type_STATUS("Public")
 )
 
-// Container group log analytics information.
+// Deprecated version of LogAnalytics. Use v1api20211001.LogAnalytics instead
 type LogAnalytics struct {
-	// LogType: The log type to be used.
-	LogType *LogAnalytics_LogType `json:"logType,omitempty"`
-
-	// Metadata: Metadata for log analytics.
-	Metadata map[string]string `json:"metadata,omitempty"`
+	LogType  *LogAnalytics_LogType `json:"logType,omitempty"`
+	Metadata map[string]string     `json:"metadata,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// WorkspaceId: The workspace id for log analytics
 	WorkspaceId *string `json:"workspaceId,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// WorkspaceKey: The workspace key for log analytics
-	WorkspaceKey genruntime.SecretReference `json:"workspaceKey,omitempty"`
-
-	// WorkspaceResourceReference: The workspace resource id for log analytics
+	WorkspaceKey               genruntime.SecretReference    `json:"workspaceKey,omitempty"`
 	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
 }
 
@@ -8359,37 +7380,11 @@ func (analytics *LogAnalytics) AssignProperties_To_LogAnalytics(destination *v20
 	return nil
 }
 
-// Initialize_From_LogAnalytics_STATUS populates our LogAnalytics from the provided source LogAnalytics_STATUS
-func (analytics *LogAnalytics) Initialize_From_LogAnalytics_STATUS(source *LogAnalytics_STATUS) error {
-
-	// LogType
-	if source.LogType != nil {
-		logType := LogAnalytics_LogType(*source.LogType)
-		analytics.LogType = &logType
-	} else {
-		analytics.LogType = nil
-	}
-
-	// Metadata
-	analytics.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
-
-	// WorkspaceId
-	analytics.WorkspaceId = genruntime.ClonePointerToString(source.WorkspaceId)
-
-	// No error
-	return nil
-}
-
-// Container group log analytics information.
+// Deprecated version of LogAnalytics_STATUS. Use v1api20211001.LogAnalytics_STATUS instead
 type LogAnalytics_STATUS struct {
-	// LogType: The log type to be used.
-	LogType *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
-
-	// Metadata: Metadata for log analytics.
-	Metadata map[string]string `json:"metadata,omitempty"`
-
-	// WorkspaceId: The workspace id for log analytics
-	WorkspaceId *string `json:"workspaceId,omitempty"`
+	LogType     *LogAnalytics_LogType_STATUS `json:"logType,omitempty"`
+	Metadata    map[string]string            `json:"metadata,omitempty"`
+	WorkspaceId *string                      `json:"workspaceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LogAnalytics_STATUS{}
@@ -8481,13 +7476,10 @@ func (analytics *LogAnalytics_STATUS) AssignProperties_To_LogAnalytics_STATUS(de
 	return nil
 }
 
-// The port exposed on the container group.
+// Deprecated version of Port. Use v1api20211001.Port instead
 type Port struct {
 	// +kubebuilder:validation:Required
-	// Port: The port number.
-	Port *int `json:"port,omitempty"`
-
-	// Protocol: The protocol associated with the port.
+	Port     *int           `json:"port,omitempty"`
 	Protocol *Port_Protocol `json:"protocol,omitempty"`
 }
 
@@ -8587,30 +7579,9 @@ func (port *Port) AssignProperties_To_Port(destination *v20211001s.Port) error {
 	return nil
 }
 
-// Initialize_From_Port_STATUS populates our Port from the provided source Port_STATUS
-func (port *Port) Initialize_From_Port_STATUS(source *Port_STATUS) error {
-
-	// Port
-	port.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := Port_Protocol(*source.Protocol)
-		port.Protocol = &protocol
-	} else {
-		port.Protocol = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The port exposed on the container group.
+// Deprecated version of Port_STATUS. Use v1api20211001.Port_STATUS instead
 type Port_STATUS struct {
-	// Port: The port number.
-	Port *int `json:"port,omitempty"`
-
-	// Protocol: The protocol associated with the port.
+	Port     *int                  `json:"port,omitempty"`
 	Protocol *Port_Protocol_STATUS `json:"protocol,omitempty"`
 }
 
@@ -8689,13 +7660,11 @@ func (port *Port_STATUS) AssignProperties_To_Port_STATUS(destination *v20211001s
 	return nil
 }
 
-// The resource requirements.
+// Deprecated version of ResourceRequirements. Use v1api20211001.ResourceRequirements instead
 type ResourceRequirements struct {
-	// Limits: The resource limits of this container instance.
 	Limits *ResourceLimits `json:"limits,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Requests: The resource requests of this container instance.
 	Requests *ResourceRequests `json:"requests,omitempty"`
 }
 
@@ -8839,43 +7808,9 @@ func (requirements *ResourceRequirements) AssignProperties_To_ResourceRequiremen
 	return nil
 }
 
-// Initialize_From_ResourceRequirements_STATUS populates our ResourceRequirements from the provided source ResourceRequirements_STATUS
-func (requirements *ResourceRequirements) Initialize_From_ResourceRequirements_STATUS(source *ResourceRequirements_STATUS) error {
-
-	// Limits
-	if source.Limits != nil {
-		var limit ResourceLimits
-		err := limit.Initialize_From_ResourceLimits_STATUS(source.Limits)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceLimits_STATUS() to populate field Limits")
-		}
-		requirements.Limits = &limit
-	} else {
-		requirements.Limits = nil
-	}
-
-	// Requests
-	if source.Requests != nil {
-		var request ResourceRequests
-		err := request.Initialize_From_ResourceRequests_STATUS(source.Requests)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceRequests_STATUS() to populate field Requests")
-		}
-		requirements.Requests = &request
-	} else {
-		requirements.Requests = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The resource requirements.
+// Deprecated version of ResourceRequirements_STATUS. Use v1api20211001.ResourceRequirements_STATUS instead
 type ResourceRequirements_STATUS struct {
-	// Limits: The resource limits of this container instance.
-	Limits *ResourceLimits_STATUS `json:"limits,omitempty"`
-
-	// Requests: The resource requests of this container instance.
+	Limits   *ResourceLimits_STATUS   `json:"limits,omitempty"`
 	Requests *ResourceRequests_STATUS `json:"requests,omitempty"`
 }
 
@@ -8990,14 +7925,9 @@ func (requirements *ResourceRequirements_STATUS) AssignProperties_To_ResourceReq
 	return nil
 }
 
-// The list of user identities associated with the container group. The user identity dictionary key references will be ARM
-// resource ids in the form:
-// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+// Deprecated version of UserAssignedIdentities_STATUS. Use v1api20211001.UserAssignedIdentities_STATUS instead
 type UserAssignedIdentities_STATUS struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -9066,18 +7996,14 @@ func (identities *UserAssignedIdentities_STATUS) AssignProperties_To_UserAssigne
 	return nil
 }
 
-// The properties of the volume mount.
+// Deprecated version of VolumeMount. Use v1api20211001.VolumeMount instead
 type VolumeMount struct {
 	// +kubebuilder:validation:Required
-	// MountPath: The path within the container where the volume should be mounted. Must not contain colon (:).
 	MountPath *string `json:"mountPath,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The name of the volume mount.
-	Name *string `json:"name,omitempty"`
-
-	// ReadOnly: The flag indicating whether the volume mount is read-only.
-	ReadOnly *bool `json:"readOnly,omitempty"`
+	Name     *string `json:"name,omitempty"`
+	ReadOnly *bool   `json:"readOnly,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VolumeMount{}
@@ -9194,37 +8120,11 @@ func (mount *VolumeMount) AssignProperties_To_VolumeMount(destination *v20211001
 	return nil
 }
 
-// Initialize_From_VolumeMount_STATUS populates our VolumeMount from the provided source VolumeMount_STATUS
-func (mount *VolumeMount) Initialize_From_VolumeMount_STATUS(source *VolumeMount_STATUS) error {
-
-	// MountPath
-	mount.MountPath = genruntime.ClonePointerToString(source.MountPath)
-
-	// Name
-	mount.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ReadOnly
-	if source.ReadOnly != nil {
-		readOnly := *source.ReadOnly
-		mount.ReadOnly = &readOnly
-	} else {
-		mount.ReadOnly = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The properties of the volume mount.
+// Deprecated version of VolumeMount_STATUS. Use v1api20211001.VolumeMount_STATUS instead
 type VolumeMount_STATUS struct {
-	// MountPath: The path within the container where the volume should be mounted. Must not contain colon (:).
 	MountPath *string `json:"mountPath,omitempty"`
-
-	// Name: The name of the volume mount.
-	Name *string `json:"name,omitempty"`
-
-	// ReadOnly: The flag indicating whether the volume mount is read-only.
-	ReadOnly *bool `json:"readOnly,omitempty"`
+	Name      *string `json:"name,omitempty"`
+	ReadOnly  *bool   `json:"readOnly,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VolumeMount_STATUS{}
@@ -9314,9 +8214,8 @@ func (mount *VolumeMount_STATUS) AssignProperties_To_VolumeMount_STATUS(destinat
 	return nil
 }
 
-// The container execution command, for liveness or readiness probe
+// Deprecated version of ContainerExec. Use v1api20211001.ContainerExec instead
 type ContainerExec struct {
-	// Command: The commands to execute within the container.
 	Command []string `json:"command,omitempty"`
 }
 
@@ -9386,19 +8285,8 @@ func (exec *ContainerExec) AssignProperties_To_ContainerExec(destination *v20211
 	return nil
 }
 
-// Initialize_From_ContainerExec_STATUS populates our ContainerExec from the provided source ContainerExec_STATUS
-func (exec *ContainerExec) Initialize_From_ContainerExec_STATUS(source *ContainerExec_STATUS) error {
-
-	// Command
-	exec.Command = genruntime.CloneSliceOfString(source.Command)
-
-	// No error
-	return nil
-}
-
-// The container execution command, for liveness or readiness probe
+// Deprecated version of ContainerExec_STATUS. Use v1api20211001.ContainerExec_STATUS instead
 type ContainerExec_STATUS struct {
-	// Command: The commands to execute within the container.
 	Command []string `json:"command,omitempty"`
 }
 
@@ -9454,19 +8342,13 @@ func (exec *ContainerExec_STATUS) AssignProperties_To_ContainerExec_STATUS(desti
 	return nil
 }
 
-// The container Http Get settings, for liveness or readiness probe
+// Deprecated version of ContainerHttpGet. Use v1api20211001.ContainerHttpGet instead
 type ContainerHttpGet struct {
-	// HttpHeaders: The HTTP headers.
 	HttpHeaders []HttpHeader `json:"httpHeaders,omitempty"`
-
-	// Path: The path to probe.
-	Path *string `json:"path,omitempty"`
+	Path        *string      `json:"path,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Port: The port number to probe.
-	Port *int `json:"port,omitempty"`
-
-	// Scheme: The scheme.
+	Port   *int                     `json:"port,omitempty"`
 	Scheme *ContainerHttpGet_Scheme `json:"scheme,omitempty"`
 }
 
@@ -9639,58 +8521,12 @@ func (httpGet *ContainerHttpGet) AssignProperties_To_ContainerHttpGet(destinatio
 	return nil
 }
 
-// Initialize_From_ContainerHttpGet_STATUS populates our ContainerHttpGet from the provided source ContainerHttpGet_STATUS
-func (httpGet *ContainerHttpGet) Initialize_From_ContainerHttpGet_STATUS(source *ContainerHttpGet_STATUS) error {
-
-	// HttpHeaders
-	if source.HttpHeaders != nil {
-		httpHeaderList := make([]HttpHeader, len(source.HttpHeaders))
-		for httpHeaderIndex, httpHeaderItem := range source.HttpHeaders {
-			// Shadow the loop variable to avoid aliasing
-			httpHeaderItem := httpHeaderItem
-			var httpHeader HttpHeader
-			err := httpHeader.Initialize_From_HttpHeader_STATUS(&httpHeaderItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_HttpHeader_STATUS() to populate field HttpHeaders")
-			}
-			httpHeaderList[httpHeaderIndex] = httpHeader
-		}
-		httpGet.HttpHeaders = httpHeaderList
-	} else {
-		httpGet.HttpHeaders = nil
-	}
-
-	// Path
-	httpGet.Path = genruntime.ClonePointerToString(source.Path)
-
-	// Port
-	httpGet.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// Scheme
-	if source.Scheme != nil {
-		scheme := ContainerHttpGet_Scheme(*source.Scheme)
-		httpGet.Scheme = &scheme
-	} else {
-		httpGet.Scheme = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The container Http Get settings, for liveness or readiness probe
+// Deprecated version of ContainerHttpGet_STATUS. Use v1api20211001.ContainerHttpGet_STATUS instead
 type ContainerHttpGet_STATUS struct {
-	// HttpHeaders: The HTTP headers.
-	HttpHeaders []HttpHeader_STATUS `json:"httpHeaders,omitempty"`
-
-	// Path: The path to probe.
-	Path *string `json:"path,omitempty"`
-
-	// Port: The port number to probe.
-	Port *int `json:"port,omitempty"`
-
-	// Scheme: The scheme.
-	Scheme *ContainerHttpGet_Scheme_STATUS `json:"scheme,omitempty"`
+	HttpHeaders []HttpHeader_STATUS             `json:"httpHeaders,omitempty"`
+	Path        *string                         `json:"path,omitempty"`
+	Port        *int                            `json:"port,omitempty"`
+	Scheme      *ContainerHttpGet_Scheme_STATUS `json:"scheme,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerHttpGet_STATUS{}
@@ -9826,6 +8662,7 @@ func (httpGet *ContainerHttpGet_STATUS) AssignProperties_To_ContainerHttpGet_STA
 	return nil
 }
 
+// Deprecated version of ContainerPort_Protocol. Use v1api20211001.ContainerPort_Protocol instead
 // +kubebuilder:validation:Enum={"TCP","UDP"}
 type ContainerPort_Protocol string
 
@@ -9834,6 +8671,7 @@ const (
 	ContainerPort_Protocol_UDP = ContainerPort_Protocol("UDP")
 )
 
+// Deprecated version of ContainerPort_Protocol_STATUS. Use v1api20211001.ContainerPort_Protocol_STATUS instead
 type ContainerPort_Protocol_STATUS string
 
 const (
@@ -9841,22 +8679,13 @@ const (
 	ContainerPort_Protocol_STATUS_UDP = ContainerPort_Protocol_STATUS("UDP")
 )
 
-// The container instance state.
+// Deprecated version of ContainerState_STATUS. Use v1api20211001.ContainerState_STATUS instead
 type ContainerState_STATUS struct {
-	// DetailStatus: The human-readable status of the container instance state.
 	DetailStatus *string `json:"detailStatus,omitempty"`
-
-	// ExitCode: The container instance exit codes correspond to those from the `docker run` command.
-	ExitCode *int `json:"exitCode,omitempty"`
-
-	// FinishTime: The date-time when the container instance state finished.
-	FinishTime *string `json:"finishTime,omitempty"`
-
-	// StartTime: The date-time when the container instance state started.
-	StartTime *string `json:"startTime,omitempty"`
-
-	// State: The state of the container instance.
-	State *string `json:"state,omitempty"`
+	ExitCode     *int    `json:"exitCode,omitempty"`
+	FinishTime   *string `json:"finishTime,omitempty"`
+	StartTime    *string `json:"startTime,omitempty"`
+	State        *string `json:"state,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerState_STATUS{}
@@ -9960,6 +8789,7 @@ func (state *ContainerState_STATUS) AssignProperties_To_ContainerState_STATUS(de
 	return nil
 }
 
+// Deprecated version of LogAnalytics_LogType. Use v1api20211001.LogAnalytics_LogType instead
 // +kubebuilder:validation:Enum={"ContainerInsights","ContainerInstanceLogs"}
 type LogAnalytics_LogType string
 
@@ -9968,6 +8798,7 @@ const (
 	LogAnalytics_LogType_ContainerInstanceLogs = LogAnalytics_LogType("ContainerInstanceLogs")
 )
 
+// Deprecated version of LogAnalytics_LogType_STATUS. Use v1api20211001.LogAnalytics_LogType_STATUS instead
 type LogAnalytics_LogType_STATUS string
 
 const (
@@ -9975,6 +8806,7 @@ const (
 	LogAnalytics_LogType_STATUS_ContainerInstanceLogs = LogAnalytics_LogType_STATUS("ContainerInstanceLogs")
 )
 
+// Deprecated version of Port_Protocol. Use v1api20211001.Port_Protocol instead
 // +kubebuilder:validation:Enum={"TCP","UDP"}
 type Port_Protocol string
 
@@ -9983,6 +8815,7 @@ const (
 	Port_Protocol_UDP = Port_Protocol("UDP")
 )
 
+// Deprecated version of Port_Protocol_STATUS. Use v1api20211001.Port_Protocol_STATUS instead
 type Port_Protocol_STATUS string
 
 const (
@@ -9990,16 +8823,11 @@ const (
 	Port_Protocol_STATUS_UDP = Port_Protocol_STATUS("UDP")
 )
 
-// The resource limits.
+// Deprecated version of ResourceLimits. Use v1api20211001.ResourceLimits instead
 type ResourceLimits struct {
-	// Cpu: The CPU limit of this container instance.
-	Cpu *float64 `json:"cpu,omitempty"`
-
-	// Gpu: The GPU limit of this container instance.
-	Gpu *GpuResource `json:"gpu,omitempty"`
-
-	// MemoryInGB: The memory limit in GB of this container instance.
-	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
+	Cpu        *float64     `json:"cpu,omitempty"`
+	Gpu        *GpuResource `json:"gpu,omitempty"`
+	MemoryInGB *float64     `json:"memoryInGB,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ResourceLimits{}
@@ -10153,51 +8981,11 @@ func (limits *ResourceLimits) AssignProperties_To_ResourceLimits(destination *v2
 	return nil
 }
 
-// Initialize_From_ResourceLimits_STATUS populates our ResourceLimits from the provided source ResourceLimits_STATUS
-func (limits *ResourceLimits) Initialize_From_ResourceLimits_STATUS(source *ResourceLimits_STATUS) error {
-
-	// Cpu
-	if source.Cpu != nil {
-		cpu := *source.Cpu
-		limits.Cpu = &cpu
-	} else {
-		limits.Cpu = nil
-	}
-
-	// Gpu
-	if source.Gpu != nil {
-		var gpu GpuResource
-		err := gpu.Initialize_From_GpuResource_STATUS(source.Gpu)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_GpuResource_STATUS() to populate field Gpu")
-		}
-		limits.Gpu = &gpu
-	} else {
-		limits.Gpu = nil
-	}
-
-	// MemoryInGB
-	if source.MemoryInGB != nil {
-		memoryInGB := *source.MemoryInGB
-		limits.MemoryInGB = &memoryInGB
-	} else {
-		limits.MemoryInGB = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The resource limits.
+// Deprecated version of ResourceLimits_STATUS. Use v1api20211001.ResourceLimits_STATUS instead
 type ResourceLimits_STATUS struct {
-	// Cpu: The CPU limit of this container instance.
-	Cpu *float64 `json:"cpu,omitempty"`
-
-	// Gpu: The GPU limit of this container instance.
-	Gpu *GpuResource_STATUS `json:"gpu,omitempty"`
-
-	// MemoryInGB: The memory limit in GB of this container instance.
-	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
+	Cpu        *float64            `json:"cpu,omitempty"`
+	Gpu        *GpuResource_STATUS `json:"gpu,omitempty"`
+	MemoryInGB *float64            `json:"memoryInGB,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ResourceLimits_STATUS{}
@@ -10320,17 +9108,13 @@ func (limits *ResourceLimits_STATUS) AssignProperties_To_ResourceLimits_STATUS(d
 	return nil
 }
 
-// The resource requests.
+// Deprecated version of ResourceRequests. Use v1api20211001.ResourceRequests instead
 type ResourceRequests struct {
 	// +kubebuilder:validation:Required
-	// Cpu: The CPU request of this container instance.
-	Cpu *float64 `json:"cpu,omitempty"`
-
-	// Gpu: The GPU request of this container instance.
+	Cpu *float64     `json:"cpu,omitempty"`
 	Gpu *GpuResource `json:"gpu,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// MemoryInGB: The memory request in GB of this container instance.
 	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
 }
 
@@ -10485,51 +9269,11 @@ func (requests *ResourceRequests) AssignProperties_To_ResourceRequests(destinati
 	return nil
 }
 
-// Initialize_From_ResourceRequests_STATUS populates our ResourceRequests from the provided source ResourceRequests_STATUS
-func (requests *ResourceRequests) Initialize_From_ResourceRequests_STATUS(source *ResourceRequests_STATUS) error {
-
-	// Cpu
-	if source.Cpu != nil {
-		cpu := *source.Cpu
-		requests.Cpu = &cpu
-	} else {
-		requests.Cpu = nil
-	}
-
-	// Gpu
-	if source.Gpu != nil {
-		var gpu GpuResource
-		err := gpu.Initialize_From_GpuResource_STATUS(source.Gpu)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_GpuResource_STATUS() to populate field Gpu")
-		}
-		requests.Gpu = &gpu
-	} else {
-		requests.Gpu = nil
-	}
-
-	// MemoryInGB
-	if source.MemoryInGB != nil {
-		memoryInGB := *source.MemoryInGB
-		requests.MemoryInGB = &memoryInGB
-	} else {
-		requests.MemoryInGB = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The resource requests.
+// Deprecated version of ResourceRequests_STATUS. Use v1api20211001.ResourceRequests_STATUS instead
 type ResourceRequests_STATUS struct {
-	// Cpu: The CPU request of this container instance.
-	Cpu *float64 `json:"cpu,omitempty"`
-
-	// Gpu: The GPU request of this container instance.
-	Gpu *GpuResource_STATUS `json:"gpu,omitempty"`
-
-	// MemoryInGB: The memory request in GB of this container instance.
-	MemoryInGB *float64 `json:"memoryInGB,omitempty"`
+	Cpu        *float64            `json:"cpu,omitempty"`
+	Gpu        *GpuResource_STATUS `json:"gpu,omitempty"`
+	MemoryInGB *float64            `json:"memoryInGB,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ResourceRequests_STATUS{}
@@ -10652,6 +9396,7 @@ func (requests *ResourceRequests_STATUS) AssignProperties_To_ResourceRequests_ST
 	return nil
 }
 
+// Deprecated version of ContainerHttpGet_Scheme. Use v1api20211001.ContainerHttpGet_Scheme instead
 // +kubebuilder:validation:Enum={"http","https"}
 type ContainerHttpGet_Scheme string
 
@@ -10660,6 +9405,7 @@ const (
 	ContainerHttpGet_Scheme_Https = ContainerHttpGet_Scheme("https")
 )
 
+// Deprecated version of ContainerHttpGet_Scheme_STATUS. Use v1api20211001.ContainerHttpGet_Scheme_STATUS instead
 type ContainerHttpGet_Scheme_STATUS string
 
 const (
@@ -10667,14 +9413,12 @@ const (
 	ContainerHttpGet_Scheme_STATUS_Https = ContainerHttpGet_Scheme_STATUS("https")
 )
 
-// The GPU resource.
+// Deprecated version of GpuResource. Use v1api20211001.GpuResource instead
 type GpuResource struct {
 	// +kubebuilder:validation:Required
-	// Count: The count of the GPU resource.
 	Count *int `json:"count,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Sku: The SKU of the GPU resource.
 	Sku *GpuResource_Sku `json:"sku,omitempty"`
 }
 
@@ -10774,31 +9518,10 @@ func (resource *GpuResource) AssignProperties_To_GpuResource(destination *v20211
 	return nil
 }
 
-// Initialize_From_GpuResource_STATUS populates our GpuResource from the provided source GpuResource_STATUS
-func (resource *GpuResource) Initialize_From_GpuResource_STATUS(source *GpuResource_STATUS) error {
-
-	// Count
-	resource.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// Sku
-	if source.Sku != nil {
-		sku := GpuResource_Sku(*source.Sku)
-		resource.Sku = &sku
-	} else {
-		resource.Sku = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The GPU resource.
+// Deprecated version of GpuResource_STATUS. Use v1api20211001.GpuResource_STATUS instead
 type GpuResource_STATUS struct {
-	// Count: The count of the GPU resource.
-	Count *int `json:"count,omitempty"`
-
-	// Sku: The SKU of the GPU resource.
-	Sku *GpuResource_Sku_STATUS `json:"sku,omitempty"`
+	Count *int                    `json:"count,omitempty"`
+	Sku   *GpuResource_Sku_STATUS `json:"sku,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &GpuResource_STATUS{}
@@ -10876,12 +9599,9 @@ func (resource *GpuResource_STATUS) AssignProperties_To_GpuResource_STATUS(desti
 	return nil
 }
 
-// The HTTP header.
+// Deprecated version of HttpHeader. Use v1api20211001.HttpHeader instead
 type HttpHeader struct {
-	// Name: The header name.
-	Name *string `json:"name,omitempty"`
-
-	// Value: The header value.
+	Name  *string `json:"name,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -10971,25 +9691,9 @@ func (header *HttpHeader) AssignProperties_To_HttpHeader(destination *v20211001s
 	return nil
 }
 
-// Initialize_From_HttpHeader_STATUS populates our HttpHeader from the provided source HttpHeader_STATUS
-func (header *HttpHeader) Initialize_From_HttpHeader_STATUS(source *HttpHeader_STATUS) error {
-
-	// Name
-	header.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Value
-	header.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
-// The HTTP header.
+// Deprecated version of HttpHeader_STATUS. Use v1api20211001.HttpHeader_STATUS instead
 type HttpHeader_STATUS struct {
-	// Name: The header name.
-	Name *string `json:"name,omitempty"`
-
-	// Value: The header value.
+	Name  *string `json:"name,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -11058,6 +9762,7 @@ func (header *HttpHeader_STATUS) AssignProperties_To_HttpHeader_STATUS(destinati
 	return nil
 }
 
+// Deprecated version of GpuResource_Sku. Use v1api20211001.GpuResource_Sku instead
 // +kubebuilder:validation:Enum={"K80","P100","V100"}
 type GpuResource_Sku string
 
@@ -11067,6 +9772,7 @@ const (
 	GpuResource_Sku_V100 = GpuResource_Sku("V100")
 )
 
+// Deprecated version of GpuResource_Sku_STATUS. Use v1api20211001.GpuResource_Sku_STATUS instead
 type GpuResource_Sku_STATUS string
 
 const (

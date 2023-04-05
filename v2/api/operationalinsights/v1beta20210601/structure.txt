@@ -2,7 +2,7 @@ github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1beta2021060
 ├── APIVersion: Enum (1 value)
 │   └── "2021-06-01"
 ├── Workspace: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1betav20191001.ResourceGroup
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (13 properties)
 │   │   ├── AzureName: Validated<string> (3 rules)
 │   │   │   ├── Rule 0: MaxLength: 63

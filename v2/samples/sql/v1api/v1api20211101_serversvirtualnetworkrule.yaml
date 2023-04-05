@@ -1,0 +1,12 @@
+apiVersion: sql.azure.com/v1api20211101
+kind: ServersVirtualNetworkRule
+metadata:
+  name: aso-sample-pool
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-sqlserver
+  virtualNetworkSubnetReference:
+    group: network.azure.com
+    kind: VirtualNetworksSubnet
+    name: samplesqlsubnet

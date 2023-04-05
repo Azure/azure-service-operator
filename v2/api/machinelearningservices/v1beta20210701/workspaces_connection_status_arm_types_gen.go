@@ -3,34 +3,19 @@
 // Licensed under the MIT license.
 package v1beta20210701
 
+// Deprecated version of Workspaces_Connection_STATUS. Use v1api20210701.Workspaces_Connection_STATUS instead
 type Workspaces_Connection_STATUS_ARM struct {
-	// Id: ResourceId of the workspace connection.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Friendly name of the workspace connection.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of workspace connection.
+	Id         *string                              `json:"id,omitempty"`
+	Name       *string                              `json:"name,omitempty"`
 	Properties *WorkspaceConnectionProps_STATUS_ARM `json:"properties,omitempty"`
-
-	// Type: Resource type of workspace connection.
-	Type *string `json:"type,omitempty"`
+	Type       *string                              `json:"type,omitempty"`
 }
 
-// Workspace Connection specific properties.
+// Deprecated version of WorkspaceConnectionProps_STATUS. Use v1api20210701.WorkspaceConnectionProps_STATUS instead
 type WorkspaceConnectionProps_STATUS_ARM struct {
-	// AuthType: Authorization type of the workspace connection.
-	AuthType *string `json:"authType,omitempty"`
-
-	// Category: Category of the workspace connection.
-	Category *string `json:"category,omitempty"`
-
-	// Target: Target of the workspace connection.
-	Target *string `json:"target,omitempty"`
-
-	// Value: Value details of the workspace connection.
-	Value *string `json:"value,omitempty"`
-
-	// ValueFormat: format for the workspace connection value
+	AuthType    *string                                      `json:"authType,omitempty"`
+	Category    *string                                      `json:"category,omitempty"`
+	Target      *string                                      `json:"target,omitempty"`
+	Value       *string                                      `json:"value,omitempty"`
 	ValueFormat *WorkspaceConnectionProps_ValueFormat_STATUS `json:"valueFormat,omitempty"`
 }

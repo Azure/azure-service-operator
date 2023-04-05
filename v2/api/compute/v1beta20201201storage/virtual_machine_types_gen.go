@@ -4,7 +4,6 @@
 package v1beta20201201storage
 
 import (
-	"fmt"
 	v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
 	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -23,9 +22,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201201.VirtualMachine
-// Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}
+// Deprecated version of VirtualMachine. Use v1api20201201.VirtualMachine instead
 type VirtualMachine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -49,22 +46,36 @@ var _ conversion.Convertible = &VirtualMachine{}
 
 // ConvertFrom populates our VirtualMachine from the provided hub VirtualMachine
 func (machine *VirtualMachine) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220301s.VirtualMachine)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20220301storage/VirtualMachine but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220301s.VirtualMachine
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return machine.AssignProperties_From_VirtualMachine(source)
+	err = machine.AssignProperties_From_VirtualMachine(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to machine")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualMachine from our VirtualMachine
 func (machine *VirtualMachine) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220301s.VirtualMachine)
-	if !ok {
-		return fmt.Errorf("expected compute/v1beta20220301storage/VirtualMachine but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220301s.VirtualMachine
+	err := machine.AssignProperties_To_VirtualMachine(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from machine")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return machine.AssignProperties_To_VirtualMachine(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachine{}
@@ -214,9 +225,7 @@ func (machine *VirtualMachine) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201201.VirtualMachine
-// Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}
+// Deprecated version of VirtualMachine. Use v1api20201201.VirtualMachine instead
 type VirtualMachineList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -224,6 +233,7 @@ type VirtualMachineList struct {
 }
 
 // Storage version of v1beta20201201.APIVersion
+// Deprecated version of APIVersion. Use v1api20201201.APIVersion instead
 // +kubebuilder:validation:Enum={"2020-12-01"}
 type APIVersion string
 
@@ -975,7 +985,7 @@ func (machine *VirtualMachine_Spec) AssignProperties_To_VirtualMachine_Spec(dest
 }
 
 // Storage version of v1beta20201201.VirtualMachine_STATUS
-// Describes a Virtual Machine.
+// Deprecated version of VirtualMachine_STATUS. Use v1api20201201.VirtualMachine_STATUS instead
 type VirtualMachine_STATUS struct {
 	AdditionalCapabilities  *AdditionalCapabilities_STATUS     `json:"additionalCapabilities,omitempty"`
 	AvailabilitySet         *SubResource_STATUS                `json:"availabilitySet,omitempty"`
@@ -1801,7 +1811,7 @@ func (machine *VirtualMachine_STATUS) AssignProperties_To_VirtualMachine_STATUS(
 }
 
 // Storage version of v1beta20201201.AdditionalCapabilities
-// Enables or disables a capability on the virtual machine or virtual machine scale set.
+// Deprecated version of AdditionalCapabilities. Use v1api20201201.AdditionalCapabilities instead
 type AdditionalCapabilities struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UltraSSDEnabled *bool                  `json:"ultraSSDEnabled,omitempty"`
@@ -1894,7 +1904,7 @@ func (capabilities *AdditionalCapabilities) AssignProperties_To_AdditionalCapabi
 }
 
 // Storage version of v1beta20201201.AdditionalCapabilities_STATUS
-// Enables or disables a capability on the virtual machine or virtual machine scale set.
+// Deprecated version of AdditionalCapabilities_STATUS. Use v1api20201201.AdditionalCapabilities_STATUS instead
 type AdditionalCapabilities_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UltraSSDEnabled *bool                  `json:"ultraSSDEnabled,omitempty"`
@@ -1997,8 +2007,7 @@ type augmentConversionForVirtualMachine_STATUS interface {
 }
 
 // Storage version of v1beta20201201.BillingProfile
-// Specifies the billing related details of a Azure Spot VM or VMSS.
-// Minimum api-version: 2019-03-01.
+// Deprecated version of BillingProfile. Use v1api20201201.BillingProfile instead
 type BillingProfile struct {
 	MaxPrice    *float64               `json:"maxPrice,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2071,8 +2080,7 @@ func (profile *BillingProfile) AssignProperties_To_BillingProfile(destination *v
 }
 
 // Storage version of v1beta20201201.BillingProfile_STATUS
-// Specifies the billing related details of a Azure Spot VM or VMSS.
-// Minimum api-version: 2019-03-01.
+// Deprecated version of BillingProfile_STATUS. Use v1api20201201.BillingProfile_STATUS instead
 type BillingProfile_STATUS struct {
 	MaxPrice    *float64               `json:"maxPrice,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2145,8 +2153,7 @@ func (profile *BillingProfile_STATUS) AssignProperties_To_BillingProfile_STATUS(
 }
 
 // Storage version of v1beta20201201.DiagnosticsProfile
-// Specifies the boot diagnostic settings state.
-// Minimum api-version: 2015-06-15.
+// Deprecated version of DiagnosticsProfile. Use v1api20201201.DiagnosticsProfile instead
 type DiagnosticsProfile struct {
 	BootDiagnostics *BootDiagnostics       `json:"bootDiagnostics,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2227,8 +2234,7 @@ func (profile *DiagnosticsProfile) AssignProperties_To_DiagnosticsProfile(destin
 }
 
 // Storage version of v1beta20201201.DiagnosticsProfile_STATUS
-// Specifies the boot diagnostic settings state.
-// Minimum api-version: 2015-06-15.
+// Deprecated version of DiagnosticsProfile_STATUS. Use v1api20201201.DiagnosticsProfile_STATUS instead
 type DiagnosticsProfile_STATUS struct {
 	BootDiagnostics *BootDiagnostics_STATUS `json:"bootDiagnostics,omitempty"`
 	PropertyBag     genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
@@ -2309,7 +2315,7 @@ func (profile *DiagnosticsProfile_STATUS) AssignProperties_To_DiagnosticsProfile
 }
 
 // Storage version of v1beta20201201.ExtendedLocation
-// The complex type of the extended location.
+// Deprecated version of ExtendedLocation. Use v1api20201201.ExtendedLocation instead
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2379,7 +2385,7 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 }
 
 // Storage version of v1beta20201201.ExtendedLocation_STATUS
-// The complex type of the extended location.
+// Deprecated version of ExtendedLocation_STATUS. Use v1api20201201.ExtendedLocation_STATUS instead
 type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2449,7 +2455,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 }
 
 // Storage version of v1beta20201201.HardwareProfile
-// Specifies the hardware settings for the virtual machine.
+// Deprecated version of HardwareProfile. Use v1api20201201.HardwareProfile instead
 type HardwareProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmSize      *string                `json:"vmSize,omitempty"`
@@ -2532,7 +2538,7 @@ func (profile *HardwareProfile) AssignProperties_To_HardwareProfile(destination 
 }
 
 // Storage version of v1beta20201201.HardwareProfile_STATUS
-// Specifies the hardware settings for the virtual machine.
+// Deprecated version of HardwareProfile_STATUS. Use v1api20201201.HardwareProfile_STATUS instead
 type HardwareProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmSize      *string                `json:"vmSize,omitempty"`
@@ -2615,7 +2621,7 @@ func (profile *HardwareProfile_STATUS) AssignProperties_To_HardwareProfile_STATU
 }
 
 // Storage version of v1beta20201201.NetworkProfile
-// Specifies the network interfaces of the virtual machine.
+// Deprecated version of NetworkProfile. Use v1api20201201.NetworkProfile instead
 type NetworkProfile struct {
 	NetworkInterfaces []NetworkInterfaceReference `json:"networkInterfaces,omitempty"`
 	PropertyBag       genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
@@ -2748,7 +2754,7 @@ func (profile *NetworkProfile) AssignProperties_To_NetworkProfile(destination *v
 }
 
 // Storage version of v1beta20201201.NetworkProfile_STATUS
-// Specifies the network interfaces of the virtual machine.
+// Deprecated version of NetworkProfile_STATUS. Use v1api20201201.NetworkProfile_STATUS instead
 type NetworkProfile_STATUS struct {
 	NetworkInterfaces []NetworkInterfaceReference_STATUS `json:"networkInterfaces,omitempty"`
 	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -2881,8 +2887,7 @@ func (profile *NetworkProfile_STATUS) AssignProperties_To_NetworkProfile_STATUS(
 }
 
 // Storage version of v1beta20201201.OSProfile
-// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
-// provisioned.
+// Deprecated version of OSProfile. Use v1api20201201.OSProfile instead
 type OSProfile struct {
 	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
 	AdminUsername               *string                     `json:"adminUsername,omitempty"`
@@ -3097,8 +3102,7 @@ func (profile *OSProfile) AssignProperties_To_OSProfile(destination *v20220301s.
 }
 
 // Storage version of v1beta20201201.OSProfile_STATUS
-// Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is
-// provisioned.
+// Deprecated version of OSProfile_STATUS. Use v1api20201201.OSProfile_STATUS instead
 type OSProfile_STATUS struct {
 	AdminUsername               *string                      `json:"adminUsername,omitempty"`
 	AllowExtensionOperations    *bool                        `json:"allowExtensionOperations,omitempty"`
@@ -3296,10 +3300,7 @@ func (profile *OSProfile_STATUS) AssignProperties_To_OSProfile_STATUS(destinatio
 }
 
 // Storage version of v1beta20201201.Plan
-// Specifies information about the marketplace image used to create the virtual machine. This element is only used for
-// marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.
-// In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically,
-// Get Started ->. Enter any required information and then click Save.
+// Deprecated version of Plan. Use v1api20201201.Plan instead
 type Plan struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -3383,10 +3384,7 @@ func (plan *Plan) AssignProperties_To_Plan(destination *v20220301s.Plan) error {
 }
 
 // Storage version of v1beta20201201.Plan_STATUS
-// Specifies information about the marketplace image used to create the virtual machine. This element is only used for
-// marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.
-// In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically,
-// Get Started ->. Enter any required information and then click Save.
+// Deprecated version of Plan_STATUS. Use v1api20201201.Plan_STATUS instead
 type Plan_STATUS struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -3470,7 +3468,7 @@ func (plan *Plan_STATUS) AssignProperties_To_Plan_STATUS(destination *v20220301s
 }
 
 // Storage version of v1beta20201201.SecurityProfile
-// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+// Deprecated version of SecurityProfile. Use v1api20201201.SecurityProfile instead
 type SecurityProfile struct {
 	EncryptionAtHost *bool                  `json:"encryptionAtHost,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3575,7 +3573,7 @@ func (profile *SecurityProfile) AssignProperties_To_SecurityProfile(destination 
 }
 
 // Storage version of v1beta20201201.SecurityProfile_STATUS
-// Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+// Deprecated version of SecurityProfile_STATUS. Use v1api20201201.SecurityProfile_STATUS instead
 type SecurityProfile_STATUS struct {
 	EncryptionAtHost *bool                  `json:"encryptionAtHost,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -3680,7 +3678,7 @@ func (profile *SecurityProfile_STATUS) AssignProperties_To_SecurityProfile_STATU
 }
 
 // Storage version of v1beta20201201.StorageProfile
-// Specifies the storage settings for the virtual machine disks.
+// Deprecated version of StorageProfile. Use v1api20201201.StorageProfile instead
 type StorageProfile struct {
 	DataDisks      []DataDisk             `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference        `json:"imageReference,omitempty"`
@@ -3823,7 +3821,7 @@ func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v
 }
 
 // Storage version of v1beta20201201.StorageProfile_STATUS
-// Specifies the storage settings for the virtual machine disks.
+// Deprecated version of StorageProfile_STATUS. Use v1api20201201.StorageProfile_STATUS instead
 type StorageProfile_STATUS struct {
 	DataDisks      []DataDisk_STATUS      `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference_STATUS `json:"imageReference,omitempty"`
@@ -3966,11 +3964,10 @@ func (profile *StorageProfile_STATUS) AssignProperties_To_StorageProfile_STATUS(
 }
 
 // Storage version of v1beta20201201.SubResource
+// Deprecated version of SubResource. Use v1api20201201.SubResource instead
 type SubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
@@ -4040,6 +4037,7 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *v20210
 }
 
 // Storage version of v1beta20201201.SubResource_STATUS
+// Deprecated version of SubResource_STATUS. Use v1api20201201.SubResource_STATUS instead
 type SubResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4102,7 +4100,7 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 }
 
 // Storage version of v1beta20201201.VirtualMachineExtension_STATUS
-// Describes a Virtual Machine Extension.
+// Deprecated version of VirtualMachineExtension_STATUS. Use v1api20201201.VirtualMachineExtension_STATUS instead
 type VirtualMachineExtension_STATUS struct {
 	AutoUpgradeMinorVersion *bool                                       `json:"autoUpgradeMinorVersion,omitempty"`
 	EnableAutomaticUpgrade  *bool                                       `json:"enableAutomaticUpgrade,omitempty"`
@@ -4381,7 +4379,7 @@ func (extension *VirtualMachineExtension_STATUS) AssignProperties_To_VirtualMach
 }
 
 // Storage version of v1beta20201201.VirtualMachineIdentity
-// Identity for the virtual machine.
+// Deprecated version of VirtualMachineIdentity. Use v1api20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -4444,7 +4442,7 @@ func (identity *VirtualMachineIdentity) AssignProperties_To_VirtualMachineIdenti
 }
 
 // Storage version of v1beta20201201.VirtualMachineIdentity_STATUS
-// Identity for the virtual machine.
+// Deprecated version of VirtualMachineIdentity_STATUS. Use v1api20201201.VirtualMachineIdentity_STATUS instead
 type VirtualMachineIdentity_STATUS struct {
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -4521,7 +4519,7 @@ func (identity *VirtualMachineIdentity_STATUS) AssignProperties_To_VirtualMachin
 }
 
 // Storage version of v1beta20201201.VirtualMachineInstanceView_STATUS
-// The instance view of a virtual machine.
+// Deprecated version of VirtualMachineInstanceView_STATUS. Use v1api20201201.VirtualMachineInstanceView_STATUS instead
 type VirtualMachineInstanceView_STATUS struct {
 	AssignedHost              *string                                      `json:"assignedHost,omitempty"`
 	BootDiagnostics           *BootDiagnosticsInstanceView_STATUS          `json:"bootDiagnostics,omitempty"`
@@ -4999,10 +4997,7 @@ type augmentConversionForVirtualMachineInstanceView_STATUS interface {
 }
 
 // Storage version of v1beta20201201.BootDiagnostics
-// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
-// You can easily view the output of your console log.
-// Azure also enables you to see a screenshot of the
-// VM from the hypervisor.
+// Deprecated version of BootDiagnostics. Use v1api20201201.BootDiagnostics instead
 type BootDiagnostics struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -5082,10 +5077,7 @@ func (diagnostics *BootDiagnostics) AssignProperties_To_BootDiagnostics(destinat
 }
 
 // Storage version of v1beta20201201.BootDiagnostics_STATUS
-// Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status.
-// You can easily view the output of your console log.
-// Azure also enables you to see a screenshot of the
-// VM from the hypervisor.
+// Deprecated version of BootDiagnostics_STATUS. Use v1api20201201.BootDiagnostics_STATUS instead
 type BootDiagnostics_STATUS struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -5165,7 +5157,7 @@ func (diagnostics *BootDiagnostics_STATUS) AssignProperties_To_BootDiagnostics_S
 }
 
 // Storage version of v1beta20201201.BootDiagnosticsInstanceView_STATUS
-// The instance view of a virtual machine boot diagnostics.
+// Deprecated version of BootDiagnosticsInstanceView_STATUS. Use v1api20201201.BootDiagnosticsInstanceView_STATUS instead
 type BootDiagnosticsInstanceView_STATUS struct {
 	ConsoleScreenshotBlobUri *string                    `json:"consoleScreenshotBlobUri,omitempty"`
 	PropertyBag              genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
@@ -5260,7 +5252,7 @@ func (view *BootDiagnosticsInstanceView_STATUS) AssignProperties_To_BootDiagnost
 }
 
 // Storage version of v1beta20201201.DataDisk
-// Describes a data disk.
+// Deprecated version of DataDisk. Use v1api20201201.DataDisk instead
 type DataDisk struct {
 	Caching                 *string                `json:"caching,omitempty"`
 	CreateOption            *string                `json:"createOption,omitempty"`
@@ -5487,7 +5479,7 @@ func (disk *DataDisk) AssignProperties_To_DataDisk(destination *v20220301s.DataD
 }
 
 // Storage version of v1beta20201201.DataDisk_STATUS
-// Describes a data disk.
+// Deprecated version of DataDisk_STATUS. Use v1api20201201.DataDisk_STATUS instead
 type DataDisk_STATUS struct {
 	Caching                 *string                       `json:"caching,omitempty"`
 	CreateOption            *string                       `json:"createOption,omitempty"`
@@ -5728,7 +5720,7 @@ func (disk *DataDisk_STATUS) AssignProperties_To_DataDisk_STATUS(destination *v2
 }
 
 // Storage version of v1beta20201201.DiskInstanceView_STATUS
-// The instance view of the disk.
+// Deprecated version of DiskInstanceView_STATUS. Use v1api20201201.DiskInstanceView_STATUS instead
 type DiskInstanceView_STATUS struct {
 	EncryptionSettings []DiskEncryptionSettings_STATUS `json:"encryptionSettings,omitempty"`
 	Name               *string                         `json:"name,omitempty"`
@@ -5865,19 +5857,14 @@ func (view *DiskInstanceView_STATUS) AssignProperties_To_DiskInstanceView_STATUS
 }
 
 // Storage version of v1beta20201201.ImageReference
-// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
-// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
-// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
-// when you create the scale set.
+// Deprecated version of ImageReference. Use v1api20201201.ImageReference instead
 type ImageReference struct {
-	Offer       *string                `json:"offer,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Publisher   *string                `json:"publisher,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku       *string                       `json:"sku,omitempty"`
-	Version   *string                       `json:"version,omitempty"`
+	Offer       *string                       `json:"offer,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Publisher   *string                       `json:"publisher,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Sku         *string                       `json:"sku,omitempty"`
+	Version     *string                       `json:"version,omitempty"`
 }
 
 // AssignProperties_From_ImageReference populates our ImageReference from the provided source ImageReference
@@ -6011,10 +5998,7 @@ func (reference *ImageReference) AssignProperties_To_ImageReference(destination 
 }
 
 // Storage version of v1beta20201201.ImageReference_STATUS
-// Specifies information about the image to use. You can specify information about platform images, marketplace images, or
-// virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual
-// machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set
-// when you create the scale set.
+// Deprecated version of ImageReference_STATUS. Use v1api20201201.ImageReference_STATUS instead
 type ImageReference_STATUS struct {
 	ExactVersion *string                `json:"exactVersion,omitempty"`
 	Id           *string                `json:"id,omitempty"`
@@ -6152,7 +6136,7 @@ func (reference *ImageReference_STATUS) AssignProperties_To_ImageReference_STATU
 }
 
 // Storage version of v1beta20201201.InstanceViewStatus_STATUS
-// Instance view status.
+// Deprecated version of InstanceViewStatus_STATUS. Use v1api20201201.InstanceViewStatus_STATUS instead
 type InstanceViewStatus_STATUS struct {
 	Code          *string                `json:"code,omitempty"`
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
@@ -6243,12 +6227,7 @@ func (status *InstanceViewStatus_STATUS) AssignProperties_To_InstanceViewStatus_
 }
 
 // Storage version of v1beta20201201.LinuxConfiguration
-// Specifies the Linux operating system settings on the virtual machine.
-// For a list of supported Linux
-// distributions, see [Linux on Azure-Endorsed
-// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-// For running non-endorsed distributions, see [Information for Non-Endorsed
-// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+// Deprecated version of LinuxConfiguration. Use v1api20201201.LinuxConfiguration instead
 type LinuxConfiguration struct {
 	DisablePasswordAuthentication *bool                  `json:"disablePasswordAuthentication,omitempty"`
 	PatchSettings                 *LinuxPatchSettings    `json:"patchSettings,omitempty"`
@@ -6388,12 +6367,7 @@ func (configuration *LinuxConfiguration) AssignProperties_To_LinuxConfiguration(
 }
 
 // Storage version of v1beta20201201.LinuxConfiguration_STATUS
-// Specifies the Linux operating system settings on the virtual machine.
-// For a list of supported Linux
-// distributions, see [Linux on Azure-Endorsed
-// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-// For running non-endorsed distributions, see [Information for Non-Endorsed
-// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+// Deprecated version of LinuxConfiguration_STATUS. Use v1api20201201.LinuxConfiguration_STATUS instead
 type LinuxConfiguration_STATUS struct {
 	DisablePasswordAuthentication *bool                      `json:"disablePasswordAuthentication,omitempty"`
 	PatchSettings                 *LinuxPatchSettings_STATUS `json:"patchSettings,omitempty"`
@@ -6533,7 +6507,7 @@ func (configuration *LinuxConfiguration_STATUS) AssignProperties_To_LinuxConfigu
 }
 
 // Storage version of v1beta20201201.MaintenanceRedeployStatus_STATUS
-// Maintenance Operation Status.
+// Deprecated version of MaintenanceRedeployStatus_STATUS. Use v1api20201201.MaintenanceRedeployStatus_STATUS instead
 type MaintenanceRedeployStatus_STATUS struct {
 	IsCustomerInitiatedMaintenanceAllowed *bool                  `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
 	LastOperationMessage                  *string                `json:"lastOperationMessage,omitempty"`
@@ -6648,13 +6622,11 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignProperties_To_MaintenanceR
 }
 
 // Storage version of v1beta20201201.NetworkInterfaceReference
-// Describes a network interface reference.
+// Deprecated version of NetworkInterfaceReference. Use v1api20201201.NetworkInterfaceReference instead
 type NetworkInterfaceReference struct {
-	Primary     *bool                  `json:"primary,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Primary     *bool                         `json:"primary,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // AssignProperties_From_NetworkInterfaceReference populates our NetworkInterfaceReference from the provided source NetworkInterfaceReference
@@ -6760,7 +6732,7 @@ func (reference *NetworkInterfaceReference) AssignProperties_To_NetworkInterface
 }
 
 // Storage version of v1beta20201201.NetworkInterfaceReference_STATUS
-// Describes a network interface reference.
+// Deprecated version of NetworkInterfaceReference_STATUS. Use v1api20201201.NetworkInterfaceReference_STATUS instead
 type NetworkInterfaceReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	Primary     *bool                  `json:"primary,omitempty"`
@@ -6860,10 +6832,7 @@ func (reference *NetworkInterfaceReference_STATUS) AssignProperties_To_NetworkIn
 }
 
 // Storage version of v1beta20201201.OSDisk
-// Specifies information about the operating system disk used by the virtual machine.
-// For more information about
-// disks, see [About disks and VHDs for Azure virtual
-// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+// Deprecated version of OSDisk. Use v1api20201201.OSDisk instead
 type OSDisk struct {
 	Caching                 *string                 `json:"caching,omitempty"`
 	CreateOption            *string                 `json:"createOption,omitempty"`
@@ -7116,10 +7085,7 @@ func (disk *OSDisk) AssignProperties_To_OSDisk(destination *v20220301s.OSDisk) e
 }
 
 // Storage version of v1beta20201201.OSDisk_STATUS
-// Specifies information about the operating system disk used by the virtual machine.
-// For more information about
-// disks, see [About disks and VHDs for Azure virtual
-// machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+// Deprecated version of OSDisk_STATUS. Use v1api20201201.OSDisk_STATUS instead
 type OSDisk_STATUS struct {
 	Caching                 *string                        `json:"caching,omitempty"`
 	CreateOption            *string                        `json:"createOption,omitempty"`
@@ -7372,9 +7338,7 @@ func (disk *OSDisk_STATUS) AssignProperties_To_OSDisk_STATUS(destination *v20220
 }
 
 // Storage version of v1beta20201201.UefiSettings
-// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
-// Minimum
-// api-version: 2020-12-01
+// Deprecated version of UefiSettings. Use v1api20201201.UefiSettings instead
 type UefiSettings struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecureBootEnabled *bool                  `json:"secureBootEnabled,omitempty"`
@@ -7464,9 +7428,7 @@ func (settings *UefiSettings) AssignProperties_To_UefiSettings(destination *v202
 }
 
 // Storage version of v1beta20201201.UefiSettings_STATUS
-// Specifies the security settings like secure boot and vTPM used while creating the virtual machine.
-// Minimum
-// api-version: 2020-12-01
+// Deprecated version of UefiSettings_STATUS. Use v1api20201201.UefiSettings_STATUS instead
 type UefiSettings_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecureBootEnabled *bool                  `json:"secureBootEnabled,omitempty"`
@@ -7556,7 +7518,7 @@ func (settings *UefiSettings_STATUS) AssignProperties_To_UefiSettings_STATUS(des
 }
 
 // Storage version of v1beta20201201.VaultSecretGroup
-// Describes a set of certificates which are all in the same Key Vault.
+// Deprecated version of VaultSecretGroup. Use v1api20201201.VaultSecretGroup instead
 type VaultSecretGroup struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceVault       *SubResource           `json:"sourceVault,omitempty"`
@@ -7684,7 +7646,7 @@ func (group *VaultSecretGroup) AssignProperties_To_VaultSecretGroup(destination 
 }
 
 // Storage version of v1beta20201201.VaultSecretGroup_STATUS
-// Describes a set of certificates which are all in the same Key Vault.
+// Deprecated version of VaultSecretGroup_STATUS. Use v1api20201201.VaultSecretGroup_STATUS instead
 type VaultSecretGroup_STATUS struct {
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	SourceVault       *SubResource_STATUS       `json:"sourceVault,omitempty"`
@@ -7812,7 +7774,7 @@ func (group *VaultSecretGroup_STATUS) AssignProperties_To_VaultSecretGroup_STATU
 }
 
 // Storage version of v1beta20201201.VirtualMachineAgentInstanceView_STATUS
-// The instance view of the VM Agent running on the virtual machine.
+// Deprecated version of VirtualMachineAgentInstanceView_STATUS. Use v1api20201201.VirtualMachineAgentInstanceView_STATUS instead
 type VirtualMachineAgentInstanceView_STATUS struct {
 	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS `json:"extensionHandlers,omitempty"`
 	PropertyBag       genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
@@ -7949,7 +7911,7 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignProperties_To_VirtualM
 }
 
 // Storage version of v1beta20201201.VirtualMachineExtensionInstanceView_STATUS
-// The instance view of a virtual machine extension.
+// Deprecated version of VirtualMachineExtensionInstanceView_STATUS. Use v1api20201201.VirtualMachineExtensionInstanceView_STATUS instead
 type VirtualMachineExtensionInstanceView_STATUS struct {
 	Name               *string                     `json:"name,omitempty"`
 	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
@@ -8100,7 +8062,7 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignProperties_To_Virt
 }
 
 // Storage version of v1beta20201201.VirtualMachineHealthStatus_STATUS
-// The health status of the VM.
+// Deprecated version of VirtualMachineHealthStatus_STATUS. Use v1api20201201.VirtualMachineHealthStatus_STATUS instead
 type VirtualMachineHealthStatus_STATUS struct {
 	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status      *InstanceViewStatus_STATUS `json:"status,omitempty"`
@@ -8181,7 +8143,7 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignProperties_To_VirtualMach
 }
 
 // Storage version of v1beta20201201.VirtualMachinePatchStatus_STATUS
-// The status of virtual machine patch operations.
+// Deprecated version of VirtualMachinePatchStatus_STATUS. Use v1api20201201.VirtualMachinePatchStatus_STATUS instead
 type VirtualMachinePatchStatus_STATUS struct {
 	AvailablePatchSummary        *AvailablePatchSummary_STATUS        `json:"availablePatchSummary,omitempty"`
 	ConfigurationStatuses        []InstanceViewStatus_STATUS          `json:"configurationStatuses,omitempty"`
@@ -8324,7 +8286,7 @@ func (status *VirtualMachinePatchStatus_STATUS) AssignProperties_To_VirtualMachi
 }
 
 // Storage version of v1beta20201201.WindowsConfiguration
-// Specifies Windows operating system settings on the virtual machine.
+// Deprecated version of WindowsConfiguration. Use v1api20201201.WindowsConfiguration instead
 type WindowsConfiguration struct {
 	AdditionalUnattendContent []AdditionalUnattendContent `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                       `json:"enableAutomaticUpdates,omitempty"`
@@ -8508,7 +8470,7 @@ func (configuration *WindowsConfiguration) AssignProperties_To_WindowsConfigurat
 }
 
 // Storage version of v1beta20201201.WindowsConfiguration_STATUS
-// Specifies Windows operating system settings on the virtual machine.
+// Deprecated version of WindowsConfiguration_STATUS. Use v1api20201201.WindowsConfiguration_STATUS instead
 type WindowsConfiguration_STATUS struct {
 	AdditionalUnattendContent []AdditionalUnattendContent_STATUS `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                              `json:"enableAutomaticUpdates,omitempty"`
@@ -8692,8 +8654,7 @@ func (configuration *WindowsConfiguration_STATUS) AssignProperties_To_WindowsCon
 }
 
 // Storage version of v1beta20201201.AdditionalUnattendContent
-// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
-// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
+// Deprecated version of AdditionalUnattendContent. Use v1api20201201.AdditionalUnattendContent instead
 type AdditionalUnattendContent struct {
 	ComponentName *string                `json:"componentName,omitempty"`
 	Content       *string                `json:"content,omitempty"`
@@ -8777,8 +8738,7 @@ func (content *AdditionalUnattendContent) AssignProperties_To_AdditionalUnattend
 }
 
 // Storage version of v1beta20201201.AdditionalUnattendContent_STATUS
-// Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows
-// Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
+// Deprecated version of AdditionalUnattendContent_STATUS. Use v1api20201201.AdditionalUnattendContent_STATUS instead
 type AdditionalUnattendContent_STATUS struct {
 	ComponentName *string                `json:"componentName,omitempty"`
 	Content       *string                `json:"content,omitempty"`
@@ -8992,7 +8952,7 @@ type augmentConversionForWindowsConfiguration_STATUS interface {
 }
 
 // Storage version of v1beta20201201.AvailablePatchSummary_STATUS
-// Describes the properties of an virtual machine instance view for available patch summary.
+// Deprecated version of AvailablePatchSummary_STATUS. Use v1api20201201.AvailablePatchSummary_STATUS instead
 type AvailablePatchSummary_STATUS struct {
 	AssessmentActivityId          *string                `json:"assessmentActivityId,omitempty"`
 	CriticalAndSecurityPatchCount *int                   `json:"criticalAndSecurityPatchCount,omitempty"`
@@ -9132,9 +9092,7 @@ func (summary *AvailablePatchSummary_STATUS) AssignProperties_To_AvailablePatchS
 }
 
 // Storage version of v1beta20201201.DiffDiskSettings
-// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
-// NOTE: The
-// ephemeral disk settings can only be specified for managed disk.
+// Deprecated version of DiffDiskSettings. Use v1api20201201.DiffDiskSettings instead
 type DiffDiskSettings struct {
 	Option      *string                `json:"option,omitempty"`
 	Placement   *string                `json:"placement,omitempty"`
@@ -9204,9 +9162,7 @@ func (settings *DiffDiskSettings) AssignProperties_To_DiffDiskSettings(destinati
 }
 
 // Storage version of v1beta20201201.DiffDiskSettings_STATUS
-// Describes the parameters of ephemeral disk settings that can be specified for operating system disk.
-// NOTE: The
-// ephemeral disk settings can only be specified for managed disk.
+// Deprecated version of DiffDiskSettings_STATUS. Use v1api20201201.DiffDiskSettings_STATUS instead
 type DiffDiskSettings_STATUS struct {
 	Option      *string                `json:"option,omitempty"`
 	Placement   *string                `json:"placement,omitempty"`
@@ -9276,7 +9232,7 @@ func (settings *DiffDiskSettings_STATUS) AssignProperties_To_DiffDiskSettings_ST
 }
 
 // Storage version of v1beta20201201.DiskEncryptionSettings
-// Describes a Encryption Settings for a Disk
+// Deprecated version of DiskEncryptionSettings. Use v1api20201201.DiskEncryptionSettings instead
 type DiskEncryptionSettings struct {
 	DiskEncryptionKey *KeyVaultSecretReference `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                    `json:"enabled,omitempty"`
@@ -9399,7 +9355,7 @@ func (settings *DiskEncryptionSettings) AssignProperties_To_DiskEncryptionSettin
 }
 
 // Storage version of v1beta20201201.DiskEncryptionSettings_STATUS
-// Describes a Encryption Settings for a Disk
+// Deprecated version of DiskEncryptionSettings_STATUS. Use v1api20201201.DiskEncryptionSettings_STATUS instead
 type DiskEncryptionSettings_STATUS struct {
 	DiskEncryptionKey *KeyVaultSecretReference_STATUS `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                           `json:"enabled,omitempty"`
@@ -9522,7 +9478,7 @@ func (settings *DiskEncryptionSettings_STATUS) AssignProperties_To_DiskEncryptio
 }
 
 // Storage version of v1beta20201201.LastPatchInstallationSummary_STATUS
-// Describes the properties of the last installed patch summary.
+// Deprecated version of LastPatchInstallationSummary_STATUS. Use v1api20201201.LastPatchInstallationSummary_STATUS instead
 type LastPatchInstallationSummary_STATUS struct {
 	Error                     *ApiError_STATUS       `json:"error,omitempty"`
 	ExcludedPatchCount        *int                   `json:"excludedPatchCount,omitempty"`
@@ -9683,7 +9639,7 @@ func (summary *LastPatchInstallationSummary_STATUS) AssignProperties_To_LastPatc
 }
 
 // Storage version of v1beta20201201.LinuxPatchSettings
-// Specifies settings related to VM Guest Patching on Linux.
+// Deprecated version of LinuxPatchSettings. Use v1api20201201.LinuxPatchSettings instead
 type LinuxPatchSettings struct {
 	PatchMode   *string                `json:"patchMode,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9786,7 +9742,7 @@ func (settings *LinuxPatchSettings) AssignProperties_To_LinuxPatchSettings(desti
 }
 
 // Storage version of v1beta20201201.LinuxPatchSettings_STATUS
-// Specifies settings related to VM Guest Patching on Linux.
+// Deprecated version of LinuxPatchSettings_STATUS. Use v1api20201201.LinuxPatchSettings_STATUS instead
 type LinuxPatchSettings_STATUS struct {
 	PatchMode   *string                `json:"patchMode,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -9889,12 +9845,10 @@ func (settings *LinuxPatchSettings_STATUS) AssignProperties_To_LinuxPatchSetting
 }
 
 // Storage version of v1beta20201201.ManagedDiskParameters
-// The parameters of a managed disk.
+// Deprecated version of ManagedDiskParameters. Use v1api20201201.ManagedDiskParameters instead
 type ManagedDiskParameters struct {
-	DiskEncryptionSet *SubResource           `json:"diskEncryptionSet,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource Id
+	DiskEncryptionSet  *SubResource                  `json:"diskEncryptionSet,omitempty"`
+	PropertyBag        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Reference          *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 	StorageAccountType *string                       `json:"storageAccountType,omitempty"`
 }
@@ -10026,7 +9980,7 @@ func (parameters *ManagedDiskParameters) AssignProperties_To_ManagedDiskParamete
 }
 
 // Storage version of v1beta20201201.ManagedDiskParameters_STATUS
-// The parameters of a managed disk.
+// Deprecated version of ManagedDiskParameters_STATUS. Use v1api20201201.ManagedDiskParameters_STATUS instead
 type ManagedDiskParameters_STATUS struct {
 	DiskEncryptionSet  *SubResource_STATUS    `json:"diskEncryptionSet,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
@@ -10151,7 +10105,7 @@ func (parameters *ManagedDiskParameters_STATUS) AssignProperties_To_ManagedDiskP
 }
 
 // Storage version of v1beta20201201.PatchSettings
-// Specifies settings related to VM Guest Patching on Windows.
+// Deprecated version of PatchSettings. Use v1api20201201.PatchSettings instead
 type PatchSettings struct {
 	EnableHotpatching *bool                  `json:"enableHotpatching,omitempty"`
 	PatchMode         *string                `json:"patchMode,omitempty"`
@@ -10271,7 +10225,7 @@ func (settings *PatchSettings) AssignProperties_To_PatchSettings(destination *v2
 }
 
 // Storage version of v1beta20201201.PatchSettings_STATUS
-// Specifies settings related to VM Guest Patching on Windows.
+// Deprecated version of PatchSettings_STATUS. Use v1api20201201.PatchSettings_STATUS instead
 type PatchSettings_STATUS struct {
 	EnableHotpatching *bool                  `json:"enableHotpatching,omitempty"`
 	PatchMode         *string                `json:"patchMode,omitempty"`
@@ -10391,7 +10345,7 @@ func (settings *PatchSettings_STATUS) AssignProperties_To_PatchSettings_STATUS(d
 }
 
 // Storage version of v1beta20201201.SshConfiguration
-// SSH configuration for Linux based VMs running on Azure
+// Deprecated version of SshConfiguration. Use v1api20201201.SshConfiguration instead
 type SshConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicKeys  []SshPublicKeySpec     `json:"publicKeys,omitempty"`
@@ -10484,7 +10438,7 @@ func (configuration *SshConfiguration) AssignProperties_To_SshConfiguration(dest
 }
 
 // Storage version of v1beta20201201.SshConfiguration_STATUS
-// SSH configuration for Linux based VMs running on Azure
+// Deprecated version of SshConfiguration_STATUS. Use v1api20201201.SshConfiguration_STATUS instead
 type SshConfiguration_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublicKeys  []SshPublicKey_STATUS  `json:"publicKeys,omitempty"`
@@ -10577,7 +10531,7 @@ func (configuration *SshConfiguration_STATUS) AssignProperties_To_SshConfigurati
 }
 
 // Storage version of v1beta20201201.VaultCertificate
-// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
+// Deprecated version of VaultCertificate. Use v1api20201201.VaultCertificate instead
 type VaultCertificate struct {
 	CertificateStore *string                `json:"certificateStore,omitempty"`
 	CertificateUrl   *string                `json:"certificateUrl,omitempty"`
@@ -10647,7 +10601,7 @@ func (certificate *VaultCertificate) AssignProperties_To_VaultCertificate(destin
 }
 
 // Storage version of v1beta20201201.VaultCertificate_STATUS
-// Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
+// Deprecated version of VaultCertificate_STATUS. Use v1api20201201.VaultCertificate_STATUS instead
 type VaultCertificate_STATUS struct {
 	CertificateStore *string                `json:"certificateStore,omitempty"`
 	CertificateUrl   *string                `json:"certificateUrl,omitempty"`
@@ -10717,7 +10671,7 @@ func (certificate *VaultCertificate_STATUS) AssignProperties_To_VaultCertificate
 }
 
 // Storage version of v1beta20201201.VirtualHardDisk
-// Describes the uri of a disk.
+// Deprecated version of VirtualHardDisk. Use v1api20201201.VirtualHardDisk instead
 type VirtualHardDisk struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
@@ -10780,7 +10734,7 @@ func (disk *VirtualHardDisk) AssignProperties_To_VirtualHardDisk(destination *v2
 }
 
 // Storage version of v1beta20201201.VirtualHardDisk_STATUS
-// Describes the uri of a disk.
+// Deprecated version of VirtualHardDisk_STATUS. Use v1api20201201.VirtualHardDisk_STATUS instead
 type VirtualHardDisk_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
@@ -10843,7 +10797,7 @@ func (disk *VirtualHardDisk_STATUS) AssignProperties_To_VirtualHardDisk_STATUS(d
 }
 
 // Storage version of v1beta20201201.VirtualMachineExtensionHandlerInstanceView_STATUS
-// The instance view of a virtual machine extension handler.
+// Deprecated version of VirtualMachineExtensionHandlerInstanceView_STATUS. Use v1api20201201.VirtualMachineExtensionHandlerInstanceView_STATUS instead
 type VirtualMachineExtensionHandlerInstanceView_STATUS struct {
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status             *InstanceViewStatus_STATUS `json:"status,omitempty"`
@@ -10938,7 +10892,7 @@ func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignProperties_
 }
 
 // Storage version of v1beta20201201.WinRMConfiguration
-// Describes Windows Remote Management configuration of the VM
+// Deprecated version of WinRMConfiguration. Use v1api20201201.WinRMConfiguration instead
 type WinRMConfiguration struct {
 	Listeners   []WinRMListener        `json:"listeners,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -11031,7 +10985,7 @@ func (configuration *WinRMConfiguration) AssignProperties_To_WinRMConfiguration(
 }
 
 // Storage version of v1beta20201201.WinRMConfiguration_STATUS
-// Describes Windows Remote Management configuration of the VM
+// Deprecated version of WinRMConfiguration_STATUS. Use v1api20201201.WinRMConfiguration_STATUS instead
 type WinRMConfiguration_STATUS struct {
 	Listeners   []WinRMListener_STATUS `json:"listeners,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -11124,7 +11078,7 @@ func (configuration *WinRMConfiguration_STATUS) AssignProperties_To_WinRMConfigu
 }
 
 // Storage version of v1beta20201201.ApiError_STATUS
-// Api error.
+// Deprecated version of ApiError_STATUS. Use v1api20201201.ApiError_STATUS instead
 type ApiError_STATUS struct {
 	Code        *string                `json:"code,omitempty"`
 	Details     []ApiErrorBase_STATUS  `json:"details,omitempty"`
@@ -11378,7 +11332,7 @@ type augmentConversionForWinRMConfiguration_STATUS interface {
 }
 
 // Storage version of v1beta20201201.KeyVaultKeyReference
-// Describes a reference to Key Vault Key
+// Deprecated version of KeyVaultKeyReference. Use v1api20201201.KeyVaultKeyReference instead
 type KeyVaultKeyReference struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -11476,7 +11430,7 @@ func (reference *KeyVaultKeyReference) AssignProperties_To_KeyVaultKeyReference(
 }
 
 // Storage version of v1beta20201201.KeyVaultKeyReference_STATUS
-// Describes a reference to Key Vault Key
+// Deprecated version of KeyVaultKeyReference_STATUS. Use v1api20201201.KeyVaultKeyReference_STATUS instead
 type KeyVaultKeyReference_STATUS struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -11574,7 +11528,7 @@ func (reference *KeyVaultKeyReference_STATUS) AssignProperties_To_KeyVaultKeyRef
 }
 
 // Storage version of v1beta20201201.KeyVaultSecretReference
-// Describes a reference to Key Vault Secret
+// Deprecated version of KeyVaultSecretReference. Use v1api20201201.KeyVaultSecretReference instead
 type KeyVaultSecretReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
@@ -11672,7 +11626,7 @@ func (reference *KeyVaultSecretReference) AssignProperties_To_KeyVaultSecretRefe
 }
 
 // Storage version of v1beta20201201.KeyVaultSecretReference_STATUS
-// Describes a reference to Key Vault Secret
+// Deprecated version of KeyVaultSecretReference_STATUS. Use v1api20201201.KeyVaultSecretReference_STATUS instead
 type KeyVaultSecretReference_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
@@ -11770,7 +11724,7 @@ func (reference *KeyVaultSecretReference_STATUS) AssignProperties_To_KeyVaultSec
 }
 
 // Storage version of v1beta20201201.SshPublicKey_STATUS
-// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
+// Deprecated version of SshPublicKey_STATUS. Use v1api20201201.SshPublicKey_STATUS instead
 type SshPublicKey_STATUS struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -11840,7 +11794,7 @@ func (publicKey *SshPublicKey_STATUS) AssignProperties_To_SshPublicKey_STATUS(de
 }
 
 // Storage version of v1beta20201201.SshPublicKeySpec
-// Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed.
+// Deprecated version of SshPublicKeySpec. Use v1api20201201.SshPublicKeySpec instead
 type SshPublicKeySpec struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -11910,7 +11864,7 @@ func (publicKey *SshPublicKeySpec) AssignProperties_To_SshPublicKeySpec(destinat
 }
 
 // Storage version of v1beta20201201.WinRMListener
-// Describes Protocol and thumbprint of Windows Remote Management listener
+// Deprecated version of WinRMListener. Use v1api20201201.WinRMListener instead
 type WinRMListener struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -11980,7 +11934,7 @@ func (listener *WinRMListener) AssignProperties_To_WinRMListener(destination *v2
 }
 
 // Storage version of v1beta20201201.WinRMListener_STATUS
-// Describes Protocol and thumbprint of Windows Remote Management listener
+// Deprecated version of WinRMListener_STATUS. Use v1api20201201.WinRMListener_STATUS instead
 type WinRMListener_STATUS struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -12050,7 +12004,7 @@ func (listener *WinRMListener_STATUS) AssignProperties_To_WinRMListener_STATUS(d
 }
 
 // Storage version of v1beta20201201.ApiErrorBase_STATUS
-// Api error base.
+// Deprecated version of ApiErrorBase_STATUS. Use v1api20201201.ApiErrorBase_STATUS instead
 type ApiErrorBase_STATUS struct {
 	Code        *string                `json:"code,omitempty"`
 	Message     *string                `json:"message,omitempty"`
@@ -12172,7 +12126,7 @@ type augmentConversionForWinRMListener_STATUS interface {
 }
 
 // Storage version of v1beta20201201.InnerError_STATUS
-// Inner error details.
+// Deprecated version of InnerError_STATUS. Use v1api20201201.InnerError_STATUS instead
 type InnerError_STATUS struct {
 	Errordetail   *string                `json:"errordetail,omitempty"`
 	Exceptiontype *string                `json:"exceptiontype,omitempty"`

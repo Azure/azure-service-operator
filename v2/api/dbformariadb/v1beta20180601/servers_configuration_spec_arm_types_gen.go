@@ -5,10 +5,9 @@ package v1beta20180601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Servers_Configuration_Spec. Use v1api20180601.Servers_Configuration_Spec instead
 type Servers_Configuration_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: The properties of a configuration.
+	Name       string                       `json:"name,omitempty"`
 	Properties *ConfigurationProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,11 +28,8 @@ func (configuration *Servers_Configuration_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMariaDB/servers/configurations"
 }
 
-// The properties of a configuration.
+// Deprecated version of ConfigurationProperties. Use v1api20180601.ConfigurationProperties instead
 type ConfigurationProperties_ARM struct {
-	// Source: Source of the configuration.
 	Source *string `json:"source,omitempty"`
-
-	// Value: Value of the configuration.
-	Value *string `json:"value,omitempty"`
+	Value  *string `json:"value,omitempty"`
 }

@@ -35,6 +35,17 @@ type PackageReference interface {
 	GroupVersion() (string, string)
 }
 
+// LocalLikePackageReference describes a package reference that points to a local package (either a storage package
+// or a standard one). It can be used to abstract across the exact package type (storage vs local)
+type LocalLikePackageReference interface {
+	// LocalPathPrefix returns the prefix (everything up to the group name)
+	LocalPathPrefix() string
+	Group() string
+	Version() string
+	PackageName() string
+	PackagePath() string
+}
+
 // IsExternalPackageReference returns true if the provided reference is external
 func IsExternalPackageReference(ref PackageReference) bool {
 	_, result := ref.(ExternalPackageReference)
@@ -264,10 +275,10 @@ func (v *versionComparer) isPreviewVersionLabel(identifier string) (int, bool) {
 	return -1, false
 }
 
-// containsPreviewVersionLabel checks the passed identifier to see if it contains one of our
+// ContainsPreviewVersionLabel checks the passed identifier to see if it contains one of our
 // special set, and if so returns its true. If the passed identifier does not contain one,
 // returns false.
-func containsPreviewVersionLabel(identifier string) bool {
+func ContainsPreviewVersionLabel(identifier string) bool {
 	for _, id := range previewVersionLabels {
 		if strings.LastIndex(identifier, id) > 0 {
 			return true

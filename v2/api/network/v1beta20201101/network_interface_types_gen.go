@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkInterface.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
+// Deprecated version of NetworkInterface. Use v1api20201101.NetworkInterface instead
 type NetworkInterface struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &NetworkInterface{}
 
 // ConvertFrom populates our NetworkInterface from the provided hub NetworkInterface
 func (networkInterface *NetworkInterface) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201101s.NetworkInterface)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/NetworkInterface but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201101s.NetworkInterface
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return networkInterface.AssignProperties_From_NetworkInterface(source)
+	err = networkInterface.AssignProperties_From_NetworkInterface(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to networkInterface")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkInterface from our NetworkInterface
 func (networkInterface *NetworkInterface) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201101s.NetworkInterface)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/NetworkInterface but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201101s.NetworkInterface
+	err := networkInterface.AssignProperties_To_NetworkInterface(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from networkInterface")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return networkInterface.AssignProperties_To_NetworkInterface(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-networkinterface,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networkinterfaces,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.networkinterfaces.network.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (networkInterface *NetworkInterface) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NetworkInterface resource
 func (networkInterface *NetworkInterface) defaultImpl() { networkInterface.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &NetworkInterface{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (networkInterface *NetworkInterface) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded); ok {
-		return networkInterface.Spec.Initialize_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(s)
-	}
-
-	return fmt.Errorf("expected Status of type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &NetworkInterface{}
 
@@ -323,9 +324,7 @@ func (networkInterface *NetworkInterface) OriginalGVK() *schema.GroupVersionKind
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkInterface.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
+// Deprecated version of NetworkInterface. Use v1api20201101.NetworkInterface instead
 type NetworkInterfaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -335,43 +334,23 @@ type NetworkInterfaceList struct {
 type NetworkInterface_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DnsSettings: The DNS settings in network interface.
-	DnsSettings *NetworkInterfaceDnsSettings `json:"dnsSettings,omitempty"`
-
-	// EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	// EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
-
-	// ExtendedLocation: The extended location of the network interface.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded `json:"ipConfigurations,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
-
-	// NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormat_NicType `json:"nicType,omitempty"`
+	AzureName                   string                                                                 `json:"azureName,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings                                           `json:"dnsSettings,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                  `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                                                  `json:"enableIPForwarding,omitempty"`
+	ExtendedLocation            *ExtendedLocation                                                      `json:"extendedLocation,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded `json:"ipConfigurations,omitempty"`
+	Location                    *string                                                                `json:"location,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded         `json:"networkSecurityGroup,omitempty"`
+	NicType                     *NetworkInterfacePropertiesFormat_NicType                              `json:"nicType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PrivateLinkService: Privatelinkservice of the network interface resource.
-	PrivateLinkService *PrivateLinkServiceSpec `json:"privateLinkService,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrivateLinkService *PrivateLinkServiceSpec            `json:"privateLinkService,omitempty"`
+	Tags               map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkInterface_Spec{}
@@ -885,109 +864,6 @@ func (networkInterface *NetworkInterface_Spec) AssignProperties_To_NetworkInterf
 	return nil
 }
 
-// Initialize_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterface_Spec from the provided source NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded
-func (networkInterface *NetworkInterface_Spec) Initialize_From_NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded(source *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// DnsSettings
-	if source.DnsSettings != nil {
-		var dnsSetting NetworkInterfaceDnsSettings
-		err := dnsSetting.Initialize_From_NetworkInterfaceDnsSettings_STATUS(source.DnsSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkInterfaceDnsSettings_STATUS() to populate field DnsSettings")
-		}
-		networkInterface.DnsSettings = &dnsSetting
-	} else {
-		networkInterface.DnsSettings = nil
-	}
-
-	// EnableAcceleratedNetworking
-	if source.EnableAcceleratedNetworking != nil {
-		enableAcceleratedNetworking := *source.EnableAcceleratedNetworking
-		networkInterface.EnableAcceleratedNetworking = &enableAcceleratedNetworking
-	} else {
-		networkInterface.EnableAcceleratedNetworking = nil
-	}
-
-	// EnableIPForwarding
-	if source.EnableIPForwarding != nil {
-		enableIPForwarding := *source.EnableIPForwarding
-		networkInterface.EnableIPForwarding = &enableIPForwarding
-	} else {
-		networkInterface.EnableIPForwarding = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		networkInterface.ExtendedLocation = &extendedLocation
-	} else {
-		networkInterface.ExtendedLocation = nil
-	}
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			// Shadow the loop variable to avoid aliasing
-			ipConfigurationItem := ipConfigurationItem
-			var ipConfiguration NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
-			err := ipConfiguration.Initialize_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&ipConfigurationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		networkInterface.IpConfigurations = ipConfigurationList
-	} else {
-		networkInterface.IpConfigurations = nil
-	}
-
-	// Location
-	networkInterface.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkSecurityGroup
-	if source.NetworkSecurityGroup != nil {
-		var networkSecurityGroup NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
-		err := networkSecurityGroup.Initialize_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source.NetworkSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field NetworkSecurityGroup")
-		}
-		networkInterface.NetworkSecurityGroup = &networkSecurityGroup
-	} else {
-		networkInterface.NetworkSecurityGroup = nil
-	}
-
-	// NicType
-	if source.NicType != nil {
-		nicType := NetworkInterfacePropertiesFormat_NicType(*source.NicType)
-		networkInterface.NicType = &nicType
-	} else {
-		networkInterface.NicType = nil
-	}
-
-	// PrivateLinkService
-	if source.PrivateLinkService != nil {
-		var privateLinkService PrivateLinkServiceSpec
-		err := privateLinkService.Initialize_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source.PrivateLinkService)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PrivateLinkService")
-		}
-		networkInterface.PrivateLinkService = &privateLinkService
-	} else {
-		networkInterface.PrivateLinkService = nil
-	}
-
-	// Tags
-	networkInterface.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (networkInterface *NetworkInterface_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -998,82 +874,34 @@ func (networkInterface *NetworkInterface_Spec) SetAzureName(azureName string) {
 	networkInterface.AzureName = azureName
 }
 
-// A network interface in a resource group.
+// Deprecated version of NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DnsSettings: The DNS settings in network interface.
-	DnsSettings *NetworkInterfaceDnsSettings_STATUS `json:"dnsSettings,omitempty"`
-
-	// DscpConfiguration: A reference to the dscp configuration to which the network interface is linked.
-	DscpConfiguration *SubResource_STATUS `json:"dscpConfiguration,omitempty"`
-
-	// EnableAcceleratedNetworking: If the network interface is accelerated networking enabled.
-	EnableAcceleratedNetworking *bool `json:"enableAcceleratedNetworking,omitempty"`
-
-	// EnableIPForwarding: Indicates whether IP forwarding is enabled on this network interface.
-	EnableIPForwarding *bool `json:"enableIPForwarding,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// ExtendedLocation: The extended location of the network interface.
-	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
-
-	// HostedWorkloads: A list of references to linked BareMetal resources.
-	HostedWorkloads []string `json:"hostedWorkloads,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// IpConfigurations: A list of IPConfigurations of the network interface.
-	IpConfigurations []NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded `json:"ipConfigurations,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// MacAddress: The MAC address of the network interface.
-	MacAddress *string `json:"macAddress,omitempty"`
-
-	// MigrationPhase: Migration phase of Network Interface resource.
-	MigrationPhase *NetworkInterfacePropertiesFormat_MigrationPhase_STATUS `json:"migrationPhase,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// NetworkSecurityGroup: The reference to the NetworkSecurityGroup resource.
-	NetworkSecurityGroup *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded `json:"networkSecurityGroup,omitempty"`
-
-	// NicType: Type of Network Interface resource.
-	NicType *NetworkInterfacePropertiesFormat_NicType_STATUS `json:"nicType,omitempty"`
-
-	// Primary: Whether this is a primary network interface on a virtual machine.
-	Primary *bool `json:"primary,omitempty"`
-
-	// PrivateEndpoint: A reference to the private endpoint to which the network interface is linked.
-	PrivateEndpoint *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded `json:"privateEndpoint,omitempty"`
-
-	// PrivateLinkService: Privatelinkservice of the network interface resource.
-	PrivateLinkService *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded `json:"privateLinkService,omitempty"`
-
-	// ProvisioningState: The provisioning state of the network interface resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resource GUID property of the network interface resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TapConfigurations: A list of TapConfigurations of the network interface.
-	TapConfigurations []NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded `json:"tapConfigurations,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-
-	// VirtualMachine: The reference to a virtual machine.
-	VirtualMachine *SubResource_STATUS `json:"virtualMachine,omitempty"`
+	Conditions                  []conditions.Condition                                                         `json:"conditions,omitempty"`
+	DnsSettings                 *NetworkInterfaceDnsSettings_STATUS                                            `json:"dnsSettings,omitempty"`
+	DscpConfiguration           *SubResource_STATUS                                                            `json:"dscpConfiguration,omitempty"`
+	EnableAcceleratedNetworking *bool                                                                          `json:"enableAcceleratedNetworking,omitempty"`
+	EnableIPForwarding          *bool                                                                          `json:"enableIPForwarding,omitempty"`
+	Etag                        *string                                                                        `json:"etag,omitempty"`
+	ExtendedLocation            *ExtendedLocation_STATUS                                                       `json:"extendedLocation,omitempty"`
+	HostedWorkloads             []string                                                                       `json:"hostedWorkloads,omitempty"`
+	Id                          *string                                                                        `json:"id,omitempty"`
+	IpConfigurations            []NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded  `json:"ipConfigurations,omitempty"`
+	Location                    *string                                                                        `json:"location,omitempty"`
+	MacAddress                  *string                                                                        `json:"macAddress,omitempty"`
+	MigrationPhase              *NetworkInterfacePropertiesFormat_MigrationPhase_STATUS                        `json:"migrationPhase,omitempty"`
+	Name                        *string                                                                        `json:"name,omitempty"`
+	NetworkSecurityGroup        *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded              `json:"networkSecurityGroup,omitempty"`
+	NicType                     *NetworkInterfacePropertiesFormat_NicType_STATUS                               `json:"nicType,omitempty"`
+	Primary                     *bool                                                                          `json:"primary,omitempty"`
+	PrivateEndpoint             *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded                   `json:"privateEndpoint,omitempty"`
+	PrivateLinkService          *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded                `json:"privateLinkService,omitempty"`
+	ProvisioningState           *ProvisioningState_STATUS                                                      `json:"provisioningState,omitempty"`
+	ResourceGuid                *string                                                                        `json:"resourceGuid,omitempty"`
+	Tags                        map[string]string                                                              `json:"tags,omitempty"`
+	TapConfigurations           []NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded `json:"tapConfigurations,omitempty"`
+	Type                        *string                                                                        `json:"type,omitempty"`
+	VirtualMachine              *SubResource_STATUS                                                            `json:"virtualMachine,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded{}
@@ -1804,15 +1632,10 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) As
 	return nil
 }
 
-// DNS settings of a network interface.
+// Deprecated version of NetworkInterfaceDnsSettings. Use v1api20201101.NetworkInterfaceDnsSettings instead
 type NetworkInterfaceDnsSettings struct {
-	// DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
-	// 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
-	DnsServers []string `json:"dnsServers,omitempty"`
-
-	// InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
-	// network.
-	InternalDnsNameLabel *string `json:"internalDnsNameLabel,omitempty"`
+	DnsServers           []string `json:"dnsServers,omitempty"`
+	InternalDnsNameLabel *string  `json:"internalDnsNameLabel,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkInterfaceDnsSettings{}
@@ -1899,40 +1722,13 @@ func (settings *NetworkInterfaceDnsSettings) AssignProperties_To_NetworkInterfac
 	return nil
 }
 
-// Initialize_From_NetworkInterfaceDnsSettings_STATUS populates our NetworkInterfaceDnsSettings from the provided source NetworkInterfaceDnsSettings_STATUS
-func (settings *NetworkInterfaceDnsSettings) Initialize_From_NetworkInterfaceDnsSettings_STATUS(source *NetworkInterfaceDnsSettings_STATUS) error {
-
-	// DnsServers
-	settings.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
-
-	// InternalDnsNameLabel
-	settings.InternalDnsNameLabel = genruntime.ClonePointerToString(source.InternalDnsNameLabel)
-
-	// No error
-	return nil
-}
-
-// DNS settings of a network interface.
+// Deprecated version of NetworkInterfaceDnsSettings_STATUS. Use v1api20201101.NetworkInterfaceDnsSettings_STATUS instead
 type NetworkInterfaceDnsSettings_STATUS struct {
-	// AppliedDnsServers: If the VM that uses this NIC is part of an Availability Set, then this list will have the union of
-	// all DNS servers from all NICs that are part of the Availability Set. This property is what is configured on each of
-	// those VMs.
-	AppliedDnsServers []string `json:"appliedDnsServers,omitempty"`
-
-	// DnsServers: List of DNS servers IP addresses. Use 'AzureProvidedDNS' to switch to azure provided DNS resolution.
-	// 'AzureProvidedDNS' value cannot be combined with other IPs, it must be the only value in dnsServers collection.
-	DnsServers []string `json:"dnsServers,omitempty"`
-
-	// InternalDnsNameLabel: Relative DNS name for this NIC used for internal communications between VMs in the same virtual
-	// network.
-	InternalDnsNameLabel *string `json:"internalDnsNameLabel,omitempty"`
-
-	// InternalDomainNameSuffix: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of
-	// the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
-	InternalDomainNameSuffix *string `json:"internalDomainNameSuffix,omitempty"`
-
-	// InternalFqdn: Fully qualified DNS name supporting internal communications between VMs in the same virtual network.
-	InternalFqdn *string `json:"internalFqdn,omitempty"`
+	AppliedDnsServers        []string `json:"appliedDnsServers,omitempty"`
+	DnsServers               []string `json:"dnsServers,omitempty"`
+	InternalDnsNameLabel     *string  `json:"internalDnsNameLabel,omitempty"`
+	InternalDomainNameSuffix *string  `json:"internalDomainNameSuffix,omitempty"`
+	InternalFqdn             *string  `json:"internalFqdn,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkInterfaceDnsSettings_STATUS{}
@@ -2034,43 +1830,20 @@ func (settings *NetworkInterfaceDnsSettings_STATUS) AssignProperties_To_NetworkI
 	return nil
 }
 
-// IPConfiguration in a network interface.
+// Deprecated version of NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded. Use v1api20201101.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded struct {
-	// ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	// ApplicationSecurityGroups: Application security groups in which the IP configuration is included.
-	ApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded `json:"applicationSecurityGroups,omitempty"`
-
-	// LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.
-	LoadBalancerBackendAddressPools []BackendAddressPool_NetworkInterface_SubResourceEmbedded `json:"loadBalancerBackendAddressPools,omitempty"`
-
-	// LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
-	LoadBalancerInboundNatRules []InboundNatRule_NetworkInterface_SubResourceEmbedded `json:"loadBalancerInboundNatRules,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Primary: Whether this is a primary customer address on the network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	// PrivateIPAddress: Private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion `json:"privateIPAddressVersion,omitempty"`
-
-	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-
-	// PublicIPAddress: Public IP address bound to the IP configuration.
-	PublicIPAddress *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
-
-	// Subnet: Subnet bound to the IP configuration.
-	Subnet *Subnet_NetworkInterface_SubResourceEmbedded `json:"subnet,omitempty"`
-
-	// VirtualNetworkTaps: The reference to Virtual Network Taps.
-	VirtualNetworkTaps []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded `json:"virtualNetworkTaps,omitempty"`
+	ApplicationSecurityGroups             []ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded         `json:"applicationSecurityGroups,omitempty"`
+	LoadBalancerBackendAddressPools       []BackendAddressPool_NetworkInterface_SubResourceEmbedded                   `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []InboundNatRule_NetworkInterface_SubResourceEmbedded                       `json:"loadBalancerInboundNatRules,omitempty"`
+	Name                                  *string                                                                     `json:"name,omitempty"`
+	Primary                               *bool                                                                       `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                                                                     `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *IPVersion                                                                  `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *IPAllocationMethod                                                         `json:"privateIPAllocationMethod,omitempty"`
+	PublicIPAddress                       *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded                   `json:"publicIPAddress,omitempty"`
+	Subnet                                *Subnet_NetworkInterface_SubResourceEmbedded                                `json:"subnet,omitempty"`
+	VirtualNetworkTaps                    []VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                `json:"virtualNetworkTaps,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded{}
@@ -2634,209 +2407,25 @@ func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbe
 	return nil
 }
 
-// Initialize_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded from the provided source NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded) Initialize_From_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(source *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// ApplicationGatewayBackendAddressPools
-	if source.ApplicationGatewayBackendAddressPools != nil {
-		applicationGatewayBackendAddressPoolList := make([]ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.ApplicationGatewayBackendAddressPools))
-		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-			var applicationGatewayBackendAddressPool ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
-			err := applicationGatewayBackendAddressPool.Initialize_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&applicationGatewayBackendAddressPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationGatewayBackendAddressPools")
-			}
-			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
-		}
-		embedded.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
-	} else {
-		embedded.ApplicationGatewayBackendAddressPools = nil
-	}
-
-	// ApplicationSecurityGroups
-	if source.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded, len(source.ApplicationSecurityGroups))
-		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			// Shadow the loop variable to avoid aliasing
-			applicationSecurityGroupItem := applicationSecurityGroupItem
-			var applicationSecurityGroup ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
-			err := applicationSecurityGroup.Initialize_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&applicationSecurityGroupItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded() to populate field ApplicationSecurityGroups")
-			}
-			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
-		}
-		embedded.ApplicationSecurityGroups = applicationSecurityGroupList
-	} else {
-		embedded.ApplicationSecurityGroups = nil
-	}
-
-	// LoadBalancerBackendAddressPools
-	if source.LoadBalancerBackendAddressPools != nil {
-		loadBalancerBackendAddressPoolList := make([]BackendAddressPool_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerBackendAddressPools))
-		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-			var loadBalancerBackendAddressPool BackendAddressPool_NetworkInterface_SubResourceEmbedded
-			err := loadBalancerBackendAddressPool.Initialize_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerBackendAddressPoolItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerBackendAddressPools")
-			}
-			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
-		}
-		embedded.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
-	} else {
-		embedded.LoadBalancerBackendAddressPools = nil
-	}
-
-	// LoadBalancerInboundNatRules
-	if source.LoadBalancerInboundNatRules != nil {
-		loadBalancerInboundNatRuleList := make([]InboundNatRule_NetworkInterface_SubResourceEmbedded, len(source.LoadBalancerInboundNatRules))
-		for loadBalancerInboundNatRuleIndex, loadBalancerInboundNatRuleItem := range source.LoadBalancerInboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			loadBalancerInboundNatRuleItem := loadBalancerInboundNatRuleItem
-			var loadBalancerInboundNatRule InboundNatRule_NetworkInterface_SubResourceEmbedded
-			err := loadBalancerInboundNatRule.Initialize_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&loadBalancerInboundNatRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded() to populate field LoadBalancerInboundNatRules")
-			}
-			loadBalancerInboundNatRuleList[loadBalancerInboundNatRuleIndex] = loadBalancerInboundNatRule
-		}
-		embedded.LoadBalancerInboundNatRules = loadBalancerInboundNatRuleList
-	} else {
-		embedded.LoadBalancerInboundNatRules = nil
-	}
-
-	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		embedded.Primary = &primary
-	} else {
-		embedded.Primary = nil
-	}
-
-	// PrivateIPAddress
-	embedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
-
-	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := IPVersion(*source.PrivateIPAddressVersion)
-		embedded.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		embedded.PrivateIPAddressVersion = nil
-	}
-
-	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := IPAllocationMethod(*source.PrivateIPAllocationMethod)
-		embedded.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		embedded.PrivateIPAllocationMethod = nil
-	}
-
-	// PublicIPAddress
-	if source.PublicIPAddress != nil {
-		var publicIPAddress PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
-		err := publicIPAddress.Initialize_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source.PublicIPAddress)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded() to populate field PublicIPAddress")
-		}
-		embedded.PublicIPAddress = &publicIPAddress
-	} else {
-		embedded.PublicIPAddress = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet Subnet_NetworkInterface_SubResourceEmbedded
-		err := subnet.Initialize_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded() to populate field Subnet")
-		}
-		embedded.Subnet = &subnet
-	} else {
-		embedded.Subnet = nil
-	}
-
-	// VirtualNetworkTaps
-	if source.VirtualNetworkTaps != nil {
-		virtualNetworkTapList := make([]VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded, len(source.VirtualNetworkTaps))
-		for virtualNetworkTapIndex, virtualNetworkTapItem := range source.VirtualNetworkTaps {
-			// Shadow the loop variable to avoid aliasing
-			virtualNetworkTapItem := virtualNetworkTapItem
-			var virtualNetworkTap VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
-			err := virtualNetworkTap.Initialize_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&virtualNetworkTapItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded() to populate field VirtualNetworkTaps")
-			}
-			virtualNetworkTapList[virtualNetworkTapIndex] = virtualNetworkTap
-		}
-		embedded.VirtualNetworkTaps = virtualNetworkTapList
-	} else {
-		embedded.VirtualNetworkTaps = nil
-	}
-
-	// No error
-	return nil
-}
-
-// IPConfiguration in a network interface.
+// Deprecated version of NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// ApplicationGatewayBackendAddressPools: The reference to ApplicationGatewayBackendAddressPool resource.
 	ApplicationGatewayBackendAddressPools []ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded `json:"applicationGatewayBackendAddressPools,omitempty"`
-
-	// ApplicationSecurityGroups: Application security groups in which the IP configuration is included.
-	ApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded `json:"applicationSecurityGroups,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// LoadBalancerBackendAddressPools: The reference to LoadBalancerBackendAddressPool resource.
-	LoadBalancerBackendAddressPools []BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded `json:"loadBalancerBackendAddressPools,omitempty"`
-
-	// LoadBalancerInboundNatRules: A list of references of LoadBalancerInboundNatRules.
-	LoadBalancerInboundNatRules []InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded `json:"loadBalancerInboundNatRules,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Primary: Whether this is a primary customer address on the network interface.
-	Primary *bool `json:"primary,omitempty"`
-
-	// PrivateIPAddress: Private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	// PrivateIPAddressVersion: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
-	PrivateIPAddressVersion *IPVersion_STATUS `json:"privateIPAddressVersion,omitempty"`
-
-	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
-
-	// PrivateLinkConnectionProperties: PrivateLinkConnection properties for the network interface.
-	PrivateLinkConnectionProperties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS `json:"privateLinkConnectionProperties,omitempty"`
-
-	// ProvisioningState: The provisioning state of the network interface IP configuration.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicIPAddress: Public IP address bound to the IP configuration.
-	PublicIPAddress *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
-
-	// Subnet: Subnet bound to the IP configuration.
-	Subnet *Subnet_STATUS_NetworkInterface_SubResourceEmbedded `json:"subnet,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-
-	// VirtualNetworkTaps: The reference to Virtual Network Taps.
-	VirtualNetworkTaps []VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded `json:"virtualNetworkTaps,omitempty"`
+	ApplicationSecurityGroups             []ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded             `json:"applicationSecurityGroups,omitempty"`
+	Etag                                  *string                                                                            `json:"etag,omitempty"`
+	Id                                    *string                                                                            `json:"id,omitempty"`
+	LoadBalancerBackendAddressPools       []BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                   `json:"loadBalancerBackendAddressPools,omitempty"`
+	LoadBalancerInboundNatRules           []InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                       `json:"loadBalancerInboundNatRules,omitempty"`
+	Name                                  *string                                                                            `json:"name,omitempty"`
+	Primary                               *bool                                                                              `json:"primary,omitempty"`
+	PrivateIPAddress                      *string                                                                            `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion               *IPVersion_STATUS                                                                  `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod             *IPAllocationMethod_STATUS                                                         `json:"privateIPAllocationMethod,omitempty"`
+	PrivateLinkConnectionProperties       *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS             `json:"privateLinkConnectionProperties,omitempty"`
+	ProvisioningState                     *ProvisioningState_STATUS                                                          `json:"provisioningState,omitempty"`
+	PublicIPAddress                       *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded                       `json:"publicIPAddress,omitempty"`
+	Subnet                                *Subnet_STATUS_NetworkInterface_SubResourceEmbedded                                `json:"subnet,omitempty"`
+	Type                                  *string                                                                            `json:"type,omitempty"`
+	VirtualNetworkTaps                    []VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded                    `json:"virtualNetworkTaps,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded{}
@@ -3402,6 +2991,8 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 	return nil
 }
 
+// Deprecated version of NetworkInterfacePropertiesFormat_MigrationPhase_STATUS. Use
+// v1api20201101.NetworkInterfacePropertiesFormat_MigrationPhase_STATUS instead
 type NetworkInterfacePropertiesFormat_MigrationPhase_STATUS string
 
 const (
@@ -3412,6 +3003,8 @@ const (
 	NetworkInterfacePropertiesFormat_MigrationPhase_STATUS_Prepare   = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Prepare")
 )
 
+// Deprecated version of NetworkInterfacePropertiesFormat_NicType. Use
+// v1api20201101.NetworkInterfacePropertiesFormat_NicType instead
 // +kubebuilder:validation:Enum={"Elastic","Standard"}
 type NetworkInterfacePropertiesFormat_NicType string
 
@@ -3420,6 +3013,8 @@ const (
 	NetworkInterfacePropertiesFormat_NicType_Standard = NetworkInterfacePropertiesFormat_NicType("Standard")
 )
 
+// Deprecated version of NetworkInterfacePropertiesFormat_NicType_STATUS. Use
+// v1api20201101.NetworkInterfacePropertiesFormat_NicType_STATUS instead
 type NetworkInterfacePropertiesFormat_NicType_STATUS string
 
 const (
@@ -3427,9 +3022,8 @@ const (
 	NetworkInterfacePropertiesFormat_NicType_STATUS_Standard = NetworkInterfacePropertiesFormat_NicType_STATUS("Standard")
 )
 
-// Tap configuration in a Network Interface.
+// Deprecated version of NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded instead
 type NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3486,9 +3080,8 @@ func (embedded *NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubReso
 	return nil
 }
 
-// NetworkSecurityGroup resource.
+// Deprecated version of NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded instead
 type NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3545,9 +3138,8 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 	return nil
 }
 
-// NetworkSecurityGroup resource.
+// Deprecated version of NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded. Use v1api20201101.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded instead
 type NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -3629,24 +3221,8 @@ func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) A
 	return nil
 }
 
-// Initialize_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded from the provided source NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) Initialize_From_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Private endpoint resource.
+// Deprecated version of PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded instead
 type PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3703,9 +3279,8 @@ func (embedded *PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 	return nil
 }
 
-// Private link service resource.
+// Deprecated version of PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded instead
 type PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3762,9 +3337,8 @@ func (embedded *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) 
 	return nil
 }
 
-// Private link service resource.
+// Deprecated version of PrivateLinkServiceSpec. Use v1api20201101.PrivateLinkServiceSpec instead
 type PrivateLinkServiceSpec struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -3846,24 +3420,8 @@ func (service *PrivateLinkServiceSpec) AssignProperties_To_PrivateLinkServiceSpe
 	return nil
 }
 
-// Initialize_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded populates our PrivateLinkServiceSpec from the provided source PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
-func (service *PrivateLinkServiceSpec) Initialize_From_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(source *PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		service.Reference = &reference
-	} else {
-		service.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Reference to another subresource.
+// Deprecated version of SubResource_STATUS. Use v1api20201101.SubResource_STATUS instead
 type SubResource_STATUS struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3920,9 +3478,8 @@ func (resource *SubResource_STATUS) AssignProperties_To_SubResource_STATUS(desti
 	return nil
 }
 
-// Backend Address Pool of an application gateway.
+// Deprecated version of ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded. Use v1api20201101.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded instead
 type ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -4004,24 +3561,8 @@ func (embedded *ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourc
 	return nil
 }
 
-// Initialize_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded from the provided source ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded) Initialize_From_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Backend Address Pool of an application gateway.
+// Deprecated version of ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded instead
 type ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -4078,9 +3619,8 @@ func (embedded *ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_Sub
 	return nil
 }
 
-// An application security group in a resource group.
+// Deprecated version of ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded instead
 type ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -4137,9 +3677,8 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbe
 	return nil
 }
 
-// An application security group in a resource group.
+// Deprecated version of ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded. Use v1api20201101.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded instead
 type ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -4221,24 +3760,8 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedde
 	return nil
 }
 
-// Initialize_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded populates our ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded from the provided source ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) Initialize_From_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(source *ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Pool of backend IP addresses.
+// Deprecated version of BackendAddressPool_NetworkInterface_SubResourceEmbedded. Use v1api20201101.BackendAddressPool_NetworkInterface_SubResourceEmbedded instead
 type BackendAddressPool_NetworkInterface_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -4320,24 +3843,8 @@ func (embedded *BackendAddressPool_NetworkInterface_SubResourceEmbedded) AssignP
 	return nil
 }
 
-// Initialize_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded populates our BackendAddressPool_NetworkInterface_SubResourceEmbedded from the provided source BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *BackendAddressPool_NetworkInterface_SubResourceEmbedded) Initialize_From_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(source *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Pool of backend IP addresses.
+// Deprecated version of BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded instead
 type BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -4394,9 +3901,8 @@ func (embedded *BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded) 
 	return nil
 }
 
-// Inbound NAT rule of the load balancer.
+// Deprecated version of InboundNatRule_NetworkInterface_SubResourceEmbedded. Use v1api20201101.InboundNatRule_NetworkInterface_SubResourceEmbedded instead
 type InboundNatRule_NetworkInterface_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -4478,24 +3984,8 @@ func (embedded *InboundNatRule_NetworkInterface_SubResourceEmbedded) AssignPrope
 	return nil
 }
 
-// Initialize_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded populates our InboundNatRule_NetworkInterface_SubResourceEmbedded from the provided source InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *InboundNatRule_NetworkInterface_SubResourceEmbedded) Initialize_From_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(source *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Inbound NAT rule of the load balancer.
+// Deprecated version of InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded instead
 type InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -4552,16 +4042,11 @@ func (embedded *InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded) Assi
 	return nil
 }
 
-// PrivateLinkConnection properties for the network interface.
+// Deprecated version of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS. Use v1api20201101.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS instead
 type NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS struct {
-	// Fqdns: List of FQDNs for current private link connection.
-	Fqdns []string `json:"fqdns,omitempty"`
-
-	// GroupId: The group ID for current private link connection.
-	GroupId *string `json:"groupId,omitempty"`
-
-	// RequiredMemberName: The required member name for current private link connection.
-	RequiredMemberName *string `json:"requiredMemberName,omitempty"`
+	Fqdns              []string `json:"fqdns,omitempty"`
+	GroupId            *string  `json:"groupId,omitempty"`
+	RequiredMemberName *string  `json:"requiredMemberName,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS{}
@@ -4640,9 +4125,8 @@ func (properties *NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties
 	return nil
 }
 
-// Public IP address resource.
+// Deprecated version of PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded instead
 type PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -4699,9 +4183,8 @@ func (embedded *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) Ass
 	return nil
 }
 
-// Public IP address resource.
+// Deprecated version of PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded. Use v1api20201101.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded instead
 type PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -4783,24 +4266,8 @@ func (embedded *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) Assign
 	return nil
 }
 
-// Initialize_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded populates our PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded from the provided source PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded) Initialize_From_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(source *PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Subnet in a virtual network resource.
+// Deprecated version of Subnet_NetworkInterface_SubResourceEmbedded. Use v1api20201101.Subnet_NetworkInterface_SubResourceEmbedded instead
 type Subnet_NetworkInterface_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -4882,24 +4349,8 @@ func (embedded *Subnet_NetworkInterface_SubResourceEmbedded) AssignProperties_To
 	return nil
 }
 
-// Initialize_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded populates our Subnet_NetworkInterface_SubResourceEmbedded from the provided source Subnet_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *Subnet_NetworkInterface_SubResourceEmbedded) Initialize_From_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(source *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Subnet in a virtual network resource.
+// Deprecated version of Subnet_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.Subnet_STATUS_NetworkInterface_SubResourceEmbedded instead
 type Subnet_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -4956,9 +4407,8 @@ func (embedded *Subnet_STATUS_NetworkInterface_SubResourceEmbedded) AssignProper
 	return nil
 }
 
-// Virtual Network Tap resource.
+// Deprecated version of VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded. Use v1api20201101.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded instead
 type VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -5015,9 +4465,8 @@ func (embedded *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) A
 	return nil
 }
 
-// Virtual Network Tap resource.
+// Deprecated version of VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded. Use v1api20201101.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded instead
 type VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -5093,21 +4542,6 @@ func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) Assi
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded populates our VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded from the provided source VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
-func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) Initialize_From_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(source *VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
 	}
 
 	// No error

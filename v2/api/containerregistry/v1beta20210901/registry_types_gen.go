@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
+// Deprecated version of Registry. Use v1api20210901.Registry instead
 type Registry struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Registry{}
 
 // ConvertFrom populates our Registry from the provided hub Registry
 func (registry *Registry) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210901s.Registry)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1beta20210901storage/Registry but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210901s.Registry
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return registry.AssignProperties_From_Registry(source)
+	err = registry.AssignProperties_From_Registry(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to registry")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Registry from our Registry
 func (registry *Registry) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210901s.Registry)
-	if !ok {
-		return fmt.Errorf("expected containerregistry/v1beta20210901storage/Registry but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210901s.Registry
+	err := registry.AssignProperties_To_Registry(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from registry")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return registry.AssignProperties_To_Registry(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1beta20210901-registry,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1beta20210901,name=default.v1beta20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (registry *Registry) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Registry resource
 func (registry *Registry) defaultImpl() { registry.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &Registry{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (registry *Registry) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Registry_STATUS); ok {
-		return registry.Spec.Initialize_From_Registry_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Registry_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &Registry{}
 
@@ -323,22 +324,20 @@ func (registry *Registry) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /containerregistry/resource-manager/Microsoft.ContainerRegistry/stable/2021-09-01/containerregistry.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}
+// Deprecated version of Registry. Use v1api20210901.Registry instead
 type RegistryList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Registry `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20210901.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-09-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-09-01")
 
 type Registry_Spec struct {
-	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=50
@@ -346,47 +345,27 @@ type Registry_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]*$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DataEndpointEnabled: Enable a single data endpoint per region for serving data.
-	DataEndpointEnabled *bool `json:"dataEndpointEnabled,omitempty"`
-
-	// Encryption: The encryption settings of container registry.
-	Encryption *EncryptionProperty `json:"encryption,omitempty"`
-
-	// Identity: The identity of the container registry.
-	Identity *IdentityProperties `json:"identity,omitempty"`
+	AzureName           string              `json:"azureName,omitempty"`
+	DataEndpointEnabled *bool               `json:"dataEndpointEnabled,omitempty"`
+	Encryption          *EncryptionProperty `json:"encryption,omitempty"`
+	Identity            *IdentityProperties `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: The location of the resource. This cannot be changed after the resource is created.
-	Location *string `json:"location,omitempty"`
-
-	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
+	Location                 *string                                      `json:"location,omitempty"`
 	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
-
-	// NetworkRuleSet: The network rule set for a container registry.
-	NetworkRuleSet *NetworkRuleSet `json:"networkRuleSet,omitempty"`
+	NetworkRuleSet           *NetworkRuleSet                              `json:"networkRuleSet,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Policies: The policies for a container registry.
-	Policies *Policies `json:"policies,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
+	Owner               *genruntime.KnownResourceReference      `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Policies            *Policies                               `json:"policies,omitempty"`
 	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Sku: The SKU of the container registry.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// Tags: The tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
+	Sku            *Sku                               `json:"sku,omitempty"`
+	Tags           map[string]string                  `json:"tags,omitempty"`
 	ZoneRedundancy *RegistryProperties_ZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
@@ -949,119 +928,6 @@ func (registry *Registry_Spec) AssignProperties_To_Registry_Spec(destination *v2
 	return nil
 }
 
-// Initialize_From_Registry_STATUS populates our Registry_Spec from the provided source Registry_STATUS
-func (registry *Registry_Spec) Initialize_From_Registry_STATUS(source *Registry_STATUS) error {
-
-	// AdminUserEnabled
-	if source.AdminUserEnabled != nil {
-		adminUserEnabled := *source.AdminUserEnabled
-		registry.AdminUserEnabled = &adminUserEnabled
-	} else {
-		registry.AdminUserEnabled = nil
-	}
-
-	// DataEndpointEnabled
-	if source.DataEndpointEnabled != nil {
-		dataEndpointEnabled := *source.DataEndpointEnabled
-		registry.DataEndpointEnabled = &dataEndpointEnabled
-	} else {
-		registry.DataEndpointEnabled = nil
-	}
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption EncryptionProperty
-		err := encryption.Initialize_From_EncryptionProperty_STATUS(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_EncryptionProperty_STATUS() to populate field Encryption")
-		}
-		registry.Encryption = &encryption
-	} else {
-		registry.Encryption = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity IdentityProperties
-		err := identity.Initialize_From_IdentityProperties_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IdentityProperties_STATUS() to populate field Identity")
-		}
-		registry.Identity = &identity
-	} else {
-		registry.Identity = nil
-	}
-
-	// Location
-	registry.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkRuleBypassOptions
-	if source.NetworkRuleBypassOptions != nil {
-		networkRuleBypassOption := RegistryProperties_NetworkRuleBypassOptions(*source.NetworkRuleBypassOptions)
-		registry.NetworkRuleBypassOptions = &networkRuleBypassOption
-	} else {
-		registry.NetworkRuleBypassOptions = nil
-	}
-
-	// NetworkRuleSet
-	if source.NetworkRuleSet != nil {
-		var networkRuleSet NetworkRuleSet
-		err := networkRuleSet.Initialize_From_NetworkRuleSet_STATUS(source.NetworkRuleSet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_NetworkRuleSet_STATUS() to populate field NetworkRuleSet")
-		}
-		registry.NetworkRuleSet = &networkRuleSet
-	} else {
-		registry.NetworkRuleSet = nil
-	}
-
-	// Policies
-	if source.Policies != nil {
-		var policy Policies
-		err := policy.Initialize_From_Policies_STATUS(source.Policies)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Policies_STATUS() to populate field Policies")
-		}
-		registry.Policies = &policy
-	} else {
-		registry.Policies = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RegistryProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		registry.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		registry.PublicNetworkAccess = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		registry.Sku = &sku
-	} else {
-		registry.Sku = nil
-	}
-
-	// Tags
-	registry.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ZoneRedundancy
-	if source.ZoneRedundancy != nil {
-		zoneRedundancy := RegistryProperties_ZoneRedundancy(*source.ZoneRedundancy)
-		registry.ZoneRedundancy = &zoneRedundancy
-	} else {
-		registry.ZoneRedundancy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (registry *Registry_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1070,76 +936,33 @@ func (registry *Registry_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (registry *Registry_Spec) SetAzureName(azureName string) { registry.AzureName = azureName }
 
-// An object that represents a container registry.
+// Deprecated version of Registry_STATUS. Use v1api20210901.Registry_STATUS instead
 type Registry_STATUS struct {
-	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CreationDate: The creation date of the container registry in ISO8601 format.
-	CreationDate *string `json:"creationDate,omitempty"`
-
-	// DataEndpointEnabled: Enable a single data endpoint per region for serving data.
-	DataEndpointEnabled *bool `json:"dataEndpointEnabled,omitempty"`
-
-	// DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.
-	DataEndpointHostNames []string `json:"dataEndpointHostNames,omitempty"`
-
-	// Encryption: The encryption settings of container registry.
-	Encryption *EncryptionProperty_STATUS `json:"encryption,omitempty"`
-
-	// Id: The resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the container registry.
-	Identity *IdentityProperties_STATUS `json:"identity,omitempty"`
-
-	// Location: The location of the resource. This cannot be changed after the resource is created.
-	Location *string `json:"location,omitempty"`
-
-	// LoginServer: The URL that can be used to log into the container registry.
-	LoginServer *string `json:"loginServer,omitempty"`
-
-	// Name: The name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
-	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions_STATUS `json:"networkRuleBypassOptions,omitempty"`
-
-	// NetworkRuleSet: The network rule set for a container registry.
-	NetworkRuleSet *NetworkRuleSet_STATUS `json:"networkRuleSet,omitempty"`
-
-	// Policies: The policies for a container registry.
-	Policies *Policies_STATUS `json:"policies,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections for a container registry.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: The provisioning state of the container registry at the time the operation was called.
-	ProvisioningState *RegistryProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
-	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-
-	// Sku: The SKU of the container registry.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// Status: The status of the container registry at the time the operation was called.
-	Status *Status_STATUS `json:"status,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: The tags of the resource.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
-
-	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
-	ZoneRedundancy *RegistryProperties_ZoneRedundancy_STATUS `json:"zoneRedundancy,omitempty"`
+	Conditions                 []conditions.Condition                              `json:"conditions,omitempty"`
+	CreationDate               *string                                             `json:"creationDate,omitempty"`
+	DataEndpointEnabled        *bool                                               `json:"dataEndpointEnabled,omitempty"`
+	DataEndpointHostNames      []string                                            `json:"dataEndpointHostNames,omitempty"`
+	Encryption                 *EncryptionProperty_STATUS                          `json:"encryption,omitempty"`
+	Id                         *string                                             `json:"id,omitempty"`
+	Identity                   *IdentityProperties_STATUS                          `json:"identity,omitempty"`
+	Location                   *string                                             `json:"location,omitempty"`
+	LoginServer                *string                                             `json:"loginServer,omitempty"`
+	Name                       *string                                             `json:"name,omitempty"`
+	NetworkRuleBypassOptions   *RegistryProperties_NetworkRuleBypassOptions_STATUS `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet             *NetworkRuleSet_STATUS                              `json:"networkRuleSet,omitempty"`
+	Policies                   *Policies_STATUS                                    `json:"policies,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS                  `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *RegistryProperties_ProvisioningState_STATUS        `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RegistryProperties_PublicNetworkAccess_STATUS      `json:"publicNetworkAccess,omitempty"`
+	Sku                        *Sku_STATUS                                         `json:"sku,omitempty"`
+	Status                     *Status_STATUS                                      `json:"status,omitempty"`
+	SystemData                 *SystemData_STATUS                                  `json:"systemData,omitempty"`
+	Tags                       map[string]string                                   `json:"tags,omitempty"`
+	Type                       *string                                             `json:"type,omitempty"`
+	ZoneRedundancy             *RegistryProperties_ZoneRedundancy_STATUS           `json:"zoneRedundancy,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Registry_STATUS{}
@@ -1803,12 +1626,10 @@ func (registry *Registry_STATUS) AssignProperties_To_Registry_STATUS(destination
 	return nil
 }
 
+// Deprecated version of EncryptionProperty. Use v1api20210901.EncryptionProperty instead
 type EncryptionProperty struct {
-	// KeyVaultProperties: Key vault properties.
-	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
-
-	// Status: Indicates whether or not the encryption is enabled for container registry.
-	Status *EncryptionProperty_Status `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultProperties        `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionProperty_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EncryptionProperty{}
@@ -1934,39 +1755,10 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 	return nil
 }
 
-// Initialize_From_EncryptionProperty_STATUS populates our EncryptionProperty from the provided source EncryptionProperty_STATUS
-func (property *EncryptionProperty) Initialize_From_EncryptionProperty_STATUS(source *EncryptionProperty_STATUS) error {
-
-	// KeyVaultProperties
-	if source.KeyVaultProperties != nil {
-		var keyVaultProperty KeyVaultProperties
-		err := keyVaultProperty.Initialize_From_KeyVaultProperties_STATUS(source.KeyVaultProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KeyVaultProperties_STATUS() to populate field KeyVaultProperties")
-		}
-		property.KeyVaultProperties = &keyVaultProperty
-	} else {
-		property.KeyVaultProperties = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := EncryptionProperty_Status(*source.Status)
-		property.Status = &status
-	} else {
-		property.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of EncryptionProperty_STATUS. Use v1api20210901.EncryptionProperty_STATUS instead
 type EncryptionProperty_STATUS struct {
-	// KeyVaultProperties: Key vault properties.
-	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
-
-	// Status: Indicates whether or not the encryption is enabled for container registry.
-	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUS        `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EncryptionProperty_STATUS{}
@@ -2067,21 +1859,11 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 	return nil
 }
 
-// Managed identity for the resource.
+// Deprecated version of IdentityProperties. Use v1api20210901.IdentityProperties instead
 type IdentityProperties struct {
-	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The identity type.
-	Type *IdentityProperties_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	// dictionary key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	// providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                           `json:"principalId,omitempty"`
+	TenantId               *string                           `json:"tenantId,omitempty"`
+	Type                   *IdentityProperties_Type          `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityProperties `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2260,60 +2042,11 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 	return nil
 }
 
-// Initialize_From_IdentityProperties_STATUS populates our IdentityProperties from the provided source IdentityProperties_STATUS
-func (properties *IdentityProperties) Initialize_From_IdentityProperties_STATUS(source *IdentityProperties_STATUS) error {
-
-	// PrincipalId
-	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	properties.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// Type
-	if source.Type != nil {
-		typeVar := IdentityProperties_Type(*source.Type)
-		properties.Type = &typeVar
-	} else {
-		properties.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]UserIdentityProperties, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity UserIdentityProperties
-			err := userAssignedIdentity.Initialize_From_UserIdentityProperties_STATUS(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_UserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		properties.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		properties.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Managed identity for the resource.
+// Deprecated version of IdentityProperties_STATUS. Use v1api20210901.IdentityProperties_STATUS instead
 type IdentityProperties_STATUS struct {
-	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The identity type.
-	Type *IdentityProperties_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	// dictionary key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	// providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                                  `json:"principalId,omitempty"`
+	TenantId               *string                                  `json:"tenantId,omitempty"`
+	Type                   *IdentityProperties_Type_STATUS          `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2453,14 +2186,11 @@ func (properties *IdentityProperties_STATUS) AssignProperties_To_IdentityPropert
 	return nil
 }
 
-// The network rule set for a container registry.
+// Deprecated version of NetworkRuleSet. Use v1api20210901.NetworkRuleSet instead
 type NetworkRuleSet struct {
 	// +kubebuilder:validation:Required
-	// DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSet_DefaultAction `json:"defaultAction,omitempty"`
-
-	// IpRules: The IP ACL rules.
-	IpRules []IPRule `json:"ipRules,omitempty"`
+	IpRules       []IPRule                      `json:"ipRules,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkRuleSet{}
@@ -2596,46 +2326,10 @@ func (ruleSet *NetworkRuleSet) AssignProperties_To_NetworkRuleSet(destination *v
 	return nil
 }
 
-// Initialize_From_NetworkRuleSet_STATUS populates our NetworkRuleSet from the provided source NetworkRuleSet_STATUS
-func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *NetworkRuleSet_STATUS) error {
-
-	// DefaultAction
-	if source.DefaultAction != nil {
-		defaultAction := NetworkRuleSet_DefaultAction(*source.DefaultAction)
-		ruleSet.DefaultAction = &defaultAction
-	} else {
-		ruleSet.DefaultAction = nil
-	}
-
-	// IpRules
-	if source.IpRules != nil {
-		ipRuleList := make([]IPRule, len(source.IpRules))
-		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			// Shadow the loop variable to avoid aliasing
-			ipRuleItem := ipRuleItem
-			var ipRule IPRule
-			err := ipRule.Initialize_From_IPRule_STATUS(&ipRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IPRule_STATUS() to populate field IpRules")
-			}
-			ipRuleList[ipRuleIndex] = ipRule
-		}
-		ruleSet.IpRules = ipRuleList
-	} else {
-		ruleSet.IpRules = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The network rule set for a container registry.
+// Deprecated version of NetworkRuleSet_STATUS. Use v1api20210901.NetworkRuleSet_STATUS instead
 type NetworkRuleSet_STATUS struct {
-	// DefaultAction: The default action of allow or deny when no other rules match.
 	DefaultAction *NetworkRuleSet_DefaultAction_STATUS `json:"defaultAction,omitempty"`
-
-	// IpRules: The IP ACL rules.
-	IpRules []IPRule_STATUS `json:"ipRules,omitempty"`
+	IpRules       []IPRule_STATUS                      `json:"ipRules,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkRuleSet_STATUS{}
@@ -2747,19 +2441,12 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_To_NetworkRuleSet_STATUS(
 	return nil
 }
 
-// The policies for a container registry.
+// Deprecated version of Policies. Use v1api20210901.Policies instead
 type Policies struct {
-	// ExportPolicy: The export policy for a container registry.
-	ExportPolicy *ExportPolicy `json:"exportPolicy,omitempty"`
-
-	// QuarantinePolicy: The quarantine policy for a container registry.
+	ExportPolicy     *ExportPolicy     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicy `json:"quarantinePolicy,omitempty"`
-
-	// RetentionPolicy: The retention policy for a container registry.
-	RetentionPolicy *RetentionPolicy `json:"retentionPolicy,omitempty"`
-
-	// TrustPolicy: The content trust policy for a container registry.
-	TrustPolicy *TrustPolicy `json:"trustPolicy,omitempty"`
+	RetentionPolicy  *RetentionPolicy  `json:"retentionPolicy,omitempty"`
+	TrustPolicy      *TrustPolicy      `json:"trustPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Policies{}
@@ -2992,74 +2679,12 @@ func (policies *Policies) AssignProperties_To_Policies(destination *v20210901s.P
 	return nil
 }
 
-// Initialize_From_Policies_STATUS populates our Policies from the provided source Policies_STATUS
-func (policies *Policies) Initialize_From_Policies_STATUS(source *Policies_STATUS) error {
-
-	// ExportPolicy
-	if source.ExportPolicy != nil {
-		var exportPolicy ExportPolicy
-		err := exportPolicy.Initialize_From_ExportPolicy_STATUS(source.ExportPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ExportPolicy_STATUS() to populate field ExportPolicy")
-		}
-		policies.ExportPolicy = &exportPolicy
-	} else {
-		policies.ExportPolicy = nil
-	}
-
-	// QuarantinePolicy
-	if source.QuarantinePolicy != nil {
-		var quarantinePolicy QuarantinePolicy
-		err := quarantinePolicy.Initialize_From_QuarantinePolicy_STATUS(source.QuarantinePolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_QuarantinePolicy_STATUS() to populate field QuarantinePolicy")
-		}
-		policies.QuarantinePolicy = &quarantinePolicy
-	} else {
-		policies.QuarantinePolicy = nil
-	}
-
-	// RetentionPolicy
-	if source.RetentionPolicy != nil {
-		var retentionPolicy RetentionPolicy
-		err := retentionPolicy.Initialize_From_RetentionPolicy_STATUS(source.RetentionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RetentionPolicy_STATUS() to populate field RetentionPolicy")
-		}
-		policies.RetentionPolicy = &retentionPolicy
-	} else {
-		policies.RetentionPolicy = nil
-	}
-
-	// TrustPolicy
-	if source.TrustPolicy != nil {
-		var trustPolicy TrustPolicy
-		err := trustPolicy.Initialize_From_TrustPolicy_STATUS(source.TrustPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_TrustPolicy_STATUS() to populate field TrustPolicy")
-		}
-		policies.TrustPolicy = &trustPolicy
-	} else {
-		policies.TrustPolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The policies for a container registry.
+// Deprecated version of Policies_STATUS. Use v1api20210901.Policies_STATUS instead
 type Policies_STATUS struct {
-	// ExportPolicy: The export policy for a container registry.
-	ExportPolicy *ExportPolicy_STATUS `json:"exportPolicy,omitempty"`
-
-	// QuarantinePolicy: The quarantine policy for a container registry.
+	ExportPolicy     *ExportPolicy_STATUS     `json:"exportPolicy,omitempty"`
 	QuarantinePolicy *QuarantinePolicy_STATUS `json:"quarantinePolicy,omitempty"`
-
-	// RetentionPolicy: The retention policy for a container registry.
-	RetentionPolicy *RetentionPolicy_STATUS `json:"retentionPolicy,omitempty"`
-
-	// TrustPolicy: The content trust policy for a container registry.
-	TrustPolicy *TrustPolicy_STATUS `json:"trustPolicy,omitempty"`
+	RetentionPolicy  *RetentionPolicy_STATUS  `json:"retentionPolicy,omitempty"`
+	TrustPolicy      *TrustPolicy_STATUS      `json:"trustPolicy,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Policies_STATUS{}
@@ -3243,9 +2868,8 @@ func (policies *Policies_STATUS) AssignProperties_To_Policies_STATUS(destination
 	return nil
 }
 
-// An object that represents a private endpoint connection for a container registry.
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1api20210901.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
-	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3302,6 +2926,8 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// Deprecated version of RegistryProperties_NetworkRuleBypassOptions. Use
+// v1api20210901.RegistryProperties_NetworkRuleBypassOptions instead
 // +kubebuilder:validation:Enum={"AzureServices","None"}
 type RegistryProperties_NetworkRuleBypassOptions string
 
@@ -3310,6 +2936,8 @@ const (
 	RegistryProperties_NetworkRuleBypassOptions_None          = RegistryProperties_NetworkRuleBypassOptions("None")
 )
 
+// Deprecated version of RegistryProperties_NetworkRuleBypassOptions_STATUS. Use
+// v1api20210901.RegistryProperties_NetworkRuleBypassOptions_STATUS instead
 type RegistryProperties_NetworkRuleBypassOptions_STATUS string
 
 const (
@@ -3317,6 +2945,8 @@ const (
 	RegistryProperties_NetworkRuleBypassOptions_STATUS_None          = RegistryProperties_NetworkRuleBypassOptions_STATUS("None")
 )
 
+// Deprecated version of RegistryProperties_ProvisioningState_STATUS. Use
+// v1api20210901.RegistryProperties_ProvisioningState_STATUS instead
 type RegistryProperties_ProvisioningState_STATUS string
 
 const (
@@ -3328,6 +2958,8 @@ const (
 	RegistryProperties_ProvisioningState_STATUS_Updating  = RegistryProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of RegistryProperties_PublicNetworkAccess. Use v1api20210901.RegistryProperties_PublicNetworkAccess
+// instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryProperties_PublicNetworkAccess string
 
@@ -3336,6 +2968,8 @@ const (
 	RegistryProperties_PublicNetworkAccess_Enabled  = RegistryProperties_PublicNetworkAccess("Enabled")
 )
 
+// Deprecated version of RegistryProperties_PublicNetworkAccess_STATUS. Use
+// v1api20210901.RegistryProperties_PublicNetworkAccess_STATUS instead
 type RegistryProperties_PublicNetworkAccess_STATUS string
 
 const (
@@ -3343,6 +2977,7 @@ const (
 	RegistryProperties_PublicNetworkAccess_STATUS_Enabled  = RegistryProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
+// Deprecated version of RegistryProperties_ZoneRedundancy. Use v1api20210901.RegistryProperties_ZoneRedundancy instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryProperties_ZoneRedundancy string
 
@@ -3351,6 +2986,8 @@ const (
 	RegistryProperties_ZoneRedundancy_Enabled  = RegistryProperties_ZoneRedundancy("Enabled")
 )
 
+// Deprecated version of RegistryProperties_ZoneRedundancy_STATUS. Use
+// v1api20210901.RegistryProperties_ZoneRedundancy_STATUS instead
 type RegistryProperties_ZoneRedundancy_STATUS string
 
 const (
@@ -3358,10 +2995,9 @@ const (
 	RegistryProperties_ZoneRedundancy_STATUS_Enabled  = RegistryProperties_ZoneRedundancy_STATUS("Enabled")
 )
 
-// The SKU of a container registry.
+// Deprecated version of Sku. Use v1api20210901.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
-	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *Sku_Name `json:"name,omitempty"`
 }
 
@@ -3443,27 +3079,9 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210901s.Sku) error {
 	return nil
 }
 
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The SKU of a container registry.
+// Deprecated version of Sku_STATUS. Use v1api20210901.Sku_STATUS instead
 type Sku_STATUS struct {
-	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *Sku_Name_STATUS `json:"name,omitempty"`
-
-	// Tier: The SKU tier based on the SKU name.
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
@@ -3552,16 +3170,11 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210901s.Sk
 	return nil
 }
 
-// The status of an Azure resource at the time the operation was called.
+// Deprecated version of Status_STATUS. Use v1api20210901.Status_STATUS instead
 type Status_STATUS struct {
-	// DisplayStatus: The short label for the status.
 	DisplayStatus *string `json:"displayStatus,omitempty"`
-
-	// Message: The detailed message for the status, including alerts and error messages.
-	Message *string `json:"message,omitempty"`
-
-	// Timestamp: The timestamp when the status was changed to the current value.
-	Timestamp *string `json:"timestamp,omitempty"`
+	Message       *string `json:"message,omitempty"`
+	Timestamp     *string `json:"timestamp,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Status_STATUS{}
@@ -3641,24 +3254,13 @@ func (status *Status_STATUS) AssignProperties_To_Status_STATUS(destination *v202
 	return nil
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20210901.SystemData_STATUS instead
 type SystemData_STATUS struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource modification (UTC).
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
@@ -3795,6 +3397,7 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
+// Deprecated version of EncryptionProperty_Status. Use v1api20210901.EncryptionProperty_Status instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type EncryptionProperty_Status string
 
@@ -3803,6 +3406,7 @@ const (
 	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("enabled")
 )
 
+// Deprecated version of EncryptionProperty_Status_STATUS. Use v1api20210901.EncryptionProperty_Status_STATUS instead
 type EncryptionProperty_Status_STATUS string
 
 const (
@@ -3810,9 +3414,8 @@ const (
 	EncryptionProperty_Status_STATUS_Enabled  = EncryptionProperty_Status_STATUS("enabled")
 )
 
-// The export policy for a container registry.
+// Deprecated version of ExportPolicy. Use v1api20210901.ExportPolicy instead
 type ExportPolicy struct {
-	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicy_Status `json:"status,omitempty"`
 }
 
@@ -3894,24 +3497,8 @@ func (policy *ExportPolicy) AssignProperties_To_ExportPolicy(destination *v20210
 	return nil
 }
 
-// Initialize_From_ExportPolicy_STATUS populates our ExportPolicy from the provided source ExportPolicy_STATUS
-func (policy *ExportPolicy) Initialize_From_ExportPolicy_STATUS(source *ExportPolicy_STATUS) error {
-
-	// Status
-	if source.Status != nil {
-		status := ExportPolicy_Status(*source.Status)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The export policy for a container registry.
+// Deprecated version of ExportPolicy_STATUS. Use v1api20210901.ExportPolicy_STATUS instead
 type ExportPolicy_STATUS struct {
-	// Status: The value that indicates whether the policy is enabled or not.
 	Status *ExportPolicy_Status_STATUS `json:"status,omitempty"`
 }
 
@@ -3978,13 +3565,11 @@ func (policy *ExportPolicy_STATUS) AssignProperties_To_ExportPolicy_STATUS(desti
 	return nil
 }
 
-// IP rule with specific IP or IP range in CIDR format.
+// Deprecated version of IPRule. Use v1api20210901.IPRule instead
 type IPRule struct {
-	// Action: The action of IP ACL rule.
 	Action *IPRule_Action `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
 	Value *string `json:"value,omitempty"`
 }
 
@@ -4084,31 +3669,10 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *v20210901s.IPRule) e
 	return nil
 }
 
-// Initialize_From_IPRule_STATUS populates our IPRule from the provided source IPRule_STATUS
-func (rule *IPRule) Initialize_From_IPRule_STATUS(source *IPRule_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		action := IPRule_Action(*source.Action)
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
-
-	// Value
-	rule.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
-// IP rule with specific IP or IP range in CIDR format.
+// Deprecated version of IPRule_STATUS. Use v1api20210901.IPRule_STATUS instead
 type IPRule_STATUS struct {
-	// Action: The action of IP ACL rule.
 	Action *IPRule_Action_STATUS `json:"action,omitempty"`
-
-	// Value: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
-	Value *string `json:"value,omitempty"`
+	Value  *string               `json:"value,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IPRule_STATUS{}
@@ -4186,11 +3750,9 @@ func (rule *IPRule_STATUS) AssignProperties_To_IPRule_STATUS(destination *v20210
 	return nil
 }
 
+// Deprecated version of KeyVaultProperties. Use v1api20210901.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	// Identity: The client id of the identity which will be used to access key vault.
-	Identity *string `json:"identity,omitempty"`
-
-	// KeyIdentifier: Key vault uri to access the encryption key.
+	Identity      *string `json:"identity,omitempty"`
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
@@ -4280,35 +3842,13 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
-// Initialize_From_KeyVaultProperties_STATUS populates our KeyVaultProperties from the provided source KeyVaultProperties_STATUS
-func (properties *KeyVaultProperties) Initialize_From_KeyVaultProperties_STATUS(source *KeyVaultProperties_STATUS) error {
-
-	// Identity
-	properties.Identity = genruntime.ClonePointerToString(source.Identity)
-
-	// KeyIdentifier
-	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of KeyVaultProperties_STATUS. Use v1api20210901.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUS struct {
-	// Identity: The client id of the identity which will be used to access key vault.
-	Identity *string `json:"identity,omitempty"`
-
-	// KeyIdentifier: Key vault uri to access the encryption key.
-	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
-
-	// KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.
-	KeyRotationEnabled *bool `json:"keyRotationEnabled,omitempty"`
-
-	// LastKeyRotationTimestamp: Timestamp of the last successful key rotation.
+	Identity                 *string `json:"identity,omitempty"`
+	KeyIdentifier            *string `json:"keyIdentifier,omitempty"`
+	KeyRotationEnabled       *bool   `json:"keyRotationEnabled,omitempty"`
 	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
-
-	// VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
-	// for encryption.
-	VersionedKeyIdentifier *string `json:"versionedKeyIdentifier,omitempty"`
+	VersionedKeyIdentifier   *string `json:"versionedKeyIdentifier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultProperties_STATUS{}
@@ -4422,6 +3962,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	return nil
 }
 
+// Deprecated version of NetworkRuleSet_DefaultAction. Use v1api20210901.NetworkRuleSet_DefaultAction instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSet_DefaultAction string
 
@@ -4430,6 +3971,7 @@ const (
 	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
+// Deprecated version of NetworkRuleSet_DefaultAction_STATUS. Use v1api20210901.NetworkRuleSet_DefaultAction_STATUS instead
 type NetworkRuleSet_DefaultAction_STATUS string
 
 const (
@@ -4437,9 +3979,8 @@ const (
 	NetworkRuleSet_DefaultAction_STATUS_Deny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
 
-// The quarantine policy for a container registry.
+// Deprecated version of QuarantinePolicy. Use v1api20210901.QuarantinePolicy instead
 type QuarantinePolicy struct {
-	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicy_Status `json:"status,omitempty"`
 }
 
@@ -4521,24 +4062,8 @@ func (policy *QuarantinePolicy) AssignProperties_To_QuarantinePolicy(destination
 	return nil
 }
 
-// Initialize_From_QuarantinePolicy_STATUS populates our QuarantinePolicy from the provided source QuarantinePolicy_STATUS
-func (policy *QuarantinePolicy) Initialize_From_QuarantinePolicy_STATUS(source *QuarantinePolicy_STATUS) error {
-
-	// Status
-	if source.Status != nil {
-		status := QuarantinePolicy_Status(*source.Status)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The quarantine policy for a container registry.
+// Deprecated version of QuarantinePolicy_STATUS. Use v1api20210901.QuarantinePolicy_STATUS instead
 type QuarantinePolicy_STATUS struct {
-	// Status: The value that indicates whether the policy is enabled or not.
 	Status *QuarantinePolicy_Status_STATUS `json:"status,omitempty"`
 }
 
@@ -4605,12 +4130,9 @@ func (policy *QuarantinePolicy_STATUS) AssignProperties_To_QuarantinePolicy_STAT
 	return nil
 }
 
-// The retention policy for a container registry.
+// Deprecated version of RetentionPolicy. Use v1api20210901.RetentionPolicy instead
 type RetentionPolicy struct {
-	// Days: The number of days to retain an untagged manifest after which it gets purged.
-	Days *int `json:"days,omitempty"`
-
-	// Status: The value that indicates whether the policy is enabled or not.
+	Days   *int                    `json:"days,omitempty"`
 	Status *RetentionPolicy_Status `json:"status,omitempty"`
 }
 
@@ -4710,34 +4232,11 @@ func (policy *RetentionPolicy) AssignProperties_To_RetentionPolicy(destination *
 	return nil
 }
 
-// Initialize_From_RetentionPolicy_STATUS populates our RetentionPolicy from the provided source RetentionPolicy_STATUS
-func (policy *RetentionPolicy) Initialize_From_RetentionPolicy_STATUS(source *RetentionPolicy_STATUS) error {
-
-	// Days
-	policy.Days = genruntime.ClonePointerToInt(source.Days)
-
-	// Status
-	if source.Status != nil {
-		status := RetentionPolicy_Status(*source.Status)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The retention policy for a container registry.
+// Deprecated version of RetentionPolicy_STATUS. Use v1api20210901.RetentionPolicy_STATUS instead
 type RetentionPolicy_STATUS struct {
-	// Days: The number of days to retain an untagged manifest after which it gets purged.
-	Days *int `json:"days,omitempty"`
-
-	// LastUpdatedTime: The timestamp when the policy was last updated.
-	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
-
-	// Status: The value that indicates whether the policy is enabled or not.
-	Status *RetentionPolicy_Status_STATUS `json:"status,omitempty"`
+	Days            *int                           `json:"days,omitempty"`
+	LastUpdatedTime *string                        `json:"lastUpdatedTime,omitempty"`
+	Status          *RetentionPolicy_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RetentionPolicy_STATUS{}
@@ -4827,13 +4326,10 @@ func (policy *RetentionPolicy_STATUS) AssignProperties_To_RetentionPolicy_STATUS
 	return nil
 }
 
-// The content trust policy for a container registry.
+// Deprecated version of TrustPolicy. Use v1api20210901.TrustPolicy instead
 type TrustPolicy struct {
-	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicy_Status `json:"status,omitempty"`
-
-	// Type: The type of trust policy.
-	Type *TrustPolicy_Type `json:"type,omitempty"`
+	Type   *TrustPolicy_Type   `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &TrustPolicy{}
@@ -4942,36 +4438,10 @@ func (policy *TrustPolicy) AssignProperties_To_TrustPolicy(destination *v2021090
 	return nil
 }
 
-// Initialize_From_TrustPolicy_STATUS populates our TrustPolicy from the provided source TrustPolicy_STATUS
-func (policy *TrustPolicy) Initialize_From_TrustPolicy_STATUS(source *TrustPolicy_STATUS) error {
-
-	// Status
-	if source.Status != nil {
-		status := TrustPolicy_Status(*source.Status)
-		policy.Status = &status
-	} else {
-		policy.Status = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := TrustPolicy_Type(*source.Type)
-		policy.Type = &typeVar
-	} else {
-		policy.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The content trust policy for a container registry.
+// Deprecated version of TrustPolicy_STATUS. Use v1api20210901.TrustPolicy_STATUS instead
 type TrustPolicy_STATUS struct {
-	// Status: The value that indicates whether the policy is enabled or not.
 	Status *TrustPolicy_Status_STATUS `json:"status,omitempty"`
-
-	// Type: The type of trust policy.
-	Type *TrustPolicy_Type_STATUS `json:"type,omitempty"`
+	Type   *TrustPolicy_Type_STATUS   `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &TrustPolicy_STATUS{}
@@ -5059,11 +4529,9 @@ func (policy *TrustPolicy_STATUS) AssignProperties_To_TrustPolicy_STATUS(destina
 	return nil
 }
 
+// Deprecated version of UserIdentityProperties. Use v1api20210901.UserIdentityProperties instead
 type UserIdentityProperties struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -5153,24 +4621,9 @@ func (properties *UserIdentityProperties) AssignProperties_To_UserIdentityProper
 	return nil
 }
 
-// Initialize_From_UserIdentityProperties_STATUS populates our UserIdentityProperties from the provided source UserIdentityProperties_STATUS
-func (properties *UserIdentityProperties) Initialize_From_UserIdentityProperties_STATUS(source *UserIdentityProperties_STATUS) error {
-
-	// ClientId
-	properties.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of UserIdentityProperties_STATUS. Use v1api20210901.UserIdentityProperties_STATUS instead
 type UserIdentityProperties_STATUS struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
@@ -5239,6 +4692,7 @@ func (properties *UserIdentityProperties_STATUS) AssignProperties_To_UserIdentit
 	return nil
 }
 
+// Deprecated version of ExportPolicy_Status. Use v1api20210901.ExportPolicy_Status instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type ExportPolicy_Status string
 
@@ -5247,6 +4701,7 @@ const (
 	ExportPolicy_Status_Enabled  = ExportPolicy_Status("enabled")
 )
 
+// Deprecated version of ExportPolicy_Status_STATUS. Use v1api20210901.ExportPolicy_Status_STATUS instead
 type ExportPolicy_Status_STATUS string
 
 const (
@@ -5254,15 +4709,18 @@ const (
 	ExportPolicy_Status_STATUS_Enabled  = ExportPolicy_Status_STATUS("enabled")
 )
 
+// Deprecated version of IPRule_Action. Use v1api20210901.IPRule_Action instead
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRule_Action string
 
 const IPRule_Action_Allow = IPRule_Action("Allow")
 
+// Deprecated version of IPRule_Action_STATUS. Use v1api20210901.IPRule_Action_STATUS instead
 type IPRule_Action_STATUS string
 
 const IPRule_Action_STATUS_Allow = IPRule_Action_STATUS("Allow")
 
+// Deprecated version of QuarantinePolicy_Status. Use v1api20210901.QuarantinePolicy_Status instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type QuarantinePolicy_Status string
 
@@ -5271,6 +4729,7 @@ const (
 	QuarantinePolicy_Status_Enabled  = QuarantinePolicy_Status("enabled")
 )
 
+// Deprecated version of QuarantinePolicy_Status_STATUS. Use v1api20210901.QuarantinePolicy_Status_STATUS instead
 type QuarantinePolicy_Status_STATUS string
 
 const (
@@ -5278,6 +4737,7 @@ const (
 	QuarantinePolicy_Status_STATUS_Enabled  = QuarantinePolicy_Status_STATUS("enabled")
 )
 
+// Deprecated version of RetentionPolicy_Status. Use v1api20210901.RetentionPolicy_Status instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type RetentionPolicy_Status string
 
@@ -5286,6 +4746,7 @@ const (
 	RetentionPolicy_Status_Enabled  = RetentionPolicy_Status("enabled")
 )
 
+// Deprecated version of RetentionPolicy_Status_STATUS. Use v1api20210901.RetentionPolicy_Status_STATUS instead
 type RetentionPolicy_Status_STATUS string
 
 const (
@@ -5293,6 +4754,7 @@ const (
 	RetentionPolicy_Status_STATUS_Enabled  = RetentionPolicy_Status_STATUS("enabled")
 )
 
+// Deprecated version of TrustPolicy_Status. Use v1api20210901.TrustPolicy_Status instead
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type TrustPolicy_Status string
 
@@ -5301,6 +4763,7 @@ const (
 	TrustPolicy_Status_Enabled  = TrustPolicy_Status("enabled")
 )
 
+// Deprecated version of TrustPolicy_Status_STATUS. Use v1api20210901.TrustPolicy_Status_STATUS instead
 type TrustPolicy_Status_STATUS string
 
 const (
@@ -5308,11 +4771,13 @@ const (
 	TrustPolicy_Status_STATUS_Enabled  = TrustPolicy_Status_STATUS("enabled")
 )
 
+// Deprecated version of TrustPolicy_Type. Use v1api20210901.TrustPolicy_Type instead
 // +kubebuilder:validation:Enum={"Notary"}
 type TrustPolicy_Type string
 
 const TrustPolicy_Type_Notary = TrustPolicy_Type("Notary")
 
+// Deprecated version of TrustPolicy_Type_STATUS. Use v1api20210901.TrustPolicy_Type_STATUS instead
 type TrustPolicy_Type_STATUS string
 
 const TrustPolicy_Type_STATUS_Notary = TrustPolicy_Type_STATUS("Notary")

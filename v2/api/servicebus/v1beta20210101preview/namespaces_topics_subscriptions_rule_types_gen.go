@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+// Deprecated version of NamespacesTopicsSubscriptionsRule. Use v1api20210101preview.NamespacesTopicsSubscriptionsRule instead
 type NamespacesTopicsSubscriptionsRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &NamespacesTopicsSubscriptionsRule{}
 
 // ConvertFrom populates our NamespacesTopicsSubscriptionsRule from the provided hub NamespacesTopicsSubscriptionsRule
 func (rule *NamespacesTopicsSubscriptionsRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210101ps.NamespacesTopicsSubscriptionsRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesTopicsSubscriptionsRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210101ps.NamespacesTopicsSubscriptionsRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NamespacesTopicsSubscriptionsRule(source)
+	err = rule.AssignProperties_From_NamespacesTopicsSubscriptionsRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NamespacesTopicsSubscriptionsRule from our NamespacesTopicsSubscriptionsRule
 func (rule *NamespacesTopicsSubscriptionsRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210101ps.NamespacesTopicsSubscriptionsRule)
-	if !ok {
-		return fmt.Errorf("expected servicebus/v1beta20210101previewstorage/NamespacesTopicsSubscriptionsRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210101ps.NamespacesTopicsSubscriptionsRule
+	err := rule.AssignProperties_To_NamespacesTopicsSubscriptionsRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NamespacesTopicsSubscriptionsRule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1beta20210101preview-namespacestopicssubscriptionsrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopicssubscriptionsrules,verbs=create;update,versions=v1beta20210101preview,name=default.v1beta20210101preview.namespacestopicssubscriptionsrules.servicebus.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (rule *NamespacesTopicsSubscriptionsRule) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the NamespacesTopicsSubscriptionsRule resource
 func (rule *NamespacesTopicsSubscriptionsRule) defaultImpl() { rule.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &NamespacesTopicsSubscriptionsRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *NamespacesTopicsSubscriptionsRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_Topics_Subscriptions_Rule_STATUS); ok {
-		return rule.Spec.Initialize_From_Namespaces_Topics_Subscriptions_Rule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_Topics_Subscriptions_Rule_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &NamespacesTopicsSubscriptionsRule{}
 
@@ -323,9 +324,7 @@ func (rule *NamespacesTopicsSubscriptionsRule) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Rules.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}/subscriptions/{subscriptionName}/rules/{ruleName}
+// Deprecated version of NamespacesTopicsSubscriptionsRule. Use v1api20210101preview.NamespacesTopicsSubscriptionsRule instead
 type NamespacesTopicsSubscriptionsRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -333,30 +332,22 @@ type NamespacesTopicsSubscriptionsRuleList struct {
 }
 
 type Namespaces_Topics_Subscriptions_Rule_Spec struct {
-	// Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
-	// filter expression.
 	Action *Action `json:"action,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=50
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// CorrelationFilter: Properties of correlationFilter
+	AzureName         string             `json:"azureName,omitempty"`
 	CorrelationFilter *CorrelationFilter `json:"correlationFilter,omitempty"`
-
-	// FilterType: Filter type that is evaluated against a BrokeredMessage.
-	FilterType *FilterType `json:"filterType,omitempty"`
+	FilterType        *FilterType        `json:"filterType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a servicebus.azure.com/NamespacesTopicsSubscription resource
-	Owner *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"NamespacesTopicsSubscription"`
-
-	// SqlFilter: Properties of sqlFilter
-	SqlFilter *SqlFilter `json:"sqlFilter,omitempty"`
+	Owner     *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"NamespacesTopicsSubscription"`
+	SqlFilter *SqlFilter                         `json:"sqlFilter,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Namespaces_Topics_Subscriptions_Rule_Spec{}
@@ -668,57 +659,6 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) AssignProperties_To_Names
 	return nil
 }
 
-// Initialize_From_Namespaces_Topics_Subscriptions_Rule_STATUS populates our Namespaces_Topics_Subscriptions_Rule_Spec from the provided source Namespaces_Topics_Subscriptions_Rule_STATUS
-func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) Initialize_From_Namespaces_Topics_Subscriptions_Rule_STATUS(source *Namespaces_Topics_Subscriptions_Rule_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		var action Action
-		err := action.Initialize_From_Action_STATUS(source.Action)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Action_STATUS() to populate field Action")
-		}
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
-
-	// CorrelationFilter
-	if source.CorrelationFilter != nil {
-		var correlationFilter CorrelationFilter
-		err := correlationFilter.Initialize_From_CorrelationFilter_STATUS(source.CorrelationFilter)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CorrelationFilter_STATUS() to populate field CorrelationFilter")
-		}
-		rule.CorrelationFilter = &correlationFilter
-	} else {
-		rule.CorrelationFilter = nil
-	}
-
-	// FilterType
-	if source.FilterType != nil {
-		filterType := FilterType(*source.FilterType)
-		rule.FilterType = &filterType
-	} else {
-		rule.FilterType = nil
-	}
-
-	// SqlFilter
-	if source.SqlFilter != nil {
-		var sqlFilter SqlFilter
-		err := sqlFilter.Initialize_From_SqlFilter_STATUS(source.SqlFilter)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SqlFilter_STATUS() to populate field SqlFilter")
-		}
-		rule.SqlFilter = &sqlFilter
-	} else {
-		rule.SqlFilter = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -729,34 +669,19 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_Spec) SetAzureName(azureName st
 	rule.AzureName = azureName
 }
 
+// Deprecated version of Namespaces_Topics_Subscriptions_Rule_STATUS. Use v1api20210101preview.Namespaces_Topics_Subscriptions_Rule_STATUS instead
 type Namespaces_Topics_Subscriptions_Rule_STATUS struct {
-	// Action: Represents the filter actions which are allowed for the transformation of a message that have been matched by a
-	// filter expression.
 	Action *Action_STATUS `json:"action,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CorrelationFilter: Properties of correlationFilter
+	Conditions        []conditions.Condition    `json:"conditions,omitempty"`
 	CorrelationFilter *CorrelationFilter_STATUS `json:"correlationFilter,omitempty"`
-
-	// FilterType: Filter type that is evaluated against a BrokeredMessage.
-	FilterType *FilterType_STATUS `json:"filterType,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	// SqlFilter: Properties of sqlFilter
-	SqlFilter *SqlFilter_STATUS `json:"sqlFilter,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
+	FilterType        *FilterType_STATUS        `json:"filterType,omitempty"`
+	Id                *string                   `json:"id,omitempty"`
+	Name              *string                   `json:"name,omitempty"`
+	SqlFilter         *SqlFilter_STATUS         `json:"sqlFilter,omitempty"`
+	SystemData        *SystemData_STATUS        `json:"systemData,omitempty"`
+	Type              *string                   `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Namespaces_Topics_Subscriptions_Rule_STATUS{}
@@ -1068,18 +993,11 @@ func (rule *Namespaces_Topics_Subscriptions_Rule_STATUS) AssignProperties_To_Nam
 	return nil
 }
 
-// Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
-// expression.
+// Deprecated version of Action. Use v1api20210101preview.Action instead
 type Action struct {
-	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
-	// currently hard-coded to 20.
-	CompatibilityLevel *int `json:"compatibilityLevel,omitempty"`
-
-	// RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.
-	RequiresPreprocessing *bool `json:"requiresPreprocessing,omitempty"`
-
-	// SqlExpression: SQL expression. e.g. MyProperty='ABC'
-	SqlExpression *string `json:"sqlExpression,omitempty"`
+	CompatibilityLevel    *int    `json:"compatibilityLevel,omitempty"`
+	RequiresPreprocessing *bool   `json:"requiresPreprocessing,omitempty"`
+	SqlExpression         *string `json:"sqlExpression,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Action{}
@@ -1196,39 +1114,11 @@ func (action *Action) AssignProperties_To_Action(destination *v20210101ps.Action
 	return nil
 }
 
-// Initialize_From_Action_STATUS populates our Action from the provided source Action_STATUS
-func (action *Action) Initialize_From_Action_STATUS(source *Action_STATUS) error {
-
-	// CompatibilityLevel
-	action.CompatibilityLevel = genruntime.ClonePointerToInt(source.CompatibilityLevel)
-
-	// RequiresPreprocessing
-	if source.RequiresPreprocessing != nil {
-		requiresPreprocessing := *source.RequiresPreprocessing
-		action.RequiresPreprocessing = &requiresPreprocessing
-	} else {
-		action.RequiresPreprocessing = nil
-	}
-
-	// SqlExpression
-	action.SqlExpression = genruntime.ClonePointerToString(source.SqlExpression)
-
-	// No error
-	return nil
-}
-
-// Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter
-// expression.
+// Deprecated version of Action_STATUS. Use v1api20210101preview.Action_STATUS instead
 type Action_STATUS struct {
-	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
-	// currently hard-coded to 20.
-	CompatibilityLevel *int `json:"compatibilityLevel,omitempty"`
-
-	// RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.
-	RequiresPreprocessing *bool `json:"requiresPreprocessing,omitempty"`
-
-	// SqlExpression: SQL expression. e.g. MyProperty='ABC'
-	SqlExpression *string `json:"sqlExpression,omitempty"`
+	CompatibilityLevel    *int    `json:"compatibilityLevel,omitempty"`
+	RequiresPreprocessing *bool   `json:"requiresPreprocessing,omitempty"`
+	SqlExpression         *string `json:"sqlExpression,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Action_STATUS{}
@@ -1318,37 +1208,18 @@ func (action *Action_STATUS) AssignProperties_To_Action_STATUS(destination *v202
 	return nil
 }
 
-// Represents the correlation filter expression.
+// Deprecated version of CorrelationFilter. Use v1api20210101preview.CorrelationFilter instead
 type CorrelationFilter struct {
-	// ContentType: Content type of the message.
-	ContentType *string `json:"contentType,omitempty"`
-
-	// CorrelationId: Identifier of the correlation.
-	CorrelationId *string `json:"correlationId,omitempty"`
-
-	// Label: Application specific label.
-	Label *string `json:"label,omitempty"`
-
-	// MessageId: Identifier of the message.
-	MessageId *string `json:"messageId,omitempty"`
-
-	// Properties: dictionary object for custom filters
-	Properties map[string]string `json:"properties,omitempty"`
-
-	// ReplyTo: Address of the queue to reply to.
-	ReplyTo *string `json:"replyTo,omitempty"`
-
-	// ReplyToSessionId: Session identifier to reply to.
-	ReplyToSessionId *string `json:"replyToSessionId,omitempty"`
-
-	// RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.
-	RequiresPreprocessing *bool `json:"requiresPreprocessing,omitempty"`
-
-	// SessionId: Session identifier.
-	SessionId *string `json:"sessionId,omitempty"`
-
-	// To: Address to send to.
-	To *string `json:"to,omitempty"`
+	ContentType           *string           `json:"contentType,omitempty"`
+	CorrelationId         *string           `json:"correlationId,omitempty"`
+	Label                 *string           `json:"label,omitempty"`
+	MessageId             *string           `json:"messageId,omitempty"`
+	Properties            map[string]string `json:"properties,omitempty"`
+	ReplyTo               *string           `json:"replyTo,omitempty"`
+	ReplyToSessionId      *string           `json:"replyToSessionId,omitempty"`
+	RequiresPreprocessing *bool             `json:"requiresPreprocessing,omitempty"`
+	SessionId             *string           `json:"sessionId,omitempty"`
+	To                    *string           `json:"to,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CorrelationFilter{}
@@ -1595,79 +1466,18 @@ func (filter *CorrelationFilter) AssignProperties_To_CorrelationFilter(destinati
 	return nil
 }
 
-// Initialize_From_CorrelationFilter_STATUS populates our CorrelationFilter from the provided source CorrelationFilter_STATUS
-func (filter *CorrelationFilter) Initialize_From_CorrelationFilter_STATUS(source *CorrelationFilter_STATUS) error {
-
-	// ContentType
-	filter.ContentType = genruntime.ClonePointerToString(source.ContentType)
-
-	// CorrelationId
-	filter.CorrelationId = genruntime.ClonePointerToString(source.CorrelationId)
-
-	// Label
-	filter.Label = genruntime.ClonePointerToString(source.Label)
-
-	// MessageId
-	filter.MessageId = genruntime.ClonePointerToString(source.MessageId)
-
-	// Properties
-	filter.Properties = genruntime.CloneMapOfStringToString(source.Properties)
-
-	// ReplyTo
-	filter.ReplyTo = genruntime.ClonePointerToString(source.ReplyTo)
-
-	// ReplyToSessionId
-	filter.ReplyToSessionId = genruntime.ClonePointerToString(source.ReplyToSessionId)
-
-	// RequiresPreprocessing
-	if source.RequiresPreprocessing != nil {
-		requiresPreprocessing := *source.RequiresPreprocessing
-		filter.RequiresPreprocessing = &requiresPreprocessing
-	} else {
-		filter.RequiresPreprocessing = nil
-	}
-
-	// SessionId
-	filter.SessionId = genruntime.ClonePointerToString(source.SessionId)
-
-	// To
-	filter.To = genruntime.ClonePointerToString(source.To)
-
-	// No error
-	return nil
-}
-
-// Represents the correlation filter expression.
+// Deprecated version of CorrelationFilter_STATUS. Use v1api20210101preview.CorrelationFilter_STATUS instead
 type CorrelationFilter_STATUS struct {
-	// ContentType: Content type of the message.
-	ContentType *string `json:"contentType,omitempty"`
-
-	// CorrelationId: Identifier of the correlation.
-	CorrelationId *string `json:"correlationId,omitempty"`
-
-	// Label: Application specific label.
-	Label *string `json:"label,omitempty"`
-
-	// MessageId: Identifier of the message.
-	MessageId *string `json:"messageId,omitempty"`
-
-	// Properties: dictionary object for custom filters
-	Properties map[string]string `json:"properties,omitempty"`
-
-	// ReplyTo: Address of the queue to reply to.
-	ReplyTo *string `json:"replyTo,omitempty"`
-
-	// ReplyToSessionId: Session identifier to reply to.
-	ReplyToSessionId *string `json:"replyToSessionId,omitempty"`
-
-	// RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.
-	RequiresPreprocessing *bool `json:"requiresPreprocessing,omitempty"`
-
-	// SessionId: Session identifier.
-	SessionId *string `json:"sessionId,omitempty"`
-
-	// To: Address to send to.
-	To *string `json:"to,omitempty"`
+	ContentType           *string           `json:"contentType,omitempty"`
+	CorrelationId         *string           `json:"correlationId,omitempty"`
+	Label                 *string           `json:"label,omitempty"`
+	MessageId             *string           `json:"messageId,omitempty"`
+	Properties            map[string]string `json:"properties,omitempty"`
+	ReplyTo               *string           `json:"replyTo,omitempty"`
+	ReplyToSessionId      *string           `json:"replyToSessionId,omitempty"`
+	RequiresPreprocessing *bool             `json:"requiresPreprocessing,omitempty"`
+	SessionId             *string           `json:"sessionId,omitempty"`
+	To                    *string           `json:"to,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CorrelationFilter_STATUS{}
@@ -1843,7 +1653,7 @@ func (filter *CorrelationFilter_STATUS) AssignProperties_To_CorrelationFilter_ST
 	return nil
 }
 
-// Rule filter types
+// Deprecated version of FilterType. Use v1api20210101preview.FilterType instead
 // +kubebuilder:validation:Enum={"CorrelationFilter","SqlFilter"}
 type FilterType string
 
@@ -1852,7 +1662,7 @@ const (
 	FilterType_SqlFilter         = FilterType("SqlFilter")
 )
 
-// Rule filter types
+// Deprecated version of FilterType_STATUS. Use v1api20210101preview.FilterType_STATUS instead
 type FilterType_STATUS string
 
 const (
@@ -1860,19 +1670,13 @@ const (
 	FilterType_STATUS_SqlFilter         = FilterType_STATUS("SqlFilter")
 )
 
-// Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+// Deprecated version of SqlFilter. Use v1api20210101preview.SqlFilter instead
 type SqlFilter struct {
 	// +kubebuilder:validation:Maximum=20
 	// +kubebuilder:validation:Minimum=20
-	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
-	// currently hard-coded to 20.
-	CompatibilityLevel *int `json:"compatibilityLevel,omitempty"`
-
-	// RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.
-	RequiresPreprocessing *bool `json:"requiresPreprocessing,omitempty"`
-
-	// SqlExpression: The SQL expression. e.g. MyProperty='ABC'
-	SqlExpression *string `json:"sqlExpression,omitempty"`
+	CompatibilityLevel    *int    `json:"compatibilityLevel,omitempty"`
+	RequiresPreprocessing *bool   `json:"requiresPreprocessing,omitempty"`
+	SqlExpression         *string `json:"sqlExpression,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SqlFilter{}
@@ -1999,43 +1803,11 @@ func (filter *SqlFilter) AssignProperties_To_SqlFilter(destination *v20210101ps.
 	return nil
 }
 
-// Initialize_From_SqlFilter_STATUS populates our SqlFilter from the provided source SqlFilter_STATUS
-func (filter *SqlFilter) Initialize_From_SqlFilter_STATUS(source *SqlFilter_STATUS) error {
-
-	// CompatibilityLevel
-	if source.CompatibilityLevel != nil {
-		compatibilityLevel := *source.CompatibilityLevel
-		filter.CompatibilityLevel = &compatibilityLevel
-	} else {
-		filter.CompatibilityLevel = nil
-	}
-
-	// RequiresPreprocessing
-	if source.RequiresPreprocessing != nil {
-		requiresPreprocessing := *source.RequiresPreprocessing
-		filter.RequiresPreprocessing = &requiresPreprocessing
-	} else {
-		filter.RequiresPreprocessing = nil
-	}
-
-	// SqlExpression
-	filter.SqlExpression = genruntime.ClonePointerToString(source.SqlExpression)
-
-	// No error
-	return nil
-}
-
-// Represents a filter which is a composition of an expression and an action that is executed in the pub/sub pipeline.
+// Deprecated version of SqlFilter_STATUS. Use v1api20210101preview.SqlFilter_STATUS instead
 type SqlFilter_STATUS struct {
-	// CompatibilityLevel: This property is reserved for future use. An integer value showing the compatibility level,
-	// currently hard-coded to 20.
-	CompatibilityLevel *int `json:"compatibilityLevel,omitempty"`
-
-	// RequiresPreprocessing: Value that indicates whether the rule action requires preprocessing.
-	RequiresPreprocessing *bool `json:"requiresPreprocessing,omitempty"`
-
-	// SqlExpression: The SQL expression. e.g. MyProperty='ABC'
-	SqlExpression *string `json:"sqlExpression,omitempty"`
+	CompatibilityLevel    *int    `json:"compatibilityLevel,omitempty"`
+	RequiresPreprocessing *bool   `json:"requiresPreprocessing,omitempty"`
+	SqlExpression         *string `json:"sqlExpression,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SqlFilter_STATUS{}

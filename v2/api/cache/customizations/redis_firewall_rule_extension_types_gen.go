@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	alpha20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201"
-	alpha20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage"
+	v1api20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
+	v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201storage"
 	v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
 	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -17,8 +17,8 @@ type RedisFirewallRuleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisFirewallRuleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&alpha20201201.RedisFirewallRule{},
-		&alpha20201201s.RedisFirewallRule{},
+		&v1api20201201.RedisFirewallRule{},
+		&v1api20201201s.RedisFirewallRule{},
 		&v20201201.RedisFirewallRule{},
 		&v20201201s.RedisFirewallRule{}}
 }

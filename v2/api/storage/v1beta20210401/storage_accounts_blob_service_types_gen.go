@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default
+// Deprecated version of StorageAccountsBlobService. Use v1api20210401.StorageAccountsBlobService instead
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &StorageAccountsBlobService{}
 
 // ConvertFrom populates our StorageAccountsBlobService from the provided hub StorageAccountsBlobService
 func (service *StorageAccountsBlobService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210401s.StorageAccountsBlobService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsBlobService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210401s.StorageAccountsBlobService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsBlobService(source)
+	err = service.AssignProperties_From_StorageAccountsBlobService(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsBlobService from our StorageAccountsBlobService
 func (service *StorageAccountsBlobService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210401s.StorageAccountsBlobService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsBlobService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210401s.StorageAccountsBlobService
+	err := service.AssignProperties_To_StorageAccountsBlobService(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsBlobService(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1beta20210401-storageaccountsblobservice,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsblobservices,verbs=create;update,versions=v1beta20210401,name=default.v1beta20210401.storageaccountsblobservices.storage.azure.com,admissionReviewVersions=v1
@@ -83,17 +95,6 @@ func (service *StorageAccountsBlobService) Default() {
 
 // defaultImpl applies the code generated defaults to the StorageAccountsBlobService resource
 func (service *StorageAccountsBlobService) defaultImpl() {}
-
-var _ genruntime.ImportableResource = &StorageAccountsBlobService{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (service *StorageAccountsBlobService) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccounts_BlobService_STATUS); ok {
-		return service.Spec.Initialize_From_StorageAccounts_BlobService_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type StorageAccounts_BlobService_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
 
@@ -316,9 +317,7 @@ func (service *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKin
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default
+// Deprecated version of StorageAccountsBlobService. Use v1api20210401.StorageAccountsBlobService instead
 type StorageAccountsBlobServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -326,41 +325,21 @@ type StorageAccountsBlobServiceList struct {
 }
 
 type StorageAccounts_BlobService_Spec struct {
-	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
-	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
-
-	// ChangeFeed: The blob service properties for change feed events.
-	ChangeFeed *ChangeFeed `json:"changeFeed,omitempty"`
-
-	// ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy `json:"containerDeleteRetentionPolicy,omitempty"`
-
-	// Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
-	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-	// Blob service.
-	Cors *CorsRules `json:"cors,omitempty"`
-
-	// DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
-	// incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
-	DefaultServiceVersion *string `json:"defaultServiceVersion,omitempty"`
-
-	// DeleteRetentionPolicy: The blob service properties for blob soft delete.
-	DeleteRetentionPolicy *DeleteRetentionPolicy `json:"deleteRetentionPolicy,omitempty"`
-
-	// IsVersioningEnabled: Versioning is enabled if set to true.
-	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
-
-	// LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.
-	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	AutomaticSnapshotPolicyEnabled *bool                         `json:"automaticSnapshotPolicyEnabled,omitempty"`
+	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules                    `json:"cors,omitempty"`
+	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
+	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a storage.azure.com/StorageAccount resource
-	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
-
-	// RestorePolicy: The blob service properties for blob restore policy.
-	RestorePolicy *RestorePolicyProperties `json:"restorePolicy,omitempty"`
+	Owner         *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
+	RestorePolicy *RestorePolicyProperties           `json:"restorePolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccounts_BlobService_Spec{}
@@ -854,155 +833,29 @@ func (service *StorageAccounts_BlobService_Spec) AssignProperties_To_StorageAcco
 	return nil
 }
 
-// Initialize_From_StorageAccounts_BlobService_STATUS populates our StorageAccounts_BlobService_Spec from the provided source StorageAccounts_BlobService_STATUS
-func (service *StorageAccounts_BlobService_Spec) Initialize_From_StorageAccounts_BlobService_STATUS(source *StorageAccounts_BlobService_STATUS) error {
-
-	// AutomaticSnapshotPolicyEnabled
-	if source.AutomaticSnapshotPolicyEnabled != nil {
-		automaticSnapshotPolicyEnabled := *source.AutomaticSnapshotPolicyEnabled
-		service.AutomaticSnapshotPolicyEnabled = &automaticSnapshotPolicyEnabled
-	} else {
-		service.AutomaticSnapshotPolicyEnabled = nil
-	}
-
-	// ChangeFeed
-	if source.ChangeFeed != nil {
-		var changeFeed ChangeFeed
-		err := changeFeed.Initialize_From_ChangeFeed_STATUS(source.ChangeFeed)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ChangeFeed_STATUS() to populate field ChangeFeed")
-		}
-		service.ChangeFeed = &changeFeed
-	} else {
-		service.ChangeFeed = nil
-	}
-
-	// ContainerDeleteRetentionPolicy
-	if source.ContainerDeleteRetentionPolicy != nil {
-		var containerDeleteRetentionPolicy DeleteRetentionPolicy
-		err := containerDeleteRetentionPolicy.Initialize_From_DeleteRetentionPolicy_STATUS(source.ContainerDeleteRetentionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DeleteRetentionPolicy_STATUS() to populate field ContainerDeleteRetentionPolicy")
-		}
-		service.ContainerDeleteRetentionPolicy = &containerDeleteRetentionPolicy
-	} else {
-		service.ContainerDeleteRetentionPolicy = nil
-	}
-
-	// Cors
-	if source.Cors != nil {
-		var cor CorsRules
-		err := cor.Initialize_From_CorsRules_STATUS(source.Cors)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CorsRules_STATUS() to populate field Cors")
-		}
-		service.Cors = &cor
-	} else {
-		service.Cors = nil
-	}
-
-	// DefaultServiceVersion
-	service.DefaultServiceVersion = genruntime.ClonePointerToString(source.DefaultServiceVersion)
-
-	// DeleteRetentionPolicy
-	if source.DeleteRetentionPolicy != nil {
-		var deleteRetentionPolicy DeleteRetentionPolicy
-		err := deleteRetentionPolicy.Initialize_From_DeleteRetentionPolicy_STATUS(source.DeleteRetentionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DeleteRetentionPolicy_STATUS() to populate field DeleteRetentionPolicy")
-		}
-		service.DeleteRetentionPolicy = &deleteRetentionPolicy
-	} else {
-		service.DeleteRetentionPolicy = nil
-	}
-
-	// IsVersioningEnabled
-	if source.IsVersioningEnabled != nil {
-		isVersioningEnabled := *source.IsVersioningEnabled
-		service.IsVersioningEnabled = &isVersioningEnabled
-	} else {
-		service.IsVersioningEnabled = nil
-	}
-
-	// LastAccessTimeTrackingPolicy
-	if source.LastAccessTimeTrackingPolicy != nil {
-		var lastAccessTimeTrackingPolicy LastAccessTimeTrackingPolicy
-		err := lastAccessTimeTrackingPolicy.Initialize_From_LastAccessTimeTrackingPolicy_STATUS(source.LastAccessTimeTrackingPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_LastAccessTimeTrackingPolicy_STATUS() to populate field LastAccessTimeTrackingPolicy")
-		}
-		service.LastAccessTimeTrackingPolicy = &lastAccessTimeTrackingPolicy
-	} else {
-		service.LastAccessTimeTrackingPolicy = nil
-	}
-
-	// RestorePolicy
-	if source.RestorePolicy != nil {
-		var restorePolicy RestorePolicyProperties
-		err := restorePolicy.Initialize_From_RestorePolicyProperties_STATUS(source.RestorePolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RestorePolicyProperties_STATUS() to populate field RestorePolicy")
-		}
-		service.RestorePolicy = &restorePolicy
-	} else {
-		service.RestorePolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (service *StorageAccounts_BlobService_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
+// Deprecated version of StorageAccounts_BlobService_STATUS. Use v1api20210401.StorageAccounts_BlobService_STATUS instead
 type StorageAccounts_BlobService_STATUS struct {
-	// AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled property.
-	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
-
-	// ChangeFeed: The blob service properties for change feed events.
-	ChangeFeed *ChangeFeed_STATUS `json:"changeFeed,omitempty"`
+	AutomaticSnapshotPolicyEnabled *bool              `json:"automaticSnapshotPolicyEnabled,omitempty"`
+	ChangeFeed                     *ChangeFeed_STATUS `json:"changeFeed,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// ContainerDeleteRetentionPolicy: The blob service properties for container soft delete.
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUS `json:"containerDeleteRetentionPolicy,omitempty"`
-
-	// Cors: Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no
-	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-	// Blob service.
-	Cors *CorsRules_STATUS `json:"cors,omitempty"`
-
-	// DefaultServiceVersion: DefaultServiceVersion indicates the default version to use for requests to the Blob service if an
-	// incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions.
-	DefaultServiceVersion *string `json:"defaultServiceVersion,omitempty"`
-
-	// DeleteRetentionPolicy: The blob service properties for blob soft delete.
-	DeleteRetentionPolicy *DeleteRetentionPolicy_STATUS `json:"deleteRetentionPolicy,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// IsVersioningEnabled: Versioning is enabled if set to true.
-	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
-
-	// LastAccessTimeTrackingPolicy: The blob service property to configure last access time based tracking policy.
-	LastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy_STATUS `json:"lastAccessTimeTrackingPolicy,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// RestorePolicy: The blob service properties for blob restore policy.
-	RestorePolicy *RestorePolicyProperties_STATUS `json:"restorePolicy,omitempty"`
-
-	// Sku: Sku name and tier.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions                     []conditions.Condition               `json:"conditions,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_STATUS        `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules_STATUS                    `json:"cors,omitempty"`
+	DefaultServiceVersion          *string                              `json:"defaultServiceVersion,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy_STATUS        `json:"deleteRetentionPolicy,omitempty"`
+	Id                             *string                              `json:"id,omitempty"`
+	IsVersioningEnabled            *bool                                `json:"isVersioningEnabled,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_STATUS `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	Name                           *string                              `json:"name,omitempty"`
+	RestorePolicy                  *RestorePolicyProperties_STATUS      `json:"restorePolicy,omitempty"`
+	Sku                            *Sku_STATUS                          `json:"sku,omitempty"`
+	Type                           *string                              `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccounts_BlobService_STATUS{}
@@ -1468,15 +1321,12 @@ func (service *StorageAccounts_BlobService_STATUS) AssignProperties_To_StorageAc
 	return nil
 }
 
-// The blob service properties for change feed events.
+// Deprecated version of ChangeFeed. Use v1api20210401.ChangeFeed instead
 type ChangeFeed struct {
-	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
 	Enabled *bool `json:"enabled,omitempty"`
 
 	// +kubebuilder:validation:Maximum=146000
 	// +kubebuilder:validation:Minimum=1
-	// RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
-	// 146000 days (400 years). A null value indicates an infinite retention of the change feed.
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 }
 
@@ -1586,37 +1436,10 @@ func (feed *ChangeFeed) AssignProperties_To_ChangeFeed(destination *v20210401s.C
 	return nil
 }
 
-// Initialize_From_ChangeFeed_STATUS populates our ChangeFeed from the provided source ChangeFeed_STATUS
-func (feed *ChangeFeed) Initialize_From_ChangeFeed_STATUS(source *ChangeFeed_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		feed.Enabled = &enabled
-	} else {
-		feed.Enabled = nil
-	}
-
-	// RetentionInDays
-	if source.RetentionInDays != nil {
-		retentionInDay := *source.RetentionInDays
-		feed.RetentionInDays = &retentionInDay
-	} else {
-		feed.RetentionInDays = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The blob service properties for change feed events.
+// Deprecated version of ChangeFeed_STATUS. Use v1api20210401.ChangeFeed_STATUS instead
 type ChangeFeed_STATUS struct {
-	// Enabled: Indicates whether change feed event logging is enabled for the Blob service.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// RetentionInDays: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is
-	// 146000 days (400 years). A null value indicates an infinite retention of the change feed.
-	RetentionInDays *int `json:"retentionInDays,omitempty"`
+	Enabled         *bool `json:"enabled,omitempty"`
+	RetentionInDays *int  `json:"retentionInDays,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ChangeFeed_STATUS{}
@@ -1694,9 +1517,8 @@ func (feed *ChangeFeed_STATUS) AssignProperties_To_ChangeFeed_STATUS(destination
 	return nil
 }
 
-// Sets the CORS rules. You can include up to five CorsRule elements in the request.
+// Deprecated version of CorsRules. Use v1api20210401.CorsRules instead
 type CorsRules struct {
-	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
 	CorsRules []CorsRule `json:"corsRules,omitempty"`
 }
 
@@ -1805,34 +1627,8 @@ func (rules *CorsRules) AssignProperties_To_CorsRules(destination *v20210401s.Co
 	return nil
 }
 
-// Initialize_From_CorsRules_STATUS populates our CorsRules from the provided source CorsRules_STATUS
-func (rules *CorsRules) Initialize_From_CorsRules_STATUS(source *CorsRules_STATUS) error {
-
-	// CorsRules
-	if source.CorsRules != nil {
-		corsRuleList := make([]CorsRule, len(source.CorsRules))
-		for corsRuleIndex, corsRuleItem := range source.CorsRules {
-			// Shadow the loop variable to avoid aliasing
-			corsRuleItem := corsRuleItem
-			var corsRule CorsRule
-			err := corsRule.Initialize_From_CorsRule_STATUS(&corsRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_CorsRule_STATUS() to populate field CorsRules")
-			}
-			corsRuleList[corsRuleIndex] = corsRule
-		}
-		rules.CorsRules = corsRuleList
-	} else {
-		rules.CorsRules = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Sets the CORS rules. You can include up to five CorsRule elements in the request.
+// Deprecated version of CorsRules_STATUS. Use v1api20210401.CorsRules_STATUS instead
 type CorsRules_STATUS struct {
-	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
 	CorsRules []CorsRule_STATUS `json:"corsRules,omitempty"`
 }
 
@@ -1923,15 +1719,11 @@ func (rules *CorsRules_STATUS) AssignProperties_To_CorsRules_STATUS(destination 
 	return nil
 }
 
-// The service properties for soft delete.
+// Deprecated version of DeleteRetentionPolicy. Use v1api20210401.DeleteRetentionPolicy instead
 type DeleteRetentionPolicy struct {
 	// +kubebuilder:validation:Maximum=365
 	// +kubebuilder:validation:Minimum=1
-	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
-	// the maximum value can be 365.
-	Days *int `json:"days,omitempty"`
-
-	// Enabled: Indicates whether DeleteRetentionPolicy is enabled.
+	Days    *int  `json:"days,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -2041,36 +1833,9 @@ func (policy *DeleteRetentionPolicy) AssignProperties_To_DeleteRetentionPolicy(d
 	return nil
 }
 
-// Initialize_From_DeleteRetentionPolicy_STATUS populates our DeleteRetentionPolicy from the provided source DeleteRetentionPolicy_STATUS
-func (policy *DeleteRetentionPolicy) Initialize_From_DeleteRetentionPolicy_STATUS(source *DeleteRetentionPolicy_STATUS) error {
-
-	// Days
-	if source.Days != nil {
-		day := *source.Days
-		policy.Days = &day
-	} else {
-		policy.Days = nil
-	}
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		policy.Enabled = &enabled
-	} else {
-		policy.Enabled = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The service properties for soft delete.
+// Deprecated version of DeleteRetentionPolicy_STATUS. Use v1api20210401.DeleteRetentionPolicy_STATUS instead
 type DeleteRetentionPolicy_STATUS struct {
-	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
-	// the maximum value can be 365.
-	Days *int `json:"days,omitempty"`
-
-	// Enabled: Indicates whether DeleteRetentionPolicy is enabled.
+	Days    *int  `json:"days,omitempty"`
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -2149,22 +1914,14 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_To_DeleteRetentionP
 	return nil
 }
 
-// The blob service properties for Last access time based tracking policy.
+// Deprecated version of LastAccessTimeTrackingPolicy. Use v1api20210401.LastAccessTimeTrackingPolicy instead
 type LastAccessTimeTrackingPolicy struct {
-	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
-	// read only
 	BlobType []string `json:"blobType,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Enable: When set to true last access time based tracking is enabled.
-	Enable *bool `json:"enable,omitempty"`
-
-	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicy_Name `json:"name,omitempty"`
-
-	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
-	// object should be tracked.This field is currently read only with value as 1
-	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
+	Enable                    *bool                              `json:"enable,omitempty"`
+	Name                      *LastAccessTimeTrackingPolicy_Name `json:"name,omitempty"`
+	TrackingGranularityInDays *int                               `json:"trackingGranularityInDays,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LastAccessTimeTrackingPolicy{}
@@ -2307,50 +2064,12 @@ func (policy *LastAccessTimeTrackingPolicy) AssignProperties_To_LastAccessTimeTr
 	return nil
 }
 
-// Initialize_From_LastAccessTimeTrackingPolicy_STATUS populates our LastAccessTimeTrackingPolicy from the provided source LastAccessTimeTrackingPolicy_STATUS
-func (policy *LastAccessTimeTrackingPolicy) Initialize_From_LastAccessTimeTrackingPolicy_STATUS(source *LastAccessTimeTrackingPolicy_STATUS) error {
-
-	// BlobType
-	policy.BlobType = genruntime.CloneSliceOfString(source.BlobType)
-
-	// Enable
-	if source.Enable != nil {
-		enable := *source.Enable
-		policy.Enable = &enable
-	} else {
-		policy.Enable = nil
-	}
-
-	// Name
-	if source.Name != nil {
-		name := LastAccessTimeTrackingPolicy_Name(*source.Name)
-		policy.Name = &name
-	} else {
-		policy.Name = nil
-	}
-
-	// TrackingGranularityInDays
-	policy.TrackingGranularityInDays = genruntime.ClonePointerToInt(source.TrackingGranularityInDays)
-
-	// No error
-	return nil
-}
-
-// The blob service properties for Last access time based tracking policy.
+// Deprecated version of LastAccessTimeTrackingPolicy_STATUS. Use v1api20210401.LastAccessTimeTrackingPolicy_STATUS instead
 type LastAccessTimeTrackingPolicy_STATUS struct {
-	// BlobType: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently
-	// read only
-	BlobType []string `json:"blobType,omitempty"`
-
-	// Enable: When set to true last access time based tracking is enabled.
-	Enable *bool `json:"enable,omitempty"`
-
-	// Name: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
-	Name *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name,omitempty"`
-
-	// TrackingGranularityInDays: The field specifies blob object tracking granularity in days, typically how often the blob
-	// object should be tracked.This field is currently read only with value as 1
-	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
+	BlobType                  []string                                  `json:"blobType,omitempty"`
+	Enable                    *bool                                     `json:"enable,omitempty"`
+	Name                      *LastAccessTimeTrackingPolicy_Name_STATUS `json:"name,omitempty"`
+	TrackingGranularityInDays *int                                      `json:"trackingGranularityInDays,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LastAccessTimeTrackingPolicy_STATUS{}
@@ -2461,15 +2180,13 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) AssignProperties_To_LastAcces
 	return nil
 }
 
-// The blob service properties for blob restore policy
+// Deprecated version of RestorePolicyProperties. Use v1api20210401.RestorePolicyProperties instead
 type RestorePolicyProperties struct {
 	// +kubebuilder:validation:Maximum=365
 	// +kubebuilder:validation:Minimum=1
-	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
 	Days *int `json:"days,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Enabled: Blob restore is enabled if set to true.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
@@ -2579,42 +2296,12 @@ func (properties *RestorePolicyProperties) AssignProperties_To_RestorePolicyProp
 	return nil
 }
 
-// Initialize_From_RestorePolicyProperties_STATUS populates our RestorePolicyProperties from the provided source RestorePolicyProperties_STATUS
-func (properties *RestorePolicyProperties) Initialize_From_RestorePolicyProperties_STATUS(source *RestorePolicyProperties_STATUS) error {
-
-	// Days
-	if source.Days != nil {
-		day := *source.Days
-		properties.Days = &day
-	} else {
-		properties.Days = nil
-	}
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		properties.Enabled = &enabled
-	} else {
-		properties.Enabled = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The blob service properties for blob restore policy
+// Deprecated version of RestorePolicyProperties_STATUS. Use v1api20210401.RestorePolicyProperties_STATUS instead
 type RestorePolicyProperties_STATUS struct {
-	// Days: how long this blob can be restored. It should be great than zero and less than DeleteRetentionPolicy.days.
-	Days *int `json:"days,omitempty"`
-
-	// Enabled: Blob restore is enabled if set to true.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// LastEnabledTime: Deprecated in favor of minRestoreTime property.
+	Days            *int    `json:"days,omitempty"`
+	Enabled         *bool   `json:"enabled,omitempty"`
 	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
-
-	// MinRestoreTime: Returns the minimum date and time that the restore can be started.
-	MinRestoreTime *string `json:"minRestoreTime,omitempty"`
+	MinRestoreTime  *string `json:"minRestoreTime,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RestorePolicyProperties_STATUS{}
@@ -2716,30 +2403,21 @@ func (properties *RestorePolicyProperties_STATUS) AssignProperties_To_RestorePol
 	return nil
 }
 
-// Specifies a CORS rule for the Blob service.
+// Deprecated version of CorsRule. Use v1api20210401.CorsRule instead
 type CorsRule struct {
 	// +kubebuilder:validation:Required
-	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
-	// request.
 	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
-	// origin.
 	AllowedMethods []CorsRule_AllowedMethods `json:"allowedMethods,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
-	// to allow all domains
 	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
 	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
-	// preflight response.
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
@@ -2895,59 +2573,13 @@ func (rule *CorsRule) AssignProperties_To_CorsRule(destination *v20210401s.CorsR
 	return nil
 }
 
-// Initialize_From_CorsRule_STATUS populates our CorsRule from the provided source CorsRule_STATUS
-func (rule *CorsRule) Initialize_From_CorsRule_STATUS(source *CorsRule_STATUS) error {
-
-	// AllowedHeaders
-	rule.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
-
-	// AllowedMethods
-	if source.AllowedMethods != nil {
-		allowedMethodList := make([]CorsRule_AllowedMethods, len(source.AllowedMethods))
-		for allowedMethodIndex, allowedMethodItem := range source.AllowedMethods {
-			// Shadow the loop variable to avoid aliasing
-			allowedMethodItem := allowedMethodItem
-			allowedMethod := CorsRule_AllowedMethods(allowedMethodItem)
-			allowedMethodList[allowedMethodIndex] = allowedMethod
-		}
-		rule.AllowedMethods = allowedMethodList
-	} else {
-		rule.AllowedMethods = nil
-	}
-
-	// AllowedOrigins
-	rule.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
-
-	// ExposedHeaders
-	rule.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
-
-	// MaxAgeInSeconds
-	rule.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
-
-	// No error
-	return nil
-}
-
-// Specifies a CORS rule for the Blob service.
+// Deprecated version of CorsRule_STATUS. Use v1api20210401.CorsRule_STATUS instead
 type CorsRule_STATUS struct {
-	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
-	// request.
-	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
-
-	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
-	// origin.
-	AllowedMethods []CorsRule_AllowedMethods_STATUS `json:"allowedMethods,omitempty"`
-
-	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
-	// to allow all domains
-	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
-
-	// ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
-	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
-
-	// MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
-	// preflight response.
-	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
+	AllowedHeaders  []string                         `json:"allowedHeaders,omitempty"`
+	AllowedMethods  []CorsRule_AllowedMethods_STATUS `json:"allowedMethods,omitempty"`
+	AllowedOrigins  []string                         `json:"allowedOrigins,omitempty"`
+	ExposedHeaders  []string                         `json:"exposedHeaders,omitempty"`
+	MaxAgeInSeconds *int                             `json:"maxAgeInSeconds,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CorsRule_STATUS{}
@@ -3067,15 +2699,19 @@ func (rule *CorsRule_STATUS) AssignProperties_To_CorsRule_STATUS(destination *v2
 	return nil
 }
 
+// Deprecated version of LastAccessTimeTrackingPolicy_Name. Use v1api20210401.LastAccessTimeTrackingPolicy_Name instead
 // +kubebuilder:validation:Enum={"AccessTimeTracking"}
 type LastAccessTimeTrackingPolicy_Name string
 
 const LastAccessTimeTrackingPolicy_Name_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name("AccessTimeTracking")
 
+// Deprecated version of LastAccessTimeTrackingPolicy_Name_STATUS. Use
+// v1api20210401.LastAccessTimeTrackingPolicy_Name_STATUS instead
 type LastAccessTimeTrackingPolicy_Name_STATUS string
 
 const LastAccessTimeTrackingPolicy_Name_STATUS_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name_STATUS("AccessTimeTracking")
 
+// Deprecated version of CorsRule_AllowedMethods. Use v1api20210401.CorsRule_AllowedMethods instead
 // +kubebuilder:validation:Enum={"DELETE","GET","HEAD","MERGE","OPTIONS","POST","PUT"}
 type CorsRule_AllowedMethods string
 
@@ -3089,6 +2725,7 @@ const (
 	CorsRule_AllowedMethods_PUT     = CorsRule_AllowedMethods("PUT")
 )
 
+// Deprecated version of CorsRule_AllowedMethods_STATUS. Use v1api20210401.CorsRule_AllowedMethods_STATUS instead
 type CorsRule_AllowedMethods_STATUS string
 
 const (

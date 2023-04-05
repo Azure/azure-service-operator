@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
+// Deprecated version of SqlDatabaseContainer. Use v1api20210515.SqlDatabaseContainer instead
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &SqlDatabaseContainer{}
 
 // ConvertFrom populates our SqlDatabaseContainer from the provided hub SqlDatabaseContainer
 func (container *SqlDatabaseContainer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210515s.SqlDatabaseContainer)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlDatabaseContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210515s.SqlDatabaseContainer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return container.AssignProperties_From_SqlDatabaseContainer(source)
+	err = container.AssignProperties_From_SqlDatabaseContainer(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to container")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainer from our SqlDatabaseContainer
 func (container *SqlDatabaseContainer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210515s.SqlDatabaseContainer)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlDatabaseContainer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210515s.SqlDatabaseContainer
+	err := container.AssignProperties_To_SqlDatabaseContainer(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from container")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return container.AssignProperties_To_SqlDatabaseContainer(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqldatabasecontainer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainers,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqldatabasecontainers.documentdb.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (container *SqlDatabaseContainer) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the SqlDatabaseContainer resource
 func (container *SqlDatabaseContainer) defaultImpl() { container.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &SqlDatabaseContainer{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (container *SqlDatabaseContainer) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DatabaseAccounts_SqlDatabases_Container_STATUS); ok {
-		return container.Spec.Initialize_From_DatabaseAccounts_SqlDatabases_Container_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlDatabases_Container_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainer{}
 
@@ -323,9 +324,7 @@ func (container *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}
+// Deprecated version of SqlDatabaseContainer. Use v1api20210515.SqlDatabaseContainer instead
 type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -335,14 +334,9 @@ type SqlDatabaseContainerList struct {
 type DatabaseAccounts_SqlDatabases_Container_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions `json:"options,omitempty"`
+	AzureName string               `json:"azureName,omitempty"`
+	Location  *string              `json:"location,omitempty"`
+	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -351,7 +345,6 @@ type DatabaseAccounts_SqlDatabases_Container_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabase"`
 
 	// +kubebuilder:validation:Required
-	// Resource: The standard JSON format of a container
 	Resource *SqlContainerResource `json:"resource,omitempty"`
 	Tags     map[string]string     `json:"tags,omitempty"`
 }
@@ -627,43 +620,6 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) AssignProperties_
 	return nil
 }
 
-// Initialize_From_DatabaseAccounts_SqlDatabases_Container_STATUS populates our DatabaseAccounts_SqlDatabases_Container_Spec from the provided source DatabaseAccounts_SqlDatabases_Container_STATUS
-func (container *DatabaseAccounts_SqlDatabases_Container_Spec) Initialize_From_DatabaseAccounts_SqlDatabases_Container_STATUS(source *DatabaseAccounts_SqlDatabases_Container_STATUS) error {
-
-	// Location
-	container.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions
-		err := option.Initialize_From_OptionsResource_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_OptionsResource_STATUS() to populate field Options")
-		}
-		container.Options = &option
-	} else {
-		container.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlContainerResource
-		err := resource.Initialize_From_SqlContainerGetProperties_Resource_STATUS(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SqlContainerGetProperties_Resource_STATUS() to populate field Resource")
-		}
-		container.Resource = &resource
-	} else {
-		container.Resource = nil
-	}
-
-	// Tags
-	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (container *DatabaseAccounts_SqlDatabases_Container_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -674,26 +630,17 @@ func (container *DatabaseAccounts_SqlDatabases_Container_Spec) SetAzureName(azur
 	container.AzureName = azureName
 }
 
+// Deprecated version of DatabaseAccounts_SqlDatabases_Container_STATUS. Use v1api20210515.DatabaseAccounts_SqlDatabases_Container_STATUS instead
 type DatabaseAccounts_SqlDatabases_Container_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Options: Cosmos DB options resource object
-	Options  *OptionsResource_STATUS                    `json:"options,omitempty"`
-	Resource *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string                          `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                     `json:"conditions,omitempty"`
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Options    *OptionsResource_STATUS                    `json:"options,omitempty"`
+	Resource   *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlDatabases_Container_STATUS{}
@@ -933,38 +880,18 @@ func (container *DatabaseAccounts_SqlDatabases_Container_STATUS) AssignPropertie
 	return nil
 }
 
+// Deprecated version of SqlContainerGetProperties_Resource_STATUS. Use v1api20210515.SqlContainerGetProperties_Resource_STATUS instead
 type SqlContainerGetProperties_Resource_STATUS struct {
-	// AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	// ConflictResolutionPolicy: The conflict resolution policy for the container.
+	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
-
-	// DefaultTtl: Default time to live
-	DefaultTtl *int `json:"defaultTtl,omitempty"`
-
-	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	// Id: Name of the Cosmos DB SQL container
-	Id *string `json:"id,omitempty"`
-
-	// IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
-	// within the container
-	IndexingPolicy *IndexingPolicy_STATUS `json:"indexingPolicy,omitempty"`
-
-	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
-	PartitionKey *ContainerPartitionKey_STATUS `json:"partitionKey,omitempty"`
-
-	// Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	// Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
-
-	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-	// collection in the Azure Cosmos DB service.
-	UniqueKeyPolicy *UniqueKeyPolicy_STATUS `json:"uniqueKeyPolicy,omitempty"`
+	DefaultTtl               *int                             `json:"defaultTtl,omitempty"`
+	Etag                     *string                          `json:"_etag,omitempty"`
+	Id                       *string                          `json:"id,omitempty"`
+	IndexingPolicy           *IndexingPolicy_STATUS           `json:"indexingPolicy,omitempty"`
+	PartitionKey             *ContainerPartitionKey_STATUS    `json:"partitionKey,omitempty"`
+	Rid                      *string                          `json:"_rid,omitempty"`
+	Ts                       *float64                         `json:"_ts,omitempty"`
+	UniqueKeyPolicy          *UniqueKeyPolicy_STATUS          `json:"uniqueKeyPolicy,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SqlContainerGetProperties_Resource_STATUS{}
@@ -1230,31 +1157,17 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignProperties_To_S
 	return nil
 }
 
-// Cosmos DB SQL container resource object
+// Deprecated version of SqlContainerResource. Use v1api20210515.SqlContainerResource instead
 type SqlContainerResource struct {
-	// AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	// ConflictResolutionPolicy: The conflict resolution policy for the container.
+	AnalyticalStorageTtl     *int                      `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy `json:"conflictResolutionPolicy,omitempty"`
-
-	// DefaultTtl: Default time to live
-	DefaultTtl *int `json:"defaultTtl,omitempty"`
+	DefaultTtl               *int                      `json:"defaultTtl,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Id: Name of the Cosmos DB SQL container
-	Id *string `json:"id,omitempty"`
-
-	// IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
-	// within the container
-	IndexingPolicy *IndexingPolicy `json:"indexingPolicy,omitempty"`
-
-	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
-	PartitionKey *ContainerPartitionKey `json:"partitionKey,omitempty"`
-
-	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-	// collection in the Azure Cosmos DB service.
-	UniqueKeyPolicy *UniqueKeyPolicy `json:"uniqueKeyPolicy,omitempty"`
+	Id              *string                `json:"id,omitempty"`
+	IndexingPolicy  *IndexingPolicy        `json:"indexingPolicy,omitempty"`
+	PartitionKey    *ContainerPartitionKey `json:"partitionKey,omitempty"`
+	UniqueKeyPolicy *UniqueKeyPolicy       `json:"uniqueKeyPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SqlContainerResource{}
@@ -1541,80 +1454,11 @@ func (resource *SqlContainerResource) AssignProperties_To_SqlContainerResource(d
 	return nil
 }
 
-// Initialize_From_SqlContainerGetProperties_Resource_STATUS populates our SqlContainerResource from the provided source SqlContainerGetProperties_Resource_STATUS
-func (resource *SqlContainerResource) Initialize_From_SqlContainerGetProperties_Resource_STATUS(source *SqlContainerGetProperties_Resource_STATUS) error {
-
-	// AnalyticalStorageTtl
-	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
-
-	// ConflictResolutionPolicy
-	if source.ConflictResolutionPolicy != nil {
-		var conflictResolutionPolicy ConflictResolutionPolicy
-		err := conflictResolutionPolicy.Initialize_From_ConflictResolutionPolicy_STATUS(source.ConflictResolutionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ConflictResolutionPolicy_STATUS() to populate field ConflictResolutionPolicy")
-		}
-		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
-	} else {
-		resource.ConflictResolutionPolicy = nil
-	}
-
-	// DefaultTtl
-	resource.DefaultTtl = genruntime.ClonePointerToInt(source.DefaultTtl)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// IndexingPolicy
-	if source.IndexingPolicy != nil {
-		var indexingPolicy IndexingPolicy
-		err := indexingPolicy.Initialize_From_IndexingPolicy_STATUS(source.IndexingPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_IndexingPolicy_STATUS() to populate field IndexingPolicy")
-		}
-		resource.IndexingPolicy = &indexingPolicy
-	} else {
-		resource.IndexingPolicy = nil
-	}
-
-	// PartitionKey
-	if source.PartitionKey != nil {
-		var partitionKey ContainerPartitionKey
-		err := partitionKey.Initialize_From_ContainerPartitionKey_STATUS(source.PartitionKey)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ContainerPartitionKey_STATUS() to populate field PartitionKey")
-		}
-		resource.PartitionKey = &partitionKey
-	} else {
-		resource.PartitionKey = nil
-	}
-
-	// UniqueKeyPolicy
-	if source.UniqueKeyPolicy != nil {
-		var uniqueKeyPolicy UniqueKeyPolicy
-		err := uniqueKeyPolicy.Initialize_From_UniqueKeyPolicy_STATUS(source.UniqueKeyPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_UniqueKeyPolicy_STATUS() to populate field UniqueKeyPolicy")
-		}
-		resource.UniqueKeyPolicy = &uniqueKeyPolicy
-	} else {
-		resource.UniqueKeyPolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The conflict resolution policy for the container.
+// Deprecated version of ConflictResolutionPolicy. Use v1api20210515.ConflictResolutionPolicy instead
 type ConflictResolutionPolicy struct {
-	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
-	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
-
-	// ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
-	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
-
-	// Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicy_Mode `json:"mode,omitempty"`
+	ConflictResolutionPath      *string                        `json:"conflictResolutionPath,omitempty"`
+	ConflictResolutionProcedure *string                        `json:"conflictResolutionProcedure,omitempty"`
+	Mode                        *ConflictResolutionPolicy_Mode `json:"mode,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ConflictResolutionPolicy{}
@@ -1731,37 +1575,11 @@ func (policy *ConflictResolutionPolicy) AssignProperties_To_ConflictResolutionPo
 	return nil
 }
 
-// Initialize_From_ConflictResolutionPolicy_STATUS populates our ConflictResolutionPolicy from the provided source ConflictResolutionPolicy_STATUS
-func (policy *ConflictResolutionPolicy) Initialize_From_ConflictResolutionPolicy_STATUS(source *ConflictResolutionPolicy_STATUS) error {
-
-	// ConflictResolutionPath
-	policy.ConflictResolutionPath = genruntime.ClonePointerToString(source.ConflictResolutionPath)
-
-	// ConflictResolutionProcedure
-	policy.ConflictResolutionProcedure = genruntime.ClonePointerToString(source.ConflictResolutionProcedure)
-
-	// Mode
-	if source.Mode != nil {
-		mode := ConflictResolutionPolicy_Mode(*source.Mode)
-		policy.Mode = &mode
-	} else {
-		policy.Mode = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The conflict resolution policy for the container.
+// Deprecated version of ConflictResolutionPolicy_STATUS. Use v1api20210515.ConflictResolutionPolicy_STATUS instead
 type ConflictResolutionPolicy_STATUS struct {
-	// ConflictResolutionPath: The conflict resolution path in the case of LastWriterWins mode.
-	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
-
-	// ConflictResolutionProcedure: The procedure to resolve conflicts in the case of custom mode.
-	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
-
-	// Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
+	ConflictResolutionPath      *string                               `json:"conflictResolutionPath,omitempty"`
+	ConflictResolutionProcedure *string                               `json:"conflictResolutionProcedure,omitempty"`
+	Mode                        *ConflictResolutionPolicy_Mode_STATUS `json:"mode,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ConflictResolutionPolicy_STATUS{}
@@ -1851,18 +1669,13 @@ func (policy *ConflictResolutionPolicy_STATUS) AssignProperties_To_ConflictResol
 	return nil
 }
 
-// The configuration of the partition key to be used for partitioning data into multiple partitions
+// Deprecated version of ContainerPartitionKey. Use v1api20210515.ContainerPartitionKey instead
 type ContainerPartitionKey struct {
-	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-	// are supported for container create
-	Kind *ContainerPartitionKey_Kind `json:"kind,omitempty"`
-
-	// Paths: List of paths using which data within the container can be partitioned
-	Paths []string `json:"paths,omitempty"`
+	Kind  *ContainerPartitionKey_Kind `json:"kind,omitempty"`
+	Paths []string                    `json:"paths,omitempty"`
 
 	// +kubebuilder:validation:Maximum=2
 	// +kubebuilder:validation:Minimum=1
-	// Version: Indicates the version of the partition key definition
 	Version *int `json:"version,omitempty"`
 }
 
@@ -1988,46 +1801,12 @@ func (partitionKey *ContainerPartitionKey) AssignProperties_To_ContainerPartitio
 	return nil
 }
 
-// Initialize_From_ContainerPartitionKey_STATUS populates our ContainerPartitionKey from the provided source ContainerPartitionKey_STATUS
-func (partitionKey *ContainerPartitionKey) Initialize_From_ContainerPartitionKey_STATUS(source *ContainerPartitionKey_STATUS) error {
-
-	// Kind
-	if source.Kind != nil {
-		kind := ContainerPartitionKey_Kind(*source.Kind)
-		partitionKey.Kind = &kind
-	} else {
-		partitionKey.Kind = nil
-	}
-
-	// Paths
-	partitionKey.Paths = genruntime.CloneSliceOfString(source.Paths)
-
-	// Version
-	if source.Version != nil {
-		version := *source.Version
-		partitionKey.Version = &version
-	} else {
-		partitionKey.Version = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The configuration of the partition key to be used for partitioning data into multiple partitions
+// Deprecated version of ContainerPartitionKey_STATUS. Use v1api20210515.ContainerPartitionKey_STATUS instead
 type ContainerPartitionKey_STATUS struct {
-	// Kind: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum)
-	// are supported for container create
-	Kind *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
-
-	// Paths: List of paths using which data within the container can be partitioned
-	Paths []string `json:"paths,omitempty"`
-
-	// SystemKey: Indicates if the container is using a system generated partition key
-	SystemKey *bool `json:"systemKey,omitempty"`
-
-	// Version: Indicates the version of the partition key definition
-	Version *int `json:"version,omitempty"`
+	Kind      *ContainerPartitionKey_Kind_STATUS `json:"kind,omitempty"`
+	Paths     []string                           `json:"paths,omitempty"`
+	SystemKey *bool                              `json:"systemKey,omitempty"`
+	Version   *int                               `json:"version,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ContainerPartitionKey_STATUS{}
@@ -2138,25 +1917,14 @@ func (partitionKey *ContainerPartitionKey_STATUS) AssignProperties_To_ContainerP
 	return nil
 }
 
-// Cosmos DB indexing policy
+// Deprecated version of IndexingPolicy. Use v1api20210515.IndexingPolicy instead
 type IndexingPolicy struct {
-	// Automatic: Indicates if the indexing policy is automatic
-	Automatic *bool `json:"automatic,omitempty"`
-
-	// CompositeIndexes: List of composite path list
-	CompositeIndexes [][]CompositePath `json:"compositeIndexes,omitempty"`
-
-	// ExcludedPaths: List of paths to exclude from indexing
-	ExcludedPaths []ExcludedPath `json:"excludedPaths,omitempty"`
-
-	// IncludedPaths: List of paths to include in the indexing
-	IncludedPaths []IncludedPath `json:"includedPaths,omitempty"`
-
-	// IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicy_IndexingMode `json:"indexingMode,omitempty"`
-
-	// SpatialIndexes: List of spatial specifics
-	SpatialIndexes []SpatialSpec `json:"spatialIndexes,omitempty"`
+	Automatic        *bool                        `json:"automatic,omitempty"`
+	CompositeIndexes [][]CompositePath            `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath               `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath               `json:"includedPaths,omitempty"`
+	IndexingMode     *IndexingPolicy_IndexingMode `json:"indexingMode,omitempty"`
+	SpatialIndexes   []SpatialSpec                `json:"spatialIndexes,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IndexingPolicy{}
@@ -2513,130 +2281,14 @@ func (policy *IndexingPolicy) AssignProperties_To_IndexingPolicy(destination *v2
 	return nil
 }
 
-// Initialize_From_IndexingPolicy_STATUS populates our IndexingPolicy from the provided source IndexingPolicy_STATUS
-func (policy *IndexingPolicy) Initialize_From_IndexingPolicy_STATUS(source *IndexingPolicy_STATUS) error {
-
-	// Automatic
-	if source.Automatic != nil {
-		automatic := *source.Automatic
-		policy.Automatic = &automatic
-	} else {
-		policy.Automatic = nil
-	}
-
-	// CompositeIndexes
-	if source.CompositeIndexes != nil {
-		compositeIndexList := make([][]CompositePath, len(source.CompositeIndexes))
-		for compositeIndex, compositeIndexItem := range source.CompositeIndexes {
-			// Shadow the loop variable to avoid aliasing
-			compositeIndexItem := compositeIndexItem
-			if compositeIndexItem != nil {
-				compositeIndexList1 := make([]CompositePath, len(compositeIndexItem))
-				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
-					// Shadow the loop variable to avoid aliasing
-					compositeIndexItem1 := compositeIndexItem1
-					var compositeIndexLocal CompositePath
-					err := compositeIndexLocal.Initialize_From_CompositePath_STATUS(&compositeIndexItem1)
-					if err != nil {
-						return errors.Wrap(err, "calling Initialize_From_CompositePath_STATUS() to populate field CompositeIndexes")
-					}
-					compositeIndexList1[compositeIndex1] = compositeIndexLocal
-				}
-				compositeIndexList[compositeIndex] = compositeIndexList1
-			} else {
-				compositeIndexList[compositeIndex] = nil
-			}
-		}
-		policy.CompositeIndexes = compositeIndexList
-	} else {
-		policy.CompositeIndexes = nil
-	}
-
-	// ExcludedPaths
-	if source.ExcludedPaths != nil {
-		excludedPathList := make([]ExcludedPath, len(source.ExcludedPaths))
-		for excludedPathIndex, excludedPathItem := range source.ExcludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			excludedPathItem := excludedPathItem
-			var excludedPath ExcludedPath
-			err := excludedPath.Initialize_From_ExcludedPath_STATUS(&excludedPathItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ExcludedPath_STATUS() to populate field ExcludedPaths")
-			}
-			excludedPathList[excludedPathIndex] = excludedPath
-		}
-		policy.ExcludedPaths = excludedPathList
-	} else {
-		policy.ExcludedPaths = nil
-	}
-
-	// IncludedPaths
-	if source.IncludedPaths != nil {
-		includedPathList := make([]IncludedPath, len(source.IncludedPaths))
-		for includedPathIndex, includedPathItem := range source.IncludedPaths {
-			// Shadow the loop variable to avoid aliasing
-			includedPathItem := includedPathItem
-			var includedPath IncludedPath
-			err := includedPath.Initialize_From_IncludedPath_STATUS(&includedPathItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_IncludedPath_STATUS() to populate field IncludedPaths")
-			}
-			includedPathList[includedPathIndex] = includedPath
-		}
-		policy.IncludedPaths = includedPathList
-	} else {
-		policy.IncludedPaths = nil
-	}
-
-	// IndexingMode
-	if source.IndexingMode != nil {
-		indexingMode := IndexingPolicy_IndexingMode(*source.IndexingMode)
-		policy.IndexingMode = &indexingMode
-	} else {
-		policy.IndexingMode = nil
-	}
-
-	// SpatialIndexes
-	if source.SpatialIndexes != nil {
-		spatialIndexList := make([]SpatialSpec, len(source.SpatialIndexes))
-		for spatialIndex, spatialIndexItem := range source.SpatialIndexes {
-			// Shadow the loop variable to avoid aliasing
-			spatialIndexItem := spatialIndexItem
-			var spatialIndexLocal SpatialSpec
-			err := spatialIndexLocal.Initialize_From_SpatialSpec_STATUS(&spatialIndexItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_SpatialSpec_STATUS() to populate field SpatialIndexes")
-			}
-			spatialIndexList[spatialIndex] = spatialIndexLocal
-		}
-		policy.SpatialIndexes = spatialIndexList
-	} else {
-		policy.SpatialIndexes = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Cosmos DB indexing policy
+// Deprecated version of IndexingPolicy_STATUS. Use v1api20210515.IndexingPolicy_STATUS instead
 type IndexingPolicy_STATUS struct {
-	// Automatic: Indicates if the indexing policy is automatic
-	Automatic *bool `json:"automatic,omitempty"`
-
-	// CompositeIndexes: List of composite path list
-	CompositeIndexes [][]CompositePath_STATUS `json:"compositeIndexes,omitempty"`
-
-	// ExcludedPaths: List of paths to exclude from indexing
-	ExcludedPaths []ExcludedPath_STATUS `json:"excludedPaths,omitempty"`
-
-	// IncludedPaths: List of paths to include in the indexing
-	IncludedPaths []IncludedPath_STATUS `json:"includedPaths,omitempty"`
-
-	// IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
-
-	// SpatialIndexes: List of spatial specifics
-	SpatialIndexes []SpatialSpec_STATUS `json:"spatialIndexes,omitempty"`
+	Automatic        *bool                               `json:"automatic,omitempty"`
+	CompositeIndexes [][]CompositePath_STATUS            `json:"compositeIndexes,omitempty"`
+	ExcludedPaths    []ExcludedPath_STATUS               `json:"excludedPaths,omitempty"`
+	IncludedPaths    []IncludedPath_STATUS               `json:"includedPaths,omitempty"`
+	IndexingMode     *IndexingPolicy_IndexingMode_STATUS `json:"indexingMode,omitempty"`
+	SpatialIndexes   []SpatialSpec_STATUS                `json:"spatialIndexes,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IndexingPolicy_STATUS{}
@@ -2932,11 +2584,8 @@ func (policy *IndexingPolicy_STATUS) AssignProperties_To_IndexingPolicy_STATUS(d
 	return nil
 }
 
-// The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure
-// Cosmos DB service.
+// Deprecated version of UniqueKeyPolicy. Use v1api20210515.UniqueKeyPolicy instead
 type UniqueKeyPolicy struct {
-	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-	// Cosmos DB service.
 	UniqueKeys []UniqueKey `json:"uniqueKeys,omitempty"`
 }
 
@@ -3045,36 +2694,8 @@ func (policy *UniqueKeyPolicy) AssignProperties_To_UniqueKeyPolicy(destination *
 	return nil
 }
 
-// Initialize_From_UniqueKeyPolicy_STATUS populates our UniqueKeyPolicy from the provided source UniqueKeyPolicy_STATUS
-func (policy *UniqueKeyPolicy) Initialize_From_UniqueKeyPolicy_STATUS(source *UniqueKeyPolicy_STATUS) error {
-
-	// UniqueKeys
-	if source.UniqueKeys != nil {
-		uniqueKeyList := make([]UniqueKey, len(source.UniqueKeys))
-		for uniqueKeyIndex, uniqueKeyItem := range source.UniqueKeys {
-			// Shadow the loop variable to avoid aliasing
-			uniqueKeyItem := uniqueKeyItem
-			var uniqueKey UniqueKey
-			err := uniqueKey.Initialize_From_UniqueKey_STATUS(&uniqueKeyItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_UniqueKey_STATUS() to populate field UniqueKeys")
-			}
-			uniqueKeyList[uniqueKeyIndex] = uniqueKey
-		}
-		policy.UniqueKeys = uniqueKeyList
-	} else {
-		policy.UniqueKeys = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure
-// Cosmos DB service.
+// Deprecated version of UniqueKeyPolicy_STATUS. Use v1api20210515.UniqueKeyPolicy_STATUS instead
 type UniqueKeyPolicy_STATUS struct {
-	// UniqueKeys: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure
-	// Cosmos DB service.
 	UniqueKeys []UniqueKey_STATUS `json:"uniqueKeys,omitempty"`
 }
 
@@ -3165,13 +2786,10 @@ func (policy *UniqueKeyPolicy_STATUS) AssignProperties_To_UniqueKeyPolicy_STATUS
 	return nil
 }
 
+// Deprecated version of CompositePath. Use v1api20210515.CompositePath instead
 type CompositePath struct {
-	// Order: Sort order for composite paths.
 	Order *CompositePath_Order `json:"order,omitempty"`
-
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
-	Path *string `json:"path,omitempty"`
+	Path  *string              `json:"path,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &CompositePath{}
@@ -3270,31 +2888,10 @@ func (path *CompositePath) AssignProperties_To_CompositePath(destination *v20210
 	return nil
 }
 
-// Initialize_From_CompositePath_STATUS populates our CompositePath from the provided source CompositePath_STATUS
-func (path *CompositePath) Initialize_From_CompositePath_STATUS(source *CompositePath_STATUS) error {
-
-	// Order
-	if source.Order != nil {
-		order := CompositePath_Order(*source.Order)
-		path.Order = &order
-	} else {
-		path.Order = nil
-	}
-
-	// Path
-	path.Path = genruntime.ClonePointerToString(source.Path)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of CompositePath_STATUS. Use v1api20210515.CompositePath_STATUS instead
 type CompositePath_STATUS struct {
-	// Order: Sort order for composite paths.
 	Order *CompositePath_Order_STATUS `json:"order,omitempty"`
-
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
-	Path *string `json:"path,omitempty"`
+	Path  *string                     `json:"path,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CompositePath_STATUS{}
@@ -3372,9 +2969,8 @@ func (path *CompositePath_STATUS) AssignProperties_To_CompositePath_STATUS(desti
 	return nil
 }
 
+// Deprecated version of ExcludedPath. Use v1api20210515.ExcludedPath instead
 type ExcludedPath struct {
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3446,19 +3042,8 @@ func (path *ExcludedPath) AssignProperties_To_ExcludedPath(destination *v2021051
 	return nil
 }
 
-// Initialize_From_ExcludedPath_STATUS populates our ExcludedPath from the provided source ExcludedPath_STATUS
-func (path *ExcludedPath) Initialize_From_ExcludedPath_STATUS(source *ExcludedPath_STATUS) error {
-
-	// Path
-	path.Path = genruntime.ClonePointerToString(source.Path)
-
-	// No error
-	return nil
-}
-
+// Deprecated version of ExcludedPath_STATUS. Use v1api20210515.ExcludedPath_STATUS instead
 type ExcludedPath_STATUS struct {
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
@@ -3515,14 +3100,10 @@ func (path *ExcludedPath_STATUS) AssignProperties_To_ExcludedPath_STATUS(destina
 	return nil
 }
 
-// The paths that are included in indexing
+// Deprecated version of IncludedPath. Use v1api20210515.IncludedPath instead
 type IncludedPath struct {
-	// Indexes: List of indexes for this path
 	Indexes []Indexes `json:"indexes,omitempty"`
-
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
-	Path *string `json:"path,omitempty"`
+	Path    *string   `json:"path,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IncludedPath{}
@@ -3648,42 +3229,10 @@ func (path *IncludedPath) AssignProperties_To_IncludedPath(destination *v2021051
 	return nil
 }
 
-// Initialize_From_IncludedPath_STATUS populates our IncludedPath from the provided source IncludedPath_STATUS
-func (path *IncludedPath) Initialize_From_IncludedPath_STATUS(source *IncludedPath_STATUS) error {
-
-	// Indexes
-	if source.Indexes != nil {
-		indexList := make([]Indexes, len(source.Indexes))
-		for index, indexItem := range source.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
-			var indexLocal Indexes
-			err := indexLocal.Initialize_From_Indexes_STATUS(&indexItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_Indexes_STATUS() to populate field Indexes")
-			}
-			indexList[index] = indexLocal
-		}
-		path.Indexes = indexList
-	} else {
-		path.Indexes = nil
-	}
-
-	// Path
-	path.Path = genruntime.ClonePointerToString(source.Path)
-
-	// No error
-	return nil
-}
-
-// The paths that are included in indexing
+// Deprecated version of IncludedPath_STATUS. Use v1api20210515.IncludedPath_STATUS instead
 type IncludedPath_STATUS struct {
-	// Indexes: List of indexes for this path
 	Indexes []Indexes_STATUS `json:"indexes,omitempty"`
-
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
-	Path *string `json:"path,omitempty"`
+	Path    *string          `json:"path,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IncludedPath_STATUS{}
@@ -3785,12 +3334,9 @@ func (path *IncludedPath_STATUS) AssignProperties_To_IncludedPath_STATUS(destina
 	return nil
 }
 
+// Deprecated version of SpatialSpec. Use v1api20210515.SpatialSpec instead
 type SpatialSpec struct {
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
-	Path *string `json:"path,omitempty"`
-
-	// Types: List of path's spatial type
+	Path  *string       `json:"path,omitempty"`
 	Types []SpatialType `json:"types,omitempty"`
 }
 
@@ -3898,36 +3444,9 @@ func (spatial *SpatialSpec) AssignProperties_To_SpatialSpec(destination *v202105
 	return nil
 }
 
-// Initialize_From_SpatialSpec_STATUS populates our SpatialSpec from the provided source SpatialSpec_STATUS
-func (spatial *SpatialSpec) Initialize_From_SpatialSpec_STATUS(source *SpatialSpec_STATUS) error {
-
-	// Path
-	spatial.Path = genruntime.ClonePointerToString(source.Path)
-
-	// Types
-	if source.Types != nil {
-		typeList := make([]SpatialType, len(source.Types))
-		for typeIndex, typeItem := range source.Types {
-			// Shadow the loop variable to avoid aliasing
-			typeItem := typeItem
-			typeVar := SpatialType(typeItem)
-			typeList[typeIndex] = typeVar
-		}
-		spatial.Types = typeList
-	} else {
-		spatial.Types = nil
-	}
-
-	// No error
-	return nil
-}
-
+// Deprecated version of SpatialSpec_STATUS. Use v1api20210515.SpatialSpec_STATUS instead
 type SpatialSpec_STATUS struct {
-	// Path: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard
-	// (/path/*)
-	Path *string `json:"path,omitempty"`
-
-	// Types: List of path's spatial type
+	Path  *string              `json:"path,omitempty"`
 	Types []SpatialType_STATUS `json:"types,omitempty"`
 }
 
@@ -4015,9 +3534,8 @@ func (spatial *SpatialSpec_STATUS) AssignProperties_To_SpatialSpec_STATUS(destin
 	return nil
 }
 
-// The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
+// Deprecated version of UniqueKey. Use v1api20210515.UniqueKey instead
 type UniqueKey struct {
-	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 
@@ -4087,19 +3605,8 @@ func (uniqueKey *UniqueKey) AssignProperties_To_UniqueKey(destination *v20210515
 	return nil
 }
 
-// Initialize_From_UniqueKey_STATUS populates our UniqueKey from the provided source UniqueKey_STATUS
-func (uniqueKey *UniqueKey) Initialize_From_UniqueKey_STATUS(source *UniqueKey_STATUS) error {
-
-	// Paths
-	uniqueKey.Paths = genruntime.CloneSliceOfString(source.Paths)
-
-	// No error
-	return nil
-}
-
-// The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
+// Deprecated version of UniqueKey_STATUS. Use v1api20210515.UniqueKey_STATUS instead
 type UniqueKey_STATUS struct {
-	// Paths: List of paths must be unique for each document in the Azure Cosmos DB service
 	Paths []string `json:"paths,omitempty"`
 }
 
@@ -4155,16 +3662,11 @@ func (uniqueKey *UniqueKey_STATUS) AssignProperties_To_UniqueKey_STATUS(destinat
 	return nil
 }
 
-// The indexes for the path.
+// Deprecated version of Indexes. Use v1api20210515.Indexes instead
 type Indexes struct {
-	// DataType: The datatype for which the indexing behavior is applied to.
-	DataType *Indexes_DataType `json:"dataType,omitempty"`
-
-	// Kind: Indicates the type of index.
-	Kind *Indexes_Kind `json:"kind,omitempty"`
-
-	// Precision: The precision of the index. -1 is maximum precision.
-	Precision *int `json:"precision,omitempty"`
+	DataType  *Indexes_DataType `json:"dataType,omitempty"`
+	Kind      *Indexes_Kind     `json:"kind,omitempty"`
+	Precision *int              `json:"precision,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Indexes{}
@@ -4291,42 +3793,11 @@ func (indexes *Indexes) AssignProperties_To_Indexes(destination *v20210515s.Inde
 	return nil
 }
 
-// Initialize_From_Indexes_STATUS populates our Indexes from the provided source Indexes_STATUS
-func (indexes *Indexes) Initialize_From_Indexes_STATUS(source *Indexes_STATUS) error {
-
-	// DataType
-	if source.DataType != nil {
-		dataType := Indexes_DataType(*source.DataType)
-		indexes.DataType = &dataType
-	} else {
-		indexes.DataType = nil
-	}
-
-	// Kind
-	if source.Kind != nil {
-		kind := Indexes_Kind(*source.Kind)
-		indexes.Kind = &kind
-	} else {
-		indexes.Kind = nil
-	}
-
-	// Precision
-	indexes.Precision = genruntime.ClonePointerToInt(source.Precision)
-
-	// No error
-	return nil
-}
-
-// The indexes for the path.
+// Deprecated version of Indexes_STATUS. Use v1api20210515.Indexes_STATUS instead
 type Indexes_STATUS struct {
-	// DataType: The datatype for which the indexing behavior is applied to.
-	DataType *Indexes_DataType_STATUS `json:"dataType,omitempty"`
-
-	// Kind: Indicates the type of index.
-	Kind *Indexes_Kind_STATUS `json:"kind,omitempty"`
-
-	// Precision: The precision of the index. -1 is maximum precision.
-	Precision *int `json:"precision,omitempty"`
+	DataType  *Indexes_DataType_STATUS `json:"dataType,omitempty"`
+	Kind      *Indexes_Kind_STATUS     `json:"kind,omitempty"`
+	Precision *int                     `json:"precision,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Indexes_STATUS{}

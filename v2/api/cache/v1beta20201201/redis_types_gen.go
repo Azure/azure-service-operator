@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}
+// Deprecated version of Redis. Use v1api20201201.Redis instead
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Redis{}
 
 // ConvertFrom populates our Redis from the provided hub Redis
 func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201201s.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1beta20201201storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201201s.Redis
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return redis.AssignProperties_From_Redis(source)
+	err = redis.AssignProperties_From_Redis(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to redis")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Redis from our Redis
 func (redis *Redis) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201201s.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1beta20201201storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201201s.Redis
+	err := redis.AssignProperties_To_Redis(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from redis")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return redis.AssignProperties_To_Redis(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redis,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redis,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redis.cache.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (redis *Redis) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Redis resource
 func (redis *Redis) defaultImpl() { redis.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &Redis{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (redis *Redis) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Redis_STATUS); ok {
-		return redis.Spec.Initialize_From_Redis_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Redis_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &Redis{}
 
@@ -345,15 +346,14 @@ func (redis *Redis) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}
+// Deprecated version of Redis. Use v1api20201201.Redis instead
 type RedisList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Redis `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20201201.APIVersion instead
 // +kubebuilder:validation:Enum={"2020-12-01"}
 type APIVersion string
 
@@ -362,17 +362,11 @@ const APIVersion_Value = APIVersion("2020-12-01")
 type Redis_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
-	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
+	AzureName        string `json:"azureName,omitempty"`
+	EnableNonSslPort *bool  `json:"enableNonSslPort,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
-	// '1.2')
+	Location          *string                                  `json:"location,omitempty"`
 	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -383,53 +377,23 @@ type Redis_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
-	// 'Enabled'
+	Owner               *genruntime.KnownResourceReference         `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// RedisConfiguration: All Redis Settings. Few possible keys:
-	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
-	// etc.
-	RedisConfiguration *RedisCreateProperties_RedisConfiguration `json:"redisConfiguration,omitempty"`
-
-	// RedisVersion: Redis version. This should be in the form 'major[.minor[.build]]' (only 'major' is required) or the value
-	// 'latest' which refers to the latest stable Redis version that is available. Only the major and minor version are used in
-	// a PUT/PATCH request. Supported versions: 4.0, 6.0.
-	RedisVersion *string `json:"redisVersion,omitempty"`
-
-	// ReplicasPerMaster: The number of replicas to be created per primary.
-	ReplicasPerMaster *int `json:"replicasPerMaster,omitempty"`
-
-	// ReplicasPerPrimary: The number of replicas to be created per primary.
-	ReplicasPerPrimary *int `json:"replicasPerPrimary,omitempty"`
-
-	// ShardCount: The number of shards to be created on a Premium Cluster Cache.
-	ShardCount *int `json:"shardCount,omitempty"`
+	RedisConfiguration  *RedisCreateProperties_RedisConfiguration  `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                                    `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                                       `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                                       `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                                       `json:"shardCount,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Sku: The SKU of the Redis cache to deploy.
 	Sku *Sku `json:"sku,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^\\d+\\.\\d+\\.\\d+\\.\\d+$"
-	// StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
-	// Network; auto assigned by default.
-	StaticIP *string `json:"staticIP,omitempty"`
-
-	// SubnetReference: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
+	StaticIP        *string                       `json:"staticIP,omitempty"`
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TenantSettings: A dictionary of tenant settings
-	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
-
-	// Zones: A list of availability zones denoting where the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
+	Tags            map[string]string             `json:"tags,omitempty"`
+	TenantSettings  map[string]string             `json:"tenantSettings,omitempty"`
+	Zones           []string                      `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Redis_Spec{}
@@ -997,101 +961,6 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *v20201201s.
 	return nil
 }
 
-// Initialize_From_Redis_STATUS populates our Redis_Spec from the provided source Redis_STATUS
-func (redis *Redis_Spec) Initialize_From_Redis_STATUS(source *Redis_STATUS) error {
-
-	// EnableNonSslPort
-	if source.EnableNonSslPort != nil {
-		enableNonSslPort := *source.EnableNonSslPort
-		redis.EnableNonSslPort = &enableNonSslPort
-	} else {
-		redis.EnableNonSslPort = nil
-	}
-
-	// Location
-	redis.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion(*source.MinimumTlsVersion)
-		redis.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		redis.MinimumTlsVersion = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
-		redis.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		redis.PublicNetworkAccess = nil
-	}
-
-	// RedisConfiguration
-	if source.RedisConfiguration != nil {
-		var redisConfiguration RedisCreateProperties_RedisConfiguration
-		err := redisConfiguration.Initialize_From_RedisProperties_RedisConfiguration_STATUS(source.RedisConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_RedisProperties_RedisConfiguration_STATUS() to populate field RedisConfiguration")
-		}
-		redis.RedisConfiguration = &redisConfiguration
-	} else {
-		redis.RedisConfiguration = nil
-	}
-
-	// RedisVersion
-	redis.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
-
-	// ReplicasPerMaster
-	redis.ReplicasPerMaster = genruntime.ClonePointerToInt(source.ReplicasPerMaster)
-
-	// ReplicasPerPrimary
-	redis.ReplicasPerPrimary = genruntime.ClonePointerToInt(source.ReplicasPerPrimary)
-
-	// ShardCount
-	redis.ShardCount = genruntime.ClonePointerToInt(source.ShardCount)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		redis.Sku = &sku
-	} else {
-		redis.Sku = nil
-	}
-
-	// StaticIP
-	if source.StaticIP != nil {
-		staticIP := *source.StaticIP
-		redis.StaticIP = &staticIP
-	} else {
-		redis.StaticIP = nil
-	}
-
-	// SubnetReference
-	if source.SubnetId != nil {
-		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
-		redis.SubnetReference = &subnetReference
-	} else {
-		redis.SubnetReference = nil
-	}
-
-	// Tags
-	redis.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TenantSettings
-	redis.TenantSettings = genruntime.CloneMapOfStringToString(source.TenantSettings)
-
-	// Zones
-	redis.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (redis *Redis_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1100,94 +969,35 @@ func (redis *Redis_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (redis *Redis_Spec) SetAzureName(azureName string) { redis.AzureName = azureName }
 
+// Deprecated version of Redis_STATUS. Use v1api20201201.Redis_STATUS instead
 type Redis_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
-	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
-
-	// HostName: Redis host name.
-	HostName *string `json:"hostName,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Instances: List of the Redis instances associated with the cache
-	Instances []RedisInstanceDetails_STATUS `json:"instances,omitempty"`
-
-	// LinkedServers: List of the linked servers associated with the cache
-	LinkedServers []RedisLinkedServer_STATUS `json:"linkedServers,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
-	// '1.2')
-	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Port: Redis non-SSL port.
-	Port *int `json:"port,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Redis instance provisioning status.
-	ProvisioningState *RedisProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
-	// 'Enabled'
-	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-
-	// RedisConfiguration: All Redis Settings. Few possible keys:
-	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
-	// etc.
-	RedisConfiguration *RedisProperties_RedisConfiguration_STATUS `json:"redisConfiguration,omitempty"`
-
-	// RedisVersion: Redis version. This should be in the form 'major[.minor[.build]]' (only 'major' is required) or the value
-	// 'latest' which refers to the latest stable Redis version that is available. Only the major and minor version are used in
-	// a PUT/PATCH request. Supported versions: 4.0, 6.0.
-	RedisVersion *string `json:"redisVersion,omitempty"`
-
-	// ReplicasPerMaster: The number of replicas to be created per primary.
-	ReplicasPerMaster *int `json:"replicasPerMaster,omitempty"`
-
-	// ReplicasPerPrimary: The number of replicas to be created per primary.
-	ReplicasPerPrimary *int `json:"replicasPerPrimary,omitempty"`
-
-	// ShardCount: The number of shards to be created on a Premium Cluster Cache.
-	ShardCount *int `json:"shardCount,omitempty"`
-
-	// Sku: The SKU of the Redis cache to deploy.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// SslPort: Redis SSL port.
-	SslPort *int `json:"sslPort,omitempty"`
-
-	// StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
-	// Network; auto assigned by default.
-	StaticIP *string `json:"staticIP,omitempty"`
-
-	// SubnetId: The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format:
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
-	SubnetId *string `json:"subnetId,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TenantSettings: A dictionary of tenant settings
-	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// Zones: A list of availability zones denoting where the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
+	Conditions                 []conditions.Condition                      `json:"conditions,omitempty"`
+	EnableNonSslPort           *bool                                       `json:"enableNonSslPort,omitempty"`
+	HostName                   *string                                     `json:"hostName,omitempty"`
+	Id                         *string                                     `json:"id,omitempty"`
+	Instances                  []RedisInstanceDetails_STATUS               `json:"instances,omitempty"`
+	LinkedServers              []RedisLinkedServer_STATUS                  `json:"linkedServers,omitempty"`
+	Location                   *string                                     `json:"location,omitempty"`
+	MinimumTlsVersion          *RedisProperties_MinimumTlsVersion_STATUS   `json:"minimumTlsVersion,omitempty"`
+	Name                       *string                                     `json:"name,omitempty"`
+	Port                       *int                                        `json:"port,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS          `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *RedisProperties_ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RedisProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration         *RedisProperties_RedisConfiguration_STATUS  `json:"redisConfiguration,omitempty"`
+	RedisVersion               *string                                     `json:"redisVersion,omitempty"`
+	ReplicasPerMaster          *int                                        `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary         *int                                        `json:"replicasPerPrimary,omitempty"`
+	ShardCount                 *int                                        `json:"shardCount,omitempty"`
+	Sku                        *Sku_STATUS                                 `json:"sku,omitempty"`
+	SslPort                    *int                                        `json:"sslPort,omitempty"`
+	StaticIP                   *string                                     `json:"staticIP,omitempty"`
+	SubnetId                   *string                                     `json:"subnetId,omitempty"`
+	Tags                       map[string]string                           `json:"tags,omitempty"`
+	TenantSettings             map[string]string                           `json:"tenantSettings,omitempty"`
+	Type                       *string                                     `json:"type,omitempty"`
+	Zones                      []string                                    `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Redis_STATUS{}
@@ -1837,10 +1647,8 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *v202012
 	return nil
 }
 
-// The Private Endpoint Connection resource.
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1api20201201.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1897,6 +1705,8 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// Deprecated version of RedisCreateProperties_MinimumTlsVersion. Use v1api20201201.RedisCreateProperties_MinimumTlsVersion
+// instead
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
 type RedisCreateProperties_MinimumTlsVersion string
 
@@ -1906,6 +1716,8 @@ const (
 	RedisCreateProperties_MinimumTlsVersion_12 = RedisCreateProperties_MinimumTlsVersion("1.2")
 )
 
+// Deprecated version of RedisCreateProperties_PublicNetworkAccess. Use
+// v1api20201201.RedisCreateProperties_PublicNetworkAccess instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RedisCreateProperties_PublicNetworkAccess string
 
@@ -1914,45 +1726,21 @@ const (
 	RedisCreateProperties_PublicNetworkAccess_Enabled  = RedisCreateProperties_PublicNetworkAccess("Enabled")
 )
 
+// Deprecated version of RedisCreateProperties_RedisConfiguration. Use v1api20201201.RedisCreateProperties_RedisConfiguration instead
 type RedisCreateProperties_RedisConfiguration struct {
-	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
-
-	// AofBackupEnabled: Specifies whether the aof backup is enabled
-	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
-
-	// AofStorageConnectionString0: First storage account connection string
-	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
-
-	// AofStorageConnectionString1: Second storage account connection string
-	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
-
-	// Authnotrequired: Specifies whether the authentication is disabled. Setting this property is highly discouraged from
-	// security point of view.
-	Authnotrequired *string `json:"authnotrequired,omitempty"`
-
-	// MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
-	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
-
-	// MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g. failover.
-	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
-
-	// MaxmemoryPolicy: The eviction strategy used when your data won't fit within its memory limit.
-	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
-
-	// MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard e.g. failover.
-	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
-
-	// RdbBackupEnabled: Specifies whether the rdb backup is enabled
-	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
-
-	// RdbBackupFrequency: Specifies the frequency for creating rdb backup
-	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
-
-	// RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb backup
-	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
-
-	// RdbStorageConnectionString: The storage account connection string for storing rdb file
-	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
+	AdditionalProperties           map[string]string `json:"additionalProperties,omitempty"`
+	AofBackupEnabled               *string           `json:"aof-backup-enabled,omitempty"`
+	AofStorageConnectionString0    *string           `json:"aof-storage-connection-string-0,omitempty"`
+	AofStorageConnectionString1    *string           `json:"aof-storage-connection-string-1,omitempty"`
+	Authnotrequired                *string           `json:"authnotrequired,omitempty"`
+	MaxfragmentationmemoryReserved *string           `json:"maxfragmentationmemory-reserved,omitempty"`
+	MaxmemoryDelta                 *string           `json:"maxmemory-delta,omitempty"`
+	MaxmemoryPolicy                *string           `json:"maxmemory-policy,omitempty"`
+	MaxmemoryReserved              *string           `json:"maxmemory-reserved,omitempty"`
+	RdbBackupEnabled               *string           `json:"rdb-backup-enabled,omitempty"`
+	RdbBackupFrequency             *string           `json:"rdb-backup-frequency,omitempty"`
+	RdbBackupMaxSnapshotCount      *string           `json:"rdb-backup-max-snapshot-count,omitempty"`
+	RdbStorageConnectionString     *string           `json:"rdb-storage-connection-string,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RedisCreateProperties_RedisConfiguration{}
@@ -2243,71 +2031,14 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 	return nil
 }
 
-// Initialize_From_RedisProperties_RedisConfiguration_STATUS populates our RedisCreateProperties_RedisConfiguration from the provided source RedisProperties_RedisConfiguration_STATUS
-func (configuration *RedisCreateProperties_RedisConfiguration) Initialize_From_RedisProperties_RedisConfiguration_STATUS(source *RedisProperties_RedisConfiguration_STATUS) error {
-
-	// AdditionalProperties
-	configuration.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
-
-	// AofBackupEnabled
-	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
-
-	// AofStorageConnectionString0
-	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
-
-	// AofStorageConnectionString1
-	configuration.AofStorageConnectionString1 = genruntime.ClonePointerToString(source.AofStorageConnectionString1)
-
-	// Authnotrequired
-	configuration.Authnotrequired = genruntime.ClonePointerToString(source.Authnotrequired)
-
-	// MaxfragmentationmemoryReserved
-	configuration.MaxfragmentationmemoryReserved = genruntime.ClonePointerToString(source.MaxfragmentationmemoryReserved)
-
-	// MaxmemoryDelta
-	configuration.MaxmemoryDelta = genruntime.ClonePointerToString(source.MaxmemoryDelta)
-
-	// MaxmemoryPolicy
-	configuration.MaxmemoryPolicy = genruntime.ClonePointerToString(source.MaxmemoryPolicy)
-
-	// MaxmemoryReserved
-	configuration.MaxmemoryReserved = genruntime.ClonePointerToString(source.MaxmemoryReserved)
-
-	// RdbBackupEnabled
-	configuration.RdbBackupEnabled = genruntime.ClonePointerToString(source.RdbBackupEnabled)
-
-	// RdbBackupFrequency
-	configuration.RdbBackupFrequency = genruntime.ClonePointerToString(source.RdbBackupFrequency)
-
-	// RdbBackupMaxSnapshotCount
-	configuration.RdbBackupMaxSnapshotCount = genruntime.ClonePointerToString(source.RdbBackupMaxSnapshotCount)
-
-	// RdbStorageConnectionString
-	configuration.RdbStorageConnectionString = genruntime.ClonePointerToString(source.RdbStorageConnectionString)
-
-	// No error
-	return nil
-}
-
-// Details of single instance of redis.
+// Deprecated version of RedisInstanceDetails_STATUS. Use v1api20201201.RedisInstanceDetails_STATUS instead
 type RedisInstanceDetails_STATUS struct {
-	// IsMaster: Specifies whether the instance is a primary node.
-	IsMaster *bool `json:"isMaster,omitempty"`
-
-	// IsPrimary: Specifies whether the instance is a primary node.
-	IsPrimary *bool `json:"isPrimary,omitempty"`
-
-	// NonSslPort: If enableNonSslPort is true, provides Redis instance Non-SSL port.
-	NonSslPort *int `json:"nonSslPort,omitempty"`
-
-	// ShardId: If clustering is enabled, the Shard ID of Redis Instance
-	ShardId *int `json:"shardId,omitempty"`
-
-	// SslPort: Redis instance SSL port.
-	SslPort *int `json:"sslPort,omitempty"`
-
-	// Zone: If the Cache uses availability zones, specifies availability zone where this instance is located.
-	Zone *string `json:"zone,omitempty"`
+	IsMaster   *bool   `json:"isMaster,omitempty"`
+	IsPrimary  *bool   `json:"isPrimary,omitempty"`
+	NonSslPort *int    `json:"nonSslPort,omitempty"`
+	ShardId    *int    `json:"shardId,omitempty"`
+	SslPort    *int    `json:"sslPort,omitempty"`
+	Zone       *string `json:"zone,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RedisInstanceDetails_STATUS{}
@@ -2443,9 +2174,8 @@ func (details *RedisInstanceDetails_STATUS) AssignProperties_To_RedisInstanceDet
 	return nil
 }
 
-// Linked server Id
+// Deprecated version of RedisLinkedServer_STATUS. Use v1api20201201.RedisLinkedServer_STATUS instead
 type RedisLinkedServer_STATUS struct {
-	// Id: Linked server Id.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -2555,6 +2285,8 @@ func (operator *RedisOperatorSpec) AssignProperties_To_RedisOperatorSpec(destina
 	return nil
 }
 
+// Deprecated version of RedisProperties_MinimumTlsVersion_STATUS. Use
+// v1api20201201.RedisProperties_MinimumTlsVersion_STATUS instead
 type RedisProperties_MinimumTlsVersion_STATUS string
 
 const (
@@ -2563,6 +2295,8 @@ const (
 	RedisProperties_MinimumTlsVersion_STATUS_12 = RedisProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
+// Deprecated version of RedisProperties_ProvisioningState_STATUS. Use
+// v1api20201201.RedisProperties_ProvisioningState_STATUS instead
 type RedisProperties_ProvisioningState_STATUS string
 
 const (
@@ -2580,6 +2314,8 @@ const (
 	RedisProperties_ProvisioningState_STATUS_Updating               = RedisProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of RedisProperties_PublicNetworkAccess_STATUS. Use
+// v1api20201201.RedisProperties_PublicNetworkAccess_STATUS instead
 type RedisProperties_PublicNetworkAccess_STATUS string
 
 const (
@@ -2587,51 +2323,23 @@ const (
 	RedisProperties_PublicNetworkAccess_STATUS_Enabled  = RedisProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
+// Deprecated version of RedisProperties_RedisConfiguration_STATUS. Use v1api20201201.RedisProperties_RedisConfiguration_STATUS instead
 type RedisProperties_RedisConfiguration_STATUS struct {
-	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
-
-	// AofBackupEnabled: Specifies whether the aof backup is enabled
-	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
-
-	// AofStorageConnectionString0: First storage account connection string
-	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
-
-	// AofStorageConnectionString1: Second storage account connection string
-	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
-
-	// Authnotrequired: Specifies whether the authentication is disabled. Setting this property is highly discouraged from
-	// security point of view.
-	Authnotrequired *string `json:"authnotrequired,omitempty"`
-
-	// Maxclients: The max clients config
-	Maxclients *string `json:"maxclients,omitempty"`
-
-	// MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
-	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
-
-	// MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g. failover.
-	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
-
-	// MaxmemoryPolicy: The eviction strategy used when your data won't fit within its memory limit.
-	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
-
-	// MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard e.g. failover.
-	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
-
-	// RdbBackupEnabled: Specifies whether the rdb backup is enabled
-	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
-
-	// RdbBackupFrequency: Specifies the frequency for creating rdb backup
-	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
-
-	// RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb backup
-	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
-
-	// RdbStorageConnectionString: The storage account connection string for storing rdb file
-	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
-
-	// ZonalConfiguration: Zonal Configuration
-	ZonalConfiguration *string `json:"zonal-configuration,omitempty"`
+	AdditionalProperties           map[string]string `json:"additionalProperties,omitempty"`
+	AofBackupEnabled               *string           `json:"aof-backup-enabled,omitempty"`
+	AofStorageConnectionString0    *string           `json:"aof-storage-connection-string-0,omitempty"`
+	AofStorageConnectionString1    *string           `json:"aof-storage-connection-string-1,omitempty"`
+	Authnotrequired                *string           `json:"authnotrequired,omitempty"`
+	Maxclients                     *string           `json:"maxclients,omitempty"`
+	MaxfragmentationmemoryReserved *string           `json:"maxfragmentationmemory-reserved,omitempty"`
+	MaxmemoryDelta                 *string           `json:"maxmemory-delta,omitempty"`
+	MaxmemoryPolicy                *string           `json:"maxmemory-policy,omitempty"`
+	MaxmemoryReserved              *string           `json:"maxmemory-reserved,omitempty"`
+	RdbBackupEnabled               *string           `json:"rdb-backup-enabled,omitempty"`
+	RdbBackupFrequency             *string           `json:"rdb-backup-frequency,omitempty"`
+	RdbBackupMaxSnapshotCount      *string           `json:"rdb-backup-max-snapshot-count,omitempty"`
+	RdbStorageConnectionString     *string           `json:"rdb-storage-connection-string,omitempty"`
+	ZonalConfiguration             *string           `json:"zonal-configuration,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RedisProperties_RedisConfiguration_STATUS{}
@@ -2857,19 +2565,15 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 	return nil
 }
 
-// SKU parameters supplied to the create Redis operation.
+// Deprecated version of Sku. Use v1api20201201.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Required
-	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
-	// P (Premium) family (1, 2, 3, 4).
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
 	Family *Sku_Family `json:"family,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
 	Name *Sku_Name `json:"name,omitempty"`
 }
 
@@ -2997,43 +2701,11 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20201201s.Sku) error {
 	return nil
 }
 
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Family
-	if source.Family != nil {
-		family := Sku_Family(*source.Family)
-		sku.Family = &family
-	} else {
-		sku.Family = nil
-	}
-
-	// Name
-	if source.Name != nil {
-		name := Sku_Name(*source.Name)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
-
-	// No error
-	return nil
-}
-
-// SKU parameters supplied to the create Redis operation.
+// Deprecated version of Sku_STATUS. Use v1api20201201.Sku_STATUS instead
 type Sku_STATUS struct {
-	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
-	// P (Premium) family (1, 2, 3, 4).
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *Sku_Family_STATUS `json:"family,omitempty"`
-
-	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *Sku_Name_STATUS `json:"name,omitempty"`
+	Capacity *int               `json:"capacity,omitempty"`
+	Family   *Sku_Family_STATUS `json:"family,omitempty"`
+	Name     *Sku_Name_STATUS   `json:"name,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -3255,6 +2927,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(de
 	return nil
 }
 
+// Deprecated version of Sku_Family. Use v1api20201201.Sku_Family instead
 // +kubebuilder:validation:Enum={"C","P"}
 type Sku_Family string
 
@@ -3263,6 +2936,7 @@ const (
 	Sku_Family_P = Sku_Family("P")
 )
 
+// Deprecated version of Sku_Family_STATUS. Use v1api20201201.Sku_Family_STATUS instead
 type Sku_Family_STATUS string
 
 const (
@@ -3270,6 +2944,7 @@ const (
 	Sku_Family_STATUS_P = Sku_Family_STATUS("P")
 )
 
+// Deprecated version of Sku_Name. Use v1api20201201.Sku_Name instead
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Name string
 
@@ -3279,6 +2954,7 @@ const (
 	Sku_Name_Standard = Sku_Name("Standard")
 )
 
+// Deprecated version of Sku_Name_STATUS. Use v1api20201201.Sku_Name_STATUS instead
 type Sku_Name_STATUS string
 
 const (

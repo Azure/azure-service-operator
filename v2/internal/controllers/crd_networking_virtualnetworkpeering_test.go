@@ -8,11 +8,11 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
@@ -46,9 +46,9 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 
 	// Update peering to enable traffic forwarding
 	old := peering.DeepCopy()
-	peering.Spec.AllowForwardedTraffic = to.BoolPtr(true)
+	peering.Spec.AllowForwardedTraffic = to.Ptr(true)
 	tc.PatchResourceAndWait(old, peering)
-	tc.Expect(peering.Status.AllowForwardedTraffic).To(Equal(to.BoolPtr(true)))
+	tc.Expect(peering.Status.AllowForwardedTraffic).To(Equal(to.Ptr(true)))
 
 	tc.DeleteResourceAndWait(peering)
 

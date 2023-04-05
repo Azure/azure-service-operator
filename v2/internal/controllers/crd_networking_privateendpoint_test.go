@@ -8,17 +8,16 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20220701"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 // Example is from https://learn.microsoft.com/en-us/azure/private-link/create-private-endpoint-bicep?tabs=CLI#review-the-bicep-file
@@ -109,7 +108,7 @@ func Test_Networking_PrivateEndpoint_WithoutAutoApproval_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *v1beta20201101.VirtualNetwork, endpoint *network.PrivateEndpoint, rg *resources.ResourceGroup) {
+func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *network20201101.VirtualNetwork, endpoint *network.PrivateEndpoint, rg *resources.ResourceGroup) {
 	zone := newPrivateDNSZone(tc, "privatelink.blob.core.windows.net", rg)
 	vnetLink := newVirtualNetworkLink(tc, zone, vnet)
 
@@ -121,7 +120,7 @@ func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *
 			Owner: testcommon.AsOwner(endpoint),
 			PrivateDnsZoneConfigs: []network.PrivateDnsZoneConfig{
 				{
-					Name:                    to.StringPtr("config"),
+					Name:                    to.Ptr("config"),
 					PrivateDnsZoneReference: tc.MakeReferenceFromResource(zone),
 				},
 			},
@@ -135,7 +134,7 @@ func PrivateEndpoint_DNSZoneGroup_CRUD(tc *testcommon.KubePerTestContext, vnet *
 	tc.DeleteResource(dnsZoneGroup)
 }
 
-func newPrivateEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sa *storage.StorageAccount, subnet *v1beta20201101.VirtualNetworksSubnet) *network.PrivateEndpoint {
+func newPrivateEndpoint(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, sa *storage.StorageAccount, subnet *network20201101.VirtualNetworksSubnet) *network.PrivateEndpoint {
 	endpoint := &network.PrivateEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("endpoint"),
 		Spec: network.PrivateEndpoint_Spec{
@@ -143,7 +142,7 @@ func newPrivateEndpoint(tc *testcommon.KubePerTestContext, rg *resources.Resourc
 			Owner:    testcommon.AsOwner(rg),
 			PrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name:                        to.StringPtr("testEndpoint"),
+					Name:                        to.Ptr("testEndpoint"),
 					PrivateLinkServiceReference: tc.MakeReferenceFromResource(sa),
 					GroupIds:                    []string{"blob"}, // TODO: This is a bit weird that user has to figure out the group ID(s).
 				},

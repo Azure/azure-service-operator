@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
-// - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
+// Deprecated version of Alias. Use v1api20211001.Alias instead
 type Alias struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Alias{}
 
 // ConvertFrom populates our Alias from the provided hub Alias
 func (alias *Alias) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20211001s.Alias)
-	if !ok {
-		return fmt.Errorf("expected subscription/v1beta20211001storage/Alias but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20211001s.Alias
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return alias.AssignProperties_From_Alias(source)
+	err = alias.AssignProperties_From_Alias(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to alias")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Alias from our Alias
 func (alias *Alias) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20211001s.Alias)
-	if !ok {
-		return fmt.Errorf("expected subscription/v1beta20211001storage/Alias but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20211001s.Alias
+	err := alias.AssignProperties_To_Alias(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from alias")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return alias.AssignProperties_To_Alias(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-subscription-azure-com-v1beta20211001-alias,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=subscription.azure.com,resources=aliases,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.aliases.subscription.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (alias *Alias) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the Alias resource
 func (alias *Alias) defaultImpl() { alias.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &Alias{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (alias *Alias) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Alias_STATUS); ok {
-		return alias.Spec.Initialize_From_Alias_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Alias_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &Alias{}
 
@@ -318,9 +319,7 @@ func (alias *Alias) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/subscriptions.json
-// - ARM URI: /providers/Microsoft.Subscription/aliases/{aliasName}
+// Deprecated version of Alias. Use v1api20211001.Alias instead
 type AliasList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -330,9 +329,7 @@ type AliasList struct {
 type Alias_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Properties: Put alias request properties.
+	AzureName  string                     `json:"azureName,omitempty"`
 	Properties *PutAliasRequestProperties `json:"properties,omitempty"`
 }
 
@@ -496,25 +493,6 @@ func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *v20211001s.
 	return nil
 }
 
-// Initialize_From_Alias_STATUS populates our Alias_Spec from the provided source Alias_STATUS
-func (alias *Alias_Spec) Initialize_From_Alias_STATUS(source *Alias_STATUS) error {
-
-	// Properties
-	if source.Properties != nil {
-		var property PutAliasRequestProperties
-		err := property.Initialize_From_SubscriptionAliasResponseProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
-		}
-		alias.Properties = &property
-	} else {
-		alias.Properties = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (alias *Alias_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -523,24 +501,15 @@ func (alias *Alias_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (alias *Alias_Spec) SetAzureName(azureName string) { alias.AzureName = azureName }
 
+// Deprecated version of Alias_STATUS. Use v1api20211001.Alias_STATUS instead
 type Alias_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified ID for the alias resource.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Alias ID.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Subscription Alias response properties.
+	Conditions []conditions.Condition                      `json:"conditions,omitempty"`
+	Id         *string                                     `json:"id,omitempty"`
+	Name       *string                                     `json:"name,omitempty"`
 	Properties *SubscriptionAliasResponseProperties_STATUS `json:"properties,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: Resource type, Microsoft.Subscription/aliases.
-	Type *string `json:"type,omitempty"`
+	SystemData *SystemData_STATUS                          `json:"systemData,omitempty"`
+	Type       *string                                     `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Alias_STATUS{}
@@ -748,28 +717,20 @@ func (alias *Alias_STATUS) AssignProperties_To_Alias_STATUS(destination *v202110
 	return nil
 }
 
+// Deprecated version of APIVersion. Use v1api20211001.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-10-01")
 
-// Put subscription properties.
+// Deprecated version of PutAliasRequestProperties. Use v1api20211001.PutAliasRequestProperties instead
 type PutAliasRequestProperties struct {
-	// AdditionalProperties: Put alias request additional properties.
 	AdditionalProperties *PutAliasRequestAdditionalProperties `json:"additionalProperties,omitempty"`
 	BillingScope         *string                              `json:"billingScope,omitempty"`
-
-	// DisplayName: The friendly name of the subscription.
-	DisplayName *string `json:"displayName,omitempty"`
-
-	// ResellerId: Reseller Id
-	ResellerId *string `json:"resellerId,omitempty"`
-
-	// SubscriptionId: This parameter can be used to create alias for existing subscription Id
-	SubscriptionId *string `json:"subscriptionId,omitempty"`
-
-	// Workload: The workload type of the subscription. It can be either Production or DevTest.
-	Workload *Workload `json:"workload,omitempty"`
+	DisplayName          *string                              `json:"displayName,omitempty"`
+	ResellerId           *string                              `json:"resellerId,omitempty"`
+	SubscriptionId       *string                              `json:"subscriptionId,omitempty"`
+	Workload             *Workload                            `json:"workload,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PutAliasRequestProperties{}
@@ -967,68 +928,20 @@ func (properties *PutAliasRequestProperties) AssignProperties_To_PutAliasRequest
 	return nil
 }
 
-// Initialize_From_SubscriptionAliasResponseProperties_STATUS populates our PutAliasRequestProperties from the provided source SubscriptionAliasResponseProperties_STATUS
-func (properties *PutAliasRequestProperties) Initialize_From_SubscriptionAliasResponseProperties_STATUS(source *SubscriptionAliasResponseProperties_STATUS) error {
-
-	// BillingScope
-	properties.BillingScope = genruntime.ClonePointerToString(source.BillingScope)
-
-	// DisplayName
-	properties.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
-
-	// ResellerId
-	properties.ResellerId = genruntime.ClonePointerToString(source.ResellerId)
-
-	// SubscriptionId
-	properties.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
-
-	// Workload
-	if source.Workload != nil {
-		workload := Workload(*source.Workload)
-		properties.Workload = &workload
-	} else {
-		properties.Workload = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Put subscription creation result properties.
+// Deprecated version of SubscriptionAliasResponseProperties_STATUS. Use v1api20211001.SubscriptionAliasResponseProperties_STATUS instead
 type SubscriptionAliasResponseProperties_STATUS struct {
-	// AcceptOwnershipState: The accept ownership state of the resource.
-	AcceptOwnershipState *AcceptOwnershipState_STATUS `json:"acceptOwnershipState,omitempty"`
-
-	// AcceptOwnershipUrl: Url to accept ownership of the subscription.
-	AcceptOwnershipUrl *string `json:"acceptOwnershipUrl,omitempty"`
-	BillingScope       *string `json:"billingScope,omitempty"`
-
-	// CreatedTime: Created Time
-	CreatedTime *string `json:"createdTime,omitempty"`
-
-	// DisplayName: The display name of the subscription.
-	DisplayName *string `json:"displayName,omitempty"`
-
-	// ManagementGroupId: The Management Group Id.
-	ManagementGroupId *string `json:"managementGroupId,omitempty"`
-
-	// ProvisioningState: The provisioning state of the resource.
-	ProvisioningState *SubscriptionAliasResponseProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResellerId: Reseller Id
-	ResellerId *string `json:"resellerId,omitempty"`
-
-	// SubscriptionId: Newly created subscription Id.
-	SubscriptionId *string `json:"subscriptionId,omitempty"`
-
-	// SubscriptionOwnerId: Owner Id of the subscription
-	SubscriptionOwnerId *string `json:"subscriptionOwnerId,omitempty"`
-
-	// Tags: Tags for the subscription
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Workload: The workload type of the subscription. It can be either Production or DevTest.
-	Workload *Workload_STATUS `json:"workload,omitempty"`
+	AcceptOwnershipState *AcceptOwnershipState_STATUS                                  `json:"acceptOwnershipState,omitempty"`
+	AcceptOwnershipUrl   *string                                                       `json:"acceptOwnershipUrl,omitempty"`
+	BillingScope         *string                                                       `json:"billingScope,omitempty"`
+	CreatedTime          *string                                                       `json:"createdTime,omitempty"`
+	DisplayName          *string                                                       `json:"displayName,omitempty"`
+	ManagementGroupId    *string                                                       `json:"managementGroupId,omitempty"`
+	ProvisioningState    *SubscriptionAliasResponseProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResellerId           *string                                                       `json:"resellerId,omitempty"`
+	SubscriptionId       *string                                                       `json:"subscriptionId,omitempty"`
+	SubscriptionOwnerId  *string                                                       `json:"subscriptionOwnerId,omitempty"`
+	Tags                 map[string]string                                             `json:"tags,omitempty"`
+	Workload             *Workload_STATUS                                              `json:"workload,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SubscriptionAliasResponseProperties_STATUS{}
@@ -1248,24 +1161,13 @@ func (properties *SubscriptionAliasResponseProperties_STATUS) AssignProperties_T
 	return nil
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20211001.SystemData_STATUS instead
 type SystemData_STATUS struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
@@ -1402,19 +1304,12 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
-// Put subscription additional properties.
+// Deprecated version of PutAliasRequestAdditionalProperties. Use v1api20211001.PutAliasRequestAdditionalProperties instead
 type PutAliasRequestAdditionalProperties struct {
-	// ManagementGroupId: Management group Id for the subscription.
-	ManagementGroupId *string `json:"managementGroupId,omitempty"`
-
-	// SubscriptionOwnerId: Owner Id of the subscription
-	SubscriptionOwnerId *string `json:"subscriptionOwnerId,omitempty"`
-
-	// SubscriptionTenantId: Tenant Id of the subscription
-	SubscriptionTenantId *string `json:"subscriptionTenantId,omitempty"`
-
-	// Tags: Tags for the subscription
-	Tags map[string]string `json:"tags,omitempty"`
+	ManagementGroupId    *string           `json:"managementGroupId,omitempty"`
+	SubscriptionOwnerId  *string           `json:"subscriptionOwnerId,omitempty"`
+	SubscriptionTenantId *string           `json:"subscriptionTenantId,omitempty"`
+	Tags                 map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PutAliasRequestAdditionalProperties{}

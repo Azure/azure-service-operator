@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview"
+	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

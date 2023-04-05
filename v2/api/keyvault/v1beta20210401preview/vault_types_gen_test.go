@@ -5,6 +5,7 @@ package v1beta20210401preview
 
 import (
 	"encoding/json"
+	v1api20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401previewstorage"
 	v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForVault(subject Vault) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210401ps.Vault
+	var hub v1api20210401ps.Vault
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

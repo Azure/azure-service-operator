@@ -1,0 +1,9 @@
+apiVersion: sql.azure.com/v1api20211101
+kind: ServersDatabasesTransparentDataEncryption
+metadata:
+  name: aso-sample-encrypt
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-db
+  state: Enabled

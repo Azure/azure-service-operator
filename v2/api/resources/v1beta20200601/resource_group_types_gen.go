@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /resources/resource-manager/Microsoft.Resources/stable/2020-06-01/resources.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}
+// Deprecated version of ResourceGroup. Use v1api20200601.ResourceGroup instead
 type ResourceGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &ResourceGroup{}
 
 // ConvertFrom populates our ResourceGroup from the provided hub ResourceGroup
 func (group *ResourceGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200601s.ResourceGroup)
-	if !ok {
-		return fmt.Errorf("expected resources/v1beta20200601storage/ResourceGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20200601s.ResourceGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_ResourceGroup(source)
+	err = group.AssignProperties_From_ResourceGroup(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ResourceGroup from our ResourceGroup
 func (group *ResourceGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200601s.ResourceGroup)
-	if !ok {
-		return fmt.Errorf("expected resources/v1beta20200601storage/ResourceGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20200601s.ResourceGroup
+	err := group.AssignProperties_To_ResourceGroup(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_ResourceGroup(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-resources-azure-com-v1beta20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.resourcegroups.resources.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (group *ResourceGroup) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the ResourceGroup resource
 func (group *ResourceGroup) defaultImpl() { group.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &ResourceGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *ResourceGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ResourceGroup_STATUS); ok {
-		return group.Spec.Initialize_From_ResourceGroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ResourceGroup_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &ResourceGroup{}
 
@@ -328,15 +329,14 @@ func (group *ResourceGroup) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /resources/resource-manager/Microsoft.Resources/stable/2020-06-01/resources.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}
+// Deprecated version of ResourceGroup. Use v1api20200601.ResourceGroup instead
 type ResourceGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ResourceGroup `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20200601.APIVersion instead
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
@@ -350,15 +350,9 @@ type ResourceGroup_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: The location of the resource group. It cannot be changed after the resource group has been created. It must be
-	// one of the supported Azure locations.
-	Location *string `json:"location,omitempty"`
-
-	// ManagedBy: The ID of the resource that manages this resource group.
-	ManagedBy *string `json:"managedBy,omitempty"`
-
-	// Tags: The tags attached to the resource group.
-	Tags map[string]string `json:"tags,omitempty"`
+	Location  *string           `json:"location,omitempty"`
+	ManagedBy *string           `json:"managedBy,omitempty"`
+	Tags      map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ResourceGroup_Spec{}
@@ -534,22 +528,6 @@ func (group *ResourceGroup_Spec) AssignProperties_To_ResourceGroup_Spec(destinat
 	return nil
 }
 
-// Initialize_From_ResourceGroup_STATUS populates our ResourceGroup_Spec from the provided source ResourceGroup_STATUS
-func (group *ResourceGroup_Spec) Initialize_From_ResourceGroup_STATUS(source *ResourceGroup_STATUS) error {
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ManagedBy
-	group.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (group *ResourceGroup_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -558,32 +536,17 @@ func (group *ResourceGroup_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (group *ResourceGroup_Spec) SetAzureName(azureName string) { group.AzureName = azureName }
 
-// Resource group information.
+// Deprecated version of ResourceGroup_STATUS. Use v1api20200601.ResourceGroup_STATUS instead
 type ResourceGroup_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: The ID of the resource group.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group. It cannot be changed after the resource group has been created. It must be
-	// one of the supported Azure locations.
-	Location *string `json:"location,omitempty"`
-
-	// ManagedBy: The ID of the resource that manages this resource group.
-	ManagedBy *string `json:"managedBy,omitempty"`
-
-	// Name: The name of the resource group.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The resource group properties.
+	Conditions []conditions.Condition          `json:"conditions,omitempty"`
+	Id         *string                         `json:"id,omitempty"`
+	Location   *string                         `json:"location,omitempty"`
+	ManagedBy  *string                         `json:"managedBy,omitempty"`
+	Name       *string                         `json:"name,omitempty"`
 	Properties *ResourceGroupProperties_STATUS `json:"properties,omitempty"`
-
-	// Tags: The tags attached to the resource group.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource group.
-	Type *string `json:"type,omitempty"`
+	Tags       map[string]string               `json:"tags,omitempty"`
+	Type       *string                         `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &ResourceGroup_STATUS{}
@@ -794,9 +757,8 @@ func (group *ResourceGroup_STATUS) AssignProperties_To_ResourceGroup_STATUS(dest
 	return nil
 }
 
-// The resource group properties.
+// Deprecated version of ResourceGroupProperties_STATUS. Use v1api20200601.ResourceGroupProperties_STATUS instead
 type ResourceGroupProperties_STATUS struct {
-	// ProvisioningState: The provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 

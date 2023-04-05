@@ -5,6 +5,7 @@ package v1beta20180501previewstorage
 
 import (
 	"encoding/json"
+	v1api20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_Webtest_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Webtest to hub returns original",
+		prop.ForAll(RunResourceConversionTestForWebtest, WebtestGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForWebtest tests if a specific instance of Webtest round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForWebtest(subject Webtest) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20180501ps.Webtest
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Webtest
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Webtest_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Webtest to Webtest via AssignProperties_To_Webtest & AssignProperties_From_Webtest returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebtest, WebtestGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebtest tests if a specific instance of Webtest can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebtest(subject Webtest) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.Webtest
+	err := copied.AssignProperties_To_Webtest(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Webtest
+	err = actual.AssignProperties_From_Webtest(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_Webtest_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -76,6 +162,48 @@ func WebtestGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForWebtest(gens map[string]gopter.Gen) {
 	gens["Spec"] = Webtest_SpecGenerator()
 	gens["Status"] = Webtest_STATUSGenerator()
+}
+
+func Test_Webtest_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Webtest_Spec to Webtest_Spec via AssignProperties_To_Webtest_Spec & AssignProperties_From_Webtest_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebtest_Spec, Webtest_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebtest_Spec tests if a specific instance of Webtest_Spec can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebtest_Spec(subject Webtest_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.Webtest_Spec
+	err := copied.AssignProperties_To_Webtest_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Webtest_Spec
+	err = actual.AssignProperties_From_Webtest_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Webtest_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -164,6 +292,48 @@ func AddRelatedPropertyGeneratorsForWebtest_Spec(gens map[string]gopter.Gen) {
 	gens["Locations"] = gen.SliceOf(WebTestGeolocationGenerator())
 	gens["Request"] = gen.PtrOf(WebTestProperties_RequestGenerator())
 	gens["ValidationRules"] = gen.PtrOf(WebTestProperties_ValidationRulesGenerator())
+}
+
+func Test_Webtest_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Webtest_STATUS to Webtest_STATUS via AssignProperties_To_Webtest_STATUS & AssignProperties_From_Webtest_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebtest_STATUS, Webtest_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebtest_STATUS tests if a specific instance of Webtest_STATUS can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebtest_STATUS(subject Webtest_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.Webtest_STATUS
+	err := copied.AssignProperties_To_Webtest_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Webtest_STATUS
+	err = actual.AssignProperties_From_Webtest_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Webtest_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -256,6 +426,48 @@ func AddRelatedPropertyGeneratorsForWebtest_STATUS(gens map[string]gopter.Gen) {
 	gens["ValidationRules"] = gen.PtrOf(WebTestProperties_ValidationRules_STATUSGenerator())
 }
 
+func Test_WebTestGeolocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestGeolocation to WebTestGeolocation via AssignProperties_To_WebTestGeolocation & AssignProperties_From_WebTestGeolocation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestGeolocation, WebTestGeolocationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestGeolocation tests if a specific instance of WebTestGeolocation can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestGeolocation(subject WebTestGeolocation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestGeolocation
+	err := copied.AssignProperties_To_WebTestGeolocation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestGeolocation
+	err = actual.AssignProperties_From_WebTestGeolocation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WebTestGeolocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -314,6 +526,48 @@ func WebTestGeolocationGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWebTestGeolocation is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebTestGeolocation(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_WebTestGeolocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestGeolocation_STATUS to WebTestGeolocation_STATUS via AssignProperties_To_WebTestGeolocation_STATUS & AssignProperties_From_WebTestGeolocation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestGeolocation_STATUS, WebTestGeolocation_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestGeolocation_STATUS tests if a specific instance of WebTestGeolocation_STATUS can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestGeolocation_STATUS(subject WebTestGeolocation_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestGeolocation_STATUS
+	err := copied.AssignProperties_To_WebTestGeolocation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestGeolocation_STATUS
+	err = actual.AssignProperties_From_WebTestGeolocation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_WebTestGeolocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -377,6 +631,48 @@ func AddIndependentPropertyGeneratorsForWebTestGeolocation_STATUS(gens map[strin
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_WebTestProperties_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_Configuration to WebTestProperties_Configuration via AssignProperties_To_WebTestProperties_Configuration & AssignProperties_From_WebTestProperties_Configuration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Configuration, WebTestProperties_ConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_Configuration tests if a specific instance of WebTestProperties_Configuration can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_Configuration(subject WebTestProperties_Configuration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestProperties_Configuration
+	err := copied.AssignProperties_To_WebTestProperties_Configuration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_Configuration
+	err = actual.AssignProperties_From_WebTestProperties_Configuration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WebTestProperties_Configuration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -438,6 +734,48 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_Configuration(gens map
 	gens["WebTest"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_WebTestProperties_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_Configuration_STATUS to WebTestProperties_Configuration_STATUS via AssignProperties_To_WebTestProperties_Configuration_STATUS & AssignProperties_From_WebTestProperties_Configuration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS, WebTestProperties_Configuration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS tests if a specific instance of WebTestProperties_Configuration_STATUS can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS(subject WebTestProperties_Configuration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestProperties_Configuration_STATUS
+	err := copied.AssignProperties_To_WebTestProperties_Configuration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_Configuration_STATUS
+	err = actual.AssignProperties_From_WebTestProperties_Configuration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WebTestProperties_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -497,6 +835,48 @@ func WebTestProperties_Configuration_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_STATUS(gens map[string]gopter.Gen) {
 	gens["WebTest"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_WebTestProperties_Request_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_Request to WebTestProperties_Request via AssignProperties_To_WebTestProperties_Request & AssignProperties_From_WebTestProperties_Request returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Request, WebTestProperties_RequestGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_Request tests if a specific instance of WebTestProperties_Request can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_Request(subject WebTestProperties_Request) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestProperties_Request
+	err := copied.AssignProperties_To_WebTestProperties_Request(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_Request
+	err = actual.AssignProperties_From_WebTestProperties_Request(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_WebTestProperties_Request_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -578,6 +958,48 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_Request(gens map[string]go
 	gens["Headers"] = gen.SliceOf(HeaderFieldGenerator())
 }
 
+func Test_WebTestProperties_Request_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_Request_STATUS to WebTestProperties_Request_STATUS via AssignProperties_To_WebTestProperties_Request_STATUS & AssignProperties_From_WebTestProperties_Request_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Request_STATUS, WebTestProperties_Request_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_Request_STATUS tests if a specific instance of WebTestProperties_Request_STATUS can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_Request_STATUS(subject WebTestProperties_Request_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestProperties_Request_STATUS
+	err := copied.AssignProperties_To_WebTestProperties_Request_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_Request_STATUS
+	err = actual.AssignProperties_From_WebTestProperties_Request_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WebTestProperties_Request_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -655,6 +1077,48 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_Request_STATUS(gens ma
 // AddRelatedPropertyGeneratorsForWebTestProperties_Request_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWebTestProperties_Request_STATUS(gens map[string]gopter.Gen) {
 	gens["Headers"] = gen.SliceOf(HeaderField_STATUSGenerator())
+}
+
+func Test_WebTestProperties_ValidationRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_ValidationRules to WebTestProperties_ValidationRules via AssignProperties_To_WebTestProperties_ValidationRules & AssignProperties_From_WebTestProperties_ValidationRules returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules, WebTestProperties_ValidationRulesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_ValidationRules tests if a specific instance of WebTestProperties_ValidationRules can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_ValidationRules(subject WebTestProperties_ValidationRules) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestProperties_ValidationRules
+	err := copied.AssignProperties_To_WebTestProperties_ValidationRules(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_ValidationRules
+	err = actual.AssignProperties_From_WebTestProperties_ValidationRules(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_WebTestProperties_ValidationRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -735,6 +1199,48 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules(gens map[s
 	gens["ContentValidation"] = gen.PtrOf(WebTestProperties_ValidationRules_ContentValidationGenerator())
 }
 
+func Test_WebTestProperties_ValidationRules_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_ValidationRules_STATUS to WebTestProperties_ValidationRules_STATUS via AssignProperties_To_WebTestProperties_ValidationRules_STATUS & AssignProperties_From_WebTestProperties_ValidationRules_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS, WebTestProperties_ValidationRules_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS tests if a specific instance of WebTestProperties_ValidationRules_STATUS can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS(subject WebTestProperties_ValidationRules_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestProperties_ValidationRules_STATUS
+	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_ValidationRules_STATUS
+	err = actual.AssignProperties_From_WebTestProperties_ValidationRules_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WebTestProperties_ValidationRules_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -813,6 +1319,48 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS(gen
 	gens["ContentValidation"] = gen.PtrOf(WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator())
 }
 
+func Test_HeaderField_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HeaderField to HeaderField via AssignProperties_To_HeaderField & AssignProperties_From_HeaderField returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHeaderField, HeaderFieldGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHeaderField tests if a specific instance of HeaderField can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForHeaderField(subject HeaderField) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.HeaderField
+	err := copied.AssignProperties_To_HeaderField(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HeaderField
+	err = actual.AssignProperties_From_HeaderField(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_HeaderField_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -872,6 +1420,48 @@ func HeaderFieldGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHeaderField(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_HeaderField_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HeaderField_STATUS to HeaderField_STATUS via AssignProperties_To_HeaderField_STATUS & AssignProperties_From_HeaderField_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHeaderField_STATUS, HeaderField_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHeaderField_STATUS tests if a specific instance of HeaderField_STATUS can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForHeaderField_STATUS(subject HeaderField_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.HeaderField_STATUS
+	err := copied.AssignProperties_To_HeaderField_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HeaderField_STATUS
+	err = actual.AssignProperties_From_HeaderField_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_HeaderField_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -935,6 +1525,48 @@ func AddIndependentPropertyGeneratorsForHeaderField_STATUS(gens map[string]gopte
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_WebTestProperties_ValidationRules_ContentValidation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_ValidationRules_ContentValidation to WebTestProperties_ValidationRules_ContentValidation via AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation & AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation, WebTestProperties_ValidationRules_ContentValidationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation tests if a specific instance of WebTestProperties_ValidationRules_ContentValidation can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation(subject WebTestProperties_ValidationRules_ContentValidation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestProperties_ValidationRules_ContentValidation
+	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_ValidationRules_ContentValidation
+	err = actual.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_WebTestProperties_ValidationRules_ContentValidation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -996,6 +1628,48 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_Conten
 	gens["ContentMatch"] = gen.PtrOf(gen.AlphaString())
 	gens["IgnoreCase"] = gen.PtrOf(gen.Bool())
 	gens["PassIfTextFound"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_WebTestProperties_ValidationRules_ContentValidation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_ValidationRules_ContentValidation_STATUS to WebTestProperties_ValidationRules_ContentValidation_STATUS via AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS & AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation_STATUS, WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation_STATUS tests if a specific instance of WebTestProperties_ValidationRules_ContentValidation_STATUS can be assigned to v1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation_STATUS(subject WebTestProperties_ValidationRules_ContentValidation_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS
+	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_ValidationRules_ContentValidation_STATUS
+	err = actual.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_WebTestProperties_ValidationRules_ContentValidation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -5,312 +5,147 @@ package v1beta20210601
 
 import "encoding/json"
 
+// Deprecated version of Profiles_Endpoint_STATUS. Use v1api20210601.Profiles_Endpoint_STATUS instead
 type Profiles_Endpoint_STATUS_ARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The JSON object that contains the properties required to create an endpoint.
+	Id         *string                        `json:"id,omitempty"`
+	Location   *string                        `json:"location,omitempty"`
+	Name       *string                        `json:"name,omitempty"`
 	Properties *EndpointProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// SystemData: Read only system data
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	SystemData *SystemData_STATUS_ARM         `json:"systemData,omitempty"`
+	Tags       map[string]string              `json:"tags,omitempty"`
+	Type       *string                        `json:"type,omitempty"`
 }
 
-// The JSON object that contains the properties required to create an endpoint.
+// Deprecated version of EndpointProperties_STATUS. Use v1api20210601.EndpointProperties_STATUS instead
 type EndpointProperties_STATUS_ARM struct {
-	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
-	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
-
-	// CustomDomains: The custom domains under the endpoint.
-	CustomDomains []DeepCreatedCustomDomain_STATUS_ARM `json:"customDomains,omitempty"`
-
-	// DefaultOriginGroup: A reference to the origin group.
-	DefaultOriginGroup *ResourceReference_STATUS_ARM `json:"defaultOriginGroup,omitempty"`
-
-	// DeliveryPolicy: A policy that specifies the delivery rules to be used for an endpoint.
-	DeliveryPolicy *EndpointProperties_DeliveryPolicy_STATUS_ARM `json:"deliveryPolicy,omitempty"`
-
-	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
-	// to a specified path or content, e.g. block APAC for path /pictures/
-	GeoFilters []GeoFilter_STATUS_ARM `json:"geoFilters,omitempty"`
-
-	// HostName: The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
-	HostName *string `json:"hostName,omitempty"`
-
-	// IsCompressionEnabled: Indicates whether content compression is enabled on CDN. Default value is false. If compression is
-	// enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on
-	// CDN when requested content is smaller than 1 byte or larger than 1 MB.
-	IsCompressionEnabled *bool `json:"isCompressionEnabled,omitempty"`
-
-	// IsHttpAllowed: Indicates whether HTTP traffic is allowed on the endpoint. Default value is true. At least one protocol
-	// (HTTP or HTTPS) must be allowed.
-	IsHttpAllowed *bool `json:"isHttpAllowed,omitempty"`
-
-	// IsHttpsAllowed: Indicates whether HTTPS traffic is allowed on the endpoint. Default value is true. At least one protocol
-	// (HTTP or HTTPS) must be allowed.
-	IsHttpsAllowed *bool `json:"isHttpsAllowed,omitempty"`
-
-	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
-	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *OptimizationType_STATUS `json:"optimizationType,omitempty"`
-
-	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []DeepCreatedOriginGroup_STATUS_ARM `json:"originGroups,omitempty"`
-
-	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
-	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
-	// the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services
-	// require this host header value to match the origin hostname by default.
-	OriginHostHeader *string `json:"originHostHeader,omitempty"`
-
-	// OriginPath: A directory path on the origin that CDN can use to retrieve content from, e.g.
-	// contoso.cloudapp.net/originpath.
-	OriginPath *string `json:"originPath,omitempty"`
-
-	// Origins: The source of the content being delivered via CDN.
-	Origins []DeepCreatedOrigin_STATUS_ARM `json:"origins,omitempty"`
-
-	// ProbePath: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the
-	// most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single
-	// origin.
-	ProbePath *string `json:"probePath,omitempty"`
-
-	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
-	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
-	// with a unique URL.
-	QueryStringCachingBehavior *QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
-
-	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
-
-	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
-	UrlSigningKeys []UrlSigningKey_STATUS_ARM `json:"urlSigningKeys,omitempty"`
-
-	// WebApplicationFirewallPolicyLink: Defines the Web Application Firewall policy for the endpoint (if applicable)
+	ContentTypesToCompress           []string                                                        `json:"contentTypesToCompress,omitempty"`
+	CustomDomains                    []DeepCreatedCustomDomain_STATUS_ARM                            `json:"customDomains,omitempty"`
+	DefaultOriginGroup               *ResourceReference_STATUS_ARM                                   `json:"defaultOriginGroup,omitempty"`
+	DeliveryPolicy                   *EndpointProperties_DeliveryPolicy_STATUS_ARM                   `json:"deliveryPolicy,omitempty"`
+	GeoFilters                       []GeoFilter_STATUS_ARM                                          `json:"geoFilters,omitempty"`
+	HostName                         *string                                                         `json:"hostName,omitempty"`
+	IsCompressionEnabled             *bool                                                           `json:"isCompressionEnabled,omitempty"`
+	IsHttpAllowed                    *bool                                                           `json:"isHttpAllowed,omitempty"`
+	IsHttpsAllowed                   *bool                                                           `json:"isHttpsAllowed,omitempty"`
+	OptimizationType                 *OptimizationType_STATUS                                        `json:"optimizationType,omitempty"`
+	OriginGroups                     []DeepCreatedOriginGroup_STATUS_ARM                             `json:"originGroups,omitempty"`
+	OriginHostHeader                 *string                                                         `json:"originHostHeader,omitempty"`
+	OriginPath                       *string                                                         `json:"originPath,omitempty"`
+	Origins                          []DeepCreatedOrigin_STATUS_ARM                                  `json:"origins,omitempty"`
+	ProbePath                        *string                                                         `json:"probePath,omitempty"`
+	ProvisioningState                *EndpointProperties_ProvisioningState_STATUS                    `json:"provisioningState,omitempty"`
+	QueryStringCachingBehavior       *QueryStringCachingBehavior_STATUS                              `json:"queryStringCachingBehavior,omitempty"`
+	ResourceState                    *EndpointProperties_ResourceState_STATUS                        `json:"resourceState,omitempty"`
+	UrlSigningKeys                   []UrlSigningKey_STATUS_ARM                                      `json:"urlSigningKeys,omitempty"`
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS_ARM `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-// Custom domains created on the CDN endpoint.
+// Deprecated version of DeepCreatedCustomDomain_STATUS. Use v1api20210601.DeepCreatedCustomDomain_STATUS instead
 type DeepCreatedCustomDomain_STATUS_ARM struct {
-	// Name: Custom domain name.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the custom domain created on the CDN endpoint.
+	Name       *string                                       `json:"name,omitempty"`
 	Properties *DeepCreatedCustomDomainProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-// The main origin of CDN content which is added when creating a CDN endpoint.
+// Deprecated version of DeepCreatedOrigin_STATUS. Use v1api20210601.DeepCreatedOrigin_STATUS instead
 type DeepCreatedOrigin_STATUS_ARM struct {
-	// Name: Origin name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the origin created on the CDN endpoint.
+	Name       *string                                 `json:"name,omitempty"`
 	Properties *DeepCreatedOriginProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
-// The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
-// origin group based on origin health.
+// Deprecated version of DeepCreatedOriginGroup_STATUS. Use v1api20210601.DeepCreatedOriginGroup_STATUS instead
 type DeepCreatedOriginGroup_STATUS_ARM struct {
-	// Name: Origin group name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the origin group created on the CDN endpoint.
+	Name       *string                                      `json:"name,omitempty"`
 	Properties *DeepCreatedOriginGroupProperties_STATUS_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of EndpointProperties_DeliveryPolicy_STATUS. Use v1api20210601.EndpointProperties_DeliveryPolicy_STATUS instead
 type EndpointProperties_DeliveryPolicy_STATUS_ARM struct {
-	// Description: User-friendly description of the policy.
-	Description *string `json:"description,omitempty"`
-
-	// Rules: A list of the delivery rules.
-	Rules []DeliveryRule_STATUS_ARM `json:"rules,omitempty"`
+	Description *string                   `json:"description,omitempty"`
+	Rules       []DeliveryRule_STATUS_ARM `json:"rules,omitempty"`
 }
 
+// Deprecated version of EndpointProperties_WebApplicationFirewallPolicyLink_STATUS. Use v1api20210601.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS instead
 type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// Rules defining user's geo access within a CDN endpoint.
+// Deprecated version of GeoFilter_STATUS. Use v1api20210601.GeoFilter_STATUS instead
 type GeoFilter_STATUS_ARM struct {
-	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilter_Action_STATUS `json:"action,omitempty"`
-
-	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
-	CountryCodes []string `json:"countryCodes,omitempty"`
-
-	// RelativePath: Relative path applicable to geo filter. (e.g. '/mypictures', '/mypicture/kitty.jpg', and etc.)
-	RelativePath *string `json:"relativePath,omitempty"`
+	Action       *GeoFilter_Action_STATUS `json:"action,omitempty"`
+	CountryCodes []string                 `json:"countryCodes,omitempty"`
+	RelativePath *string                  `json:"relativePath,omitempty"`
 }
 
-// Reference to another resource.
+// Deprecated version of ResourceReference_STATUS. Use v1api20210601.ResourceReference_STATUS instead
 type ResourceReference_STATUS_ARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-// Url signing key
+// Deprecated version of UrlSigningKey_STATUS. Use v1api20210601.UrlSigningKey_STATUS instead
 type UrlSigningKey_STATUS_ARM struct {
-	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
-	// the hash.
-	KeyId *string `json:"keyId,omitempty"`
-
-	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
+	KeyId               *string                                  `json:"keyId,omitempty"`
 	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS_ARM `json:"keySourceParameters,omitempty"`
 }
 
-// Properties of the custom domain created on the CDN endpoint.
+// Deprecated version of DeepCreatedCustomDomainProperties_STATUS. Use v1api20210601.DeepCreatedCustomDomainProperties_STATUS instead
 type DeepCreatedCustomDomainProperties_STATUS_ARM struct {
-	// HostName: The host name of the custom domain. Must be a domain name.
-	HostName *string `json:"hostName,omitempty"`
-
-	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
-	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
+	HostName       *string `json:"hostName,omitempty"`
 	ValidationData *string `json:"validationData,omitempty"`
 }
 
-// Properties of the origin group created on the CDN endpoint.
+// Deprecated version of DeepCreatedOriginGroupProperties_STATUS. Use v1api20210601.DeepCreatedOriginGroupProperties_STATUS instead
 type DeepCreatedOriginGroupProperties_STATUS_ARM struct {
-	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
-	HealthProbeSettings *HealthProbeParameters_STATUS_ARM `json:"healthProbeSettings,omitempty"`
-
-	// Origins: The source of the content being delivered via CDN within given origin group.
-	Origins []ResourceReference_STATUS_ARM `json:"origins,omitempty"`
-
-	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
-	// real requests/responses.This property is currently not supported.
-	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters_STATUS_ARM `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
-
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
-	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
-	// supported.
-	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
+	HealthProbeSettings                                   *HealthProbeParameters_STATUS_ARM                       `json:"healthProbeSettings,omitempty"`
+	Origins                                               []ResourceReference_STATUS_ARM                          `json:"origins,omitempty"`
+	ResponseBasedOriginErrorDetectionSettings             *ResponseBasedOriginErrorDetectionParameters_STATUS_ARM `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
+	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                                    `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-// Properties of the origin created on the CDN endpoint.
+// Deprecated version of DeepCreatedOriginProperties_STATUS. Use v1api20210601.DeepCreatedOriginProperties_STATUS instead
 type DeepCreatedOriginProperties_STATUS_ARM struct {
-	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// HostName: The address of the origin. It can be a domain name, IPv4 address, or IPv6 address. This should be unique
-	// across all origins in an endpoint.
-	HostName *string `json:"hostName,omitempty"`
-
-	// HttpPort: The value of the HTTP port. Must be between 1 and 65535.
-	HttpPort *int `json:"httpPort,omitempty"`
-
-	// HttpsPort: The value of the HTTPS port. Must be between 1 and 65535.
-	HttpsPort *int `json:"httpsPort,omitempty"`
-
-	// OriginHostHeader: The host header value sent to the origin with each request. If you leave this blank, the request
-	// hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host
-	// header value to match the origin hostname by default.
-	OriginHostHeader *string `json:"originHostHeader,omitempty"`
-
-	// Priority: Priority of origin in given origin group for load balancing. Higher priorities will not be used for load
-	// balancing if any lower priority origin is healthy.Must be between 1 and 5.
-	Priority *int `json:"priority,omitempty"`
-
-	// PrivateEndpointStatus: The approval status for the connection to the Private Link
-	PrivateEndpointStatus *PrivateEndpointStatus_STATUS `json:"privateEndpointStatus,omitempty"`
-
-	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
-	// 'Private'
-	PrivateLinkAlias *string `json:"privateLinkAlias,omitempty"`
-
-	// PrivateLinkApprovalMessage: A custom message to be included in the approval request to connect to the Private Link.
-	PrivateLinkApprovalMessage *string `json:"privateLinkApprovalMessage,omitempty"`
-
-	// PrivateLinkLocation: The location of the Private Link resource. Required only if 'privateLinkResourceId' is populated
-	PrivateLinkLocation *string `json:"privateLinkLocation,omitempty"`
-
-	// PrivateLinkResourceId: The Resource Id of the Private Link resource. Populating this optional field indicates that this
-	// backend is 'Private'
-	PrivateLinkResourceId *string `json:"privateLinkResourceId,omitempty"`
-
-	// Weight: Weight of the origin in given origin group for load balancing. Must be between 1 and 1000
-	Weight *int `json:"weight,omitempty"`
+	Enabled                    *bool                         `json:"enabled,omitempty"`
+	HostName                   *string                       `json:"hostName,omitempty"`
+	HttpPort                   *int                          `json:"httpPort,omitempty"`
+	HttpsPort                  *int                          `json:"httpsPort,omitempty"`
+	OriginHostHeader           *string                       `json:"originHostHeader,omitempty"`
+	Priority                   *int                          `json:"priority,omitempty"`
+	PrivateEndpointStatus      *PrivateEndpointStatus_STATUS `json:"privateEndpointStatus,omitempty"`
+	PrivateLinkAlias           *string                       `json:"privateLinkAlias,omitempty"`
+	PrivateLinkApprovalMessage *string                       `json:"privateLinkApprovalMessage,omitempty"`
+	PrivateLinkLocation        *string                       `json:"privateLinkLocation,omitempty"`
+	PrivateLinkResourceId      *string                       `json:"privateLinkResourceId,omitempty"`
+	Weight                     *int                          `json:"weight,omitempty"`
 }
 
-// A rule that specifies a set of actions and conditions
+// Deprecated version of DeliveryRule_STATUS. Use v1api20210601.DeliveryRule_STATUS instead
 type DeliveryRule_STATUS_ARM struct {
-	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
-	Actions []DeliveryRuleAction_STATUS_ARM `json:"actions,omitempty"`
-
-	// Conditions: A list of conditions that must be matched for the actions to be executed
+	Actions    []DeliveryRuleAction_STATUS_ARM    `json:"actions,omitempty"`
 	Conditions []DeliveryRuleCondition_STATUS_ARM `json:"conditions,omitempty"`
-
-	// Name: Name of the rule
-	Name *string `json:"name,omitempty"`
-
-	// Order: The order in which the rules are applied for the endpoint. Possible values {0,1,2,3,………}. A rule with a
-	// lesser order will be applied before a rule with a greater order. Rule with order 0 is a special rule. It does not
-	// require any condition and actions listed in it will always be applied.
-	Order *int `json:"order,omitempty"`
+	Name       *string                            `json:"name,omitempty"`
+	Order      *int                               `json:"order,omitempty"`
 }
 
-// Describes the parameters for using a user's KeyVault for URL Signing Key.
+// Deprecated version of KeyVaultSigningKeyParameters_STATUS. Use v1api20210601.KeyVaultSigningKeyParameters_STATUS instead
 type KeyVaultSigningKeyParameters_STATUS_ARM struct {
-	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
-	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
-
-	// SecretName: The name of secret in Key Vault.
-	SecretName *string `json:"secretName,omitempty"`
-
-	// SecretVersion: The version(GUID) of secret in Key Vault.
-	SecretVersion *string `json:"secretVersion,omitempty"`
-
-	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
-	SubscriptionId *string                                       `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParameters_TypeName_STATUS `json:"typeName,omitempty"`
-
-	// VaultName: The name of the user's Key Vault containing the secret
-	VaultName *string `json:"vaultName,omitempty"`
+	ResourceGroupName *string                                       `json:"resourceGroupName,omitempty"`
+	SecretName        *string                                       `json:"secretName,omitempty"`
+	SecretVersion     *string                                       `json:"secretVersion,omitempty"`
+	SubscriptionId    *string                                       `json:"subscriptionId,omitempty"`
+	TypeName          *KeyVaultSigningKeyParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	VaultName         *string                                       `json:"vaultName,omitempty"`
 }
 
-// An action for the delivery rule.
+// Deprecated version of DeliveryRuleAction_STATUS. Use v1api20210601.DeliveryRuleAction_STATUS instead
 type DeliveryRuleAction_STATUS_ARM struct {
-	// CacheExpiration: Mutually exclusive with all other properties
-	CacheExpiration *DeliveryRuleCacheExpirationAction_STATUS_ARM `json:"cacheExpiration,omitempty"`
-
-	// CacheKeyQueryString: Mutually exclusive with all other properties
-	CacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction_STATUS_ARM `json:"cacheKeyQueryString,omitempty"`
-
-	// ModifyRequestHeader: Mutually exclusive with all other properties
-	ModifyRequestHeader *DeliveryRuleRequestHeaderAction_STATUS_ARM `json:"modifyRequestHeader,omitempty"`
-
-	// ModifyResponseHeader: Mutually exclusive with all other properties
-	ModifyResponseHeader *DeliveryRuleResponseHeaderAction_STATUS_ARM `json:"modifyResponseHeader,omitempty"`
-
-	// OriginGroupOverride: Mutually exclusive with all other properties
-	OriginGroupOverride *OriginGroupOverrideAction_STATUS_ARM `json:"originGroupOverride,omitempty"`
-
-	// RouteConfigurationOverride: Mutually exclusive with all other properties
+	CacheExpiration            *DeliveryRuleCacheExpirationAction_STATUS_ARM            `json:"cacheExpiration,omitempty"`
+	CacheKeyQueryString        *DeliveryRuleCacheKeyQueryStringAction_STATUS_ARM        `json:"cacheKeyQueryString,omitempty"`
+	ModifyRequestHeader        *DeliveryRuleRequestHeaderAction_STATUS_ARM              `json:"modifyRequestHeader,omitempty"`
+	ModifyResponseHeader       *DeliveryRuleResponseHeaderAction_STATUS_ARM             `json:"modifyResponseHeader,omitempty"`
+	OriginGroupOverride        *OriginGroupOverrideAction_STATUS_ARM                    `json:"originGroupOverride,omitempty"`
 	RouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM `json:"routeConfigurationOverride,omitempty"`
-
-	// UrlRedirect: Mutually exclusive with all other properties
-	UrlRedirect *UrlRedirectAction_STATUS_ARM `json:"urlRedirect,omitempty"`
-
-	// UrlRewrite: Mutually exclusive with all other properties
-	UrlRewrite *UrlRewriteAction_STATUS_ARM `json:"urlRewrite,omitempty"`
-
-	// UrlSigning: Mutually exclusive with all other properties
-	UrlSigning *UrlSigningAction_STATUS_ARM `json:"urlSigning,omitempty"`
+	UrlRedirect                *UrlRedirectAction_STATUS_ARM                            `json:"urlRedirect,omitempty"`
+	UrlRewrite                 *UrlRewriteAction_STATUS_ARM                             `json:"urlRewrite,omitempty"`
+	UrlSigning                 *UrlSigningAction_STATUS_ARM                             `json:"urlSigning,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because DeliveryRuleAction_STATUS_ARM represents a discriminated union (JSON OneOf)
@@ -394,64 +229,27 @@ func (action *DeliveryRuleAction_STATUS_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// A condition for the delivery rule.
+// Deprecated version of DeliveryRuleCondition_STATUS. Use v1api20210601.DeliveryRuleCondition_STATUS instead
 type DeliveryRuleCondition_STATUS_ARM struct {
-	// ClientPort: Mutually exclusive with all other properties
-	ClientPort *DeliveryRuleClientPortCondition_STATUS_ARM `json:"clientPort,omitempty"`
-
-	// Cookies: Mutually exclusive with all other properties
-	Cookies *DeliveryRuleCookiesCondition_STATUS_ARM `json:"cookies,omitempty"`
-
-	// HostName: Mutually exclusive with all other properties
-	HostName *DeliveryRuleHostNameCondition_STATUS_ARM `json:"hostName,omitempty"`
-
-	// HttpVersion: Mutually exclusive with all other properties
-	HttpVersion *DeliveryRuleHttpVersionCondition_STATUS_ARM `json:"httpVersion,omitempty"`
-
-	// IsDevice: Mutually exclusive with all other properties
-	IsDevice *DeliveryRuleIsDeviceCondition_STATUS_ARM `json:"isDevice,omitempty"`
-
-	// PostArgs: Mutually exclusive with all other properties
-	PostArgs *DeliveryRulePostArgsCondition_STATUS_ARM `json:"postArgs,omitempty"`
-
-	// QueryString: Mutually exclusive with all other properties
-	QueryString *DeliveryRuleQueryStringCondition_STATUS_ARM `json:"queryString,omitempty"`
-
-	// RemoteAddress: Mutually exclusive with all other properties
-	RemoteAddress *DeliveryRuleRemoteAddressCondition_STATUS_ARM `json:"remoteAddress,omitempty"`
-
-	// RequestBody: Mutually exclusive with all other properties
-	RequestBody *DeliveryRuleRequestBodyCondition_STATUS_ARM `json:"requestBody,omitempty"`
-
-	// RequestHeader: Mutually exclusive with all other properties
-	RequestHeader *DeliveryRuleRequestHeaderCondition_STATUS_ARM `json:"requestHeader,omitempty"`
-
-	// RequestMethod: Mutually exclusive with all other properties
-	RequestMethod *DeliveryRuleRequestMethodCondition_STATUS_ARM `json:"requestMethod,omitempty"`
-
-	// RequestScheme: Mutually exclusive with all other properties
-	RequestScheme *DeliveryRuleRequestSchemeCondition_STATUS_ARM `json:"requestScheme,omitempty"`
-
-	// RequestUri: Mutually exclusive with all other properties
-	RequestUri *DeliveryRuleRequestUriCondition_STATUS_ARM `json:"requestUri,omitempty"`
-
-	// ServerPort: Mutually exclusive with all other properties
-	ServerPort *DeliveryRuleServerPortCondition_STATUS_ARM `json:"serverPort,omitempty"`
-
-	// SocketAddr: Mutually exclusive with all other properties
-	SocketAddr *DeliveryRuleSocketAddrCondition_STATUS_ARM `json:"socketAddr,omitempty"`
-
-	// SslProtocol: Mutually exclusive with all other properties
-	SslProtocol *DeliveryRuleSslProtocolCondition_STATUS_ARM `json:"sslProtocol,omitempty"`
-
-	// UrlFileExtension: Mutually exclusive with all other properties
+	ClientPort       *DeliveryRuleClientPortCondition_STATUS_ARM       `json:"clientPort,omitempty"`
+	Cookies          *DeliveryRuleCookiesCondition_STATUS_ARM          `json:"cookies,omitempty"`
+	HostName         *DeliveryRuleHostNameCondition_STATUS_ARM         `json:"hostName,omitempty"`
+	HttpVersion      *DeliveryRuleHttpVersionCondition_STATUS_ARM      `json:"httpVersion,omitempty"`
+	IsDevice         *DeliveryRuleIsDeviceCondition_STATUS_ARM         `json:"isDevice,omitempty"`
+	PostArgs         *DeliveryRulePostArgsCondition_STATUS_ARM         `json:"postArgs,omitempty"`
+	QueryString      *DeliveryRuleQueryStringCondition_STATUS_ARM      `json:"queryString,omitempty"`
+	RemoteAddress    *DeliveryRuleRemoteAddressCondition_STATUS_ARM    `json:"remoteAddress,omitempty"`
+	RequestBody      *DeliveryRuleRequestBodyCondition_STATUS_ARM      `json:"requestBody,omitempty"`
+	RequestHeader    *DeliveryRuleRequestHeaderCondition_STATUS_ARM    `json:"requestHeader,omitempty"`
+	RequestMethod    *DeliveryRuleRequestMethodCondition_STATUS_ARM    `json:"requestMethod,omitempty"`
+	RequestScheme    *DeliveryRuleRequestSchemeCondition_STATUS_ARM    `json:"requestScheme,omitempty"`
+	RequestUri       *DeliveryRuleRequestUriCondition_STATUS_ARM       `json:"requestUri,omitempty"`
+	ServerPort       *DeliveryRuleServerPortCondition_STATUS_ARM       `json:"serverPort,omitempty"`
+	SocketAddr       *DeliveryRuleSocketAddrCondition_STATUS_ARM       `json:"socketAddr,omitempty"`
+	SslProtocol      *DeliveryRuleSslProtocolCondition_STATUS_ARM      `json:"sslProtocol,omitempty"`
 	UrlFileExtension *DeliveryRuleUrlFileExtensionCondition_STATUS_ARM `json:"urlFileExtension,omitempty"`
-
-	// UrlFileName: Mutually exclusive with all other properties
-	UrlFileName *DeliveryRuleUrlFileNameCondition_STATUS_ARM `json:"urlFileName,omitempty"`
-
-	// UrlPath: Mutually exclusive with all other properties
-	UrlPath *DeliveryRuleUrlPathCondition_STATUS_ARM `json:"urlPath,omitempty"`
+	UrlFileName      *DeliveryRuleUrlFileNameCondition_STATUS_ARM      `json:"urlFileName,omitempty"`
+	UrlPath          *DeliveryRuleUrlPathCondition_STATUS_ARM          `json:"urlPath,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because DeliveryRuleCondition_STATUS_ARM represents a discriminated union (JSON OneOf)
@@ -605,722 +403,448 @@ func (condition *DeliveryRuleCondition_STATUS_ARM) UnmarshalJSON(data []byte) er
 	return nil
 }
 
-// The JSON object that contains the properties to send health probes to origin.
+// Deprecated version of HealthProbeParameters_STATUS. Use v1api20210601.HealthProbeParameters_STATUS instead
 type HealthProbeParameters_STATUS_ARM struct {
-	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
-	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
-
-	// ProbePath: The path relative to the origin that is used to determine the health of the origin.
-	ProbePath *string `json:"probePath,omitempty"`
-
-	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParameters_ProbeProtocol_STATUS `json:"probeProtocol,omitempty"`
-
-	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParameters_ProbeRequestType_STATUS `json:"probeRequestType,omitempty"`
+	ProbeIntervalInSeconds *int                                           `json:"probeIntervalInSeconds,omitempty"`
+	ProbePath              *string                                        `json:"probePath,omitempty"`
+	ProbeProtocol          *HealthProbeParameters_ProbeProtocol_STATUS    `json:"probeProtocol,omitempty"`
+	ProbeRequestType       *HealthProbeParameters_ProbeRequestType_STATUS `json:"probeRequestType,omitempty"`
 }
 
-// The JSON object that contains the properties to determine origin health using real requests/responses.
+// Deprecated version of ResponseBasedOriginErrorDetectionParameters_STATUS. Use v1api20210601.ResponseBasedOriginErrorDetectionParameters_STATUS instead
 type ResponseBasedOriginErrorDetectionParameters_STATUS_ARM struct {
-	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
-	// unhealthy.
-	HttpErrorRanges []HttpErrorRangeParameters_STATUS_ARM `json:"httpErrorRanges,omitempty"`
-
-	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS `json:"responseBasedDetectedErrorTypes,omitempty"`
-
-	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
-	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
+	HttpErrorRanges                          []HttpErrorRangeParameters_STATUS_ARM                                               `json:"httpErrorRanges,omitempty"`
+	ResponseBasedDetectedErrorTypes          *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedFailoverThresholdPercentage *int                                                                                `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleCacheExpirationAction_STATUS. Use v1api20210601.DeliveryRuleCacheExpirationAction_STATUS instead
 type DeliveryRuleCacheExpirationAction_STATUS_ARM struct {
-	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleCacheExpirationAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *CacheExpirationActionParameters_STATUS_ARM `json:"parameters,omitempty"`
+	Name       DeliveryRuleCacheExpirationAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *CacheExpirationActionParameters_STATUS_ARM   `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleCacheKeyQueryStringAction_STATUS. Use v1api20210601.DeliveryRuleCacheKeyQueryStringAction_STATUS instead
 type DeliveryRuleCacheKeyQueryStringAction_STATUS_ARM struct {
-	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleCacheKeyQueryStringAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *CacheKeyQueryStringActionParameters_STATUS_ARM `json:"parameters,omitempty"`
+	Name       DeliveryRuleCacheKeyQueryStringAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *CacheKeyQueryStringActionParameters_STATUS_ARM   `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleClientPortCondition_STATUS. Use v1api20210601.DeliveryRuleClientPortCondition_STATUS instead
 type DeliveryRuleClientPortCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleClientPortCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleClientPortCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *ClientPortMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleCookiesCondition_STATUS. Use v1api20210601.DeliveryRuleCookiesCondition_STATUS instead
 type DeliveryRuleCookiesCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleCookiesCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleCookiesCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *CookiesMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleHostNameCondition_STATUS. Use v1api20210601.DeliveryRuleHostNameCondition_STATUS instead
 type DeliveryRuleHostNameCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleHostNameCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleHostNameCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *HostNameMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleHttpVersionCondition_STATUS. Use v1api20210601.DeliveryRuleHttpVersionCondition_STATUS instead
 type DeliveryRuleHttpVersionCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleHttpVersionCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleHttpVersionCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *HttpVersionMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleIsDeviceCondition_STATUS. Use v1api20210601.DeliveryRuleIsDeviceCondition_STATUS instead
 type DeliveryRuleIsDeviceCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleIsDeviceCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleIsDeviceCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *IsDeviceMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRulePostArgsCondition_STATUS. Use v1api20210601.DeliveryRulePostArgsCondition_STATUS instead
 type DeliveryRulePostArgsCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRulePostArgsCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRulePostArgsCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *PostArgsMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleQueryStringCondition_STATUS. Use v1api20210601.DeliveryRuleQueryStringCondition_STATUS instead
 type DeliveryRuleQueryStringCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleQueryStringCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleQueryStringCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *QueryStringMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleRemoteAddressCondition_STATUS. Use v1api20210601.DeliveryRuleRemoteAddressCondition_STATUS instead
 type DeliveryRuleRemoteAddressCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRemoteAddressCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleRemoteAddressCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *RemoteAddressMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleRequestBodyCondition_STATUS. Use v1api20210601.DeliveryRuleRequestBodyCondition_STATUS instead
 type DeliveryRuleRequestBodyCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestBodyCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleRequestBodyCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *RequestBodyMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleRequestHeaderAction_STATUS. Use v1api20210601.DeliveryRuleRequestHeaderAction_STATUS instead
 type DeliveryRuleRequestHeaderAction_STATUS_ARM struct {
-	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleRequestHeaderAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *HeaderActionParameters_STATUS_ARM `json:"parameters,omitempty"`
+	Name       DeliveryRuleRequestHeaderAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *HeaderActionParameters_STATUS_ARM          `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleRequestHeaderCondition_STATUS. Use v1api20210601.DeliveryRuleRequestHeaderCondition_STATUS instead
 type DeliveryRuleRequestHeaderCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestHeaderCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleRequestHeaderCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *RequestHeaderMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleRequestMethodCondition_STATUS. Use v1api20210601.DeliveryRuleRequestMethodCondition_STATUS instead
 type DeliveryRuleRequestMethodCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestMethodCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleRequestMethodCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *RequestMethodMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleRequestSchemeCondition_STATUS. Use v1api20210601.DeliveryRuleRequestSchemeCondition_STATUS instead
 type DeliveryRuleRequestSchemeCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestSchemeCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleRequestSchemeCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *RequestSchemeMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleRequestUriCondition_STATUS. Use v1api20210601.DeliveryRuleRequestUriCondition_STATUS instead
 type DeliveryRuleRequestUriCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleRequestUriCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleRequestUriCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *RequestUriMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleResponseHeaderAction_STATUS. Use v1api20210601.DeliveryRuleResponseHeaderAction_STATUS instead
 type DeliveryRuleResponseHeaderAction_STATUS_ARM struct {
-	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleResponseHeaderAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *HeaderActionParameters_STATUS_ARM `json:"parameters,omitempty"`
+	Name       DeliveryRuleResponseHeaderAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *HeaderActionParameters_STATUS_ARM           `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleRouteConfigurationOverrideAction_STATUS. Use v1api20210601.DeliveryRuleRouteConfigurationOverrideAction_STATUS instead
 type DeliveryRuleRouteConfigurationOverrideAction_STATUS_ARM struct {
-	// Name: The name of the action for the delivery rule.
-	Name DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
-	Parameters *RouteConfigurationOverrideActionParameters_STATUS_ARM `json:"parameters,omitempty"`
+	Name       DeliveryRuleRouteConfigurationOverrideAction_Name_STATUS `json:"name,omitempty"`
+	Parameters *RouteConfigurationOverrideActionParameters_STATUS_ARM   `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleServerPortCondition_STATUS. Use v1api20210601.DeliveryRuleServerPortCondition_STATUS instead
 type DeliveryRuleServerPortCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleServerPortCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleServerPortCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *ServerPortMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleSocketAddrCondition_STATUS. Use v1api20210601.DeliveryRuleSocketAddrCondition_STATUS instead
 type DeliveryRuleSocketAddrCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleSocketAddrCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleSocketAddrCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *SocketAddrMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleSslProtocolCondition_STATUS. Use v1api20210601.DeliveryRuleSslProtocolCondition_STATUS instead
 type DeliveryRuleSslProtocolCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleSslProtocolCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleSslProtocolCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *SslProtocolMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleUrlFileExtensionCondition_STATUS. Use v1api20210601.DeliveryRuleUrlFileExtensionCondition_STATUS instead
 type DeliveryRuleUrlFileExtensionCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlFileExtensionCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleUrlFileExtensionCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *UrlFileExtensionMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleUrlFileNameCondition_STATUS. Use v1api20210601.DeliveryRuleUrlFileNameCondition_STATUS instead
 type DeliveryRuleUrlFileNameCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlFileNameCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleUrlFileNameCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *UrlFileNameMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of DeliveryRuleUrlPathCondition_STATUS. Use v1api20210601.DeliveryRuleUrlPathCondition_STATUS instead
 type DeliveryRuleUrlPathCondition_STATUS_ARM struct {
-	// Name: The name of the condition for the delivery rule.
-	Name DeliveryRuleUrlPathCondition_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the condition.
+	Name       DeliveryRuleUrlPathCondition_Name_STATUS    `json:"name,omitempty"`
 	Parameters *UrlPathMatchConditionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
-// The JSON object that represents the range for http status codes
+// Deprecated version of HttpErrorRangeParameters_STATUS. Use v1api20210601.HttpErrorRangeParameters_STATUS instead
 type HttpErrorRangeParameters_STATUS_ARM struct {
-	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
-
-	// End: The inclusive end of the http status code range.
-	End *int `json:"end,omitempty"`
+	End   *int `json:"end,omitempty"`
 }
 
+// Deprecated version of OriginGroupOverrideAction_STATUS. Use v1api20210601.OriginGroupOverrideAction_STATUS instead
 type OriginGroupOverrideAction_STATUS_ARM struct {
-	// Name: The name of the action for the delivery rule.
-	Name OriginGroupOverrideAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
+	Name       OriginGroupOverrideAction_Name_STATUS           `json:"name,omitempty"`
 	Parameters *OriginGroupOverrideActionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of UrlRedirectAction_STATUS. Use v1api20210601.UrlRedirectAction_STATUS instead
 type UrlRedirectAction_STATUS_ARM struct {
-	// Name: The name of the action for the delivery rule.
-	Name UrlRedirectAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
+	Name       UrlRedirectAction_Name_STATUS           `json:"name,omitempty"`
 	Parameters *UrlRedirectActionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of UrlRewriteAction_STATUS. Use v1api20210601.UrlRewriteAction_STATUS instead
 type UrlRewriteAction_STATUS_ARM struct {
-	// Name: The name of the action for the delivery rule.
-	Name UrlRewriteAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
+	Name       UrlRewriteAction_Name_STATUS           `json:"name,omitempty"`
 	Parameters *UrlRewriteActionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
+// Deprecated version of UrlSigningAction_STATUS. Use v1api20210601.UrlSigningAction_STATUS instead
 type UrlSigningAction_STATUS_ARM struct {
-	// Name: The name of the action for the delivery rule.
-	Name UrlSigningAction_Name_STATUS `json:"name,omitempty"`
-
-	// Parameters: Defines the parameters for the action.
+	Name       UrlSigningAction_Name_STATUS           `json:"name,omitempty"`
 	Parameters *UrlSigningActionParameters_STATUS_ARM `json:"parameters,omitempty"`
 }
 
-// Defines the parameters for the cache expiration action.
+// Deprecated version of CacheExpirationActionParameters_STATUS. Use v1api20210601.CacheExpirationActionParameters_STATUS instead
 type CacheExpirationActionParameters_STATUS_ARM struct {
-	// CacheBehavior: Caching behavior for the requests
 	CacheBehavior *CacheExpirationActionParameters_CacheBehavior_STATUS `json:"cacheBehavior,omitempty"`
-
-	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
-	CacheDuration *string `json:"cacheDuration,omitempty"`
-
-	// CacheType: The level at which the content needs to be cached.
-	CacheType *CacheExpirationActionParameters_CacheType_STATUS `json:"cacheType,omitempty"`
-	TypeName  *CacheExpirationActionParameters_TypeName_STATUS  `json:"typeName,omitempty"`
+	CacheDuration *string                                               `json:"cacheDuration,omitempty"`
+	CacheType     *CacheExpirationActionParameters_CacheType_STATUS     `json:"cacheType,omitempty"`
+	TypeName      *CacheExpirationActionParameters_TypeName_STATUS      `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for the cache-key query string action.
+// Deprecated version of CacheKeyQueryStringActionParameters_STATUS. Use v1api20210601.CacheKeyQueryStringActionParameters_STATUS instead
 type CacheKeyQueryStringActionParameters_STATUS_ARM struct {
-	// QueryParameters: query parameters to include or exclude (comma separated).
-	QueryParameters *string `json:"queryParameters,omitempty"`
-
-	// QueryStringBehavior: Caching behavior for the requests
+	QueryParameters     *string                                                         `json:"queryParameters,omitempty"`
 	QueryStringBehavior *CacheKeyQueryStringActionParameters_QueryStringBehavior_STATUS `json:"queryStringBehavior,omitempty"`
 	TypeName            *CacheKeyQueryStringActionParameters_TypeName_STATUS            `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for ClientPort match conditions
+// Deprecated version of ClientPortMatchConditionParameters_STATUS. Use v1api20210601.ClientPortMatchConditionParameters_STATUS instead
 type ClientPortMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *ClientPortMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                  `json:"transforms,omitempty"`
-	TypeName   *ClientPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                            `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
+	Operator        *ClientPortMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                  `json:"transforms,omitempty"`
+	TypeName        *ClientPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for Cookies match conditions
+// Deprecated version of CookiesMatchConditionParameters_STATUS. Use v1api20210601.CookiesMatchConditionParameters_STATUS instead
 type CookiesMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *CookiesMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Selector: Name of Cookies to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                               `json:"transforms,omitempty"`
-	TypeName   *CookiesMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                         `json:"matchValues,omitempty"`
+	NegateCondition *bool                                            `json:"negateCondition,omitempty"`
+	Operator        *CookiesMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Selector        *string                                          `json:"selector,omitempty"`
+	Transforms      []Transform_STATUS                               `json:"transforms,omitempty"`
+	TypeName        *CookiesMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for the request header action.
+// Deprecated version of HeaderActionParameters_STATUS. Use v1api20210601.HeaderActionParameters_STATUS instead
 type HeaderActionParameters_STATUS_ARM struct {
-	// HeaderAction: Action to perform
 	HeaderAction *HeaderActionParameters_HeaderAction_STATUS `json:"headerAction,omitempty"`
-
-	// HeaderName: Name of the header to modify
-	HeaderName *string                                 `json:"headerName,omitempty"`
-	TypeName   *HeaderActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
-
-	// Value: Value for the specified action
-	Value *string `json:"value,omitempty"`
+	HeaderName   *string                                     `json:"headerName,omitempty"`
+	TypeName     *HeaderActionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
+	Value        *string                                     `json:"value,omitempty"`
 }
 
-// Defines the parameters for HostName match conditions
+// Deprecated version of HostNameMatchConditionParameters_STATUS. Use v1api20210601.HostNameMatchConditionParameters_STATUS instead
 type HostNameMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *HostNameMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                `json:"transforms,omitempty"`
-	TypeName   *HostNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                          `json:"matchValues,omitempty"`
+	NegateCondition *bool                                             `json:"negateCondition,omitempty"`
+	Operator        *HostNameMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                `json:"transforms,omitempty"`
+	TypeName        *HostNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for HttpVersion match conditions
+// Deprecated version of HttpVersionMatchConditionParameters_STATUS. Use v1api20210601.HttpVersionMatchConditionParameters_STATUS instead
 type HttpVersionMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *HttpVersionMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *HttpVersionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                             `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *HttpVersionMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *HttpVersionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for IsDevice match conditions
+// Deprecated version of IsDeviceMatchConditionParameters_STATUS. Use v1api20210601.IsDeviceMatchConditionParameters_STATUS instead
 type IsDeviceMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []IsDeviceMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *IsDeviceMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                `json:"transforms,omitempty"`
-	TypeName   *IsDeviceMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []IsDeviceMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                 `json:"negateCondition,omitempty"`
+	Operator        *IsDeviceMatchConditionParameters_Operator_STATUS     `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                    `json:"transforms,omitempty"`
+	TypeName        *IsDeviceMatchConditionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for the origin group override action.
+// Deprecated version of OriginGroupOverrideActionParameters_STATUS. Use v1api20210601.OriginGroupOverrideActionParameters_STATUS instead
 type OriginGroupOverrideActionParameters_STATUS_ARM struct {
-	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
 	OriginGroup *ResourceReference_STATUS_ARM                        `json:"originGroup,omitempty"`
 	TypeName    *OriginGroupOverrideActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for PostArgs match conditions
+// Deprecated version of PostArgsMatchConditionParameters_STATUS. Use v1api20210601.PostArgsMatchConditionParameters_STATUS instead
 type PostArgsMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *PostArgsMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Selector: Name of PostArg to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                `json:"transforms,omitempty"`
-	TypeName   *PostArgsMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                          `json:"matchValues,omitempty"`
+	NegateCondition *bool                                             `json:"negateCondition,omitempty"`
+	Operator        *PostArgsMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Selector        *string                                           `json:"selector,omitempty"`
+	Transforms      []Transform_STATUS                                `json:"transforms,omitempty"`
+	TypeName        *PostArgsMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for QueryString match conditions
+// Deprecated version of QueryStringMatchConditionParameters_STATUS. Use v1api20210601.QueryStringMatchConditionParameters_STATUS instead
 type QueryStringMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *QueryStringMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *QueryStringMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                             `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *QueryStringMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *QueryStringMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for RemoteAddress match conditions
+// Deprecated version of RemoteAddressMatchConditionParameters_STATUS. Use v1api20210601.RemoteAddressMatchConditionParameters_STATUS instead
 type RemoteAddressMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
-	// them match the variable with the given operator this match condition is considered a match.
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RemoteAddressMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                     `json:"transforms,omitempty"`
-	TypeName   *RemoteAddressMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                               `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                  `json:"negateCondition,omitempty"`
+	Operator        *RemoteAddressMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                     `json:"transforms,omitempty"`
+	TypeName        *RemoteAddressMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for RequestBody match conditions
+// Deprecated version of RequestBodyMatchConditionParameters_STATUS. Use v1api20210601.RequestBodyMatchConditionParameters_STATUS instead
 type RequestBodyMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestBodyMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *RequestBodyMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                             `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *RequestBodyMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *RequestBodyMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for RequestHeader match conditions
+// Deprecated version of RequestHeaderMatchConditionParameters_STATUS. Use v1api20210601.RequestHeaderMatchConditionParameters_STATUS instead
 type RequestHeaderMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestHeaderMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Selector: Name of Header to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                     `json:"transforms,omitempty"`
-	TypeName   *RequestHeaderMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                               `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                  `json:"negateCondition,omitempty"`
+	Operator        *RequestHeaderMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Selector        *string                                                `json:"selector,omitempty"`
+	Transforms      []Transform_STATUS                                     `json:"transforms,omitempty"`
+	TypeName        *RequestHeaderMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for RequestMethod match conditions
+// Deprecated version of RequestMethodMatchConditionParameters_STATUS. Use v1api20210601.RequestMethodMatchConditionParameters_STATUS instead
 type RequestMethodMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestMethodMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestMethodMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                     `json:"transforms,omitempty"`
-	TypeName   *RequestMethodMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []RequestMethodMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                      `json:"negateCondition,omitempty"`
+	Operator        *RequestMethodMatchConditionParameters_Operator_STATUS     `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                         `json:"transforms,omitempty"`
+	TypeName        *RequestMethodMatchConditionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for RequestScheme match conditions
+// Deprecated version of RequestSchemeMatchConditionParameters_STATUS. Use v1api20210601.RequestSchemeMatchConditionParameters_STATUS instead
 type RequestSchemeMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestSchemeMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestSchemeMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                     `json:"transforms,omitempty"`
-	TypeName   *RequestSchemeMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []RequestSchemeMatchConditionParameters_MatchValues_STATUS `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                      `json:"negateCondition,omitempty"`
+	Operator        *RequestSchemeMatchConditionParameters_Operator_STATUS     `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                         `json:"transforms,omitempty"`
+	TypeName        *RequestSchemeMatchConditionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for RequestUri match conditions
+// Deprecated version of RequestUriMatchConditionParameters_STATUS. Use v1api20210601.RequestUriMatchConditionParameters_STATUS instead
 type RequestUriMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *RequestUriMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                  `json:"transforms,omitempty"`
-	TypeName   *RequestUriMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                            `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
+	Operator        *RequestUriMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                  `json:"transforms,omitempty"`
+	TypeName        *RequestUriMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for the route configuration override action.
+// Deprecated version of RouteConfigurationOverrideActionParameters_STATUS. Use v1api20210601.RouteConfigurationOverrideActionParameters_STATUS instead
 type RouteConfigurationOverrideActionParameters_STATUS_ARM struct {
-	// CacheConfiguration: The caching configuration associated with this rule. To disable caching, do not provide a
-	// cacheConfiguration object.
-	CacheConfiguration *CacheConfiguration_STATUS_ARM `json:"cacheConfiguration,omitempty"`
-
-	// OriginGroupOverride: A reference to the origin group override configuration. Leave empty to use the default origin group
-	// on route.
+	CacheConfiguration  *CacheConfiguration_STATUS_ARM                              `json:"cacheConfiguration,omitempty"`
 	OriginGroupOverride *OriginGroupOverride_STATUS_ARM                             `json:"originGroupOverride,omitempty"`
 	TypeName            *RouteConfigurationOverrideActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for ServerPort match conditions
+// Deprecated version of ServerPortMatchConditionParameters_STATUS. Use v1api20210601.ServerPortMatchConditionParameters_STATUS instead
 type ServerPortMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *ServerPortMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                  `json:"transforms,omitempty"`
-	TypeName   *ServerPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                            `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
+	Operator        *ServerPortMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                  `json:"transforms,omitempty"`
+	TypeName        *ServerPortMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for SocketAddress match conditions
+// Deprecated version of SocketAddrMatchConditionParameters_STATUS. Use v1api20210601.SocketAddrMatchConditionParameters_STATUS instead
 type SocketAddrMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *SocketAddrMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                  `json:"transforms,omitempty"`
-	TypeName   *SocketAddrMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                            `json:"matchValues,omitempty"`
+	NegateCondition *bool                                               `json:"negateCondition,omitempty"`
+	Operator        *SocketAddrMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                  `json:"transforms,omitempty"`
+	TypeName        *SocketAddrMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for SslProtocol match conditions
+// Deprecated version of SslProtocolMatchConditionParameters_STATUS. Use v1api20210601.SslProtocolMatchConditionParameters_STATUS instead
 type SslProtocolMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []SslProtocol_STATUS `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *SslProtocolMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *SslProtocolMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []SslProtocol_STATUS                                 `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *SslProtocolMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *SslProtocolMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for UrlFileExtension match conditions
+// Deprecated version of UrlFileExtensionMatchConditionParameters_STATUS. Use v1api20210601.UrlFileExtensionMatchConditionParameters_STATUS instead
 type UrlFileExtensionMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *UrlFileExtensionMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                        `json:"transforms,omitempty"`
-	TypeName   *UrlFileExtensionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                                  `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                     `json:"negateCondition,omitempty"`
+	Operator        *UrlFileExtensionMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                        `json:"transforms,omitempty"`
+	TypeName        *UrlFileExtensionMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for UrlFilename match conditions
+// Deprecated version of UrlFileNameMatchConditionParameters_STATUS. Use v1api20210601.UrlFileNameMatchConditionParameters_STATUS instead
 type UrlFileNameMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *UrlFileNameMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                                   `json:"transforms,omitempty"`
-	TypeName   *UrlFileNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                             `json:"matchValues,omitempty"`
+	NegateCondition *bool                                                `json:"negateCondition,omitempty"`
+	Operator        *UrlFileNameMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                                   `json:"transforms,omitempty"`
+	TypeName        *UrlFileNameMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for UrlPath match conditions
+// Deprecated version of UrlPathMatchConditionParameters_STATUS. Use v1api20210601.UrlPathMatchConditionParameters_STATUS instead
 type UrlPathMatchConditionParameters_STATUS_ARM struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// Operator: Describes operator to be matched
-	Operator *UrlPathMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []Transform_STATUS                               `json:"transforms,omitempty"`
-	TypeName   *UrlPathMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	MatchValues     []string                                         `json:"matchValues,omitempty"`
+	NegateCondition *bool                                            `json:"negateCondition,omitempty"`
+	Operator        *UrlPathMatchConditionParameters_Operator_STATUS `json:"operator,omitempty"`
+	Transforms      []Transform_STATUS                               `json:"transforms,omitempty"`
+	TypeName        *UrlPathMatchConditionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for the url redirect action.
+// Deprecated version of UrlRedirectActionParameters_STATUS. Use v1api20210601.UrlRedirectActionParameters_STATUS instead
 type UrlRedirectActionParameters_STATUS_ARM struct {
-	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
-	// the #.
-	CustomFragment *string `json:"customFragment,omitempty"`
-
-	// CustomHostname: Host to redirect. Leave empty to use the incoming host as the destination host.
-	CustomHostname *string `json:"customHostname,omitempty"`
-
-	// CustomPath: The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path
-	// as destination path.
-	CustomPath *string `json:"customPath,omitempty"`
-
-	// CustomQueryString: The set of query strings to be placed in the redirect URL. Setting this value would replace any
-	// existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format.
-	// ? and & will be added automatically so do not include them.
-	CustomQueryString *string `json:"customQueryString,omitempty"`
-
-	// DestinationProtocol: Protocol to use for the redirect. The default value is MatchRequest
+	CustomFragment      *string                                                 `json:"customFragment,omitempty"`
+	CustomHostname      *string                                                 `json:"customHostname,omitempty"`
+	CustomPath          *string                                                 `json:"customPath,omitempty"`
+	CustomQueryString   *string                                                 `json:"customQueryString,omitempty"`
 	DestinationProtocol *UrlRedirectActionParameters_DestinationProtocol_STATUS `json:"destinationProtocol,omitempty"`
-
-	// RedirectType: The redirect type the rule will use when redirecting traffic.
-	RedirectType *UrlRedirectActionParameters_RedirectType_STATUS `json:"redirectType,omitempty"`
-	TypeName     *UrlRedirectActionParameters_TypeName_STATUS     `json:"typeName,omitempty"`
+	RedirectType        *UrlRedirectActionParameters_RedirectType_STATUS        `json:"redirectType,omitempty"`
+	TypeName            *UrlRedirectActionParameters_TypeName_STATUS            `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for the url rewrite action.
+// Deprecated version of UrlRewriteActionParameters_STATUS. Use v1api20210601.UrlRewriteActionParameters_STATUS instead
 type UrlRewriteActionParameters_STATUS_ARM struct {
-	// Destination: Define the relative URL to which the above requests will be rewritten by.
-	Destination *string `json:"destination,omitempty"`
-
-	// PreserveUnmatchedPath: Whether to preserve unmatched path. Default value is true.
-	PreserveUnmatchedPath *bool `json:"preserveUnmatchedPath,omitempty"`
-
-	// SourcePattern: define a request URI pattern that identifies the type of requests that may be rewritten. If value is
-	// blank, all strings are matched.
-	SourcePattern *string                                     `json:"sourcePattern,omitempty"`
-	TypeName      *UrlRewriteActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	Destination           *string                                     `json:"destination,omitempty"`
+	PreserveUnmatchedPath *bool                                       `json:"preserveUnmatchedPath,omitempty"`
+	SourcePattern         *string                                     `json:"sourcePattern,omitempty"`
+	TypeName              *UrlRewriteActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
 }
 
-// Defines the parameters for the Url Signing action.
+// Deprecated version of UrlSigningActionParameters_STATUS. Use v1api20210601.UrlSigningActionParameters_STATUS instead
 type UrlSigningActionParameters_STATUS_ARM struct {
-	// Algorithm: Algorithm to use for URL signing
-	Algorithm *UrlSigningActionParameters_Algorithm_STATUS `json:"algorithm,omitempty"`
-
-	// ParameterNameOverride: Defines which query string parameters in the url to be considered for expires, key id etc.
-	ParameterNameOverride []UrlSigningParamIdentifier_STATUS_ARM      `json:"parameterNameOverride,omitempty"`
-	TypeName              *UrlSigningActionParameters_TypeName_STATUS `json:"typeName,omitempty"`
+	Algorithm             *UrlSigningActionParameters_Algorithm_STATUS `json:"algorithm,omitempty"`
+	ParameterNameOverride []UrlSigningParamIdentifier_STATUS_ARM       `json:"parameterNameOverride,omitempty"`
+	TypeName              *UrlSigningActionParameters_TypeName_STATUS  `json:"typeName,omitempty"`
 }
 
-// Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
+// Deprecated version of CacheConfiguration_STATUS. Use v1api20210601.CacheConfiguration_STATUS instead
 type CacheConfiguration_STATUS_ARM struct {
-	// CacheBehavior: Caching behavior for the requests
-	CacheBehavior *CacheConfiguration_CacheBehavior_STATUS `json:"cacheBehavior,omitempty"`
-
-	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
-	CacheDuration *string `json:"cacheDuration,omitempty"`
-
-	// IsCompressionEnabled: Indicates whether content compression is enabled. If compression is enabled, content will be
-	// served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when
-	// requested content is smaller than 1 byte or larger than 1 MB.
-	IsCompressionEnabled *CacheConfiguration_IsCompressionEnabled_STATUS `json:"isCompressionEnabled,omitempty"`
-
-	// QueryParameters: query parameters to include or exclude (comma separated).
-	QueryParameters *string `json:"queryParameters,omitempty"`
-
-	// QueryStringCachingBehavior: Defines how Frontdoor caches requests that include query strings. You can ignore any query
-	// strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query
-	// strings.
+	CacheBehavior              *CacheConfiguration_CacheBehavior_STATUS              `json:"cacheBehavior,omitempty"`
+	CacheDuration              *string                                               `json:"cacheDuration,omitempty"`
+	IsCompressionEnabled       *CacheConfiguration_IsCompressionEnabled_STATUS       `json:"isCompressionEnabled,omitempty"`
+	QueryParameters            *string                                               `json:"queryParameters,omitempty"`
 	QueryStringCachingBehavior *CacheConfiguration_QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
 }
 
-// Defines the parameters for the origin group override configuration.
+// Deprecated version of OriginGroupOverride_STATUS. Use v1api20210601.OriginGroupOverride_STATUS instead
 type OriginGroupOverride_STATUS_ARM struct {
-	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
 	ForwardingProtocol *OriginGroupOverride_ForwardingProtocol_STATUS `json:"forwardingProtocol,omitempty"`
-
-	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup on route.
-	OriginGroup *ResourceReference_STATUS_ARM `json:"originGroup,omitempty"`
+	OriginGroup        *ResourceReference_STATUS_ARM                  `json:"originGroup,omitempty"`
 }
 
-// Defines how to identify a parameter for a specific purpose e.g. expires
+// Deprecated version of UrlSigningParamIdentifier_STATUS. Use v1api20210601.UrlSigningParamIdentifier_STATUS instead
 type UrlSigningParamIdentifier_STATUS_ARM struct {
-	// ParamIndicator: Indicates the purpose of the parameter
 	ParamIndicator *UrlSigningParamIdentifier_ParamIndicator_STATUS `json:"paramIndicator,omitempty"`
-
-	// ParamName: Parameter name
-	ParamName *string `json:"paramName,omitempty"`
+	ParamName      *string                                          `json:"paramName,omitempty"`
 }

@@ -12,12 +12,11 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/Azure/go-autorest/autorest/to"
-
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
@@ -39,7 +38,7 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 			},
 			AccessTier: &accessTier,
 			KeyPolicy: &storage.KeyPolicy{
-				KeyExpirationPeriodInDays: to.IntPtr(-260),
+				KeyExpirationPeriodInDays: to.Ptr(-260),
 			},
 		},
 	}
@@ -54,34 +53,34 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.Sku{
-				Name:     to.StringPtr("STANDARD_D1_v2"),
-				Capacity: to.IntPtr(1),
+				Name:     to.Ptr("STANDARD_D1_v2"),
+				Capacity: to.Ptr(1),
 			},
-			PlatformFaultDomainCount: to.IntPtr(3),
-			SinglePlacementGroup:     to.BoolPtr(false),
+			PlatformFaultDomainCount: to.Ptr(3),
+			SinglePlacementGroup:     to.Ptr(false),
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
 			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
-						Publisher: to.StringPtr("this publisher"),
-						Offer:     to.StringPtr("does not"),
-						Sku:       to.StringPtr("exist"),
-						Version:   to.StringPtr("latest"),
+						Publisher: to.Ptr("this publisher"),
+						Offer:     to.Ptr("does not"),
+						Sku:       to.Ptr("exist"),
+						Version:   to.Ptr("latest"),
 					},
 				},
 				OsProfile: &compute.VirtualMachineScaleSetOSProfile{
-					ComputerNamePrefix: to.StringPtr("computer"),
+					ComputerNamePrefix: to.Ptr("computer"),
 					AdminUsername:      &adminUsername,
 				},
 				NetworkProfile: &compute.VirtualMachineScaleSetNetworkProfile{
 					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSetNetworkConfiguration{
 						{
-							Name: to.StringPtr("mynicconfig"),
+							Name: to.Ptr("mynicconfig"),
 							IpConfigurations: []compute.VirtualMachineScaleSetIPConfiguration{
 								{
-									Name: to.StringPtr("test"),
+									Name: to.Ptr("test"),
 								},
 							},
 						},
@@ -186,10 +185,10 @@ func Test_OperationRejected_SucceedsAfterUpdate(t *testing.T) {
 	originalImgRef := imgRef.DeepCopy()
 
 	// Set the VMSS to have an invalid image
-	imgRef.Publisher = to.StringPtr("this publisher")
-	imgRef.Offer = to.StringPtr("does not")
-	imgRef.Sku = to.StringPtr("exist")
-	imgRef.Version = to.StringPtr("latest")
+	imgRef.Publisher = to.Ptr("this publisher")
+	imgRef.Offer = to.Ptr("does not")
+	imgRef.Sku = to.Ptr("exist")
+	imgRef.Version = to.Ptr("latest")
 
 	tc.CreateResourceAndWaitForFailure(vmss)
 

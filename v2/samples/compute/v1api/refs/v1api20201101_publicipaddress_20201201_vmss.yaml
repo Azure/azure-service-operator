@@ -1,0 +1,12 @@
+apiVersion: network.azure.com/v1api20201101
+kind: PublicIPAddress
+metadata:
+  name: samplepublicipvmss
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-rg
+  sku:
+    name: Standard
+  publicIPAllocationMethod: Static

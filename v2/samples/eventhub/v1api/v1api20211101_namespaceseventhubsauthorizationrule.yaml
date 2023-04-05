@@ -1,0 +1,11 @@
+apiVersion: eventhub.azure.com/v1api20211101
+kind: NamespacesEventhubsAuthorizationRule
+metadata:
+  name: sample-eventhub-authrule
+  namespace: default
+spec:
+  owner:
+    name: sample-eventhub
+  rights:
+    - Listen
+    - Send

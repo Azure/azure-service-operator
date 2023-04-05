@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
+// Deprecated version of FederatedIdentityCredential. Use v1api20220131preview.FederatedIdentityCredential instead
 type FederatedIdentityCredential struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &FederatedIdentityCredential{}
 
 // ConvertFrom populates our FederatedIdentityCredential from the provided hub FederatedIdentityCredential
 func (credential *FederatedIdentityCredential) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20220131ps.FederatedIdentityCredential)
-	if !ok {
-		return fmt.Errorf("expected managedidentity/v1beta20220131previewstorage/FederatedIdentityCredential but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20220131ps.FederatedIdentityCredential
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return credential.AssignProperties_From_FederatedIdentityCredential(source)
+	err = credential.AssignProperties_From_FederatedIdentityCredential(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to credential")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FederatedIdentityCredential from our FederatedIdentityCredential
 func (credential *FederatedIdentityCredential) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20220131ps.FederatedIdentityCredential)
-	if !ok {
-		return fmt.Errorf("expected managedidentity/v1beta20220131previewstorage/FederatedIdentityCredential but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20220131ps.FederatedIdentityCredential
+	err := credential.AssignProperties_To_FederatedIdentityCredential(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from credential")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return credential.AssignProperties_To_FederatedIdentityCredential(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-managedidentity-azure-com-v1beta20220131preview-federatedidentitycredential,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=federatedidentitycredentials,verbs=create;update,versions=v1beta20220131preview,name=default.v1beta20220131preview.federatedidentitycredentials.managedidentity.azure.com,admissionReviewVersions=v1
@@ -90,17 +102,6 @@ func (credential *FederatedIdentityCredential) defaultAzureName() {
 
 // defaultImpl applies the code generated defaults to the FederatedIdentityCredential resource
 func (credential *FederatedIdentityCredential) defaultImpl() { credential.defaultAzureName() }
-
-var _ genruntime.ImportableResource = &FederatedIdentityCredential{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (credential *FederatedIdentityCredential) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*UserAssignedIdentities_FederatedIdentityCredential_STATUS); ok {
-		return credential.Spec.Initialize_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type UserAssignedIdentities_FederatedIdentityCredential_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &FederatedIdentityCredential{}
 
@@ -323,15 +324,14 @@ func (credential *FederatedIdentityCredential) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/ManagedIdentity.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}
+// Deprecated version of FederatedIdentityCredential. Use v1api20220131preview.FederatedIdentityCredential instead
 type FederatedIdentityCredentialList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FederatedIdentityCredential `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20220131preview.APIVersion instead
 // +kubebuilder:validation:Enum={"2022-01-31-preview"}
 type APIVersion string
 
@@ -339,7 +339,6 @@ const APIVersion_Value = APIVersion("2022-01-31-preview")
 
 type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	// +kubebuilder:validation:Required
-	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -347,7 +346,6 @@ type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Issuer: The URL of the issuer to be trusted.
 	Issuer *string `json:"issuer,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -357,7 +355,6 @@ type UserAssignedIdentities_FederatedIdentityCredential_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"managedidentity.azure.com" json:"owner,omitempty" kind:"UserAssignedIdentity"`
 
 	// +kubebuilder:validation:Required
-	// Subject: The identifier of the external identity.
 	Subject *string `json:"subject,omitempty"`
 }
 
@@ -557,22 +554,6 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Assig
 	return nil
 }
 
-// Initialize_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS populates our UserAssignedIdentities_FederatedIdentityCredential_Spec from the provided source UserAssignedIdentities_FederatedIdentityCredential_STATUS
-func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) Initialize_From_UserAssignedIdentities_FederatedIdentityCredential_STATUS(source *UserAssignedIdentities_FederatedIdentityCredential_STATUS) error {
-
-	// Audiences
-	credential.Audiences = genruntime.CloneSliceOfString(source.Audiences)
-
-	// Issuer
-	credential.Issuer = genruntime.ClonePointerToString(source.Issuer)
-
-	// Subject
-	credential.Subject = genruntime.ClonePointerToString(source.Subject)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -583,28 +564,17 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec) SetAz
 	credential.AzureName = azureName
 }
 
+// Deprecated version of UserAssignedIdentities_FederatedIdentityCredential_STATUS. Use v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_STATUS instead
 type UserAssignedIdentities_FederatedIdentityCredential_STATUS struct {
-	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`
 
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Issuer: The URL of the issuer to be trusted.
-	Issuer *string `json:"issuer,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Subject: The identifier of the external identity.
-	Subject *string `json:"subject,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Id         *string                `json:"id,omitempty"`
+	Issuer     *string                `json:"issuer,omitempty"`
+	Name       *string                `json:"name,omitempty"`
+	Subject    *string                `json:"subject,omitempty"`
+	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &UserAssignedIdentities_FederatedIdentityCredential_STATUS{}

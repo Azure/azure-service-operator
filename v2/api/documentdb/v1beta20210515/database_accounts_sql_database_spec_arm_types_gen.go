@@ -5,12 +5,10 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of DatabaseAccounts_SqlDatabase_Spec. Use v1api20210515.DatabaseAccounts_SqlDatabase_Spec instead
 type DatabaseAccounts_SqlDatabase_Spec_ARM struct {
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties to create and update Azure Cosmos DB SQL database.
+	Location   *string                                `json:"location,omitempty"`
+	Name       string                                 `json:"name,omitempty"`
 	Properties *SqlDatabaseCreateUpdateProperties_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                      `json:"tags,omitempty"`
 }
@@ -32,18 +30,13 @@ func (database *DatabaseAccounts_SqlDatabase_Spec_ARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 }
 
-// Properties to create and update Azure Cosmos DB SQL database.
+// Deprecated version of SqlDatabaseCreateUpdateProperties. Use v1api20210515.SqlDatabaseCreateUpdateProperties instead
 type SqlDatabaseCreateUpdateProperties_ARM struct {
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_ARM `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a SQL database
+	Options  *CreateUpdateOptions_ARM `json:"options,omitempty"`
 	Resource *SqlDatabaseResource_ARM `json:"resource,omitempty"`
 }
 
-// Cosmos DB SQL database resource object
+// Deprecated version of SqlDatabaseResource. Use v1api20210515.SqlDatabaseResource instead
 type SqlDatabaseResource_ARM struct {
-	// Id: Name of the Cosmos DB SQL database
 	Id *string `json:"id,omitempty"`
 }

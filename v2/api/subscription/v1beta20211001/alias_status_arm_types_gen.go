@@ -3,82 +3,42 @@
 // Licensed under the MIT license.
 package v1beta20211001
 
+// Deprecated version of Alias_STATUS. Use v1api20211001.Alias_STATUS instead
 type Alias_STATUS_ARM struct {
-	// Id: Fully qualified ID for the alias resource.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Alias ID.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Subscription Alias response properties.
+	Id         *string                                         `json:"id,omitempty"`
+	Name       *string                                         `json:"name,omitempty"`
 	Properties *SubscriptionAliasResponseProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
-	// Type: Resource type, Microsoft.Subscription/aliases.
-	Type *string `json:"type,omitempty"`
+	SystemData *SystemData_STATUS_ARM                          `json:"systemData,omitempty"`
+	Type       *string                                         `json:"type,omitempty"`
 }
 
-// Put subscription creation result properties.
+// Deprecated version of SubscriptionAliasResponseProperties_STATUS. Use v1api20211001.SubscriptionAliasResponseProperties_STATUS instead
 type SubscriptionAliasResponseProperties_STATUS_ARM struct {
-	// AcceptOwnershipState: The accept ownership state of the resource.
-	AcceptOwnershipState *AcceptOwnershipState_STATUS `json:"acceptOwnershipState,omitempty"`
-
-	// AcceptOwnershipUrl: Url to accept ownership of the subscription.
-	AcceptOwnershipUrl *string `json:"acceptOwnershipUrl,omitempty"`
-	BillingScope       *string `json:"billingScope,omitempty"`
-
-	// CreatedTime: Created Time
-	CreatedTime *string `json:"createdTime,omitempty"`
-
-	// DisplayName: The display name of the subscription.
-	DisplayName *string `json:"displayName,omitempty"`
-
-	// ManagementGroupId: The Management Group Id.
-	ManagementGroupId *string `json:"managementGroupId,omitempty"`
-
-	// ProvisioningState: The provisioning state of the resource.
-	ProvisioningState *SubscriptionAliasResponseProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResellerId: Reseller Id
-	ResellerId *string `json:"resellerId,omitempty"`
-
-	// SubscriptionId: Newly created subscription Id.
-	SubscriptionId *string `json:"subscriptionId,omitempty"`
-
-	// SubscriptionOwnerId: Owner Id of the subscription
-	SubscriptionOwnerId *string `json:"subscriptionOwnerId,omitempty"`
-
-	// Tags: Tags for the subscription
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Workload: The workload type of the subscription. It can be either Production or DevTest.
-	Workload *Workload_STATUS `json:"workload,omitempty"`
+	AcceptOwnershipState *AcceptOwnershipState_STATUS                                  `json:"acceptOwnershipState,omitempty"`
+	AcceptOwnershipUrl   *string                                                       `json:"acceptOwnershipUrl,omitempty"`
+	BillingScope         *string                                                       `json:"billingScope,omitempty"`
+	CreatedTime          *string                                                       `json:"createdTime,omitempty"`
+	DisplayName          *string                                                       `json:"displayName,omitempty"`
+	ManagementGroupId    *string                                                       `json:"managementGroupId,omitempty"`
+	ProvisioningState    *SubscriptionAliasResponseProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResellerId           *string                                                       `json:"resellerId,omitempty"`
+	SubscriptionId       *string                                                       `json:"subscriptionId,omitempty"`
+	SubscriptionOwnerId  *string                                                       `json:"subscriptionOwnerId,omitempty"`
+	Tags                 map[string]string                                             `json:"tags,omitempty"`
+	Workload             *Workload_STATUS                                              `json:"workload,omitempty"`
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20211001.SystemData_STATUS instead
 type SystemData_STATUS_ARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-// The accept ownership state of the resource.
+// Deprecated version of AcceptOwnershipState_STATUS. Use v1api20211001.AcceptOwnershipState_STATUS instead
 type AcceptOwnershipState_STATUS string
 
 const (
@@ -87,6 +47,8 @@ const (
 	AcceptOwnershipState_STATUS_Pending   = AcceptOwnershipState_STATUS("Pending")
 )
 
+// Deprecated version of SubscriptionAliasResponseProperties_ProvisioningState_STATUS. Use
+// v1api20211001.SubscriptionAliasResponseProperties_ProvisioningState_STATUS instead
 type SubscriptionAliasResponseProperties_ProvisioningState_STATUS string
 
 const (
@@ -95,6 +57,7 @@ const (
 	SubscriptionAliasResponseProperties_ProvisioningState_STATUS_Succeeded = SubscriptionAliasResponseProperties_ProvisioningState_STATUS("Succeeded")
 )
 
+// Deprecated version of SystemData_CreatedByType_STATUS. Use v1api20211001.SystemData_CreatedByType_STATUS instead
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -104,6 +67,8 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1api20211001.SystemData_LastModifiedByType_STATUS
+// instead
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -113,7 +78,7 @@ const (
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
-// The workload type of the subscription. It can be either Production or DevTest.
+// Deprecated version of Workload_STATUS. Use v1api20211001.Workload_STATUS instead
 type Workload_STATUS string
 
 const (

@@ -51,7 +51,7 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 
 	g := NewGomegaWithT(t)
 
-	regex, err := regexp.Compile("^v1(alpha|beta)[a-z0-9]*$")
+	regex, err := regexp.Compile("^v1(api|beta)[a-z0-9]*$")
 	g.Expect(err).To(BeNil())
 
 	_ = filepath.WalkDir(samplesPath,

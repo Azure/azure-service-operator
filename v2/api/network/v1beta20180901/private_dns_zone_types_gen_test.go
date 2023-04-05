@@ -5,6 +5,7 @@ package v1beta20180901
 
 import (
 	"encoding/json"
+	v1api20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901storage"
 	v20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20180901storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForPrivateDnsZone(subject PrivateDnsZone) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20180901s.PrivateDnsZone
+	var hub v1api20180901s.PrivateDnsZone
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

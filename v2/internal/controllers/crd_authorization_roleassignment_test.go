@@ -11,9 +11,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1beta20200801preview"
-	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20181130"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

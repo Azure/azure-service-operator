@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default
+// Deprecated version of StorageAccountsManagementPolicy. Use v1api20210401.StorageAccountsManagementPolicy instead
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &StorageAccountsManagementPolicy{}
 
 // ConvertFrom populates our StorageAccountsManagementPolicy from the provided hub StorageAccountsManagementPolicy
 func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210401s.StorageAccountsManagementPolicy)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210401s.StorageAccountsManagementPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_StorageAccountsManagementPolicy(source)
+	err = policy.AssignProperties_From_StorageAccountsManagementPolicy(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsManagementPolicy from our StorageAccountsManagementPolicy
 func (policy *StorageAccountsManagementPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210401s.StorageAccountsManagementPolicy)
-	if !ok {
-		return fmt.Errorf("expected storage/v1beta20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210401s.StorageAccountsManagementPolicy
+	err := policy.AssignProperties_To_StorageAccountsManagementPolicy(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_StorageAccountsManagementPolicy(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1beta20210401-storageaccountsmanagementpolicy,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsmanagementpolicies,verbs=create;update,versions=v1beta20210401,name=default.v1beta20210401.storageaccountsmanagementpolicies.storage.azure.com,admissionReviewVersions=v1
@@ -83,17 +95,6 @@ func (policy *StorageAccountsManagementPolicy) Default() {
 
 // defaultImpl applies the code generated defaults to the StorageAccountsManagementPolicy resource
 func (policy *StorageAccountsManagementPolicy) defaultImpl() {}
-
-var _ genruntime.ImportableResource = &StorageAccountsManagementPolicy{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (policy *StorageAccountsManagementPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccounts_ManagementPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_StorageAccounts_ManagementPolicy_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type StorageAccounts_ManagementPolicy_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
 
@@ -316,9 +317,7 @@ func (policy *StorageAccountsManagementPolicy) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default
+// Deprecated version of StorageAccountsManagementPolicy. Use v1api20210401.StorageAccountsManagementPolicy instead
 type StorageAccountsManagementPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -333,8 +332,6 @@ type StorageAccounts_ManagementPolicy_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
 
 	// +kubebuilder:validation:Required
-	// Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
-	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Policy *ManagementPolicySchema `json:"policy,omitempty"`
 }
 
@@ -514,50 +511,20 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_Storage
 	return nil
 }
 
-// Initialize_From_StorageAccounts_ManagementPolicy_STATUS populates our StorageAccounts_ManagementPolicy_Spec from the provided source StorageAccounts_ManagementPolicy_STATUS
-func (policy *StorageAccounts_ManagementPolicy_Spec) Initialize_From_StorageAccounts_ManagementPolicy_STATUS(source *StorageAccounts_ManagementPolicy_STATUS) error {
-
-	// Policy
-	if source.Policy != nil {
-		var policyLocal ManagementPolicySchema
-		err := policyLocal.Initialize_From_ManagementPolicySchema_STATUS(source.Policy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicySchema_STATUS() to populate field Policy")
-		}
-		policy.Policy = &policyLocal
-	} else {
-		policy.Policy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (policy *StorageAccounts_ManagementPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
+// Deprecated version of StorageAccounts_ManagementPolicy_STATUS. Use v1api20210401.StorageAccounts_ManagementPolicy_STATUS instead
 type StorageAccounts_ManagementPolicy_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// LastModifiedTime: Returns the date and time the ManagementPolicies was last modified.
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
-	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-	Policy *ManagementPolicySchema_STATUS `json:"policy,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
+	Id               *string                        `json:"id,omitempty"`
+	LastModifiedTime *string                        `json:"lastModifiedTime,omitempty"`
+	Name             *string                        `json:"name,omitempty"`
+	Policy           *ManagementPolicySchema_STATUS `json:"policy,omitempty"`
+	Type             *string                        `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccounts_ManagementPolicy_STATUS{}
@@ -748,12 +715,9 @@ func (policy *StorageAccounts_ManagementPolicy_STATUS) AssignProperties_To_Stora
 	return nil
 }
 
-// The Storage Account ManagementPolicies Rules. See more details in:
-// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+// Deprecated version of ManagementPolicySchema. Use v1api20210401.ManagementPolicySchema instead
 type ManagementPolicySchema struct {
 	// +kubebuilder:validation:Required
-	// Rules: The Storage Account ManagementPolicies Rules. See more details in:
-	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Rules []ManagementPolicyRule `json:"rules,omitempty"`
 }
 
@@ -862,36 +826,8 @@ func (schema *ManagementPolicySchema) AssignProperties_To_ManagementPolicySchema
 	return nil
 }
 
-// Initialize_From_ManagementPolicySchema_STATUS populates our ManagementPolicySchema from the provided source ManagementPolicySchema_STATUS
-func (schema *ManagementPolicySchema) Initialize_From_ManagementPolicySchema_STATUS(source *ManagementPolicySchema_STATUS) error {
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]ManagementPolicyRule, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
-			var rule ManagementPolicyRule
-			err := rule.Initialize_From_ManagementPolicyRule_STATUS(&ruleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagementPolicyRule_STATUS() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		schema.Rules = ruleList
-	} else {
-		schema.Rules = nil
-	}
-
-	// No error
-	return nil
-}
-
-// The Storage Account ManagementPolicies Rules. See more details in:
-// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+// Deprecated version of ManagementPolicySchema_STATUS. Use v1api20210401.ManagementPolicySchema_STATUS instead
 type ManagementPolicySchema_STATUS struct {
-	// Rules: The Storage Account ManagementPolicies Rules. See more details in:
-	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Rules []ManagementPolicyRule_STATUS `json:"rules,omitempty"`
 }
 
@@ -982,22 +918,16 @@ func (schema *ManagementPolicySchema_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
-// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
+// Deprecated version of ManagementPolicyRule. Use v1api20210401.ManagementPolicyRule instead
 type ManagementPolicyRule struct {
 	// +kubebuilder:validation:Required
-	// Definition: An object that defines the Lifecycle rule.
 	Definition *ManagementPolicyDefinition `json:"definition,omitempty"`
-
-	// Enabled: Rule is enabled if set to true.
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled    *bool                       `json:"enabled,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
-	// unique within a policy.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Type: The valid value is Lifecycle
 	Type *ManagementPolicyRule_Type `json:"type,omitempty"`
 }
 
@@ -1170,58 +1100,12 @@ func (rule *ManagementPolicyRule) AssignProperties_To_ManagementPolicyRule(desti
 	return nil
 }
 
-// Initialize_From_ManagementPolicyRule_STATUS populates our ManagementPolicyRule from the provided source ManagementPolicyRule_STATUS
-func (rule *ManagementPolicyRule) Initialize_From_ManagementPolicyRule_STATUS(source *ManagementPolicyRule_STATUS) error {
-
-	// Definition
-	if source.Definition != nil {
-		var definition ManagementPolicyDefinition
-		err := definition.Initialize_From_ManagementPolicyDefinition_STATUS(source.Definition)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyDefinition_STATUS() to populate field Definition")
-		}
-		rule.Definition = &definition
-	} else {
-		rule.Definition = nil
-	}
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		rule.Enabled = &enabled
-	} else {
-		rule.Enabled = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := ManagementPolicyRule_Type(*source.Type)
-		rule.Type = &typeVar
-	} else {
-		rule.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// An object that wraps the Lifecycle rule. Each rule is uniquely defined by name.
+// Deprecated version of ManagementPolicyRule_STATUS. Use v1api20210401.ManagementPolicyRule_STATUS instead
 type ManagementPolicyRule_STATUS struct {
-	// Definition: An object that defines the Lifecycle rule.
 	Definition *ManagementPolicyDefinition_STATUS `json:"definition,omitempty"`
-
-	// Enabled: Rule is enabled if set to true.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// Name: A rule name can contain any combination of alpha numeric characters. Rule name is case-sensitive. It must be
-	// unique within a policy.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The valid value is Lifecycle
-	Type *ManagementPolicyRule_Type_STATUS `json:"type,omitempty"`
+	Enabled    *bool                              `json:"enabled,omitempty"`
+	Name       *string                            `json:"name,omitempty"`
+	Type       *ManagementPolicyRule_Type_STATUS  `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyRule_STATUS{}
@@ -1356,13 +1240,10 @@ func (rule *ManagementPolicyRule_STATUS) AssignProperties_To_ManagementPolicyRul
 	return nil
 }
 
-// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
+// Deprecated version of ManagementPolicyDefinition. Use v1api20210401.ManagementPolicyDefinition instead
 type ManagementPolicyDefinition struct {
 	// +kubebuilder:validation:Required
-	// Actions: An object that defines the action set.
 	Actions *ManagementPolicyAction `json:"actions,omitempty"`
-
-	// Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter `json:"filters,omitempty"`
 }
 
@@ -1506,43 +1387,9 @@ func (definition *ManagementPolicyDefinition) AssignProperties_To_ManagementPoli
 	return nil
 }
 
-// Initialize_From_ManagementPolicyDefinition_STATUS populates our ManagementPolicyDefinition from the provided source ManagementPolicyDefinition_STATUS
-func (definition *ManagementPolicyDefinition) Initialize_From_ManagementPolicyDefinition_STATUS(source *ManagementPolicyDefinition_STATUS) error {
-
-	// Actions
-	if source.Actions != nil {
-		var action ManagementPolicyAction
-		err := action.Initialize_From_ManagementPolicyAction_STATUS(source.Actions)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyAction_STATUS() to populate field Actions")
-		}
-		definition.Actions = &action
-	} else {
-		definition.Actions = nil
-	}
-
-	// Filters
-	if source.Filters != nil {
-		var filter ManagementPolicyFilter
-		err := filter.Initialize_From_ManagementPolicyFilter_STATUS(source.Filters)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyFilter_STATUS() to populate field Filters")
-		}
-		definition.Filters = &filter
-	} else {
-		definition.Filters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// An object that defines the Lifecycle rule. Each definition is made up with a filters set and an actions set.
+// Deprecated version of ManagementPolicyDefinition_STATUS. Use v1api20210401.ManagementPolicyDefinition_STATUS instead
 type ManagementPolicyDefinition_STATUS struct {
-	// Actions: An object that defines the action set.
 	Actions *ManagementPolicyAction_STATUS `json:"actions,omitempty"`
-
-	// Filters: An object that defines the filter set.
 	Filters *ManagementPolicyFilter_STATUS `json:"filters,omitempty"`
 }
 
@@ -1657,25 +1504,22 @@ func (definition *ManagementPolicyDefinition_STATUS) AssignProperties_To_Managem
 	return nil
 }
 
+// Deprecated version of ManagementPolicyRule_Type. Use v1api20210401.ManagementPolicyRule_Type instead
 // +kubebuilder:validation:Enum={"Lifecycle"}
 type ManagementPolicyRule_Type string
 
 const ManagementPolicyRule_Type_Lifecycle = ManagementPolicyRule_Type("Lifecycle")
 
+// Deprecated version of ManagementPolicyRule_Type_STATUS. Use v1api20210401.ManagementPolicyRule_Type_STATUS instead
 type ManagementPolicyRule_Type_STATUS string
 
 const ManagementPolicyRule_Type_STATUS_Lifecycle = ManagementPolicyRule_Type_STATUS("Lifecycle")
 
-// Actions are applied to the filtered blobs when the execution condition is met.
+// Deprecated version of ManagementPolicyAction. Use v1api20210401.ManagementPolicyAction instead
 type ManagementPolicyAction struct {
-	// BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob `json:"baseBlob,omitempty"`
-
-	// Snapshot: The management policy action for snapshot
 	Snapshot *ManagementPolicySnapShot `json:"snapshot,omitempty"`
-
-	// Version: The management policy action for version
-	Version *ManagementPolicyVersion `json:"version,omitempty"`
+	Version  *ManagementPolicyVersion  `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicyAction{}
@@ -1863,59 +1707,11 @@ func (action *ManagementPolicyAction) AssignProperties_To_ManagementPolicyAction
 	return nil
 }
 
-// Initialize_From_ManagementPolicyAction_STATUS populates our ManagementPolicyAction from the provided source ManagementPolicyAction_STATUS
-func (action *ManagementPolicyAction) Initialize_From_ManagementPolicyAction_STATUS(source *ManagementPolicyAction_STATUS) error {
-
-	// BaseBlob
-	if source.BaseBlob != nil {
-		var baseBlob ManagementPolicyBaseBlob
-		err := baseBlob.Initialize_From_ManagementPolicyBaseBlob_STATUS(source.BaseBlob)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyBaseBlob_STATUS() to populate field BaseBlob")
-		}
-		action.BaseBlob = &baseBlob
-	} else {
-		action.BaseBlob = nil
-	}
-
-	// Snapshot
-	if source.Snapshot != nil {
-		var snapshot ManagementPolicySnapShot
-		err := snapshot.Initialize_From_ManagementPolicySnapShot_STATUS(source.Snapshot)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicySnapShot_STATUS() to populate field Snapshot")
-		}
-		action.Snapshot = &snapshot
-	} else {
-		action.Snapshot = nil
-	}
-
-	// Version
-	if source.Version != nil {
-		var version ManagementPolicyVersion
-		err := version.Initialize_From_ManagementPolicyVersion_STATUS(source.Version)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyVersion_STATUS() to populate field Version")
-		}
-		action.Version = &version
-	} else {
-		action.Version = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Actions are applied to the filtered blobs when the execution condition is met.
+// Deprecated version of ManagementPolicyAction_STATUS. Use v1api20210401.ManagementPolicyAction_STATUS instead
 type ManagementPolicyAction_STATUS struct {
-	// BaseBlob: The management policy action for base blob
 	BaseBlob *ManagementPolicyBaseBlob_STATUS `json:"baseBlob,omitempty"`
-
-	// Snapshot: The management policy action for snapshot
 	Snapshot *ManagementPolicySnapShot_STATUS `json:"snapshot,omitempty"`
-
-	// Version: The management policy action for version
-	Version *ManagementPolicyVersion_STATUS `json:"version,omitempty"`
+	Version  *ManagementPolicyVersion_STATUS  `json:"version,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyAction_STATUS{}
@@ -2064,18 +1860,12 @@ func (action *ManagementPolicyAction_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
-// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
-// AND is performed on all filters.
+// Deprecated version of ManagementPolicyFilter. Use v1api20210401.ManagementPolicyFilter instead
 type ManagementPolicyFilter struct {
-	// BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter `json:"blobIndexMatch,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
-	// actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes,omitempty"`
-
-	// PrefixMatch: An array of strings for prefixes to be match.
+	BlobTypes   []string `json:"blobTypes,omitempty"`
 	PrefixMatch []string `json:"prefixMatch,omitempty"`
 }
 
@@ -2216,49 +2006,11 @@ func (filter *ManagementPolicyFilter) AssignProperties_To_ManagementPolicyFilter
 	return nil
 }
 
-// Initialize_From_ManagementPolicyFilter_STATUS populates our ManagementPolicyFilter from the provided source ManagementPolicyFilter_STATUS
-func (filter *ManagementPolicyFilter) Initialize_From_ManagementPolicyFilter_STATUS(source *ManagementPolicyFilter_STATUS) error {
-
-	// BlobIndexMatch
-	if source.BlobIndexMatch != nil {
-		blobIndexMatchList := make([]TagFilter, len(source.BlobIndexMatch))
-		for blobIndexMatchIndex, blobIndexMatchItem := range source.BlobIndexMatch {
-			// Shadow the loop variable to avoid aliasing
-			blobIndexMatchItem := blobIndexMatchItem
-			var blobIndexMatch TagFilter
-			err := blobIndexMatch.Initialize_From_TagFilter_STATUS(&blobIndexMatchItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_TagFilter_STATUS() to populate field BlobIndexMatch")
-			}
-			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
-		}
-		filter.BlobIndexMatch = blobIndexMatchList
-	} else {
-		filter.BlobIndexMatch = nil
-	}
-
-	// BlobTypes
-	filter.BlobTypes = genruntime.CloneSliceOfString(source.BlobTypes)
-
-	// PrefixMatch
-	filter.PrefixMatch = genruntime.CloneSliceOfString(source.PrefixMatch)
-
-	// No error
-	return nil
-}
-
-// Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical
-// AND is performed on all filters.
+// Deprecated version of ManagementPolicyFilter_STATUS. Use v1api20210401.ManagementPolicyFilter_STATUS instead
 type ManagementPolicyFilter_STATUS struct {
-	// BlobIndexMatch: An array of blob index tag based filters, there can be at most 10 tag filters
 	BlobIndexMatch []TagFilter_STATUS `json:"blobIndexMatch,omitempty"`
-
-	// BlobTypes: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete
-	// actions are supported for appendBlob.
-	BlobTypes []string `json:"blobTypes,omitempty"`
-
-	// PrefixMatch: An array of strings for prefixes to be match.
-	PrefixMatch []string `json:"prefixMatch,omitempty"`
+	BlobTypes      []string           `json:"blobTypes,omitempty"`
+	PrefixMatch    []string           `json:"prefixMatch,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyFilter_STATUS{}
@@ -2370,20 +2122,12 @@ func (filter *ManagementPolicyFilter_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
-// Management policy action for base blob.
+// Deprecated version of ManagementPolicyBaseBlob. Use v1api20210401.ManagementPolicyBaseBlob instead
 type ManagementPolicyBaseBlob struct {
-	// Delete: The function to delete the blob
-	Delete *DateAfterModification `json:"delete,omitempty"`
-
-	// EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
-	// property requires tierToCool.daysAfterLastAccessTimeGreaterThan.
-	EnableAutoTierToHotFromCool *bool `json:"enableAutoTierToHotFromCool,omitempty"`
-
-	// TierToArchive: The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier
-	TierToArchive *DateAfterModification `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blobs to cool storage. Support blobs currently at Hot tier
-	TierToCool *DateAfterModification `json:"tierToCool,omitempty"`
+	Delete                      *DateAfterModification `json:"delete,omitempty"`
+	EnableAutoTierToHotFromCool *bool                  `json:"enableAutoTierToHotFromCool,omitempty"`
+	TierToArchive               *DateAfterModification `json:"tierToArchive,omitempty"`
+	TierToCool                  *DateAfterModification `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicyBaseBlob{}
@@ -2599,71 +2343,12 @@ func (blob *ManagementPolicyBaseBlob) AssignProperties_To_ManagementPolicyBaseBl
 	return nil
 }
 
-// Initialize_From_ManagementPolicyBaseBlob_STATUS populates our ManagementPolicyBaseBlob from the provided source ManagementPolicyBaseBlob_STATUS
-func (blob *ManagementPolicyBaseBlob) Initialize_From_ManagementPolicyBaseBlob_STATUS(source *ManagementPolicyBaseBlob_STATUS) error {
-
-	// Delete
-	if source.Delete != nil {
-		var delete DateAfterModification
-		err := delete.Initialize_From_DateAfterModification_STATUS(source.Delete)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterModification_STATUS() to populate field Delete")
-		}
-		blob.Delete = &delete
-	} else {
-		blob.Delete = nil
-	}
-
-	// EnableAutoTierToHotFromCool
-	if source.EnableAutoTierToHotFromCool != nil {
-		enableAutoTierToHotFromCool := *source.EnableAutoTierToHotFromCool
-		blob.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
-	} else {
-		blob.EnableAutoTierToHotFromCool = nil
-	}
-
-	// TierToArchive
-	if source.TierToArchive != nil {
-		var tierToArchive DateAfterModification
-		err := tierToArchive.Initialize_From_DateAfterModification_STATUS(source.TierToArchive)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterModification_STATUS() to populate field TierToArchive")
-		}
-		blob.TierToArchive = &tierToArchive
-	} else {
-		blob.TierToArchive = nil
-	}
-
-	// TierToCool
-	if source.TierToCool != nil {
-		var tierToCool DateAfterModification
-		err := tierToCool.Initialize_From_DateAfterModification_STATUS(source.TierToCool)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterModification_STATUS() to populate field TierToCool")
-		}
-		blob.TierToCool = &tierToCool
-	} else {
-		blob.TierToCool = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Management policy action for base blob.
+// Deprecated version of ManagementPolicyBaseBlob_STATUS. Use v1api20210401.ManagementPolicyBaseBlob_STATUS instead
 type ManagementPolicyBaseBlob_STATUS struct {
-	// Delete: The function to delete the blob
-	Delete *DateAfterModification_STATUS `json:"delete,omitempty"`
-
-	// EnableAutoTierToHotFromCool: This property enables auto tiering of a blob from cool to hot on a blob access. This
-	// property requires tierToCool.daysAfterLastAccessTimeGreaterThan.
-	EnableAutoTierToHotFromCool *bool `json:"enableAutoTierToHotFromCool,omitempty"`
-
-	// TierToArchive: The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier
-	TierToArchive *DateAfterModification_STATUS `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blobs to cool storage. Support blobs currently at Hot tier
-	TierToCool *DateAfterModification_STATUS `json:"tierToCool,omitempty"`
+	Delete                      *DateAfterModification_STATUS `json:"delete,omitempty"`
+	EnableAutoTierToHotFromCool *bool                         `json:"enableAutoTierToHotFromCool,omitempty"`
+	TierToArchive               *DateAfterModification_STATUS `json:"tierToArchive,omitempty"`
+	TierToCool                  *DateAfterModification_STATUS `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyBaseBlob_STATUS{}
@@ -2834,16 +2519,11 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
-// Management policy action for snapshot.
+// Deprecated version of ManagementPolicySnapShot. Use v1api20210401.ManagementPolicySnapShot instead
 type ManagementPolicySnapShot struct {
-	// Delete: The function to delete the blob snapshot
-	Delete *DateAfterCreation `json:"delete,omitempty"`
-
-	// TierToArchive: The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier
+	Delete        *DateAfterCreation `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier
-	TierToCool *DateAfterCreation `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicySnapShot{}
@@ -3031,59 +2711,11 @@ func (shot *ManagementPolicySnapShot) AssignProperties_To_ManagementPolicySnapSh
 	return nil
 }
 
-// Initialize_From_ManagementPolicySnapShot_STATUS populates our ManagementPolicySnapShot from the provided source ManagementPolicySnapShot_STATUS
-func (shot *ManagementPolicySnapShot) Initialize_From_ManagementPolicySnapShot_STATUS(source *ManagementPolicySnapShot_STATUS) error {
-
-	// Delete
-	if source.Delete != nil {
-		var delete DateAfterCreation
-		err := delete.Initialize_From_DateAfterCreation_STATUS(source.Delete)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field Delete")
-		}
-		shot.Delete = &delete
-	} else {
-		shot.Delete = nil
-	}
-
-	// TierToArchive
-	if source.TierToArchive != nil {
-		var tierToArchive DateAfterCreation
-		err := tierToArchive.Initialize_From_DateAfterCreation_STATUS(source.TierToArchive)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field TierToArchive")
-		}
-		shot.TierToArchive = &tierToArchive
-	} else {
-		shot.TierToArchive = nil
-	}
-
-	// TierToCool
-	if source.TierToCool != nil {
-		var tierToCool DateAfterCreation
-		err := tierToCool.Initialize_From_DateAfterCreation_STATUS(source.TierToCool)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field TierToCool")
-		}
-		shot.TierToCool = &tierToCool
-	} else {
-		shot.TierToCool = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Management policy action for snapshot.
+// Deprecated version of ManagementPolicySnapShot_STATUS. Use v1api20210401.ManagementPolicySnapShot_STATUS instead
 type ManagementPolicySnapShot_STATUS struct {
-	// Delete: The function to delete the blob snapshot
-	Delete *DateAfterCreation_STATUS `json:"delete,omitempty"`
-
-	// TierToArchive: The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier
+	Delete        *DateAfterCreation_STATUS `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_STATUS `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier
-	TierToCool *DateAfterCreation_STATUS `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation_STATUS `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicySnapShot_STATUS{}
@@ -3232,16 +2864,11 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_To_ManagementPolic
 	return nil
 }
 
-// Management policy action for blob version.
+// Deprecated version of ManagementPolicyVersion. Use v1api20210401.ManagementPolicyVersion instead
 type ManagementPolicyVersion struct {
-	// Delete: The function to delete the blob version
-	Delete *DateAfterCreation `json:"delete,omitempty"`
-
-	// TierToArchive: The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier
+	Delete        *DateAfterCreation `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blob version to cool storage. Support blob version currently at Hot tier
-	TierToCool *DateAfterCreation `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagementPolicyVersion{}
@@ -3429,59 +3056,11 @@ func (version *ManagementPolicyVersion) AssignProperties_To_ManagementPolicyVers
 	return nil
 }
 
-// Initialize_From_ManagementPolicyVersion_STATUS populates our ManagementPolicyVersion from the provided source ManagementPolicyVersion_STATUS
-func (version *ManagementPolicyVersion) Initialize_From_ManagementPolicyVersion_STATUS(source *ManagementPolicyVersion_STATUS) error {
-
-	// Delete
-	if source.Delete != nil {
-		var delete DateAfterCreation
-		err := delete.Initialize_From_DateAfterCreation_STATUS(source.Delete)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field Delete")
-		}
-		version.Delete = &delete
-	} else {
-		version.Delete = nil
-	}
-
-	// TierToArchive
-	if source.TierToArchive != nil {
-		var tierToArchive DateAfterCreation
-		err := tierToArchive.Initialize_From_DateAfterCreation_STATUS(source.TierToArchive)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field TierToArchive")
-		}
-		version.TierToArchive = &tierToArchive
-	} else {
-		version.TierToArchive = nil
-	}
-
-	// TierToCool
-	if source.TierToCool != nil {
-		var tierToCool DateAfterCreation
-		err := tierToCool.Initialize_From_DateAfterCreation_STATUS(source.TierToCool)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field TierToCool")
-		}
-		version.TierToCool = &tierToCool
-	} else {
-		version.TierToCool = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Management policy action for blob version.
+// Deprecated version of ManagementPolicyVersion_STATUS. Use v1api20210401.ManagementPolicyVersion_STATUS instead
 type ManagementPolicyVersion_STATUS struct {
-	// Delete: The function to delete the blob version
-	Delete *DateAfterCreation_STATUS `json:"delete,omitempty"`
-
-	// TierToArchive: The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier
+	Delete        *DateAfterCreation_STATUS `json:"delete,omitempty"`
 	TierToArchive *DateAfterCreation_STATUS `json:"tierToArchive,omitempty"`
-
-	// TierToCool: The function to tier blob version to cool storage. Support blob version currently at Hot tier
-	TierToCool *DateAfterCreation_STATUS `json:"tierToCool,omitempty"`
+	TierToCool    *DateAfterCreation_STATUS `json:"tierToCool,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ManagementPolicyVersion_STATUS{}
@@ -3630,23 +3209,19 @@ func (version *ManagementPolicyVersion_STATUS) AssignProperties_To_ManagementPol
 	return nil
 }
 
-// Blob index tag based filtering for blob objects
+// Deprecated version of TagFilter. Use v1api20210401.TagFilter instead
 type TagFilter struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=128
 	// +kubebuilder:validation:MinLength=1
-	// Name: This is the filter tag name, it can have 1 - 128 characters
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
-	// currently supported
 	Op *string `json:"op,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=256
 	// +kubebuilder:validation:MinLength=0
-	// Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
 	Value *string `json:"value,omitempty"`
 }
 
@@ -3774,42 +3349,10 @@ func (filter *TagFilter) AssignProperties_To_TagFilter(destination *v20210401s.T
 	return nil
 }
 
-// Initialize_From_TagFilter_STATUS populates our TagFilter from the provided source TagFilter_STATUS
-func (filter *TagFilter) Initialize_From_TagFilter_STATUS(source *TagFilter_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := *source.Name
-		filter.Name = &name
-	} else {
-		filter.Name = nil
-	}
-
-	// Op
-	filter.Op = genruntime.ClonePointerToString(source.Op)
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		filter.Value = &value
-	} else {
-		filter.Value = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Blob index tag based filtering for blob objects
+// Deprecated version of TagFilter_STATUS. Use v1api20210401.TagFilter_STATUS instead
 type TagFilter_STATUS struct {
-	// Name: This is the filter tag name, it can have 1 - 128 characters
-	Name *string `json:"name,omitempty"`
-
-	// Op: This is the comparison operator which is used for object comparison and filtering. Only == (equality operator) is
-	// currently supported
-	Op *string `json:"op,omitempty"`
-
-	// Value: This is the filter tag value field used for tag based filtering, it can have 0 - 256 characters
+	Name  *string `json:"name,omitempty"`
+	Op    *string `json:"op,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 
@@ -3890,12 +3433,11 @@ func (filter *TagFilter_STATUS) AssignProperties_To_TagFilter_STATUS(destination
 	return nil
 }
 
-// Object to define the number of days after creation.
+// Deprecated version of DateAfterCreation. Use v1api20210401.DateAfterCreation instead
 type DateAfterCreation struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:MultipleOf=1
-	// DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *int `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
@@ -3977,24 +3519,8 @@ func (creation *DateAfterCreation) AssignProperties_To_DateAfterCreation(destina
 	return nil
 }
 
-// Initialize_From_DateAfterCreation_STATUS populates our DateAfterCreation from the provided source DateAfterCreation_STATUS
-func (creation *DateAfterCreation) Initialize_From_DateAfterCreation_STATUS(source *DateAfterCreation_STATUS) error {
-
-	// DaysAfterCreationGreaterThan
-	if source.DaysAfterCreationGreaterThan != nil {
-		daysAfterCreationGreaterThan := genruntime.GetIntFromFloat(*source.DaysAfterCreationGreaterThan)
-		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
-	} else {
-		creation.DaysAfterCreationGreaterThan = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Object to define the number of days after creation.
+// Deprecated version of DateAfterCreation_STATUS. Use v1api20210401.DateAfterCreation_STATUS instead
 type DateAfterCreation_STATUS struct {
-	// DaysAfterCreationGreaterThan: Value indicating the age in days after creation
 	DaysAfterCreationGreaterThan *float64 `json:"daysAfterCreationGreaterThan,omitempty"`
 }
 
@@ -4061,18 +3587,14 @@ func (creation *DateAfterCreation_STATUS) AssignProperties_To_DateAfterCreation_
 	return nil
 }
 
-// Object to define the number of days after object last modification Or last access. Properties
-// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
+// Deprecated version of DateAfterModification. Use v1api20210401.DateAfterModification instead
 type DateAfterModification struct {
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:MultipleOf=1
-	// DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
-	// used in conjunction with last access time tracking policy
 	DaysAfterLastAccessTimeGreaterThan *int `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 
 	// +kubebuilder:validation:Minimum=0
 	// +kubebuilder:validation:MultipleOf=1
-	// DaysAfterModificationGreaterThan: Value indicating the age in days after last modification
 	DaysAfterModificationGreaterThan *int `json:"daysAfterModificationGreaterThan,omitempty"`
 }
 
@@ -4182,38 +3704,10 @@ func (modification *DateAfterModification) AssignProperties_To_DateAfterModifica
 	return nil
 }
 
-// Initialize_From_DateAfterModification_STATUS populates our DateAfterModification from the provided source DateAfterModification_STATUS
-func (modification *DateAfterModification) Initialize_From_DateAfterModification_STATUS(source *DateAfterModification_STATUS) error {
-
-	// DaysAfterLastAccessTimeGreaterThan
-	if source.DaysAfterLastAccessTimeGreaterThan != nil {
-		daysAfterLastAccessTimeGreaterThan := genruntime.GetIntFromFloat(*source.DaysAfterLastAccessTimeGreaterThan)
-		modification.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
-	} else {
-		modification.DaysAfterLastAccessTimeGreaterThan = nil
-	}
-
-	// DaysAfterModificationGreaterThan
-	if source.DaysAfterModificationGreaterThan != nil {
-		daysAfterModificationGreaterThan := genruntime.GetIntFromFloat(*source.DaysAfterModificationGreaterThan)
-		modification.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
-	} else {
-		modification.DaysAfterModificationGreaterThan = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Object to define the number of days after object last modification Or last access. Properties
-// daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
+// Deprecated version of DateAfterModification_STATUS. Use v1api20210401.DateAfterModification_STATUS instead
 type DateAfterModification_STATUS struct {
-	// DaysAfterLastAccessTimeGreaterThan: Value indicating the age in days after last blob access. This property can only be
-	// used in conjunction with last access time tracking policy
 	DaysAfterLastAccessTimeGreaterThan *float64 `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
-
-	// DaysAfterModificationGreaterThan: Value indicating the age in days after last modification
-	DaysAfterModificationGreaterThan *float64 `json:"daysAfterModificationGreaterThan,omitempty"`
+	DaysAfterModificationGreaterThan   *float64 `json:"daysAfterModificationGreaterThan,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &DateAfterModification_STATUS{}

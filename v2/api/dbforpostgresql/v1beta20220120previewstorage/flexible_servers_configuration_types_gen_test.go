@@ -5,7 +5,7 @@ package v1beta20220120previewstorage
 
 import (
 	"encoding/json"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
+	v1api20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunResourceConversionTestForFlexibleServersConfiguration(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210601s.FlexibleServersConfiguration
+	var hub v1api20210601s.FlexibleServersConfiguration
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -72,13 +72,13 @@ func Test_FlexibleServersConfiguration_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServersConfiguration tests if a specific instance of FlexibleServersConfiguration can be assigned to v1beta20210601storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServersConfiguration tests if a specific instance of FlexibleServersConfiguration can be assigned to v1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersConfiguration(subject FlexibleServersConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServersConfiguration
+	var other v1api20210601s.FlexibleServersConfiguration
 	err := copied.AssignProperties_To_FlexibleServersConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -176,13 +176,13 @@ func Test_FlexibleServers_Configuration_Spec_WhenPropertiesConverted_RoundTripsW
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec tests if a specific instance of FlexibleServers_Configuration_Spec can be assigned to v1beta20210601storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec tests if a specific instance of FlexibleServers_Configuration_Spec can be assigned to v1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServers_Configuration_Spec(subject FlexibleServers_Configuration_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServers_Configuration_Spec
+	var other v1api20210601s.FlexibleServers_Configuration_Spec
 	err := copied.AssignProperties_To_FlexibleServers_Configuration_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -282,13 +282,13 @@ func Test_FlexibleServers_Configuration_STATUS_WhenPropertiesConverted_RoundTrip
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFlexibleServers_Configuration_STATUS tests if a specific instance of FlexibleServers_Configuration_STATUS can be assigned to v1beta20210601storage and back losslessly
+// RunPropertyAssignmentTestForFlexibleServers_Configuration_STATUS tests if a specific instance of FlexibleServers_Configuration_STATUS can be assigned to v1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServers_Configuration_STATUS(subject FlexibleServers_Configuration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210601s.FlexibleServers_Configuration_STATUS
+	var other v1api20210601s.FlexibleServers_Configuration_STATUS
 	err := copied.AssignProperties_To_FlexibleServers_Configuration_STATUS(&other)
 	if err != nil {
 		return err.Error()

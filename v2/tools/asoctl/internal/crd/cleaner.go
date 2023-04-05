@@ -68,17 +68,21 @@ func (c *Cleaner) Run(ctx context.Context) error {
 			continue
 		}
 
-		newStoredVersions, matchedStoredVersion := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
+		newStoredVersions, deprecatedVersion := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
 
 		// If there is no new version found other than the matched version, we short circuit here, as there is no updated version found in the CRDs
 		if len(newStoredVersions) <= 0 {
-			return errors.New(fmt.Sprintf("it doesn't look like your version of ASO is one that supports deprecating version %q. Have you upgraded ASO yet?", matchedStoredVersion))
+			return errors.New(fmt.Sprintf("it doesn't look like your version of ASO is one that supports deprecating version %q. Have you upgraded ASO yet?", deprecatedVersion))
 		}
+
+		// Make sure to use a version that hasn't been deprecated for migration. Deprecated versions will not be in our
+		// scheme, and so we cannot List/PUT with them. Instead, use the next available storedVersion.
+		activeVersion := newStoredVersions[0]
 
 		// If we found an updated slice, which implies, we have found a version to deprecate. Then only continue with the cleaning process
 		if len(newStoredVersions) != len(crd.Status.StoredVersions) {
 			klog.Infof("Starting cleanup for %q", crd.Name)
-			objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, matchedStoredVersion)
+			objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, activeVersion)
 			if err != nil {
 				return err
 			}
@@ -164,15 +168,12 @@ func isErrorFatal(err error) bool {
 	}
 }
 
-func (c *Cleaner) getObjectsForMigration(ctx context.Context, crd apiextensions.CustomResourceDefinition, versionToMigrate string) (*unstructured.UnstructuredList, error) {
+func (c *Cleaner) getObjectsForMigration(ctx context.Context, crd apiextensions.CustomResourceDefinition, version string) (*unstructured.UnstructuredList, error) {
 	list := &unstructured.UnstructuredList{}
-	if versionToMigrate == "" {
-		return list, nil
-	}
 
 	list.SetGroupVersionKind(schema.GroupVersionKind{
 		Group:   crd.Spec.Group,
-		Version: versionToMigrate,
+		Version: version,
 		Kind:    crd.Spec.Names.ListKind,
 	})
 

@@ -1,0 +1,9 @@
+apiVersion: network.azure.com/v1api20180901
+kind: PrivateDnsZone
+metadata:
+  name: privatelink.blob.core.windows.net
+  namespace: default
+spec:
+  location: global
+  owner:
+    name: aso-sample-rg

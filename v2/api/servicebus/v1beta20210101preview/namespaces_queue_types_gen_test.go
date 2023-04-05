@@ -5,6 +5,7 @@ package v1beta20210101preview
 
 import (
 	"encoding/json"
+	v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
 	v20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForNamespacesQueue(subject NamespacesQueue) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20210101ps.NamespacesQueue
+	var hub v1api20210101ps.NamespacesQueue
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

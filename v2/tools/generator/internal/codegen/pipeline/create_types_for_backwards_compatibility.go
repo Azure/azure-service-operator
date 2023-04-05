@@ -18,9 +18,9 @@ import (
 )
 
 const (
-	CreateTypesForBackwardCompatibilityID = "createTypesForBackwardCompatibility"
-	v1alpha1apiVersionPrefix              = "v1alpha1api"
-	v1betaVersionPrefix                   = "v1beta"
+	CreateTypesForBackwardCompatibilityStageID = "createTypesForBackwardCompatibility"
+	v1betaVersionPrefix                        = "v1beta"
+	v1VersionPrefix                            = "v1api"
 )
 
 // CreateTypesForBackwardCompatibility returns a pipeline stage that creates copies of types into other packages to
@@ -32,7 +32,7 @@ func CreateTypesForBackwardCompatibility(
 	configuration *config.ObjectModelConfiguration,
 ) *Stage {
 	stage := NewStage(
-		CreateTypesForBackwardCompatibilityID,
+		CreateTypesForBackwardCompatibilityStageID,
 		"Create clones of types for backward compatibility with prior ASO versions",
 		func(ctx context.Context, state *State) (*State, error) {
 			resources, err := findResourcesRequiringCompatibilityVersion(prefix, state.Definitions(), configuration)
@@ -97,7 +97,7 @@ func createBackwardCompatibleDefinitions(
 	}
 
 	// Rename all the types into our compatibility namespace
-	renames := createBackwardCompatibilityRenameMap(defs, v1alpha1apiVersionPrefix)
+	renames := createBackwardCompatibilityRenameMap(defs, v1betaVersionPrefix)
 	visitor := astmodel.NewRenamingVisitor(renames)
 	renamed, err := visitor.RenameAll(withDescriptions)
 	if err != nil {
