@@ -110,10 +110,13 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 			processed++
 			pendingCount := len(ri.pending)
 
+			gk := rsrc.GroupKind()
 			klog.Infof(
-				"Importing %d/%d: %s",
+				"Importing %d/%d: %s/%s %s",
 				processed,
 				processed+pendingCount,
+				gk.Group,
+				gk.Kind,
 				rsrc.Name())
 
 			eg.Go(func() error {

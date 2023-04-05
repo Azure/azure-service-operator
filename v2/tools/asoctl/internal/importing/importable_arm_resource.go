@@ -67,9 +67,16 @@ func NewImportableARMResource(
 	}, nil
 }
 
+// GroupKind returns the GroupKind of the resource being imported.
+// (may be empty if the GK can't be determined)
+func (i *importableARMResource) GroupKind() schema.GroupKind {
+	gk, _ := FindGroupKindForResourceType(i.armID.ResourceType.String())
+	return gk
+}
+
 // Name returns the ARM ID of the resource we're importing
 func (i *importableARMResource) Name() string {
-	return i.armID.String()
+	return i.armID.Name
 }
 
 // Resource returns the actual resource that is being imported.
@@ -96,7 +103,8 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 	for _, subType := range childTypes {
 		subResources, err := i.importChildResources(ctx, ref, subType)
 		if err != nil {
-			return nil, errors.Wrapf(err, "importing child resources of type %s for resource %s", subType, i.armID)
+			gk, _ := FindGroupKindForResourceType(subType) // If this was going to error, it would have already
+			return nil, errors.Wrapf(err, "importing %s/%s for resource %s", gk.Group, gk.Kind, i.armID)
 		}
 
 		result = append(result, subResources...)
@@ -124,7 +132,8 @@ func (i *importableARMResource) importResource(
 	}
 
 	if because, skpped := result.Skipped(); skpped {
-		return genruntime.ResourceReference{}, NewNotImportableError(id.Name, because)
+		gk := importable.GetObjectKind().GroupVersionKind().GroupKind()
+		return genruntime.ResourceReference{}, NewNotImportableError(gk, id.Name, because)
 	}
 
 	gvk := importable.GetObjectKind().GroupVersionKind()
@@ -292,7 +301,11 @@ func (i *importableARMResource) importChildResources(
 
 			if responseError.StatusCode == http.StatusForbidden {
 				// If we're not allowed to look, we'll just skip it and return all the resources we're allowed to see
-				klog.Warningf("Forbidden (403) when listing child resources of type %s for resource %s", childResourceType, i.armID)
+				klog.Warningf(
+					"Forbidden (403) when listing child %s/%s for resource %s",
+					childResourceGK.Group,
+					childResourceGK.Kind,
+					i.armID)
 				return nil, nil
 			}
 		}
@@ -300,7 +313,10 @@ func (i *importableARMResource) importChildResources(
 		return nil, errors.Wrapf(err, "unable to list resources of type %s", childResourceType)
 	}
 
-	klog.Infof("Found %d child resources of type %s", len(childResourceReferences), childResourceType)
+	klog.Infof("Found %d child %s/%s",
+		len(childResourceReferences),
+		childResourceGK.Group,
+		childResourceGK.Kind)
 
 	for _, ref := range childResourceReferences {
 		importer, err := NewImportableARMResource(ref.ARMID, &owner, i.client, i.scheme)

@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package customizations
 
 import (
-	"fmt"
 	"strings"
 
 	api "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
@@ -33,9 +32,7 @@ func (extension *RoleAssignmentExtension) Import(
 		if assignment.Status.Scope != nil {
 			if !strings.EqualFold(owner.ARMID, *assignment.Status.Scope) {
 				// Scope isn't our owner, so it's inherited from further up and should not be imported
-				return extensions.NewImportSkipped(
-					fmt.Sprintf("role assignment %s is inherited",
-						assignment.AzureName())), nil
+				return extensions.NewImportSkipped("role assignment is inherited"), nil
 			}
 		}
 	}
