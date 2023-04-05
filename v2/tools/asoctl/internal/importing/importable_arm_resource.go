@@ -185,7 +185,6 @@ func (i *importableARMResource) importChildResources(
 	owner genruntime.ResourceReference,
 	childResourceType string,
 ) ([]ImportableResource, error) {
-	var subResources []ImportableResource
 	childResourceGK, ok := FindGroupKindForType(childResourceType)
 	if !ok {
 		return nil, errors.Errorf("unable to find GroupKind for type %subType", childResourceType)
@@ -214,6 +213,7 @@ func (i *importableARMResource) importChildResources(
 		return nil, errors.Wrapf(err, "unable to list resources of type %s", childResourceType)
 	}
 
+	subResources := make([]ImportableResource, 0, len(childResourceReferences))
 	for _, ref := range childResourceReferences {
 		importer := NewImportableARMResource(ref.ARMID, owner, i.client, i.scheme)
 		subResources = append(subResources, importer)
