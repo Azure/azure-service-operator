@@ -286,14 +286,11 @@ func (p *listPage[T]) NextPage(
 	var err error
 	if p == nil {
 		req, err = client.listByContainerIDCreateRequest(ctx, containerID, apiVersion)
-		if err != nil {
-			return listPage[T]{}, nil
-		}
 	} else {
 		req, err = runtime.NewRequest(ctx, http.MethodGet, *p.NextLink)
-		if err != nil {
-			return listPage[T]{}, nil
-		}
+	}
+	if err != nil {
+		return listPage[T]{}, err
 	}
 
 	// TODO: Fact check this
@@ -302,7 +299,7 @@ func (p *listPage[T]) NextPage(
 	// nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	if err != nil {
-		return listPage[T]{}, nil
+		return listPage[T]{}, err
 	}
 
 	if !runtime.HasStatusCode(resp, http.StatusOK) {
