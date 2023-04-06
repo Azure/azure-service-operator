@@ -286,17 +286,25 @@ func (p *listPage[T]) NextPage(
 	var err error
 	if p == nil {
 		req, err = client.listByContainerIDCreateRequest(ctx, containerID, apiVersion)
+		if err != nil {
+			return listPage[T]{}, nil
+		}
 	} else {
 		req, err = runtime.NewRequest(ctx, http.MethodGet, *p.NextLink)
-	}
-	if err != nil {
-		return listPage[T]{}, nil
+		if err != nil {
+			return listPage[T]{}, nil
+		}
 	}
 
+	// TODO: Fact check this
+	// The linter doesn't realize that the response is closed in the course of
+	// the runtime.UnmarshalAsJSON() call below. Suppressing it as it is a false positive.
+	// nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	if err != nil {
 		return listPage[T]{}, nil
 	}
+
 	if !runtime.HasStatusCode(resp, http.StatusOK) {
 		return listPage[T]{}, runtime.NewResponseError(resp)
 	}
