@@ -18,6 +18,7 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 // Example is from https://learn.microsoft.com/en-us/azure/private-link/create-private-endpoint-bicep?tabs=CLI#review-the-bicep-file
@@ -86,7 +87,7 @@ func Test_Networking_PrivateEndpoint_WithoutAutoApproval_CRUD(t *testing.T) {
 	endpoint.Spec.PrivateLinkServiceConnections = []network.PrivateLinkServiceConnection{}
 	endpoint.Spec.ManualPrivateLinkServiceConnections = []network.PrivateLinkServiceConnection{
 		{
-			Name:                        to.StringPtr("testEndpoint"),
+			Name:                        to.Ptr("testEndpoint"),
 			PrivateLinkServiceReference: tc.MakeReferenceFromResource(sa),
 			GroupIds:                    []string{"blob"},
 		},
