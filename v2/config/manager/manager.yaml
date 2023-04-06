@@ -49,12 +49,12 @@ spec:
           httpGet:
             path: /healthz
             port: 8081
-          initialDelaySeconds: 20
+          initialDelaySeconds: 60
         readinessProbe:
           httpGet:
             path: /readyz
             port: 8081
-          initialDelaySeconds: 5
+          initialDelaySeconds: 60
         image: controller:latest
         name: manager
         resources:
