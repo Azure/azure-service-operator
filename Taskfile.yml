@@ -330,7 +330,7 @@ tasks:
     - "cmctl check api --wait=2m"
     - "helm repo add asov2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts"
     - "helm repo update"
-    - "helm upgrade --install --devel asov2 asov2/azure-service-operator \
+    - "helm upgrade --install --devel aso2 asov2/azure-service-operator \
       --create-namespace \
       --namespace={{.ASO_NAMESPACE}} \
       --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
@@ -348,6 +348,7 @@ tasks:
     - task: controller:wait-for-operator-ready
 #   TODO: Will have to change versions in 'Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade' test once we move from beta to stable
     - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
+    - task controller:kind-delete
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -639,13 +640,13 @@ tasks:
       --set azureClientID=$AZURE_CLIENT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
-      asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+      aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
     - task: controller:wait-for-operator-ready
 
   controller:delete-helm:
     desc: Delete helm release
     cmds:
-      - "helm delete asov2 -n {{.ASO_NAMESPACE}}"
+      - "helm delete aso2 -n {{.ASO_NAMESPACE}}"
 
   controller:kind-delete:
     desc: Deletes a kind cluster
@@ -788,7 +789,7 @@ tasks:
       # Install cluster scope chart (mode == webhooks)
       - "helm upgrade --install --set multitenant.enable=true --set azureOperatorMode=webhooks \
            --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
-           asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+           aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
       - task: controller:wait-for-operator-ready
       # Install tenant chart
       - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \ 
@@ -799,7 +800,7 @@ tasks:
            --set multitenant.enable=true \
            --set azureOperatorMode=watchers \
            --set-string azureTargetNamespaces='{t1-items,t1-more}' \
-           asov2 -n tenant1-system --create-namespace ./charts/azure-service-operator/"
+           aso2 -n tenant1-system --create-namespace ./charts/azure-service-operator/"
       # Create the namespaces that the tenant is watching.
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
