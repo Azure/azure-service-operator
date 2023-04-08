@@ -32,7 +32,7 @@ import (
 type importableARMResource struct {
 	importableResource
 	armID    string                           // The ARM ID of the resource to import
-	owner    genruntime.ResourceReference     // The owner of the resource we're importing
+	owner    *genruntime.ResourceReference    // The owner of the resource we're importing
 	client   *genericarmclient.GenericClient  // client for talking to ARM
 	resource genruntime.ImportableARMResource // The resource we've imported
 }
@@ -45,7 +45,7 @@ var _ ImportableResource = &importableARMResource{}
 // scheme is the scheme to use to create the resource.
 func NewImportableARMResource(
 	armID string,
-	owner genruntime.ResourceReference,
+	owner *genruntime.ResourceReference,
 	client *genericarmclient.GenericClient,
 	scheme *runtime.Scheme,
 ) ImportableResource {
@@ -218,7 +218,7 @@ func (i *importableARMResource) importChildResources(
 
 	subResources := make([]ImportableResource, 0, len(childResourceReferences))
 	for _, ref := range childResourceReferences {
-		importer := NewImportableARMResource(ref.ARMID, owner, i.client, i.scheme)
+		importer := NewImportableARMResource(ref.ID, &owner, i.client, i.scheme)
 		subResources = append(subResources, importer)
 	}
 
@@ -226,7 +226,7 @@ func (i *importableARMResource) importChildResources(
 }
 
 func (i *importableARMResource) createImportableObjectFromID(
-	owner genruntime.ResourceReference,
+	owner *genruntime.ResourceReference,
 	armID *arm.ResourceID,
 ) (genruntime.ImportableARMResource, error) {
 	gvk, err := i.groupVersionKindFromID(armID)
@@ -245,8 +245,12 @@ func (i *importableARMResource) createImportableObjectFromID(
 			"unable to create blank resource, expected %s to identify an importable ARM object", armID)
 	}
 
-	i.SetOwner(importable, owner)
-	i.SetName(importable, i.nameFromID(armID), owner)
+	if owner != nil {
+		i.SetOwner(importable, *owner)
+		i.SetName(importable, i.nameFromID(armID), *owner)
+	} else {
+		i.SetName(importable, i.nameFromID(armID), genruntime.ResourceReference{})
+	}
 
 	return importable, nil
 }
@@ -280,10 +284,13 @@ func (i *importableARMResource) getStatus(
 		return nil, errors.Errorf("expected status %T to implement genruntime.FromARMConverter", s)
 	}
 
-	o := genruntime.ArbitraryOwnerReference{
-		Group: i.owner.Group,
-		Kind:  i.owner.Kind,
-		Name:  i.owner.Name,
+	o := genruntime.ArbitraryOwnerReference{}
+	if i.owner != nil {
+		o = genruntime.ArbitraryOwnerReference{
+			Group: i.owner.Group,
+			Kind:  i.owner.Kind,
+			Name:  i.owner.Name,
+		}
 	}
 
 	err = s.PopulateFromARM(o, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
@@ -342,7 +349,7 @@ func (i *importableARMResource) SetName(
 
 	importable.SetName(n)
 
-	// AzureName needs to be exactly as specficied in the ARM URL
+	// AzureName needs to be exactly as specified in the ARM URL
 	// Need to use reflection to set it
 	specField := reflect.ValueOf(importable.GetSpec()).Elem()
 	azureNameField := specField.FieldByName("AzureName")

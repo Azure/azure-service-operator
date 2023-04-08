@@ -47,9 +47,7 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 
 // AddARMID adds an ARM ID to the list of resources to import.
 func (ri *ResourceImporter) AddARMID(armID string) {
-	//TODO: Do we want a way to specify the owner here? Maybe a commandline switch?
-	noOwner := genruntime.ResourceReference{}
-	importer := NewImportableARMResource(armID, noOwner, ri.client, ri.scheme)
+	importer := NewImportableARMResource(armID, nil /* no owner */, ri.client, ri.scheme)
 	ri.Add(importer)
 }
 
