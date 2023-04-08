@@ -51,7 +51,7 @@ var _ extensions.Importer = &FlexibleServersDatabaseExtension{}
 func (extension *FlexibleServersDatabaseExtension) Import(
 	ctx context.Context,
 	rsrc genruntime.ImportableResource,
-	owner genruntime.ResourceReference,
+	owner *genruntime.ResourceReference,
 	next extensions.ImporterFunc,
 ) (extensions.ImportResult, error) {
 	if server, ok := rsrc.(*api.FlexibleServersDatabase); ok {

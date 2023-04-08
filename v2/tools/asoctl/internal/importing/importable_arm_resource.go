@@ -160,25 +160,25 @@ func (i *importableARMResource) createImportFunction(
 	if ex, ok := i.GetResourceExtension(gvk); ok {
 		next := loader
 		loader = func(
-            ctx context.Context, 
-            resource genruntime.ImportableResource,
-            owner genruntime.ResourceReference,
-        ) (extensions.ImportResult, error) {
+			ctx context.Context,
+			resource genruntime.ImportableResource,
+			owner *genruntime.ResourceReference,
+		) (extensions.ImportResult, error) {
 			return ex.Import(ctx, resource, owner, next)
 		}
 	}
 
 	// Lastly, we need to wrap importFn to remove Status
-	importFn = i.clearStatus(importFn)
+	loader = i.clearStatus(loader)
 
-	return importFn
+	return loader
 }
 
 func (i *importableARMResource) loader() extensions.ImporterFunc {
 	return func(
 		ctx context.Context,
 		resource genruntime.ImportableResource,
-		owner genruntime.ResourceReference,
+		owner *genruntime.ResourceReference,
 	) (extensions.ImportResult, error) {
 		importable, ok := resource.(genruntime.ImportableARMResource)
 		if !ok {
@@ -193,12 +193,12 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 			if errors.As(err, &responseError) {
 				if responseError.StatusCode == http.StatusNotFound {
 					// If the resource doesn't exist, we'll just skip it and return all the resources we're allowed to see
-					return extensions.NewImportSkipped("resource not found"), nil
+					return extensions.ImportSkipped("resource not found"), nil
 				}
 
 				if responseError.StatusCode == http.StatusForbidden {
 					// If we're not allowed to look, we'll just skip it and return all the resources we're allowed to see
-					return extensions.NewImportSkipped("access forbidden"), nil
+					return extensions.ImportSkipped("access forbidden"), nil
 				}
 			}
 
@@ -226,10 +226,11 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 
 func (i *importableARMResource) clearStatus(next extensions.ImporterFunc) extensions.ImporterFunc {
 	return func(
+		ctx context.Context,
 		resource genruntime.ImportableResource,
-		owner genruntime.ResourceReference,
+		owner *genruntime.ResourceReference,
 	) (extensions.ImportResult, error) {
-		result, err := next(resource, owner)
+		result, err := next(ctx, resource, owner)
 		if err != nil {
 			return extensions.ImportResult{}, err
 		}
@@ -262,7 +263,7 @@ func (i *importableARMResource) importChildResources(
 	childResourceType string,
 ) ([]ImportableResource, error) {
 	// Look up the GK for the child resource type we're importing
-	childResourceGK, ok := FindGroupKindForType(childResourceType)
+	childResourceGK, ok := FindGroupKindForResourceType(childResourceType)
 	if !ok {
 		return nil, errors.Errorf("unable to find GroupKind for type %subType", childResourceType)
 	}
@@ -318,10 +319,11 @@ func (i *importableARMResource) importChildResources(
 		childResourceGK.Group,
 		childResourceGK.Kind)
 
+	subResources := make([]ImportableResource, 0, len(childResourceReferences))
 	for _, ref := range childResourceReferences {
-		importer, err := NewImportableARMResource(ref.ARMID, &owner, i.client, i.scheme)
+		importer, err := NewImportableARMResource(ref.ID, &owner, i.client, i.scheme)
 		if err != nil {
-			return nil, errors.Wrapf(err, "unable to create importable resource for %s", ref.ARMID)
+			return nil, errors.Wrapf(err, "unable to create importable resource for %s", ref.ID)
 		}
 
 		subResources = append(subResources, importer)

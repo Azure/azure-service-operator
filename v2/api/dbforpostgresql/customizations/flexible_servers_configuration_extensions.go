@@ -19,6 +19,7 @@ var _ extensions.Importer = &FlexibleServersConfigurationExtension{}
 func (extension *FlexibleServersConfigurationExtension) Import(
 	ctx context.Context,
 	rsrc genruntime.ImportableResource,
+	owner *genruntime.ResourceReference,
 	next extensions.ImporterFunc,
 ) (extensions.ImportResult, error) {
 	result, err := next(ctx, rsrc, owner)

@@ -54,7 +54,7 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 
 // AddARMID adds an ARM ID to the list of resources to import.
 func (ri *ResourceImporter) AddARMID(armID string) error {
-	importer, err := newImportableARMResource(armID, nil /* no owner */, ri.client, ri.scheme)
+	importer, err := NewImportableARMResource(armID, nil /* no owner */, ri.client, ri.scheme)
 	if err != nil {
 		return errors.Wrapf(err, "failed to create importer for %q", armID)
 	}
@@ -123,7 +123,7 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 				// Import it
 				pending, err := rsrc.Import(ctx)
 				if err != nil {
-					var notImportable ImportSkippedError
+					var notImportable *ImportSkippedError
 					if errors.As(err, &notImportable) {
 						klog.Infof(err.Error())
 						return nil

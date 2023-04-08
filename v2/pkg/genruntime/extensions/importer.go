@@ -16,11 +16,12 @@ type Importer interface {
 	// Import allows interception of the import process.
 	// ctx is the current asynchronous context
 	// resource is the resource being imported.
+	// owner is an optional owner for the resource.
 	// next is a function to call to do the actual import.
 	Import(
 		ctx context.Context,
 		rsrc genruntime.ImportableResource,
-		owner genruntime.ResourceReference,
+		owner *genruntime.ResourceReference,
 		next ImporterFunc,
 	) (ImportResult, error)
 }
@@ -34,7 +35,7 @@ type ImportResult struct {
 type ImporterFunc func(
 	ctx context.Context,
 	resource genruntime.ImportableResource,
-	owner genruntime.ResourceReference,
+	owner *genruntime.ResourceReference,
 ) (ImportResult, error)
 
 // ImportSucceeded creates a new ImportResult with a resource that was imported successfully.
