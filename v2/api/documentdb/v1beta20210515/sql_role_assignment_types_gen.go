@@ -103,17 +103,6 @@ func (assignment *SqlRoleAssignment) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the SqlRoleAssignment resource
 func (assignment *SqlRoleAssignment) defaultImpl() { assignment.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &SqlRoleAssignment{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (assignment *SqlRoleAssignment) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DatabaseAccounts_SqlRoleAssignment_STATUS); ok {
-		return assignment.Spec.Initialize_From_DatabaseAccounts_SqlRoleAssignment_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DatabaseAccounts_SqlRoleAssignment_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &SqlRoleAssignment{}
 
 // AzureName returns the Azure name of the resource
@@ -591,22 +580,6 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) AssignProperties_To_D
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DatabaseAccounts_SqlRoleAssignment_STATUS populates our DatabaseAccounts_SqlRoleAssignment_Spec from the provided source DatabaseAccounts_SqlRoleAssignment_STATUS
-func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) Initialize_From_DatabaseAccounts_SqlRoleAssignment_STATUS(source *DatabaseAccounts_SqlRoleAssignment_STATUS) error {
-
-	// PrincipalId
-	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// RoleDefinitionId
-	assignment.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
-
-	// Scope
-	assignment.Scope = genruntime.ClonePointerToString(source.Scope)
 
 	// No error
 	return nil

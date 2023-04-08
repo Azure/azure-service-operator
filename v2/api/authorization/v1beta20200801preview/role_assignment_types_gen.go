@@ -103,17 +103,6 @@ func (assignment *RoleAssignment) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the RoleAssignment resource
 func (assignment *RoleAssignment) defaultImpl() { assignment.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &RoleAssignment{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (assignment *RoleAssignment) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RoleAssignment_STATUS); ok {
-		return assignment.Spec.Initialize_From_RoleAssignment_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RoleAssignment_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &RoleAssignment{}
 
 // AzureName returns the Azure name of the resource
@@ -698,44 +687,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RoleAssignment_STATUS populates our RoleAssignment_Spec from the provided source RoleAssignment_STATUS
-func (assignment *RoleAssignment_Spec) Initialize_From_RoleAssignment_STATUS(source *RoleAssignment_STATUS) error {
-
-	// Condition
-	assignment.Condition = genruntime.ClonePointerToString(source.Condition)
-
-	// ConditionVersion
-	assignment.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
-
-	// DelegatedManagedIdentityResourceId
-	assignment.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
-
-	// Description
-	assignment.Description = genruntime.ClonePointerToString(source.Description)
-
-	// PrincipalId
-	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// PrincipalType
-	if source.PrincipalType != nil {
-		principalType := RoleAssignmentProperties_PrincipalType(*source.PrincipalType)
-		assignment.PrincipalType = &principalType
-	} else {
-		assignment.PrincipalType = nil
-	}
-
-	// RoleDefinitionReference
-	if source.RoleDefinitionId != nil {
-		roleDefinitionReference := genruntime.CreateResourceReferenceFromARMID(*source.RoleDefinitionId)
-		assignment.RoleDefinitionReference = &roleDefinitionReference
-	} else {
-		assignment.RoleDefinitionReference = nil
 	}
 
 	// No error

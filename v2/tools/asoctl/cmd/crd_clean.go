@@ -13,7 +13,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/config"
 
 	"github.com/Azure/azure-service-operator/v2/api"
-
 	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/crd"
 )
 

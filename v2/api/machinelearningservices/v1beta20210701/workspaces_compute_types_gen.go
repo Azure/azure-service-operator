@@ -104,17 +104,6 @@ func (compute *WorkspacesCompute) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the WorkspacesCompute resource
 func (compute *WorkspacesCompute) defaultImpl() { compute.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &WorkspacesCompute{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (compute *WorkspacesCompute) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Workspaces_Compute_STATUS); ok {
-		return compute.Spec.Initialize_From_Workspaces_Compute_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Workspaces_Compute_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &WorkspacesCompute{}
 
 // AzureName returns the Azure name of the resource
@@ -710,67 +699,6 @@ func (compute *Workspaces_Compute_Spec) AssignProperties_To_Workspaces_Compute_S
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Workspaces_Compute_STATUS populates our Workspaces_Compute_Spec from the provided source Workspaces_Compute_STATUS
-func (compute *Workspaces_Compute_Spec) Initialize_From_Workspaces_Compute_STATUS(source *Workspaces_Compute_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity
-		err := identity.Initialize_From_Identity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Identity_STATUS() to populate field Identity")
-		}
-		compute.Identity = &identity
-	} else {
-		compute.Identity = nil
-	}
-
-	// Location
-	compute.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Properties
-	if source.Properties != nil {
-		var property Compute
-		err := property.Initialize_From_Compute_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Compute_STATUS() to populate field Properties")
-		}
-		compute.Properties = &property
-	} else {
-		compute.Properties = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		compute.Sku = &sku
-	} else {
-		compute.Sku = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.Initialize_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
-		}
-		compute.SystemData = &systemDatum
-	} else {
-		compute.SystemData = nil
-	}
-
-	// Tags
-	compute.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1614,133 +1542,6 @@ func (compute *Compute) AssignProperties_To_Compute(destination *v20210701s.Comp
 	return nil
 }
 
-// Initialize_From_Compute_STATUS populates our Compute from the provided source Compute_STATUS
-func (compute *Compute) Initialize_From_Compute_STATUS(source *Compute_STATUS) error {
-
-	// AKS
-	if source.AKS != nil {
-		var aks AKS
-		err := aks.Initialize_From_AKS_STATUS(source.AKS)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AKS_STATUS() to populate field AKS")
-		}
-		compute.AKS = &aks
-	} else {
-		compute.AKS = nil
-	}
-
-	// AmlCompute
-	if source.AmlCompute != nil {
-		var amlCompute AmlCompute
-		err := amlCompute.Initialize_From_AmlCompute_STATUS(source.AmlCompute)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AmlCompute_STATUS() to populate field AmlCompute")
-		}
-		compute.AmlCompute = &amlCompute
-	} else {
-		compute.AmlCompute = nil
-	}
-
-	// ComputeInstance
-	if source.ComputeInstance != nil {
-		var computeInstance ComputeInstance
-		err := computeInstance.Initialize_From_ComputeInstance_STATUS(source.ComputeInstance)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ComputeInstance_STATUS() to populate field ComputeInstance")
-		}
-		compute.ComputeInstance = &computeInstance
-	} else {
-		compute.ComputeInstance = nil
-	}
-
-	// DataFactory
-	if source.DataFactory != nil {
-		var dataFactory DataFactory
-		err := dataFactory.Initialize_From_DataFactory_STATUS(source.DataFactory)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataFactory_STATUS() to populate field DataFactory")
-		}
-		compute.DataFactory = &dataFactory
-	} else {
-		compute.DataFactory = nil
-	}
-
-	// DataLakeAnalytics
-	if source.DataLakeAnalytics != nil {
-		var dataLakeAnalytic DataLakeAnalytics
-		err := dataLakeAnalytic.Initialize_From_DataLakeAnalytics_STATUS(source.DataLakeAnalytics)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataLakeAnalytics_STATUS() to populate field DataLakeAnalytics")
-		}
-		compute.DataLakeAnalytics = &dataLakeAnalytic
-	} else {
-		compute.DataLakeAnalytics = nil
-	}
-
-	// Databricks
-	if source.Databricks != nil {
-		var databrick Databricks
-		err := databrick.Initialize_From_Databricks_STATUS(source.Databricks)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Databricks_STATUS() to populate field Databricks")
-		}
-		compute.Databricks = &databrick
-	} else {
-		compute.Databricks = nil
-	}
-
-	// HDInsight
-	if source.HDInsight != nil {
-		var hdInsight HDInsight
-		err := hdInsight.Initialize_From_HDInsight_STATUS(source.HDInsight)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HDInsight_STATUS() to populate field HDInsight")
-		}
-		compute.HDInsight = &hdInsight
-	} else {
-		compute.HDInsight = nil
-	}
-
-	// Kubernetes
-	if source.Kubernetes != nil {
-		var kubernete Kubernetes
-		err := kubernete.Initialize_From_Kubernetes_STATUS(source.Kubernetes)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_Kubernetes_STATUS() to populate field Kubernetes")
-		}
-		compute.Kubernetes = &kubernete
-	} else {
-		compute.Kubernetes = nil
-	}
-
-	// SynapseSpark
-	if source.SynapseSpark != nil {
-		var synapseSpark SynapseSpark
-		err := synapseSpark.Initialize_From_SynapseSpark_STATUS(source.SynapseSpark)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SynapseSpark_STATUS() to populate field SynapseSpark")
-		}
-		compute.SynapseSpark = &synapseSpark
-	} else {
-		compute.SynapseSpark = nil
-	}
-
-	// VirtualMachine
-	if source.VirtualMachine != nil {
-		var virtualMachine VirtualMachine
-		err := virtualMachine.Initialize_From_VirtualMachine_STATUS(source.VirtualMachine)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachine_STATUS() to populate field VirtualMachine")
-		}
-		compute.VirtualMachine = &virtualMachine
-	} else {
-		compute.VirtualMachine = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of Compute_STATUS. Use v1api20210701.Compute_STATUS instead
 type Compute_STATUS struct {
 	AKS               *AKS_STATUS               `json:"aks,omitempty"`
@@ -2369,55 +2170,6 @@ func (aks *AKS) AssignProperties_To_AKS(destination *v20210701s.AKS) error {
 	return nil
 }
 
-// Initialize_From_AKS_STATUS populates our AKS from the provided source AKS_STATUS
-func (aks *AKS) Initialize_From_AKS_STATUS(source *AKS_STATUS) error {
-
-	// ComputeLocation
-	aks.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := AKS_ComputeType(*source.ComputeType)
-		aks.ComputeType = &computeType
-	} else {
-		aks.ComputeType = nil
-	}
-
-	// Description
-	aks.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		aks.DisableLocalAuth = &disableLocalAuth
-	} else {
-		aks.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property AKS_Properties
-		err := property.Initialize_From_AKS_Properties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AKS_Properties_STATUS() to populate field Properties")
-		}
-		aks.Properties = &property
-	} else {
-		aks.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		aks.ResourceReference = &resourceReference
-	} else {
-		aks.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of AKS_STATUS. Use v1api20210701.AKS_STATUS instead
 type AKS_STATUS struct {
 	ComputeLocation    *string                       `json:"computeLocation,omitempty"`
@@ -2917,55 +2669,6 @@ func (compute *AmlCompute) AssignProperties_To_AmlCompute(destination *v20210701
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AmlCompute_STATUS populates our AmlCompute from the provided source AmlCompute_STATUS
-func (compute *AmlCompute) Initialize_From_AmlCompute_STATUS(source *AmlCompute_STATUS) error {
-
-	// ComputeLocation
-	compute.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := AmlCompute_ComputeType(*source.ComputeType)
-		compute.ComputeType = &computeType
-	} else {
-		compute.ComputeType = nil
-	}
-
-	// Description
-	compute.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		compute.DisableLocalAuth = &disableLocalAuth
-	} else {
-		compute.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property AmlComputeProperties
-		err := property.Initialize_From_AmlComputeProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AmlComputeProperties_STATUS() to populate field Properties")
-		}
-		compute.Properties = &property
-	} else {
-		compute.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		compute.ResourceReference = &resourceReference
-	} else {
-		compute.ResourceReference = nil
 	}
 
 	// No error
@@ -3477,55 +3180,6 @@ func (instance *ComputeInstance) AssignProperties_To_ComputeInstance(destination
 	return nil
 }
 
-// Initialize_From_ComputeInstance_STATUS populates our ComputeInstance from the provided source ComputeInstance_STATUS
-func (instance *ComputeInstance) Initialize_From_ComputeInstance_STATUS(source *ComputeInstance_STATUS) error {
-
-	// ComputeLocation
-	instance.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := ComputeInstance_ComputeType(*source.ComputeType)
-		instance.ComputeType = &computeType
-	} else {
-		instance.ComputeType = nil
-	}
-
-	// Description
-	instance.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		instance.DisableLocalAuth = &disableLocalAuth
-	} else {
-		instance.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property ComputeInstanceProperties
-		err := property.Initialize_From_ComputeInstanceProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ComputeInstanceProperties_STATUS() to populate field Properties")
-		}
-		instance.Properties = &property
-	} else {
-		instance.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		instance.ResourceReference = &resourceReference
-	} else {
-		instance.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ComputeInstance_STATUS. Use v1api20210701.ComputeInstance_STATUS instead
 type ComputeInstance_STATUS struct {
 	ComputeLocation    *string                                   `json:"computeLocation,omitempty"`
@@ -4031,55 +3685,6 @@ func (databricks *Databricks) AssignProperties_To_Databricks(destination *v20210
 	return nil
 }
 
-// Initialize_From_Databricks_STATUS populates our Databricks from the provided source Databricks_STATUS
-func (databricks *Databricks) Initialize_From_Databricks_STATUS(source *Databricks_STATUS) error {
-
-	// ComputeLocation
-	databricks.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := Databricks_ComputeType(*source.ComputeType)
-		databricks.ComputeType = &computeType
-	} else {
-		databricks.ComputeType = nil
-	}
-
-	// Description
-	databricks.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		databricks.DisableLocalAuth = &disableLocalAuth
-	} else {
-		databricks.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property DatabricksProperties
-		err := property.Initialize_From_DatabricksProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DatabricksProperties_STATUS() to populate field Properties")
-		}
-		databricks.Properties = &property
-	} else {
-		databricks.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		databricks.ResourceReference = &resourceReference
-	} else {
-		databricks.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of Databricks_STATUS. Use v1api20210701.Databricks_STATUS instead
 type Databricks_STATUS struct {
 	ComputeLocation    *string                              `json:"computeLocation,omitempty"`
@@ -4533,43 +4138,6 @@ func (factory *DataFactory) AssignProperties_To_DataFactory(destination *v202107
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataFactory_STATUS populates our DataFactory from the provided source DataFactory_STATUS
-func (factory *DataFactory) Initialize_From_DataFactory_STATUS(source *DataFactory_STATUS) error {
-
-	// ComputeLocation
-	factory.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := DataFactory_ComputeType(*source.ComputeType)
-		factory.ComputeType = &computeType
-	} else {
-		factory.ComputeType = nil
-	}
-
-	// Description
-	factory.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		factory.DisableLocalAuth = &disableLocalAuth
-	} else {
-		factory.DisableLocalAuth = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		factory.ResourceReference = &resourceReference
-	} else {
-		factory.ResourceReference = nil
 	}
 
 	// No error
@@ -5039,55 +4607,6 @@ func (analytics *DataLakeAnalytics) AssignProperties_To_DataLakeAnalytics(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataLakeAnalytics_STATUS populates our DataLakeAnalytics from the provided source DataLakeAnalytics_STATUS
-func (analytics *DataLakeAnalytics) Initialize_From_DataLakeAnalytics_STATUS(source *DataLakeAnalytics_STATUS) error {
-
-	// ComputeLocation
-	analytics.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := DataLakeAnalytics_ComputeType(*source.ComputeType)
-		analytics.ComputeType = &computeType
-	} else {
-		analytics.ComputeType = nil
-	}
-
-	// Description
-	analytics.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		analytics.DisableLocalAuth = &disableLocalAuth
-	} else {
-		analytics.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property DataLakeAnalytics_Properties
-		err := property.Initialize_From_DataLakeAnalytics_Properties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DataLakeAnalytics_Properties_STATUS() to populate field Properties")
-		}
-		analytics.Properties = &property
-	} else {
-		analytics.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		analytics.ResourceReference = &resourceReference
-	} else {
-		analytics.ResourceReference = nil
 	}
 
 	// No error
@@ -5599,55 +5118,6 @@ func (insight *HDInsight) AssignProperties_To_HDInsight(destination *v20210701s.
 	return nil
 }
 
-// Initialize_From_HDInsight_STATUS populates our HDInsight from the provided source HDInsight_STATUS
-func (insight *HDInsight) Initialize_From_HDInsight_STATUS(source *HDInsight_STATUS) error {
-
-	// ComputeLocation
-	insight.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := HDInsight_ComputeType(*source.ComputeType)
-		insight.ComputeType = &computeType
-	} else {
-		insight.ComputeType = nil
-	}
-
-	// Description
-	insight.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		insight.DisableLocalAuth = &disableLocalAuth
-	} else {
-		insight.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property HDInsightProperties
-		err := property.Initialize_From_HDInsightProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_HDInsightProperties_STATUS() to populate field Properties")
-		}
-		insight.Properties = &property
-	} else {
-		insight.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		insight.ResourceReference = &resourceReference
-	} else {
-		insight.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of HDInsight_STATUS. Use v1api20210701.HDInsight_STATUS instead
 type HDInsight_STATUS struct {
 	ComputeLocation    *string                             `json:"computeLocation,omitempty"`
@@ -6147,55 +5617,6 @@ func (kubernetes *Kubernetes) AssignProperties_To_Kubernetes(destination *v20210
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Kubernetes_STATUS populates our Kubernetes from the provided source Kubernetes_STATUS
-func (kubernetes *Kubernetes) Initialize_From_Kubernetes_STATUS(source *Kubernetes_STATUS) error {
-
-	// ComputeLocation
-	kubernetes.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := Kubernetes_ComputeType(*source.ComputeType)
-		kubernetes.ComputeType = &computeType
-	} else {
-		kubernetes.ComputeType = nil
-	}
-
-	// Description
-	kubernetes.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		kubernetes.DisableLocalAuth = &disableLocalAuth
-	} else {
-		kubernetes.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property KubernetesProperties
-		err := property.Initialize_From_KubernetesProperties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_KubernetesProperties_STATUS() to populate field Properties")
-		}
-		kubernetes.Properties = &property
-	} else {
-		kubernetes.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		kubernetes.ResourceReference = &resourceReference
-	} else {
-		kubernetes.ResourceReference = nil
 	}
 
 	// No error
@@ -6707,55 +6128,6 @@ func (spark *SynapseSpark) AssignProperties_To_SynapseSpark(destination *v202107
 	return nil
 }
 
-// Initialize_From_SynapseSpark_STATUS populates our SynapseSpark from the provided source SynapseSpark_STATUS
-func (spark *SynapseSpark) Initialize_From_SynapseSpark_STATUS(source *SynapseSpark_STATUS) error {
-
-	// ComputeLocation
-	spark.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := SynapseSpark_ComputeType(*source.ComputeType)
-		spark.ComputeType = &computeType
-	} else {
-		spark.ComputeType = nil
-	}
-
-	// Description
-	spark.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		spark.DisableLocalAuth = &disableLocalAuth
-	} else {
-		spark.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property SynapseSpark_Properties
-		err := property.Initialize_From_SynapseSpark_Properties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SynapseSpark_Properties_STATUS() to populate field Properties")
-		}
-		spark.Properties = &property
-	} else {
-		spark.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		spark.ResourceReference = &resourceReference
-	} else {
-		spark.ResourceReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of SynapseSpark_STATUS. Use v1api20210701.SynapseSpark_STATUS instead
 type SynapseSpark_STATUS struct {
 	ComputeLocation    *string                                `json:"computeLocation,omitempty"`
@@ -7255,55 +6627,6 @@ func (machine *VirtualMachine) AssignProperties_To_VirtualMachine(destination *v
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachine_STATUS populates our VirtualMachine from the provided source VirtualMachine_STATUS
-func (machine *VirtualMachine) Initialize_From_VirtualMachine_STATUS(source *VirtualMachine_STATUS) error {
-
-	// ComputeLocation
-	machine.ComputeLocation = genruntime.ClonePointerToString(source.ComputeLocation)
-
-	// ComputeType
-	if source.ComputeType != nil {
-		computeType := VirtualMachine_ComputeType(*source.ComputeType)
-		machine.ComputeType = &computeType
-	} else {
-		machine.ComputeType = nil
-	}
-
-	// Description
-	machine.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DisableLocalAuth
-	if source.DisableLocalAuth != nil {
-		disableLocalAuth := *source.DisableLocalAuth
-		machine.DisableLocalAuth = &disableLocalAuth
-	} else {
-		machine.DisableLocalAuth = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property VirtualMachine_Properties
-		err := property.Initialize_From_VirtualMachine_Properties_STATUS(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachine_Properties_STATUS() to populate field Properties")
-		}
-		machine.Properties = &property
-	} else {
-		machine.Properties = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		machine.ResourceReference = &resourceReference
-	} else {
-		machine.ResourceReference = nil
 	}
 
 	// No error
@@ -7877,70 +7200,6 @@ func (properties *AKS_Properties) AssignProperties_To_AKS_Properties(destination
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AKS_Properties_STATUS populates our AKS_Properties from the provided source AKS_Properties_STATUS
-func (properties *AKS_Properties) Initialize_From_AKS_Properties_STATUS(source *AKS_Properties_STATUS) error {
-
-	// AgentCount
-	if source.AgentCount != nil {
-		agentCount := *source.AgentCount
-		properties.AgentCount = &agentCount
-	} else {
-		properties.AgentCount = nil
-	}
-
-	// AgentVmSize
-	properties.AgentVmSize = genruntime.ClonePointerToString(source.AgentVmSize)
-
-	// AksNetworkingConfiguration
-	if source.AksNetworkingConfiguration != nil {
-		var aksNetworkingConfiguration AksNetworkingConfiguration
-		err := aksNetworkingConfiguration.Initialize_From_AksNetworkingConfiguration_STATUS(source.AksNetworkingConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AksNetworkingConfiguration_STATUS() to populate field AksNetworkingConfiguration")
-		}
-		properties.AksNetworkingConfiguration = &aksNetworkingConfiguration
-	} else {
-		properties.AksNetworkingConfiguration = nil
-	}
-
-	// ClusterFqdn
-	properties.ClusterFqdn = genruntime.ClonePointerToString(source.ClusterFqdn)
-
-	// ClusterPurpose
-	if source.ClusterPurpose != nil {
-		clusterPurpose := AKS_Properties_ClusterPurpose(*source.ClusterPurpose)
-		properties.ClusterPurpose = &clusterPurpose
-	} else {
-		properties.ClusterPurpose = nil
-	}
-
-	// LoadBalancerSubnet
-	properties.LoadBalancerSubnet = genruntime.ClonePointerToString(source.LoadBalancerSubnet)
-
-	// LoadBalancerType
-	if source.LoadBalancerType != nil {
-		loadBalancerType := AKS_Properties_LoadBalancerType(*source.LoadBalancerType)
-		properties.LoadBalancerType = &loadBalancerType
-	} else {
-		properties.LoadBalancerType = nil
-	}
-
-	// SslConfiguration
-	if source.SslConfiguration != nil {
-		var sslConfiguration SslConfiguration
-		err := sslConfiguration.Initialize_From_SslConfiguration_STATUS(source.SslConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SslConfiguration_STATUS() to populate field SslConfiguration")
-		}
-		properties.SslConfiguration = &sslConfiguration
-	} else {
-		properties.SslConfiguration = nil
 	}
 
 	// No error
@@ -8606,104 +7865,6 @@ func (properties *AmlComputeProperties) AssignProperties_To_AmlComputeProperties
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AmlComputeProperties_STATUS populates our AmlComputeProperties from the provided source AmlComputeProperties_STATUS
-func (properties *AmlComputeProperties) Initialize_From_AmlComputeProperties_STATUS(source *AmlComputeProperties_STATUS) error {
-
-	// EnableNodePublicIp
-	if source.EnableNodePublicIp != nil {
-		enableNodePublicIp := *source.EnableNodePublicIp
-		properties.EnableNodePublicIp = &enableNodePublicIp
-	} else {
-		properties.EnableNodePublicIp = nil
-	}
-
-	// IsolatedNetwork
-	if source.IsolatedNetwork != nil {
-		isolatedNetwork := *source.IsolatedNetwork
-		properties.IsolatedNetwork = &isolatedNetwork
-	} else {
-		properties.IsolatedNetwork = nil
-	}
-
-	// OsType
-	if source.OsType != nil {
-		osType := AmlComputeProperties_OsType(*source.OsType)
-		properties.OsType = &osType
-	} else {
-		properties.OsType = nil
-	}
-
-	// RemoteLoginPortPublicAccess
-	if source.RemoteLoginPortPublicAccess != nil {
-		remoteLoginPortPublicAccess := AmlComputeProperties_RemoteLoginPortPublicAccess(*source.RemoteLoginPortPublicAccess)
-		properties.RemoteLoginPortPublicAccess = &remoteLoginPortPublicAccess
-	} else {
-		properties.RemoteLoginPortPublicAccess = nil
-	}
-
-	// ScaleSettings
-	if source.ScaleSettings != nil {
-		var scaleSetting ScaleSettings
-		err := scaleSetting.Initialize_From_ScaleSettings_STATUS(source.ScaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScaleSettings_STATUS() to populate field ScaleSettings")
-		}
-		properties.ScaleSettings = &scaleSetting
-	} else {
-		properties.ScaleSettings = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet ResourceId
-		err := subnet.Initialize_From_ResourceId_STATUS(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceId_STATUS() to populate field Subnet")
-		}
-		properties.Subnet = &subnet
-	} else {
-		properties.Subnet = nil
-	}
-
-	// UserAccountCredentials
-	if source.UserAccountCredentials != nil {
-		var userAccountCredential UserAccountCredentials
-		err := userAccountCredential.Initialize_From_UserAccountCredentials_STATUS(source.UserAccountCredentials)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_UserAccountCredentials_STATUS() to populate field UserAccountCredentials")
-		}
-		properties.UserAccountCredentials = &userAccountCredential
-	} else {
-		properties.UserAccountCredentials = nil
-	}
-
-	// VirtualMachineImage
-	if source.VirtualMachineImage != nil {
-		var virtualMachineImage VirtualMachineImage
-		err := virtualMachineImage.Initialize_From_VirtualMachineImage_STATUS(source.VirtualMachineImage)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachineImage_STATUS() to populate field VirtualMachineImage")
-		}
-		properties.VirtualMachineImage = &virtualMachineImage
-	} else {
-		properties.VirtualMachineImage = nil
-	}
-
-	// VmPriority
-	if source.VmPriority != nil {
-		vmPriority := AmlComputeProperties_VmPriority(*source.VmPriority)
-		properties.VmPriority = &vmPriority
-	} else {
-		properties.VmPriority = nil
-	}
-
-	// VmSize
-	properties.VmSize = genruntime.ClonePointerToString(source.VmSize)
 
 	// No error
 	return nil
@@ -9486,80 +8647,6 @@ func (properties *ComputeInstanceProperties) AssignProperties_To_ComputeInstance
 	return nil
 }
 
-// Initialize_From_ComputeInstanceProperties_STATUS populates our ComputeInstanceProperties from the provided source ComputeInstanceProperties_STATUS
-func (properties *ComputeInstanceProperties) Initialize_From_ComputeInstanceProperties_STATUS(source *ComputeInstanceProperties_STATUS) error {
-
-	// ApplicationSharingPolicy
-	if source.ApplicationSharingPolicy != nil {
-		applicationSharingPolicy := ComputeInstanceProperties_ApplicationSharingPolicy(*source.ApplicationSharingPolicy)
-		properties.ApplicationSharingPolicy = &applicationSharingPolicy
-	} else {
-		properties.ApplicationSharingPolicy = nil
-	}
-
-	// ComputeInstanceAuthorizationType
-	if source.ComputeInstanceAuthorizationType != nil {
-		computeInstanceAuthorizationType := ComputeInstanceProperties_ComputeInstanceAuthorizationType(*source.ComputeInstanceAuthorizationType)
-		properties.ComputeInstanceAuthorizationType = &computeInstanceAuthorizationType
-	} else {
-		properties.ComputeInstanceAuthorizationType = nil
-	}
-
-	// PersonalComputeInstanceSettings
-	if source.PersonalComputeInstanceSettings != nil {
-		var personalComputeInstanceSetting PersonalComputeInstanceSettings
-		err := personalComputeInstanceSetting.Initialize_From_PersonalComputeInstanceSettings_STATUS(source.PersonalComputeInstanceSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_PersonalComputeInstanceSettings_STATUS() to populate field PersonalComputeInstanceSettings")
-		}
-		properties.PersonalComputeInstanceSettings = &personalComputeInstanceSetting
-	} else {
-		properties.PersonalComputeInstanceSettings = nil
-	}
-
-	// SetupScripts
-	if source.SetupScripts != nil {
-		var setupScript SetupScripts
-		err := setupScript.Initialize_From_SetupScripts_STATUS(source.SetupScripts)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_SetupScripts_STATUS() to populate field SetupScripts")
-		}
-		properties.SetupScripts = &setupScript
-	} else {
-		properties.SetupScripts = nil
-	}
-
-	// SshSettings
-	if source.SshSettings != nil {
-		var sshSetting ComputeInstanceSshSettings
-		err := sshSetting.Initialize_From_ComputeInstanceSshSettings_STATUS(source.SshSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ComputeInstanceSshSettings_STATUS() to populate field SshSettings")
-		}
-		properties.SshSettings = &sshSetting
-	} else {
-		properties.SshSettings = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet ResourceId
-		err := subnet.Initialize_From_ResourceId_STATUS(source.Subnet)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ResourceId_STATUS() to populate field Subnet")
-		}
-		properties.Subnet = &subnet
-	} else {
-		properties.Subnet = nil
-	}
-
-	// VmSize
-	properties.VmSize = genruntime.ClonePointerToString(source.VmSize)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ComputeInstanceProperties_STATUS. Use v1api20210701.ComputeInstanceProperties_STATUS instead
 type ComputeInstanceProperties_STATUS struct {
 	ApplicationSharingPolicy         *ComputeInstanceProperties_ApplicationSharingPolicy_STATUS         `json:"applicationSharingPolicy,omitempty"`
@@ -10125,19 +9212,6 @@ func (properties *DatabricksProperties) AssignProperties_To_DatabricksProperties
 	return nil
 }
 
-// Initialize_From_DatabricksProperties_STATUS populates our DatabricksProperties from the provided source DatabricksProperties_STATUS
-func (properties *DatabricksProperties) Initialize_From_DatabricksProperties_STATUS(source *DatabricksProperties_STATUS) error {
-
-	// DatabricksAccessToken
-	properties.DatabricksAccessToken = genruntime.ClonePointerToString(source.DatabricksAccessToken)
-
-	// WorkspaceUrl
-	properties.WorkspaceUrl = genruntime.ClonePointerToString(source.WorkspaceUrl)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of DatabricksProperties_STATUS. Use v1api20210701.DatabricksProperties_STATUS instead
 type DatabricksProperties_STATUS struct {
 	DatabricksAccessToken *string `json:"databricksAccessToken,omitempty"`
@@ -10277,16 +9351,6 @@ func (properties *DataLakeAnalytics_Properties) AssignProperties_To_DataLakeAnal
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DataLakeAnalytics_Properties_STATUS populates our DataLakeAnalytics_Properties from the provided source DataLakeAnalytics_Properties_STATUS
-func (properties *DataLakeAnalytics_Properties) Initialize_From_DataLakeAnalytics_Properties_STATUS(source *DataLakeAnalytics_Properties_STATUS) error {
-
-	// DataLakeStoreAccountName
-	properties.DataLakeStoreAccountName = genruntime.ClonePointerToString(source.DataLakeStoreAccountName)
 
 	// No error
 	return nil
@@ -10564,31 +9628,6 @@ func (properties *HDInsightProperties) AssignProperties_To_HDInsightProperties(d
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HDInsightProperties_STATUS populates our HDInsightProperties from the provided source HDInsightProperties_STATUS
-func (properties *HDInsightProperties) Initialize_From_HDInsightProperties_STATUS(source *HDInsightProperties_STATUS) error {
-
-	// Address
-	properties.Address = genruntime.ClonePointerToString(source.Address)
-
-	// AdministratorAccount
-	if source.AdministratorAccount != nil {
-		var administratorAccount VirtualMachineSshCredentials
-		err := administratorAccount.Initialize_From_VirtualMachineSshCredentials_STATUS(source.AdministratorAccount)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
-		}
-		properties.AdministratorAccount = &administratorAccount
-	} else {
-		properties.AdministratorAccount = nil
-	}
-
-	// SshPort
-	properties.SshPort = genruntime.ClonePointerToInt(source.SshPort)
 
 	// No error
 	return nil
@@ -10965,46 +10004,6 @@ func (properties *KubernetesProperties) AssignProperties_To_KubernetesProperties
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KubernetesProperties_STATUS populates our KubernetesProperties from the provided source KubernetesProperties_STATUS
-func (properties *KubernetesProperties) Initialize_From_KubernetesProperties_STATUS(source *KubernetesProperties_STATUS) error {
-
-	// DefaultInstanceType
-	properties.DefaultInstanceType = genruntime.ClonePointerToString(source.DefaultInstanceType)
-
-	// ExtensionInstanceReleaseTrain
-	properties.ExtensionInstanceReleaseTrain = genruntime.ClonePointerToString(source.ExtensionInstanceReleaseTrain)
-
-	// ExtensionPrincipalId
-	properties.ExtensionPrincipalId = genruntime.ClonePointerToString(source.ExtensionPrincipalId)
-
-	// InstanceTypes
-	if source.InstanceTypes != nil {
-		instanceTypeMap := make(map[string]InstanceTypeSchema, len(source.InstanceTypes))
-		for instanceTypeKey, instanceTypeValue := range source.InstanceTypes {
-			// Shadow the loop variable to avoid aliasing
-			instanceTypeValue := instanceTypeValue
-			var instanceType InstanceTypeSchema
-			err := instanceType.Initialize_From_InstanceTypeSchema_STATUS(&instanceTypeValue)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_InstanceTypeSchema_STATUS() to populate field InstanceTypes")
-			}
-			instanceTypeMap[instanceTypeKey] = instanceType
-		}
-		properties.InstanceTypes = instanceTypeMap
-	} else {
-		properties.InstanceTypes = nil
-	}
-
-	// Namespace
-	properties.Namespace = genruntime.ClonePointerToString(source.Namespace)
-
-	// VcName
-	properties.VcName = genruntime.ClonePointerToString(source.VcName)
 
 	// No error
 	return nil
@@ -11468,61 +10467,6 @@ func (properties *SynapseSpark_Properties) AssignProperties_To_SynapseSpark_Prop
 	return nil
 }
 
-// Initialize_From_SynapseSpark_Properties_STATUS populates our SynapseSpark_Properties from the provided source SynapseSpark_Properties_STATUS
-func (properties *SynapseSpark_Properties) Initialize_From_SynapseSpark_Properties_STATUS(source *SynapseSpark_Properties_STATUS) error {
-
-	// AutoPauseProperties
-	if source.AutoPauseProperties != nil {
-		var autoPauseProperty AutoPauseProperties
-		err := autoPauseProperty.Initialize_From_AutoPauseProperties_STATUS(source.AutoPauseProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoPauseProperties_STATUS() to populate field AutoPauseProperties")
-		}
-		properties.AutoPauseProperties = &autoPauseProperty
-	} else {
-		properties.AutoPauseProperties = nil
-	}
-
-	// AutoScaleProperties
-	if source.AutoScaleProperties != nil {
-		var autoScaleProperty AutoScaleProperties
-		err := autoScaleProperty.Initialize_From_AutoScaleProperties_STATUS(source.AutoScaleProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AutoScaleProperties_STATUS() to populate field AutoScaleProperties")
-		}
-		properties.AutoScaleProperties = &autoScaleProperty
-	} else {
-		properties.AutoScaleProperties = nil
-	}
-
-	// NodeCount
-	properties.NodeCount = genruntime.ClonePointerToInt(source.NodeCount)
-
-	// NodeSize
-	properties.NodeSize = genruntime.ClonePointerToString(source.NodeSize)
-
-	// NodeSizeFamily
-	properties.NodeSizeFamily = genruntime.ClonePointerToString(source.NodeSizeFamily)
-
-	// PoolName
-	properties.PoolName = genruntime.ClonePointerToString(source.PoolName)
-
-	// ResourceGroup
-	properties.ResourceGroup = genruntime.ClonePointerToString(source.ResourceGroup)
-
-	// SparkVersion
-	properties.SparkVersion = genruntime.ClonePointerToString(source.SparkVersion)
-
-	// SubscriptionId
-	properties.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
-
-	// WorkspaceName
-	properties.WorkspaceName = genruntime.ClonePointerToString(source.WorkspaceName)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of SynapseSpark_Properties_STATUS. Use v1api20210701.SynapseSpark_Properties_STATUS instead
 type SynapseSpark_Properties_STATUS struct {
 	AutoPauseProperties *AutoPauseProperties_STATUS `json:"autoPauseProperties,omitempty"`
@@ -11930,42 +10874,6 @@ func (properties *VirtualMachine_Properties) AssignProperties_To_VirtualMachine_
 	return nil
 }
 
-// Initialize_From_VirtualMachine_Properties_STATUS populates our VirtualMachine_Properties from the provided source VirtualMachine_Properties_STATUS
-func (properties *VirtualMachine_Properties) Initialize_From_VirtualMachine_Properties_STATUS(source *VirtualMachine_Properties_STATUS) error {
-
-	// Address
-	properties.Address = genruntime.ClonePointerToString(source.Address)
-
-	// AdministratorAccount
-	if source.AdministratorAccount != nil {
-		var administratorAccount VirtualMachineSshCredentials
-		err := administratorAccount.Initialize_From_VirtualMachineSshCredentials_STATUS(source.AdministratorAccount)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_VirtualMachineSshCredentials_STATUS() to populate field AdministratorAccount")
-		}
-		properties.AdministratorAccount = &administratorAccount
-	} else {
-		properties.AdministratorAccount = nil
-	}
-
-	// IsNotebookInstanceCompute
-	if source.IsNotebookInstanceCompute != nil {
-		isNotebookInstanceCompute := *source.IsNotebookInstanceCompute
-		properties.IsNotebookInstanceCompute = &isNotebookInstanceCompute
-	} else {
-		properties.IsNotebookInstanceCompute = nil
-	}
-
-	// SshPort
-	properties.SshPort = genruntime.ClonePointerToInt(source.SshPort)
-
-	// VirtualMachineSize
-	properties.VirtualMachineSize = genruntime.ClonePointerToString(source.VirtualMachineSize)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of VirtualMachine_Properties_STATUS. Use v1api20210701.VirtualMachine_Properties_STATUS instead
 type VirtualMachine_Properties_STATUS struct {
 	Address                   *string                              `json:"address,omitempty"`
@@ -12284,45 +11192,6 @@ func (configuration *AksNetworkingConfiguration) AssignProperties_To_AksNetworki
 	return nil
 }
 
-// Initialize_From_AksNetworkingConfiguration_STATUS populates our AksNetworkingConfiguration from the provided source AksNetworkingConfiguration_STATUS
-func (configuration *AksNetworkingConfiguration) Initialize_From_AksNetworkingConfiguration_STATUS(source *AksNetworkingConfiguration_STATUS) error {
-
-	// DnsServiceIP
-	if source.DnsServiceIP != nil {
-		dnsServiceIP := *source.DnsServiceIP
-		configuration.DnsServiceIP = &dnsServiceIP
-	} else {
-		configuration.DnsServiceIP = nil
-	}
-
-	// DockerBridgeCidr
-	if source.DockerBridgeCidr != nil {
-		dockerBridgeCidr := *source.DockerBridgeCidr
-		configuration.DockerBridgeCidr = &dockerBridgeCidr
-	} else {
-		configuration.DockerBridgeCidr = nil
-	}
-
-	// ServiceCidr
-	if source.ServiceCidr != nil {
-		serviceCidr := *source.ServiceCidr
-		configuration.ServiceCidr = &serviceCidr
-	} else {
-		configuration.ServiceCidr = nil
-	}
-
-	// SubnetReference
-	if source.SubnetId != nil {
-		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
-		configuration.SubnetReference = &subnetReference
-	} else {
-		configuration.SubnetReference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of AksNetworkingConfiguration_STATUS. Use v1api20210701.AksNetworkingConfiguration_STATUS instead
 type AksNetworkingConfiguration_STATUS struct {
 	DnsServiceIP     *string `json:"dnsServiceIP,omitempty"`
@@ -12516,24 +11385,6 @@ func (properties *AutoPauseProperties) AssignProperties_To_AutoPauseProperties(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AutoPauseProperties_STATUS populates our AutoPauseProperties from the provided source AutoPauseProperties_STATUS
-func (properties *AutoPauseProperties) Initialize_From_AutoPauseProperties_STATUS(source *AutoPauseProperties_STATUS) error {
-
-	// DelayInMinutes
-	properties.DelayInMinutes = genruntime.ClonePointerToInt(source.DelayInMinutes)
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		properties.Enabled = &enabled
-	} else {
-		properties.Enabled = nil
 	}
 
 	// No error
@@ -12737,27 +11588,6 @@ func (properties *AutoScaleProperties) AssignProperties_To_AutoScaleProperties(d
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AutoScaleProperties_STATUS populates our AutoScaleProperties from the provided source AutoScaleProperties_STATUS
-func (properties *AutoScaleProperties) Initialize_From_AutoScaleProperties_STATUS(source *AutoScaleProperties_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		properties.Enabled = &enabled
-	} else {
-		properties.Enabled = nil
-	}
-
-	// MaxNodeCount
-	properties.MaxNodeCount = genruntime.ClonePointerToInt(source.MaxNodeCount)
-
-	// MinNodeCount
-	properties.MinNodeCount = genruntime.ClonePointerToInt(source.MinNodeCount)
 
 	// No error
 	return nil
@@ -13289,24 +12119,6 @@ func (settings *ComputeInstanceSshSettings) AssignProperties_To_ComputeInstanceS
 	return nil
 }
 
-// Initialize_From_ComputeInstanceSshSettings_STATUS populates our ComputeInstanceSshSettings from the provided source ComputeInstanceSshSettings_STATUS
-func (settings *ComputeInstanceSshSettings) Initialize_From_ComputeInstanceSshSettings_STATUS(source *ComputeInstanceSshSettings_STATUS) error {
-
-	// AdminPublicKey
-	settings.AdminPublicKey = genruntime.ClonePointerToString(source.AdminPublicKey)
-
-	// SshPublicAccess
-	if source.SshPublicAccess != nil {
-		sshPublicAccess := ComputeInstanceSshSettings_SshPublicAccess(*source.SshPublicAccess)
-		settings.SshPublicAccess = &sshPublicAccess
-	} else {
-		settings.SshPublicAccess = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ComputeInstanceSshSettings_STATUS. Use v1api20210701.ComputeInstanceSshSettings_STATUS instead
 type ComputeInstanceSshSettings_STATUS struct {
 	AdminPublicKey  *string                                            `json:"adminPublicKey,omitempty"`
@@ -13715,28 +12527,6 @@ func (schema *InstanceTypeSchema) AssignProperties_To_InstanceTypeSchema(destina
 	return nil
 }
 
-// Initialize_From_InstanceTypeSchema_STATUS populates our InstanceTypeSchema from the provided source InstanceTypeSchema_STATUS
-func (schema *InstanceTypeSchema) Initialize_From_InstanceTypeSchema_STATUS(source *InstanceTypeSchema_STATUS) error {
-
-	// NodeSelector
-	schema.NodeSelector = genruntime.CloneMapOfStringToString(source.NodeSelector)
-
-	// Resources
-	if source.Resources != nil {
-		var resource InstanceTypeSchema_Resources
-		err := resource.Initialize_From_InstanceTypeSchema_Resources_STATUS(source.Resources)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_InstanceTypeSchema_Resources_STATUS() to populate field Resources")
-		}
-		schema.Resources = &resource
-	} else {
-		schema.Resources = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of InstanceTypeSchema_STATUS. Use v1api20210701.InstanceTypeSchema_STATUS instead
 type InstanceTypeSchema_STATUS struct {
 	NodeSelector map[string]string                    `json:"nodeSelector,omitempty"`
@@ -14056,25 +12846,6 @@ func (settings *PersonalComputeInstanceSettings) AssignProperties_To_PersonalCom
 	return nil
 }
 
-// Initialize_From_PersonalComputeInstanceSettings_STATUS populates our PersonalComputeInstanceSettings from the provided source PersonalComputeInstanceSettings_STATUS
-func (settings *PersonalComputeInstanceSettings) Initialize_From_PersonalComputeInstanceSettings_STATUS(source *PersonalComputeInstanceSettings_STATUS) error {
-
-	// AssignedUser
-	if source.AssignedUser != nil {
-		var assignedUser AssignedUser
-		err := assignedUser.Initialize_From_AssignedUser_STATUS(source.AssignedUser)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_AssignedUser_STATUS() to populate field AssignedUser")
-		}
-		settings.AssignedUser = &assignedUser
-	} else {
-		settings.AssignedUser = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of PersonalComputeInstanceSettings_STATUS. Use v1api20210701.PersonalComputeInstanceSettings_STATUS instead
 type PersonalComputeInstanceSettings_STATUS struct {
 	AssignedUser *AssignedUser_STATUS `json:"assignedUser,omitempty"`
@@ -14234,21 +13005,6 @@ func (resourceId *ResourceId) AssignProperties_To_ResourceId(destination *v20210
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ResourceId_STATUS populates our ResourceId from the provided source ResourceId_STATUS
-func (resourceId *ResourceId) Initialize_From_ResourceId_STATUS(source *ResourceId_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resourceId.Reference = &reference
-	} else {
-		resourceId.Reference = nil
 	}
 
 	// No error
@@ -14420,22 +13176,6 @@ func (settings *ScaleSettings) AssignProperties_To_ScaleSettings(destination *v2
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ScaleSettings_STATUS populates our ScaleSettings from the provided source ScaleSettings_STATUS
-func (settings *ScaleSettings) Initialize_From_ScaleSettings_STATUS(source *ScaleSettings_STATUS) error {
-
-	// MaxNodeCount
-	settings.MaxNodeCount = genruntime.ClonePointerToInt(source.MaxNodeCount)
-
-	// MinNodeCount
-	settings.MinNodeCount = genruntime.ClonePointerToInt(source.MinNodeCount)
-
-	// NodeIdleTimeBeforeScaleDown
-	settings.NodeIdleTimeBeforeScaleDown = genruntime.ClonePointerToString(source.NodeIdleTimeBeforeScaleDown)
 
 	// No error
 	return nil
@@ -14619,25 +13359,6 @@ func (scripts *SetupScripts) AssignProperties_To_SetupScripts(destination *v2021
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SetupScripts_STATUS populates our SetupScripts from the provided source SetupScripts_STATUS
-func (scripts *SetupScripts) Initialize_From_SetupScripts_STATUS(source *SetupScripts_STATUS) error {
-
-	// Scripts
-	if source.Scripts != nil {
-		var script ScriptsToExecute
-		err := script.Initialize_From_ScriptsToExecute_STATUS(source.Scripts)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScriptsToExecute_STATUS() to populate field Scripts")
-		}
-		scripts.Scripts = &script
-	} else {
-		scripts.Scripts = nil
 	}
 
 	// No error
@@ -14907,41 +13628,6 @@ func (configuration *SslConfiguration) AssignProperties_To_SslConfiguration(dest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SslConfiguration_STATUS populates our SslConfiguration from the provided source SslConfiguration_STATUS
-func (configuration *SslConfiguration) Initialize_From_SslConfiguration_STATUS(source *SslConfiguration_STATUS) error {
-
-	// Cert
-	configuration.Cert = genruntime.ClonePointerToString(source.Cert)
-
-	// Cname
-	configuration.Cname = genruntime.ClonePointerToString(source.Cname)
-
-	// Key
-	configuration.Key = genruntime.ClonePointerToString(source.Key)
-
-	// LeafDomainLabel
-	configuration.LeafDomainLabel = genruntime.ClonePointerToString(source.LeafDomainLabel)
-
-	// OverwriteExistingDomain
-	if source.OverwriteExistingDomain != nil {
-		overwriteExistingDomain := *source.OverwriteExistingDomain
-		configuration.OverwriteExistingDomain = &overwriteExistingDomain
-	} else {
-		configuration.OverwriteExistingDomain = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := SslConfiguration_Status(*source.Status)
-		configuration.Status = &status
-	} else {
-		configuration.Status = nil
 	}
 
 	// No error
@@ -15307,28 +13993,6 @@ func (credentials *UserAccountCredentials) AssignProperties_To_UserAccountCreden
 	return nil
 }
 
-// Initialize_From_UserAccountCredentials_STATUS populates our UserAccountCredentials from the provided source UserAccountCredentials_STATUS
-func (credentials *UserAccountCredentials) Initialize_From_UserAccountCredentials_STATUS(source *UserAccountCredentials_STATUS) error {
-
-	// AdminUserName
-	credentials.AdminUserName = genruntime.ClonePointerToString(source.AdminUserName)
-
-	// AdminUserPassword
-	if source.AdminUserPassword != nil {
-	} else {
-		credentials.AdminUserPassword = nil
-	}
-
-	// AdminUserSshPublicKey
-	if source.AdminUserSshPublicKey != nil {
-	} else {
-		credentials.AdminUserSshPublicKey = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of UserAccountCredentials_STATUS. Use v1api20210701.UserAccountCredentials_STATUS instead
 type UserAccountCredentials_STATUS struct {
 	AdminUserName         *string `json:"adminUserName,omitempty"`
@@ -15491,21 +14155,6 @@ func (image *VirtualMachineImage) AssignProperties_To_VirtualMachineImage(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineImage_STATUS populates our VirtualMachineImage from the provided source VirtualMachineImage_STATUS
-func (image *VirtualMachineImage) Initialize_From_VirtualMachineImage_STATUS(source *VirtualMachineImage_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		image.Reference = &reference
-	} else {
-		image.Reference = nil
 	}
 
 	// No error
@@ -15710,28 +14359,6 @@ func (credentials *VirtualMachineSshCredentials) AssignProperties_To_VirtualMach
 	return nil
 }
 
-// Initialize_From_VirtualMachineSshCredentials_STATUS populates our VirtualMachineSshCredentials from the provided source VirtualMachineSshCredentials_STATUS
-func (credentials *VirtualMachineSshCredentials) Initialize_From_VirtualMachineSshCredentials_STATUS(source *VirtualMachineSshCredentials_STATUS) error {
-
-	// Password
-	if source.Password != nil {
-	} else {
-		credentials.Password = nil
-	}
-
-	// PrivateKeyData
-	credentials.PrivateKeyData = genruntime.ClonePointerToString(source.PrivateKeyData)
-
-	// PublicKeyData
-	credentials.PublicKeyData = genruntime.ClonePointerToString(source.PublicKeyData)
-
-	// Username
-	credentials.Username = genruntime.ClonePointerToString(source.Username)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of VirtualMachineSshCredentials_STATUS. Use v1api20210701.VirtualMachineSshCredentials_STATUS instead
 type VirtualMachineSshCredentials_STATUS struct {
 	Password       *string `json:"password,omitempty"`
@@ -15919,19 +14546,6 @@ func (user *AssignedUser) AssignProperties_To_AssignedUser(destination *v2021070
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AssignedUser_STATUS populates our AssignedUser from the provided source AssignedUser_STATUS
-func (user *AssignedUser) Initialize_From_AssignedUser_STATUS(source *AssignedUser_STATUS) error {
-
-	// ObjectId
-	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// TenantId
-	user.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil
@@ -16332,19 +14946,6 @@ func (resources *InstanceTypeSchema_Resources) AssignProperties_To_InstanceTypeS
 	return nil
 }
 
-// Initialize_From_InstanceTypeSchema_Resources_STATUS populates our InstanceTypeSchema_Resources from the provided source InstanceTypeSchema_Resources_STATUS
-func (resources *InstanceTypeSchema_Resources) Initialize_From_InstanceTypeSchema_Resources_STATUS(source *InstanceTypeSchema_Resources_STATUS) error {
-
-	// Limits
-	resources.Limits = genruntime.CloneMapOfStringToString(source.Limits)
-
-	// Requests
-	resources.Requests = genruntime.CloneMapOfStringToString(source.Requests)
-
-	// No error
-	return nil
-}
-
 // Deprecated version of InstanceTypeSchema_Resources_STATUS. Use v1api20210701.InstanceTypeSchema_Resources_STATUS instead
 type InstanceTypeSchema_Resources_STATUS struct {
 	Limits   map[string]string `json:"limits,omitempty"`
@@ -16560,37 +15161,6 @@ func (execute *ScriptsToExecute) AssignProperties_To_ScriptsToExecute(destinatio
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ScriptsToExecute_STATUS populates our ScriptsToExecute from the provided source ScriptsToExecute_STATUS
-func (execute *ScriptsToExecute) Initialize_From_ScriptsToExecute_STATUS(source *ScriptsToExecute_STATUS) error {
-
-	// CreationScript
-	if source.CreationScript != nil {
-		var creationScript ScriptReference
-		err := creationScript.Initialize_From_ScriptReference_STATUS(source.CreationScript)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScriptReference_STATUS() to populate field CreationScript")
-		}
-		execute.CreationScript = &creationScript
-	} else {
-		execute.CreationScript = nil
-	}
-
-	// StartupScript
-	if source.StartupScript != nil {
-		var startupScript ScriptReference
-		err := startupScript.Initialize_From_ScriptReference_STATUS(source.StartupScript)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ScriptReference_STATUS() to populate field StartupScript")
-		}
-		execute.StartupScript = &startupScript
-	} else {
-		execute.StartupScript = nil
 	}
 
 	// No error
@@ -16839,25 +15409,6 @@ func (reference *ScriptReference) AssignProperties_To_ScriptReference(destinatio
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ScriptReference_STATUS populates our ScriptReference from the provided source ScriptReference_STATUS
-func (reference *ScriptReference) Initialize_From_ScriptReference_STATUS(source *ScriptReference_STATUS) error {
-
-	// ScriptArguments
-	reference.ScriptArguments = genruntime.ClonePointerToString(source.ScriptArguments)
-
-	// ScriptData
-	reference.ScriptData = genruntime.ClonePointerToString(source.ScriptData)
-
-	// ScriptSource
-	reference.ScriptSource = genruntime.ClonePointerToString(source.ScriptSource)
-
-	// Timeout
-	reference.Timeout = genruntime.ClonePointerToString(source.Timeout)
 
 	// No error
 	return nil

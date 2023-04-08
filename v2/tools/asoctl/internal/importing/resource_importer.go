@@ -7,9 +7,12 @@ package importing
 
 import (
 	"context"
+	"strings"
 
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
@@ -44,12 +47,15 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 
 // AddARMID adds an ARM ID to the list of resources to import.
 func (ri *ResourceImporter) AddARMID(armID string) {
-	importer := NewImportableARMResource(armID, ri.client, ri.scheme)
+	importer := NewImportableARMResource(armID, nil /* no owner */, ri.client, ri.scheme)
 	ri.Add(importer)
 }
 
-// Import imports all the resources that have been added to the importer
+// Import imports all the resources that have been added to the importer.
+// Partial results are returned even in the case of an error.
 func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, error) {
+	var errs []error
+	var previousResource string
 	for len(ri.pending) > 0 {
 		// Remove the first pending importer
 		importer := ri.pending[0]
@@ -60,14 +66,30 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 			continue
 		}
 
+		thisResource := len(ri.completed) + 1
+		pendingResources := len(ri.pending)
+		klog.Infof(
+			"Importing %d/%d: %s",
+			thisResource,
+			thisResource+pendingResources,
+			ri.idToLog(importer.Name(), previousResource))
+
 		// Import it
 		pending, err := importer.Import(ctx)
 		if err != nil {
-			return nil, errors.Wrapf(err, "failed during import of %s", importer.Name())
+			var notImportable NotImportableError
+			if errors.As(err, &notImportable) {
+				klog.Infof(err.Error())
+				continue
+			}
+
+			errs = append(errs, errors.Wrapf(err, "failed during import of %s", importer.Name()))
+			continue
 		}
 
 		ri.completed[importer.Name()] = importer
 		ri.pending = append(ri.pending, pending...)
+		previousResource = importer.Name()
 	}
 
 	// Now we've imported everything, return the resources
@@ -78,5 +100,27 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 
 	return &ResourceImportResult{
 		resources: resources,
-	}, nil
+	}, kerrors.NewAggregate(errs)
+}
+
+// idToLog removes any common path components from the ID and returns the result.
+// id is the ID of the resource being imported
+// priorId is the ID of the resource that was imported prior to this one
+func (ri *ResourceImporter) idToLog(id string, priorId string) string {
+	parts := strings.Split(id, "/")
+	priorParts := strings.Split(priorId, "/")
+	index := 0
+	for {
+		if index >= len(parts) || index >= len(priorParts) {
+			break
+		}
+
+		if parts[index] != priorParts[index] {
+			break
+		}
+
+		index++
+	}
+
+	return strings.Join(parts[index:], "/")
 }

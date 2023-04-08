@@ -105,17 +105,6 @@ func (rule *FlexibleServersFirewallRule) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the FlexibleServersFirewallRule resource
 func (rule *FlexibleServersFirewallRule) defaultImpl() { rule.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &FlexibleServersFirewallRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *FlexibleServersFirewallRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FlexibleServers_FirewallRule_STATUS); ok {
-		return rule.Spec.Initialize_From_FlexibleServers_FirewallRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FlexibleServers_FirewallRule_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &FlexibleServersFirewallRule{}
 
 // AzureName returns the Azure name of the resource
@@ -559,29 +548,6 @@ func (rule *FlexibleServers_FirewallRule_Spec) AssignProperties_To_FlexibleServe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FlexibleServers_FirewallRule_STATUS populates our FlexibleServers_FirewallRule_Spec from the provided source FlexibleServers_FirewallRule_STATUS
-func (rule *FlexibleServers_FirewallRule_Spec) Initialize_From_FlexibleServers_FirewallRule_STATUS(source *FlexibleServers_FirewallRule_STATUS) error {
-
-	// EndIpAddress
-	if source.EndIpAddress != nil {
-		endIpAddress := *source.EndIpAddress
-		rule.EndIpAddress = &endIpAddress
-	} else {
-		rule.EndIpAddress = nil
-	}
-
-	// StartIpAddress
-	if source.StartIpAddress != nil {
-		startIpAddress := *source.StartIpAddress
-		rule.StartIpAddress = &startIpAddress
-	} else {
-		rule.StartIpAddress = nil
 	}
 
 	// No error

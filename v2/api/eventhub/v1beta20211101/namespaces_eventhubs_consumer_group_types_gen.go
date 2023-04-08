@@ -103,17 +103,6 @@ func (group *NamespacesEventhubsConsumerGroup) defaultAzureName() {
 // defaultImpl applies the code generated defaults to the NamespacesEventhubsConsumerGroup resource
 func (group *NamespacesEventhubsConsumerGroup) defaultImpl() { group.defaultAzureName() }
 
-var _ genruntime.ImportableResource = &NamespacesEventhubsConsumerGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *NamespacesEventhubsConsumerGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Namespaces_Eventhubs_Consumergroup_STATUS); ok {
-		return group.Spec.Initialize_From_Namespaces_Eventhubs_Consumergroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Namespaces_Eventhubs_Consumergroup_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &NamespacesEventhubsConsumerGroup{}
 
 // AzureName returns the Azure name of the resource
@@ -510,16 +499,6 @@ func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) AssignProperties_T
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Namespaces_Eventhubs_Consumergroup_STATUS populates our Namespaces_Eventhubs_Consumergroup_Spec from the provided source Namespaces_Eventhubs_Consumergroup_STATUS
-func (consumergroup *Namespaces_Eventhubs_Consumergroup_Spec) Initialize_From_Namespaces_Eventhubs_Consumergroup_STATUS(source *Namespaces_Eventhubs_Consumergroup_STATUS) error {
-
-	// UserMetadata
-	consumergroup.UserMetadata = genruntime.ClonePointerToString(source.UserMetadata)
 
 	// No error
 	return nil

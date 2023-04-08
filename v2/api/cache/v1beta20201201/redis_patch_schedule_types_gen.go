@@ -96,17 +96,6 @@ func (schedule *RedisPatchSchedule) Default() {
 // defaultImpl applies the code generated defaults to the RedisPatchSchedule resource
 func (schedule *RedisPatchSchedule) defaultImpl() {}
 
-var _ genruntime.ImportableResource = &RedisPatchSchedule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (schedule *RedisPatchSchedule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Redis_PatchSchedule_STATUS); ok {
-		return schedule.Spec.Initialize_From_Redis_PatchSchedule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Redis_PatchSchedule_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &RedisPatchSchedule{}
 
 // AzureName returns the Azure name of the resource (always "default")
@@ -532,31 +521,6 @@ func (schedule *Redis_PatchSchedule_Spec) AssignProperties_To_Redis_PatchSchedul
 	return nil
 }
 
-// Initialize_From_Redis_PatchSchedule_STATUS populates our Redis_PatchSchedule_Spec from the provided source Redis_PatchSchedule_STATUS
-func (schedule *Redis_PatchSchedule_Spec) Initialize_From_Redis_PatchSchedule_STATUS(source *Redis_PatchSchedule_STATUS) error {
-
-	// ScheduleEntries
-	if source.ScheduleEntries != nil {
-		scheduleEntryList := make([]ScheduleEntry, len(source.ScheduleEntries))
-		for scheduleEntryIndex, scheduleEntryItem := range source.ScheduleEntries {
-			// Shadow the loop variable to avoid aliasing
-			scheduleEntryItem := scheduleEntryItem
-			var scheduleEntry ScheduleEntry
-			err := scheduleEntry.Initialize_From_ScheduleEntry_STATUS(&scheduleEntryItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ScheduleEntry_STATUS() to populate field ScheduleEntries")
-			}
-			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
-		}
-		schedule.ScheduleEntries = scheduleEntryList
-	} else {
-		schedule.ScheduleEntries = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (schedule *Redis_PatchSchedule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -888,27 +852,6 @@ func (entry *ScheduleEntry) AssignProperties_To_ScheduleEntry(destination *v2020
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ScheduleEntry_STATUS populates our ScheduleEntry from the provided source ScheduleEntry_STATUS
-func (entry *ScheduleEntry) Initialize_From_ScheduleEntry_STATUS(source *ScheduleEntry_STATUS) error {
-
-	// DayOfWeek
-	if source.DayOfWeek != nil {
-		dayOfWeek := ScheduleEntry_DayOfWeek(*source.DayOfWeek)
-		entry.DayOfWeek = &dayOfWeek
-	} else {
-		entry.DayOfWeek = nil
-	}
-
-	// MaintenanceWindow
-	entry.MaintenanceWindow = genruntime.ClonePointerToString(source.MaintenanceWindow)
-
-	// StartHourUtc
-	entry.StartHourUtc = genruntime.ClonePointerToInt(source.StartHourUtc)
 
 	// No error
 	return nil
