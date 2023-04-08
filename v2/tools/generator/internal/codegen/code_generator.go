@@ -149,6 +149,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.FixOptionalCollectionAliases(),
 
+		pipeline.ApplyCrossResourceReferencesFromConfig(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.TransformCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.TransformCrossResourceReferencesToString().UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
