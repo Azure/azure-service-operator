@@ -6,6 +6,8 @@
 package customizations
 
 import (
+	"context"
+
 	api "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
@@ -14,8 +16,12 @@ import (
 var _ extensions.Importer = &FlexibleServersConfigurationExtension{}
 
 // Import skips databases that can't be managed by ARM
-func (extension *FlexibleServersConfigurationExtension) Import(rsrc genruntime.ImportableResource, next extensions.ImporterFunc) (extensions.ImportResult, error) {
-	result, err := next(rsrc)
+func (extension *FlexibleServersConfigurationExtension) Import(
+	ctx context.Context,
+	rsrc genruntime.ImportableResource,
+	next extensions.ImporterFunc,
+) (extensions.ImportResult, error) {
+	result, err := next(ctx, rsrc)
 	if err != nil {
 		return extensions.ImportResult{}, err
 	}

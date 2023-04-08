@@ -6,15 +6,19 @@
 package extensions
 
 import (
+	"context"
+
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // Importer is an optional interface that can be implemented by resource extensions to customize the import process.
 type Importer interface {
 	// Import allows interception of the import process.
+	// ctx is the current asynchronous context
 	// resource is the resource being imported.
 	// next is a function to call to do the actual import.
 	Import(
+		ctx context.Context,
 		rsrc genruntime.ImportableResource,
 		next ImporterFunc,
 	) (ImportResult, error)
@@ -27,6 +31,7 @@ type ImportResult struct {
 
 // ImporterFunc is the signature of the function that does the actual import.
 type ImporterFunc func(
+	ctx context.Context,
 	resource genruntime.ImportableResource,
 ) (ImportResult, error)
 

@@ -48,7 +48,11 @@ func (extension *FlexibleServersDatabaseExtension) PreReconcileCheck(
 var _ extensions.Importer = &FlexibleServersDatabaseExtension{}
 
 // Import skips databases that can't be managed by ARM
-func (extension *FlexibleServersDatabaseExtension) Import(rsrc genruntime.ImportableResource, next extensions.ImporterFunc) (extensions.ImportResult, error) {
+func (extension *FlexibleServersDatabaseExtension) Import(
+	ctx context.Context,
+	rsrc genruntime.ImportableResource,
+	next extensions.ImporterFunc,
+) (extensions.ImportResult, error) {
 	if server, ok := rsrc.(*api.FlexibleServersDatabase); ok {
 		if server.Spec.AzureName == "azure_maintenance" {
 			return extensions.NewImportSkipped("azure_maintenance database is not accessible by users"), nil
@@ -63,5 +67,5 @@ func (extension *FlexibleServersDatabaseExtension) Import(rsrc genruntime.Import
 		}
 	}
 
-	return next(rsrc)
+	return next(ctx, rsrc)
 }

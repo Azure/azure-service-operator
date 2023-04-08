@@ -70,6 +70,10 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 	return i.resource
 }
 
+// Import imports this single resource.
+// ctx is the context to use for the import.
+// Returns a slice of child resources needing to be imported (if any), and/or an error.
+// Both are returned to allow returning partial results in the case of a partial failure.
 func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResource, error) {
 	// Parse ARMID into a more useful form
 	id, err := arm.ParseResourceID(i.armID)
@@ -110,8 +114,8 @@ func (i *importableARMResource) importResource(
 		return genruntime.ResourceReference{}, err
 	}
 
-	loader := i.createImportFunction(importable, ctx)
-	result, err := loader(importable)
+	loader := i.createImportFunction(importable)
+	result, err := loader(ctx, importable)
 	if err != nil {
 		return genruntime.ResourceReference{}, err
 	}
@@ -135,24 +139,23 @@ func (i *importableARMResource) importResource(
 
 func (i *importableARMResource) createImportFunction(
 	instance genruntime.ImportableARMResource,
-	ctx context.Context,
 ) extensions.ImporterFunc {
 	// Loader is a function that does the actual loading
-	loader := i.loader(ctx)
+	loader := i.loader()
 
 	// Check to see if we have an extension to customize loading, and if we do, wrap the loader
 	gvk := instance.GetObjectKind().GroupVersionKind()
 	if ex, ok := i.GetResourceExtension(gvk); ok {
 		next := loader
-		loader = func(resource genruntime.ImportableResource) (extensions.ImportResult, error) {
-			return ex.Import(resource, next)
+		loader = func(ctx context.Context, resource genruntime.ImportableResource) (extensions.ImportResult, error) {
+			return ex.Import(ctx, resource, next)
 		}
 	}
 
 	return loader
 }
 
-func (i *importableARMResource) loader(ctx context.Context) func(resource genruntime.ImportableResource) (extensions.ImportResult, error) {
+func (i *importableARMResource) loader() extensions.ImporterFunc {
 	return func(
 		resource genruntime.ImportableResource,
 	) (extensions.ImportResult, error) {
