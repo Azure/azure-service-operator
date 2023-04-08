@@ -55,15 +55,15 @@ func (extension *FlexibleServersDatabaseExtension) Import(
 ) (extensions.ImportResult, error) {
 	if server, ok := rsrc.(*api.FlexibleServersDatabase); ok {
 		if server.Spec.AzureName == "azure_maintenance" {
-			return extensions.NewImportSkipped("azure_maintenance database is not accessible by users"), nil
+			return extensions.ImportSkipped("azure_maintenance database is not accessible by users"), nil
 		}
 
 		if server.Spec.AzureName == "azure_sys" {
-			return extensions.NewImportSkipped("built in databases cannot be managed by ARM"), nil
+			return extensions.ImportSkipped("built in databases cannot be managed by ARM"), nil
 		}
 
 		if server.Spec.AzureName == "postgres" {
-			return extensions.NewImportSkipped("built in databases cannot be managed by ARM"), nil
+			return extensions.ImportSkipped("built in databases cannot be managed by ARM"), nil
 		}
 	}
 

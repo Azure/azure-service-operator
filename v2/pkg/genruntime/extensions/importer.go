@@ -35,13 +35,13 @@ type ImporterFunc func(
 	resource genruntime.ImportableResource,
 ) (ImportResult, error)
 
-// NewImportSucceeded creates a new ImportResult with a resource that was imported successfully.
-func NewImportSucceeded() ImportResult {
+// ImportSucceeded creates a new ImportResult with a resource that was imported successfully.
+func ImportSucceeded() ImportResult {
 	return ImportResult{}
 }
 
-// NewImportSkipped creates a new ImportResult for a resource that was not imported.
-func NewImportSkipped(because string) ImportResult {
+// ImportSkipped creates a new ImportResult for a resource that was not imported.
+func ImportSkipped(because string) ImportResult {
 	return ImportResult{
 		because: because,
 	}
