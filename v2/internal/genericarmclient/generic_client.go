@@ -264,7 +264,7 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 	return nil
 }
 
-type listPage[T any] struct {
+type listPageResponse[T any] struct {
 	// Value - The list of resources.
 	Value []T `json:"value,omitempty"`
 
@@ -272,16 +272,16 @@ type listPage[T any] struct {
 	NextLink *string `json:"nextLink,omitempty"`
 }
 
-func (p *listPage[T]) More() bool {
+func (p *listPageResponse[T]) More() bool {
 	return p.NextLink != nil && len(*p.NextLink) > 0
 }
 
-func (p *listPage[T]) NextPage(
+func (p *listPageResponse[T]) NextPage(
 	ctx context.Context,
 	client *GenericClient,
 	containerID string,
 	apiVersion string,
-) (listPage[T], error) {
+) (*listPageResponse[T], error) {
 	var req *policy.Request
 	var err error
 	if p == nil {
@@ -290,7 +290,7 @@ func (p *listPage[T]) NextPage(
 		req, err = runtime.NewRequest(ctx, http.MethodGet, *p.NextLink)
 	}
 	if err != nil {
-		return listPage[T]{}, err
+		return nil, err
 	}
 
 	// TODO: Fact check this
@@ -299,20 +299,20 @@ func (p *listPage[T]) NextPage(
 	// nolint:bodyclose
 	resp, err := client.pl.Do(req)
 	if err != nil {
-		return listPage[T]{}, err
+		return nil, err
 	}
 
 	if !runtime.HasStatusCode(resp, http.StatusOK) {
-		return listPage[T]{}, runtime.NewResponseError(resp)
+		return nil, runtime.NewResponseError(resp)
 	}
 
-	newPage := listPage[T]{}
+	newPage := listPageResponse[T]{}
 	err = runtime.UnmarshalAsJSON(resp, &newPage)
 	if err != nil {
-		return listPage[T]{}, err
+		return nil, err
 	}
 
-	return newPage, nil
+	return &newPage, nil
 }
 
 // ListByContainerID returns all the resources of a given type under a specified parent.
@@ -329,13 +329,18 @@ func ListByContainerID[T any](
 	apiVersion string,
 ) ([]T, error) {
 	pager := runtime.NewPager(
-		runtime.PagingHandler[listPage[T]]{
-			More: func(page listPage[T]) bool {
+		runtime.PagingHandler[listPageResponse[T]]{
+			More: func(page listPageResponse[T]) bool {
 				// We have more if we have a link to follow
 				return page.More()
 			},
-			Fetcher: func(ctx context.Context, page *listPage[T]) (listPage[T], error) {
-				return page.NextPage(ctx, client, containerID, apiVersion)
+			Fetcher: func(ctx context.Context, page *listPageResponse[T]) (listPageResponse[T], error) {
+				nextPage, err := page.NextPage(ctx, client, containerID, apiVersion)
+				if err != nil {
+					return listPageResponse[T]{}, err
+				}
+
+				return *nextPage, nil
 			},
 		})
 
