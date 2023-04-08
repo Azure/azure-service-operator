@@ -17,10 +17,10 @@ type NotImportableError struct {
 }
 
 // Ensure we implement the error interface
-var _ error = NotImportableError{}
+var _ error = &NotImportableError{}
 
-func NewNotImportableError(name string, because string) NotImportableError {
-	return NotImportableError{
+func NewNotImportableError(name string, because string) *NotImportableError {
+	return &NotImportableError{
 		Name:    name,
 		Because: because,
 	}

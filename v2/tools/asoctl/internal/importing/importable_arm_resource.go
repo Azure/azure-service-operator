@@ -75,7 +75,7 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 // Returns a slice of child resources needing to be imported (if any), and/or an error.
 // Both are returned to allow returning partial results in the case of a partial failure.
 func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResource, error) {
-	// Parse ARMID into a more useful form
+	// Parse ID into a more useful form
 	id, err := arm.ParseResourceID(i.armID)
 	if err != nil {
 		return nil, err // arm.ParseResourceID already returns a good error, no need to wrap
@@ -157,6 +157,7 @@ func (i *importableARMResource) createImportFunction(
 
 func (i *importableARMResource) loader() extensions.ImporterFunc {
 	return func(
+		ctx context.Context,
 		resource genruntime.ImportableResource,
 	) (extensions.ImportResult, error) {
 		importable, ok := resource.(genruntime.ImportableARMResource)
@@ -176,10 +177,10 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 		err = importable.InitializeSpec(status)
 		if err != nil {
 			return extensions.ImportResult{},
-				errors.Wrapf(err, "setting status on Kubernetes resource for resource %s", i.armID)
+				errors.Wrapf(err, "initializing spec on Kubernetes resource for resource %s", i.armID)
 		}
 
-		return extensions.NewImportSucceeded(), nil
+		return extensions.ImportSucceeded(), nil
 	}
 }
 
@@ -188,34 +189,41 @@ func (i *importableARMResource) importChildResources(
 	owner genruntime.ResourceReference,
 	childResourceType string,
 ) ([]ImportableResource, error) {
+	// Look up the GK for the child resource type we're importing
 	childResourceGK, ok := FindGroupKindForType(childResourceType)
 	if !ok {
 		return nil, errors.Errorf("unable to find GroupKind for type %subType", childResourceType)
 	}
 
+	// Expand from the GK to GVK
 	childResourceGVK, err := i.selectVersionFromGK(childResourceGK)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to find GVK for type %subType", childResourceType)
 	}
 
+	// Create an empty instance from the GVK, so we can find the ARM API version needed for the list call
 	obj, err := i.createBlankObjectFromGVK(childResourceGVK)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to create blank resource")
 	}
-
 	imp, ok := obj.(genruntime.ImportableARMResource)
 	if !ok {
 		return nil, errors.Errorf(
 			"unable to create blank resource, expected %s to identify an importable ARM object", childResourceType)
 	}
 
+	// Based on the ARM ID of our owner, create the container URI to list the child resources
 	containerURI := i.createContainerURI(i.armID, childResourceType)
 	childResourceReferences, err := genericarmclient.ListByContainerID[childReference](
-		ctx, i.client, containerURI, imp.GetAPIVersion())
+		ctx,
+		i.client,
+		containerURI,
+		imp.GetAPIVersion())
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to list resources of type %s", childResourceType)
 	}
 
+	// Do the list and find the ARM IDs of the child resources
 	subResources := make([]ImportableResource, 0, len(childResourceReferences))
 	for _, ref := range childResourceReferences {
 		importer := NewImportableARMResource(ref.ID, &owner, i.client, i.scheme)
@@ -391,11 +399,10 @@ func (i *importableARMResource) SetOwner(
 		ownerField.Set(reflect.ValueOf(&krr))
 		return
 	}
-
 }
 
 type childReference struct {
-	ARMID string `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 }
 
 var (

@@ -293,7 +293,6 @@ func (p *listPageResponse[T]) NextPage(
 		return nil, err
 	}
 
-	// TODO: Fact check this
 	// The linter doesn't realize that the response is closed in the course of
 	// the runtime.UnmarshalAsJSON() call below. Suppressing it as it is a false positive.
 	// nolint:bodyclose
@@ -380,19 +379,6 @@ func (client *GenericClient) listByContainerIDCreateRequest(
 	req.Raw().URL.RawQuery = reqQP.Encode()
 	req.Raw().Header.Set("Accept", "application/json")
 	return req, nil
-}
-
-// getByIDHandleResponse handles the GetByID response.
-func (client *GenericClient) listByContainerIDHandleResponse(
-	resp *http.Response,
-	createResource func() any,
-) error {
-	//TODO: Handle the list
-	resource := createResource()
-	if err := runtime.UnmarshalAsJSON(resp, resource); err != nil {
-		return err
-	}
-	return nil
 }
 
 // BeginDeleteByID - Deletes a resource by ID.
