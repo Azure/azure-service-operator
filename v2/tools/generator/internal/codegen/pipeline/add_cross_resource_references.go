@@ -12,7 +12,6 @@ import (
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -30,67 +29,14 @@ func TransformCrossResourceReferences(configuration *config.Configuration, idFac
 		TransformCrossResourceReferencesStageID,
 		"Replace cross-resource references with genruntime.ResourceReference",
 		func(ctx context.Context, state *State) (*State, error) {
-			typesWithARMIDs := make(astmodel.TypeDefinitionSet)
+			updatedDefs := make(astmodel.TypeDefinitionSet)
 
-			var crossResourceReferenceErrs []error
-
-			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
-				// First check if we know that this property is an ARMID already
-				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
-				if primitive, ok := extractPrimitiveType(prop.PropertyType()); ok {
-					if primitive == astmodel.ARMIDType {
-						if err == nil {
-							if !isReference {
-								// We've overridden the ARM spec details
-								return false
-							} else {
-								// Swagger has marked this field as a reference, and we also have it marked in our
-								// config. Record an error saying that the config entry is no longer needed
-								crossResourceReferenceErrs = append(
-									crossResourceReferenceErrs,
-									errors.Errorf("%s.%s marked as ARM reference, but value is not needed because Swagger already says it is an ARM reference",
-										typeName.String(),
-										prop.PropertyName().String()))
-							}
-						}
-
-						return true
-					}
-				}
-
-				if DoesPropertyLookLikeARMReference(prop) && err != nil {
-					if config.IsNotConfiguredError(err) {
-						// This is an error for now to ensure that we don't accidentally miss adding references.
-						// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
-						// trust the Swagger.
-						crossResourceReferenceErrs = append(
-							crossResourceReferenceErrs,
-							// Don't wrap the existing error here because it adds a lot of extra boilerplate text we don't want
-							errors.Errorf(
-								"%s.%s looks like a resource reference but was not labelled as one; You may need to add it to the 'objectModelConfiguration' section of the config file",
-								typeName,
-								prop.PropertyName()))
-					} else {
-						// Something else went wrong checking our configuration
-						crossResourceReferenceErrs = append(
-							crossResourceReferenceErrs,
-							errors.Wrapf(
-								err,
-								"%s.%s looks like a resource reference but something went wrong checking for configuration",
-								typeName,
-								prop.PropertyName()))
-					}
-				}
-
-				return isReference
-			}
-
-			visitor := MakeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
+			visitor := MakeARMIDToResourceReferenceTypeVisitor(idFactory)
 			for _, def := range state.Definitions() {
 				// Skip Status types
 				// TODO: we need flags
 				if def.Name().IsStatus() {
-					typesWithARMIDs.Add(def)
+					updatedDefs.Add(def)
 					continue
 				}
 
@@ -99,99 +45,16 @@ func TransformCrossResourceReferences(configuration *config.Configuration, idFac
 					return nil, errors.Wrapf(err, "visiting %q", def.Name())
 				}
 
-				typesWithARMIDs.Add(def.WithType(t))
-
-				// TODO: Remove types that have only a single field ID and pull things up a level? Will need to wait for George's
-				// TODO: Properties collapsing work for this.
+				updatedDefs.Add(def.WithType(t))
 			}
 
-			var err error = kerrors.NewAggregate(crossResourceReferenceErrs)
-			if err != nil {
-				return nil, err
-			}
-
-			updatedDefs, err := stripARMIDPrimitiveTypes(typesWithARMIDs)
+			resultDefs, err := stripARMIDPrimitiveTypes(updatedDefs)
 			if err != nil {
 				return nil, errors.Wrap(err, "failed to strip ARM ID primitive types")
 			}
 
-			err = configuration.VerifyARMReferencesConsumed()
-			if err != nil {
-				klog.Error(err)
-
-				return nil, errors.Wrap(
-					err,
-					"Found unused $armReference configurations; these need to be fixed or removed.")
-			}
-
-			return state.WithDefinitions(updatedDefs), nil
+			return state.WithDefinitions(resultDefs), nil
 		})
-}
-
-type crossResourceReferenceChecker func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool
-
-type CrossResourceReferenceTypeVisitor struct {
-	astmodel.TypeVisitor
-	// referenceChecker is a function describing what a cross resource reference looks like. It is overridable so that
-	// we can use a more simplistic criteria for tests.
-	isPropertyAnARMReference crossResourceReferenceChecker
-}
-
-func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory, referenceChecker crossResourceReferenceChecker) CrossResourceReferenceTypeVisitor {
-	visitor := CrossResourceReferenceTypeVisitor{
-		isPropertyAnARMReference: referenceChecker,
-	}
-
-	transformResourceReferenceProperties := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-		typeName := ctx.(astmodel.TypeName)
-
-		var newProps []*astmodel.PropertyDefinition
-		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
-			if visitor.isPropertyAnARMReference(typeName, prop) {
-				klog.V(4).Infof("Transforming \"%s.%s\" field into genruntime.ResourceReference", typeName, prop.PropertyName())
-				originalName := string(prop.PropertyName())
-				prop = makeResourceReferenceProperty(typeName, idFactory, prop)
-
-				// TODO: We could pass this information forward some other way?
-				// Add tag so that we remember what this field was before
-				prop = prop.WithTag(astmodel.ARMReferenceTag, originalName)
-			}
-
-			newProps = append(newProps, prop)
-		})
-
-		it = it.WithoutProperties()
-		result := it.WithProperties(newProps...)
-		return result, nil
-	}
-
-	visitor.TypeVisitor = astmodel.TypeVisitorBuilder{
-		VisitObjectType: transformResourceReferenceProperties,
-	}.Build()
-
-	return visitor
-}
-
-// DoesPropertyLookLikeARMReference uses a simple heuristic to determine if a property looks like it might be an ARM reference.
-// This can be used for logging/reporting purposes to discover references which we missed.
-func DoesPropertyLookLikeARMReference(prop *astmodel.PropertyDefinition) bool {
-	// The property must be a string, optional string, list of strings, or map[string]string
-	isString := astmodel.TypeEquals(prop.PropertyType(), astmodel.StringType)
-	isOptionalString := astmodel.TypeEquals(prop.PropertyType(), astmodel.OptionalStringType)
-	isStringSlice := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
-	isStringMap := astmodel.TypeEquals(prop.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
-
-	if !isString && !isOptionalString && !isStringSlice && !isStringMap {
-		return false
-	}
-
-	hasMatchingDescription := armIDDescriptionRegex.MatchString(prop.Description())
-	namedID := prop.HasName("Id")
-	if hasMatchingDescription || namedID {
-		return true
-	}
-
-	return false
 }
 
 func makeReferencePropertyName(existing *astmodel.PropertyDefinition, isSlice bool, isMap bool) string {
@@ -243,6 +106,104 @@ func makeLegacyReferencePropertyName(existing *astmodel.PropertyDefinition, isSl
 	return referencePropertyName
 }
 
+type ARMIDToGenruntimeReferenceTypeVisitor struct {
+	astmodel.TypeVisitor
+	idFactory astmodel.IdentifierFactory
+}
+
+func (v *ARMIDToGenruntimeReferenceTypeVisitor) transformARMIDToGenruntimeResourceReference(
+	_ *astmodel.TypeVisitor,
+	it *astmodel.PrimitiveType,
+	_ interface{},
+) (astmodel.Type, error) {
+	if it == astmodel.ARMIDType {
+		return astmodel.ResourceReferenceType, nil
+	}
+
+	return it, nil
+}
+
+func (v *ARMIDToGenruntimeReferenceTypeVisitor) renamePropertiesWithARMIDReferences(
+	this *astmodel.TypeVisitor,
+	it *astmodel.ObjectType,
+	ctx interface{},
+) (astmodel.Type, error) {
+	// First, we visit this type like normal
+	result, err := astmodel.IdentityVisitOfObjectType(this, it, ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	typeName := ctx.(astmodel.TypeName)
+	ot, ok := result.(*astmodel.ObjectType)
+	if !ok {
+		return nil, errors.Errorf("result for visitObjectType of %s was not expected ObjectType, instead %T", typeName, result)
+	}
+
+	// Now, check if any properties have been updated and if they have change their names to match
+	var newProps []*astmodel.PropertyDefinition
+	var errs []error
+	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
+		origProp, ok := it.Property(prop.PropertyName())
+		if !ok {
+			errs = append(errs, errors.Errorf("expected to find property %q on %s", prop.PropertyName(), typeName))
+			return
+		}
+
+		if origProp.Equals(prop, astmodel.EqualityOverrides{}) {
+			newProps = append(newProps, prop)
+			return
+		}
+
+		newProp := makeResourceReferenceProperty(typeName, v.idFactory, prop)
+		newProps = append(newProps, newProp)
+	})
+
+	err = kerrors.NewAggregate(errs)
+	if err != nil {
+		return nil, err
+	}
+
+	ot = ot.WithoutProperties()
+	ot = ot.WithProperties(newProps...)
+	return ot, nil
+}
+
+func (v *ARMIDToGenruntimeReferenceTypeVisitor) stripValidationForResourceReferences(
+	this *astmodel.TypeVisitor,
+	it *astmodel.ValidatedType,
+	ctx interface{},
+) (astmodel.Type, error) {
+	result, err := astmodel.IdentityVisitOfValidatedType(this, it, ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if astmodel.TypeEquals(it, result) {
+		return result, nil
+	}
+
+	// If they aren't equal, just return the element
+	validated, ok := result.(*astmodel.ValidatedType)
+	if !ok {
+		return nil, errors.Errorf("expected IdentityVisitOfValidatedType to return a ValidatedType, but it instead returned %T", result)
+	}
+	return validated.ElementType(), nil
+}
+
+func MakeARMIDToResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory) ARMIDToGenruntimeReferenceTypeVisitor {
+	result := ARMIDToGenruntimeReferenceTypeVisitor{
+		idFactory: idFactory,
+	}
+	result.TypeVisitor = astmodel.TypeVisitorBuilder{
+		VisitPrimitive:     result.transformARMIDToGenruntimeResourceReference,
+		VisitObjectType:    result.renamePropertiesWithARMIDReferences,
+		VisitValidatedType: result.stripValidationForResourceReferences,
+	}.Build()
+
+	return result
+}
+
 func makeResourceReferenceProperty(
 	typeName astmodel.TypeName,
 	idFactory astmodel.IdentifierFactory,
@@ -258,20 +219,15 @@ func makeResourceReferenceProperty(
 		referencePropertyName = makeReferencePropertyName(existing, isSlice, isMap)
 	}
 
-	var newPropType astmodel.Type
-
-	if isSlice {
-		newPropType = astmodel.NewArrayType(astmodel.ResourceReferenceType)
-	} else if isMap {
-		newPropType = astmodel.NewMapType(astmodel.StringType, astmodel.ResourceReferenceType)
-	} else {
-		newPropType = astmodel.NewOptionalType(astmodel.ResourceReferenceType)
-	}
+	originalName := string(existing.PropertyName())
 
 	newProp := astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(referencePropertyName, astmodel.Exported),
 		idFactory.CreateStringIdentifier(referencePropertyName, astmodel.NotExported),
-		newPropType)
+		existing.PropertyType())
+	// TODO: We could pass this information forward some other way?
+	// Add tag so that we remember what this field was before
+	newProp = newProp.WithTag(astmodel.ARMReferenceTag, originalName)
 
 	newProp = newProp.WithDescription(existing.Description())
 	if existing.IsRequired() {
@@ -305,22 +261,4 @@ func stripARMIDPrimitiveTypes(types astmodel.TypeDefinitionSet) (astmodel.TypeDe
 	}
 
 	return result, nil
-}
-
-// ExtractPrimitiveType extracts a PrimitiveType from the specified type if possible. This includes unwrapping
-// MetaType's like ValidatedType as well as checking the element type of types such as ArrayType and MapType.
-func extractPrimitiveType(aType astmodel.Type) (*astmodel.PrimitiveType, bool) {
-	if primitiveType, ok := astmodel.AsPrimitiveType(aType); ok {
-		return primitiveType, ok
-	}
-
-	if arrayType, ok := astmodel.AsArrayType(aType); ok {
-		return extractPrimitiveType(arrayType.Element())
-	}
-
-	if mapType, ok := astmodel.AsMapType(aType); ok {
-		return extractPrimitiveType(mapType.ValueType())
-	}
-
-	return nil, false
 }
