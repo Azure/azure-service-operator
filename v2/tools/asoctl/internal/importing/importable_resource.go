@@ -9,14 +9,10 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"golang.org/x/exp/slices"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-
-	"github.com/Azure/azure-service-operator/v2/tools/generator/pkg/versions"
 )
 
 // ImportableResource is an interface that wraps a Kubernetes resource that can be imported.
@@ -63,56 +59,36 @@ func (i *importableResource) selectVersionFromGK(gk schema.GroupKind) (schema.Gr
 				gk.Kind)
 	}
 
-	return i.selectLatestVersion(gk, knownVersions), nil
-}
-
-// selectLatestVersion is a helper function to select the latest from a slice of GroupVersions
-// The latest stable version will be selected if it exists, otherwise the latest preview version will be selected.
-func (i *importableResource) selectLatestVersion(
-	gk schema.GroupKind,
-	knownVersions []schema.GroupVersion,
-) schema.GroupVersionKind {
-	// Sort the versions the same way we do in the generator, for consistency.
-	// In the generator, we compare `astmodel.PackageReference` paths using versions.Compare() to order them
-	// consistently. Here, we're comparing `schema.GroupVersion` values instead, but we want consistent results.
-	slices.SortFunc(
-		knownVersions,
-		func(left schema.GroupVersion, right schema.GroupVersion) bool {
-			return versions.Compare(left.Version, right.Version)
-		})
-
-	// Ideally we want to find the latest stable version, but if there isn't one we'll take the latest preview.
-	// Preview versions might introduce odd behaviour, so we err on the side of caution.
-	// Storage versions need to be skipped though, as they don't have a fixed OriginalVersion()
-	// This logic is similar to the way the storage/hub version is selected in the generator, but here we are
-	// looking for an API version (not a storage version), and we're dealing with a slice of GroupVersions
-	// instead of a slice of PackageReferences.
-	var previewVersion schema.GroupVersion
-	var stableVersion schema.GroupVersion
+	// Scan for the GVK that implements genruntime.ImportableResource
+	// We expect there to be exactly one
+	var result *schema.GroupVersionKind
 	for _, gv := range knownVersions {
-		// IsStorageVersion() is exported from the generator to ensure we use the same logic here
-		if versions.IsStorage(gv.Version) {
-			// Skip storage versions
-			continue
+		gvk := gk.WithVersion(gv.Version)
+		obj, err := i.createBlankObjectFromGVK(gvk)
+		if err != nil {
+			return schema.GroupVersionKind{}, errors.Wrapf(err, "unable to create blank resource for GVK %s", gvk)
 		}
 
-		if versions.IsPreview(gv.Version) {
-			previewVersion = gv
-		} else {
-			stableVersion = gv
+		if _, ok := obj.(genruntime.ImportableResource); ok {
+			if result != nil {
+				return schema.GroupVersionKind{},
+					errors.Errorf(
+						"multiple known versions for Group %s, Kind %s implement genruntime.ImportableResource",
+						gk.Group,
+						gk.Kind)
+			}
+
+			result = &gvk
 		}
 	}
 
-	// If we found a stable version, use that, otherwise use the preview version
-	var result schema.GroupVersionKind
-	if !stableVersion.Empty() {
-		result = stableVersion.WithKind(gk.Kind)
-	} else {
-		result = previewVersion.WithKind(gk.Kind)
+	if result == nil {
+		return schema.GroupVersionKind{},
+			errors.Errorf(
+				"no known versions for Group %s, Kind %s implement genruntime.ImportableResource",
+				gk.Group,
+				gk.Kind)
 	}
 
-	// Only need to log version as Group and Kind will have been logged elsewhere
-	klog.V(3).Infof("Version: %s", result.Version)
-
-	return result
+	return *result, nil
 }
