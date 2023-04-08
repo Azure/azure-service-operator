@@ -264,6 +264,123 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 	return nil
 }
 
+type listPageResponse[T any] struct {
+	// Value - The list of resources.
+	Value []T `json:"value,omitempty"`
+
+	// NextLink - The URI to fetch the next page of resources.
+	NextLink *string `json:"nextLink,omitempty"`
+}
+
+func (p *listPageResponse[T]) More() bool {
+	return p.NextLink != nil && len(*p.NextLink) > 0
+}
+
+func (p *listPageResponse[T]) NextPage(
+	ctx context.Context,
+	client *GenericClient,
+	containerID string,
+	apiVersion string,
+) (*listPageResponse[T], error) {
+	var req *policy.Request
+	var err error
+	if p == nil {
+		req, err = client.listByContainerIDCreateRequest(ctx, containerID, apiVersion)
+	} else {
+		req, err = runtime.NewRequest(ctx, http.MethodGet, *p.NextLink)
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	// The linter doesn't realize that the response is closed in the course of
+	// the runtime.UnmarshalAsJSON() call below. Suppressing it as it is a false positive.
+	// nolint:bodyclose
+	resp, err := client.pl.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	if !runtime.HasStatusCode(resp, http.StatusOK) {
+		return nil, runtime.NewResponseError(resp)
+	}
+
+	newPage := listPageResponse[T]{}
+	err = runtime.UnmarshalAsJSON(resp, &newPage)
+	if err != nil {
+		return nil, err
+	}
+
+	return &newPage, nil
+}
+
+// ListByContainerID returns all the resources of a given type under a specified parent.
+// If the operation fails it returns the *CloudError error type.
+// ctx is the context of the request.
+// client is the GenericClient to use for the request (can't declare generic methods, so this is standalone).
+// containerID is the unique ID of the container in which the resources are contained.
+// apiVersion is the API version to use for the request.
+// createResource is a function that returns a new instance of the resource type.
+func ListByContainerID[T any](
+	ctx context.Context,
+	client *GenericClient,
+	containerID string,
+	apiVersion string,
+) ([]T, error) {
+	pager := runtime.NewPager(
+		runtime.PagingHandler[listPageResponse[T]]{
+			More: func(page listPageResponse[T]) bool {
+				// We have more if we have a link to follow
+				return page.More()
+			},
+			Fetcher: func(ctx context.Context, page *listPageResponse[T]) (listPageResponse[T], error) {
+				nextPage, err := page.NextPage(ctx, client, containerID, apiVersion)
+				if err != nil {
+					return listPageResponse[T]{}, err
+				}
+
+				return *nextPage, nil
+			},
+		})
+
+	var result []T
+	for pager.More() {
+		page, err := pager.NextPage(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, page.Value...)
+	}
+
+	return result, nil
+}
+
+// listByParentIDCreateRequest creates the ListByContainerID request.
+// ctx is the context of the request.
+// containerID is the unique ID of the container in which the resources are contained.
+// apiVersion is the API version to use for the request.
+func (client *GenericClient) listByContainerIDCreateRequest(
+	ctx context.Context,
+	containerID string,
+	apiVersion string,
+) (*policy.Request, error) {
+	urlPath := "/{containerId}"
+	if containerID == "" {
+		return nil, errors.New("parameter containerID cannot be empty")
+	}
+	urlPath = strings.ReplaceAll(urlPath, "{containerId}", containerID)
+	req, err := runtime.NewRequest(ctx, http.MethodGet, runtime.JoinPaths(client.endpoint, urlPath))
+	if err != nil {
+		return nil, err
+	}
+	reqQP := req.Raw().URL.Query()
+	reqQP.Set("api-version", apiVersion)
+	req.Raw().URL.RawQuery = reqQP.Encode()
+	req.Raw().Header.Set("Accept", "application/json")
+	return req, nil
+}
+
 // BeginDeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
 func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID string, apiVersion string) (*PollerResponse[GenericDeleteResponse], error) {
