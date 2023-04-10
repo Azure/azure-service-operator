@@ -31,21 +31,14 @@ func TestAddKubernetesExporter_AutomaticallyGeneratesExportedConfigMaps(t *testi
 	idFactory := astmodel.NewIdentifierFactory()
 	omc := config.NewObjectModelConfiguration()
 	g.Expect(
-		omc.ModifyProperty(
-			status.Name(),
-			test.StatusProperty.PropertyName(),
-			func(prop *config.PropertyConfiguration) error {
-				prop.SetExportAsConfigMapPropertyName("statusProp")
-				return nil
-			},
-		)).
-		To(Succeed())
-	g.Expect(
-		omc.ModifyProperty(
-			status.Name(),
-			test.OptionalStringProperty.PropertyName(),
-			func(prop *config.PropertyConfiguration) error {
-				prop.SetExportAsConfigMapPropertyName("optionalStringProp")
+		omc.ModifyType(
+			resource.Name(),
+			func(typ *config.TypeConfiguration) error {
+				typ.SetAzureGeneratedConfigs(
+					map[string]string{
+						"statusProp":         ".Status.Status",
+						"optionalStringProp": ".Status.OptionalString",
+					})
 				return nil
 			},
 		)).

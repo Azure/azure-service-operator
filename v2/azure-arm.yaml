@@ -542,6 +542,20 @@ status:
 #     implemented as an extension on the resource type in question.
 #     Only valid for resource types.
 #
+# $azureGeneratedConfigs: <map of string -> string>
+#     The key of the map is the name of the property to export, the value of the map is a json-path like expression
+#     to the property to export. Collections (or really any fancy jsonpath expressions) are not currently supported.
+#     Only valid for resources.
+#     Example:
+#         BlobEndpoint: .Status.PrimaryEndpoints.Blob
+#
+# $manualAzureGeneratedConfigs: <array of strings>
+#     An array of names identifying the properties which will be exported to config maps manually. Prefer $azureGeneratedConfigs
+#     if the property is on Status or otherwise accessible on the resource itself. $manualAzureGeneratedConfigs can be used
+#     to have more control over exactly what value goes into the exported config map, at the cost of needing to manually implement
+#     the export process (similar to $azureGeneratedSecrets above).
+#     Only valid for resources.
+#
 # $export: <bool>
 #     Requests that support for this resource type be generated.
 #     Automatically includes all other types required for this resource
@@ -951,9 +965,8 @@ objectModelConfiguration:
       FlexibleServer:
         $export: true
         $supportedFrom: v2.0.0-beta.4
-      FlexibleServer_STATUS:
-        FullyQualifiedDomainName:
-          $exportAsConfigMapPropertyName: FullyQualifiedDomainName
+        $azureGeneratedConfigs:
+          FullyQualifiedDomainName: .Status.FullyQualifiedDomainName
       FlexibleServers_Configuration:
         $exportAs: FlexibleServersConfiguration
         $supportedFrom: v2.0.0-beta.4
@@ -1125,13 +1138,10 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      UserAssignedIdentity_STATUS:
-        ClientId:
-          $exportAsConfigMapPropertyName: ClientId
-        PrincipalId:
-          $exportAsConfigMapPropertyName: PrincipalId
-        TenantId:
-          $exportAsConfigMapPropertyName: TenantId
+        $azureGeneratedConfigs:
+          ClientId: .Status.ClientId
+          PrincipalId: .Status.PrincipalId
+          TenantId: .Status.TenantId
     2022-01-31-preview:
       # Not adding UserAssignedIdentity here because it's identical to the one in 2018
       UserAssignedIdentities_FederatedIdentityCredential:
@@ -1361,6 +1371,8 @@ objectModelConfiguration:
       PrivateLinkService:
         $export: true
         $supportedFrom: v2.0.0
+        $azureGeneratedConfigs:
+          Alias: .Status.Alias
       PrivateLinkServiceConnection:
         $resourceEmbeddedInParent: PrivateEndpoint
       PrivateLinkServiceConnection_STATUS:
@@ -1372,9 +1384,6 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: PrivateLinkService
       PrivateLinkServiceIpConfiguration_STATUS:
         $resourceEmbeddedInParent: PrivateLinkService
-      PrivateLinkService_STATUS_PrivateLinkService_SubResourceEmbedded:
-        Alias:
-          $exportAsConfigMapPropertyName: Alias
       PrivateEndpoints_PrivateDnsZoneGroup:
         $exportAs: PrivateEndpointsPrivateDnsZoneGroup
         $supportedFrom: v2.0.0
@@ -1428,9 +1437,8 @@ objectModelConfiguration:
       Server:
         $export: true
         $supportedFrom: v2.0.0
-      Server_STATUS:
-        FullyQualifiedDomainName:
-          $exportAsConfigMapPropertyName: FullyQualifiedDomainName
+        $azureGeneratedConfigs:
+          FullyQualifiedDomainName: .Status.FullyQualifiedDomainName
       Servers_Administrator:
         $exportAs: ServersAdministrator
         $supportedFrom: v2.0.0
