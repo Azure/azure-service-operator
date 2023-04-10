@@ -59,6 +59,7 @@ func (m *Manager) ListOperatorCRDs(ctx context.Context) ([]apiextensions.CustomR
 	match := client.MatchingLabelsSelector{
 		Selector: selector,
 	}
+
 	err = m.kubeClient.List(ctx, &list, match)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to list CRDs")
@@ -153,17 +154,13 @@ func (m *Manager) FindNonMatchingCRDs(
 	return m.FindMatchingCRDs(existing, goal, invertedComparators...)
 }
 
-func (m *Manager) ApplyCRDs(ctx context.Context, path string, podNamespace string, patterns []string) error {
-	goalCRDs, err := m.LoadOperatorCRDs(path, podNamespace)
-	if err != nil {
-		return err
-	}
-	m.logger.V(Info).Info("Goal CRDs", "count", len(goalCRDs))
+func (m *Manager) ApplyCRDs(
+	ctx context.Context,
+	goalCRDs []apiextensions.CustomResourceDefinition,
+	existingCRDs []apiextensions.CustomResourceDefinition,
+	patterns []string) error {
 
-	existingCRDs, err := m.ListOperatorCRDs(ctx)
-	if err != nil {
-		return err
-	}
+	m.logger.V(Info).Info("Goal CRDs", "count", len(goalCRDs))
 	m.logger.V(Info).Info("Existing CRDs", "count", len(existingCRDs))
 
 	goalCRDsWithDifferentVersion := m.FindNonMatchingCRDs(existingCRDs, goalCRDs, VersionEqual)
