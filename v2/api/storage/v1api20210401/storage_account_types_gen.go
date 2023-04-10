@@ -4,16 +4,21 @@
 package v1api20210401
 
 import (
+	"context"
 	"fmt"
 	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -100,6 +105,60 @@ func (account *StorageAccount) InitializeSpec(status genruntime.ConvertibleStatu
 	}
 
 	return fmt.Errorf("expected Status of type StorageAccount_STATUS but received %T instead", status)
+}
+
+var _ genruntime.KubernetesExporter = &StorageAccount{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (account *StorageAccount) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(account.Namespace)
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Blob != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.BlobEndpoint, *account.Status.PrimaryEndpoints.Blob)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Dfs != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.DfsEndpoint, *account.Status.PrimaryEndpoints.Dfs)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.File != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.FileEndpoint, *account.Status.PrimaryEndpoints.File)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Queue != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.QueueEndpoint, *account.Status.PrimaryEndpoints.Queue)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Table != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.TableEndpoint, *account.Status.PrimaryEndpoints.Table)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Web != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.WebEndpoint, *account.Status.PrimaryEndpoints.Web)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &StorageAccount{}
@@ -225,7 +284,7 @@ func (account *StorageAccount) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (account *StorageAccount) createValidations() []func() error {
-	return []func() error{account.validateResourceReferences, account.validateSecretDestinations}
+	return []func() error{account.validateResourceReferences, account.validateSecretDestinations, account.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -243,7 +302,29 @@ func (account *StorageAccount) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return account.validateSecretDestinations()
 		},
+		func(old runtime.Object) error {
+			return account.validateConfigMapDestinations()
+		},
 	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+func (account *StorageAccount) validateConfigMapDestinations() error {
+	if account.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if account.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		account.Spec.OperatorSpec.ConfigMaps.BlobEndpoint,
+		account.Spec.OperatorSpec.ConfigMaps.DfsEndpoint,
+		account.Spec.OperatorSpec.ConfigMaps.FileEndpoint,
+		account.Spec.OperatorSpec.ConfigMaps.QueueEndpoint,
+		account.Spec.OperatorSpec.ConfigMaps.TableEndpoint,
+		account.Spec.OperatorSpec.ConfigMaps.WebEndpoint,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateResourceReferences validates all resource references
@@ -6587,12 +6668,27 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v1api20210401
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type StorageAccountOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *StorageAccountOperatorConfigMaps `json:"configMaps,omitempty"`
+
 	// Secrets: configures where to place Azure generated secrets.
 	Secrets *StorageAccountOperatorSecrets `json:"secrets,omitempty"`
 }
 
 // AssignProperties_From_StorageAccountOperatorSpec populates our StorageAccountOperatorSpec from the provided source StorageAccountOperatorSpec
 func (operator *StorageAccountOperatorSpec) AssignProperties_From_StorageAccountOperatorSpec(source *v1api20210401s.StorageAccountOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap StorageAccountOperatorConfigMaps
+		err := configMap.AssignProperties_From_StorageAccountOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_StorageAccountOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
 
 	// Secrets
 	if source.Secrets != nil {
@@ -6614,6 +6710,18 @@ func (operator *StorageAccountOperatorSpec) AssignProperties_From_StorageAccount
 func (operator *StorageAccountOperatorSpec) AssignProperties_To_StorageAccountOperatorSpec(destination *v1api20210401s.StorageAccountOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v1api20210401s.StorageAccountOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_StorageAccountOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_StorageAccountOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
 
 	// Secrets
 	if operator.Secrets != nil {
@@ -8817,6 +8925,145 @@ func (endpoints *StorageAccountMicrosoftEndpoints_STATUS) AssignProperties_To_St
 
 	// Web
 	destination.Web = genruntime.ClonePointerToString(endpoints.Web)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type StorageAccountOperatorConfigMaps struct {
+	// BlobEndpoint: indicates where the BlobEndpoint config map should be placed. If omitted, no config map will be created.
+	BlobEndpoint *genruntime.ConfigMapDestination `json:"blobEndpoint,omitempty"`
+
+	// DfsEndpoint: indicates where the DfsEndpoint config map should be placed. If omitted, no config map will be created.
+	DfsEndpoint *genruntime.ConfigMapDestination `json:"dfsEndpoint,omitempty"`
+
+	// FileEndpoint: indicates where the FileEndpoint config map should be placed. If omitted, no config map will be created.
+	FileEndpoint *genruntime.ConfigMapDestination `json:"fileEndpoint,omitempty"`
+
+	// QueueEndpoint: indicates where the QueueEndpoint config map should be placed. If omitted, no config map will be created.
+	QueueEndpoint *genruntime.ConfigMapDestination `json:"queueEndpoint,omitempty"`
+
+	// TableEndpoint: indicates where the TableEndpoint config map should be placed. If omitted, no config map will be created.
+	TableEndpoint *genruntime.ConfigMapDestination `json:"tableEndpoint,omitempty"`
+
+	// WebEndpoint: indicates where the WebEndpoint config map should be placed. If omitted, no config map will be created.
+	WebEndpoint *genruntime.ConfigMapDestination `json:"webEndpoint,omitempty"`
+}
+
+// AssignProperties_From_StorageAccountOperatorConfigMaps populates our StorageAccountOperatorConfigMaps from the provided source StorageAccountOperatorConfigMaps
+func (maps *StorageAccountOperatorConfigMaps) AssignProperties_From_StorageAccountOperatorConfigMaps(source *v1api20210401s.StorageAccountOperatorConfigMaps) error {
+
+	// BlobEndpoint
+	if source.BlobEndpoint != nil {
+		blobEndpoint := source.BlobEndpoint.Copy()
+		maps.BlobEndpoint = &blobEndpoint
+	} else {
+		maps.BlobEndpoint = nil
+	}
+
+	// DfsEndpoint
+	if source.DfsEndpoint != nil {
+		dfsEndpoint := source.DfsEndpoint.Copy()
+		maps.DfsEndpoint = &dfsEndpoint
+	} else {
+		maps.DfsEndpoint = nil
+	}
+
+	// FileEndpoint
+	if source.FileEndpoint != nil {
+		fileEndpoint := source.FileEndpoint.Copy()
+		maps.FileEndpoint = &fileEndpoint
+	} else {
+		maps.FileEndpoint = nil
+	}
+
+	// QueueEndpoint
+	if source.QueueEndpoint != nil {
+		queueEndpoint := source.QueueEndpoint.Copy()
+		maps.QueueEndpoint = &queueEndpoint
+	} else {
+		maps.QueueEndpoint = nil
+	}
+
+	// TableEndpoint
+	if source.TableEndpoint != nil {
+		tableEndpoint := source.TableEndpoint.Copy()
+		maps.TableEndpoint = &tableEndpoint
+	} else {
+		maps.TableEndpoint = nil
+	}
+
+	// WebEndpoint
+	if source.WebEndpoint != nil {
+		webEndpoint := source.WebEndpoint.Copy()
+		maps.WebEndpoint = &webEndpoint
+	} else {
+		maps.WebEndpoint = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_StorageAccountOperatorConfigMaps populates the provided destination StorageAccountOperatorConfigMaps from our StorageAccountOperatorConfigMaps
+func (maps *StorageAccountOperatorConfigMaps) AssignProperties_To_StorageAccountOperatorConfigMaps(destination *v1api20210401s.StorageAccountOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// BlobEndpoint
+	if maps.BlobEndpoint != nil {
+		blobEndpoint := maps.BlobEndpoint.Copy()
+		destination.BlobEndpoint = &blobEndpoint
+	} else {
+		destination.BlobEndpoint = nil
+	}
+
+	// DfsEndpoint
+	if maps.DfsEndpoint != nil {
+		dfsEndpoint := maps.DfsEndpoint.Copy()
+		destination.DfsEndpoint = &dfsEndpoint
+	} else {
+		destination.DfsEndpoint = nil
+	}
+
+	// FileEndpoint
+	if maps.FileEndpoint != nil {
+		fileEndpoint := maps.FileEndpoint.Copy()
+		destination.FileEndpoint = &fileEndpoint
+	} else {
+		destination.FileEndpoint = nil
+	}
+
+	// QueueEndpoint
+	if maps.QueueEndpoint != nil {
+		queueEndpoint := maps.QueueEndpoint.Copy()
+		destination.QueueEndpoint = &queueEndpoint
+	} else {
+		destination.QueueEndpoint = nil
+	}
+
+	// TableEndpoint
+	if maps.TableEndpoint != nil {
+		tableEndpoint := maps.TableEndpoint.Copy()
+		destination.TableEndpoint = &tableEndpoint
+	} else {
+		destination.TableEndpoint = nil
+	}
+
+	// WebEndpoint
+	if maps.WebEndpoint != nil {
+		webEndpoint := maps.WebEndpoint.Copy()
+		destination.WebEndpoint = &webEndpoint
+	} else {
+		destination.WebEndpoint = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

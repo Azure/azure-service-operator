@@ -547,16 +547,17 @@ status:
 #     to the property to export. Collections (or really any fancy jsonpath expressions) are not currently supported.
 #     Only valid for resources.
 #     Example:
-#         BlobEndpoint: .Status.PrimaryEndpoints.Blob
+#         $azureGeneratedConfigs:
+#           BlobEndpoint: .Status.PrimaryEndpoints.Blob
 #
 # $manualAzureGeneratedConfigs: <array of strings>
 #     An array of names identifying the properties which will be exported to config maps manually. Prefer $azureGeneratedConfigs
 #     if the property is on Status or otherwise accessible on the resource itself. $manualAzureGeneratedConfigs can be used
 #     to have more control over exactly what value goes into the exported config map, at the cost of needing to manually implement
-#     the config map export The key of the map is the name of the property to export, the value of the map is a json-path like expression
-#     to the property to export. Collections (or really any fancy jsonpath expressions) are not currently supported.
+#     the config map export.
 #     Example:
-#         BlobEndpoint: .Status.PrimaryEndpoints.Blob
+#         $manualAzureGeneratedConfigs:
+#           - MyCustomConfigValue
 #
 # $export: <bool>
 #     Requests that support for this resource type be generated.
