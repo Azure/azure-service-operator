@@ -553,8 +553,10 @@ status:
 #     An array of names identifying the properties which will be exported to config maps manually. Prefer $azureGeneratedConfigs
 #     if the property is on Status or otherwise accessible on the resource itself. $manualAzureGeneratedConfigs can be used
 #     to have more control over exactly what value goes into the exported config map, at the cost of needing to manually implement
-#     the export process (similar to $azureGeneratedSecrets above).
-#     Only valid for resources.
+#     the config map export The key of the map is the name of the property to export, the value of the map is a json-path like expression
+#     to the property to export. Collections (or really any fancy jsonpath expressions) are not currently supported.
+#     Example:
+#         BlobEndpoint: .Status.PrimaryEndpoints.Blob
 #
 # $export: <bool>
 #     Requests that support for this resource type be generated.
@@ -1566,6 +1568,13 @@ objectModelConfiguration:
           - QueueEndpoint
           - TableEndpoint
           - DfsEndpoint
+        $azureGeneratedConfigs:
+          WebEndpoint: .Status.PrimaryEndpoints.Web
+          BlobEndpoint: .Status.PrimaryEndpoints.Blob
+          FileEndpoint: .Status.PrimaryEndpoints.File
+          QueueEndpoint: .Status.PrimaryEndpoints.Queue
+          TableEndpoint: .Status.PrimaryEndpoints.Table
+          DfsEndpoint: .Status.PrimaryEndpoints.Dfs
       StorageAccounts_BlobService:
         $exportAs: StorageAccountsBlobService
         $supportedFrom: v2.0.0-alpha.1
