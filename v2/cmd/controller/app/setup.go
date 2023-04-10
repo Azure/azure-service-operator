@@ -7,12 +7,10 @@ package app
 
 import (
 	"context"
-	"flag"
 	"math/rand"
 	"os"
 	"time"
 
-	"k8s.io/klog/v2"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -39,16 +37,14 @@ import (
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
-	internalflags "github.com/Azure/azure-service-operator/v2/internal/util/flags"
 	"github.com/Azure/azure-service-operator/v2/internal/util/interval"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
-	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-func SetupControllerManager(setupLog logr.Logger, flgs flags, ctx context.Context) manager.Manager {
+func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) manager.Manager {
 	scheme := controllers.CreateScheme()
 	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs
 
@@ -73,7 +69,6 @@ func SetupControllerManager(setupLog logr.Logger, flgs flags, ctx context.Contex
 		Port:                   9443,
 		HealthProbeBindAddress: flgs.healthAddr,
 	})
-
 	if err != nil {
 		setupLog.Error(err, "unable to create manager")
 		os.Exit(1)
@@ -85,7 +80,7 @@ func SetupControllerManager(setupLog logr.Logger, flgs flags, ctx context.Contex
 		os.Exit(1)
 	}
 
-	crdManager, err := newCRDManager(clients.log, mgr.GetConfig(), cfg.PodNamespace)
+	crdManager, err := newCRDManager(clients.log, mgr.GetConfig())
 	if err != nil {
 		setupLog.Error(err, "failed to initialize CRD client")
 		os.Exit(1)
@@ -143,50 +138,6 @@ func SetupControllerManager(setupLog logr.Logger, flgs flags, ctx context.Contex
 	}
 
 	return mgr
-}
-
-type flags struct {
-	metricsAddr          string
-	healthAddr           string
-	enableLeaderElection bool
-	crdPatterns          []string
-}
-
-func ParseFlags(args []string) (flags, error) {
-	exeName := args[0] + " " + version.BuildVersion
-	flagSet := flag.NewFlagSet(exeName, flag.ExitOnError)
-	klog.InitFlags(flagSet)
-
-	var metricsAddr string
-	var healthAddr string
-	var enableLeaderElection bool
-	var crdPatterns internalflags.SliceFlags
-	var preUpgradeCheck bool
-
-	// default here for 'metricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
-	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
-	flagSet.StringVar(&healthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
-	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
-		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
-	flagSet.Var(&crdPatterns, "crd-pattern", "Install these CRDs. Currently the only value supported is '*'")
-	flagSet.BoolVar(&preUpgradeCheck, "pre-upgrade-check", false,
-		"Enable pre upgrade check to check if existing crds contain helm 'keep' policy.")
-
-	flagSet.Parse(args[1:]) //nolint:errcheck
-
-	if len(crdPatterns) >= 2 {
-		return flags{}, errors.Errorf("crd-pattern flag can have at most 1 argument, had %d", len(crdPatterns))
-	}
-	if len(crdPatterns) == 1 && crdPatterns[0] != "*" {
-		return flags{}, errors.Errorf("crd-pattern flag must be '*', was %q", crdPatterns[0])
-	}
-
-	return flags{
-		metricsAddr:          metricsAddr,
-		healthAddr:           healthAddr,
-		enableLeaderElection: enableLeaderElection,
-		crdPatterns:          crdPatterns,
-	}, nil
 }
 
 func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
@@ -339,7 +290,7 @@ func makeControllerOptions(log logr.Logger, cfg config.Values) generic.Options {
 	}
 }
 
-func newCRDManager(logger logr.Logger, k8sConfig *rest.Config, podNamespace string) (*crdmanagement.Manager, error) {
+func newCRDManager(logger logr.Logger, k8sConfig *rest.Config) (*crdmanagement.Manager, error) {
 	crdScheme := runtime.NewScheme()
 	_ = apiextensions.AddToScheme(crdScheme)
 	crdClient, err := client.New(k8sConfig, client.Options{Scheme: crdScheme})

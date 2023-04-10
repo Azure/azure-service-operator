@@ -26,7 +26,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	mgr := app.SetupControllerManager(setupLog, flgs, ctx)
+	mgr := app.SetupControllerManager(ctx, setupLog, flgs)
 
 	setupLog.Info("starting manager")
 	if err = mgr.Start(ctx); err != nil {
