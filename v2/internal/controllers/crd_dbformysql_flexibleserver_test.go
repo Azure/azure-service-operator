@@ -8,14 +8,13 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -43,13 +42,13 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	old := flexibleServer.DeepCopy()
 	disabled := mysql.EnableStatusEnum_Disabled
 	flexibleServer.Spec.Backup = &mysql.Backup{
-		BackupRetentionDays: to.IntPtr(5),
+		BackupRetentionDays: to.Ptr(5),
 		GeoRedundantBackup:  &disabled,
 	}
 	tc.PatchResourceAndWait(old, flexibleServer)
 	tc.Expect(flexibleServer.Status.Backup).ToNot(BeNil())
 	tc.T.Log(pretty.Sprint(flexibleServer.Status.Backup))
-	tc.Expect(flexibleServer.Status.Backup.BackupRetentionDays).To(Equal(to.IntPtr(5)))
+	tc.Expect(flexibleServer.Status.Backup.BackupRetentionDays).To(Equal(to.Ptr(5)))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -88,13 +87,13 @@ func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.Resource
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.Sku{
-				Name: to.StringPtr("Standard_D4ds_v4"),
+				Name: to.Ptr("Standard_D4ds_v4"),
 				Tier: &tier,
 			},
-			AdministratorLogin:         to.StringPtr("myadmin"),
+			AdministratorLogin:         to.Ptr("myadmin"),
 			AdministratorLoginPassword: &adminPasswordSecretRef,
 			Storage: &mysql.Storage{
-				StorageSizeGB: to.IntPtr(128),
+				StorageSizeGB: to.Ptr(128),
 			},
 			OperatorSpec: &mysql.FlexibleServerOperatorSpec{
 				Secrets: &mysql.FlexibleServerOperatorSecrets{
@@ -114,7 +113,7 @@ func MySQLFlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexib
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
 		Spec: mysql.FlexibleServers_Database_Spec{
 			Owner:   testcommon.AsOwner(flexibleServer),
-			Charset: to.StringPtr("utf8mb4"),
+			Charset: to.Ptr("utf8mb4"),
 		},
 	}
 	tc.CreateResourceAndWait(database)
@@ -128,8 +127,8 @@ func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, fl
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
 		Spec: mysql.FlexibleServers_FirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
-			StartIpAddress: to.StringPtr("1.2.3.4"),
-			EndIpAddress:   to.StringPtr("1.2.3.4"),
+			StartIpAddress: to.Ptr("1.2.3.4"),
+			EndIpAddress:   to.Ptr("1.2.3.4"),
 		},
 	}
 
@@ -137,9 +136,9 @@ func MySQLFlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, fl
 	defer tc.DeleteResourceAndWait(rule)
 
 	old := rule.DeepCopy()
-	rule.Spec.EndIpAddress = to.StringPtr("1.2.3.5")
+	rule.Spec.EndIpAddress = to.Ptr("1.2.3.5")
 	tc.PatchResourceAndWait(old, rule)
-	tc.Expect(rule.Status.EndIpAddress).To(Equal(to.StringPtr("1.2.3.5")))
+	tc.Expect(rule.Status.EndIpAddress).To(Equal(to.Ptr("1.2.3.5")))
 
 	// The GET responses are coming back from the RP with no ARM ID -
 	// this seems invalid per the ARM spec.

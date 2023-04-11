@@ -1,0 +1,26 @@
+apiVersion: containerinstance.azure.com/v1beta20211001
+kind: ContainerGroup
+metadata:
+  name: samplecontainergroup
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  containers:
+    - name: samplecontainergroup
+      image: mcr.microsoft.com/azuredocs/aci-helloworld
+      ports:
+        - protocol: TCP
+          port: 80
+      resources:
+        requests:
+          cpu: 1
+          memoryInGB: 2
+  osType: Linux
+  restartPolicy: Always
+  ipAddress:
+    type: Public
+    ports:
+      - protocol: TCP
+        port: 80

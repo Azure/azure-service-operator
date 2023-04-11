@@ -13,6 +13,12 @@ azureClientID: ""
 # This is required when using Service Principal authentication.
 azureClientSecret: ""
 
+#  A PEM or PKCS12 certificate string including the private key for Azure Credential Authentication. If certificate is password protected,  use 'azureClientCertificatePassword' for password.
+azureClientCertificate: ""
+
+# Password used to protect the client certificate (optional).
+azureClientCertificatePassword: ""
+
 # [Deprecated] Managed Identity (aad-pod-identity) Authentication
 # azureManagedIdentityResourceId is the resource ID (/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managedIdentityName})
 # of the Azure Managed Identity used to authenticate with Azure if using aad-pod-identity authorization.
@@ -80,7 +86,10 @@ metrics:
   address: 0.0.0.0:{{ .Values.metrics.port }}
   port: 8080
 
-# installCRDs determines if the CRDs subchart should be installed.
+# installCRDs configures if the operator attempts to install and manage the CRDs associated with ASO.
+# If the operator does not install and manage the CRDs on its own, you must manually install the appropriate
+# CRDs for version of the ASO operator you're running. Manually installing a subset of the CRDs is supported;
+# the operator will only reconcile that subset if those are the only CRDs it finds when the pod starts.
 installCRDs: true
 
 # podAnnotations contain the pod annotations for Azure Service Operator

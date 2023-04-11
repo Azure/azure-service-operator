@@ -5,10 +5,9 @@ package v1beta20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of StorageAccounts_QueueServices_Queue_Spec. Use v1api20210401.StorageAccounts_QueueServices_Queue_Spec instead
 type StorageAccounts_QueueServices_Queue_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Queue resource properties.
+	Name       string               `json:"name,omitempty"`
 	Properties *QueueProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,7 +28,7 @@ func (queue *StorageAccounts_QueueServices_Queue_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices/queues"
 }
 
+// Deprecated version of QueueProperties. Use v1api20210401.QueueProperties instead
 type QueueProperties_ARM struct {
-	// Metadata: A name-value pair that represents queue metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
 }

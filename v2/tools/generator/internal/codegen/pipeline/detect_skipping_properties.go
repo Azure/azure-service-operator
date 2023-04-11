@@ -7,10 +7,12 @@ package pipeline
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
 )
@@ -205,7 +207,11 @@ func (detector *skippingPropertyDetector) checkChain(start astmodel.PropertyRefe
 	// If the properties have the same type, we don't have a break here - so we check the remainder of the chain
 	// (This is Ok because the value serialized into the property bag from lastObserved will deserialize into the
 	// reintroduced property intact.)
-	if detector.propertiesHaveSameType(lastObserved, reintroduced) {
+	typesSame, err := detector.propertiesHaveSameType(lastObserved, reintroduced)
+	if err != nil {
+		return errors.Wrapf(err, "failed to determine if properties %s and %s have the same type", lastObserved, reintroduced)
+	}
+	if typesSame {
 		return detector.checkChain(reintroduced)
 	}
 
@@ -253,11 +259,131 @@ func (detector *skippingPropertyDetector) lookupNext(ref astmodel.PropertyRefere
 func (detector *skippingPropertyDetector) propertiesHaveSameType(
 	left astmodel.PropertyReference,
 	right astmodel.PropertyReference,
-) bool {
+) (bool, error) {
 	leftType, leftOk := detector.lookupPropertyType(left)
 	rightType, rightOk := detector.lookupPropertyType(right)
 
-	return leftOk && rightOk && leftType.Equals(rightType, astmodel.EqualityOverrides{})
+	exactlyEqual := leftOk && rightOk && leftType.Equals(rightType, astmodel.EqualityOverrides{})
+	if exactlyEqual {
+		return true, nil
+	}
+
+	equalityOverrides := astmodel.EqualityOverrides{
+		TypeName: compareTypeNamesIgnoreVersion,
+	}
+	equalSameTypeNameDifferentVersion := leftOk && rightOk && leftType.Equals(rightType, equalityOverrides)
+	if !equalSameTypeNameDifferentVersion {
+		return false, nil
+	}
+
+	leftTypeName, leftOk := astmodel.ExtractTypeName(leftType)
+	rightTypeName, rightOk := astmodel.ExtractTypeName(rightType)
+
+	// If either isn't a typeName, return false
+	// Note that practically speaking actually taking this codepath should be impossible, as to get here the
+	// two properties must be: Not exactly equal, but equal if typeName versions are ignored.
+	if !leftOk || !rightOk {
+		return false, nil
+	}
+
+	leftTypeDef, err := detector.definitions.GetDefinition(leftTypeName)
+	if err != nil {
+		return false, err
+	}
+	rightTypeDef, err := detector.definitions.GetDefinition(rightTypeName)
+	if err != nil {
+		return false, err
+	}
+
+	// If the types don't match exactly, we have to determine if they match structurally
+	leftDefs, err := astmodel.FindConnectedDefinitions(detector.definitions, astmodel.MakeTypeDefinitionSetFromDefinitions(leftTypeDef))
+	if err != nil {
+		return false, err
+	}
+	rightDefs, err := astmodel.FindConnectedDefinitions(detector.definitions, astmodel.MakeTypeDefinitionSetFromDefinitions(rightTypeDef))
+	if err != nil {
+		return false, err
+	}
+
+	return areTypeSetsEqual(leftDefs, rightDefs), nil
+}
+
+func areTypeSetsEqual(left astmodel.TypeDefinitionSet, right astmodel.TypeDefinitionSet) bool {
+	if len(left) != len(right) {
+		return false
+	}
+
+	packageRefs := set.Make[astmodel.PackageReference]()
+	for name := range right {
+		packageRefs.Add(name.PackageReference)
+	}
+
+	if len(packageRefs) != 1 {
+		panic(fmt.Sprintf("expected rhs type names to all be from one package, but were from %d packages instead", len(packageRefs)))
+	}
+
+	rightPackageRef := packageRefs.Values()[0]
+	equalityOverrides := astmodel.EqualityOverrides{
+		TypeName:   compareTypeNamesIgnoreVersion,
+		ObjectType: compareObjectTypeStructure,
+	}
+
+	for leftName, leftDef := range left {
+		rightName := leftName.WithPackageReference(rightPackageRef)
+		rightDef := right[rightName]
+
+		equal := leftDef.Type().Equals(rightDef.Type(), equalityOverrides)
+		if !equal {
+			return false
+		}
+	}
+
+	return true
+}
+
+func compareTypeNamesIgnoreVersion(left astmodel.TypeName, right astmodel.TypeName) bool {
+	leftLPR, isLeftLocalRef := left.PackageReference.(astmodel.LocalLikePackageReference)
+	rightLPR, isRightLocalRef := right.PackageReference.(astmodel.LocalLikePackageReference)
+
+	// If we're not looking at local references, use the standard equality comparison
+	if !isLeftLocalRef || !isRightLocalRef {
+		return left.Equals(right, astmodel.EqualityOverrides{})
+	}
+
+	// If we are looking at local references, we allow them to differ by api-version and generator-version
+	if leftLPR.LocalPathPrefix() != rightLPR.LocalPathPrefix() ||
+		leftLPR.Group() != rightLPR.Group() {
+		return false
+	}
+
+	// The names must be the same
+	return left.Name() == right.Name()
+}
+
+func compareObjectTypeStructure(left *astmodel.ObjectType, right *astmodel.ObjectType) bool {
+	if left == right {
+		return true // short circuit
+	}
+
+	equalityOverrides := astmodel.EqualityOverrides{
+		TypeName: compareTypeNamesIgnoreVersion,
+	}
+
+	// Create a copy of the properties with description removed as we don't care if it matches
+	leftProperties := astmodel.NewPropertySet()
+	rightProperties := astmodel.NewPropertySet(left.Properties().AsSlice()...)
+	left.Properties().ForEach(func(def *astmodel.PropertyDefinition) {
+		leftProperties.Add(def.WithDescription(""))
+	})
+	right.Properties().ForEach(func(def *astmodel.PropertyDefinition) {
+		rightProperties.Add(def.WithDescription(""))
+	})
+
+	if !leftProperties.Equals(rightProperties, equalityOverrides) {
+		return false
+	}
+
+	return true
 }
 
 // lookupPropertyType accepts a PropertyReference and looks up the actual type of the property

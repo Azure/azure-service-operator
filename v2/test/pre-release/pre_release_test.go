@@ -8,11 +8,15 @@ package multitenant_test
 import (
 	"testing"
 
+	"github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
+	"k8s.io/apimachinery/pkg/types"
+
+	// TODO: Using beta APIs here for upgrade test as GA APIs don't exist on v2.0.0-beta.5
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/onsi/gomega"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 const (
@@ -29,7 +33,17 @@ func Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade(t *testing.T) {
 
 	tc.Namespace = preReleaseNamespace
 
-	rg := tc.NewTestResourceGroup()
+	//rg := tc.NewTestResourceGroup()
+	// TODO: Currently using beta ResourceGroup as that exists in both old and new version.
+	// TODO: Can move this to tc.NewTestResourceGroup() commented out above after GA
+	rg := &resources.ResourceGroup{
+		ObjectMeta: tc.MakeObjectMeta("rg"),
+		Spec: resources.ResourceGroup_Spec{
+			Location: tc.AzureRegion,
+			// This tag is used for cleanup optimization
+			Tags: testcommon.CreateTestResourceGroupDefaultTags(),
+		},
+	}
 	rg.Name = rgName
 
 	vnet := newVnet(tc, newNamer.GenerateName(vnetBeforeUpgradeName), rgName)
@@ -62,6 +76,12 @@ func Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade(t *testing.T) {
 	tc.Namespace = preReleaseNamespace
 	newNamer := tc.Namer.WithNumRandomChars(0)
 	rgName := newNamer.GenerateName(resourceGroupName)
+
+	// Ensure expected RG still exists
+	rg := &resources.ResourceGroup{}
+	tc.GetResource(types.NamespacedName{Namespace: tc.Namespace, Name: rgName}, rg)
+
+	tc.Expect(rg.Status.Id).ToNot(BeNil())
 
 	// This resource already will exist in kind as will be created without cleanup in test 'Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade'.
 	vnetBeforeUpgrade := newVnet(tc, newNamer.GenerateName(vnetBeforeUpgradeName), rgName)

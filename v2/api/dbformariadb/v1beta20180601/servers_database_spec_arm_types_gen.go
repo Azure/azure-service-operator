@@ -5,10 +5,9 @@ package v1beta20180601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Servers_Database_Spec. Use v1api20180601.Servers_Database_Spec instead
 type Servers_Database_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: The properties of a database.
+	Name       string                  `json:"name,omitempty"`
 	Properties *DatabaseProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,11 +28,8 @@ func (database *Servers_Database_Spec_ARM) GetType() string {
 	return "Microsoft.DBforMariaDB/servers/databases"
 }
 
-// The properties of a database.
+// Deprecated version of DatabaseProperties. Use v1api20180601.DatabaseProperties instead
 type DatabaseProperties_ARM struct {
-	// Charset: The charset of the database.
-	Charset *string `json:"charset,omitempty"`
-
-	// Collation: The collation of the database.
+	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 }

@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
+// Deprecated version of RedisPatchSchedule. Use v1api20201201.RedisPatchSchedule instead
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &RedisPatchSchedule{}
 
 // ConvertFrom populates our RedisPatchSchedule from the provided hub RedisPatchSchedule
 func (schedule *RedisPatchSchedule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201201s.RedisPatchSchedule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1beta20201201storage/RedisPatchSchedule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201201s.RedisPatchSchedule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return schedule.AssignProperties_From_RedisPatchSchedule(source)
+	err = schedule.AssignProperties_From_RedisPatchSchedule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to schedule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisPatchSchedule from our RedisPatchSchedule
 func (schedule *RedisPatchSchedule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201201s.RedisPatchSchedule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1beta20201201storage/RedisPatchSchedule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201201s.RedisPatchSchedule
+	err := schedule.AssignProperties_To_RedisPatchSchedule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from schedule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return schedule.AssignProperties_To_RedisPatchSchedule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redispatchschedule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redispatchschedules,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redispatchschedules.cache.azure.com,admissionReviewVersions=v1
@@ -305,9 +317,7 @@ func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
+// Deprecated version of RedisPatchSchedule. Use v1api20201201.RedisPatchSchedule instead
 type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -322,7 +332,6 @@ type Redis_PatchSchedule_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner,omitempty" kind:"Redis"`
 
 	// +kubebuilder:validation:Required
-	// ScheduleEntries: List of patch schedules for a Redis cache.
 	ScheduleEntries []ScheduleEntry `json:"scheduleEntries,omitempty"`
 }
 
@@ -517,25 +526,15 @@ func (schedule *Redis_PatchSchedule_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
+// Deprecated version of Redis_PatchSchedule_STATUS. Use v1api20201201.Redis_PatchSchedule_STATUS instead
 type Redis_PatchSchedule_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// ScheduleEntries: List of patch schedules for a Redis cache.
+	Conditions      []conditions.Condition `json:"conditions,omitempty"`
+	Id              *string                `json:"id,omitempty"`
+	Location        *string                `json:"location,omitempty"`
+	Name            *string                `json:"name,omitempty"`
 	ScheduleEntries []ScheduleEntry_STATUS `json:"scheduleEntries,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Type            *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Redis_PatchSchedule_STATUS{}
@@ -734,17 +733,13 @@ func (schedule *Redis_PatchSchedule_STATUS) AssignProperties_To_Redis_PatchSched
 	return nil
 }
 
-// Patch schedule entry for a Premium Redis Cache.
+// Deprecated version of ScheduleEntry. Use v1api20201201.ScheduleEntry instead
 type ScheduleEntry struct {
 	// +kubebuilder:validation:Required
-	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_DayOfWeek `json:"dayOfWeek,omitempty"`
-
-	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
-	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
+	DayOfWeek         *ScheduleEntry_DayOfWeek `json:"dayOfWeek,omitempty"`
+	MaintenanceWindow *string                  `json:"maintenanceWindow,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// StartHourUtc: Start hour after which cache patching can start.
 	StartHourUtc *int `json:"startHourUtc,omitempty"`
 }
 
@@ -862,16 +857,11 @@ func (entry *ScheduleEntry) AssignProperties_To_ScheduleEntry(destination *v2020
 	return nil
 }
 
-// Patch schedule entry for a Premium Redis Cache.
+// Deprecated version of ScheduleEntry_STATUS. Use v1api20201201.ScheduleEntry_STATUS instead
 type ScheduleEntry_STATUS struct {
-	// DayOfWeek: Day of the week when a cache can be patched.
-	DayOfWeek *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
-
-	// MaintenanceWindow: ISO8601 timespan specifying how much time cache patching can take.
-	MaintenanceWindow *string `json:"maintenanceWindow,omitempty"`
-
-	// StartHourUtc: Start hour after which cache patching can start.
-	StartHourUtc *int `json:"startHourUtc,omitempty"`
+	DayOfWeek         *ScheduleEntry_DayOfWeek_STATUS `json:"dayOfWeek,omitempty"`
+	MaintenanceWindow *string                         `json:"maintenanceWindow,omitempty"`
+	StartHourUtc      *int                            `json:"startHourUtc,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ScheduleEntry_STATUS{}
@@ -961,6 +951,7 @@ func (entry *ScheduleEntry_STATUS) AssignProperties_To_ScheduleEntry_STATUS(dest
 	return nil
 }
 
+// Deprecated version of ScheduleEntry_DayOfWeek. Use v1api20201201.ScheduleEntry_DayOfWeek instead
 // +kubebuilder:validation:Enum={"Everyday","Friday","Monday","Saturday","Sunday","Thursday","Tuesday","Wednesday","Weekend"}
 type ScheduleEntry_DayOfWeek string
 
@@ -976,6 +967,7 @@ const (
 	ScheduleEntry_DayOfWeek_Weekend   = ScheduleEntry_DayOfWeek("Weekend")
 )
 
+// Deprecated version of ScheduleEntry_DayOfWeek_STATUS. Use v1api20201201.ScheduleEntry_DayOfWeek_STATUS instead
 type ScheduleEntry_DayOfWeek_STATUS string
 
 const (

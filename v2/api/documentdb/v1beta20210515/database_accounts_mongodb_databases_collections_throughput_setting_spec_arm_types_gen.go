@@ -5,12 +5,10 @@ package v1beta20210515
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec. Use v1api20210515.DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec instead
 type DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_Spec_ARM struct {
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-	Name     string  `json:"name,omitempty"`
-
-	// Properties: Properties to update Azure Cosmos DB resource throughput.
+	Location   *string                                 `json:"location,omitempty"`
+	Name       string                                  `json:"name,omitempty"`
 	Properties *ThroughputSettingsUpdateProperties_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                       `json:"tags,omitempty"`
 }
@@ -32,43 +30,30 @@ func (setting *DatabaseAccounts_MongodbDatabases_Collections_ThroughputSetting_S
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 
-// Properties to update Azure Cosmos DB resource throughput.
+// Deprecated version of ThroughputSettingsUpdateProperties. Use v1api20210515.ThroughputSettingsUpdateProperties instead
 type ThroughputSettingsUpdateProperties_ARM struct {
-	// Resource: The standard JSON format of a resource throughput
 	Resource *ThroughputSettingsResource_ARM `json:"resource,omitempty"`
 }
 
-// Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is required, but not both.
+// Deprecated version of ThroughputSettingsResource. Use v1api20210515.ThroughputSettingsResource instead
 type ThroughputSettingsResource_ARM struct {
-	// AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
-	// required, but not both.
 	AutoscaleSettings *AutoscaleSettingsResource_ARM `json:"autoscaleSettings,omitempty"`
-
-	// Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-	// but not both.
-	Throughput *int `json:"throughput,omitempty"`
+	Throughput        *int                           `json:"throughput,omitempty"`
 }
 
-// Cosmos DB provisioned throughput settings object
+// Deprecated version of AutoscaleSettingsResource. Use v1api20210515.AutoscaleSettingsResource instead
 type AutoscaleSettingsResource_ARM struct {
-	// AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource_ARM `json:"autoUpgradePolicy,omitempty"`
-
-	// MaxThroughput: Represents maximum throughput container can scale up to.
-	MaxThroughput *int `json:"maxThroughput,omitempty"`
+	MaxThroughput     *int                           `json:"maxThroughput,omitempty"`
 }
 
-// Cosmos DB resource auto-upgrade policy
+// Deprecated version of AutoUpgradePolicyResource. Use v1api20210515.AutoUpgradePolicyResource instead
 type AutoUpgradePolicyResource_ARM struct {
-	// ThroughputPolicy: Represents throughput policy which service must adhere to for auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource_ARM `json:"throughputPolicy,omitempty"`
 }
 
-// Cosmos DB resource throughput policy
+// Deprecated version of ThroughputPolicyResource. Use v1api20210515.ThroughputPolicyResource instead
 type ThroughputPolicyResource_ARM struct {
-	// IncrementPercent: Represents the percentage by which throughput can increase every time throughput policy kicks in.
-	IncrementPercent *int `json:"incrementPercent,omitempty"`
-
-	// IsEnabled: Determines whether the ThroughputPolicy is active or not
-	IsEnabled *bool `json:"isEnabled,omitempty"`
+	IncrementPercent *int  `json:"incrementPercent,omitempty"`
+	IsEnabled        *bool `json:"isEnabled,omitempty"`
 }

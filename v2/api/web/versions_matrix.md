@@ -1,117 +1,117 @@
-| Type Definitions in package "web"              | v1beta20220301 |
-|------------------------------------------------|----------------|
-| APIVersion                                     | v1beta20220301 |
-| ApiDefinitionInfo                              | v1beta20220301 |
-| ApiDefinitionInfo_STATUS                       | v1beta20220301 |
-| ApiManagementConfig                            | v1beta20220301 |
-| ApiManagementConfig_STATUS                     | v1beta20220301 |
-| AutoHealActions                                | v1beta20220301 |
-| AutoHealActions_ActionType                     | v1beta20220301 |
-| AutoHealActions_ActionType_STATUS              | v1beta20220301 |
-| AutoHealActions_STATUS                         | v1beta20220301 |
-| AutoHealCustomAction                           | v1beta20220301 |
-| AutoHealCustomAction_STATUS                    | v1beta20220301 |
-| AutoHealRules                                  | v1beta20220301 |
-| AutoHealRules_STATUS                           | v1beta20220301 |
-| AutoHealTriggers                               | v1beta20220301 |
-| AutoHealTriggers_STATUS                        | v1beta20220301 |
-| AzureStorageInfoValue                          | v1beta20220301 |
-| AzureStorageInfoValue_STATUS                   | v1beta20220301 |
-| AzureStorageInfoValue_State_STATUS             | v1beta20220301 |
-| AzureStorageInfoValue_Type                     | v1beta20220301 |
-| AzureStorageInfoValue_Type_STATUS              | v1beta20220301 |
-| Capability                                     | v1beta20220301 |
-| Capability_STATUS                              | v1beta20220301 |
-| CloningInfo                                    | v1beta20220301 |
-| CloningInfo_STATUS                             | v1beta20220301 |
-| ConnStringInfo                                 | v1beta20220301 |
-| ConnStringInfo_STATUS                          | v1beta20220301 |
-| ConnStringInfo_Type                            | v1beta20220301 |
-| ConnStringInfo_Type_STATUS                     | v1beta20220301 |
-| CorsSettings                                   | v1beta20220301 |
-| CorsSettings_STATUS                            | v1beta20220301 |
-| Experiments                                    | v1beta20220301 |
-| Experiments_STATUS                             | v1beta20220301 |
-| ExtendedLocation                               | v1beta20220301 |
-| ExtendedLocation_STATUS                        | v1beta20220301 |
-| HandlerMapping                                 | v1beta20220301 |
-| HandlerMapping_STATUS                          | v1beta20220301 |
-| HostNameSslState                               | v1beta20220301 |
-| HostNameSslState_HostType                      | v1beta20220301 |
-| HostNameSslState_HostType_STATUS               | v1beta20220301 |
-| HostNameSslState_STATUS                        | v1beta20220301 |
-| HostNameSslState_SslState                      | v1beta20220301 |
-| HostNameSslState_SslState_STATUS               | v1beta20220301 |
-| HostingEnvironmentProfile                      | v1beta20220301 |
-| HostingEnvironmentProfile_STATUS               | v1beta20220301 |
-| IpSecurityRestriction                          | v1beta20220301 |
-| IpSecurityRestriction_STATUS                   | v1beta20220301 |
-| IpSecurityRestriction_Tag                      | v1beta20220301 |
-| IpSecurityRestriction_Tag_STATUS               | v1beta20220301 |
-| KubeEnvironmentProfile                         | v1beta20220301 |
-| KubeEnvironmentProfile_STATUS                  | v1beta20220301 |
-| ManagedServiceIdentity                         | v1beta20220301 |
-| ManagedServiceIdentity_STATUS                  | v1beta20220301 |
-| ManagedServiceIdentity_Type                    | v1beta20220301 |
-| ManagedServiceIdentity_Type_STATUS             | v1beta20220301 |
-| NameValuePair                                  | v1beta20220301 |
-| NameValuePair_STATUS                           | v1beta20220301 |
-| PushSettings                                   | v1beta20220301 |
-| PushSettings_Properties                        | v1beta20220301 |
-| PushSettings_Properties_STATUS                 | v1beta20220301 |
-| PushSettings_STATUS                            | v1beta20220301 |
-| RampUpRule                                     | v1beta20220301 |
-| RampUpRule_STATUS                              | v1beta20220301 |
-| RequestsBasedTrigger                           | v1beta20220301 |
-| RequestsBasedTrigger_STATUS                    | v1beta20220301 |
-| ServerFarm                                     | v1beta20220301 |
-| Serverfarm_Properties_ProvisioningState_STATUS | v1beta20220301 |
-| Serverfarm_Properties_STATUS                   | v1beta20220301 |
-| Serverfarm_Properties_Spec                     | v1beta20220301 |
-| Serverfarm_Properties_Status_STATUS            | v1beta20220301 |
-| Serverfarm_STATUS                              | v1beta20220301 |
-| Serverfarm_Spec                                | v1beta20220301 |
-| Site                                           | v1beta20220301 |
-| SiteConfig                                     | v1beta20220301 |
-| SiteConfig_FtpsState                           | v1beta20220301 |
-| SiteConfig_FtpsState_STATUS                    | v1beta20220301 |
-| SiteConfig_LoadBalancing                       | v1beta20220301 |
-| SiteConfig_LoadBalancing_STATUS                | v1beta20220301 |
-| SiteConfig_ManagedPipelineMode                 | v1beta20220301 |
-| SiteConfig_ManagedPipelineMode_STATUS          | v1beta20220301 |
-| SiteConfig_MinTlsVersion                       | v1beta20220301 |
-| SiteConfig_MinTlsVersion_STATUS                | v1beta20220301 |
-| SiteConfig_STATUS                              | v1beta20220301 |
-| SiteConfig_ScmMinTlsVersion                    | v1beta20220301 |
-| SiteConfig_ScmMinTlsVersion_STATUS             | v1beta20220301 |
-| SiteConfig_ScmType                             | v1beta20220301 |
-| SiteConfig_ScmType_STATUS                      | v1beta20220301 |
-| SiteLimits                                     | v1beta20220301 |
-| SiteLimits_STATUS                              | v1beta20220301 |
-| SiteMachineKey_STATUS                          | v1beta20220301 |
-| Site_Properties_AvailabilityState_STATUS       | v1beta20220301 |
-| Site_Properties_ClientCertMode_STATUS          | v1beta20220301 |
-| Site_Properties_ClientCertMode_Spec            | v1beta20220301 |
-| Site_Properties_RedundancyMode_STATUS          | v1beta20220301 |
-| Site_Properties_RedundancyMode_Spec            | v1beta20220301 |
-| Site_Properties_STATUS                         | v1beta20220301 |
-| Site_Properties_Spec                           | v1beta20220301 |
-| Site_Properties_UsageState_STATUS              | v1beta20220301 |
-| Site_STATUS                                    | v1beta20220301 |
-| Site_Spec                                      | v1beta20220301 |
-| SkuCapacity                                    | v1beta20220301 |
-| SkuCapacity_STATUS                             | v1beta20220301 |
-| SkuDescription                                 | v1beta20220301 |
-| SkuDescription_STATUS                          | v1beta20220301 |
-| SlotSwapStatus_STATUS                          | v1beta20220301 |
-| SlowRequestsBasedTrigger                       | v1beta20220301 |
-| SlowRequestsBasedTrigger_STATUS                | v1beta20220301 |
-| StatusCodesBasedTrigger                        | v1beta20220301 |
-| StatusCodesBasedTrigger_STATUS                 | v1beta20220301 |
-| StatusCodesRangeBasedTrigger                   | v1beta20220301 |
-| StatusCodesRangeBasedTrigger_STATUS            | v1beta20220301 |
-| UserAssignedIdentity_STATUS                    | v1beta20220301 |
-| VirtualApplication                             | v1beta20220301 |
-| VirtualApplication_STATUS                      | v1beta20220301 |
-| VirtualDirectory                               | v1beta20220301 |
-| VirtualDirectory_STATUS                        | v1beta20220301 |
+| Type Definitions in package "web"              | v1api20220301 | v1beta20220301 |
+|------------------------------------------------|---------------|----------------|
+| APIVersion                                     | v1api20220301 | v1beta20220301 |
+| ApiDefinitionInfo                              | v1api20220301 | v1beta20220301 |
+| ApiDefinitionInfo_STATUS                       | v1api20220301 | v1beta20220301 |
+| ApiManagementConfig                            | v1api20220301 | v1beta20220301 |
+| ApiManagementConfig_STATUS                     | v1api20220301 | v1beta20220301 |
+| AutoHealActions                                | v1api20220301 | v1beta20220301 |
+| AutoHealActions_ActionType                     | v1api20220301 | v1beta20220301 |
+| AutoHealActions_ActionType_STATUS              | v1api20220301 | v1beta20220301 |
+| AutoHealActions_STATUS                         | v1api20220301 | v1beta20220301 |
+| AutoHealCustomAction                           | v1api20220301 | v1beta20220301 |
+| AutoHealCustomAction_STATUS                    | v1api20220301 | v1beta20220301 |
+| AutoHealRules                                  | v1api20220301 | v1beta20220301 |
+| AutoHealRules_STATUS                           | v1api20220301 | v1beta20220301 |
+| AutoHealTriggers                               | v1api20220301 | v1beta20220301 |
+| AutoHealTriggers_STATUS                        | v1api20220301 | v1beta20220301 |
+| AzureStorageInfoValue                          | v1api20220301 | v1beta20220301 |
+| AzureStorageInfoValue_STATUS                   | v1api20220301 | v1beta20220301 |
+| AzureStorageInfoValue_State_STATUS             | v1api20220301 | v1beta20220301 |
+| AzureStorageInfoValue_Type                     | v1api20220301 | v1beta20220301 |
+| AzureStorageInfoValue_Type_STATUS              | v1api20220301 | v1beta20220301 |
+| Capability                                     | v1api20220301 | v1beta20220301 |
+| Capability_STATUS                              | v1api20220301 | v1beta20220301 |
+| CloningInfo                                    | v1api20220301 | v1beta20220301 |
+| CloningInfo_STATUS                             | v1api20220301 | v1beta20220301 |
+| ConnStringInfo                                 | v1api20220301 | v1beta20220301 |
+| ConnStringInfo_STATUS                          | v1api20220301 | v1beta20220301 |
+| ConnStringInfo_Type                            | v1api20220301 | v1beta20220301 |
+| ConnStringInfo_Type_STATUS                     | v1api20220301 | v1beta20220301 |
+| CorsSettings                                   | v1api20220301 | v1beta20220301 |
+| CorsSettings_STATUS                            | v1api20220301 | v1beta20220301 |
+| Experiments                                    | v1api20220301 | v1beta20220301 |
+| Experiments_STATUS                             | v1api20220301 | v1beta20220301 |
+| ExtendedLocation                               | v1api20220301 | v1beta20220301 |
+| ExtendedLocation_STATUS                        | v1api20220301 | v1beta20220301 |
+| HandlerMapping                                 | v1api20220301 | v1beta20220301 |
+| HandlerMapping_STATUS                          | v1api20220301 | v1beta20220301 |
+| HostNameSslState                               | v1api20220301 | v1beta20220301 |
+| HostNameSslState_HostType                      | v1api20220301 | v1beta20220301 |
+| HostNameSslState_HostType_STATUS               | v1api20220301 | v1beta20220301 |
+| HostNameSslState_STATUS                        | v1api20220301 | v1beta20220301 |
+| HostNameSslState_SslState                      | v1api20220301 | v1beta20220301 |
+| HostNameSslState_SslState_STATUS               | v1api20220301 | v1beta20220301 |
+| HostingEnvironmentProfile                      | v1api20220301 | v1beta20220301 |
+| HostingEnvironmentProfile_STATUS               | v1api20220301 | v1beta20220301 |
+| IpSecurityRestriction                          | v1api20220301 | v1beta20220301 |
+| IpSecurityRestriction_STATUS                   | v1api20220301 | v1beta20220301 |
+| IpSecurityRestriction_Tag                      | v1api20220301 | v1beta20220301 |
+| IpSecurityRestriction_Tag_STATUS               | v1api20220301 | v1beta20220301 |
+| KubeEnvironmentProfile                         | v1api20220301 | v1beta20220301 |
+| KubeEnvironmentProfile_STATUS                  | v1api20220301 | v1beta20220301 |
+| ManagedServiceIdentity                         | v1api20220301 | v1beta20220301 |
+| ManagedServiceIdentity_STATUS                  | v1api20220301 | v1beta20220301 |
+| ManagedServiceIdentity_Type                    | v1api20220301 | v1beta20220301 |
+| ManagedServiceIdentity_Type_STATUS             | v1api20220301 | v1beta20220301 |
+| NameValuePair                                  | v1api20220301 | v1beta20220301 |
+| NameValuePair_STATUS                           | v1api20220301 | v1beta20220301 |
+| PushSettings                                   | v1api20220301 | v1beta20220301 |
+| PushSettings_Properties                        | v1api20220301 | v1beta20220301 |
+| PushSettings_Properties_STATUS                 | v1api20220301 | v1beta20220301 |
+| PushSettings_STATUS                            | v1api20220301 | v1beta20220301 |
+| RampUpRule                                     | v1api20220301 | v1beta20220301 |
+| RampUpRule_STATUS                              | v1api20220301 | v1beta20220301 |
+| RequestsBasedTrigger                           | v1api20220301 | v1beta20220301 |
+| RequestsBasedTrigger_STATUS                    | v1api20220301 | v1beta20220301 |
+| ServerFarm                                     | v1api20220301 | v1beta20220301 |
+| Serverfarm_Properties_ProvisioningState_STATUS | v1api20220301 | v1beta20220301 |
+| Serverfarm_Properties_STATUS                   | v1api20220301 | v1beta20220301 |
+| Serverfarm_Properties_Spec                     | v1api20220301 | v1beta20220301 |
+| Serverfarm_Properties_Status_STATUS            | v1api20220301 | v1beta20220301 |
+| Serverfarm_STATUS                              | v1api20220301 | v1beta20220301 |
+| Serverfarm_Spec                                | v1api20220301 | v1beta20220301 |
+| Site                                           | v1api20220301 | v1beta20220301 |
+| SiteConfig                                     | v1api20220301 | v1beta20220301 |
+| SiteConfig_FtpsState                           | v1api20220301 | v1beta20220301 |
+| SiteConfig_FtpsState_STATUS                    | v1api20220301 | v1beta20220301 |
+| SiteConfig_LoadBalancing                       | v1api20220301 | v1beta20220301 |
+| SiteConfig_LoadBalancing_STATUS                | v1api20220301 | v1beta20220301 |
+| SiteConfig_ManagedPipelineMode                 | v1api20220301 | v1beta20220301 |
+| SiteConfig_ManagedPipelineMode_STATUS          | v1api20220301 | v1beta20220301 |
+| SiteConfig_MinTlsVersion                       | v1api20220301 | v1beta20220301 |
+| SiteConfig_MinTlsVersion_STATUS                | v1api20220301 | v1beta20220301 |
+| SiteConfig_STATUS                              | v1api20220301 | v1beta20220301 |
+| SiteConfig_ScmMinTlsVersion                    | v1api20220301 | v1beta20220301 |
+| SiteConfig_ScmMinTlsVersion_STATUS             | v1api20220301 | v1beta20220301 |
+| SiteConfig_ScmType                             | v1api20220301 | v1beta20220301 |
+| SiteConfig_ScmType_STATUS                      | v1api20220301 | v1beta20220301 |
+| SiteLimits                                     | v1api20220301 | v1beta20220301 |
+| SiteLimits_STATUS                              | v1api20220301 | v1beta20220301 |
+| SiteMachineKey_STATUS                          | v1api20220301 | v1beta20220301 |
+| Site_Properties_AvailabilityState_STATUS       | v1api20220301 | v1beta20220301 |
+| Site_Properties_ClientCertMode_STATUS          | v1api20220301 | v1beta20220301 |
+| Site_Properties_ClientCertMode_Spec            | v1api20220301 | v1beta20220301 |
+| Site_Properties_RedundancyMode_STATUS          | v1api20220301 | v1beta20220301 |
+| Site_Properties_RedundancyMode_Spec            | v1api20220301 | v1beta20220301 |
+| Site_Properties_STATUS                         | v1api20220301 | v1beta20220301 |
+| Site_Properties_Spec                           | v1api20220301 | v1beta20220301 |
+| Site_Properties_UsageState_STATUS              | v1api20220301 | v1beta20220301 |
+| Site_STATUS                                    | v1api20220301 | v1beta20220301 |
+| Site_Spec                                      | v1api20220301 | v1beta20220301 |
+| SkuCapacity                                    | v1api20220301 | v1beta20220301 |
+| SkuCapacity_STATUS                             | v1api20220301 | v1beta20220301 |
+| SkuDescription                                 | v1api20220301 | v1beta20220301 |
+| SkuDescription_STATUS                          | v1api20220301 | v1beta20220301 |
+| SlotSwapStatus_STATUS                          | v1api20220301 | v1beta20220301 |
+| SlowRequestsBasedTrigger                       | v1api20220301 | v1beta20220301 |
+| SlowRequestsBasedTrigger_STATUS                | v1api20220301 | v1beta20220301 |
+| StatusCodesBasedTrigger                        | v1api20220301 | v1beta20220301 |
+| StatusCodesBasedTrigger_STATUS                 | v1api20220301 | v1beta20220301 |
+| StatusCodesRangeBasedTrigger                   | v1api20220301 | v1beta20220301 |
+| StatusCodesRangeBasedTrigger_STATUS            | v1api20220301 | v1beta20220301 |
+| UserAssignedIdentity_STATUS                    | v1api20220301 | v1beta20220301 |
+| VirtualApplication                             | v1api20220301 | v1beta20220301 |
+| VirtualApplication_STATUS                      | v1api20220301 | v1beta20220301 |
+| VirtualDirectory                               | v1api20220301 | v1beta20220301 |
+| VirtualDirectory_STATUS                        | v1api20220301 | v1beta20220301 |

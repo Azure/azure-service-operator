@@ -3,162 +3,82 @@
 // Licensed under the MIT license.
 package v1beta20220120preview
 
+// Deprecated version of FlexibleServer_STATUS. Use v1api20220120preview.FlexibleServer_STATUS instead
 type FlexibleServer_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the server.
+	Id         *string                      `json:"id,omitempty"`
+	Location   *string                      `json:"location,omitempty"`
+	Name       *string                      `json:"name,omitempty"`
 	Properties *ServerProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
-
-	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Sku        *Sku_STATUS_ARM              `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS_ARM       `json:"systemData,omitempty"`
+	Tags       map[string]string            `json:"tags,omitempty"`
+	Type       *string                      `json:"type,omitempty"`
 }
 
-// The properties of a server.
+// Deprecated version of ServerProperties_STATUS. Use v1api20220120preview.ServerProperties_STATUS instead
 type ServerProperties_STATUS_ARM struct {
-	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	// (and is required for creation).
-	AdministratorLogin *string `json:"administratorLogin,omitempty"`
-
-	// AvailabilityZone: availability zone information of the server.
-	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-
-	// Backup: Backup properties of a server.
-	Backup *Backup_STATUS_ARM `json:"backup,omitempty"`
-
-	// CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
-
-	// FullyQualifiedDomainName: The fully qualified domain name of a server.
-	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
-
-	// HighAvailability: High availability properties of a server.
-	HighAvailability *HighAvailability_STATUS_ARM `json:"highAvailability,omitempty"`
-
-	// MaintenanceWindow: Maintenance window properties of a server.
-	MaintenanceWindow *MaintenanceWindow_STATUS_ARM `json:"maintenanceWindow,omitempty"`
-
-	// MinorVersion: The minor version of the server.
-	MinorVersion *string `json:"minorVersion,omitempty"`
-
-	// Network: Network properties of a server.
-	Network *Network_STATUS_ARM `json:"network,omitempty"`
-
-	// PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It's required when
-	// 'createMode' is 'PointInTimeRestore'.
-	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
-
-	// SourceServerResourceId: The source server resource ID to restore from. It's required when 'createMode' is
-	// 'PointInTimeRestore'.
-	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
-
-	// State: A state of a server that is visible to user.
-	State *ServerProperties_State_STATUS `json:"state,omitempty"`
-
-	// Storage: Storage properties of a server.
-	Storage *Storage_STATUS_ARM `json:"storage,omitempty"`
-
-	// Version: PostgreSQL Server version.
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
+	AdministratorLogin       *string                             `json:"administratorLogin,omitempty"`
+	AvailabilityZone         *string                             `json:"availabilityZone,omitempty"`
+	Backup                   *Backup_STATUS_ARM                  `json:"backup,omitempty"`
+	CreateMode               *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+	FullyQualifiedDomainName *string                             `json:"fullyQualifiedDomainName,omitempty"`
+	HighAvailability         *HighAvailability_STATUS_ARM        `json:"highAvailability,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_STATUS_ARM       `json:"maintenanceWindow,omitempty"`
+	MinorVersion             *string                             `json:"minorVersion,omitempty"`
+	Network                  *Network_STATUS_ARM                 `json:"network,omitempty"`
+	PointInTimeUTC           *string                             `json:"pointInTimeUTC,omitempty"`
+	SourceServerResourceId   *string                             `json:"sourceServerResourceId,omitempty"`
+	State                    *ServerProperties_State_STATUS      `json:"state,omitempty"`
+	Storage                  *Storage_STATUS_ARM                 `json:"storage,omitempty"`
+	Version                  *ServerVersion_STATUS               `json:"version,omitempty"`
 }
 
-// Sku information related properties of a server.
+// Deprecated version of Sku_STATUS. Use v1api20220120preview.Sku_STATUS instead
 type Sku_STATUS_ARM struct {
-	// Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
-	Name *string `json:"name,omitempty"`
-
-	// Tier: The tier of the particular SKU, e.g. Burstable.
+	Name *string          `json:"name,omitempty"`
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20220120preview.SystemData_STATUS instead
 type SystemData_STATUS_ARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-// Backup properties of a server
+// Deprecated version of Backup_STATUS. Use v1api20220120preview.Backup_STATUS instead
 type Backup_STATUS_ARM struct {
-	// BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	// EarliestRestoreDate: The earliest restore point time (ISO8601 format) for server.
-	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
-
-	// GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
-	GeoRedundantBackup *Backup_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
+	BackupRetentionDays *int                              `json:"backupRetentionDays,omitempty"`
+	EarliestRestoreDate *string                           `json:"earliestRestoreDate,omitempty"`
+	GeoRedundantBackup  *Backup_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
 }
 
-// High availability properties of a server
+// Deprecated version of HighAvailability_STATUS. Use v1api20220120preview.HighAvailability_STATUS instead
 type HighAvailability_STATUS_ARM struct {
-	// Mode: The HA mode for the server.
-	Mode *HighAvailability_Mode_STATUS `json:"mode,omitempty"`
-
-	// StandbyAvailabilityZone: availability zone information of the standby.
-	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
-
-	// State: A state of a HA server that is visible to user.
-	State *HighAvailability_State_STATUS `json:"state,omitempty"`
+	Mode                    *HighAvailability_Mode_STATUS  `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string                        `json:"standbyAvailabilityZone,omitempty"`
+	State                   *HighAvailability_State_STATUS `json:"state,omitempty"`
 }
 
-// Maintenance window properties of a server.
+// Deprecated version of MaintenanceWindow_STATUS. Use v1api20220120preview.MaintenanceWindow_STATUS instead
 type MaintenanceWindow_STATUS_ARM struct {
-	// CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
-
-	// DayOfWeek: day of week for maintenance window
-	DayOfWeek *int `json:"dayOfWeek,omitempty"`
-
-	// StartHour: start hour for maintenance window
-	StartHour *int `json:"startHour,omitempty"`
-
-	// StartMinute: start minute for maintenance window
-	StartMinute *int `json:"startMinute,omitempty"`
+	DayOfWeek    *int    `json:"dayOfWeek,omitempty"`
+	StartHour    *int    `json:"startHour,omitempty"`
+	StartMinute  *int    `json:"startMinute,omitempty"`
 }
 
-// Network properties of a server
+// Deprecated version of Network_STATUS. Use v1api20220120preview.Network_STATUS instead
 type Network_STATUS_ARM struct {
-	// DelegatedSubnetResourceId: delegated subnet arm resource id.
-	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
-
-	// PrivateDnsZoneArmResourceId: private dns zone arm resource id.
-	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
-
-	// PublicNetworkAccess: public network access is enabled or not
-	PublicNetworkAccess *Network_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	DelegatedSubnetResourceId   *string                             `json:"delegatedSubnetResourceId,omitempty"`
+	PrivateDnsZoneArmResourceId *string                             `json:"privateDnsZoneArmResourceId,omitempty"`
+	PublicNetworkAccess         *Network_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
+// Deprecated version of Sku_Tier_STATUS. Use v1api20220120preview.Sku_Tier_STATUS instead
 type Sku_Tier_STATUS string
 
 const (
@@ -167,12 +87,12 @@ const (
 	Sku_Tier_STATUS_MemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
 )
 
-// Storage properties of a server
+// Deprecated version of Storage_STATUS. Use v1api20220120preview.Storage_STATUS instead
 type Storage_STATUS_ARM struct {
-	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }
 
+// Deprecated version of SystemData_CreatedByType_STATUS. Use v1api20220120preview.SystemData_CreatedByType_STATUS instead
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -182,6 +102,8 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Deprecated version of SystemData_LastModifiedByType_STATUS. Use
+// v1api20220120preview.SystemData_LastModifiedByType_STATUS instead
 type SystemData_LastModifiedByType_STATUS string
 
 const (

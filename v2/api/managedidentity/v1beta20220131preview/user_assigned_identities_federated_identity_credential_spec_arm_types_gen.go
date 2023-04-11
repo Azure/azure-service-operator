@@ -5,10 +5,9 @@ package v1beta20220131preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of UserAssignedIdentities_FederatedIdentityCredential_Spec. Use v1api20220131preview.UserAssignedIdentities_FederatedIdentityCredential_Spec instead
 type UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: The properties associated with the federated identity credential.
+	Name       string                                     `json:"name,omitempty"`
 	Properties *FederatedIdentityCredentialProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,14 +28,9 @@ func (credential *UserAssignedIdentities_FederatedIdentityCredential_Spec_ARM) G
 	return "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"
 }
 
-// The properties associated with a federated identity credential.
+// Deprecated version of FederatedIdentityCredentialProperties. Use v1api20220131preview.FederatedIdentityCredentialProperties instead
 type FederatedIdentityCredentialProperties_ARM struct {
-	// Audiences: The list of audiences that can appear in the issued token.
 	Audiences []string `json:"audiences,omitempty"`
-
-	// Issuer: The URL of the issuer to be trusted.
-	Issuer *string `json:"issuer,omitempty"`
-
-	// Subject: The identifier of the external identity.
-	Subject *string `json:"subject,omitempty"`
+	Issuer    *string  `json:"issuer,omitempty"`
+	Subject   *string  `json:"subject,omitempty"`
 }

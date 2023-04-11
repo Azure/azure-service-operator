@@ -85,17 +85,27 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, definitions a
 // FindHub returns the type name of the hub resource, given the type name of one of the resources that is
 // persisted using that hub type. This is done by following links in the conversion graph until we either reach the end
 // or we find that a newer version of the type does not exist.
-// Returns the hub type and true if found; an empty name and false if not.
+// Returns the hub type if found; an empty name and an error if not.
 func (graph *ConversionGraph) FindHub(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, error) {
+	result, _, err := graph.FindHubAndDistance(name, definitions)
+	return result, err
+}
+
+// FindHubAndDistance returns the type name of the hub resource, given the type name of one of the resources that is
+// persisted using that hub type. This is done by following links in the conversion graph until we either reach the end
+// or we find that a newer version of the type does not exist.
+// Returns the distance if a hub was found, an error if not.
+func (graph *ConversionGraph) FindHubAndDistance(name astmodel.TypeName, definitions astmodel.TypeDefinitionSet) (astmodel.TypeName, int, error) {
 	// Look for the hub step
 	result := name
+	distance := 0
 	for {
 		hub, err := graph.FindNextType(result, definitions)
 		if err != nil {
-			return astmodel.EmptyTypeName, errors.Wrapf(
-				err,
-				"finding hub for %s",
-				name)
+			return astmodel.EmptyTypeName,
+				-1,
+				errors.Wrapf(err, "finding hub for %s",
+					name)
 		}
 
 		if hub.IsEmpty() {
@@ -103,9 +113,10 @@ func (graph *ConversionGraph) FindHub(name astmodel.TypeName, definitions astmod
 		}
 
 		result = hub
+		distance++
 	}
 
-	return result, nil
+	return result, distance, nil
 }
 
 // TransitionCount returns the number of transitions in the graph

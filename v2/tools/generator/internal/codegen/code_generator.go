@@ -115,7 +115,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.RemoveStatusValidations(),
 
 		// Figure out resource owners:
-		pipeline.DetermineResourceOwnership(configuration, idFactory),
+		pipeline.DetermineResourceOwnership(configuration),
 
 		// Strip out redundant type aliases
 		pipeline.RemoveTypeAliases(),
@@ -149,12 +149,18 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.FixOptionalCollectionAliases(),
 
+		pipeline.ApplyCrossResourceReferencesFromConfig(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.TransformCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.TransformCrossResourceReferencesToString().UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.AddConfigMaps(configuration).UsedFor(pipeline.ARMTarget),
 
-		pipeline.CreateTypesForBackwardCompatibility("v2.0.0-alpha", configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
+		// prefix is "v2.0.0-" as we want to match anything that had a beta version. The prefix is applied to the
+		// supportedFrom field, meaning we need back-compat types for anything:
+		// - Added before beta (e.g. supportedFrom: v2.0.0-alpha.0)
+		// - Added during beta (e.g. supportedFrom: v2.0.0-beta.0)
+		// The only thing we don't want back-compat types for is something added in v2.0.0 or v2.1.0, etc.
+		pipeline.CreateTypesForBackwardCompatibility("v2.0.0-", configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
 
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
@@ -195,6 +201,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ImplementConvertibleSpecInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleStatusInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectSpecInitializationFunctions(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ImplementImportableResourceInterface(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.MarkLatestStorageVariantAsHubVersion().UsedFor(pipeline.ARMTarget),
 		pipeline.MarkLatestAPIVersionAsStorageVersion().UsedFor(pipeline.CrossplaneTarget),

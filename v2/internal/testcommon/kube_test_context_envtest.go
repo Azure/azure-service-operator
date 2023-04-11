@@ -34,7 +34,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
@@ -66,7 +65,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		return nil, err
 	}
 
-	crdPath := filepath.Join(root, "v2/config/crd/out")
+	crdPath := filepath.Join(root, "v2/out/envtest/crds")
 	webhookPath := filepath.Join(root, "v2/config/webhook")
 
 	environment := envtest.Environment{
@@ -99,7 +98,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	}
 
 	var cacheFunc cache.NewCacheFunc
-	if cfg.TargetNamespaces != nil {
+	if cfg.TargetNamespaces != nil && cfg.OperatorMode.IncludesWatchers() {
 		cacheFunc = cache.MultiNamespacedCacheBuilder(cfg.TargetNamespaces)
 	}
 
@@ -140,61 +139,60 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		return result.logger
 	}
 
-	if cfg.OperatorMode.IncludesWatchers() {
+	var requeueDelay time.Duration
+	minBackoff := 1 * time.Second
+	maxBackoff := 1 * time.Minute
+	if cfg.Replaying {
+		requeueDelay = 10 * time.Millisecond
+		minBackoff = 5 * time.Millisecond
+		maxBackoff = 5 * time.Millisecond
+	}
 
-		var requeueDelay time.Duration
-		minBackoff := 1 * time.Second
-		maxBackoff := 1 * time.Minute
-		if cfg.Replaying {
-			requeueDelay = 10 * time.Millisecond
-			minBackoff = 5 * time.Millisecond
-			maxBackoff = 5 * time.Millisecond
+	// We use a custom indexer here so that we can simulate the caching client behavior for indexing even though
+	// for our tests we are not using the caching client
+	testIndexer := NewIndexer(mgr.GetScheme())
+	indexer := kubeclient.NewAndIndexer(mgr.GetFieldIndexer(), testIndexer)
+	kubeClient := kubeclient.NewClient(NewClient(mgr.GetClient(), testIndexer))
+
+	var clientFactory arm.ARMClientFactory = func(ctx context.Context, mo genruntime.ARMMetaObject) (*arm.Connection, error) {
+		result := namespaceResources.Lookup(mo.GetNamespace())
+		if result == nil {
+			panic(fmt.Sprintf("unable to locate ARM client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",
+				mo.GetNamespace()))
 		}
 
-		// We use a custom indexer here so that we can simulate the caching client behavior for indexing even though
-		// for our tests we are not using the caching client
-		testIndexer := NewIndexer(mgr.GetScheme())
-		indexer := kubeclient.NewAndIndexer(mgr.GetFieldIndexer(), testIndexer)
-		kubeClient := kubeclient.NewClient(NewClient(mgr.GetClient(), testIndexer))
+		result.armClientCache.SetKubeClient(kubeClient)
 
-		var clientFactory arm.ARMClientFactory = func(ctx context.Context, mo genruntime.ARMMetaObject) (*genericarmclient.GenericClient, string, error) {
-			result := namespaceResources.Lookup(mo.GetNamespace())
-			if result == nil {
-				panic(fmt.Sprintf("unable to locate ARM client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",
-					mo.GetNamespace()))
-			}
+		return result.armClientCache.GetClient(ctx, mo)
+	}
 
-			result.armClientCache.SetKubeClient(kubeClient)
+	options := generic.Options{
+		LoggerFactory: loggerFactory,
+		Config:        cfg.Values,
+		Options: controller.Options{
+			// Allow concurrent reconciliation in tests
+			MaxConcurrentReconciles: 5,
 
-			return result.armClientCache.GetClient(ctx, mo)
-		}
+			// Use appropriate backoff for mode.
+			RateLimiter: generic.NewRateLimiter(minBackoff, maxBackoff),
 
-		options := generic.Options{
-			LoggerFactory: loggerFactory,
-			Config:        cfg.Values,
-			Options: controller.Options{
-				// Allow concurrent reconciliation in tests
-				MaxConcurrentReconciles: 5,
-
-				// Use appropriate backoff for mode.
-				RateLimiter: generic.NewRateLimiter(minBackoff, maxBackoff),
-
-				LogConstructor: func(request *reconcile.Request) logr.Logger {
-					return ctrl.Log
-				},
+			LogConstructor: func(request *reconcile.Request) logr.Logger {
+				return ctrl.Log
 			},
-			RequeueIntervalCalculator: interval.NewCalculator(
-				interval.CalculatorParameters{
-					//nolint:gosec // do not want cryptographic randomness here
-					Rand:                 rand.New(lockedrand.NewSource(time.Now().UnixNano())),
-					ErrorBaseDelay:       minBackoff,
-					ErrorMaxFastDelay:    maxBackoff,
-					ErrorMaxSlowDelay:    maxBackoff,
-					RequeueDelayOverride: requeueDelay,
-				}),
-		}
-		positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
+		},
+		RequeueIntervalCalculator: interval.NewCalculator(
+			interval.CalculatorParameters{
+				//nolint:gosec // do not want cryptographic randomness here
+				Rand:                 rand.New(lockedrand.NewSource(time.Now().UnixNano())),
+				ErrorBaseDelay:       minBackoff,
+				ErrorMaxFastDelay:    maxBackoff,
+				ErrorMaxSlowDelay:    maxBackoff,
+				RequeueDelayOverride: requeueDelay,
+			}),
+	}
+	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
+	if cfg.OperatorMode.IncludesWatchers() {
 		var objs []*registration.StorageType
 		objs, err = controllers.GetKnownStorageTypes(
 			mgr,
@@ -439,7 +437,15 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 
 	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
 		// register resources needed by controller for namespace
-		armClientCache := arm.NewARMClientCache(perTestContext.AzureClient, cfg.PodNamespace, nil, cfg.Cloud(), perTestContext.HttpClient, metrics.NewARMClientMetrics())
+		armClientCache := arm.NewARMClientCache(
+			perTestContext.AzureClient,
+			perTestContext.AzureSubscription,
+			cfg.PodNamespace,
+			nil,
+			cfg.Cloud(),
+			perTestContext.HttpClient,
+			metrics.NewARMClientMetrics())
+
 		{
 			resources := &perNamespace{
 				armClientCache: armClientCache,

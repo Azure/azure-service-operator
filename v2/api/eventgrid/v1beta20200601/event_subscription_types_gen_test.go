@@ -5,6 +5,7 @@ package v1beta20200601
 
 import (
 	"encoding/json"
+	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601storage"
 	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1beta20200601storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForEventSubscription(subject EventSubscription) st
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20200601s.EventSubscription
+	var hub v1api20200601s.EventSubscription
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

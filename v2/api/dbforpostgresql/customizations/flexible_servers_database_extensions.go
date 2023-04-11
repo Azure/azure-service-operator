@@ -14,14 +14,15 @@ import (
 
 	"github.com/go-logr/logr"
 
-	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
+	api "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
+	hub "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 var _ extensions.PreReconciliationChecker = &FlexibleServersDatabaseExtension{}
 
-func (ext *FlexibleServersDatabaseExtension) PreReconcileCheck(
+func (extension *FlexibleServersDatabaseExtension) PreReconcileCheck(
 	_ context.Context,
 	_ genruntime.MetaObject,
 	owner genruntime.MetaObject,
@@ -31,7 +32,7 @@ func (ext *FlexibleServersDatabaseExtension) PreReconcileCheck(
 	_ extensions.PreReconcileCheckFunc,
 ) (extensions.PreReconcileCheckResult, error) {
 	// Check to see if our owning server is ready for the database to be reconciled
-	if server, ok := owner.(*postgresql.FlexibleServer); ok {
+	if server, ok := owner.(*hub.FlexibleServer); ok {
 		serverState := server.Status.State
 		if serverState != nil && flexibleServerStateBlocksReconciliation(*serverState) {
 			return extensions.BlockReconcile(
@@ -42,4 +43,29 @@ func (ext *FlexibleServersDatabaseExtension) PreReconcileCheck(
 	}
 
 	return extensions.ProceedWithReconcile(), nil
+}
+
+var _ extensions.Importer = &FlexibleServersDatabaseExtension{}
+
+// Import skips databases that can't be managed by ARM
+func (extension *FlexibleServersDatabaseExtension) Import(
+	ctx context.Context,
+	rsrc genruntime.ImportableResource,
+	next extensions.ImporterFunc,
+) (extensions.ImportResult, error) {
+	if server, ok := rsrc.(*api.FlexibleServersDatabase); ok {
+		if server.Spec.AzureName == "azure_maintenance" {
+			return extensions.ImportSkipped("azure_maintenance database is not accessible by users"), nil
+		}
+
+		if server.Spec.AzureName == "azure_sys" {
+			return extensions.ImportSkipped("built in databases cannot be managed by ARM"), nil
+		}
+
+		if server.Spec.AzureName == "postgres" {
+			return extensions.ImportSkipped("built in databases cannot be managed by ARM"), nil
+		}
+	}
+
+	return next(ctx, rsrc)
 }

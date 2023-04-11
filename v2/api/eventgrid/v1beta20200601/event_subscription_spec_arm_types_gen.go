@@ -8,10 +8,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
+// Deprecated version of EventSubscription_Spec. Use v1api20200601.EventSubscription_Spec instead
 type EventSubscription_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties of the event subscription.
+	Name       string                           `json:"name,omitempty"`
 	Properties *EventSubscriptionProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -32,33 +31,19 @@ func (subscription *EventSubscription_Spec_ARM) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
-// Properties of the Event Subscription.
+// Deprecated version of EventSubscriptionProperties. Use v1api20200601.EventSubscriptionProperties instead
 type EventSubscriptionProperties_ARM struct {
-	// DeadLetterDestination: The DeadLetter destination of the event subscription.
-	DeadLetterDestination *DeadLetterDestination_ARM `json:"deadLetterDestination,omitempty"`
-
-	// Destination: Information about the destination where events have to be delivered for the event subscription.
-	Destination *EventSubscriptionDestination_ARM `json:"destination,omitempty"`
-
-	// EventDeliverySchema: The event delivery schema for the event subscription.
-	EventDeliverySchema *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
-
-	// ExpirationTimeUtc: Expiration time of the event subscription.
-	ExpirationTimeUtc *string `json:"expirationTimeUtc,omitempty"`
-
-	// Filter: Information about the filter for the event subscription.
-	Filter *EventSubscriptionFilter_ARM `json:"filter,omitempty"`
-
-	// Labels: List of user defined labels.
-	Labels []string `json:"labels,omitempty"`
-
-	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
-	// live for events.
-	RetryPolicy *RetryPolicy_ARM `json:"retryPolicy,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_ARM                       `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_ARM                `json:"destination,omitempty"`
+	EventDeliverySchema   *EventSubscriptionProperties_EventDeliverySchema `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                                          `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter_ARM                     `json:"filter,omitempty"`
+	Labels                []string                                         `json:"labels,omitempty"`
+	RetryPolicy           *RetryPolicy_ARM                                 `json:"retryPolicy,omitempty"`
 }
 
+// Deprecated version of DeadLetterDestination. Use v1api20200601.DeadLetterDestination instead
 type DeadLetterDestination_ARM struct {
-	// StorageBlob: Mutually exclusive with all other properties
 	StorageBlob *StorageBlobDeadLetterDestination_ARM `json:"storageBlob,omitempty"`
 }
 
@@ -87,27 +72,15 @@ func (destination *DeadLetterDestination_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// Deprecated version of EventSubscriptionDestination. Use v1api20200601.EventSubscriptionDestination instead
 type EventSubscriptionDestination_ARM struct {
-	// AzureFunction: Mutually exclusive with all other properties
-	AzureFunction *AzureFunctionEventSubscriptionDestination_ARM `json:"azureFunction,omitempty"`
-
-	// EventHub: Mutually exclusive with all other properties
-	EventHub *EventHubEventSubscriptionDestination_ARM `json:"eventHub,omitempty"`
-
-	// HybridConnection: Mutually exclusive with all other properties
+	AzureFunction    *AzureFunctionEventSubscriptionDestination_ARM    `json:"azureFunction,omitempty"`
+	EventHub         *EventHubEventSubscriptionDestination_ARM         `json:"eventHub,omitempty"`
 	HybridConnection *HybridConnectionEventSubscriptionDestination_ARM `json:"hybridConnection,omitempty"`
-
-	// ServiceBusQueue: Mutually exclusive with all other properties
-	ServiceBusQueue *ServiceBusQueueEventSubscriptionDestination_ARM `json:"serviceBusQueue,omitempty"`
-
-	// ServiceBusTopic: Mutually exclusive with all other properties
-	ServiceBusTopic *ServiceBusTopicEventSubscriptionDestination_ARM `json:"serviceBusTopic,omitempty"`
-
-	// StorageQueue: Mutually exclusive with all other properties
-	StorageQueue *StorageQueueEventSubscriptionDestination_ARM `json:"storageQueue,omitempty"`
-
-	// WebHook: Mutually exclusive with all other properties
-	WebHook *WebHookEventSubscriptionDestination_ARM `json:"webHook,omitempty"`
+	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination_ARM  `json:"serviceBusQueue,omitempty"`
+	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination_ARM  `json:"serviceBusTopic,omitempty"`
+	StorageQueue     *StorageQueueEventSubscriptionDestination_ARM     `json:"storageQueue,omitempty"`
+	WebHook          *WebHookEventSubscriptionDestination_ARM          `json:"webHook,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because EventSubscriptionDestination_ARM represents a discriminated union (JSON OneOf)
@@ -177,74 +150,35 @@ func (destination *EventSubscriptionDestination_ARM) UnmarshalJSON(data []byte) 
 	return nil
 }
 
-// Filter for the Event Subscription.
+// Deprecated version of EventSubscriptionFilter. Use v1api20200601.EventSubscriptionFilter instead
 type EventSubscriptionFilter_ARM struct {
-	// AdvancedFilters: An array of advanced filters that are used for filtering event subscriptions.
-	AdvancedFilters []AdvancedFilter_ARM `json:"advancedFilters,omitempty"`
-
-	// IncludedEventTypes: A list of applicable event types that need to be part of the event subscription. If it is desired to
-	// subscribe to all default event types, set the IncludedEventTypes to null.
-	IncludedEventTypes []string `json:"includedEventTypes,omitempty"`
-
-	// IsSubjectCaseSensitive: Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-	// should be compared in a case sensitive manner.
-	IsSubjectCaseSensitive *bool `json:"isSubjectCaseSensitive,omitempty"`
-
-	// SubjectBeginsWith: An optional string to filter events for an event subscription based on a resource path prefix.
-	// The format of this depends on the publisher of the events.
-	// Wildcard characters are not supported in this path.
-	SubjectBeginsWith *string `json:"subjectBeginsWith,omitempty"`
-
-	// SubjectEndsWith: An optional string to filter events for an event subscription based on a resource path suffix.
-	// Wildcard characters are not supported in this path.
-	SubjectEndsWith *string `json:"subjectEndsWith,omitempty"`
+	AdvancedFilters        []AdvancedFilter_ARM `json:"advancedFilters,omitempty"`
+	IncludedEventTypes     []string             `json:"includedEventTypes,omitempty"`
+	IsSubjectCaseSensitive *bool                `json:"isSubjectCaseSensitive,omitempty"`
+	SubjectBeginsWith      *string              `json:"subjectBeginsWith,omitempty"`
+	SubjectEndsWith        *string              `json:"subjectEndsWith,omitempty"`
 }
 
-// Information about the retry policy for an event subscription.
+// Deprecated version of RetryPolicy. Use v1api20200601.RetryPolicy instead
 type RetryPolicy_ARM struct {
-	// EventTimeToLiveInMinutes: Time To Live (in minutes) for events.
 	EventTimeToLiveInMinutes *int `json:"eventTimeToLiveInMinutes,omitempty"`
-
-	// MaxDeliveryAttempts: Maximum number of delivery retry attempts for events.
-	MaxDeliveryAttempts *int `json:"maxDeliveryAttempts,omitempty"`
+	MaxDeliveryAttempts      *int `json:"maxDeliveryAttempts,omitempty"`
 }
 
+// Deprecated version of AdvancedFilter. Use v1api20200601.AdvancedFilter instead
 type AdvancedFilter_ARM struct {
-	// BoolEquals: Mutually exclusive with all other properties
-	BoolEquals *BoolEqualsAdvancedFilter_ARM `json:"boolEquals,omitempty"`
-
-	// NumberGreaterThan: Mutually exclusive with all other properties
-	NumberGreaterThan *NumberGreaterThanAdvancedFilter_ARM `json:"numberGreaterThan,omitempty"`
-
-	// NumberGreaterThanOrEquals: Mutually exclusive with all other properties
+	BoolEquals                *BoolEqualsAdvancedFilter_ARM                `json:"boolEquals,omitempty"`
+	NumberGreaterThan         *NumberGreaterThanAdvancedFilter_ARM         `json:"numberGreaterThan,omitempty"`
 	NumberGreaterThanOrEquals *NumberGreaterThanOrEqualsAdvancedFilter_ARM `json:"numberGreaterThanOrEquals,omitempty"`
-
-	// NumberIn: Mutually exclusive with all other properties
-	NumberIn *NumberInAdvancedFilter_ARM `json:"numberIn,omitempty"`
-
-	// NumberLessThan: Mutually exclusive with all other properties
-	NumberLessThan *NumberLessThanAdvancedFilter_ARM `json:"numberLessThan,omitempty"`
-
-	// NumberLessThanOrEquals: Mutually exclusive with all other properties
-	NumberLessThanOrEquals *NumberLessThanOrEqualsAdvancedFilter_ARM `json:"numberLessThanOrEquals,omitempty"`
-
-	// NumberNotIn: Mutually exclusive with all other properties
-	NumberNotIn *NumberNotInAdvancedFilter_ARM `json:"numberNotIn,omitempty"`
-
-	// StringBeginsWith: Mutually exclusive with all other properties
-	StringBeginsWith *StringBeginsWithAdvancedFilter_ARM `json:"stringBeginsWith,omitempty"`
-
-	// StringContains: Mutually exclusive with all other properties
-	StringContains *StringContainsAdvancedFilter_ARM `json:"stringContains,omitempty"`
-
-	// StringEndsWith: Mutually exclusive with all other properties
-	StringEndsWith *StringEndsWithAdvancedFilter_ARM `json:"stringEndsWith,omitempty"`
-
-	// StringIn: Mutually exclusive with all other properties
-	StringIn *StringInAdvancedFilter_ARM `json:"stringIn,omitempty"`
-
-	// StringNotIn: Mutually exclusive with all other properties
-	StringNotIn *StringNotInAdvancedFilter_ARM `json:"stringNotIn,omitempty"`
+	NumberIn                  *NumberInAdvancedFilter_ARM                  `json:"numberIn,omitempty"`
+	NumberLessThan            *NumberLessThanAdvancedFilter_ARM            `json:"numberLessThan,omitempty"`
+	NumberLessThanOrEquals    *NumberLessThanOrEqualsAdvancedFilter_ARM    `json:"numberLessThanOrEquals,omitempty"`
+	NumberNotIn               *NumberNotInAdvancedFilter_ARM               `json:"numberNotIn,omitempty"`
+	StringBeginsWith          *StringBeginsWithAdvancedFilter_ARM          `json:"stringBeginsWith,omitempty"`
+	StringContains            *StringContainsAdvancedFilter_ARM            `json:"stringContains,omitempty"`
+	StringEndsWith            *StringEndsWithAdvancedFilter_ARM            `json:"stringEndsWith,omitempty"`
+	StringIn                  *StringInAdvancedFilter_ARM                  `json:"stringIn,omitempty"`
+	StringNotIn               *StringNotInAdvancedFilter_ARM               `json:"stringNotIn,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because AdvancedFilter_ARM represents a discriminated union (JSON OneOf)
@@ -349,262 +283,182 @@ func (filter *AdvancedFilter_ARM) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+// Deprecated version of AzureFunctionEventSubscriptionDestination. Use v1api20200601.AzureFunctionEventSubscriptionDestination instead
 type AzureFunctionEventSubscriptionDestination_ARM struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// Properties: Azure Function Properties of the event subscription destination.
-	Properties *AzureFunctionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
+	EndpointType AzureFunctionEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *AzureFunctionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of EventHubEventSubscriptionDestination. Use v1api20200601.EventHubEventSubscriptionDestination instead
 type EventHubEventSubscriptionDestination_ARM struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType EventHubEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// Properties: Event Hub Properties of the event subscription destination.
-	Properties *EventHubEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
+	EndpointType EventHubEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *EventHubEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1api20200601.HybridConnectionEventSubscriptionDestination instead
 type HybridConnectionEventSubscriptionDestination_ARM struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// Properties: Hybrid connection Properties of the event subscription destination.
-	Properties *HybridConnectionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
+	EndpointType HybridConnectionEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *HybridConnectionEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of ServiceBusQueueEventSubscriptionDestination. Use v1api20200601.ServiceBusQueueEventSubscriptionDestination instead
 type ServiceBusQueueEventSubscriptionDestination_ARM struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// Properties: Service Bus Properties of the event subscription destination.
-	Properties *ServiceBusQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
+	EndpointType ServiceBusQueueEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *ServiceBusQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of ServiceBusTopicEventSubscriptionDestination. Use v1api20200601.ServiceBusTopicEventSubscriptionDestination instead
 type ServiceBusTopicEventSubscriptionDestination_ARM struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// Properties: Service Bus Topic Properties of the event subscription destination.
-	Properties *ServiceBusTopicEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
+	EndpointType ServiceBusTopicEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *ServiceBusTopicEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of StorageBlobDeadLetterDestination. Use v1api20200601.StorageBlobDeadLetterDestination instead
 type StorageBlobDeadLetterDestination_ARM struct {
-	// EndpointType: Type of the endpoint for the dead letter destination
-	EndpointType StorageBlobDeadLetterDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// Properties: The properties of the Storage Blob based deadletter destination
-	Properties *StorageBlobDeadLetterDestinationProperties_ARM `json:"properties,omitempty"`
+	EndpointType StorageBlobDeadLetterDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *StorageBlobDeadLetterDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of StorageQueueEventSubscriptionDestination. Use v1api20200601.StorageQueueEventSubscriptionDestination instead
 type StorageQueueEventSubscriptionDestination_ARM struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType StorageQueueEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// Properties: Storage Queue Properties of the event subscription destination.
-	Properties *StorageQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
+	EndpointType StorageQueueEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *StorageQueueEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
+// Deprecated version of WebHookEventSubscriptionDestination. Use v1api20200601.WebHookEventSubscriptionDestination instead
 type WebHookEventSubscriptionDestination_ARM struct {
-	// EndpointType: Type of the endpoint for the event subscription destination.
-	EndpointType WebHookEventSubscriptionDestination_EndpointType `json:"endpointType,omitempty"`
-
-	// Properties: WebHook Properties of the event subscription destination.
-	Properties *WebHookEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
+	EndpointType WebHookEventSubscriptionDestination_EndpointType   `json:"endpointType,omitempty"`
+	Properties   *WebHookEventSubscriptionDestinationProperties_ARM `json:"properties,omitempty"`
 }
 
-// The properties that represent the Azure Function destination of an event subscription.
+// Deprecated version of AzureFunctionEventSubscriptionDestinationProperties. Use v1api20200601.AzureFunctionEventSubscriptionDestinationProperties instead
 type AzureFunctionEventSubscriptionDestinationProperties_ARM struct {
-	// MaxEventsPerBatch: Maximum number of events per batch.
-	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
-
-	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
+	MaxEventsPerBatch             *int    `json:"maxEventsPerBatch,omitempty"`
 	PreferredBatchSizeInKilobytes *int    `json:"preferredBatchSizeInKilobytes,omitempty"`
 	ResourceId                    *string `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of BoolEqualsAdvancedFilter. Use v1api20200601.BoolEqualsAdvancedFilter instead
 type BoolEqualsAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                               `json:"key,omitempty"`
 	OperatorType BoolEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The boolean filter value.
-	Value *bool `json:"value,omitempty"`
+	Value        *bool                                 `json:"value,omitempty"`
 }
 
-// The properties for a event hub destination.
+// Deprecated version of EventHubEventSubscriptionDestinationProperties. Use v1api20200601.EventHubEventSubscriptionDestinationProperties instead
 type EventHubEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-// The properties for a hybrid connection destination.
+// Deprecated version of HybridConnectionEventSubscriptionDestinationProperties. Use v1api20200601.HybridConnectionEventSubscriptionDestinationProperties instead
 type HybridConnectionEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of NumberGreaterThanAdvancedFilter. Use v1api20200601.NumberGreaterThanAdvancedFilter instead
 type NumberGreaterThanAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                      `json:"key,omitempty"`
 	OperatorType NumberGreaterThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                     `json:"value,omitempty"`
 }
 
+// Deprecated version of NumberGreaterThanOrEqualsAdvancedFilter. Use v1api20200601.NumberGreaterThanOrEqualsAdvancedFilter instead
 type NumberGreaterThanOrEqualsAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                              `json:"key,omitempty"`
 	OperatorType NumberGreaterThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                             `json:"value,omitempty"`
 }
 
+// Deprecated version of NumberInAdvancedFilter. Use v1api20200601.NumberInAdvancedFilter instead
 type NumberInAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                             `json:"key,omitempty"`
 	OperatorType NumberInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []float64 `json:"values,omitempty"`
+	Values       []float64                           `json:"values,omitempty"`
 }
 
+// Deprecated version of NumberLessThanAdvancedFilter. Use v1api20200601.NumberLessThanAdvancedFilter instead
 type NumberLessThanAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                   `json:"key,omitempty"`
 	OperatorType NumberLessThanAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                  `json:"value,omitempty"`
 }
 
+// Deprecated version of NumberLessThanOrEqualsAdvancedFilter. Use v1api20200601.NumberLessThanOrEqualsAdvancedFilter instead
 type NumberLessThanOrEqualsAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                           `json:"key,omitempty"`
 	OperatorType NumberLessThanOrEqualsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Value: The filter value.
-	Value *float64 `json:"value,omitempty"`
+	Value        *float64                                          `json:"value,omitempty"`
 }
 
+// Deprecated version of NumberNotInAdvancedFilter. Use v1api20200601.NumberNotInAdvancedFilter instead
 type NumberNotInAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                `json:"key,omitempty"`
 	OperatorType NumberNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []float64 `json:"values,omitempty"`
+	Values       []float64                              `json:"values,omitempty"`
 }
 
-// The properties that represent the Service Bus destination of an event subscription.
+// Deprecated version of ServiceBusQueueEventSubscriptionDestinationProperties. Use v1api20200601.ServiceBusQueueEventSubscriptionDestinationProperties instead
 type ServiceBusQueueEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-// The properties that represent the Service Bus Topic destination of an event subscription.
+// Deprecated version of ServiceBusTopicEventSubscriptionDestinationProperties. Use v1api20200601.ServiceBusTopicEventSubscriptionDestinationProperties instead
 type ServiceBusTopicEventSubscriptionDestinationProperties_ARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-// Properties of the storage blob based dead letter destination.
+// Deprecated version of StorageBlobDeadLetterDestinationProperties. Use v1api20200601.StorageBlobDeadLetterDestinationProperties instead
 type StorageBlobDeadLetterDestinationProperties_ARM struct {
-	// BlobContainerName: The name of the Storage blob container that is the destination of the deadletter events
 	BlobContainerName *string `json:"blobContainerName,omitempty"`
 	ResourceId        *string `json:"resourceId,omitempty"`
 }
 
-// The properties for a storage queue destination.
+// Deprecated version of StorageQueueEventSubscriptionDestinationProperties. Use v1api20200601.StorageQueueEventSubscriptionDestinationProperties instead
 type StorageQueueEventSubscriptionDestinationProperties_ARM struct {
-	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
 	QueueName  *string `json:"queueName,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
+// Deprecated version of StringBeginsWithAdvancedFilter. Use v1api20200601.StringBeginsWithAdvancedFilter instead
 type StringBeginsWithAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                     `json:"key,omitempty"`
 	OperatorType StringBeginsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                    `json:"values,omitempty"`
 }
 
+// Deprecated version of StringContainsAdvancedFilter. Use v1api20200601.StringContainsAdvancedFilter instead
 type StringContainsAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                   `json:"key,omitempty"`
 	OperatorType StringContainsAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                  `json:"values,omitempty"`
 }
 
+// Deprecated version of StringEndsWithAdvancedFilter. Use v1api20200601.StringEndsWithAdvancedFilter instead
 type StringEndsWithAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                   `json:"key,omitempty"`
 	OperatorType StringEndsWithAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                                  `json:"values,omitempty"`
 }
 
+// Deprecated version of StringInAdvancedFilter. Use v1api20200601.StringInAdvancedFilter instead
 type StringInAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                             `json:"key,omitempty"`
 	OperatorType StringInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                            `json:"values,omitempty"`
 }
 
+// Deprecated version of StringNotInAdvancedFilter. Use v1api20200601.StringNotInAdvancedFilter instead
 type StringNotInAdvancedFilter_ARM struct {
-	// Key: The field/property in the event based on which you want to filter.
-	Key *string `json:"key,omitempty"`
-
-	// OperatorType: The operator type used for filtering, e.g., NumberIn, StringContains, BoolEquals and others.
+	Key          *string                                `json:"key,omitempty"`
 	OperatorType StringNotInAdvancedFilter_OperatorType `json:"operatorType,omitempty"`
-
-	// Values: The set of filter values.
-	Values []string `json:"values,omitempty"`
+	Values       []string                               `json:"values,omitempty"`
 }
 
-// Information about the webhook destination properties for an event subscription.
+// Deprecated version of WebHookEventSubscriptionDestinationProperties. Use v1api20200601.WebHookEventSubscriptionDestinationProperties instead
 type WebHookEventSubscriptionDestinationProperties_ARM struct {
-	// AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
-	// will be included as the bearer token in delivery requests.
 	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
-
-	// AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
-	// bearer token in delivery requests.
-	AzureActiveDirectoryTenantId *string `json:"azureActiveDirectoryTenantId,omitempty"`
-
-	// EndpointUrl: The URL that represents the endpoint of the destination of an event subscription.
-	EndpointUrl *string `json:"endpointUrl,omitempty"`
-
-	// MaxEventsPerBatch: Maximum number of events per batch.
-	MaxEventsPerBatch *int `json:"maxEventsPerBatch,omitempty"`
-
-	// PreferredBatchSizeInKilobytes: Preferred batch size in Kilobytes.
-	PreferredBatchSizeInKilobytes *int `json:"preferredBatchSizeInKilobytes,omitempty"`
+	AzureActiveDirectoryTenantId           *string `json:"azureActiveDirectoryTenantId,omitempty"`
+	EndpointUrl                            *string `json:"endpointUrl,omitempty"`
+	MaxEventsPerBatch                      *int    `json:"maxEventsPerBatch,omitempty"`
+	PreferredBatchSizeInKilobytes          *int    `json:"preferredBatchSizeInKilobytes,omitempty"`
 }

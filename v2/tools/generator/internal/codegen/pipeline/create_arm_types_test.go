@@ -97,6 +97,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 	configuration := config.NewConfiguration()
 	configuration.ObjectModelConfiguration = omc
 
+	configToARMIDs := ApplyCrossResourceReferencesFromConfig(configuration)
 	crossResourceRefs := TransformCrossResourceReferences(configuration, idFactory)
 	createARMTypes := CreateARMTypes(idFactory)
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
@@ -106,6 +107,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 
 	state, err := RunTestPipeline(
 		NewState().WithDefinitions(defs),
+		configToARMIDs,
 		crossResourceRefs,
 		createARMTypes,
 		applyARMConversionInterface,

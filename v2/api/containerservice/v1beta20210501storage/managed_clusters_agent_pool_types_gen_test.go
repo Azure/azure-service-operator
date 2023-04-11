@@ -5,6 +5,8 @@ package v1beta20210501storage
 
 import (
 	"encoding/json"
+	v1api20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20210501storage"
+	v1api20230201s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230201storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +18,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ManagedClustersAgentPool_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClustersAgentPool to hub returns original",
+		prop.ForAll(RunResourceConversionTestForManagedClustersAgentPool, ManagedClustersAgentPoolGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForManagedClustersAgentPool tests if a specific instance of ManagedClustersAgentPool round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForManagedClustersAgentPool(subject ManagedClustersAgentPool) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1api20230201s.ManagedClustersAgentPool
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ManagedClustersAgentPool
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ManagedClustersAgentPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClustersAgentPool to ManagedClustersAgentPool via AssignProperties_To_ManagedClustersAgentPool & AssignProperties_From_ManagedClustersAgentPool returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClustersAgentPool, ManagedClustersAgentPoolGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClustersAgentPool tests if a specific instance of ManagedClustersAgentPool can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForManagedClustersAgentPool(subject ManagedClustersAgentPool) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.ManagedClustersAgentPool
+	err := copied.AssignProperties_To_ManagedClustersAgentPool(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClustersAgentPool
+	err = actual.AssignProperties_From_ManagedClustersAgentPool(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ManagedClustersAgentPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +164,48 @@ func ManagedClustersAgentPoolGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForManagedClustersAgentPool(gens map[string]gopter.Gen) {
 	gens["Spec"] = ManagedClusters_AgentPool_SpecGenerator()
 	gens["Status"] = ManagedClusters_AgentPool_STATUSGenerator()
+}
+
+func Test_ManagedClusters_AgentPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusters_AgentPool_Spec to ManagedClusters_AgentPool_Spec via AssignProperties_To_ManagedClusters_AgentPool_Spec & AssignProperties_From_ManagedClusters_AgentPool_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec, ManagedClusters_AgentPool_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec tests if a specific instance of ManagedClusters_AgentPool_Spec can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForManagedClusters_AgentPool_Spec(subject ManagedClusters_AgentPool_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.ManagedClusters_AgentPool_Spec
+	err := copied.AssignProperties_To_ManagedClusters_AgentPool_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusters_AgentPool_Spec
+	err = actual.AssignProperties_From_ManagedClusters_AgentPool_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ManagedClusters_AgentPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -182,6 +311,48 @@ func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_Spec(gens map[stri
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
+}
+
+func Test_ManagedClusters_AgentPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedClusters_AgentPool_STATUS to ManagedClusters_AgentPool_STATUS via AssignProperties_To_ManagedClusters_AgentPool_STATUS & AssignProperties_From_ManagedClusters_AgentPool_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS, ManagedClusters_AgentPool_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS tests if a specific instance of ManagedClusters_AgentPool_STATUS can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForManagedClusters_AgentPool_STATUS(subject ManagedClusters_AgentPool_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.ManagedClusters_AgentPool_STATUS
+	err := copied.AssignProperties_To_ManagedClusters_AgentPool_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedClusters_AgentPool_STATUS
+	err = actual.AssignProperties_From_ManagedClusters_AgentPool_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ManagedClusters_AgentPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -296,6 +467,48 @@ func AddRelatedPropertyGeneratorsForManagedClusters_AgentPool_STATUS(gens map[st
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettings_STATUSGenerator())
 }
 
+func Test_AgentPoolUpgradeSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AgentPoolUpgradeSettings to AgentPoolUpgradeSettings via AssignProperties_To_AgentPoolUpgradeSettings & AssignProperties_From_AgentPoolUpgradeSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAgentPoolUpgradeSettings, AgentPoolUpgradeSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAgentPoolUpgradeSettings tests if a specific instance of AgentPoolUpgradeSettings can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForAgentPoolUpgradeSettings(subject AgentPoolUpgradeSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.AgentPoolUpgradeSettings
+	err := copied.AssignProperties_To_AgentPoolUpgradeSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AgentPoolUpgradeSettings
+	err = actual.AssignProperties_From_AgentPoolUpgradeSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AgentPoolUpgradeSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -357,6 +570,48 @@ func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings(gens map[string
 	gens["MaxSurge"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_AgentPoolUpgradeSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AgentPoolUpgradeSettings_STATUS to AgentPoolUpgradeSettings_STATUS via AssignProperties_To_AgentPoolUpgradeSettings_STATUS & AssignProperties_From_AgentPoolUpgradeSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAgentPoolUpgradeSettings_STATUS, AgentPoolUpgradeSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAgentPoolUpgradeSettings_STATUS tests if a specific instance of AgentPoolUpgradeSettings_STATUS can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForAgentPoolUpgradeSettings_STATUS(subject AgentPoolUpgradeSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.AgentPoolUpgradeSettings_STATUS
+	err := copied.AssignProperties_To_AgentPoolUpgradeSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AgentPoolUpgradeSettings_STATUS
+	err = actual.AssignProperties_From_AgentPoolUpgradeSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AgentPoolUpgradeSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -416,6 +671,48 @@ func AgentPoolUpgradeSettings_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["MaxSurge"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_KubeletConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from KubeletConfig to KubeletConfig via AssignProperties_To_KubeletConfig & AssignProperties_From_KubeletConfig returns original",
+		prop.ForAll(RunPropertyAssignmentTestForKubeletConfig, KubeletConfigGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForKubeletConfig tests if a specific instance of KubeletConfig can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForKubeletConfig(subject KubeletConfig) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.KubeletConfig
+	err := copied.AssignProperties_To_KubeletConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual KubeletConfig
+	err = actual.AssignProperties_From_KubeletConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_KubeletConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -488,6 +785,48 @@ func AddIndependentPropertyGeneratorsForKubeletConfig(gens map[string]gopter.Gen
 	gens["TopologyManagerPolicy"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_KubeletConfig_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from KubeletConfig_STATUS to KubeletConfig_STATUS via AssignProperties_To_KubeletConfig_STATUS & AssignProperties_From_KubeletConfig_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForKubeletConfig_STATUS, KubeletConfig_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForKubeletConfig_STATUS tests if a specific instance of KubeletConfig_STATUS can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForKubeletConfig_STATUS(subject KubeletConfig_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.KubeletConfig_STATUS
+	err := copied.AssignProperties_To_KubeletConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual KubeletConfig_STATUS
+	err = actual.AssignProperties_From_KubeletConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_KubeletConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -557,6 +896,48 @@ func AddIndependentPropertyGeneratorsForKubeletConfig_STATUS(gens map[string]gop
 	gens["ImageGcLowThreshold"] = gen.PtrOf(gen.Int())
 	gens["PodMaxPids"] = gen.PtrOf(gen.Int())
 	gens["TopologyManagerPolicy"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_LinuxOSConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LinuxOSConfig to LinuxOSConfig via AssignProperties_To_LinuxOSConfig & AssignProperties_From_LinuxOSConfig returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLinuxOSConfig, LinuxOSConfigGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLinuxOSConfig tests if a specific instance of LinuxOSConfig can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForLinuxOSConfig(subject LinuxOSConfig) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.LinuxOSConfig
+	err := copied.AssignProperties_To_LinuxOSConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LinuxOSConfig
+	err = actual.AssignProperties_From_LinuxOSConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_LinuxOSConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -635,6 +1016,48 @@ func AddRelatedPropertyGeneratorsForLinuxOSConfig(gens map[string]gopter.Gen) {
 	gens["Sysctls"] = gen.PtrOf(SysctlConfigGenerator())
 }
 
+func Test_LinuxOSConfig_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LinuxOSConfig_STATUS to LinuxOSConfig_STATUS via AssignProperties_To_LinuxOSConfig_STATUS & AssignProperties_From_LinuxOSConfig_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLinuxOSConfig_STATUS, LinuxOSConfig_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLinuxOSConfig_STATUS tests if a specific instance of LinuxOSConfig_STATUS can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForLinuxOSConfig_STATUS(subject LinuxOSConfig_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.LinuxOSConfig_STATUS
+	err := copied.AssignProperties_To_LinuxOSConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LinuxOSConfig_STATUS
+	err = actual.AssignProperties_From_LinuxOSConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LinuxOSConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -710,6 +1133,48 @@ func AddIndependentPropertyGeneratorsForLinuxOSConfig_STATUS(gens map[string]gop
 // AddRelatedPropertyGeneratorsForLinuxOSConfig_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForLinuxOSConfig_STATUS(gens map[string]gopter.Gen) {
 	gens["Sysctls"] = gen.PtrOf(SysctlConfig_STATUSGenerator())
+}
+
+func Test_SysctlConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SysctlConfig to SysctlConfig via AssignProperties_To_SysctlConfig & AssignProperties_From_SysctlConfig returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSysctlConfig, SysctlConfigGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSysctlConfig tests if a specific instance of SysctlConfig can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForSysctlConfig(subject SysctlConfig) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.SysctlConfig
+	err := copied.AssignProperties_To_SysctlConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SysctlConfig
+	err = actual.AssignProperties_From_SysctlConfig(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SysctlConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -797,6 +1262,48 @@ func AddIndependentPropertyGeneratorsForSysctlConfig(gens map[string]gopter.Gen)
 	gens["VmMaxMapCount"] = gen.PtrOf(gen.Int())
 	gens["VmSwappiness"] = gen.PtrOf(gen.Int())
 	gens["VmVfsCachePressure"] = gen.PtrOf(gen.Int())
+}
+
+func Test_SysctlConfig_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SysctlConfig_STATUS to SysctlConfig_STATUS via AssignProperties_To_SysctlConfig_STATUS & AssignProperties_From_SysctlConfig_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSysctlConfig_STATUS, SysctlConfig_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSysctlConfig_STATUS tests if a specific instance of SysctlConfig_STATUS can be assigned to v1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForSysctlConfig_STATUS(subject SysctlConfig_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20210501s.SysctlConfig_STATUS
+	err := copied.AssignProperties_To_SysctlConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SysctlConfig_STATUS
+	err = actual.AssignProperties_From_SysctlConfig_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SysctlConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

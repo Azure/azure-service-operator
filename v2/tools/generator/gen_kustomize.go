@@ -6,7 +6,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -18,7 +17,6 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/kustomization"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/xcobra"
 )
 
 // NewGenKustomizeCommand creates a new cobra Command when invoked from the command line
@@ -27,16 +25,16 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 		// TODO: there's not great support for required
 		// TODO: arguments in cobra so this is the best we get... see:
 		// TODO: https://github.com/spf13/cobra/issues/395
-		Use:   "gen-kustomize <path to config/crd folder>",
+		Use:   "gen-kustomize <path to config/crd/generated folder>",
 		Short: "generate K8s Kustomize file in the spirit of Kubebuilder, based on the specified config folder",
 		Args:  cobra.ExactArgs(1),
-		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			crdPath := args[0]
 
 			const bases = "bases"
 			const patches = "patches"
 
-			// We have an expectation that the folder structure is: .../config/crd/bases and .../config/crd/patches
+			// We have an expectation that the folder structure is: .../config/crd/generated/bases and .../config/crd/generated/patches
 			basesPath := filepath.Join(crdPath, bases)
 			patchesPath := filepath.Join(crdPath, patches)
 
@@ -56,7 +54,6 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 
 			var errs []error
 			result := kustomization.NewCRDKustomizeFile()
-			result.AddConfiguration("kustomizeconfig.yaml")
 
 			for _, f := range files {
 				if f.IsDir() {
@@ -101,7 +98,7 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 			}
 
 			return nil
-		}),
+		},
 	}
 
 	return cmd, nil

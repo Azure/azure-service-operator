@@ -1,0 +1,15 @@
+apiVersion: cache.azure.com/v1api20201201
+kind: RedisPatchSchedule
+metadata:
+  # This name will only apply to the Kubernetes resource - the Azure
+  # resource will always be named `default`.
+  name: sampleredis-patches
+  namespace: default
+spec:
+  owner:
+    name: sampleredis1
+  scheduleEntries:
+    - dayOfWeek: Monday
+      startHourUtc: 6
+      # ISO8601 duration format - must be at least 300 minutes.
+      maintenanceWindow: PT6H

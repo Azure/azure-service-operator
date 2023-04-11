@@ -15,7 +15,7 @@ require (
 	github.com/devigned/tab v0.1.1
 	github.com/go-openapi/jsonpointer v0.19.5
 	github.com/go-openapi/spec v0.20.4
-	github.com/gobuffalo/flect v1.0.0
+	github.com/gobuffalo/flect v1.0.2
 	github.com/google/go-cmp v0.5.9
 	github.com/hbollon/go-edlib v1.6.0
 	github.com/kr/pretty v0.3.0
@@ -24,7 +24,7 @@ require (
 	github.com/onsi/gomega v1.20.1
 	github.com/pkg/errors v0.9.1
 	github.com/sebdah/goldie/v2 v2.5.3
-	github.com/spf13/cobra v1.2.1
+	github.com/spf13/cobra v1.6.1
 	github.com/spf13/pflag v1.0.5
 	github.com/xeipuuv/gojsonschema v1.2.0
 	golang.org/x/exp v0.0.0-20220414153411-bcd21879b8fd
@@ -40,7 +40,7 @@ require (
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-openapi/jsonreference v0.20.0 // indirect
 	github.com/go-openapi/swag v0.22.3 // indirect
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/inconshreveable/mousetrap v1.0.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect

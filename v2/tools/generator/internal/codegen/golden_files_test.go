@@ -159,7 +159,7 @@ func NewTestCodeGenerator(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.CreateResourceExtensionsStageID,
-			pipeline.CreateTypesForBackwardCompatibilityID,
+			pipeline.CreateTypesForBackwardCompatibilityStageID,
 			pipeline.ReportOnTypesAndVersionsStageID,
 			pipeline.ReportResourceVersionsStageID,
 			pipeline.ReportResourceStructureStageId)
@@ -179,6 +179,7 @@ func NewTestCodeGenerator(
 
 			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		} else {
+			codegen.RemoveStages(pipeline.ApplyCrossResourceReferencesFromConfigStageID)
 			codegen.ReplaceStage(pipeline.TransformCrossResourceReferencesStageID, addCrossResourceReferencesForTest(idFactory))
 		}
 	case config.GenerationPipelineCrossplane:
@@ -339,10 +340,17 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 		"Add cross resource references for test",
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			defs := make(astmodel.TypeDefinitionSet)
-			isCrossResourceReference := func(_ astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
-				return pipeline.DoesPropertyLookLikeARMReference(prop)
+			isCrossResourceReference := func(_ astmodel.TypeName, prop *astmodel.PropertyDefinition) pipeline.ARMIDPropertyClassification {
+				ref := pipeline.DoesPropertyLookLikeARMReference(prop)
+				if ref {
+					return pipeline.ARMIDPropertyClassificationSet
+				}
+
+				return pipeline.ARMIDPropertyClassificationUnspecified
 			}
-			visitor := pipeline.MakeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
+
+			crossReferenceVisitor := pipeline.MakeARMIDPropertyTypeVisitor(isCrossResourceReference)
+			resourceReferenceVisitor := pipeline.MakeARMIDToResourceReferenceTypeVisitor(idFactory)
 
 			for _, def := range state.Definitions() {
 				// Skip Status types
@@ -352,11 +360,17 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 					continue
 				}
 
-				t, err := visitor.Visit(def.Type(), def.Name())
+				updatedDef, err := crossReferenceVisitor.VisitDefinition(def, def.Name())
 				if err != nil {
-					return nil, errors.Wrapf(err, "visiting %q", def.Name())
+					return nil, errors.Wrapf(err, "crossReferenceVisitor failed visiting %q", def.Name())
 				}
-				defs.Add(def.WithType(t))
+
+				updatedDef, err = resourceReferenceVisitor.VisitDefinition(updatedDef, def.Name())
+				if err != nil {
+					return nil, errors.Wrapf(err, "resourceReferenceVisitor failed visiting %q", def.Name())
+				}
+
+				defs.Add(updatedDef)
 			}
 
 			return state.WithDefinitions(defs), nil

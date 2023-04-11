@@ -14,16 +14,16 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -86,7 +86,7 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 			Name: rgName,
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location: to.StringPtr("BadLocation"),
+			Location: to.Ptr("BadLocation"),
 			Tags:     testcommon.CreateTestResourceGroupDefaultTags(),
 		},
 	}
@@ -184,7 +184,8 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 	subscriptionId := "12345"
 
 	metrics := asometrics.NewARMClientMetrics()
-	client, err := genericarmclient.NewGenericClient(cfg, testcommon.MockTokenCredential{}, subscriptionId, metrics)
+	options := &genericarmclient.GenericClientOptions{Metrics: metrics}
+	client, err := genericarmclient.NewGenericClient(cfg, testcommon.MockTokenCredential{}, options)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	resourceURI := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Fake/fakeResource/fake", subscriptionId, "myrg")
@@ -194,7 +195,7 @@ func Test_NewResourceGroup_SubscriptionNotRegisteredError(t *testing.T) {
 			Name: "name",
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location: to.StringPtr("westus"),
+			Location: to.Ptr("westus"),
 		},
 	}
 

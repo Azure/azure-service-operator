@@ -8,16 +8,16 @@ package customizations
 import (
 	"context"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -75,7 +75,7 @@ func secretsToWrite(obj *mysql.FlexibleServer) ([]*v1.Secret, error) {
 	}
 
 	collector := secrets.NewCollector(obj.Namespace)
-	collector.AddValue(operatorSpecSecrets.FullyQualifiedDomainName, to.String(obj.Status.FullyQualifiedDomainName))
+	collector.AddValue(operatorSpecSecrets.FullyQualifiedDomainName, to.Value(obj.Status.FullyQualifiedDomainName))
 
 	return collector.Values()
 }

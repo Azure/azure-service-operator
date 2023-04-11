@@ -16,24 +16,21 @@ import (
 
 const (
 	// #nosec
-	ClientSecretVar            = "AZURE_CLIENT_SECRET"
-	SubscriptionIDVar          = "AZURE_SUBSCRIPTION_ID"
-	TenantIDVar                = "AZURE_TENANT_ID"
-	ClientIDVar                = "AZURE_CLIENT_ID"
-	AzureFederatedTokenFileVar = "AZURE_FEDERATED_TOKEN_FILE"
-	targetNamespacesVar        = "AZURE_TARGET_NAMESPACES"
-	operatorModeVar            = "AZURE_OPERATOR_MODE"
-	syncPeriodVar              = "AZURE_SYNC_PERIOD"
-	resourceManagerEndpointVar = "AZURE_RESOURCE_MANAGER_ENDPOINT"
-	resourceManagerAudienceVar = "AZURE_RESOURCE_MANAGER_AUDIENCE"
-	azureAuthorityHostVar      = "AZURE_AUTHORITY_HOST"
-	podNamespaceVar            = "POD_NAMESPACE"
-	useWorkloadIdentityAuth    = "USE_WORKLOAD_IDENTITY_AUTH"
-
-	// TODO: These values are used for single operator multitenancy tests. We can get rid of them once we have Managed Identity support.
-	AzureClientIDMultitenantVar = "AZURE_CLIENT_ID_MULTITENANT"
+	ClientSecretVar      = "AZURE_CLIENT_SECRET"
+	SubscriptionIDVar    = "AZURE_SUBSCRIPTION_ID"
+	TenantIDVar          = "AZURE_TENANT_ID"
+	ClientIDVar          = "AZURE_CLIENT_ID"
+	ClientCertificateVar = "AZURE_CLIENT_CERTIFICATE"
 	// #nosec
-	AzureClientSecretMultitenantVar = "AZURE_CLIENT_SECRET_MULTITENANT"
+	ClientCertificatePasswordVar = "AZURE_CLIENT_CERTIFICATE_PASSWORD"
+	targetNamespacesVar          = "AZURE_TARGET_NAMESPACES"
+	operatorModeVar              = "AZURE_OPERATOR_MODE"
+	syncPeriodVar                = "AZURE_SYNC_PERIOD"
+	resourceManagerEndpointVar   = "AZURE_RESOURCE_MANAGER_ENDPOINT"
+	resourceManagerAudienceVar   = "AZURE_RESOURCE_MANAGER_AUDIENCE"
+	azureAuthorityHostVar        = "AZURE_AUTHORITY_HOST"
+	podNamespaceVar              = "POD_NAMESPACE"
+	useWorkloadIdentityAuth      = "USE_WORKLOAD_IDENTITY_AUTH"
 )
 
 // These are hardcoded because the init function that initializes them in azcore isn't in /cloud it's in /arm which
@@ -110,19 +107,20 @@ var _ fmt.Stringer = Values{}
 
 // Returns the configuration as a string
 func (v Values) String() string {
-	return fmt.Sprintf(
-		"SubscriptionID:%s/TenantID:%s/ClientID:%s/PodNamespace:%s/OperatorMode:%s/TargetNamespaces:%s/SyncPeriod:%s/ResourceManagerEndpoint:%s/ResourceManagerAudience:%s/AzureAuthorityHost:%s/UseWorkloadIdentityAuth:%t",
-		v.SubscriptionID,
-		v.TenantID,
-		v.ClientID,
-		v.PodNamespace,
-		v.OperatorMode,
-		strings.Join(v.TargetNamespaces, "|"),
-		v.SyncPeriod,
-		v.ResourceManagerEndpoint,
-		v.ResourceManagerAudience,
-		v.AzureAuthorityHost,
-		v.UseWorkloadIdentityAuth)
+	var builder strings.Builder
+	builder.WriteString(fmt.Sprintf("SubscriptionID:%s/", v.SubscriptionID))
+	builder.WriteString(fmt.Sprintf("TenantID:%s/", v.TenantID))
+	builder.WriteString(fmt.Sprintf("ClientID:%s/", v.ClientID))
+	builder.WriteString(fmt.Sprintf("PodNamespace:%s/", v.PodNamespace))
+	builder.WriteString(fmt.Sprintf("OperatorMode:%s/", v.OperatorMode))
+	builder.WriteString(fmt.Sprintf("TargetNamespaces:%s/", strings.Join(v.TargetNamespaces, "|")))
+	builder.WriteString(fmt.Sprintf("SyncPeriod:%s/", v.SyncPeriod))
+	builder.WriteString(fmt.Sprintf("ResourceManagerEndpoint:%s/", v.ResourceManagerEndpoint))
+	builder.WriteString(fmt.Sprintf("ResourceManagerAudience:%s/", v.ResourceManagerAudience))
+	builder.WriteString(fmt.Sprintf("AzureAuthorityHost:%s/", v.AzureAuthorityHost))
+	builder.WriteString(fmt.Sprintf("UseWorkloadIdentityAuth:%t", v.UseWorkloadIdentityAuth))
+
+	return builder.String()
 }
 
 // Cloud returns the cloud the configuration is using

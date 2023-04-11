@@ -9,13 +9,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
-	insightswebtest "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview"
-	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	insightswebtest "github.com/Azure/azure-service-operator/v2/api/insights/v1api20180501preview"
+	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 func Test_Insights_Component_CRUD(t *testing.T) {
@@ -34,22 +34,22 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			// According to their documentation you can set anything here, it's ignored.
 			Application_Type: &applicationType,
-			Kind:             to.StringPtr("web"),
+			Kind:             to.Ptr("web"),
 		},
 	}
 
 	tc.CreateResourceAndWait(component)
 
 	tc.Expect(component.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(component.Status.Kind).To(Equal(to.StringPtr("web")))
+	tc.Expect(component.Status.Kind).To(Equal(to.Ptr("web")))
 	tc.Expect(component.Status.Id).ToNot(BeNil())
 	armId := *component.Status.Id
 
 	// Perform a simple patch.
 	old := component.DeepCopy()
-	component.Spec.RetentionInDays = to.IntPtr(60)
+	component.Spec.RetentionInDays = to.Ptr(60)
 	tc.PatchResourceAndWait(old, component)
-	tc.Expect(component.Status.RetentionInDays).To(Equal(to.IntPtr(60)))
+	tc.Expect(component.Status.RetentionInDays).To(Equal(to.Ptr(60)))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -71,7 +71,7 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 }
 
 func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights.Component) {
-	horribleHiddenLink := fmt.Sprintf("hidden-link:%s", to.String(component.Status.Id))
+	horribleHiddenLink := fmt.Sprintf("hidden-link:%s", to.Value(component.Status.Id))
 
 	horribleTags := map[string]string{
 		horribleHiddenLink: "Resource",
@@ -88,23 +88,23 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 			Owner:              testcommon.AsOwner(rg),
 			SyntheticMonitorId: &om.Name,
 			Tags:               horribleTags,
-			Name:               to.StringPtr("mywebtest"),
-			Enabled:            to.BoolPtr(true),
-			Frequency:          to.IntPtr(300),
+			Name:               to.Ptr("mywebtest"),
+			Enabled:            to.Ptr(true),
+			Frequency:          to.Ptr(300),
 			Kind:               &kind,
 			Locations: []insightswebtest.WebTestGeolocation{
 				{
-					Id: to.StringPtr("us-ca-sjc-azr"), // This is US west...
+					Id: to.Ptr("us-ca-sjc-azr"), // This is US west...
 				},
 			},
 			Request: &insightswebtest.WebTestProperties_Request{
-				HttpVerb:   to.StringPtr("GET"),
-				RequestUrl: to.StringPtr("https://github.com/Azure/azure-service-operator"),
+				HttpVerb:   to.Ptr("GET"),
+				RequestUrl: to.Ptr("https://github.com/Azure/azure-service-operator"),
 			},
 			ValidationRules: &insightswebtest.WebTestProperties_ValidationRules{
-				ExpectedHttpStatusCode:        to.IntPtr(200),
-				SSLCheck:                      to.BoolPtr(true),
-				SSLCertRemainingLifetimeCheck: to.IntPtr(7),
+				ExpectedHttpStatusCode:        to.Ptr(200),
+				SSLCheck:                      to.Ptr(true),
+				SSLCertRemainingLifetimeCheck: to.Ptr(7),
 			},
 		},
 	}
@@ -119,9 +119,9 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	// Perform a simple patch.
 	old := webtest.DeepCopy()
-	webtest.Spec.Enabled = to.BoolPtr(false)
+	webtest.Spec.Enabled = to.Ptr(false)
 	tc.PatchResourceAndWait(old, webtest)
-	tc.Expect(webtest.Status.Enabled).To(Equal(to.BoolPtr(false)))
+	tc.Expect(webtest.Status.Enabled).To(Equal(to.Ptr(false)))
 
 	tc.DeleteResourceAndWait(webtest)
 

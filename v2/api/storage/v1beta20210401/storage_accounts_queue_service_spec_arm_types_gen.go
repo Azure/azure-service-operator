@@ -5,10 +5,9 @@ package v1beta20210401
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of StorageAccounts_QueueService_Spec. Use v1api20210401.StorageAccounts_QueueService_Spec instead
 type StorageAccounts_QueueService_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: The properties of a storage account’s Queue service.
+	Name       string                                            `json:"name,omitempty"`
 	Properties *StorageAccounts_QueueService_Properties_Spec_ARM `json:"properties,omitempty"`
 }
 
@@ -29,9 +28,7 @@ func (service *StorageAccounts_QueueService_Spec_ARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 
+// Deprecated version of StorageAccounts_QueueService_Properties_Spec. Use v1api20210401.StorageAccounts_QueueService_Properties_Spec instead
 type StorageAccounts_QueueService_Properties_Spec_ARM struct {
-	// Cors: Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no
-	// CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the
-	// Queue service.
 	Cors *CorsRules_ARM `json:"cors,omitempty"`
 }

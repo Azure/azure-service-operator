@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/configurations/{configurationName}
+// Deprecated version of Configuration. Use v1api20180601.Configuration instead
 type Configuration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Configuration{}
 
 // ConvertFrom populates our Configuration from the provided hub Configuration
 func (configuration *Configuration) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20180601s.Configuration)
-	if !ok {
-		return fmt.Errorf("expected dbformariadb/v1beta20180601storage/Configuration but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20180601s.Configuration
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return configuration.AssignProperties_From_Configuration(source)
+	err = configuration.AssignProperties_From_Configuration(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to configuration")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Configuration from our Configuration
 func (configuration *Configuration) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20180601s.Configuration)
-	if !ok {
-		return fmt.Errorf("expected dbformariadb/v1beta20180601storage/Configuration but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20180601s.Configuration
+	err := configuration.AssignProperties_To_Configuration(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from configuration")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return configuration.AssignProperties_To_Configuration(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbformariadb-azure-com-v1beta20180601-configuration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=configurations,verbs=create;update,versions=v1beta20180601,name=default.v1beta20180601.configurations.dbformariadb.azure.com,admissionReviewVersions=v1
@@ -312,15 +324,14 @@ func (configuration *Configuration) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/configurations/{configurationName}
+// Deprecated version of Configuration. Use v1api20180601.Configuration instead
 type ConfigurationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Configuration `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20180601.APIVersion instead
 // +kubebuilder:validation:Enum={"2018-06-01"}
 type APIVersion string
 
@@ -335,13 +346,9 @@ type Servers_Configuration_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a dbformariadb.azure.com/Server resource
-	Owner *genruntime.KnownResourceReference `group:"dbformariadb.azure.com" json:"owner,omitempty" kind:"Server"`
-
-	// Source: Source of the configuration.
-	Source *string `json:"source,omitempty"`
-
-	// Value: Value of the configuration.
-	Value *string `json:"value,omitempty"`
+	Owner  *genruntime.KnownResourceReference `group:"dbformariadb.azure.com" json:"owner,omitempty" kind:"Server"`
+	Source *string                            `json:"source,omitempty"`
+	Value  *string                            `json:"value,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Servers_Configuration_Spec{}
@@ -531,37 +538,20 @@ func (configuration *Servers_Configuration_Spec) SetAzureName(azureName string) 
 	configuration.AzureName = azureName
 }
 
+// Deprecated version of Servers_Configuration_STATUS. Use v1api20180601.Servers_Configuration_STATUS instead
 type Servers_Configuration_STATUS struct {
-	// AllowedValues: Allowed values of the configuration.
 	AllowedValues *string `json:"allowedValues,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DataType: Data type of the configuration.
-	DataType *string `json:"dataType,omitempty"`
-
-	// DefaultValue: Default value of the configuration.
-	DefaultValue *string `json:"defaultValue,omitempty"`
-
-	// Description: Description of the configuration.
-	Description *string `json:"description,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Source: Source of the configuration.
-	Source *string `json:"source,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// Value: Value of the configuration.
-	Value *string `json:"value,omitempty"`
+	Conditions   []conditions.Condition `json:"conditions,omitempty"`
+	DataType     *string                `json:"dataType,omitempty"`
+	DefaultValue *string                `json:"defaultValue,omitempty"`
+	Description  *string                `json:"description,omitempty"`
+	Id           *string                `json:"id,omitempty"`
+	Name         *string                `json:"name,omitempty"`
+	Source       *string                `json:"source,omitempty"`
+	Type         *string                `json:"type,omitempty"`
+	Value        *string                `json:"value,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Servers_Configuration_STATUS{}

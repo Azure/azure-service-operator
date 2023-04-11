@@ -34,6 +34,18 @@ spec:
                 secretKeyRef:
                   name: aso-controller-settings
                   key: AZURE_SUBSCRIPTION_ID
+            - name: AZURE_CLIENT_CERTIFICATE
+              valueFrom:
+                secretKeyRef:
+                  name: aso-controller-settings
+                  key: AZURE_CLIENT_CERTIFICATE
+                  optional: true
+            - name: AZURE_CLIENT_CERTIFICATE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: aso-controller-settings
+                  key: AZURE_CLIENT_CERTIFICATE_PASSWORD
+                  optional: true
             - name: AZURE_AUTHORITY_HOST
               valueFrom:
                 secretKeyRef:

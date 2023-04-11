@@ -5,6 +5,7 @@ package v1beta20220131preview
 
 import (
 	"encoding/json"
+	v1api20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20220131previewstorage"
 	v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131previewstorage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForFederatedIdentityCredential(subject FederatedId
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20220131ps.FederatedIdentityCredential
+	var hub v1api20220131ps.FederatedIdentityCredential
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}
+// Deprecated version of RouteTable. Use v1api20201101.RouteTable instead
 type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &RouteTable{}
 
 // ConvertFrom populates our RouteTable from the provided hub RouteTable
 func (table *RouteTable) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201101s.RouteTable)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/RouteTable but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201101s.RouteTable
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return table.AssignProperties_From_RouteTable(source)
+	err = table.AssignProperties_From_RouteTable(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to table")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RouteTable from our RouteTable
 func (table *RouteTable) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201101s.RouteTable)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/RouteTable but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201101s.RouteTable
+	err := table.AssignProperties_To_RouteTable(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from table")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return table.AssignProperties_To_RouteTable(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-routetable,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=routetables,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.routetables.network.azure.com,admissionReviewVersions=v1
@@ -312,9 +324,7 @@ func (table *RouteTable) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}
+// Deprecated version of RouteTable. Use v1api20201101.RouteTable instead
 type RouteTableList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -324,22 +334,16 @@ type RouteTableList struct {
 type RouteTable_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
-	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
+	AzureName                  string  `json:"azureName,omitempty"`
+	DisableBgpRoutePropagation *bool   `json:"disableBgpRoutePropagation,omitempty"`
+	Location                   *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RouteTable_Spec{}
@@ -558,37 +562,19 @@ func (table *RouteTable_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (table *RouteTable_Spec) SetAzureName(azureName string) { table.AzureName = azureName }
 
-// Route table resource.
+// Deprecated version of RouteTable_STATUS. Use v1api20201101.RouteTable_STATUS instead
 type RouteTable_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
-	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: The provisioning state of the route table resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resource GUID property of the route table.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	Conditions                 []conditions.Condition    `json:"conditions,omitempty"`
+	DisableBgpRoutePropagation *bool                     `json:"disableBgpRoutePropagation,omitempty"`
+	Etag                       *string                   `json:"etag,omitempty"`
+	Id                         *string                   `json:"id,omitempty"`
+	Location                   *string                   `json:"location,omitempty"`
+	Name                       *string                   `json:"name,omitempty"`
+	ProvisioningState          *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ResourceGuid               *string                   `json:"resourceGuid,omitempty"`
+	Tags                       map[string]string         `json:"tags,omitempty"`
+	Type                       *string                   `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}

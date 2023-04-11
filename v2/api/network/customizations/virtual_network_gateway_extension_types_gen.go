@@ -4,8 +4,8 @@
 package customizations
 
 import (
-	alpha20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
-	alpha20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
+	v1api20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
+	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	v20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -17,8 +17,8 @@ type VirtualNetworkGatewayExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *VirtualNetworkGatewayExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&alpha20201101.VirtualNetworkGateway{},
-		&alpha20201101s.VirtualNetworkGateway{},
+		&v1api20201101.VirtualNetworkGateway{},
+		&v1api20201101s.VirtualNetworkGateway{},
 		&v20201101.VirtualNetworkGateway{},
 		&v20201101s.VirtualNetworkGateway{}}
 }

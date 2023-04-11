@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default
+// Deprecated version of MongodbDatabaseThroughputSetting. Use v1api20210515.MongodbDatabaseThroughputSetting instead
 type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &MongodbDatabaseThroughputSetting{}
 
 // ConvertFrom populates our MongodbDatabaseThroughputSetting from the provided hub MongodbDatabaseThroughputSetting
 func (setting *MongodbDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210515s.MongodbDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/MongodbDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210515s.MongodbDatabaseThroughputSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_MongodbDatabaseThroughputSetting(source)
+	err = setting.AssignProperties_From_MongodbDatabaseThroughputSetting(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub MongodbDatabaseThroughputSetting from our MongodbDatabaseThroughputSetting
 func (setting *MongodbDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210515s.MongodbDatabaseThroughputSetting)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/MongodbDatabaseThroughputSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210515s.MongodbDatabaseThroughputSetting
+	err := setting.AssignProperties_To_MongodbDatabaseThroughputSetting(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_MongodbDatabaseThroughputSetting(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-mongodbdatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasethroughputsettings,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.mongodbdatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1
@@ -305,9 +317,7 @@ func (setting *MongodbDatabaseThroughputSetting) OriginalGVK() *schema.GroupVers
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default
+// Deprecated version of MongodbDatabaseThroughputSetting. Use v1api20210515.MongodbDatabaseThroughputSetting instead
 type MongodbDatabaseThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -315,7 +325,6 @@ type MongodbDatabaseThroughputSettingList struct {
 }
 
 type DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec struct {
-	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -325,7 +334,6 @@ type DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
 
 	// +kubebuilder:validation:Required
-	// Resource: The standard JSON format of a resource throughput
 	Resource *ThroughputSettingsResource `json:"resource,omitempty"`
 	Tags     map[string]string           `json:"tags,omitempty"`
 }
@@ -551,23 +559,16 @@ func (setting *DatabaseAccounts_MongodbDatabases_ThroughputSetting_Spec) Origina
 	return GroupVersion.Version
 }
 
+// Deprecated version of DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS. Use v1api20210515.DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS instead
 type DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name     *string                                          `json:"name,omitempty"`
-	Resource *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string                                `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions []conditions.Condition                           `json:"conditions,omitempty"`
+	Id         *string                                          `json:"id,omitempty"`
+	Location   *string                                          `json:"location,omitempty"`
+	Name       *string                                          `json:"name,omitempty"`
+	Resource   *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags       map[string]string                                `json:"tags,omitempty"`
+	Type       *string                                          `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccounts_MongodbDatabases_ThroughputSetting_STATUS{}

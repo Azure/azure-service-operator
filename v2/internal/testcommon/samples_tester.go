@@ -43,6 +43,12 @@ var exclusions = []string{
 
 	// Excluding dbformysql/user as is not an ARM resource
 	"user",
+
+	// Excluding sql serversadministrator and serversazureadonlyauthentication as they both require AAD auth
+	// which the samples recordings aren't using.
+	"serversadministrator",
+	"serversazureadonlyauthentication",
+	"serversfailovergroup", // Requires creating multiple linked SQL servers which is hard to do in the samples
 }
 
 type SamplesTester struct {

@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkSecurityGroup.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}
+// Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1api20201101.NetworkSecurityGroupsSecurityRule instead
 type NetworkSecurityGroupsSecurityRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &NetworkSecurityGroupsSecurityRule{}
 
 // ConvertFrom populates our NetworkSecurityGroupsSecurityRule from the provided hub NetworkSecurityGroupsSecurityRule
 func (rule *NetworkSecurityGroupsSecurityRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201101s.NetworkSecurityGroupsSecurityRule)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201101s.NetworkSecurityGroupsSecurityRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule(source)
+	err = rule.AssignProperties_From_NetworkSecurityGroupsSecurityRule(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkSecurityGroupsSecurityRule from our NetworkSecurityGroupsSecurityRule
 func (rule *NetworkSecurityGroupsSecurityRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201101s.NetworkSecurityGroupsSecurityRule)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201101s.NetworkSecurityGroupsSecurityRule
+	err := rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_NetworkSecurityGroupsSecurityRule(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-networksecuritygroupssecurityrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroupssecurityrules,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.networksecuritygroupssecurityrules.network.azure.com,admissionReviewVersions=v1
@@ -312,9 +324,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) OriginalGVK() *schema.GroupVersio
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkSecurityGroup.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/securityRules/{securityRuleName}
+// Deprecated version of NetworkSecurityGroupsSecurityRule. Use v1api20201101.NetworkSecurityGroupsSecurityRule instead
 type NetworkSecurityGroupsSecurityRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -323,68 +333,35 @@ type NetworkSecurityGroupsSecurityRuleList struct {
 
 type NetworkSecurityGroups_SecurityRule_Spec struct {
 	// +kubebuilder:validation:Required
-	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess `json:"access,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// Description: A description for this rule. Restricted to 140 chars.
-	Description *string `json:"description,omitempty"`
-
-	// DestinationAddressPrefix: The destination address prefix. CIDR or destination IP range. Asterisk '*' can also be used to
-	// match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
-	DestinationAddressPrefix *string `json:"destinationAddressPrefix,omitempty"`
-
-	// DestinationAddressPrefixes: The destination address prefixes. CIDR or destination IP ranges.
-	DestinationAddressPrefixes []string `json:"destinationAddressPrefixes,omitempty"`
-
-	// DestinationApplicationSecurityGroups: The application security group specified as destination.
+	AzureName                            string                                                                                `json:"azureName,omitempty"`
+	Description                          *string                                                                               `json:"description,omitempty"`
+	DestinationAddressPrefix             *string                                                                               `json:"destinationAddressPrefix,omitempty"`
+	DestinationAddressPrefixes           []string                                                                              `json:"destinationAddressPrefixes,omitempty"`
 	DestinationApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded `json:"destinationApplicationSecurityGroups,omitempty"`
-
-	// DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used
-	// to match all ports.
-	DestinationPortRange *string `json:"destinationPortRange,omitempty"`
-
-	// DestinationPortRanges: The destination port ranges.
-	DestinationPortRanges []string `json:"destinationPortRanges,omitempty"`
+	DestinationPortRange                 *string                                                                               `json:"destinationPortRange,omitempty"`
+	DestinationPortRanges                []string                                                                              `json:"destinationPortRanges,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
 	Direction *SecurityRuleDirection `json:"direction,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a network.azure.com/NetworkSecurityGroup resource
-	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"NetworkSecurityGroup"`
-
-	// Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
-	// rule in the collection. The lower the priority number, the higher the priority of the rule.
-	Priority *int `json:"priority,omitempty"`
+	Owner    *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"NetworkSecurityGroup"`
+	Priority *int                               `json:"priority,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Protocol: Network protocol this rule applies to.
-	Protocol *SecurityRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
-
-	// SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags
-	// such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies
-	// where network traffic originates from.
-	SourceAddressPrefix *string `json:"sourceAddressPrefix,omitempty"`
-
-	// SourceAddressPrefixes: The CIDR or source IP ranges.
-	SourceAddressPrefixes []string `json:"sourceAddressPrefixes,omitempty"`
-
-	// SourceApplicationSecurityGroups: The application security group specified as source.
+	Protocol                        *SecurityRulePropertiesFormat_Protocol                                                `json:"protocol,omitempty"`
+	SourceAddressPrefix             *string                                                                               `json:"sourceAddressPrefix,omitempty"`
+	SourceAddressPrefixes           []string                                                                              `json:"sourceAddressPrefixes,omitempty"`
 	SourceApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded `json:"sourceApplicationSecurityGroups,omitempty"`
-
-	// SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match
-	// all ports.
-	SourcePortRange *string `json:"sourcePortRange,omitempty"`
-
-	// SourcePortRanges: The source port ranges.
-	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
+	SourcePortRange                 *string                                                                               `json:"sourcePortRange,omitempty"`
+	SourcePortRanges                []string                                                                              `json:"sourcePortRanges,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkSecurityGroups_SecurityRule_Spec{}
@@ -931,75 +908,31 @@ func (rule *NetworkSecurityGroups_SecurityRule_Spec) SetAzureName(azureName stri
 	rule.AzureName = azureName
 }
 
+// Deprecated version of NetworkSecurityGroups_SecurityRule_STATUS. Use v1api20201101.NetworkSecurityGroups_SecurityRule_STATUS instead
 type NetworkSecurityGroups_SecurityRule_STATUS struct {
-	// Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_STATUS `json:"access,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Description: A description for this rule. Restricted to 140 chars.
-	Description *string `json:"description,omitempty"`
-
-	// DestinationAddressPrefix: The destination address prefix. CIDR or destination IP range. Asterisk '*' can also be used to
-	// match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used.
-	DestinationAddressPrefix *string `json:"destinationAddressPrefix,omitempty"`
-
-	// DestinationAddressPrefixes: The destination address prefixes. CIDR or destination IP ranges.
-	DestinationAddressPrefixes []string `json:"destinationAddressPrefixes,omitempty"`
-
-	// DestinationApplicationSecurityGroups: The application security group specified as destination.
+	Conditions                           []conditions.Condition                                                                   `json:"conditions,omitempty"`
+	Description                          *string                                                                                  `json:"description,omitempty"`
+	DestinationAddressPrefix             *string                                                                                  `json:"destinationAddressPrefix,omitempty"`
+	DestinationAddressPrefixes           []string                                                                                 `json:"destinationAddressPrefixes,omitempty"`
 	DestinationApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded `json:"destinationApplicationSecurityGroups,omitempty"`
-
-	// DestinationPortRange: The destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used
-	// to match all ports.
-	DestinationPortRange *string `json:"destinationPortRange,omitempty"`
-
-	// DestinationPortRanges: The destination port ranges.
-	DestinationPortRanges []string `json:"destinationPortRanges,omitempty"`
-
-	// Direction: The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
-	Direction *SecurityRuleDirection_STATUS `json:"direction,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Priority: The priority of the rule. The value can be between 100 and 4096. The priority number must be unique for each
-	// rule in the collection. The lower the priority number, the higher the priority of the rule.
-	Priority *int `json:"priority,omitempty"`
-
-	// Protocol: Network protocol this rule applies to.
-	Protocol *SecurityRulePropertiesFormat_Protocol_STATUS `json:"protocol,omitempty"`
-
-	// ProvisioningState: The provisioning state of the security rule resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// SourceAddressPrefix: The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags
-	// such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies
-	// where network traffic originates from.
-	SourceAddressPrefix *string `json:"sourceAddressPrefix,omitempty"`
-
-	// SourceAddressPrefixes: The CIDR or source IP ranges.
-	SourceAddressPrefixes []string `json:"sourceAddressPrefixes,omitempty"`
-
-	// SourceApplicationSecurityGroups: The application security group specified as source.
-	SourceApplicationSecurityGroups []ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded `json:"sourceApplicationSecurityGroups,omitempty"`
-
-	// SourcePortRange: The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match
-	// all ports.
-	SourcePortRange *string `json:"sourcePortRange,omitempty"`
-
-	// SourcePortRanges: The source port ranges.
-	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
+	DestinationPortRange                 *string                                                                                  `json:"destinationPortRange,omitempty"`
+	DestinationPortRanges                []string                                                                                 `json:"destinationPortRanges,omitempty"`
+	Direction                            *SecurityRuleDirection_STATUS                                                            `json:"direction,omitempty"`
+	Etag                                 *string                                                                                  `json:"etag,omitempty"`
+	Id                                   *string                                                                                  `json:"id,omitempty"`
+	Name                                 *string                                                                                  `json:"name,omitempty"`
+	Priority                             *int                                                                                     `json:"priority,omitempty"`
+	Protocol                             *SecurityRulePropertiesFormat_Protocol_STATUS                                            `json:"protocol,omitempty"`
+	ProvisioningState                    *ProvisioningState_STATUS                                                                `json:"provisioningState,omitempty"`
+	SourceAddressPrefix                  *string                                                                                  `json:"sourceAddressPrefix,omitempty"`
+	SourceAddressPrefixes                []string                                                                                 `json:"sourceAddressPrefixes,omitempty"`
+	SourceApplicationSecurityGroups      []ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourcePortRange                      *string                                                                                  `json:"sourcePortRange,omitempty"`
+	SourcePortRanges                     []string                                                                                 `json:"sourcePortRanges,omitempty"`
+	Type                                 *string                                                                                  `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &NetworkSecurityGroups_SecurityRule_STATUS{}
@@ -1493,9 +1426,8 @@ func (rule *NetworkSecurityGroups_SecurityRule_STATUS) AssignProperties_To_Netwo
 	return nil
 }
 
-// An application security group in a resource group.
+// Deprecated version of ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded. Use v1api20201101.ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded instead
 type ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -1552,9 +1484,8 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroups_SecurityRu
 	return nil
 }
 
-// An application security group in a resource group.
+// Deprecated version of ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded. Use v1api20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded instead
 type ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded struct {
-	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
@@ -1636,7 +1567,7 @@ func (embedded *ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_
 	return nil
 }
 
-// Whether network traffic is allowed or denied.
+// Deprecated version of SecurityRuleAccess. Use v1api20201101.SecurityRuleAccess instead
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type SecurityRuleAccess string
 
@@ -1645,7 +1576,7 @@ const (
 	SecurityRuleAccess_Deny  = SecurityRuleAccess("Deny")
 )
 
-// Whether network traffic is allowed or denied.
+// Deprecated version of SecurityRuleAccess_STATUS. Use v1api20201101.SecurityRuleAccess_STATUS instead
 type SecurityRuleAccess_STATUS string
 
 const (
@@ -1653,7 +1584,7 @@ const (
 	SecurityRuleAccess_STATUS_Deny  = SecurityRuleAccess_STATUS("Deny")
 )
 
-// The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
+// Deprecated version of SecurityRuleDirection. Use v1api20201101.SecurityRuleDirection instead
 // +kubebuilder:validation:Enum={"Inbound","Outbound"}
 type SecurityRuleDirection string
 
@@ -1662,7 +1593,7 @@ const (
 	SecurityRuleDirection_Outbound = SecurityRuleDirection("Outbound")
 )
 
-// The direction of the rule. The direction specifies if rule will be evaluated on incoming or outgoing traffic.
+// Deprecated version of SecurityRuleDirection_STATUS. Use v1api20201101.SecurityRuleDirection_STATUS instead
 type SecurityRuleDirection_STATUS string
 
 const (
@@ -1670,6 +1601,8 @@ const (
 	SecurityRuleDirection_STATUS_Outbound = SecurityRuleDirection_STATUS("Outbound")
 )
 
+// Deprecated version of SecurityRulePropertiesFormat_Protocol. Use v1api20201101.SecurityRulePropertiesFormat_Protocol
+// instead
 // +kubebuilder:validation:Enum={"Ah","Esp","Icmp","*","Tcp","Udp"}
 type SecurityRulePropertiesFormat_Protocol string
 
@@ -1682,6 +1615,8 @@ const (
 	SecurityRulePropertiesFormat_Protocol_Udp  = SecurityRulePropertiesFormat_Protocol("Udp")
 )
 
+// Deprecated version of SecurityRulePropertiesFormat_Protocol_STATUS. Use
+// v1api20201101.SecurityRulePropertiesFormat_Protocol_STATUS instead
 type SecurityRulePropertiesFormat_Protocol_STATUS string
 
 const (

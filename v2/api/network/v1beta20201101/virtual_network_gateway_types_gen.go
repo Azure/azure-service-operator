@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetworkGateway.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
+// Deprecated version of VirtualNetworkGateway. Use v1api20201101.VirtualNetworkGateway instead
 type VirtualNetworkGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &VirtualNetworkGateway{}
 
 // ConvertFrom populates our VirtualNetworkGateway from the provided hub VirtualNetworkGateway
 func (gateway *VirtualNetworkGateway) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201101s.VirtualNetworkGateway)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/VirtualNetworkGateway but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201101s.VirtualNetworkGateway
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return gateway.AssignProperties_From_VirtualNetworkGateway(source)
+	err = gateway.AssignProperties_From_VirtualNetworkGateway(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to gateway")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualNetworkGateway from our VirtualNetworkGateway
 func (gateway *VirtualNetworkGateway) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201101s.VirtualNetworkGateway)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/VirtualNetworkGateway but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201101s.VirtualNetworkGateway
+	err := gateway.AssignProperties_To_VirtualNetworkGateway(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from gateway")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return gateway.AssignProperties_To_VirtualNetworkGateway(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-virtualnetworkgateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1
@@ -312,9 +324,7 @@ func (gateway *VirtualNetworkGateway) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetworkGateway.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}
+// Deprecated version of VirtualNetworkGateway. Use v1api20201101.VirtualNetworkGateway instead
 type VirtualNetworkGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -322,71 +332,33 @@ type VirtualNetworkGatewayList struct {
 }
 
 type VirtualNetworkGateway_Spec struct {
-	// ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// BgpSettings: Virtual network gateway's BGP speaker settings.
-	BgpSettings *BgpSettings `json:"bgpSettings,omitempty"`
-
-	// CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
-	// the customer for virtual network gateway and VpnClient.
-	CustomRoutes *AddressSpace `json:"customRoutes,omitempty"`
-
-	// EnableBgp: Whether BGP is enabled for this virtual network gateway or not.
-	EnableBgp *bool `json:"enableBgp,omitempty"`
-
-	// EnableDnsForwarding: Whether dns forwarding is enabled or not.
-	EnableDnsForwarding *bool `json:"enableDnsForwarding,omitempty"`
-
-	// EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.
-	EnablePrivateIpAddress *bool `json:"enablePrivateIpAddress,omitempty"`
-
-	// ExtendedLocation: The extended location of type local virtual network gateway.
-	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
-	// routes. Assign Null value in case of removing existing default site setting.
-	GatewayDefaultSite *SubResource `json:"gatewayDefaultSite,omitempty"`
-
-	// GatewayType: The type of this virtual network gateway.
-	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType `json:"gatewayType,omitempty"`
-
-	// IpConfigurations: IP configurations for virtual network gateway.
-	IpConfigurations []VirtualNetworkGatewayIPConfiguration `json:"ipConfigurations,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
+	AzureName              string                                             `json:"azureName,omitempty"`
+	BgpSettings            *BgpSettings                                       `json:"bgpSettings,omitempty"`
+	CustomRoutes           *AddressSpace                                      `json:"customRoutes,omitempty"`
+	EnableBgp              *bool                                              `json:"enableBgp,omitempty"`
+	EnableDnsForwarding    *bool                                              `json:"enableDnsForwarding,omitempty"`
+	EnablePrivateIpAddress *bool                                              `json:"enablePrivateIpAddress,omitempty"`
+	ExtendedLocation       *ExtendedLocation                                  `json:"extendedLocation,omitempty"`
+	GatewayDefaultSite     *SubResource                                       `json:"gatewayDefaultSite,omitempty"`
+	GatewayType            *VirtualNetworkGatewayPropertiesFormat_GatewayType `json:"gatewayType,omitempty"`
+	IpConfigurations       []VirtualNetworkGatewayIPConfiguration             `json:"ipConfigurations,omitempty"`
+	Location               *string                                            `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
-	// gateway.
-	Sku *VirtualNetworkGatewaySku `json:"sku,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// VNetExtendedLocationResourceReference: Customer vnet resource id. VirtualNetworkGateway of type local gateway is
-	// associated with the customer vnet.
-	VNetExtendedLocationResourceReference *genruntime.ResourceReference `armReference:"VNetExtendedLocationResourceId" json:"vNetExtendedLocationResourceReference,omitempty"`
-
-	// VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
-	// configurations.
-	VpnClientConfiguration *VpnClientConfiguration `json:"vpnClientConfiguration,omitempty"`
-
-	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
-	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
-
-	// VpnType: The type of this virtual network gateway.
-	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType `json:"vpnType,omitempty"`
+	Owner                                 *genruntime.KnownResourceReference                          `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Sku                                   *VirtualNetworkGatewaySku                                   `json:"sku,omitempty"`
+	Tags                                  map[string]string                                           `json:"tags,omitempty"`
+	VNetExtendedLocationResourceReference *genruntime.ResourceReference                               `armReference:"VNetExtendedLocationResourceId" json:"vNetExtendedLocationResourceReference,omitempty"`
+	VpnClientConfiguration                *VpnClientConfiguration                                     `json:"vpnClientConfiguration,omitempty"`
+	VpnGatewayGeneration                  *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration `json:"vpnGatewayGeneration,omitempty"`
+	VpnType                               *VirtualNetworkGatewayPropertiesFormat_VpnType              `json:"vpnType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkGateway_Spec{}
@@ -1151,87 +1123,35 @@ func (gateway *VirtualNetworkGateway_Spec) SetAzureName(azureName string) {
 	gateway.AzureName = azureName
 }
 
-// A common class for general resource information.
+// Deprecated version of VirtualNetworkGateway_STATUS. Use v1api20201101.VirtualNetworkGateway_STATUS instead
 type VirtualNetworkGateway_STATUS struct {
-	// ActiveActive: ActiveActive flag.
-	ActiveActive *bool `json:"activeActive,omitempty"`
-
-	// BgpSettings: Virtual network gateway's BGP speaker settings.
-	BgpSettings *BgpSettings_STATUS `json:"bgpSettings,omitempty"`
+	ActiveActive *bool               `json:"activeActive,omitempty"`
+	BgpSettings  *BgpSettings_STATUS `json:"bgpSettings,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CustomRoutes: The reference to the address space resource which represents the custom routes address space specified by
-	// the customer for virtual network gateway and VpnClient.
-	CustomRoutes *AddressSpace_STATUS `json:"customRoutes,omitempty"`
-
-	// EnableBgp: Whether BGP is enabled for this virtual network gateway or not.
-	EnableBgp *bool `json:"enableBgp,omitempty"`
-
-	// EnableDnsForwarding: Whether dns forwarding is enabled or not.
-	EnableDnsForwarding *bool `json:"enableDnsForwarding,omitempty"`
-
-	// EnablePrivateIpAddress: Whether private IP needs to be enabled on this gateway for connections or not.
-	EnablePrivateIpAddress *bool `json:"enablePrivateIpAddress,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// ExtendedLocation: The extended location of type local virtual network gateway.
-	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
-
-	// GatewayDefaultSite: The reference to the LocalNetworkGateway resource which represents local network site having default
-	// routes. Assign Null value in case of removing existing default site setting.
-	GatewayDefaultSite *SubResource_STATUS `json:"gatewayDefaultSite,omitempty"`
-
-	// GatewayType: The type of this virtual network gateway.
-	GatewayType *VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS `json:"gatewayType,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// InboundDnsForwardingEndpoint: The IP address allocated by the gateway to which dns requests can be sent.
-	InboundDnsForwardingEndpoint *string `json:"inboundDnsForwardingEndpoint,omitempty"`
-
-	// IpConfigurations: IP configurations for virtual network gateway.
-	IpConfigurations []VirtualNetworkGatewayIPConfiguration_STATUS `json:"ipConfigurations,omitempty"`
-
-	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: The provisioning state of the virtual network gateway resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resource GUID property of the virtual network gateway resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	// Sku: The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network
-	// gateway.
-	Sku *VirtualNetworkGatewaySku_STATUS `json:"sku,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-
-	// VNetExtendedLocationResourceId: Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated
-	// with the customer vnet.
-	VNetExtendedLocationResourceId *string `json:"vNetExtendedLocationResourceId,omitempty"`
-
-	// VpnClientConfiguration: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient
-	// configurations.
-	VpnClientConfiguration *VpnClientConfiguration_STATUS `json:"vpnClientConfiguration,omitempty"`
-
-	// VpnGatewayGeneration: The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN.
-	VpnGatewayGeneration *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS `json:"vpnGatewayGeneration,omitempty"`
-
-	// VpnType: The type of this virtual network gateway.
-	VpnType *VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS `json:"vpnType,omitempty"`
+	Conditions                     []conditions.Condition                                             `json:"conditions,omitempty"`
+	CustomRoutes                   *AddressSpace_STATUS                                               `json:"customRoutes,omitempty"`
+	EnableBgp                      *bool                                                              `json:"enableBgp,omitempty"`
+	EnableDnsForwarding            *bool                                                              `json:"enableDnsForwarding,omitempty"`
+	EnablePrivateIpAddress         *bool                                                              `json:"enablePrivateIpAddress,omitempty"`
+	Etag                           *string                                                            `json:"etag,omitempty"`
+	ExtendedLocation               *ExtendedLocation_STATUS                                           `json:"extendedLocation,omitempty"`
+	GatewayDefaultSite             *SubResource_STATUS                                                `json:"gatewayDefaultSite,omitempty"`
+	GatewayType                    *VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS          `json:"gatewayType,omitempty"`
+	Id                             *string                                                            `json:"id,omitempty"`
+	InboundDnsForwardingEndpoint   *string                                                            `json:"inboundDnsForwardingEndpoint,omitempty"`
+	IpConfigurations               []VirtualNetworkGatewayIPConfiguration_STATUS                      `json:"ipConfigurations,omitempty"`
+	Location                       *string                                                            `json:"location,omitempty"`
+	Name                           *string                                                            `json:"name,omitempty"`
+	ProvisioningState              *ProvisioningState_STATUS                                          `json:"provisioningState,omitempty"`
+	ResourceGuid                   *string                                                            `json:"resourceGuid,omitempty"`
+	Sku                            *VirtualNetworkGatewaySku_STATUS                                   `json:"sku,omitempty"`
+	Tags                           map[string]string                                                  `json:"tags,omitempty"`
+	Type                           *string                                                            `json:"type,omitempty"`
+	VNetExtendedLocationResourceId *string                                                            `json:"vNetExtendedLocationResourceId,omitempty"`
+	VpnClientConfiguration         *VpnClientConfiguration_STATUS                                     `json:"vpnClientConfiguration,omitempty"`
+	VpnGatewayGeneration           *VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS `json:"vpnGatewayGeneration,omitempty"`
+	VpnType                        *VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS              `json:"vpnType,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_STATUS{}
@@ -1926,19 +1846,12 @@ func (gateway *VirtualNetworkGateway_STATUS) AssignProperties_To_VirtualNetworkG
 	return nil
 }
 
-// BGP settings details.
+// Deprecated version of BgpSettings. Use v1api20201101.BgpSettings instead
 type BgpSettings struct {
-	// Asn: The BGP speaker's ASN.
-	Asn *uint32 `json:"asn,omitempty"`
-
-	// BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.
-	BgpPeeringAddress *string `json:"bgpPeeringAddress,omitempty"`
-
-	// BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.
+	Asn                 *uint32                            `json:"asn,omitempty"`
+	BgpPeeringAddress   *string                            `json:"bgpPeeringAddress,omitempty"`
 	BgpPeeringAddresses []IPConfigurationBgpPeeringAddress `json:"bgpPeeringAddresses,omitempty"`
-
-	// PeerWeight: The weight added to routes learned from this BGP speaker.
-	PeerWeight *int `json:"peerWeight,omitempty"`
+	PeerWeight          *int                               `json:"peerWeight,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BgpSettings{}
@@ -2110,19 +2023,12 @@ func (settings *BgpSettings) AssignProperties_To_BgpSettings(destination *v20201
 	return nil
 }
 
-// BGP settings details.
+// Deprecated version of BgpSettings_STATUS. Use v1api20201101.BgpSettings_STATUS instead
 type BgpSettings_STATUS struct {
-	// Asn: The BGP speaker's ASN.
-	Asn *uint32 `json:"asn,omitempty"`
-
-	// BgpPeeringAddress: The BGP peering address and BGP identifier of this BGP speaker.
-	BgpPeeringAddress *string `json:"bgpPeeringAddress,omitempty"`
-
-	// BgpPeeringAddresses: BGP peering address with IP configuration ID for virtual network gateway.
+	Asn                 *uint32                                   `json:"asn,omitempty"`
+	BgpPeeringAddress   *string                                   `json:"bgpPeeringAddress,omitempty"`
 	BgpPeeringAddresses []IPConfigurationBgpPeeringAddress_STATUS `json:"bgpPeeringAddresses,omitempty"`
-
-	// PeerWeight: The weight added to routes learned from this BGP speaker.
-	PeerWeight *int `json:"peerWeight,omitempty"`
+	PeerWeight          *int                                      `json:"peerWeight,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &BgpSettings_STATUS{}
@@ -2258,19 +2164,12 @@ func (settings *BgpSettings_STATUS) AssignProperties_To_BgpSettings_STATUS(desti
 	return nil
 }
 
-// IP configuration for virtual network gateway.
+// Deprecated version of VirtualNetworkGatewayIPConfiguration. Use v1api20201101.VirtualNetworkGatewayIPConfiguration instead
 type VirtualNetworkGatewayIPConfiguration struct {
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// PrivateIPAllocationMethod: The private IP address allocation method.
+	Name                      *string             `json:"name,omitempty"`
 	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-
-	// PublicIPAddress: The reference to the public IP resource.
-	PublicIPAddress *SubResource `json:"publicIPAddress,omitempty"`
-
-	// Subnet: The reference to the subnet resource.
-	Subnet *SubResource `json:"subnet,omitempty"`
+	PublicIPAddress           *SubResource        `json:"publicIPAddress,omitempty"`
+	Subnet                    *SubResource        `json:"subnet,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkGatewayIPConfiguration{}
@@ -2469,31 +2368,16 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_To_V
 	return nil
 }
 
-// IP configuration for virtual network gateway.
+// Deprecated version of VirtualNetworkGatewayIPConfiguration_STATUS. Use v1api20201101.VirtualNetworkGatewayIPConfiguration_STATUS instead
 type VirtualNetworkGatewayIPConfiguration_STATUS struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// PrivateIPAddress: Private IP Address for this gateway.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
-
-	// PrivateIPAllocationMethod: The private IP address allocation method.
+	Etag                      *string                    `json:"etag,omitempty"`
+	Id                        *string                    `json:"id,omitempty"`
+	Name                      *string                    `json:"name,omitempty"`
+	PrivateIPAddress          *string                    `json:"privateIPAddress,omitempty"`
 	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
-
-	// ProvisioningState: The provisioning state of the virtual network gateway IP configuration resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicIPAddress: The reference to the public IP resource.
-	PublicIPAddress *SubResource_STATUS `json:"publicIPAddress,omitempty"`
-
-	// Subnet: The reference to the subnet resource.
-	Subnet *SubResource_STATUS `json:"subnet,omitempty"`
+	ProvisioningState         *ProvisioningState_STATUS  `json:"provisioningState,omitempty"`
+	PublicIPAddress           *SubResource_STATUS        `json:"publicIPAddress,omitempty"`
+	Subnet                    *SubResource_STATUS        `json:"subnet,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkGatewayIPConfiguration_STATUS{}
@@ -2714,6 +2598,8 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 	return nil
 }
 
+// Deprecated version of VirtualNetworkGatewayPropertiesFormat_GatewayType. Use
+// v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType instead
 // +kubebuilder:validation:Enum={"ExpressRoute","LocalGateway","Vpn"}
 type VirtualNetworkGatewayPropertiesFormat_GatewayType string
 
@@ -2723,6 +2609,8 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn          = VirtualNetworkGatewayPropertiesFormat_GatewayType("Vpn")
 )
 
+// Deprecated version of VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS. Use
+// v1api20201101.VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS instead
 type VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS string
 
 const (
@@ -2731,6 +2619,8 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS_Vpn          = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS("Vpn")
 )
 
+// Deprecated version of VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration. Use
+// v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration instead
 // +kubebuilder:validation:Enum={"Generation1","Generation2","None"}
 type VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration string
 
@@ -2740,6 +2630,8 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_None        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration("None")
 )
 
+// Deprecated version of VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS. Use
+// v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS instead
 type VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS string
 
 const (
@@ -2748,6 +2640,8 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS_None        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS("None")
 )
 
+// Deprecated version of VirtualNetworkGatewayPropertiesFormat_VpnType. Use
+// v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType instead
 // +kubebuilder:validation:Enum={"PolicyBased","RouteBased"}
 type VirtualNetworkGatewayPropertiesFormat_VpnType string
 
@@ -2756,6 +2650,8 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType("RouteBased")
 )
 
+// Deprecated version of VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS. Use
+// v1api20201101.VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS instead
 type VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS string
 
 const (
@@ -2763,12 +2659,9 @@ const (
 	VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS_RouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS("RouteBased")
 )
 
-// VirtualNetworkGatewaySku details.
+// Deprecated version of VirtualNetworkGatewaySku. Use v1api20201101.VirtualNetworkGatewaySku instead
 type VirtualNetworkGatewaySku struct {
-	// Name: Gateway SKU name.
 	Name *VirtualNetworkGatewaySku_Name `json:"name,omitempty"`
-
-	// Tier: Gateway SKU tier.
 	Tier *VirtualNetworkGatewaySku_Tier `json:"tier,omitempty"`
 }
 
@@ -2878,16 +2771,11 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignProperties_To_VirtualNetworkGa
 	return nil
 }
 
-// VirtualNetworkGatewaySku details.
+// Deprecated version of VirtualNetworkGatewaySku_STATUS. Use v1api20201101.VirtualNetworkGatewaySku_STATUS instead
 type VirtualNetworkGatewaySku_STATUS struct {
-	// Capacity: The capacity.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Name: Gateway SKU name.
-	Name *VirtualNetworkGatewaySku_Name_STATUS `json:"name,omitempty"`
-
-	// Tier: Gateway SKU tier.
-	Tier *VirtualNetworkGatewaySku_Tier_STATUS `json:"tier,omitempty"`
+	Capacity *int                                  `json:"capacity,omitempty"`
+	Name     *VirtualNetworkGatewaySku_Name_STATUS `json:"name,omitempty"`
+	Tier     *VirtualNetworkGatewaySku_Tier_STATUS `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VirtualNetworkGatewaySku_STATUS{}
@@ -2987,46 +2875,20 @@ func (gatewaySku *VirtualNetworkGatewaySku_STATUS) AssignProperties_To_VirtualNe
 	return nil
 }
 
-// VpnClientConfiguration for P2S client.
+// Deprecated version of VpnClientConfiguration. Use v1api20201101.VpnClientConfiguration instead
 type VpnClientConfiguration struct {
-	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	// authentication.
-	AadAudience *string `json:"aadAudience,omitempty"`
-
-	// AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	// authentication.
-	AadIssuer *string `json:"aadIssuer,omitempty"`
-
-	// AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	// authentication.
-	AadTenant *string `json:"aadTenant,omitempty"`
-
-	// RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
-	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
-
-	// RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
-
-	// RadiusServers: The radiusServers property for multiple radius server configuration.
-	RadiusServers []RadiusServer `json:"radiusServers,omitempty"`
-
-	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
-	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
-
-	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
-	VpnClientAddressPool *AddressSpace `json:"vpnClientAddressPool,omitempty"`
-
-	// VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.
-	VpnClientIpsecPolicies []IpsecPolicy `json:"vpnClientIpsecPolicies,omitempty"`
-
-	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
-	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols `json:"vpnClientProtocols,omitempty"`
-
-	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
-	VpnClientRevokedCertificates []VpnClientRevokedCertificate `json:"vpnClientRevokedCertificates,omitempty"`
-
-	// VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
-	VpnClientRootCertificates []VpnClientRootCertificate `json:"vpnClientRootCertificates,omitempty"`
+	AadAudience                  *string                                         `json:"aadAudience,omitempty"`
+	AadIssuer                    *string                                         `json:"aadIssuer,omitempty"`
+	AadTenant                    *string                                         `json:"aadTenant,omitempty"`
+	RadiusServerAddress          *string                                         `json:"radiusServerAddress,omitempty"`
+	RadiusServerSecret           *string                                         `json:"radiusServerSecret,omitempty"`
+	RadiusServers                []RadiusServer                                  `json:"radiusServers,omitempty"`
+	VpnAuthenticationTypes       []VpnClientConfiguration_VpnAuthenticationTypes `json:"vpnAuthenticationTypes,omitempty"`
+	VpnClientAddressPool         *AddressSpace                                   `json:"vpnClientAddressPool,omitempty"`
+	VpnClientIpsecPolicies       []IpsecPolicy                                   `json:"vpnClientIpsecPolicies,omitempty"`
+	VpnClientProtocols           []VpnClientConfiguration_VpnClientProtocols     `json:"vpnClientProtocols,omitempty"`
+	VpnClientRevokedCertificates []VpnClientRevokedCertificate                   `json:"vpnClientRevokedCertificates,omitempty"`
+	VpnClientRootCertificates    []VpnClientRootCertificate                      `json:"vpnClientRootCertificates,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VpnClientConfiguration{}
@@ -3506,46 +3368,20 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	return nil
 }
 
-// VpnClientConfiguration for P2S client.
+// Deprecated version of VpnClientConfiguration_STATUS. Use v1api20201101.VpnClientConfiguration_STATUS instead
 type VpnClientConfiguration_STATUS struct {
-	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	// authentication.
-	AadAudience *string `json:"aadAudience,omitempty"`
-
-	// AadIssuer: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	// authentication.
-	AadIssuer *string `json:"aadIssuer,omitempty"`
-
-	// AadTenant: The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD
-	// authentication.
-	AadTenant *string `json:"aadTenant,omitempty"`
-
-	// RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
-	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
-
-	// RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
-
-	// RadiusServers: The radiusServers property for multiple radius server configuration.
-	RadiusServers []RadiusServer_STATUS `json:"radiusServers,omitempty"`
-
-	// VpnAuthenticationTypes: VPN authentication types for the virtual network gateway..
-	VpnAuthenticationTypes []VpnClientConfiguration_VpnAuthenticationTypes_STATUS `json:"vpnAuthenticationTypes,omitempty"`
-
-	// VpnClientAddressPool: The reference to the address space resource which represents Address space for P2S VpnClient.
-	VpnClientAddressPool *AddressSpace_STATUS `json:"vpnClientAddressPool,omitempty"`
-
-	// VpnClientIpsecPolicies: VpnClientIpsecPolicies for virtual network gateway P2S client.
-	VpnClientIpsecPolicies []IpsecPolicy_STATUS `json:"vpnClientIpsecPolicies,omitempty"`
-
-	// VpnClientProtocols: VpnClientProtocols for Virtual network gateway.
-	VpnClientProtocols []VpnClientConfiguration_VpnClientProtocols_STATUS `json:"vpnClientProtocols,omitempty"`
-
-	// VpnClientRevokedCertificates: VpnClientRevokedCertificate for Virtual network gateway.
-	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUS `json:"vpnClientRevokedCertificates,omitempty"`
-
-	// VpnClientRootCertificates: VpnClientRootCertificate for virtual network gateway.
-	VpnClientRootCertificates []VpnClientRootCertificate_STATUS `json:"vpnClientRootCertificates,omitempty"`
+	AadAudience                  *string                                                `json:"aadAudience,omitempty"`
+	AadIssuer                    *string                                                `json:"aadIssuer,omitempty"`
+	AadTenant                    *string                                                `json:"aadTenant,omitempty"`
+	RadiusServerAddress          *string                                                `json:"radiusServerAddress,omitempty"`
+	RadiusServerSecret           *string                                                `json:"radiusServerSecret,omitempty"`
+	RadiusServers                []RadiusServer_STATUS                                  `json:"radiusServers,omitempty"`
+	VpnAuthenticationTypes       []VpnClientConfiguration_VpnAuthenticationTypes_STATUS `json:"vpnAuthenticationTypes,omitempty"`
+	VpnClientAddressPool         *AddressSpace_STATUS                                   `json:"vpnClientAddressPool,omitempty"`
+	VpnClientIpsecPolicies       []IpsecPolicy_STATUS                                   `json:"vpnClientIpsecPolicies,omitempty"`
+	VpnClientProtocols           []VpnClientConfiguration_VpnClientProtocols_STATUS     `json:"vpnClientProtocols,omitempty"`
+	VpnClientRevokedCertificates []VpnClientRevokedCertificate_STATUS                   `json:"vpnClientRevokedCertificates,omitempty"`
+	VpnClientRootCertificates    []VpnClientRootCertificate_STATUS                      `json:"vpnClientRootCertificates,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VpnClientConfiguration_STATUS{}
@@ -3930,13 +3766,10 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 	return nil
 }
 
-// Properties of IPConfigurationBgpPeeringAddress.
+// Deprecated version of IPConfigurationBgpPeeringAddress. Use v1api20201101.IPConfigurationBgpPeeringAddress instead
 type IPConfigurationBgpPeeringAddress struct {
-	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
 	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
-
-	// IpconfigurationId: The ID of IP configuration which belongs to gateway.
-	IpconfigurationId *string `json:"ipconfigurationId,omitempty"`
+	IpconfigurationId    *string  `json:"ipconfigurationId,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IPConfigurationBgpPeeringAddress{}
@@ -4023,19 +3856,12 @@ func (address *IPConfigurationBgpPeeringAddress) AssignProperties_To_IPConfigura
 	return nil
 }
 
-// Properties of IPConfigurationBgpPeeringAddress.
+// Deprecated version of IPConfigurationBgpPeeringAddress_STATUS. Use v1api20201101.IPConfigurationBgpPeeringAddress_STATUS instead
 type IPConfigurationBgpPeeringAddress_STATUS struct {
-	// CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to IP configuration.
-	CustomBgpIpAddresses []string `json:"customBgpIpAddresses,omitempty"`
-
-	// DefaultBgpIpAddresses: The list of default BGP peering addresses which belong to IP configuration.
+	CustomBgpIpAddresses  []string `json:"customBgpIpAddresses,omitempty"`
 	DefaultBgpIpAddresses []string `json:"defaultBgpIpAddresses,omitempty"`
-
-	// IpconfigurationId: The ID of IP configuration which belongs to gateway.
-	IpconfigurationId *string `json:"ipconfigurationId,omitempty"`
-
-	// TunnelIpAddresses: The list of tunnel public IP addresses which belong to IP configuration.
-	TunnelIpAddresses []string `json:"tunnelIpAddresses,omitempty"`
+	IpconfigurationId     *string  `json:"ipconfigurationId,omitempty"`
+	TunnelIpAddresses     []string `json:"tunnelIpAddresses,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IPConfigurationBgpPeeringAddress_STATUS{}
@@ -4124,40 +3950,30 @@ func (address *IPConfigurationBgpPeeringAddress_STATUS) AssignProperties_To_IPCo
 	return nil
 }
 
-// An IPSec Policy configuration for a virtual network gateway connection.
+// Deprecated version of IpsecPolicy. Use v1api20201101.IpsecPolicy instead
 type IpsecPolicy struct {
 	// +kubebuilder:validation:Required
-	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
 	DhGroup *DhGroup `json:"dhGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// IkeEncryption: The IKE encryption algorithm (IKE phase 2).
 	IkeEncryption *IkeEncryption `json:"ikeEncryption,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
 	IkeIntegrity *IkeIntegrity `json:"ikeIntegrity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
 	IpsecEncryption *IpsecEncryption `json:"ipsecEncryption,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
 	IpsecIntegrity *IpsecIntegrity `json:"ipsecIntegrity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
 	PfsGroup *PfsGroup `json:"pfsGroup,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
-	// to site VPN tunnel.
 	SaDataSizeKilobytes *int `json:"saDataSizeKilobytes,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
-	// to site VPN tunnel.
 	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
 }
 
@@ -4415,33 +4231,16 @@ func (policy *IpsecPolicy) AssignProperties_To_IpsecPolicy(destination *v2020110
 	return nil
 }
 
-// An IPSec Policy configuration for a virtual network gateway connection.
+// Deprecated version of IpsecPolicy_STATUS. Use v1api20201101.IpsecPolicy_STATUS instead
 type IpsecPolicy_STATUS struct {
-	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
-	DhGroup *DhGroup_STATUS `json:"dhGroup,omitempty"`
-
-	// IkeEncryption: The IKE encryption algorithm (IKE phase 2).
-	IkeEncryption *IkeEncryption_STATUS `json:"ikeEncryption,omitempty"`
-
-	// IkeIntegrity: The IKE integrity algorithm (IKE phase 2).
-	IkeIntegrity *IkeIntegrity_STATUS `json:"ikeIntegrity,omitempty"`
-
-	// IpsecEncryption: The IPSec encryption algorithm (IKE phase 1).
-	IpsecEncryption *IpsecEncryption_STATUS `json:"ipsecEncryption,omitempty"`
-
-	// IpsecIntegrity: The IPSec integrity algorithm (IKE phase 1).
-	IpsecIntegrity *IpsecIntegrity_STATUS `json:"ipsecIntegrity,omitempty"`
-
-	// PfsGroup: The Pfs Group used in IKE Phase 2 for new child SA.
-	PfsGroup *PfsGroup_STATUS `json:"pfsGroup,omitempty"`
-
-	// SaDataSizeKilobytes: The IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for a site
-	// to site VPN tunnel.
-	SaDataSizeKilobytes *int `json:"saDataSizeKilobytes,omitempty"`
-
-	// SaLifeTimeSeconds: The IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for a site
-	// to site VPN tunnel.
-	SaLifeTimeSeconds *int `json:"saLifeTimeSeconds,omitempty"`
+	DhGroup             *DhGroup_STATUS         `json:"dhGroup,omitempty"`
+	IkeEncryption       *IkeEncryption_STATUS   `json:"ikeEncryption,omitempty"`
+	IkeIntegrity        *IkeIntegrity_STATUS    `json:"ikeIntegrity,omitempty"`
+	IpsecEncryption     *IpsecEncryption_STATUS `json:"ipsecEncryption,omitempty"`
+	IpsecIntegrity      *IpsecIntegrity_STATUS  `json:"ipsecIntegrity,omitempty"`
+	PfsGroup            *PfsGroup_STATUS        `json:"pfsGroup,omitempty"`
+	SaDataSizeKilobytes *int                    `json:"saDataSizeKilobytes,omitempty"`
+	SaLifeTimeSeconds   *int                    `json:"saLifeTimeSeconds,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &IpsecPolicy_STATUS{}
@@ -4641,17 +4440,12 @@ func (policy *IpsecPolicy_STATUS) AssignProperties_To_IpsecPolicy_STATUS(destina
 	return nil
 }
 
-// Radius Server Settings.
+// Deprecated version of RadiusServer. Use v1api20201101.RadiusServer instead
 type RadiusServer struct {
 	// +kubebuilder:validation:Required
-	// RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
-
-	// RadiusServerScore: The initial score assigned to this radius server.
-	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
-
-	// RadiusServerSecret: The secret used for this radius server.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
+	RadiusServerScore   *int    `json:"radiusServerScore,omitempty"`
+	RadiusServerSecret  *string `json:"radiusServerSecret,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RadiusServer{}
@@ -4758,16 +4552,11 @@ func (server *RadiusServer) AssignProperties_To_RadiusServer(destination *v20201
 	return nil
 }
 
-// Radius Server Settings.
+// Deprecated version of RadiusServer_STATUS. Use v1api20201101.RadiusServer_STATUS instead
 type RadiusServer_STATUS struct {
-	// RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
-
-	// RadiusServerScore: The initial score assigned to this radius server.
-	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
-
-	// RadiusServerSecret: The secret used for this radius server.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
+	RadiusServerScore   *int    `json:"radiusServerScore,omitempty"`
+	RadiusServerSecret  *string `json:"radiusServerSecret,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RadiusServer_STATUS{}
@@ -4847,6 +4636,7 @@ func (server *RadiusServer_STATUS) AssignProperties_To_RadiusServer_STATUS(desti
 	return nil
 }
 
+// Deprecated version of VirtualNetworkGatewaySku_Name. Use v1api20201101.VirtualNetworkGatewaySku_Name instead
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
 type VirtualNetworkGatewaySku_Name string
 
@@ -4870,6 +4660,8 @@ const (
 	VirtualNetworkGatewaySku_Name_VpnGw5AZ         = VirtualNetworkGatewaySku_Name("VpnGw5AZ")
 )
 
+// Deprecated version of VirtualNetworkGatewaySku_Name_STATUS. Use v1api20201101.VirtualNetworkGatewaySku_Name_STATUS
+// instead
 type VirtualNetworkGatewaySku_Name_STATUS string
 
 const (
@@ -4892,6 +4684,7 @@ const (
 	VirtualNetworkGatewaySku_Name_STATUS_VpnGw5AZ         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw5AZ")
 )
 
+// Deprecated version of VirtualNetworkGatewaySku_Tier. Use v1api20201101.VirtualNetworkGatewaySku_Tier instead
 // +kubebuilder:validation:Enum={"Basic","ErGw1AZ","ErGw2AZ","ErGw3AZ","HighPerformance","Standard","UltraPerformance","VpnGw1","VpnGw1AZ","VpnGw2","VpnGw2AZ","VpnGw3","VpnGw3AZ","VpnGw4","VpnGw4AZ","VpnGw5","VpnGw5AZ"}
 type VirtualNetworkGatewaySku_Tier string
 
@@ -4915,6 +4708,8 @@ const (
 	VirtualNetworkGatewaySku_Tier_VpnGw5AZ         = VirtualNetworkGatewaySku_Tier("VpnGw5AZ")
 )
 
+// Deprecated version of VirtualNetworkGatewaySku_Tier_STATUS. Use v1api20201101.VirtualNetworkGatewaySku_Tier_STATUS
+// instead
 type VirtualNetworkGatewaySku_Tier_STATUS string
 
 const (
@@ -4937,6 +4732,8 @@ const (
 	VirtualNetworkGatewaySku_Tier_STATUS_VpnGw5AZ         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw5AZ")
 )
 
+// Deprecated version of VpnClientConfiguration_VpnAuthenticationTypes. Use
+// v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes instead
 // +kubebuilder:validation:Enum={"AAD","Certificate","Radius"}
 type VpnClientConfiguration_VpnAuthenticationTypes string
 
@@ -4946,6 +4743,8 @@ const (
 	VpnClientConfiguration_VpnAuthenticationTypes_Radius      = VpnClientConfiguration_VpnAuthenticationTypes("Radius")
 )
 
+// Deprecated version of VpnClientConfiguration_VpnAuthenticationTypes_STATUS. Use
+// v1api20201101.VpnClientConfiguration_VpnAuthenticationTypes_STATUS instead
 type VpnClientConfiguration_VpnAuthenticationTypes_STATUS string
 
 const (
@@ -4954,6 +4753,8 @@ const (
 	VpnClientConfiguration_VpnAuthenticationTypes_STATUS_Radius      = VpnClientConfiguration_VpnAuthenticationTypes_STATUS("Radius")
 )
 
+// Deprecated version of VpnClientConfiguration_VpnClientProtocols. Use
+// v1api20201101.VpnClientConfiguration_VpnClientProtocols instead
 // +kubebuilder:validation:Enum={"IkeV2","OpenVPN","SSTP"}
 type VpnClientConfiguration_VpnClientProtocols string
 
@@ -4963,6 +4764,8 @@ const (
 	VpnClientConfiguration_VpnClientProtocols_SSTP    = VpnClientConfiguration_VpnClientProtocols("SSTP")
 )
 
+// Deprecated version of VpnClientConfiguration_VpnClientProtocols_STATUS. Use
+// v1api20201101.VpnClientConfiguration_VpnClientProtocols_STATUS instead
 type VpnClientConfiguration_VpnClientProtocols_STATUS string
 
 const (
@@ -4971,12 +4774,9 @@ const (
 	VpnClientConfiguration_VpnClientProtocols_STATUS_SSTP    = VpnClientConfiguration_VpnClientProtocols_STATUS("SSTP")
 )
 
-// VPN client revoked certificate of virtual network gateway.
+// Deprecated version of VpnClientRevokedCertificate. Use v1api20201101.VpnClientRevokedCertificate instead
 type VpnClientRevokedCertificate struct {
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Thumbprint: The revoked VPN client certificate thumbprint.
+	Name       *string `json:"name,omitempty"`
 	Thumbprint *string `json:"thumbprint,omitempty"`
 }
 
@@ -5072,22 +4872,13 @@ func (certificate *VpnClientRevokedCertificate) AssignProperties_To_VpnClientRev
 	return nil
 }
 
-// VPN client revoked certificate of virtual network gateway.
+// Deprecated version of VpnClientRevokedCertificate_STATUS. Use v1api20201101.VpnClientRevokedCertificate_STATUS instead
 type VpnClientRevokedCertificate_STATUS struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: The provisioning state of the VPN client revoked certificate resource.
+	Etag              *string                   `json:"etag,omitempty"`
+	Id                *string                   `json:"id,omitempty"`
+	Name              *string                   `json:"name,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// Thumbprint: The revoked VPN client certificate thumbprint.
-	Thumbprint *string `json:"thumbprint,omitempty"`
+	Thumbprint        *string                   `json:"thumbprint,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VpnClientRevokedCertificate_STATUS{}
@@ -5207,13 +4998,11 @@ func (certificate *VpnClientRevokedCertificate_STATUS) AssignProperties_To_VpnCl
 	return nil
 }
 
-// VPN client root certificate of virtual network gateway.
+// Deprecated version of VpnClientRootCertificate. Use v1api20201101.VpnClientRootCertificate instead
 type VpnClientRootCertificate struct {
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// PublicCertData: The certificate public data.
 	PublicCertData *string `json:"publicCertData,omitempty"`
 }
 
@@ -5309,22 +5098,13 @@ func (certificate *VpnClientRootCertificate) AssignProperties_To_VpnClientRootCe
 	return nil
 }
 
-// VPN client root certificate of virtual network gateway.
+// Deprecated version of VpnClientRootCertificate_STATUS. Use v1api20201101.VpnClientRootCertificate_STATUS instead
 type VpnClientRootCertificate_STATUS struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: The provisioning state of the VPN client root certificate resource.
+	Etag              *string                   `json:"etag,omitempty"`
+	Id                *string                   `json:"id,omitempty"`
+	Name              *string                   `json:"name,omitempty"`
 	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicCertData: The certificate public data.
-	PublicCertData *string `json:"publicCertData,omitempty"`
+	PublicCertData    *string                   `json:"publicCertData,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &VpnClientRootCertificate_STATUS{}
@@ -5444,7 +5224,7 @@ func (certificate *VpnClientRootCertificate_STATUS) AssignProperties_To_VpnClien
 	return nil
 }
 
-// The DH Groups used in IKE Phase 1 for initial SA.
+// Deprecated version of DhGroup. Use v1api20201101.DhGroup instead
 // +kubebuilder:validation:Enum={"DHGroup1","DHGroup14","DHGroup2","DHGroup2048","DHGroup24","ECP256","ECP384","None"}
 type DhGroup string
 
@@ -5459,7 +5239,7 @@ const (
 	DhGroup_None        = DhGroup("None")
 )
 
-// The DH Groups used in IKE Phase 1 for initial SA.
+// Deprecated version of DhGroup_STATUS. Use v1api20201101.DhGroup_STATUS instead
 type DhGroup_STATUS string
 
 const (
@@ -5473,7 +5253,7 @@ const (
 	DhGroup_STATUS_None        = DhGroup_STATUS("None")
 )
 
-// The IKE encryption algorithm (IKE phase 2).
+// Deprecated version of IkeEncryption. Use v1api20201101.IkeEncryption instead
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES256"}
 type IkeEncryption string
 
@@ -5487,7 +5267,7 @@ const (
 	IkeEncryption_GCMAES256 = IkeEncryption("GCMAES256")
 )
 
-// The IKE encryption algorithm (IKE phase 2).
+// Deprecated version of IkeEncryption_STATUS. Use v1api20201101.IkeEncryption_STATUS instead
 type IkeEncryption_STATUS string
 
 const (
@@ -5500,7 +5280,7 @@ const (
 	IkeEncryption_STATUS_GCMAES256 = IkeEncryption_STATUS("GCMAES256")
 )
 
-// The IKE integrity algorithm (IKE phase 2).
+// Deprecated version of IkeIntegrity. Use v1api20201101.IkeIntegrity instead
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES256","MD5","SHA1","SHA256","SHA384"}
 type IkeIntegrity string
 
@@ -5513,7 +5293,7 @@ const (
 	IkeIntegrity_SHA384    = IkeIntegrity("SHA384")
 )
 
-// The IKE integrity algorithm (IKE phase 2).
+// Deprecated version of IkeIntegrity_STATUS. Use v1api20201101.IkeIntegrity_STATUS instead
 type IkeIntegrity_STATUS string
 
 const (
@@ -5525,7 +5305,7 @@ const (
 	IkeIntegrity_STATUS_SHA384    = IkeIntegrity_STATUS("SHA384")
 )
 
-// The IPSec encryption algorithm (IKE phase 1).
+// Deprecated version of IpsecEncryption. Use v1api20201101.IpsecEncryption instead
 // +kubebuilder:validation:Enum={"AES128","AES192","AES256","DES","DES3","GCMAES128","GCMAES192","GCMAES256","None"}
 type IpsecEncryption string
 
@@ -5541,7 +5321,7 @@ const (
 	IpsecEncryption_None      = IpsecEncryption("None")
 )
 
-// The IPSec encryption algorithm (IKE phase 1).
+// Deprecated version of IpsecEncryption_STATUS. Use v1api20201101.IpsecEncryption_STATUS instead
 type IpsecEncryption_STATUS string
 
 const (
@@ -5556,7 +5336,7 @@ const (
 	IpsecEncryption_STATUS_None      = IpsecEncryption_STATUS("None")
 )
 
-// The IPSec integrity algorithm (IKE phase 1).
+// Deprecated version of IpsecIntegrity. Use v1api20201101.IpsecIntegrity instead
 // +kubebuilder:validation:Enum={"GCMAES128","GCMAES192","GCMAES256","MD5","SHA1","SHA256"}
 type IpsecIntegrity string
 
@@ -5569,7 +5349,7 @@ const (
 	IpsecIntegrity_SHA256    = IpsecIntegrity("SHA256")
 )
 
-// The IPSec integrity algorithm (IKE phase 1).
+// Deprecated version of IpsecIntegrity_STATUS. Use v1api20201101.IpsecIntegrity_STATUS instead
 type IpsecIntegrity_STATUS string
 
 const (
@@ -5581,7 +5361,7 @@ const (
 	IpsecIntegrity_STATUS_SHA256    = IpsecIntegrity_STATUS("SHA256")
 )
 
-// The Pfs Groups used in IKE Phase 2 for new child SA.
+// Deprecated version of PfsGroup. Use v1api20201101.PfsGroup instead
 // +kubebuilder:validation:Enum={"ECP256","ECP384","None","PFS1","PFS14","PFS2","PFS2048","PFS24","PFSMM"}
 type PfsGroup string
 
@@ -5597,7 +5377,7 @@ const (
 	PfsGroup_PFSMM   = PfsGroup("PFSMM")
 )
 
-// The Pfs Groups used in IKE Phase 2 for new child SA.
+// Deprecated version of PfsGroup_STATUS. Use v1api20201101.PfsGroup_STATUS instead
 type PfsGroup_STATUS string
 
 const (

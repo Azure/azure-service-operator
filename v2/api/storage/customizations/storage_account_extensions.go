@@ -9,16 +9,16 @@ import (
 	"context"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 )
@@ -56,7 +56,7 @@ func (ext *StorageAccountExtension) ExportKubernetesResources(
 	keys := make(map[string]string)
 	// Only bother calling ListKeys if there are secrets to retrieve
 	if hasSecrets {
-		subscription := armClient.SubscriptionID()
+		subscription := id.SubscriptionID
 		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 		// connection each time through
 		var acctClient *armstorage.AccountsClient
@@ -133,12 +133,12 @@ func secretsToWrite(obj *storage.StorageAccount, keys map[string]string) ([]*v1.
 	// https://docs.microsoft.com/en-us/rest/api/storagerp/storage-accounts/get-properties for more details
 	if obj.Status.PrimaryEndpoints != nil {
 		eps := obj.Status.PrimaryEndpoints
-		collector.AddValue(operatorSpecSecrets.BlobEndpoint, to.String(eps.Blob))
-		collector.AddValue(operatorSpecSecrets.QueueEndpoint, to.String(eps.Queue))
-		collector.AddValue(operatorSpecSecrets.TableEndpoint, to.String(eps.Table))
-		collector.AddValue(operatorSpecSecrets.FileEndpoint, to.String(eps.File))
-		collector.AddValue(operatorSpecSecrets.WebEndpoint, to.String(eps.Web))
-		collector.AddValue(operatorSpecSecrets.DfsEndpoint, to.String(eps.Dfs))
+		collector.AddValue(operatorSpecSecrets.BlobEndpoint, to.Value(eps.Blob))
+		collector.AddValue(operatorSpecSecrets.QueueEndpoint, to.Value(eps.Queue))
+		collector.AddValue(operatorSpecSecrets.TableEndpoint, to.Value(eps.Table))
+		collector.AddValue(operatorSpecSecrets.FileEndpoint, to.Value(eps.File))
+		collector.AddValue(operatorSpecSecrets.WebEndpoint, to.Value(eps.Web))
+		collector.AddValue(operatorSpecSecrets.DfsEndpoint, to.Value(eps.Dfs))
 	}
 
 	return collector.Values()

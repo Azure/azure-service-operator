@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}
+// Deprecated version of VirtualNetworksVirtualNetworkPeering. Use v1api20201101.VirtualNetworksVirtualNetworkPeering instead
 type VirtualNetworksVirtualNetworkPeering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &VirtualNetworksVirtualNetworkPeering{}
 
 // ConvertFrom populates our VirtualNetworksVirtualNetworkPeering from the provided hub VirtualNetworksVirtualNetworkPeering
 func (peering *VirtualNetworksVirtualNetworkPeering) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20201101s.VirtualNetworksVirtualNetworkPeering)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20201101s.VirtualNetworksVirtualNetworkPeering
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return peering.AssignProperties_From_VirtualNetworksVirtualNetworkPeering(source)
+	err = peering.AssignProperties_From_VirtualNetworksVirtualNetworkPeering(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to peering")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualNetworksVirtualNetworkPeering from our VirtualNetworksVirtualNetworkPeering
 func (peering *VirtualNetworksVirtualNetworkPeering) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20201101s.VirtualNetworksVirtualNetworkPeering)
-	if !ok {
-		return fmt.Errorf("expected network/v1beta20201101storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20201101s.VirtualNetworksVirtualNetworkPeering
+	err := peering.AssignProperties_To_VirtualNetworksVirtualNetworkPeering(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from peering")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return peering.AssignProperties_To_VirtualNetworksVirtualNetworkPeering(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-virtualnetworksvirtualnetworkpeering,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworksvirtualnetworkpeerings,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.virtualnetworksvirtualnetworkpeerings.network.azure.com,admissionReviewVersions=v1
@@ -312,9 +324,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) OriginalGVK() *schema.Group
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}
+// Deprecated version of VirtualNetworksVirtualNetworkPeering. Use v1api20201101.VirtualNetworksVirtualNetworkPeering instead
 type VirtualNetworksVirtualNetworkPeeringList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -322,49 +332,25 @@ type VirtualNetworksVirtualNetworkPeeringList struct {
 }
 
 type VirtualNetworks_VirtualNetworkPeering_Spec struct {
-	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-	// allowed/disallowed in remote virtual network.
-	AllowForwardedTraffic *bool `json:"allowForwardedTraffic,omitempty"`
-
-	// AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.
-	AllowGatewayTransit *bool `json:"allowGatewayTransit,omitempty"`
-
-	// AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-	// virtual network space.
+	AllowForwardedTraffic     *bool `json:"allowForwardedTraffic,omitempty"`
+	AllowGatewayTransit       *bool `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// DoNotVerifyRemoteGateways: If we need to verify the provisioning state of the remote gateway.
-	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
+	AzureName                 string `json:"azureName,omitempty"`
+	DoNotVerifyRemoteGateways *bool  `json:"doNotVerifyRemoteGateways,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a network.azure.com/VirtualNetwork resource
-	Owner *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
-
-	// PeeringState: The status of the virtual network peering.
-	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState `json:"peeringState,omitempty"`
-
-	// RemoteAddressSpace: The reference to the remote virtual network address space.
-	RemoteAddressSpace *AddressSpace `json:"remoteAddressSpace,omitempty"`
-
-	// RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
-	RemoteBgpCommunities *VirtualNetworkBgpCommunities `json:"remoteBgpCommunities,omitempty"`
-
-	// RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-	// different region (preview). See here to register for the preview and learn more
-	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-	RemoteVirtualNetwork *SubResource `json:"remoteVirtualNetwork,omitempty"`
-
-	// UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-	// allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-	// transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-	// gateway.
-	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
+	Owner                *genruntime.KnownResourceReference                  `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
+	PeeringState         *VirtualNetworkPeeringPropertiesFormat_PeeringState `json:"peeringState,omitempty"`
+	RemoteAddressSpace   *AddressSpace                                       `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities                       `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork *SubResource                                        `json:"remoteVirtualNetwork,omitempty"`
+	UseRemoteGateways    *bool                                               `json:"useRemoteGateways,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworks_VirtualNetworkPeering_Spec{}
@@ -836,61 +822,26 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) SetAzureName(azureNam
 	peering.AzureName = azureName
 }
 
+// Deprecated version of VirtualNetworks_VirtualNetworkPeering_STATUS. Use v1api20201101.VirtualNetworks_VirtualNetworkPeering_STATUS instead
 type VirtualNetworks_VirtualNetworkPeering_STATUS struct {
-	// AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local virtual network will be
-	// allowed/disallowed in remote virtual network.
-	AllowForwardedTraffic *bool `json:"allowForwardedTraffic,omitempty"`
-
-	// AllowGatewayTransit: If gateway links can be used in remote virtual networking to link to this virtual network.
-	AllowGatewayTransit *bool `json:"allowGatewayTransit,omitempty"`
-
-	// AllowVirtualNetworkAccess: Whether the VMs in the local virtual network space would be able to access the VMs in remote
-	// virtual network space.
+	AllowForwardedTraffic     *bool `json:"allowForwardedTraffic,omitempty"`
+	AllowGatewayTransit       *bool `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// DoNotVerifyRemoteGateways: If we need to verify the provisioning state of the remote gateway.
-	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// PeeringState: The status of the virtual network peering.
-	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS `json:"peeringState,omitempty"`
-
-	// ProvisioningState: The provisioning state of the virtual network peering resource.
-	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// RemoteAddressSpace: The reference to the remote virtual network address space.
-	RemoteAddressSpace *AddressSpace_STATUS `json:"remoteAddressSpace,omitempty"`
-
-	// RemoteBgpCommunities: The reference to the remote virtual network's Bgp Communities.
-	RemoteBgpCommunities *VirtualNetworkBgpCommunities_STATUS `json:"remoteBgpCommunities,omitempty"`
-
-	// RemoteVirtualNetwork: The reference to the remote virtual network. The remote virtual network can be in the same or
-	// different region (preview). See here to register for the preview and learn more
-	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
-	RemoteVirtualNetwork *SubResource_STATUS `json:"remoteVirtualNetwork,omitempty"`
-
-	// ResourceGuid: The resourceGuid property of the Virtual Network peering resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-
-	// UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
-	// allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for
-	// transit. Only one peering can have this flag set to true. This flag cannot be set if virtual network already has a
-	// gateway.
-	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
+	Conditions                []conditions.Condition                                     `json:"conditions,omitempty"`
+	DoNotVerifyRemoteGateways *bool                                                      `json:"doNotVerifyRemoteGateways,omitempty"`
+	Etag                      *string                                                    `json:"etag,omitempty"`
+	Id                        *string                                                    `json:"id,omitempty"`
+	Name                      *string                                                    `json:"name,omitempty"`
+	PeeringState              *VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS `json:"peeringState,omitempty"`
+	ProvisioningState         *ProvisioningState_STATUS                                  `json:"provisioningState,omitempty"`
+	RemoteAddressSpace        *AddressSpace_STATUS                                       `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_STATUS                       `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork      *SubResource_STATUS                                        `json:"remoteVirtualNetwork,omitempty"`
+	ResourceGuid              *string                                                    `json:"resourceGuid,omitempty"`
+	Type                      *string                                                    `json:"type,omitempty"`
+	UseRemoteGateways         *bool                                                      `json:"useRemoteGateways,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &VirtualNetworks_VirtualNetworkPeering_STATUS{}
@@ -1344,6 +1295,8 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_To
 	return nil
 }
 
+// Deprecated version of VirtualNetworkPeeringPropertiesFormat_PeeringState. Use
+// v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState instead
 // +kubebuilder:validation:Enum={"Connected","Disconnected","Initiated"}
 type VirtualNetworkPeeringPropertiesFormat_PeeringState string
 
@@ -1353,6 +1306,8 @@ const (
 	VirtualNetworkPeeringPropertiesFormat_PeeringState_Initiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState("Initiated")
 )
 
+// Deprecated version of VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS. Use
+// v1api20201101.VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS instead
 type VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS string
 
 const (

@@ -3,131 +3,67 @@
 // Licensed under the MIT license.
 package v1beta20220501
 
-// The configuration store along with all resource properties. The Configuration Store will have all information to begin
-// utilizing it.
+// Deprecated version of ConfigurationStore_STATUS. Use v1api20220501.ConfigurationStore_STATUS instead
 type ConfigurationStore_STATUS_ARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The managed identity information, if configured.
-	Identity *ResourceIdentity_STATUS_ARM `json:"identity,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties of a configuration store.
+	Id         *string                                  `json:"id,omitempty"`
+	Identity   *ResourceIdentity_STATUS_ARM             `json:"identity,omitempty"`
+	Location   *string                                  `json:"location,omitempty"`
+	Name       *string                                  `json:"name,omitempty"`
 	Properties *ConfigurationStoreProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// Sku: The sku of the configuration store.
-	Sku *Sku_STATUS_ARM `json:"sku,omitempty"`
-
-	// SystemData: Resource system metadata.
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
+	Sku        *Sku_STATUS_ARM                          `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS_ARM                   `json:"systemData,omitempty"`
+	Tags       map[string]string                        `json:"tags,omitempty"`
+	Type       *string                                  `json:"type,omitempty"`
 }
 
-// The properties of a configuration store.
+// Deprecated version of ConfigurationStoreProperties_STATUS. Use v1api20220501.ConfigurationStoreProperties_STATUS instead
 type ConfigurationStoreProperties_STATUS_ARM struct {
-	// CreateMode: Indicates whether the configuration store need to be recovered.
-	CreateMode *ConfigurationStoreProperties_CreateMode_STATUS `json:"createMode,omitempty"`
-
-	// CreationDate: The creation date of configuration store.
-	CreationDate *string `json:"creationDate,omitempty"`
-
-	// DisableLocalAuth: Disables all authentication methods other than AAD authentication.
-	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
-
-	// EnablePurgeProtection: Property specifying whether protection against purge is enabled for this configuration store.
-	EnablePurgeProtection *bool `json:"enablePurgeProtection,omitempty"`
-
-	// Encryption: The encryption settings of the configuration store.
-	Encryption *EncryptionProperties_STATUS_ARM `json:"encryption,omitempty"`
-
-	// Endpoint: The DNS endpoint where the configuration store API will be available.
-	Endpoint *string `json:"endpoint,omitempty"`
-
-	// PrivateEndpointConnections: The list of private endpoint connections that are set up for this resource.
-	PrivateEndpointConnections []PrivateEndpointConnectionReference_STATUS_ARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: The provisioning state of the configuration store.
-	ProvisioningState *ConfigurationStoreProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Control permission for data plane traffic coming from public networks while private endpoint is
-	// enabled.
-	PublicNetworkAccess *ConfigurationStoreProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-
-	// SoftDeleteRetentionInDays: The amount of time in days that the configuration store will be retained when it is soft
-	// deleted.
-	SoftDeleteRetentionInDays *int `json:"softDeleteRetentionInDays,omitempty"`
+	CreateMode                 *ConfigurationStoreProperties_CreateMode_STATUS          `json:"createMode,omitempty"`
+	CreationDate               *string                                                  `json:"creationDate,omitempty"`
+	DisableLocalAuth           *bool                                                    `json:"disableLocalAuth,omitempty"`
+	EnablePurgeProtection      *bool                                                    `json:"enablePurgeProtection,omitempty"`
+	Encryption                 *EncryptionProperties_STATUS_ARM                         `json:"encryption,omitempty"`
+	Endpoint                   *string                                                  `json:"endpoint,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnectionReference_STATUS_ARM          `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *ConfigurationStoreProperties_ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *ConfigurationStoreProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	SoftDeleteRetentionInDays  *int                                                     `json:"softDeleteRetentionInDays,omitempty"`
 }
 
-// An identity that can be associated with a resource.
+// Deprecated version of ResourceIdentity_STATUS. Use v1api20220501.ResourceIdentity_STATUS instead
 type ResourceIdentity_STATUS_ARM struct {
-	// PrincipalId: The principal id of the identity. This property will only be provided for a system-assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the resource's identity. This property will only be provided for a
-	// system-assigned identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
-	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
-	Type *ResourceIdentity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user-assigned identities associated with the resource. The user-assigned identity
-	// dictionary keys will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	PrincipalId            *string                            `json:"principalId,omitempty"`
+	TenantId               *string                            `json:"tenantId,omitempty"`
+	Type                   *ResourceIdentity_Type_STATUS      `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserIdentity_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
-// Describes a configuration store SKU.
+// Deprecated version of Sku_STATUS. Use v1api20220501.Sku_STATUS instead
 type Sku_STATUS_ARM struct {
-	// Name: The SKU name of the configuration store.
 	Name *string `json:"name,omitempty"`
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20220501.SystemData_STATUS instead
 type SystemData_STATUS_ARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
-// The encryption settings for a configuration store.
+// Deprecated version of EncryptionProperties_STATUS. Use v1api20220501.EncryptionProperties_STATUS instead
 type EncryptionProperties_STATUS_ARM struct {
-	// KeyVaultProperties: Key vault properties.
 	KeyVaultProperties *KeyVaultProperties_STATUS_ARM `json:"keyVaultProperties,omitempty"`
 }
 
-// A reference to a related private endpoint connection.
+// Deprecated version of PrivateEndpointConnectionReference_STATUS. Use v1api20220501.PrivateEndpointConnectionReference_STATUS instead
 type PrivateEndpointConnectionReference_STATUS_ARM struct {
-	// Id: The resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
+// Deprecated version of ResourceIdentity_Type_STATUS. Use v1api20220501.ResourceIdentity_Type_STATUS instead
 type ResourceIdentity_Type_STATUS string
 
 const (
@@ -137,6 +73,7 @@ const (
 	ResourceIdentity_Type_STATUS_UserAssigned               = ResourceIdentity_Type_STATUS("UserAssigned")
 )
 
+// Deprecated version of SystemData_CreatedByType_STATUS. Use v1api20220501.SystemData_CreatedByType_STATUS instead
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -146,6 +83,8 @@ const (
 	SystemData_CreatedByType_STATUS_User            = SystemData_CreatedByType_STATUS("User")
 )
 
+// Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1api20220501.SystemData_LastModifiedByType_STATUS
+// instead
 type SystemData_LastModifiedByType_STATUS string
 
 const (
@@ -155,20 +94,14 @@ const (
 	SystemData_LastModifiedByType_STATUS_User            = SystemData_LastModifiedByType_STATUS("User")
 )
 
-// A resource identity that is managed by the user of the service.
+// Deprecated version of UserIdentity_STATUS. Use v1api20220501.UserIdentity_STATUS instead
 type UserIdentity_STATUS_ARM struct {
-	// ClientId: The client ID of the user-assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal ID of the user-assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-// Settings concerning key vault encryption for a configuration store.
+// Deprecated version of KeyVaultProperties_STATUS. Use v1api20220501.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUS_ARM struct {
-	// IdentityClientId: The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
-
-	// KeyIdentifier: The URI of the key vault key used to encrypt data.
-	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
+	KeyIdentifier    *string `json:"keyIdentifier,omitempty"`
 }

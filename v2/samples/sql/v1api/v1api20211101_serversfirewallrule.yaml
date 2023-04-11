@@ -1,0 +1,10 @@
+apiVersion: sql.azure.com/v1api20211101
+kind: ServersFirewallRule
+metadata:
+  name: aso-sample-firewall
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-sqlserver
+  endIpAddress: 0.0.0.0
+  startIpAddress: 0.0.0.0

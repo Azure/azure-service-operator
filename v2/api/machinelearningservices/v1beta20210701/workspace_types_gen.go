@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/machineLearningServices.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}
+// Deprecated version of Workspace. Use v1api20210701.Workspace instead
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Workspace{}
 
 // ConvertFrom populates our Workspace from the provided hub Workspace
 func (workspace *Workspace) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210701s.Workspace)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/Workspace but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210701s.Workspace
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return workspace.AssignProperties_From_Workspace(source)
+	err = workspace.AssignProperties_From_Workspace(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to workspace")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Workspace from our Workspace
 func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210701s.Workspace)
-	if !ok {
-		return fmt.Errorf("expected machinelearningservices/v1beta20210701storage/Workspace but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210701s.Workspace
+	err := workspace.AssignProperties_To_Workspace(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from workspace")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return workspace.AssignProperties_To_Workspace(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1beta20210701-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210701,name=default.v1beta20210701.workspaces.machinelearningservices.azure.com,admissionReviewVersions=v1
@@ -336,63 +348,36 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2021-07-01/machineLearningServices.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}
+// Deprecated version of Workspace. Use v1api20210701.Workspace instead
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Workspace `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1api20210701.APIVersion instead
 // +kubebuilder:validation:Enum={"2021-07-01"}
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2021-07-01")
 
 type Workspace_Spec struct {
-	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
-	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
-
-	// ApplicationInsightsReference: ARM id of the application insights associated with this workspace. This cannot be changed
-	// once the workspace has been created
-	ApplicationInsightsReference *genruntime.ResourceReference `armReference:"ApplicationInsights" json:"applicationInsightsReference,omitempty"`
+	AllowPublicAccessWhenBehindVnet *bool                         `json:"allowPublicAccessWhenBehindVnet,omitempty"`
+	ApplicationInsightsReference    *genruntime.ResourceReference `armReference:"ApplicationInsights" json:"applicationInsightsReference,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string `json:"azureName,omitempty"`
-
-	// ContainerRegistryReference: ARM id of the container registry associated with this workspace. This cannot be changed once
-	// the workspace has been created
+	AzureName                  string                        `json:"azureName,omitempty"`
 	ContainerRegistryReference *genruntime.ResourceReference `armReference:"ContainerRegistry" json:"containerRegistryReference,omitempty"`
-
-	// Description: The description of this workspace.
-	Description *string `json:"description,omitempty"`
-
-	// DiscoveryUrl: Url for the discovery service to identify regional endpoints for machine learning experimentation services
-	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
-
-	// Encryption: The encryption settings of Azure ML workspace.
-	Encryption *EncryptionProperty `json:"encryption,omitempty"`
-
-	// FriendlyName: The friendly name for this workspace. This name in mutable
-	FriendlyName *string `json:"friendlyName,omitempty"`
-
-	// HbiWorkspace: The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service
-	HbiWorkspace *bool `json:"hbiWorkspace,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity `json:"identity,omitempty"`
-
-	// ImageBuildCompute: The compute name for image build
-	ImageBuildCompute *string `json:"imageBuildCompute,omitempty"`
-
-	// KeyVaultReference: ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has
-	// been created
-	KeyVaultReference *genruntime.ResourceReference `armReference:"KeyVault" json:"keyVaultReference,omitempty"`
-
-	// Location: Specifies the location of the resource.
-	Location *string `json:"location,omitempty"`
+	Description                *string                       `json:"description,omitempty"`
+	DiscoveryUrl               *string                       `json:"discoveryUrl,omitempty"`
+	Encryption                 *EncryptionProperty           `json:"encryption,omitempty"`
+	FriendlyName               *string                       `json:"friendlyName,omitempty"`
+	HbiWorkspace               *bool                         `json:"hbiWorkspace,omitempty"`
+	Identity                   *Identity                     `json:"identity,omitempty"`
+	ImageBuildCompute          *string                       `json:"imageBuildCompute,omitempty"`
+	KeyVaultReference          *genruntime.ResourceReference `armReference:"KeyVault" json:"keyVaultReference,omitempty"`
+	Location                   *string                       `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
@@ -402,32 +387,15 @@ type Workspace_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PrimaryUserAssignedIdentityReference: The user assigned identity resource id that represents the workspace identity.
-	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"PrimaryUserAssignedIdentity" json:"primaryUserAssignedIdentityReference,omitempty"`
-
-	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// ServiceManagedResourcesSettings: The service managed resource settings.
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings `json:"serviceManagedResourcesSettings,omitempty"`
-
-	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []SharedPrivateLinkResource `json:"sharedPrivateLinkResources,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// StorageAccountReference: ARM id of the storage account associated with this workspace. This cannot be changed once the
-	// workspace has been created
-	StorageAccountReference *genruntime.ResourceReference `armReference:"StorageAccount" json:"storageAccountReference,omitempty"`
-
-	// SystemData: System data
-	SystemData *SystemData `json:"systemData,omitempty"`
-
-	// Tags: Contains resource tags defined as key/value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
+	Owner                                *genruntime.KnownResourceReference       `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference            `armReference:"PrimaryUserAssignedIdentity" json:"primaryUserAssignedIdentityReference,omitempty"`
+	PublicNetworkAccess                  *WorkspaceProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	ServiceManagedResourcesSettings      *ServiceManagedResourcesSettings         `json:"serviceManagedResourcesSettings,omitempty"`
+	SharedPrivateLinkResources           []SharedPrivateLinkResource              `json:"sharedPrivateLinkResources,omitempty"`
+	Sku                                  *Sku                                     `json:"sku,omitempty"`
+	StorageAccountReference              *genruntime.ResourceReference            `armReference:"StorageAccount" json:"storageAccountReference,omitempty"`
+	SystemData                           *SystemData                              `json:"systemData,omitempty"`
+	Tags                                 map[string]string                        `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Workspace_Spec{}
@@ -1233,113 +1201,43 @@ func (workspace *Workspace_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (workspace *Workspace_Spec) SetAzureName(azureName string) { workspace.AzureName = azureName }
 
-// An object that represents a machine learning workspace.
+// Deprecated version of Workspace_STATUS. Use v1api20210701.Workspace_STATUS instead
 type Workspace_STATUS struct {
-	// AllowPublicAccessWhenBehindVnet: The flag to indicate whether to allow public access when behind VNet.
-	AllowPublicAccessWhenBehindVnet *bool `json:"allowPublicAccessWhenBehindVnet,omitempty"`
-
-	// ApplicationInsights: ARM id of the application insights associated with this workspace. This cannot be changed once the
-	// workspace has been created
-	ApplicationInsights *string `json:"applicationInsights,omitempty"`
+	AllowPublicAccessWhenBehindVnet *bool   `json:"allowPublicAccessWhenBehindVnet,omitempty"`
+	ApplicationInsights             *string `json:"applicationInsights,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// ContainerRegistry: ARM id of the container registry associated with this workspace. This cannot be changed once the
-	// workspace has been created
-	ContainerRegistry *string `json:"containerRegistry,omitempty"`
-
-	// Description: The description of this workspace.
-	Description *string `json:"description,omitempty"`
-
-	// DiscoveryUrl: Url for the discovery service to identify regional endpoints for machine learning experimentation services
-	DiscoveryUrl *string `json:"discoveryUrl,omitempty"`
-
-	// Encryption: The encryption settings of Azure ML workspace.
-	Encryption *EncryptionProperty_STATUS `json:"encryption,omitempty"`
-
-	// FriendlyName: The friendly name for this workspace. This name in mutable
-	FriendlyName *string `json:"friendlyName,omitempty"`
-
-	// HbiWorkspace: The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service
-	HbiWorkspace *bool `json:"hbiWorkspace,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The identity of the resource.
-	Identity *Identity_STATUS `json:"identity,omitempty"`
-
-	// ImageBuildCompute: The compute name for image build
-	ImageBuildCompute *string `json:"imageBuildCompute,omitempty"`
-
-	// KeyVault: ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been
-	// created
-	KeyVault *string `json:"keyVault,omitempty"`
-
-	// Location: Specifies the location of the resource.
-	Location *string `json:"location,omitempty"`
-
-	// MlFlowTrackingUri: The URI associated with this workspace that machine learning flow must point at to set up tracking.
-	MlFlowTrackingUri *string `json:"mlFlowTrackingUri,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// NotebookInfo: The notebook info of Azure ML workspace.
-	NotebookInfo *NotebookResourceInfo_STATUS `json:"notebookInfo,omitempty"`
-
-	// PrimaryUserAssignedIdentity: The user assigned identity resource id that represents the workspace identity.
-	PrimaryUserAssignedIdentity *string `json:"primaryUserAssignedIdentity,omitempty"`
-
-	// PrivateEndpointConnections: The list of private endpoint connections in the workspace.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
-
-	// PrivateLinkCount: Count of private connections in the workspace
-	PrivateLinkCount *int `json:"privateLinkCount,omitempty"`
-
-	// ProvisioningState: The current deployment state of workspace resource. The provisioningState is to indicate states for
-	// resource provisioning.
-	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-
-	// ServiceManagedResourcesSettings: The service managed resource settings.
-	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS `json:"serviceManagedResourcesSettings,omitempty"`
-
-	// ServiceProvisionedResourceGroup: The name of the managed resource group created by workspace RP in customer subscription
-	// if the workspace is CMK workspace
-	ServiceProvisionedResourceGroup *string `json:"serviceProvisionedResourceGroup,omitempty"`
-
-	// SharedPrivateLinkResources: The list of shared private link resources in this workspace.
-	SharedPrivateLinkResources []SharedPrivateLinkResource_STATUS `json:"sharedPrivateLinkResources,omitempty"`
-
-	// Sku: The sku of the workspace.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// StorageAccount: ARM id of the storage account associated with this workspace. This cannot be changed once the workspace
-	// has been created
-	StorageAccount *string `json:"storageAccount,omitempty"`
-
-	// StorageHnsEnabled: If the storage associated with the workspace has hierarchical namespace(HNS) enabled.
-	StorageHnsEnabled *bool `json:"storageHnsEnabled,omitempty"`
-
-	// SystemData: System data
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Contains resource tags defined as key/value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// TenantId: The tenant id associated with this workspace.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// WorkspaceId: The immutable id associated with this workspace.
-	WorkspaceId *string `json:"workspaceId,omitempty"`
+	Conditions                      []conditions.Condition                          `json:"conditions,omitempty"`
+	ContainerRegistry               *string                                         `json:"containerRegistry,omitempty"`
+	Description                     *string                                         `json:"description,omitempty"`
+	DiscoveryUrl                    *string                                         `json:"discoveryUrl,omitempty"`
+	Encryption                      *EncryptionProperty_STATUS                      `json:"encryption,omitempty"`
+	FriendlyName                    *string                                         `json:"friendlyName,omitempty"`
+	HbiWorkspace                    *bool                                           `json:"hbiWorkspace,omitempty"`
+	Id                              *string                                         `json:"id,omitempty"`
+	Identity                        *Identity_STATUS                                `json:"identity,omitempty"`
+	ImageBuildCompute               *string                                         `json:"imageBuildCompute,omitempty"`
+	KeyVault                        *string                                         `json:"keyVault,omitempty"`
+	Location                        *string                                         `json:"location,omitempty"`
+	MlFlowTrackingUri               *string                                         `json:"mlFlowTrackingUri,omitempty"`
+	Name                            *string                                         `json:"name,omitempty"`
+	NotebookInfo                    *NotebookResourceInfo_STATUS                    `json:"notebookInfo,omitempty"`
+	PrimaryUserAssignedIdentity     *string                                         `json:"primaryUserAssignedIdentity,omitempty"`
+	PrivateEndpointConnections      []PrivateEndpointConnection_STATUS              `json:"privateEndpointConnections,omitempty"`
+	PrivateLinkCount                *int                                            `json:"privateLinkCount,omitempty"`
+	ProvisioningState               *WorkspaceProperties_ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
+	PublicNetworkAccess             *WorkspaceProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	ServiceManagedResourcesSettings *ServiceManagedResourcesSettings_STATUS         `json:"serviceManagedResourcesSettings,omitempty"`
+	ServiceProvisionedResourceGroup *string                                         `json:"serviceProvisionedResourceGroup,omitempty"`
+	SharedPrivateLinkResources      []SharedPrivateLinkResource_STATUS              `json:"sharedPrivateLinkResources,omitempty"`
+	Sku                             *Sku_STATUS                                     `json:"sku,omitempty"`
+	StorageAccount                  *string                                         `json:"storageAccount,omitempty"`
+	StorageHnsEnabled               *bool                                           `json:"storageHnsEnabled,omitempty"`
+	SystemData                      *SystemData_STATUS                              `json:"systemData,omitempty"`
+	Tags                            map[string]string                               `json:"tags,omitempty"`
+	TenantId                        *string                                         `json:"tenantId,omitempty"`
+	Type                            *string                                         `json:"type,omitempty"`
+	WorkspaceId                     *string                                         `json:"workspaceId,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
@@ -2155,16 +2053,14 @@ func (workspace *Workspace_STATUS) AssignProperties_To_Workspace_STATUS(destinat
 	return nil
 }
 
+// Deprecated version of EncryptionProperty. Use v1api20210701.EncryptionProperty instead
 type EncryptionProperty struct {
-	// Identity: The identity that will be used to access the key vault for encryption at rest.
 	Identity *IdentityForCmk `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// KeyVaultProperties: Customer Key vault properties.
 	KeyVaultProperties *KeyVaultProperties `json:"keyVaultProperties,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Status: Indicates whether or not the encryption is enabled for the workspace.
 	Status *EncryptionProperty_Status `json:"status,omitempty"`
 }
 
@@ -2336,15 +2232,11 @@ func (property *EncryptionProperty) AssignProperties_To_EncryptionProperty(desti
 	return nil
 }
 
+// Deprecated version of EncryptionProperty_STATUS. Use v1api20210701.EncryptionProperty_STATUS instead
 type EncryptionProperty_STATUS struct {
-	// Identity: The identity that will be used to access the key vault for encryption at rest.
-	Identity *IdentityForCmk_STATUS `json:"identity,omitempty"`
-
-	// KeyVaultProperties: Customer Key vault properties.
-	KeyVaultProperties *KeyVaultProperties_STATUS `json:"keyVaultProperties,omitempty"`
-
-	// Status: Indicates whether or not the encryption is enabled for the workspace.
-	Status *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
+	Identity           *IdentityForCmk_STATUS            `json:"identity,omitempty"`
+	KeyVaultProperties *KeyVaultProperties_STATUS        `json:"keyVaultProperties,omitempty"`
+	Status             *EncryptionProperty_Status_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &EncryptionProperty_STATUS{}
@@ -2480,9 +2372,8 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 	return nil
 }
 
-// Identity for the resource.
+// Deprecated version of Identity. Use v1api20210701.Identity instead
 type Identity struct {
-	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
@@ -2564,18 +2455,11 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210701s.I
 	return nil
 }
 
-// Identity for the resource.
+// Deprecated version of Identity_STATUS. Use v1api20210701.Identity_STATUS instead
 type Identity_STATUS struct {
-	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The identity type.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The user assigned identities associated with the resource.
+	PrincipalId            *string                                `json:"principalId,omitempty"`
+	TenantId               *string                                `json:"tenantId,omitempty"`
+	Type                   *Identity_Type_STATUS                  `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2715,14 +2599,11 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 	return nil
 }
 
+// Deprecated version of NotebookResourceInfo_STATUS. Use v1api20210701.NotebookResourceInfo_STATUS instead
 type NotebookResourceInfo_STATUS struct {
-	Fqdn *string `json:"fqdn,omitempty"`
-
-	// NotebookPreparationError: The error that occurs when preparing notebook.
+	Fqdn                     *string                          `json:"fqdn,omitempty"`
 	NotebookPreparationError *NotebookPreparationError_STATUS `json:"notebookPreparationError,omitempty"`
-
-	// ResourceId: the data plane resourceId that used to initialize notebook component
-	ResourceId *string `json:"resourceId,omitempty"`
+	ResourceId               *string                          `json:"resourceId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NotebookResourceInfo_STATUS{}
@@ -2825,10 +2706,8 @@ func (info *NotebookResourceInfo_STATUS) AssignProperties_To_NotebookResourceInf
 	return nil
 }
 
-// The Private Endpoint Connection resource.
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1api20210701.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
@@ -2885,8 +2764,8 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 	return nil
 }
 
+// Deprecated version of ServiceManagedResourcesSettings. Use v1api20210701.ServiceManagedResourcesSettings instead
 type ServiceManagedResourcesSettings struct {
-	// CosmosDb: The settings for the service managed cosmosdb account.
 	CosmosDb *CosmosDbSettings `json:"cosmosDb,omitempty"`
 }
 
@@ -2985,8 +2864,8 @@ func (settings *ServiceManagedResourcesSettings) AssignProperties_To_ServiceMana
 	return nil
 }
 
+// Deprecated version of ServiceManagedResourcesSettings_STATUS. Use v1api20210701.ServiceManagedResourcesSettings_STATUS instead
 type ServiceManagedResourcesSettings_STATUS struct {
-	// CosmosDb: The settings for the service managed cosmosdb account.
 	CosmosDb *CosmosDbSettings_STATUS `json:"cosmosDb,omitempty"`
 }
 
@@ -3066,21 +2945,13 @@ func (settings *ServiceManagedResourcesSettings_STATUS) AssignProperties_To_Serv
 	return nil
 }
 
+// Deprecated version of SharedPrivateLinkResource. Use v1api20210701.SharedPrivateLinkResource instead
 type SharedPrivateLinkResource struct {
-	// GroupId: The private link resource group id.
-	GroupId *string `json:"groupId,omitempty"`
-
-	// Name: Unique name of the private link.
-	Name *string `json:"name,omitempty"`
-
-	// PrivateLinkResourceReference: The resource id that private link links to.
-	PrivateLinkResourceReference *genruntime.ResourceReference `armReference:"PrivateLinkResourceId" json:"privateLinkResourceReference,omitempty"`
-
-	// RequestMessage: Request message.
-	RequestMessage *string `json:"requestMessage,omitempty"`
-
-	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *PrivateEndpointServiceConnectionStatus `json:"status,omitempty"`
+	GroupId                      *string                                 `json:"groupId,omitempty"`
+	Name                         *string                                 `json:"name,omitempty"`
+	PrivateLinkResourceReference *genruntime.ResourceReference           `armReference:"PrivateLinkResourceId" json:"privateLinkResourceReference,omitempty"`
+	RequestMessage               *string                                 `json:"requestMessage,omitempty"`
+	Status                       *PrivateEndpointServiceConnectionStatus `json:"status,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SharedPrivateLinkResource{}
@@ -3252,21 +3123,13 @@ func (resource *SharedPrivateLinkResource) AssignProperties_To_SharedPrivateLink
 	return nil
 }
 
+// Deprecated version of SharedPrivateLinkResource_STATUS. Use v1api20210701.SharedPrivateLinkResource_STATUS instead
 type SharedPrivateLinkResource_STATUS struct {
-	// GroupId: The private link resource group id.
-	GroupId *string `json:"groupId,omitempty"`
-
-	// Name: Unique name of the private link.
-	Name *string `json:"name,omitempty"`
-
-	// PrivateLinkResourceId: The resource id that private link links to.
-	PrivateLinkResourceId *string `json:"privateLinkResourceId,omitempty"`
-
-	// RequestMessage: Request message.
-	RequestMessage *string `json:"requestMessage,omitempty"`
-
-	// Status: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
-	Status *PrivateEndpointServiceConnectionStatus_STATUS `json:"status,omitempty"`
+	GroupId               *string                                        `json:"groupId,omitempty"`
+	Name                  *string                                        `json:"name,omitempty"`
+	PrivateLinkResourceId *string                                        `json:"privateLinkResourceId,omitempty"`
+	RequestMessage        *string                                        `json:"requestMessage,omitempty"`
+	Status                *PrivateEndpointServiceConnectionStatus_STATUS `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SharedPrivateLinkResource_STATUS{}
@@ -3392,12 +3255,9 @@ func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_To_SharedPriv
 	return nil
 }
 
-// Sku of the resource
+// Deprecated version of Sku. Use v1api20210701.Sku instead
 type Sku struct {
-	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
-
-	// Tier: Tier of the sku like Basic or Enterprise
 	Tier *string `json:"tier,omitempty"`
 }
 
@@ -3487,12 +3347,9 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20210701s.Sku) error {
 	return nil
 }
 
-// Sku of the resource
+// Deprecated version of Sku_STATUS. Use v1api20210701.Sku_STATUS instead
 type Sku_STATUS struct {
-	// Name: Name of the sku
 	Name *string `json:"name,omitempty"`
-
-	// Tier: Tier of the sku like Basic or Enterprise
 	Tier *string `json:"tier,omitempty"`
 }
 
@@ -3561,24 +3418,13 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20210701s.Sk
 	return nil
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData. Use v1api20210701.SystemData instead
 type SystemData struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                        `json:"createdAt,omitempty"`
+	CreatedBy          *string                        `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                        `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                        `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
@@ -3760,24 +3606,13 @@ func (data *SystemData) AssignProperties_To_SystemData(destination *v20210701s.S
 	return nil
 }
 
-// Metadata pertaining to creation and last modification of the resource.
+// Deprecated version of SystemData_STATUS. Use v1api20210701.SystemData_STATUS instead
 type SystemData_STATUS struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType_STATUS `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
+	CreatedAt          *string                               `json:"createdAt,omitempty"`
+	CreatedBy          *string                               `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType_STATUS      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                               `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                               `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
@@ -3967,6 +3802,8 @@ func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec
 	return nil
 }
 
+// Deprecated version of WorkspaceProperties_ProvisioningState_STATUS. Use
+// v1api20210701.WorkspaceProperties_ProvisioningState_STATUS instead
 type WorkspaceProperties_ProvisioningState_STATUS string
 
 const (
@@ -3979,6 +3816,8 @@ const (
 	WorkspaceProperties_ProvisioningState_STATUS_Updating  = WorkspaceProperties_ProvisioningState_STATUS("Updating")
 )
 
+// Deprecated version of WorkspaceProperties_PublicNetworkAccess. Use v1api20210701.WorkspaceProperties_PublicNetworkAccess
+// instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspaceProperties_PublicNetworkAccess string
 
@@ -3987,6 +3826,8 @@ const (
 	WorkspaceProperties_PublicNetworkAccess_Enabled  = WorkspaceProperties_PublicNetworkAccess("Enabled")
 )
 
+// Deprecated version of WorkspaceProperties_PublicNetworkAccess_STATUS. Use
+// v1api20210701.WorkspaceProperties_PublicNetworkAccess_STATUS instead
 type WorkspaceProperties_PublicNetworkAccess_STATUS string
 
 const (
@@ -3994,8 +3835,8 @@ const (
 	WorkspaceProperties_PublicNetworkAccess_STATUS_Enabled  = WorkspaceProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
+// Deprecated version of CosmosDbSettings. Use v1api20210701.CosmosDbSettings instead
 type CosmosDbSettings struct {
-	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
 }
 
@@ -4067,8 +3908,8 @@ func (settings *CosmosDbSettings) AssignProperties_To_CosmosDbSettings(destinati
 	return nil
 }
 
+// Deprecated version of CosmosDbSettings_STATUS. Use v1api20210701.CosmosDbSettings_STATUS instead
 type CosmosDbSettings_STATUS struct {
-	// CollectionsThroughput: The throughput of the collections in cosmosdb database
 	CollectionsThroughput *int `json:"collectionsThroughput,omitempty"`
 }
 
@@ -4125,6 +3966,7 @@ func (settings *CosmosDbSettings_STATUS) AssignProperties_To_CosmosDbSettings_ST
 	return nil
 }
 
+// Deprecated version of EncryptionProperty_Status. Use v1api20210701.EncryptionProperty_Status instead
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type EncryptionProperty_Status string
 
@@ -4133,6 +3975,7 @@ const (
 	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("Enabled")
 )
 
+// Deprecated version of EncryptionProperty_Status_STATUS. Use v1api20210701.EncryptionProperty_Status_STATUS instead
 type EncryptionProperty_Status_STATUS string
 
 const (
@@ -4140,9 +3983,8 @@ const (
 	EncryptionProperty_Status_STATUS_Enabled  = EncryptionProperty_Status_STATUS("Enabled")
 )
 
-// Identity that will be used to access key vault for encryption at rest
+// Deprecated version of IdentityForCmk. Use v1api20210701.IdentityForCmk instead
 type IdentityForCmk struct {
-	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
@@ -4214,9 +4056,8 @@ func (forCmk *IdentityForCmk) AssignProperties_To_IdentityForCmk(destination *v2
 	return nil
 }
 
-// Identity that will be used to access key vault for encryption at rest
+// Deprecated version of IdentityForCmk_STATUS. Use v1api20210701.IdentityForCmk_STATUS instead
 type IdentityForCmk_STATUS struct {
-	// UserAssignedIdentity: The ArmId of the user assigned identity that will be used to access the customer managed key vault
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
@@ -4273,16 +4114,14 @@ func (forCmk *IdentityForCmk_STATUS) AssignProperties_To_IdentityForCmk_STATUS(d
 	return nil
 }
 
+// Deprecated version of KeyVaultProperties. Use v1api20210701.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// KeyIdentifier: Key vault uri to access the encryption key.
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// KeyVaultArmId: The ArmId of the keyVault where the customer owned encryption key is present.
 	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
 }
 
@@ -4390,15 +4229,11 @@ func (properties *KeyVaultProperties) AssignProperties_To_KeyVaultProperties(des
 	return nil
 }
 
+// Deprecated version of KeyVaultProperties_STATUS. Use v1api20210701.KeyVaultProperties_STATUS instead
 type KeyVaultProperties_STATUS struct {
-	// IdentityClientId: For future use - The client id of the identity which will be used to access key vault.
 	IdentityClientId *string `json:"identityClientId,omitempty"`
-
-	// KeyIdentifier: Key vault uri to access the encryption key.
-	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
-
-	// KeyVaultArmId: The ArmId of the keyVault where the customer owned encryption key is present.
-	KeyVaultArmId *string `json:"keyVaultArmId,omitempty"`
+	KeyIdentifier    *string `json:"keyIdentifier,omitempty"`
+	KeyVaultArmId    *string `json:"keyVaultArmId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &KeyVaultProperties_STATUS{}
@@ -4478,6 +4313,7 @@ func (properties *KeyVaultProperties_STATUS) AssignProperties_To_KeyVaultPropert
 	return nil
 }
 
+// Deprecated version of NotebookPreparationError_STATUS. Use v1api20210701.NotebookPreparationError_STATUS instead
 type NotebookPreparationError_STATUS struct {
 	ErrorMessage *string `json:"errorMessage,omitempty"`
 	StatusCode   *int    `json:"statusCode,omitempty"`
@@ -4548,7 +4384,8 @@ func (error *NotebookPreparationError_STATUS) AssignProperties_To_NotebookPrepar
 	return nil
 }
 
-// The private endpoint connection status.
+// Deprecated version of PrivateEndpointServiceConnectionStatus. Use v1api20210701.PrivateEndpointServiceConnectionStatus
+// instead
 // +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
 type PrivateEndpointServiceConnectionStatus string
 
@@ -4560,7 +4397,8 @@ const (
 	PrivateEndpointServiceConnectionStatus_Timeout      = PrivateEndpointServiceConnectionStatus("Timeout")
 )
 
-// The private endpoint connection status.
+// Deprecated version of PrivateEndpointServiceConnectionStatus_STATUS. Use
+// v1api20210701.PrivateEndpointServiceConnectionStatus_STATUS instead
 type PrivateEndpointServiceConnectionStatus_STATUS string
 
 const (
@@ -4571,16 +4409,11 @@ const (
 	PrivateEndpointServiceConnectionStatus_STATUS_Timeout      = PrivateEndpointServiceConnectionStatus_STATUS("Timeout")
 )
 
-// User Assigned Identity
+// Deprecated version of UserAssignedIdentity_STATUS. Use v1api20210701.UserAssignedIdentity_STATUS instead
 type UserAssignedIdentity_STATUS struct {
-	// ClientId: The clientId(aka appId) of the user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal ID of the user assigned identity.
+	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of the user assigned identity.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId    *string `json:"tenantId,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &UserAssignedIdentity_STATUS{}

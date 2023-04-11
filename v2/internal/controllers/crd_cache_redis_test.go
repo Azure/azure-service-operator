@@ -8,14 +8,14 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -91,15 +91,15 @@ func makeRedis(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, p
 			Sku: &cache.Sku{
 				Family:   &family,
 				Name:     &sku,
-				Capacity: to.IntPtr(1),
+				Capacity: to.Ptr(1),
 			},
-			EnableNonSslPort:  to.BoolPtr(false),
+			EnableNonSslPort:  to.Ptr(false),
 			MinimumTlsVersion: &tls12,
 			RedisConfiguration: &cache.RedisCreateProperties_RedisConfiguration{
-				MaxmemoryDelta:  to.StringPtr("10"),
-				MaxmemoryPolicy: to.StringPtr("allkeys-lru"),
+				MaxmemoryDelta:  to.Ptr("10"),
+				MaxmemoryPolicy: to.Ptr("allkeys-lru"),
 			},
-			RedisVersion: to.StringPtr("6"),
+			RedisVersion: to.Ptr("6"),
 		},
 	}
 }
@@ -133,8 +133,8 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 			Owner: testcommon.AsOwner(redis),
 			ScheduleEntries: []cache.ScheduleEntry{{
 				DayOfWeek:         &monday,
-				MaintenanceWindow: to.StringPtr("PT6H"),
-				StartHourUtc:      to.IntPtr(6),
+				MaintenanceWindow: to.Ptr("PT6H"),
+				StartHourUtc:      to.Ptr(6),
 			}},
 		},
 	}
@@ -145,20 +145,20 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 	old := schedule.DeepCopy()
 	schedule.Spec.ScheduleEntries = append(schedule.Spec.ScheduleEntries, cache.ScheduleEntry{
 		DayOfWeek:         &wednesday,
-		MaintenanceWindow: to.StringPtr("PT6H30S"),
-		StartHourUtc:      to.IntPtr(7),
+		MaintenanceWindow: to.Ptr("PT6H30S"),
+		StartHourUtc:      to.Ptr(7),
 	})
 	tc.PatchResourceAndWait(old, &schedule)
 	statusMonday := cache.ScheduleEntry_DayOfWeek_STATUS_Monday
 	statusWednesday := cache.ScheduleEntry_DayOfWeek_STATUS_Wednesday
 	tc.Expect(schedule.Status.ScheduleEntries).To(Equal([]cache.ScheduleEntry_STATUS{{
 		DayOfWeek:         &statusMonday,
-		MaintenanceWindow: to.StringPtr("PT6H"),
-		StartHourUtc:      to.IntPtr(6),
+		MaintenanceWindow: to.Ptr("PT6H"),
+		StartHourUtc:      to.Ptr(6),
 	}, {
 		DayOfWeek:         &statusWednesday,
-		MaintenanceWindow: to.StringPtr("PT6H30S"),
-		StartHourUtc:      to.IntPtr(7),
+		MaintenanceWindow: to.Ptr("PT6H30S"),
+		StartHourUtc:      to.Ptr(7),
 	}}))
 	// The patch schedule is always named default in Azure whatever we
 	// call it in k8s, and can't be deleted once it's created.
@@ -170,8 +170,8 @@ func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Red
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("fwrule")),
 		Spec: cache.Redis_FirewallRule_Spec{
 			Owner:   testcommon.AsOwner(redis),
-			StartIP: to.StringPtr("1.2.3.4"),
-			EndIP:   to.StringPtr("1.2.3.4"),
+			StartIP: to.Ptr("1.2.3.4"),
+			EndIP:   to.Ptr("1.2.3.4"),
 		},
 	}
 
@@ -179,7 +179,7 @@ func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Red
 	defer tc.DeleteResourceAndWait(&rule)
 
 	old := rule.DeepCopy()
-	rule.Spec.EndIP = to.StringPtr("1.2.3.5")
+	rule.Spec.EndIP = to.Ptr("1.2.3.5")
 	tc.PatchResourceAndWait(old, &rule)
 	tc.Expect(rule.Status.EndIP).ToNot(BeNil())
 	tc.Expect(*rule.Status.EndIP).To(Equal("1.2.3.5"))

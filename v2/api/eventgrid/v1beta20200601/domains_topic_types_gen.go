@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}
+// Deprecated version of DomainsTopic. Use v1api20200601.DomainsTopic instead
 type DomainsTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &DomainsTopic{}
 
 // ConvertFrom populates our DomainsTopic from the provided hub DomainsTopic
 func (topic *DomainsTopic) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20200601s.DomainsTopic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1beta20200601storage/DomainsTopic but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20200601s.DomainsTopic
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return topic.AssignProperties_From_DomainsTopic(source)
+	err = topic.AssignProperties_From_DomainsTopic(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to topic")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DomainsTopic from our DomainsTopic
 func (topic *DomainsTopic) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20200601s.DomainsTopic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1beta20200601storage/DomainsTopic but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20200601s.DomainsTopic
+	err := topic.AssignProperties_To_DomainsTopic(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from topic")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return topic.AssignProperties_To_DomainsTopic(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1beta20200601-domainstopic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=domainstopics,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.domainstopics.eventgrid.azure.com,admissionReviewVersions=v1
@@ -312,9 +324,7 @@ func (topic *DomainsTopic) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{domainTopicName}
+// Deprecated version of DomainsTopic. Use v1api20200601.DomainsTopic instead
 type DomainsTopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -475,24 +485,15 @@ func (topic *Domains_Topic_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (topic *Domains_Topic_Spec) SetAzureName(azureName string) { topic.AzureName = azureName }
 
+// Deprecated version of Domains_Topic_STATUS. Use v1api20200601.Domains_Topic_STATUS instead
 type Domains_Topic_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: Provisioning state of the domain topic.
+	Conditions        []conditions.Condition                          `json:"conditions,omitempty"`
+	Id                *string                                         `json:"id,omitempty"`
+	Name              *string                                         `json:"name,omitempty"`
 	ProvisioningState *DomainTopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// SystemData: The system metadata relating to Domain Topic resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	SystemData        *SystemData_STATUS                              `json:"systemData,omitempty"`
+	Type              *string                                         `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Domains_Topic_STATUS{}
@@ -690,6 +691,8 @@ func (topic *Domains_Topic_STATUS) AssignProperties_To_Domains_Topic_STATUS(dest
 	return nil
 }
 
+// Deprecated version of DomainTopicProperties_ProvisioningState_STATUS. Use
+// v1api20200601.DomainTopicProperties_ProvisioningState_STATUS instead
 type DomainTopicProperties_ProvisioningState_STATUS string
 
 const (

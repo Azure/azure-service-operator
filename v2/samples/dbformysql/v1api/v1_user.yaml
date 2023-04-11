@@ -1,0 +1,29 @@
+apiVersion: dbformysql.azure.com/v1
+kind: User
+metadata:
+  name: sampleuser
+  namespace: default
+spec:
+  owner:
+    name: samplemysql
+  # Specify a list of server-level privileges. Privileges
+  # include the following: RELOAD, PROCESS, SHOW DATABASES,
+  # REPLICATION SLAVE, REPLICATION CLIENT, CREATE USER
+  privileges:
+    - PROCESS
+    - CREATE USER
+  databasePrivileges:
+    mysqldatabase-sample:
+      # Privileges include the following:
+      # SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX,
+      # ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW,
+      # SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER
+      - SELECT
+  localUser:
+    serverAdminUsername: admin
+    serverAdminPassword:
+      name: server-admin-pw
+      key: password
+    password:
+      name: sampleuser-password
+      key: password

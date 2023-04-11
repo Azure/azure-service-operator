@@ -17,8 +17,8 @@ import (
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
@@ -27,12 +27,44 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
+const (
+	AzureClientIDMultitenantVar         = "AZURE_CLIENT_ID_MULTITENANT"
+	AzureClientIDMultitenantCertAuthVar = "AZURE_CLIENT_ID_CERT_AUTH"
+	// #nosec
+	AzureClientSecretMultitenantVar = "AZURE_CLIENT_SECRET_MULTITENANT"
+	// #nosec
+	AzureClientCertificateMultitenantVar = "AZURE_CLIENT_SECRET_CERT_AUTH"
+)
+
+func Test_Multitenant_SingleOperator_CertificateAuth(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	secret, err := newClientCertificateCredential(tc.AzureSubscription, tc.AzureTenant, arm.NamespacedSecretName, tc.Namespace)
+	tc.Expect(err).To(BeNil())
+
+	tc.CreateResource(secret)
+	rg := tc.NewTestResourceGroup()
+
+	tc.CreateResourcesAndWait(rg)
+
+	resID := genruntime.GetResourceIDOrDefault(rg)
+
+	// Make sure the ResourceGroup is created successfully in Azure.
+	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, resID, string(storage.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeTrue())
+
+	tc.DeleteResourceAndWait(rg)
+}
+
 func Test_Multitenant_SingleOperator_NamespacedCredential(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
 
-	secret, err := newCredentialSecret(tc.AzureSubscription, tc.AzureTenant, arm.NamespacedSecretName, tc.Namespace)
+	secret, err := newClientSecretCredential(tc.AzureSubscription, tc.AzureTenant, arm.NamespacedSecretName, tc.Namespace)
 	tc.Expect(err).To(BeNil())
 
 	tc.CreateResource(secret)
@@ -68,7 +100,7 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	secret, err := newCredentialSecret(tc.AzureSubscription, tc.AzureTenant, "credential", tc.Namespace)
+	secret, err := newClientSecretCredential(tc.AzureSubscription, tc.AzureTenant, "credential", tc.Namespace)
 	tc.Expect(err).To(BeNil())
 
 	tc.CreateResource(secret)
@@ -106,31 +138,57 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	tc.DeleteResourcesAndWait(acct, rg)
 }
 
-func newCredentialSecret(subscriptionID, tenantID, name, namespaceName string) (*v1.Secret, error) {
+func newClientSecretCredential(subscriptionID, tenantID, name, namespace string) (*v1.Secret, error) {
+	secret := newCredentialSecret(subscriptionID, tenantID, name, namespace)
+
+	clientSecret := os.Getenv(AzureClientSecretMultitenantVar)
+	if clientSecret == "" {
+		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientSecretMultitenantVar)
+	}
+
+	clientID := os.Getenv(AzureClientIDMultitenantVar)
+	if clientID == "" {
+		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantVar)
+	}
+
+	secret.Data[config.ClientIDVar] = []byte(clientID)
+	secret.Data[config.ClientSecretVar] = []byte(clientSecret)
+
+	return secret, nil
+}
+
+func newClientCertificateCredential(subscriptionID, tenantID, name, namespace string) (*v1.Secret, error) {
+	secret := newCredentialSecret(subscriptionID, tenantID, name, namespace)
+
+	clientCert := os.Getenv(AzureClientCertificateMultitenantVar)
+	if clientCert == "" {
+		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientCertificateMultitenantVar)
+	}
+
+	clientID := os.Getenv(AzureClientIDMultitenantCertAuthVar)
+	if clientID == "" {
+		return nil, errors.Errorf("required environment variable %q was not supplied", AzureClientIDMultitenantCertAuthVar)
+	}
+
+	secret.Data[config.ClientIDVar] = []byte(clientID)
+	secret.Data[config.ClientCertificateVar] = []byte(clientCert)
+
+	return secret, nil
+}
+
+func newCredentialSecret(subscriptionID, tenantID, name, namespace string) *v1.Secret {
 	secretData := make(map[string][]byte)
 
-	clientSecret := os.Getenv(config.AzureClientSecretMultitenantVar)
-	if clientSecret == "" {
-		return nil, errors.Errorf("required environment variable %q was not supplied", config.AzureClientSecretMultitenantVar)
-	}
-
-	clientID := os.Getenv(config.AzureClientIDMultitenantVar)
-	if clientID == "" {
-		return nil, errors.Errorf("required environment variable %q was not supplied", config.AzureClientIDMultitenantVar)
-	}
-
-	secretData[config.ClientIDVar] = []byte(clientID)
-	secretData[config.ClientSecretVar] = []byte(clientSecret)
 	secretData[config.TenantIDVar] = []byte(tenantID)
 	secretData[config.SubscriptionIDVar] = []byte(subscriptionID)
 
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      name,
-			Namespace: namespaceName,
+			Namespace: namespace,
 		},
 		Data: secretData,
-	}, nil
+	}
 }
 
 func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {

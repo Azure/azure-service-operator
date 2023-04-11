@@ -16,7 +16,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -56,7 +56,7 @@ func (ext *ConfigurationStoreExtension) ExportKubernetesResources(
 	keys := make(map[string]armappconfiguration.APIKey)
 	// Only bother calling ListKeys if there are secrets to retrieve
 	if hasSecrets {
-		subscription := armClient.SubscriptionID()
+		subscription := id.SubscriptionID
 		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 		// connection each time through
 		var confClient *armappconfiguration.ConfigurationStoresClient

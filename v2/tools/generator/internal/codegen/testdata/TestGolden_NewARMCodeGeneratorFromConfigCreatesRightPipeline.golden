@@ -30,6 +30,7 @@ stripUnreferenced                                            Strip unreferenced 
 replaceAnyTypeWithJSON                                       Replace properties using interface{} with arbitrary JSON
 improvePropertyDescriptions                                  Improve property descriptions by copying from the corresponding type
 fixOptionalCollectionAliases                                 Replace types which are optional aliases to collections with just the collection alias
+applyCrossResourceReferencesFromConfig            azure      Replace cross-resource references in the config with astmodel.ARMID
 transformCrossResourceReferences                  azure      Replace cross-resource references with genruntime.ResourceReference
 addSecrets                                        azure      Replace properties flagged as secret with genruntime.SecretReference
 addConfigMaps                                     azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.
@@ -54,6 +55,8 @@ injectPropertyAssignmentFunctions                 azure      Inject property ass
 implementConvertibleSpecInterface                 azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
 implementConvertibleStatusInterface               azure      Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type
 injectOriginalGVKFunction                         azure      Inject the function OriginalGVK() into each Resource type
+injectSpecInitializationFunctions                 azure      Inject spec initialization functions Initialize_From_*() into resources and objects
+implementImportableResourceInterface              azure      Implement the ImportableResource interface for resources that support import via asoctl
 markLatestStorageVariantAsHubVersion              azure      Mark the latest GA storage variant of each resource as the hub version
 injectHubFunction                                 azure      Inject the function Hub() into each hub resource
 implementConvertibleInterface                     azure      Implement the Convertible interface on each non-hub Resource type

@@ -5,10 +5,9 @@ package v1beta20210601
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of FlexibleServers_Configuration_Spec. Use v1api20210601.FlexibleServers_Configuration_Spec instead
 type FlexibleServers_Configuration_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: The properties of a configuration.
+	Name       string                       `json:"name,omitempty"`
 	Properties *ConfigurationProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,11 +28,8 @@ func (configuration *FlexibleServers_Configuration_Spec_ARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
 }
 
-// The properties of a configuration.
+// Deprecated version of ConfigurationProperties. Use v1api20210601.ConfigurationProperties instead
 type ConfigurationProperties_ARM struct {
-	// Source: Source of the configuration.
 	Source *string `json:"source,omitempty"`
-
-	// Value: Value of the configuration.
-	Value *string `json:"value,omitempty"`
+	Value  *string `json:"value,omitempty"`
 }

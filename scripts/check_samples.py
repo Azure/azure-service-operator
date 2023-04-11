@@ -42,7 +42,7 @@ def get_expected_samples(crd_path):
         group = group.split(' ')[1]
         group = strip(group, ".azure.com")
         version = version.split(' ')[1]
-        versionPrefix = re.match('v1(alpha|beta)([0-9][a-z]+)?', version).group() + "*"
+        versionPrefix = re.match('v1(api|alpha1|beta)?([0-9][a-z]+)?', version).group() + "*"
         filename = f'{version}_{kind}.yaml'
         expected_samples.add(os.path.join(group, versionPrefix, filename))
 
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     root_dir = pathlib.Path(sys.argv[1])
     config_dir = root_dir / 'config'
-    crd_bases_dir = config_dir / 'crd' / 'bases'
+    crd_bases_dir = config_dir / 'crd' / 'generated' / 'bases'
     samples_dir = root_dir / 'samples'
 
     crd_bases = [entry for entry in crd_bases_dir.iterdir() if entry.is_file()]

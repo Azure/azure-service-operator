@@ -3,74 +3,46 @@
 // Licensed under the MIT license.
 package v1beta20210515
 
+// Deprecated version of DatabaseAccounts_MongodbDatabases_Collection_STATUS. Use v1api20210515.DatabaseAccounts_MongodbDatabases_Collection_STATUS instead
 type DatabaseAccounts_MongodbDatabases_Collection_STATUS_ARM struct {
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: The properties of an Azure Cosmos DB MongoDB collection
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
 	Properties *MongoDBCollectionGetProperties_STATUS_ARM `json:"properties,omitempty"`
 	Tags       map[string]string                          `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
-// The properties of an Azure Cosmos DB MongoDB collection
+// Deprecated version of MongoDBCollectionGetProperties_STATUS. Use v1api20210515.MongoDBCollectionGetProperties_STATUS instead
 type MongoDBCollectionGetProperties_STATUS_ARM struct {
-	// Options: Cosmos DB options resource object
 	Options  *OptionsResource_STATUS_ARM                         `json:"options,omitempty"`
 	Resource *MongoDBCollectionGetProperties_Resource_STATUS_ARM `json:"resource,omitempty"`
 }
 
+// Deprecated version of MongoDBCollectionGetProperties_Resource_STATUS. Use v1api20210515.MongoDBCollectionGetProperties_Resource_STATUS instead
 type MongoDBCollectionGetProperties_Resource_STATUS_ARM struct {
-	// AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	// Id: Name of the Cosmos DB MongoDB collection
-	Id *string `json:"id,omitempty"`
-
-	// Indexes: List of index keys
-	Indexes []MongoIndex_STATUS_ARM `json:"indexes,omitempty"`
-
-	// Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	// ShardKey: A key-value pair of shard keys to be applied for the request.
-	ShardKey map[string]string `json:"shardKey,omitempty"`
-
-	// Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	AnalyticalStorageTtl *int                    `json:"analyticalStorageTtl,omitempty"`
+	Etag                 *string                 `json:"_etag,omitempty"`
+	Id                   *string                 `json:"id,omitempty"`
+	Indexes              []MongoIndex_STATUS_ARM `json:"indexes,omitempty"`
+	Rid                  *string                 `json:"_rid,omitempty"`
+	ShardKey             map[string]string       `json:"shardKey,omitempty"`
+	Ts                   *float64                `json:"_ts,omitempty"`
 }
 
-// Cosmos DB MongoDB collection index key
+// Deprecated version of MongoIndex_STATUS. Use v1api20210515.MongoIndex_STATUS instead
 type MongoIndex_STATUS_ARM struct {
-	// Key: Cosmos DB MongoDB collection index keys
-	Key *MongoIndexKeys_STATUS_ARM `json:"key,omitempty"`
-
-	// Options: Cosmos DB MongoDB collection index key options
+	Key     *MongoIndexKeys_STATUS_ARM    `json:"key,omitempty"`
 	Options *MongoIndexOptions_STATUS_ARM `json:"options,omitempty"`
 }
 
-// Cosmos DB MongoDB collection resource object
+// Deprecated version of MongoIndexKeys_STATUS. Use v1api20210515.MongoIndexKeys_STATUS instead
 type MongoIndexKeys_STATUS_ARM struct {
-	// Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
-// Cosmos DB MongoDB collection index options
+// Deprecated version of MongoIndexOptions_STATUS. Use v1api20210515.MongoIndexOptions_STATUS instead
 type MongoIndexOptions_STATUS_ARM struct {
-	// ExpireAfterSeconds: Expire after seconds
-	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
-
-	// Unique: Is unique or not
-	Unique *bool `json:"unique,omitempty"`
+	ExpireAfterSeconds *int  `json:"expireAfterSeconds,omitempty"`
+	Unique             *bool `json:"unique,omitempty"`
 }

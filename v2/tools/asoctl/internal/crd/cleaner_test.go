@@ -9,7 +9,6 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -22,7 +21,8 @@ import (
 	fake2 "sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	"github.com/Azure/azure-service-operator/v2/api"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 type clientSet struct {
@@ -293,7 +293,7 @@ func newResourceGroup(name, namespace string) *resources.ResourceGroup {
 			Namespace: namespace,
 		},
 		Spec: resources.ResourceGroup_Spec{
-			Location: to.StringPtr("westus2"),
+			Location: to.Ptr("westus2"),
 		},
 	}
 }

@@ -8,8 +8,9 @@ package reconcilers
 import (
 	"reflect"
 
-	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
 // ReconcilePolicyAnnotation describes the reconcile policy for the resource in question.
@@ -71,8 +72,8 @@ func HasReconcilePolicyAnnotationChanged(old *string, new *string) bool {
 		return false
 	}
 
-	oldStr := to.String(old)
-	newStr := to.String(new)
+	oldStr := to.Value(old)
+	newStr := to.Value(new)
 
 	// We only care about transitions to or from ReconcilePolicySkip. We don't need to
 	// trigger an event if ReconcilePolicyDetachOnDelete is added or removed, as that annotation

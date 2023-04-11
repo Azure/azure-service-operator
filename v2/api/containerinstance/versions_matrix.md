@@ -1,90 +1,90 @@
-| Type Definitions in package "containerinstance"       | v1beta20211001 |
-|-------------------------------------------------------|----------------|
-| APIVersion                                            | v1beta20211001 |
-| AzureFileVolume                                       | v1beta20211001 |
-| AzureFileVolume_STATUS                                | v1beta20211001 |
-| Container                                             | v1beta20211001 |
-| ContainerExec                                         | v1beta20211001 |
-| ContainerExec_STATUS                                  | v1beta20211001 |
-| ContainerGroup                                        | v1beta20211001 |
-| ContainerGroupDiagnostics                             | v1beta20211001 |
-| ContainerGroupDiagnostics_STATUS                      | v1beta20211001 |
-| ContainerGroupIdentity                                | v1beta20211001 |
-| ContainerGroupIdentity_STATUS                         | v1beta20211001 |
-| ContainerGroupIdentity_Type                           | v1beta20211001 |
-| ContainerGroupIdentity_Type_STATUS                    | v1beta20211001 |
-| ContainerGroupSku                                     | v1beta20211001 |
-| ContainerGroupSku_STATUS                              | v1beta20211001 |
-| ContainerGroupSubnetId                                | v1beta20211001 |
-| ContainerGroupSubnetId_STATUS                         | v1beta20211001 |
-| ContainerGroup_Properties_InstanceView_STATUS         | v1beta20211001 |
-| ContainerGroup_Properties_OsType_STATUS               | v1beta20211001 |
-| ContainerGroup_Properties_OsType_Spec                 | v1beta20211001 |
-| ContainerGroup_Properties_RestartPolicy_STATUS        | v1beta20211001 |
-| ContainerGroup_Properties_RestartPolicy_Spec          | v1beta20211001 |
-| ContainerGroup_Properties_STATUS                      | v1beta20211001 |
-| ContainerGroup_Properties_Spec                        | v1beta20211001 |
-| ContainerGroup_STATUS                                 | v1beta20211001 |
-| ContainerGroup_Spec                                   | v1beta20211001 |
-| ContainerHttpGet                                      | v1beta20211001 |
-| ContainerHttpGet_STATUS                               | v1beta20211001 |
-| ContainerHttpGet_Scheme                               | v1beta20211001 |
-| ContainerHttpGet_Scheme_STATUS                        | v1beta20211001 |
-| ContainerPort                                         | v1beta20211001 |
-| ContainerPort_Protocol                                | v1beta20211001 |
-| ContainerPort_Protocol_STATUS                         | v1beta20211001 |
-| ContainerPort_STATUS                                  | v1beta20211001 |
-| ContainerProbe                                        | v1beta20211001 |
-| ContainerProbe_STATUS                                 | v1beta20211001 |
-| ContainerProperties                                   | v1beta20211001 |
-| ContainerProperties_InstanceView_STATUS               | v1beta20211001 |
-| ContainerProperties_STATUS                            | v1beta20211001 |
-| ContainerState_STATUS                                 | v1beta20211001 |
-| Container_STATUS                                      | v1beta20211001 |
-| DnsConfiguration                                      | v1beta20211001 |
-| DnsConfiguration_STATUS                               | v1beta20211001 |
-| EncryptionProperties                                  | v1beta20211001 |
-| EncryptionProperties_STATUS                           | v1beta20211001 |
-| EnvironmentVariable                                   | v1beta20211001 |
-| EnvironmentVariable_STATUS                            | v1beta20211001 |
-| Event_STATUS                                          | v1beta20211001 |
-| GitRepoVolume                                         | v1beta20211001 |
-| GitRepoVolume_STATUS                                  | v1beta20211001 |
-| GpuResource                                           | v1beta20211001 |
-| GpuResource_STATUS                                    | v1beta20211001 |
-| GpuResource_Sku                                       | v1beta20211001 |
-| GpuResource_Sku_STATUS                                | v1beta20211001 |
-| HttpHeader                                            | v1beta20211001 |
-| HttpHeader_STATUS                                     | v1beta20211001 |
-| ImageRegistryCredential                               | v1beta20211001 |
-| ImageRegistryCredential_STATUS                        | v1beta20211001 |
-| InitContainerDefinition                               | v1beta20211001 |
-| InitContainerDefinition_STATUS                        | v1beta20211001 |
-| InitContainerPropertiesDefinition                     | v1beta20211001 |
-| InitContainerPropertiesDefinition_InstanceView_STATUS | v1beta20211001 |
-| InitContainerPropertiesDefinition_STATUS              | v1beta20211001 |
-| IpAddress                                             | v1beta20211001 |
-| IpAddress_AutoGeneratedDomainNameLabelScope           | v1beta20211001 |
-| IpAddress_AutoGeneratedDomainNameLabelScope_STATUS    | v1beta20211001 |
-| IpAddress_STATUS                                      | v1beta20211001 |
-| IpAddress_Type                                        | v1beta20211001 |
-| IpAddress_Type_STATUS                                 | v1beta20211001 |
-| LogAnalytics                                          | v1beta20211001 |
-| LogAnalytics_LogType                                  | v1beta20211001 |
-| LogAnalytics_LogType_STATUS                           | v1beta20211001 |
-| LogAnalytics_STATUS                                   | v1beta20211001 |
-| Port                                                  | v1beta20211001 |
-| Port_Protocol                                         | v1beta20211001 |
-| Port_Protocol_STATUS                                  | v1beta20211001 |
-| Port_STATUS                                           | v1beta20211001 |
-| ResourceLimits                                        | v1beta20211001 |
-| ResourceLimits_STATUS                                 | v1beta20211001 |
-| ResourceRequests                                      | v1beta20211001 |
-| ResourceRequests_STATUS                               | v1beta20211001 |
-| ResourceRequirements                                  | v1beta20211001 |
-| ResourceRequirements_STATUS                           | v1beta20211001 |
-| UserAssignedIdentities_STATUS                         | v1beta20211001 |
-| Volume                                                | v1beta20211001 |
-| VolumeMount                                           | v1beta20211001 |
-| VolumeMount_STATUS                                    | v1beta20211001 |
-| Volume_STATUS                                         | v1beta20211001 |
+| Type Definitions in package "containerinstance"       | v1api20211001 | v1beta20211001 |
+|-------------------------------------------------------|---------------|----------------|
+| APIVersion                                            | v1api20211001 | v1beta20211001 |
+| AzureFileVolume                                       | v1api20211001 | v1beta20211001 |
+| AzureFileVolume_STATUS                                | v1api20211001 | v1beta20211001 |
+| Container                                             | v1api20211001 | v1beta20211001 |
+| ContainerExec                                         | v1api20211001 | v1beta20211001 |
+| ContainerExec_STATUS                                  | v1api20211001 | v1beta20211001 |
+| ContainerGroup                                        | v1api20211001 | v1beta20211001 |
+| ContainerGroupDiagnostics                             | v1api20211001 | v1beta20211001 |
+| ContainerGroupDiagnostics_STATUS                      | v1api20211001 | v1beta20211001 |
+| ContainerGroupIdentity                                | v1api20211001 | v1beta20211001 |
+| ContainerGroupIdentity_STATUS                         | v1api20211001 | v1beta20211001 |
+| ContainerGroupIdentity_Type                           | v1api20211001 | v1beta20211001 |
+| ContainerGroupIdentity_Type_STATUS                    | v1api20211001 | v1beta20211001 |
+| ContainerGroupSku                                     | v1api20211001 | v1beta20211001 |
+| ContainerGroupSku_STATUS                              | v1api20211001 | v1beta20211001 |
+| ContainerGroupSubnetId                                | v1api20211001 | v1beta20211001 |
+| ContainerGroupSubnetId_STATUS                         | v1api20211001 | v1beta20211001 |
+| ContainerGroup_Properties_InstanceView_STATUS         | v1api20211001 | v1beta20211001 |
+| ContainerGroup_Properties_OsType_STATUS               | v1api20211001 | v1beta20211001 |
+| ContainerGroup_Properties_OsType_Spec                 | v1api20211001 | v1beta20211001 |
+| ContainerGroup_Properties_RestartPolicy_STATUS        | v1api20211001 | v1beta20211001 |
+| ContainerGroup_Properties_RestartPolicy_Spec          | v1api20211001 | v1beta20211001 |
+| ContainerGroup_Properties_STATUS                      | v1api20211001 | v1beta20211001 |
+| ContainerGroup_Properties_Spec                        | v1api20211001 | v1beta20211001 |
+| ContainerGroup_STATUS                                 | v1api20211001 | v1beta20211001 |
+| ContainerGroup_Spec                                   | v1api20211001 | v1beta20211001 |
+| ContainerHttpGet                                      | v1api20211001 | v1beta20211001 |
+| ContainerHttpGet_STATUS                               | v1api20211001 | v1beta20211001 |
+| ContainerHttpGet_Scheme                               | v1api20211001 | v1beta20211001 |
+| ContainerHttpGet_Scheme_STATUS                        | v1api20211001 | v1beta20211001 |
+| ContainerPort                                         | v1api20211001 | v1beta20211001 |
+| ContainerPort_Protocol                                | v1api20211001 | v1beta20211001 |
+| ContainerPort_Protocol_STATUS                         | v1api20211001 | v1beta20211001 |
+| ContainerPort_STATUS                                  | v1api20211001 | v1beta20211001 |
+| ContainerProbe                                        | v1api20211001 | v1beta20211001 |
+| ContainerProbe_STATUS                                 | v1api20211001 | v1beta20211001 |
+| ContainerProperties                                   | v1api20211001 | v1beta20211001 |
+| ContainerProperties_InstanceView_STATUS               | v1api20211001 | v1beta20211001 |
+| ContainerProperties_STATUS                            | v1api20211001 | v1beta20211001 |
+| ContainerState_STATUS                                 | v1api20211001 | v1beta20211001 |
+| Container_STATUS                                      | v1api20211001 | v1beta20211001 |
+| DnsConfiguration                                      | v1api20211001 | v1beta20211001 |
+| DnsConfiguration_STATUS                               | v1api20211001 | v1beta20211001 |
+| EncryptionProperties                                  | v1api20211001 | v1beta20211001 |
+| EncryptionProperties_STATUS                           | v1api20211001 | v1beta20211001 |
+| EnvironmentVariable                                   | v1api20211001 | v1beta20211001 |
+| EnvironmentVariable_STATUS                            | v1api20211001 | v1beta20211001 |
+| Event_STATUS                                          | v1api20211001 | v1beta20211001 |
+| GitRepoVolume                                         | v1api20211001 | v1beta20211001 |
+| GitRepoVolume_STATUS                                  | v1api20211001 | v1beta20211001 |
+| GpuResource                                           | v1api20211001 | v1beta20211001 |
+| GpuResource_STATUS                                    | v1api20211001 | v1beta20211001 |
+| GpuResource_Sku                                       | v1api20211001 | v1beta20211001 |
+| GpuResource_Sku_STATUS                                | v1api20211001 | v1beta20211001 |
+| HttpHeader                                            | v1api20211001 | v1beta20211001 |
+| HttpHeader_STATUS                                     | v1api20211001 | v1beta20211001 |
+| ImageRegistryCredential                               | v1api20211001 | v1beta20211001 |
+| ImageRegistryCredential_STATUS                        | v1api20211001 | v1beta20211001 |
+| InitContainerDefinition                               | v1api20211001 | v1beta20211001 |
+| InitContainerDefinition_STATUS                        | v1api20211001 | v1beta20211001 |
+| InitContainerPropertiesDefinition                     | v1api20211001 | v1beta20211001 |
+| InitContainerPropertiesDefinition_InstanceView_STATUS | v1api20211001 | v1beta20211001 |
+| InitContainerPropertiesDefinition_STATUS              | v1api20211001 | v1beta20211001 |
+| IpAddress                                             | v1api20211001 | v1beta20211001 |
+| IpAddress_AutoGeneratedDomainNameLabelScope           | v1api20211001 | v1beta20211001 |
+| IpAddress_AutoGeneratedDomainNameLabelScope_STATUS    | v1api20211001 | v1beta20211001 |
+| IpAddress_STATUS                                      | v1api20211001 | v1beta20211001 |
+| IpAddress_Type                                        | v1api20211001 | v1beta20211001 |
+| IpAddress_Type_STATUS                                 | v1api20211001 | v1beta20211001 |
+| LogAnalytics                                          | v1api20211001 | v1beta20211001 |
+| LogAnalytics_LogType                                  | v1api20211001 | v1beta20211001 |
+| LogAnalytics_LogType_STATUS                           | v1api20211001 | v1beta20211001 |
+| LogAnalytics_STATUS                                   | v1api20211001 | v1beta20211001 |
+| Port                                                  | v1api20211001 | v1beta20211001 |
+| Port_Protocol                                         | v1api20211001 | v1beta20211001 |
+| Port_Protocol_STATUS                                  | v1api20211001 | v1beta20211001 |
+| Port_STATUS                                           | v1api20211001 | v1beta20211001 |
+| ResourceLimits                                        | v1api20211001 | v1beta20211001 |
+| ResourceLimits_STATUS                                 | v1api20211001 | v1beta20211001 |
+| ResourceRequests                                      | v1api20211001 | v1beta20211001 |
+| ResourceRequests_STATUS                               | v1api20211001 | v1beta20211001 |
+| ResourceRequirements                                  | v1api20211001 | v1beta20211001 |
+| ResourceRequirements_STATUS                           | v1api20211001 | v1beta20211001 |
+| UserAssignedIdentities_STATUS                         | v1api20211001 | v1beta20211001 |
+| Volume                                                | v1api20211001 | v1beta20211001 |
+| VolumeMount                                           | v1api20211001 | v1beta20211001 |
+| VolumeMount_STATUS                                    | v1api20211001 | v1beta20211001 |
+| Volume_STATUS                                         | v1api20211001 | v1beta20211001 |

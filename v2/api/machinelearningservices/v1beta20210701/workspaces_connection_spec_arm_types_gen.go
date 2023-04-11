@@ -5,10 +5,9 @@ package v1beta20210701
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of Workspaces_Connection_Spec. Use v1api20210701.Workspaces_Connection_Spec instead
 type Workspaces_Connection_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: Properties of workspace connection.
+	Name       string                        `json:"name,omitempty"`
 	Properties *WorkspaceConnectionProps_ARM `json:"properties,omitempty"`
 }
 
@@ -29,20 +28,11 @@ func (connection *Workspaces_Connection_Spec_ARM) GetType() string {
 	return "Microsoft.MachineLearningServices/workspaces/connections"
 }
 
-// Workspace Connection specific properties.
+// Deprecated version of WorkspaceConnectionProps. Use v1api20210701.WorkspaceConnectionProps instead
 type WorkspaceConnectionProps_ARM struct {
-	// AuthType: Authorization type of the workspace connection.
-	AuthType *string `json:"authType,omitempty"`
-
-	// Category: Category of the workspace connection.
-	Category *string `json:"category,omitempty"`
-
-	// Target: Target of the workspace connection.
-	Target *string `json:"target,omitempty"`
-
-	// Value: Value details of the workspace connection.
-	Value *string `json:"value,omitempty"`
-
-	// ValueFormat: format for the workspace connection value
+	AuthType    *string                               `json:"authType,omitempty"`
+	Category    *string                               `json:"category,omitempty"`
+	Target      *string                               `json:"target,omitempty"`
+	Value       *string                               `json:"value,omitempty"`
 	ValueFormat *WorkspaceConnectionProps_ValueFormat `json:"valueFormat,omitempty"`
 }

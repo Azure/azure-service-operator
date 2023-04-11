@@ -5,10 +5,9 @@ package v1beta20220120preview
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
+// Deprecated version of FlexibleServers_Database_Spec. Use v1api20220120preview.FlexibleServers_Database_Spec instead
 type FlexibleServers_Database_Spec_ARM struct {
-	Name string `json:"name,omitempty"`
-
-	// Properties: The properties of a database.
+	Name       string                  `json:"name,omitempty"`
 	Properties *DatabaseProperties_ARM `json:"properties,omitempty"`
 }
 
@@ -29,11 +28,8 @@ func (database *FlexibleServers_Database_Spec_ARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/databases"
 }
 
-// The properties of a database.
+// Deprecated version of DatabaseProperties. Use v1api20220120preview.DatabaseProperties instead
 type DatabaseProperties_ARM struct {
-	// Charset: The charset of the database.
-	Charset *string `json:"charset,omitempty"`
-
-	// Collation: The collation of the database.
+	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
 }

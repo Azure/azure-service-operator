@@ -14,8 +14,8 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -184,7 +184,7 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 	tc.DeleteResourcesAndWait(rg, rg2)
 }
 
-func createNamespacedVM(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, ns string, ns1Secret genruntime.SecretReference) *v1beta20201201.VirtualMachine {
+func createNamespacedVM(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, ns string, ns1Secret genruntime.SecretReference) *v1api20201201.VirtualMachine {
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
 	vnet.Namespace = ns
 	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))

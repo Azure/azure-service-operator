@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}
+// Deprecated version of Server. Use v1api20180601.Server instead
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &Server{}
 
 // ConvertFrom populates our Server from the provided hub Server
 func (server *Server) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20180601s.Server)
-	if !ok {
-		return fmt.Errorf("expected dbformariadb/v1beta20180601storage/Server but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20180601s.Server
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_Server(source)
+	err = server.AssignProperties_From_Server(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Server from our Server
 func (server *Server) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20180601s.Server)
-	if !ok {
-		return fmt.Errorf("expected dbformariadb/v1beta20180601storage/Server but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20180601s.Server
+	err := server.AssignProperties_To_Server(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_Server(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-dbformariadb-azure-com-v1beta20180601-server,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=servers,verbs=create;update,versions=v1beta20180601,name=default.v1beta20180601.servers.dbformariadb.azure.com,admissionReviewVersions=v1
@@ -330,9 +342,7 @@ func (server *Server) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}
+// Deprecated version of Server. Use v1api20180601.Server instead
 type ServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -345,7 +355,6 @@ type Server_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: The location the resource resides in.
 	Location *string `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -359,14 +368,9 @@ type Server_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	// Properties: Properties of the server.
 	Properties *ServerPropertiesForCreate `json:"properties,omitempty"`
-
-	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// Tags: Application-specific metadata in the form of key-value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
+	Sku        *Sku                       `json:"sku,omitempty"`
+	Tags       map[string]string          `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Server_Spec{}
@@ -667,70 +671,30 @@ func (server *Server_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (server *Server_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
 
-// Represents a server.
+// Deprecated version of Server_STATUS. Use v1api20180601.Server_STATUS instead
 type Server_STATUS struct {
-	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)
-	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
-
-	// FullyQualifiedDomainName: The fully qualified domain name of a server.
-	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// MasterServerId: The master server id of a replica server.
-	MasterServerId *string `json:"masterServerId,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion_STATUS `json:"minimalTlsVersion,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections on a server
-	PrivateEndpointConnections []ServerPrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
-
-	// ReplicaCapacity: The maximum number of replicas that a master server can have.
-	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
-
-	// ReplicationRole: The replication role of the server.
-	ReplicationRole *string `json:"replicationRole,omitempty"`
-
-	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement_STATUS `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile_STATUS `json:"storageProfile,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// UserVisibleState: A state of a server that is visible to user.
-	UserVisibleState *ServerProperties_UserVisibleState_STATUS `json:"userVisibleState,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
+	Conditions                 []conditions.Condition                    `json:"conditions,omitempty"`
+	EarliestRestoreDate        *string                                   `json:"earliestRestoreDate,omitempty"`
+	FullyQualifiedDomainName   *string                                   `json:"fullyQualifiedDomainName,omitempty"`
+	Id                         *string                                   `json:"id,omitempty"`
+	Location                   *string                                   `json:"location,omitempty"`
+	MasterServerId             *string                                   `json:"masterServerId,omitempty"`
+	MinimalTlsVersion          *MinimalTlsVersion_STATUS                 `json:"minimalTlsVersion,omitempty"`
+	Name                       *string                                   `json:"name,omitempty"`
+	PrivateEndpointConnections []ServerPrivateEndpointConnection_STATUS  `json:"privateEndpointConnections,omitempty"`
+	PublicNetworkAccess        *PublicNetworkAccess_STATUS               `json:"publicNetworkAccess,omitempty"`
+	ReplicaCapacity            *int                                      `json:"replicaCapacity,omitempty"`
+	ReplicationRole            *string                                   `json:"replicationRole,omitempty"`
+	Sku                        *Sku_STATUS                               `json:"sku,omitempty"`
+	SslEnforcement             *SslEnforcement_STATUS                    `json:"sslEnforcement,omitempty"`
+	StorageProfile             *StorageProfile_STATUS                    `json:"storageProfile,omitempty"`
+	Tags                       map[string]string                         `json:"tags,omitempty"`
+	Type                       *string                                   `json:"type,omitempty"`
+	UserVisibleState           *ServerProperties_UserVisibleState_STATUS `json:"userVisibleState,omitempty"`
+	Version                    *ServerVersion_STATUS                     `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Server_STATUS{}
@@ -1231,7 +1195,7 @@ func (server *Server_STATUS) AssignProperties_To_Server_STATUS(destination *v201
 	return nil
 }
 
-// Enforce a minimal Tls version for the server.
+// Deprecated version of MinimalTlsVersion_STATUS. Use v1api20180601.MinimalTlsVersion_STATUS instead
 type MinimalTlsVersion_STATUS string
 
 const (
@@ -1241,8 +1205,7 @@ const (
 	MinimalTlsVersion_STATUS_TLSEnforcementDisabled = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
 )
 
-// Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled'
-// or 'Disabled'
+// Deprecated version of PublicNetworkAccess_STATUS. Use v1api20180601.PublicNetworkAccess_STATUS instead
 type PublicNetworkAccess_STATUS string
 
 const (
@@ -1303,12 +1266,9 @@ func (operator *ServerOperatorSpec) AssignProperties_To_ServerOperatorSpec(desti
 	return nil
 }
 
-// A private endpoint connection under a server
+// Deprecated version of ServerPrivateEndpointConnection_STATUS. Use v1api20180601.ServerPrivateEndpointConnection_STATUS instead
 type ServerPrivateEndpointConnection_STATUS struct {
-	// Id: Resource Id of the private endpoint connection.
-	Id *string `json:"id,omitempty"`
-
-	// Properties: Private endpoint connection properties
+	Id         *string                                           `json:"id,omitempty"`
 	Properties *ServerPrivateEndpointConnectionProperties_STATUS `json:"properties,omitempty"`
 }
 
@@ -1400,6 +1360,8 @@ func (connection *ServerPrivateEndpointConnection_STATUS) AssignProperties_To_Se
 	return nil
 }
 
+// Deprecated version of ServerProperties_UserVisibleState_STATUS. Use
+// v1api20180601.ServerProperties_UserVisibleState_STATUS instead
 type ServerProperties_UserVisibleState_STATUS string
 
 const (
@@ -1408,18 +1370,12 @@ const (
 	ServerProperties_UserVisibleState_STATUS_Ready    = ServerProperties_UserVisibleState_STATUS("Ready")
 )
 
+// Deprecated version of ServerPropertiesForCreate. Use v1api20180601.ServerPropertiesForCreate instead
 type ServerPropertiesForCreate struct {
-	// Default: Mutually exclusive with all other properties
-	Default *ServerPropertiesForDefaultCreate `json:"default,omitempty"`
-
-	// GeoRestore: Mutually exclusive with all other properties
-	GeoRestore *ServerPropertiesForGeoRestore `json:"geoRestore,omitempty"`
-
-	// PointInTimeRestore: Mutually exclusive with all other properties
-	PointInTimeRestore *ServerPropertiesForRestore `json:"pointInTimeRestore,omitempty"`
-
-	// Replica: Mutually exclusive with all other properties
-	Replica *ServerPropertiesForReplica `json:"replica,omitempty"`
+	Default            *ServerPropertiesForDefaultCreate `json:"default,omitempty"`
+	GeoRestore         *ServerPropertiesForGeoRestore    `json:"geoRestore,omitempty"`
+	PointInTimeRestore *ServerPropertiesForRestore       `json:"pointInTimeRestore,omitempty"`
+	Replica            *ServerPropertiesForReplica       `json:"replica,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForCreate{}
@@ -1652,7 +1608,7 @@ func (create *ServerPropertiesForCreate) AssignProperties_To_ServerPropertiesFor
 	return nil
 }
 
-// The version of a server.
+// Deprecated version of ServerVersion_STATUS. Use v1api20180601.ServerVersion_STATUS instead
 type ServerVersion_STATUS string
 
 const (
@@ -1660,23 +1616,15 @@ const (
 	ServerVersion_STATUS_103 = ServerVersion_STATUS("10.3")
 )
 
-// Billing information related properties of a server.
+// Deprecated version of Sku. Use v1api20180601.Sku instead
 type Sku struct {
 	// +kubebuilder:validation:Minimum=0
-	// Capacity: The scale up/out capacity, representing server's compute units.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: The family of hardware.
-	Family *string `json:"family,omitempty"`
+	Capacity *int    `json:"capacity,omitempty"`
+	Family   *string `json:"family,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
-	Name *string `json:"name,omitempty"`
-
-	// Size: The size code, to be interpreted by resource as appropriate.
-	Size *string `json:"size,omitempty"`
-
-	// Tier: The tier of the particular SKU, e.g. Basic.
+	Name *string   `json:"name,omitempty"`
+	Size *string   `json:"size,omitempty"`
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
@@ -1840,22 +1788,13 @@ func (sku *Sku) AssignProperties_To_Sku(destination *v20180601s.Sku) error {
 	return nil
 }
 
-// Billing information related properties of a server.
+// Deprecated version of Sku_STATUS. Use v1api20180601.Sku_STATUS instead
 type Sku_STATUS struct {
-	// Capacity: The scale up/out capacity, representing server's compute units.
-	Capacity *int `json:"capacity,omitempty"`
-
-	// Family: The family of hardware.
-	Family *string `json:"family,omitempty"`
-
-	// Name: The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
-	Name *string `json:"name,omitempty"`
-
-	// Size: The size code, to be interpreted by resource as appropriate.
-	Size *string `json:"size,omitempty"`
-
-	// Tier: The tier of the particular SKU, e.g. Basic.
-	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
+	Capacity *int             `json:"capacity,omitempty"`
+	Family   *string          `json:"family,omitempty"`
+	Name     *string          `json:"name,omitempty"`
+	Size     *string          `json:"size,omitempty"`
+	Tier     *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Sku_STATUS{}
@@ -1969,7 +1908,7 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *v20180601s.Sk
 	return nil
 }
 
-// Enable ssl enforcement or not when connect to server.
+// Deprecated version of SslEnforcement_STATUS. Use v1api20180601.SslEnforcement_STATUS instead
 type SslEnforcement_STATUS string
 
 const (
@@ -1977,19 +1916,12 @@ const (
 	SslEnforcement_STATUS_Enabled  = SslEnforcement_STATUS("Enabled")
 )
 
-// Storage Profile properties of a server
+// Deprecated version of StorageProfile_STATUS. Use v1api20180601.StorageProfile_STATUS instead
 type StorageProfile_STATUS struct {
-	// BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfile_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
-
-	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfile_StorageAutogrow_STATUS `json:"storageAutogrow,omitempty"`
-
-	// StorageMB: Max storage allowed for a server.
-	StorageMB *int `json:"storageMB,omitempty"`
+	BackupRetentionDays *int                                      `json:"backupRetentionDays,omitempty"`
+	GeoRedundantBackup  *StorageProfile_GeoRedundantBackup_STATUS `json:"geoRedundantBackup,omitempty"`
+	StorageAutogrow     *StorageProfile_StorageAutogrow_STATUS    `json:"storageAutogrow,omitempty"`
+	StorageMB           *int                                      `json:"storageMB,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &StorageProfile_STATUS{}
@@ -2146,16 +2078,11 @@ func (secrets *ServerOperatorSecrets) AssignProperties_To_ServerOperatorSecrets(
 	return nil
 }
 
-// Properties of a private endpoint connection.
+// Deprecated version of ServerPrivateEndpointConnectionProperties_STATUS. Use v1api20180601.ServerPrivateEndpointConnectionProperties_STATUS instead
 type ServerPrivateEndpointConnectionProperties_STATUS struct {
-	// PrivateEndpoint: Private endpoint which the connection belongs to.
-	PrivateEndpoint *PrivateEndpointProperty_STATUS `json:"privateEndpoint,omitempty"`
-
-	// PrivateLinkServiceConnectionState: Connection state of the private endpoint connection.
-	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUS `json:"privateLinkServiceConnectionState,omitempty"`
-
-	// ProvisioningState: State of the private endpoint connection.
-	ProvisioningState *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	PrivateEndpoint                   *PrivateEndpointProperty_STATUS                                     `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUS             `json:"privateLinkServiceConnectionState,omitempty"`
+	ProvisioningState                 *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ServerPrivateEndpointConnectionProperties_STATUS{}
@@ -2291,35 +2218,21 @@ func (properties *ServerPrivateEndpointConnectionProperties_STATUS) AssignProper
 	return nil
 }
 
+// Deprecated version of ServerPropertiesForDefaultCreate. Use v1api20180601.ServerPropertiesForDefaultCreate instead
 type ServerPropertiesForDefaultCreate struct {
 	// +kubebuilder:validation:Required
-	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	// (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// AdministratorLoginPassword: The password of the administrator login.
 	AdministratorLoginPassword genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// CreateMode: The mode to create a new server.
-	CreateMode *ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
-	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
-	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	CreateMode          *ServerPropertiesForDefaultCreate_CreateMode `json:"createMode,omitempty"`
+	MinimalTlsVersion   *MinimalTlsVersion                           `json:"minimalTlsVersion,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess                         `json:"publicNetworkAccess,omitempty"`
+	SslEnforcement      *SslEnforcement                              `json:"sslEnforcement,omitempty"`
+	StorageProfile      *StorageProfile                              `json:"storageProfile,omitempty"`
+	Version             *ServerVersion                               `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForDefaultCreate{}
@@ -2591,30 +2504,18 @@ func (create *ServerPropertiesForDefaultCreate) AssignProperties_To_ServerProper
 	return nil
 }
 
+// Deprecated version of ServerPropertiesForGeoRestore. Use v1api20180601.ServerPropertiesForGeoRestore instead
 type ServerPropertiesForGeoRestore struct {
 	// +kubebuilder:validation:Required
-	// CreateMode: The mode to create a new server.
-	CreateMode *ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	CreateMode          *ServerPropertiesForGeoRestore_CreateMode `json:"createMode,omitempty"`
+	MinimalTlsVersion   *MinimalTlsVersion                        `json:"minimalTlsVersion,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess                      `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SourceServerId: The source server id to restore from.
-	SourceServerId *string `json:"sourceServerId,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
+	SourceServerId *string         `json:"sourceServerId,omitempty"`
 	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version        *ServerVersion  `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForGeoRestore{}
@@ -2866,30 +2767,18 @@ func (restore *ServerPropertiesForGeoRestore) AssignProperties_To_ServerProperti
 	return nil
 }
 
+// Deprecated version of ServerPropertiesForReplica. Use v1api20180601.ServerPropertiesForReplica instead
 type ServerPropertiesForReplica struct {
 	// +kubebuilder:validation:Required
-	// CreateMode: The mode to create a new server.
-	CreateMode *ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	CreateMode          *ServerPropertiesForReplica_CreateMode `json:"createMode,omitempty"`
+	MinimalTlsVersion   *MinimalTlsVersion                     `json:"minimalTlsVersion,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess                   `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SourceServerId: The master server id to create replica from.
-	SourceServerId *string `json:"sourceServerId,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
+	SourceServerId *string         `json:"sourceServerId,omitempty"`
 	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version        *ServerVersion  `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForReplica{}
@@ -3141,34 +3030,21 @@ func (replica *ServerPropertiesForReplica) AssignProperties_To_ServerPropertiesF
 	return nil
 }
 
+// Deprecated version of ServerPropertiesForRestore. Use v1api20180601.ServerPropertiesForRestore instead
 type ServerPropertiesForRestore struct {
 	// +kubebuilder:validation:Required
-	// CreateMode: The mode to create a new server.
-	CreateMode *ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
-
-	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
-	MinimalTlsVersion *MinimalTlsVersion `json:"minimalTlsVersion,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
-	// in, must be 'Enabled' or 'Disabled'
-	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	CreateMode          *ServerPropertiesForRestore_CreateMode `json:"createMode,omitempty"`
+	MinimalTlsVersion   *MinimalTlsVersion                     `json:"minimalTlsVersion,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess                   `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// SourceServerId: The source server id to restore from.
-	SourceServerId *string `json:"sourceServerId,omitempty"`
-
-	// SslEnforcement: Enable ssl enforcement or not when connect to server.
+	SourceServerId *string         `json:"sourceServerId,omitempty"`
 	SslEnforcement *SslEnforcement `json:"sslEnforcement,omitempty"`
-
-	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion `json:"version,omitempty"`
+	Version        *ServerVersion  `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServerPropertiesForRestore{}
@@ -3438,6 +3314,8 @@ func (restore *ServerPropertiesForRestore) AssignProperties_To_ServerPropertiesF
 	return nil
 }
 
+// Deprecated version of StorageProfile_GeoRedundantBackup_STATUS. Use
+// v1api20180601.StorageProfile_GeoRedundantBackup_STATUS instead
 type StorageProfile_GeoRedundantBackup_STATUS string
 
 const (
@@ -3445,6 +3323,8 @@ const (
 	StorageProfile_GeoRedundantBackup_STATUS_Enabled  = StorageProfile_GeoRedundantBackup_STATUS("Enabled")
 )
 
+// Deprecated version of StorageProfile_StorageAutogrow_STATUS. Use v1api20180601.StorageProfile_StorageAutogrow_STATUS
+// instead
 type StorageProfile_StorageAutogrow_STATUS string
 
 const (
@@ -3452,8 +3332,8 @@ const (
 	StorageProfile_StorageAutogrow_STATUS_Enabled  = StorageProfile_StorageAutogrow_STATUS("Enabled")
 )
 
+// Deprecated version of PrivateEndpointProperty_STATUS. Use v1api20180601.PrivateEndpointProperty_STATUS instead
 type PrivateEndpointProperty_STATUS struct {
-	// Id: Resource id of the private endpoint.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -3510,6 +3390,8 @@ func (property *PrivateEndpointProperty_STATUS) AssignProperties_To_PrivateEndpo
 	return nil
 }
 
+// Deprecated version of ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS. Use
+// v1api20180601.ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS instead
 type ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS string
 
 const (
@@ -3520,15 +3402,11 @@ const (
 	ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS_Rejecting = ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS("Rejecting")
 )
 
+// Deprecated version of ServerPrivateLinkServiceConnectionStateProperty_STATUS. Use v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_STATUS instead
 type ServerPrivateLinkServiceConnectionStateProperty_STATUS struct {
-	// ActionsRequired: The actions required for private link service connection.
 	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
-
-	// Description: The private link service connection description.
-	Description *string `json:"description,omitempty"`
-
-	// Status: The private link service connection status.
-	Status *ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS `json:"status,omitempty"`
+	Description     *string                                                                 `json:"description,omitempty"`
+	Status          *ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS          `json:"status,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ServerPrivateLinkServiceConnectionStateProperty_STATUS{}
@@ -3628,19 +3506,12 @@ func (property *ServerPrivateLinkServiceConnectionStateProperty_STATUS) AssignPr
 	return nil
 }
 
-// Storage Profile properties of a server
+// Deprecated version of StorageProfile. Use v1api20180601.StorageProfile instead
 type StorageProfile struct {
-	// BackupRetentionDays: Backup retention days for the server.
-	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	// GeoRedundantBackup: Enable Geo-redundant or not for server backup.
-	GeoRedundantBackup *StorageProfile_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
-
-	// StorageAutogrow: Enable Storage Auto Grow.
-	StorageAutogrow *StorageProfile_StorageAutogrow `json:"storageAutogrow,omitempty"`
-
-	// StorageMB: Max storage allowed for a server.
-	StorageMB *int `json:"storageMB,omitempty"`
+	BackupRetentionDays *int                               `json:"backupRetentionDays,omitempty"`
+	GeoRedundantBackup  *StorageProfile_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	StorageAutogrow     *StorageProfile_StorageAutogrow    `json:"storageAutogrow,omitempty"`
+	StorageMB           *int                               `json:"storageMB,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageProfile{}
@@ -3785,10 +3656,14 @@ func (profile *StorageProfile) AssignProperties_To_StorageProfile(destination *v
 	return nil
 }
 
+// Deprecated version of ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS. Use
+// v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS instead
 type ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS string
 
 const ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS_None = ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS("None")
 
+// Deprecated version of ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS. Use
+// v1api20180601.ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS instead
 type ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS string
 
 const (

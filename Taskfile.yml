@@ -19,15 +19,16 @@ vars:
 
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
-  SCRIPTS_ROOT: ./scripts
+  SCRIPTS_ROOT:
+    sh: 'realpath scripts'
 
-  HEADER_FILE: 
+  HEADER_FILE:
     sh: 'realpath v2/boilerplate.go.txt'
 
   TEST_OUT:
     sh: 'realpath reports'
 
-  VERSION: 
+  VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
     sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
 
@@ -60,11 +61,12 @@ tasks:
     - asoctl:quick-checks
     - crossplane:generate-crds
     - crossplane:quick-checks
-    - format-code
+    cmds:
+    - task: format-code  # Run after the deps to avoid racing with generated file creation
 
   ci:
     desc: Run all CI checks.
-    deps: 
+    deps:
     - generator:ci
     - controller:ci
     - asoctl:ci
@@ -74,7 +76,7 @@ tasks:
 
   ci-live:
     desc: Run all CI checks with live Azure resources. Requires that auth environment variables are set.
-    deps: 
+    deps:
     - generator:ci
     - controller:ci-live
 
@@ -89,7 +91,7 @@ tasks:
     cmds:
     - npm install -g postcss postcss-cli autoprefixer
     - hugo
-    # - htmltest 
+    # - htmltest
     # disabled pending: https://github.com/wjdp/htmltest/issues/45
     # , or us moving to a no-directory URL
     env:
@@ -99,7 +101,8 @@ tasks:
   check-docs-site-links:
     dir: docs/hugo
     cmds:
-      - npm install -g markdown-link-check # TODO: Add to devcontainer?
+      # Pinned to 3.10 due to https://github.com/tcort/markdown-link-check/issues/246
+      - npm install -g markdown-link-check@3.10 # TODO: Add to devcontainer?
       # Excluding './content/reference/*' path as it contains all auto-generated API docs.
       - find . -type f -name "*.md" -not -path "./content/reference/*/*.md" -print0 | xargs -0 -n1 markdown-link-check -c link-checker.json
     env:
@@ -108,6 +111,28 @@ tasks:
 
   basic-checks:
     deps: [header-check, specifier-check]
+
+  make-release-artifacts:
+    desc: Produce files required for an ASOv2 release
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps:
+      - controller:run-kustomize
+      - controller:make-multitenant-files
+      - task: asoctl:build
+        vars: {GOOS: "linux", GOARCH: "amd64"}
+      - task: asoctl:build
+        vars: {GOOS: "linux", GOARCH: "arm64"}
+      - task: asoctl:build
+        vars: {GOOS: "darwin", GOARCH: "amd64"}
+      - task: asoctl:build
+        vars: {GOOS: "darwin", GOARCH: "arm64"}
+      - task: asoctl:build
+        vars: {GOOS: "windows", GOARCH: "amd64"}
+    cmds:
+      - rm -rf out/release
+      - mkdir -p out/release
+      - cp ./bin/{azureserviceoperator,multitenant-cluster,multitenant-tenant}_*.yaml out/release
+      - cp ./bin/asoctl* out/release
 
   ############### Asoctl targets ###############
 
@@ -152,9 +177,16 @@ tasks:
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
     dir: '{{.ASOCTL_ROOT}}'
+    label: asoctl:build-{{.GOOS}}-{{.GOARCH}}
     deps: [controller:generate-crds]
+    generates:
+      - ../../bin/{{.ASOCTL_APP}}-{{.GOOS}}-{{.GOARCH}}
     cmds:
-      - go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}} ./cmd/
+      - GOOS={{.GOOS}} GOARCH={{.GOARCH}} go build {{.VERSION_FLAGS}} -o ../../bin/{{.ASOCTL_APP}}-{{.GOOS}}-{{.GOARCH}}{{.EXT}} .
+    vars:
+      EXT: '{{if eq .GOOS "windows"}}.exe{{else}}{{end}}'
+      GOOS: '{{default OS .GOOS}}'
+      GOARCH: '{{default ARCH .GOARCH}}'
 
   ############### Generator targets ###############
 
@@ -251,7 +283,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       # Setting GOGC to increase how much debris is tolerated before running GC
-      - GOGC=200 golangci-lint run --verbose --fast=false --timeout 10m --skip-dirs="(^|/)vendor($|/)" ./...
+      - GOGC=200 golangci-lint run --verbose --fast=false --timeout 15m --skip-dirs="(^|/)vendor($|/)" ./...
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource
@@ -264,14 +296,19 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     # controller:run-kustomize-for-envtest isn't strictly required here, but running it here so that
     # integration tests can be run manually (via IDE) after running "task"
-    deps: [controller:generate-crds, controller:run-kustomize-for-envtest]
+    deps:
+    - controller:generate-crds
+    - controller:run-kustomize-for-envtest
+    - controller:bundle-crds # bundle-crds is here because some tests assert on generated CRD shape
     cmds:
     - go test -short -tags=noexit -timeout 10m -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:test-cover:
     desc: Run {{.CONTROLLER_APP}} unit tests and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds]
+    deps:
+    - controller:generate-crds
+    - controller:bundle-crds # bundle-crds is here because some tests assert on generated CRD shape
     cmds:
     - defer: # want to run even on failure
         task: produce-markdown-summary
@@ -293,7 +330,7 @@ tasks:
     - "cmctl check api --wait=2m"
     - "helm repo add asov2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts"
     - "helm repo update"
-    - "helm upgrade --install --devel asov2 asov2/azure-service-operator \
+    - "helm upgrade --install --devel aso2 asov2/azure-service-operator \
       --create-namespace \
       --namespace={{.ASO_NAMESPACE}} \
       --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
@@ -301,12 +338,17 @@ tasks:
       --set azureClientID=$AZURE_CLIENT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET"
     - "kubectl create namespace pre-release"
-    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+    # TODO: Can remove the -c parameter once we GA. -c means skip waiting for CRDs to reach established state.
+    # TODO: this needs to be skipped because the CRD label for filtering doesn't exist in the old beta charts.
+    - task: controller:wait-for-operator-ready
+      vars:
+        ARGS: "-c"
     - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_BeforeUpgrade ./test/pre-release"
     - task: controller:install-helm
-    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+    - task: controller:wait-for-operator-ready
 #   TODO: Will have to change versions in 'Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade' test once we move from beta to stable
     - "go test -timeout 15m -v -run Test_Pre_Release_ResourceCanBeCreated_AfterUpgrade ./test/pre-release"
+    - task controller:kind-delete
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -319,18 +361,21 @@ tasks:
     - "*.go"
     - "internal/**/*.go"
     - "pkg/**/*.go"
-    - "cmd/main.go"
+    - "cmd/controller/main.go"
     cmds:
     - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build {{.VERSION_FLAGS}} -o ./bin/{{.CONTROLLER_APP}} ./cmd/controller/
 
   controller:docker-build:
     desc: Builds the {{.CONTROLLER_APP}} Docker image.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:build]
+    deps:
+    - controller:build
+    - controller:bundle-crds
     run: always
     sources:
     - Dockerfile
     - ./bin/{{.CONTROLLER_APP}}
+    - out/crds/**/*
     cmds:
     - docker build . -t {{.CONTROLLER_DOCKER_IMAGE}}
     status:
@@ -439,7 +484,7 @@ tasks:
         exit $TEST_EXIT
 
   # Note that this target isn't used in CI and is intended for use when running locally on a kind cluster
-  # that you don't want to delete (in contrast to test-integration-kind which will delete the kind cluster
+  # that you don't want to delete (in contrast to test-integration-kind-ci which will delete the kind cluster
   # when it is done.
   controller:test-integration-kind:
     desc: Run live integration tests in kind.
@@ -453,7 +498,7 @@ tasks:
   controller:test-multitenant-integration-kind-ci:
     desc: Run live multitenant integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-multitenant-cluster]
+    deps: [controller:kind-create-multitenant-cluster-helm]
     cmds:
       # This timeout is purposefully low - if we find that this job is
       # taking a long time we may need to think of other ways to keep
@@ -474,7 +519,7 @@ tasks:
   controller:test-multitenant-integration-kind:
     desc: Run live multitenant integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-multitenant-cluster]
+    deps: [controller:kind-create-multitenant-cluster-helm]
     cmds:
       # This timeout is purposefully low - if we find that this job is
       # taking a long time we may need to think of other ways to keep
@@ -508,20 +553,20 @@ tasks:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
     deps: [controller:generate-types, controller:generate-genruntime-deepcopy]
     sources:
-    - "v2/api/**/*_gen.go" # depends on all generated types
+    - "v2/api/**/*.go" # depends on all API types
     - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
     cmds:
     - mkdir -p v2/api
     - find v2/api -type f -name "zz_generated.*" -delete
-    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/bases" -type f -delete; fi
-    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/patches" -type f -delete; fi
-    - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./... 
+    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" -type f -delete; fi
+    - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" -type f -delete; fi
+    - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./...
     - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
     - cd v2/api && gofmt -l -s -w . # format all generated code
     vars:
-      OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}} 
-      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/bases 
-      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook 
+      OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
+      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/generated/bases
+      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook
       RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
 
   controller:generate-genruntime-deepcopy:
@@ -542,11 +587,12 @@ tasks:
     dir: v2
     sources:
       - bin/{{.GENERATOR_APP}}
-      - config/crd/bases/**/*.yaml
+      - config/crd/generated/bases/**/*.yaml
     generates:
-      - config/crd/kustomization.yaml
+      - config/crd/generated/kustomization.yaml
+      - config/crd/generated/patches/**/*.yaml
     cmds:
-      - bin/{{.GENERATOR_APP}} gen-kustomize config/crd
+      - bin/{{.GENERATOR_APP}} gen-kustomize config/crd/generated
 
   controller:run-kustomize:
     desc: Generates the CRD & configuration bundle.
@@ -554,74 +600,53 @@ tasks:
     dir: "v2/"
     cmds:
       - mkdir -p bin # in case it doesn't exist
-      - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k crd -v {{.VERSION}} > bin/azureserviceoperator_customresourcedefinitions_{{.VERSION}}.yaml"
 
   controller:make-multitenant-files:
     desc: Splits the deployment yaml into cluster and tenant files for multitenant deployment
     deps: [controller:run-kustomize]
     dir: "v2/bin"
     cmds:
-      - '../../{{.SCRIPTS_ROOT}}/make-multitenant-cluster.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
-      - '../../{{.SCRIPTS_ROOT}}/make-multitenant-tenant.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
+      - '{{.SCRIPTS_ROOT}}/make-multitenant-cluster.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
+      - '{{.SCRIPTS_ROOT}}/make-multitenant-tenant.sh "{{.VERSION}}" "azureserviceoperator_{{.VERSION}}.yaml"'
 
   controller:run-kustomize-for-envtest:
     desc: Generates the CRDs for use in envtest
     deps: [controller:generate-kustomize]
     dir: "v2/"
     sources:
-      - config/crd/bases/**/*.yaml
-      - config/crd/patches/**/*.yaml
-      - config/crd/kustomization.yaml
-      - config/crd/kustomizeconfig.yaml
+      - config/crd/**/*.yaml
     generates:
-      - config/crd/out/azureserviceoperator.yaml
+      - out/envtest/crds/azureserviceoperator.yaml
     cmds:
-      - mkdir -p config/crd/out
-      - find "config/crd/out" -type f -delete
-      - kustomize build config/crd > config/crd/out/azureserviceoperator.yaml
+      - mkdir -p out/envtest/crds
+      - find "out/envtest/crds" -type f -delete
+      - kustomize build config/crd/generated > out/envtest/crds/azureserviceoperator.yaml
 
   controller:gen-helm-manifest:
     desc: Generate helm manifest using Kustomize for the release
+    dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:generate-kustomize]
     cmds:
-     - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/{{.CONTROLLER_ROOT}}"
+     - "{{.SCRIPTS_ROOT}}/generate-helm-manifest.sh {{.KUBE_RBAC_PROXY}} {{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} {{.PUBLIC_REGISTRY}} {{.LATEST_VERSION_TAG}} `pwd`/"
 
   controller:install-helm:
     desc: Generate and install helm chart on cluster
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
     - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-      --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
       --set azureTenantID=$AZURE_TENANT_ID \
       --set azureClientID=$AZURE_CLIENT_ID \
       --set azureClientSecret=$AZURE_CLIENT_SECRET \
       --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
-      asov2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
-    - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+      aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+    - task: controller:wait-for-operator-ready
 
   controller:delete-helm:
     desc: Delete helm release
     cmds:
-      - "helm delete asov2 -n {{.ASO_NAMESPACE}}"
-
-  controller:kind-create-helm:
-    desc: Creates a local kind cluster with ASO helm chart built and installed.
-    cmds:
-      - task: controller:kind-create
-      - task: controller:install-cert-manager
-      - task: controller:docker-push-local
-      - task: controller:gen-helm-manifest
-      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
-      - "cmctl check api --wait=2m"
-      - task: controller:install-helm
-
-  controller:kind-create-helm-podidentity:
-    desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO helm chart.
-    deps: [controller:kind-create-helm]
-    cmds:
-      - task: controller:install-aad-pod-identity-local
-      - task: controller:make-aadpodidentity-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+      - "helm delete aso2 -n {{.ASO_NAMESPACE}}"
 
   controller:kind-delete:
     desc: Deletes a kind cluster
@@ -647,8 +672,23 @@ tasks:
   controller:install:
     desc: Installs the controller, webhooks, and CRDs into the default kubectl cluster
     deps: [controller:generate-kustomize]
+    dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - "cd v2/ && kustomize build config/default  | kubectl apply --server-side=true -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k operator -v {{.VERSION}} > out/operator.yaml"
+      - "kubectl apply --server-side=true -f out/operator.yaml" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
+
+  controller:bundle-crds:
+    desc: Bundles CRDs...
+    deps: [controller:generate-kustomize]
+    dir: "{{.CONTROLLER_ROOT}}"
+    sources:
+      - config/**/*.yaml
+    generates:
+      - out/crds/**/*.yaml
+    cmds:
+      - "rm -rf out/crds"
+      - "mkdir -p out/crds"
+      - "{{.SCRIPTS_ROOT}}/kustomize-build.sh -k crd -v {{.VERSION}} -o out/crds"
 
   controller:install-cert-manager:
     desc: Installs cert manager
@@ -682,6 +722,12 @@ tasks:
     cmds:
       - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh aadpodidentity"
 
+  controller:wait-for-operator-ready:
+    desc: Waits for the operator and associated CRDs to be ready
+    run: always
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/wait-for-operator-ready.sh {{.ARGS}}"
+
   controller:kind-create-with-service-principal:
     desc: Creates a local kind cluster with ASO using service principal auth.
     cmds:
@@ -692,7 +738,7 @@ tasks:
       - "cmctl check api --wait=2m"
       - task: controller:install
       - task: controller:make-sp-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+      - task: controller:wait-for-operator-ready
 
   controller:kind-create-with-podidentity:
     desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO.
@@ -705,10 +751,7 @@ tasks:
       - task: controller:install
       - task: controller:install-aad-pod-identity-local
       - task: controller:make-aadpodidentity-secret
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
-      # Wait for the webhook client config caBundles to be set on the
-      # ASO CRDs.
-      - "{{.SCRIPTS_ROOT}}/wait-for-ca-bundles.sh"
+      - task: controller:wait-for-operator-ready
 
   controller:kind-create-multitenant-cluster:
     desc: Creates a local kind cluster with ASO installed in multitenant configuration.
@@ -721,6 +764,8 @@ tasks:
       - "cmctl check api --wait=2m"
       # Install cluster yaml - we need to switch the image to the local one.
       - "cat v2/bin/multitenant-cluster_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
+      # Wait for all the operator pods to be ready.
+      - task: controller:wait-for-operator-ready
       # Install tenant yaml - with same image switch
       - "cat v2/bin/multitenant-tenant_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
       # Make sp secret for tenant watching some target namespaces.
@@ -728,19 +773,65 @@ tasks:
       # Create the namespaces that the tenant is watching.
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
-      # Wait for all the operator pods to be ready.
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n {{.ASO_NAMESPACE}} -l control-plane=controller-manager"
+      # Wait for the other operator to be ready - not using controller:wait-for-operator-ready because that also waits for CRDs, etc which this doesn't install
       - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
-      # Wait for the webhook client config caBundles to be set on the
-      # ASO CRDs.
-      - "{{.SCRIPTS_ROOT}}/wait-for-ca-bundles.sh"
+
+  controller:kind-create-multitenant-cluster-helm:
+    desc: Creates a local kind cluster Helm and ASO in multitenant configuration.
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      # Install cluster scope chart (mode == webhooks)
+      - "helm upgrade --install --set multitenant.enable=true --set azureOperatorMode=webhooks \
+           --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+           aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+      - task: controller:wait-for-operator-ready
+      # Install tenant chart
+      - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \ 
+           --set azureTenantID=$AZURE_TENANT_ID \
+           --set azureClientID=$AZURE_CLIENT_ID \
+           --set azureClientSecret=$AZURE_CLIENT_SECRET \
+           --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+           --set multitenant.enable=true \
+           --set azureOperatorMode=watchers \
+           --set-string azureTargetNamespaces='{t1-items,t1-more}' \
+           aso2 -n tenant1-system --create-namespace ./charts/azure-service-operator/"
+      # Create the namespaces that the tenant is watching.
+      - "kubectl create namespace t1-items"
+      - "kubectl create namespace t1-more"
+      # Wait for the other operator to be ready - not using controller:wait-for-operator-ready because that also waits for CRDs, etc which this doesn't install
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
+
+  controller:kind-create-helm:
+    desc: Creates a local kind cluster with ASO helm chart built and installed.
+    cmds:
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      - task: controller:install-helm
+
+  controller:kind-create-helm-podidentity:
+    desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO helm chart.
+    deps: [controller:kind-create-helm]
+    cmds:
+      - task: controller:install-aad-pod-identity-local
+      - task: controller:make-aadpodidentity-secret
+      - task: controller:wait-for-operator-ready
 
   controller:gen-crd-docs:
     desc: Generates API docs for CRDs
     deps: [controller:generate-crds]
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
-      - ../{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template
+      - "{{.SCRIPTS_ROOT}}/gen-api-docs.sh ./api ../docs/hugo/content/reference ../docs/v2/api/template"
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:
@@ -830,15 +921,15 @@ tasks:
     desc: Ensure all Markdown documentation has frontmatter.
     dir: docs/hugo/content
     cmds:
-      - "../../../{{.SCRIPTS_ROOT}}/check_frontmatter.py"
+      - "{{.SCRIPTS_ROOT}}/check_frontmatter.py"
 
   specifier-check:
     desc: Check that format specifiers %v and %+v are not used
-    # Both %v and %+v result in all the values from structs being dumped into the string. If that 
-    # struct happens to contain a secret or sensitive information, it ends up dumped out in an 
+    # Both %v and %+v result in all the values from structs being dumped into the string. If that
+    # struct happens to contain a secret or sensitive information, it ends up dumped out in an
     # uncontrolled way, potentially leading to a security issue or a problem with PII disclosure.
     # The buried risk here is that while %v might be safe now, a future change to the struct might
-    # introduce a disclosure later on. 
+    # introduce a disclosure later on.
     cmds:
       - cmd: echo "==> Checking format specifiers <=="
         silent: true

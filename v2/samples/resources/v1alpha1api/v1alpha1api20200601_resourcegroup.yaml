@@ -1,7 +1,0 @@
-apiVersion: resources.azure.com/v1alpha1api20200601
-kind: ResourceGroup
-metadata:
-  name: aso-sample-rg
-  namespace: default
-spec:
-  location: westcentralus

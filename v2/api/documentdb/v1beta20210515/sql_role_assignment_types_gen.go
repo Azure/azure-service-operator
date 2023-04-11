@@ -24,9 +24,7 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/rbac.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}
+// Deprecated version of SqlRoleAssignment. Use v1api20210515.SqlRoleAssignment instead
 type SqlRoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -50,22 +48,36 @@ var _ conversion.Convertible = &SqlRoleAssignment{}
 
 // ConvertFrom populates our SqlRoleAssignment from the provided hub SqlRoleAssignment
 func (assignment *SqlRoleAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20210515s.SqlRoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlRoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20210515s.SqlRoleAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_SqlRoleAssignment(source)
+	err = assignment.AssignProperties_From_SqlRoleAssignment(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SqlRoleAssignment from our SqlRoleAssignment
 func (assignment *SqlRoleAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20210515s.SqlRoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v1beta20210515storage/SqlRoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20210515s.SqlRoleAssignment
+	err := assignment.AssignProperties_To_SqlRoleAssignment(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_SqlRoleAssignment(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqlroleassignment,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqlroleassignments,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqlroleassignments.documentdb.azure.com,admissionReviewVersions=v1
@@ -325,9 +337,7 @@ func (assignment *SqlRoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generator information:
-// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/rbac.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}
+// Deprecated version of SqlRoleAssignment. Use v1api20210515.SqlRoleAssignment instead
 type SqlRoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -343,22 +353,11 @@ type DatabaseAccounts_SqlRoleAssignment_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a documentdb.azure.com/DatabaseAccount resource
-	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccount"`
-
-	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
-	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.
-	PrincipalId *string `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
-
-	// PrincipalIdFromConfig: The unique identifier for the associated AAD principal in the AAD graph to which access is being
-	// granted through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the
-	// subscription.
-	PrincipalIdFromConfig *genruntime.ConfigMapReference `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
-
-	// RoleDefinitionId: The unique identifier for the associated Role Definition.
-	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
-
-	// Scope: The data plane resource path for which access is being granted through this Role Assignment.
-	Scope *string `json:"scope,omitempty"`
+	Owner                 *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccount"`
+	PrincipalId           *string                            `json:"principalId,omitempty" optionalConfigMapPair:"PrincipalId"`
+	PrincipalIdFromConfig *genruntime.ConfigMapReference     `json:"principalIdFromConfig,omitempty" optionalConfigMapPair:"PrincipalId"`
+	RoleDefinitionId      *string                            `json:"roleDefinitionId,omitempty"`
+	Scope                 *string                            `json:"scope,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccounts_SqlRoleAssignment_Spec{}
@@ -596,28 +595,16 @@ func (assignment *DatabaseAccounts_SqlRoleAssignment_Spec) SetAzureName(azureNam
 	assignment.AzureName = azureName
 }
 
+// Deprecated version of DatabaseAccounts_SqlRoleAssignment_STATUS. Use v1api20210515.DatabaseAccounts_SqlRoleAssignment_STATUS instead
 type DatabaseAccounts_SqlRoleAssignment_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: The unique resource identifier of the database account.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the database account.
-	Name *string `json:"name,omitempty"`
-
-	// PrincipalId: The unique identifier for the associated AAD principal in the AAD graph to which access is being granted
-	// through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// RoleDefinitionId: The unique identifier for the associated Role Definition.
-	RoleDefinitionId *string `json:"roleDefinitionId,omitempty"`
-
-	// Scope: The data plane resource path for which access is being granted through this Role Assignment.
-	Scope *string `json:"scope,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
+	Conditions       []conditions.Condition `json:"conditions,omitempty"`
+	Id               *string                `json:"id,omitempty"`
+	Name             *string                `json:"name,omitempty"`
+	PrincipalId      *string                `json:"principalId,omitempty"`
+	RoleDefinitionId *string                `json:"roleDefinitionId,omitempty"`
+	Scope            *string                `json:"scope,omitempty"`
+	Type             *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccounts_SqlRoleAssignment_STATUS{}

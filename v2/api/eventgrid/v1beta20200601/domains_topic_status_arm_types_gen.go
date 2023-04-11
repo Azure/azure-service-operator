@@ -3,25 +3,16 @@
 // Licensed under the MIT license.
 package v1beta20200601
 
+// Deprecated version of Domains_Topic_STATUS. Use v1api20200601.Domains_Topic_STATUS instead
 type Domains_Topic_STATUS_ARM struct {
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Name of the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the Domain Topic.
+	Id         *string                           `json:"id,omitempty"`
+	Name       *string                           `json:"name,omitempty"`
 	Properties *DomainTopicProperties_STATUS_ARM `json:"properties,omitempty"`
-
-	// SystemData: The system metadata relating to Domain Topic resource.
-	SystemData *SystemData_STATUS_ARM `json:"systemData,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
+	SystemData *SystemData_STATUS_ARM            `json:"systemData,omitempty"`
+	Type       *string                           `json:"type,omitempty"`
 }
 
-// Properties of the Domain Topic.
+// Deprecated version of DomainTopicProperties_STATUS. Use v1api20200601.DomainTopicProperties_STATUS instead
 type DomainTopicProperties_STATUS_ARM struct {
-	// ProvisioningState: Provisioning state of the domain topic.
 	ProvisioningState *DomainTopicProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }

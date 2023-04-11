@@ -3,14 +3,16 @@
  * Licensed under the MIT license.
  */
 
-package main
+package cmd
 
 import (
+	"context"
+
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/azure-service-operator/v2/tools/asoctl/pkg/crd"
-	"github.com/Azure/azure-service-operator/v2/tools/asoctl/pkg/export"
+	"github.com/Azure/azure-service-operator/v2/internal/version"
+	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 )
 
 // Execute kicks off the command line
@@ -20,7 +22,8 @@ func Execute() {
 		klog.Fatalf("fatal error: commands failed to build! %s\n", err)
 	}
 
-	if err := cmd.Execute(); err != nil {
+	ctx := xcontext.MakeInterruptibleContext(context.Background())
+	if err := cmd.ExecuteContext(ctx); err != nil {
 		klog.Fatalln(err)
 	}
 }
@@ -28,15 +31,16 @@ func Execute() {
 func newRootCommand() (*cobra.Command, error) {
 	rootCmd := &cobra.Command{
 		Use:              "asoctl",
-		Short:            "asoctl provides a cmdline interface for exporting existing resources into ASOv2 from ARM",
+		Short:            "asoctl provides a cmdline interface for working with Azure Service Operator",
 		TraverseChildren: true,
 	}
 
 	rootCmd.Flags().SortFlags = false
 
 	cmdFuncs := []func() (*cobra.Command, error){
-		export.NewCommand,
-		crd.NewCommand,
+		newCRDCommand,
+		newImportCommand,
+		version.NewCommand,
 	}
 
 	for _, f := range cmdFuncs {

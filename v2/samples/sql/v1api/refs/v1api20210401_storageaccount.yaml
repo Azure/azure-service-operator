@@ -1,0 +1,21 @@
+apiVersion: storage.azure.com/v1api20210401
+kind: StorageAccount
+metadata:
+  name: asotestsqlstorage
+  namespace: default
+spec:
+  location: eastus
+  owner:
+    name: aso-sample-rg
+  kind: BlobStorage
+  sku:
+    name: Standard_LRS
+  accessTier: Hot
+  operatorSpec:
+    secrets:
+      key1:
+        name: sqlstoragesecret
+        key: key1
+      blobEndpoint:
+        name: sqlstoragesecret
+        key: blobEndpoint

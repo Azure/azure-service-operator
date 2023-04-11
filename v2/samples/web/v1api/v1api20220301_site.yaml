@@ -1,0 +1,14 @@
+apiVersion: web.azure.com/v1api20220301
+kind: Site
+metadata:
+  name: aso-sample-function
+  namespace: default
+spec:
+  enabled: true
+  location: westus
+  owner:
+    name: aso-sample-rg
+  serverFarmReference:
+    group: web.azure.com
+    kind: ServerFarm
+    name: aso-sample-appservice

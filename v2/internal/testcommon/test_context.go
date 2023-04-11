@@ -28,7 +28,8 @@ import (
 	"golang.org/x/crypto/ssh"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
+
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
@@ -114,7 +115,11 @@ func (tc TestContext) ForTest(t *testing.T, cfg config.Values) (PerTestContext, 
 	}
 
 	var globalARMClient *genericarmclient.GenericClient
-	globalARMClient, err = genericarmclient.NewGenericClientFromHTTPClient(cfg.Cloud(), details.creds, httpClient, details.ids.subscriptionID, metrics.NewARMClientMetrics())
+	options := &genericarmclient.GenericClientOptions{
+		Metrics:    metrics.NewARMClientMetrics(),
+		HttpClient: httpClient,
+	}
+	globalARMClient, err = genericarmclient.NewGenericClient(cfg.Cloud(), details.creds, options)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "failed to create generic ARM client")
 	}

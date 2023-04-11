@@ -5,6 +5,7 @@ package v1beta20211101
 
 import (
 	"encoding/json"
+	v1api20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage"
 	v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForNamespacesEventhubsConsumerGroup(subject Namesp
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20211101s.NamespacesEventhubsConsumerGroup
+	var hub v1api20211101s.NamespacesEventhubsConsumerGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
