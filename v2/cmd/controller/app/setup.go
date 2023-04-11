@@ -34,11 +34,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	"github.com/Azure/azure-service-operator/v2/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
 	armreconciler "github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
@@ -258,7 +258,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	}
 
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	armClientCache := armreconciler.NewARMClientCache(
+	armClientCache := identity.NewARMClientCache(
 		globalARMClient,
 		cfg.SubscriptionID,
 		cfg.PodNamespace,
@@ -267,7 +267,7 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		nil,
 		armMetrics)
 
-	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*armreconciler.Connection, error) {
+	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*identity.Connection, error) {
 		return armClientCache.GetClient(ctx, obj)
 	}
 

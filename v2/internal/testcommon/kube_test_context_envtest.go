@@ -34,6 +34,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
@@ -154,7 +155,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	indexer := kubeclient.NewAndIndexer(mgr.GetFieldIndexer(), testIndexer)
 	kubeClient := kubeclient.NewClient(NewClient(mgr.GetClient(), testIndexer))
 
-	var clientFactory arm.ARMClientFactory = func(ctx context.Context, mo genruntime.ARMMetaObject) (*arm.Connection, error) {
+	var clientFactory arm.ARMClientFactory = func(ctx context.Context, mo genruntime.ARMMetaObject) (*identity.Connection, error) {
 		result := namespaceResources.Lookup(mo.GetNamespace())
 		if result == nil {
 			panic(fmt.Sprintf("unable to locate ARM client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",
@@ -387,7 +388,7 @@ type runningEnvTest struct {
 // in order for the controller to access the
 // right ARM client and logger we store them in here
 type perNamespace struct {
-	armClientCache *arm.ARMClientCache
+	armClientCache *identity.ARMClientCache
 	logger         logr.Logger
 }
 
@@ -437,7 +438,7 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 
 	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
 		// register resources needed by controller for namespace
-		armClientCache := arm.NewARMClientCache(
+		armClientCache := identity.NewARMClientCache(
 			perTestContext.AzureClient,
 			perTestContext.AzureSubscription,
 			cfg.PodNamespace,

@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package arm
+package identity
 
 import (
 	"k8s.io/apimachinery/pkg/types"

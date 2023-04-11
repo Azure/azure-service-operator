@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package arm
+package identity
 
 import (
 	"context"
@@ -21,7 +21,6 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
-	"github.com/Azure/azure-service-operator/v2/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
@@ -243,7 +242,7 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 			clientCertPassword = p
 		}
 
-		credential, err := identity.NewClientCertificateCredential(string(tenantID), string(clientID), clientCert, clientCertPassword)
+		credential, err := NewClientCertificateCredential(string(tenantID), string(clientID), clientCert, clientCertPassword)
 		if err != nil {
 			return nil, "", errors.Wrap(err, errors.Errorf("invalid Client Certificate Credential for %q encountered", nsName.String()).Error())
 		}
@@ -252,7 +251,7 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 	}
 
 	// Here we check for workload identity if client secret is not provided.
-	credential, err := identity.NewWorkloadIdentityCredential(string(tenantID), string(clientID))
+	credential, err := NewWorkloadIdentityCredential(string(tenantID), string(clientID))
 	if err != nil {
 		err = errors.Wrapf(
 			err,
@@ -260,7 +259,7 @@ func (c *ARMClientCache) newCredentialFromSecret(secret *v1.Secret, nsName types
 			nsName.String(),
 			config.ClientSecretVar,
 			string(clientID),
-			identity.TokenFile)
+			TokenFile)
 		return nil, "", err
 	}
 
