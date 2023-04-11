@@ -69,6 +69,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		Port:                   9443,
 		HealthProbeBindAddress: flgs.healthAddr,
 	})
+
 	if err != nil {
 		setupLog.Error(err, "unable to create manager")
 		os.Exit(1)
@@ -86,14 +87,22 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		os.Exit(1)
 	}
 
-	nonReadyResources, err := crdmanagement.GetNonReadyCRDs(ctx, cfg, crdManager)
+	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
 	if err != nil {
-		setupLog.Error(err, "failed to find non-ready CRDs")
+		setupLog.Error(err, "failed to load CRDs from disk")
 		os.Exit(1)
 	}
 
+	existingCRDs, err := crdManager.ListOperatorCRDs(ctx)
+	if err != nil {
+		setupLog.Error(err, "failed to list current CRDs")
+		os.Exit(1)
+	}
+
+	nonReadyResources := crdmanagement.GetNonReadyCRDs(cfg, crdManager, goalCRDs, existingCRDs)
+
 	if len(flgs.crdPatterns) > 0 {
-		err = crdManager.ApplyCRDs(ctx, crdmanagement.CRDLocation, cfg.PodNamespace, flgs.crdPatterns)
+		err = crdManager.ApplyCRDs(ctx, goalCRDs, existingCRDs, flgs.crdPatterns)
 		if err != nil {
 			setupLog.Error(err, "failed to apply CRDs")
 			os.Exit(1)
@@ -137,6 +146,12 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 		os.Exit(1)
 	}
 
+	// Readyz probe endpoint
+	err = mgr.AddReadyzCheck("readyz", healthz.Ping)
+	if err != nil {
+		setupLog.Error(err, "Failed setting up readyz check")
+		os.Exit(1)
+	}
 	return mgr
 }
 

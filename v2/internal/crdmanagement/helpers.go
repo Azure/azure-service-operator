@@ -4,8 +4,6 @@
 package crdmanagement
 
 import (
-	"context"
-
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
@@ -20,16 +18,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
-func GetNonReadyCRDs(ctx context.Context, cfg config.Values, crdManager *Manager) (map[string]apiextensions.CustomResourceDefinition, error) {
-	existingCRDs, err := crdManager.ListOperatorCRDs(ctx)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to list operator CRDs")
-	}
+func GetNonReadyCRDs(
+	cfg config.Values,
+	crdManager *Manager,
+	goalCRDs []apiextensions.CustomResourceDefinition,
+	existingCRDs []apiextensions.CustomResourceDefinition) map[string]apiextensions.CustomResourceDefinition {
 
-	goalCRDs, err := crdManager.LoadOperatorCRDs(CRDLocation, cfg.PodNamespace)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to load CRDs from disk")
-	}
 	equalityCheck := SpecEqual
 	// If we're not the webhooks install, we're in multitenant mode and we expect that the CRD webhook points to a different
 	// namespace than ours. We don't actually know what the right namespace is though so we can't verify it - we just have to trust it's right.
@@ -39,7 +33,7 @@ func GetNonReadyCRDs(ctx context.Context, cfg config.Values, crdManager *Manager
 
 	readyResources := crdManager.FindNonMatchingCRDs(existingCRDs, goalCRDs, equalityCheck)
 
-	return readyResources, nil
+	return readyResources
 }
 
 func FilterStorageTypesByReadyCRDs(
