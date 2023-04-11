@@ -112,14 +112,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	nonReadyResources, err := getNonReadyCRDs(ctx, cfg, crdManager)
+	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
 	if err != nil {
-		setupLog.Error(err, "failed to find non-ready CRDs")
+		setupLog.Error(err, "failed to load CRDs from disk")
 		os.Exit(1)
 	}
 
+	existingCRDs, err := crdManager.ListOperatorCRDs(ctx)
+	if err != nil {
+		setupLog.Error(err, "failed to list current CRDs")
+		os.Exit(1)
+	}
+
+	nonReadyResources := getNonReadyCRDs(cfg, crdManager, goalCRDs, existingCRDs)
+
 	if len(flgs.crdPatterns) > 0 {
-		err = crdManager.ApplyCRDs(ctx, crdmanagement.CRDLocation, cfg.PodNamespace, flgs.crdPatterns)
+		err = crdManager.ApplyCRDs(ctx, goalCRDs, existingCRDs, flgs.crdPatterns)
 		if err != nil {
 			setupLog.Error(err, "failed to apply CRDs")
 			os.Exit(1)
@@ -366,16 +374,12 @@ func newCRDManager(logger logr.Logger, k8sConfig *rest.Config) (*crdmanagement.M
 	return crdManager, nil
 }
 
-func getNonReadyCRDs(ctx context.Context, cfg config.Values, crdManager *crdmanagement.Manager) (map[string]apiextensions.CustomResourceDefinition, error) {
-	existingCRDs, err := crdManager.ListOperatorCRDs(ctx)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to list operator CRDs")
-	}
+func getNonReadyCRDs(
+	cfg config.Values,
+	crdManager *crdmanagement.Manager,
+	goalCRDs []apiextensions.CustomResourceDefinition,
+	existingCRDs []apiextensions.CustomResourceDefinition) map[string]apiextensions.CustomResourceDefinition {
 
-	goalCRDs, err := crdManager.LoadOperatorCRDs(crdmanagement.CRDLocation, cfg.PodNamespace)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to load CRDs from disk")
-	}
 	equalityCheck := crdmanagement.SpecEqual
 	// If we're not the webhooks install, we're in multitenant mode and we expect that the CRD webhook points to a different
 	// namespace than ours. We don't actually know what the right namespace is though so we can't verify it - we just have to trust it's right.
@@ -385,7 +389,7 @@ func getNonReadyCRDs(ctx context.Context, cfg config.Values, crdManager *crdmana
 
 	readyResources := crdManager.FindNonMatchingCRDs(existingCRDs, goalCRDs, equalityCheck)
 
-	return readyResources, nil
+	return readyResources
 }
 
 func filterStorageTypesByReadyCRDs(
