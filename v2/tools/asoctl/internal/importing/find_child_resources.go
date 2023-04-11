@@ -15,16 +15,16 @@ import (
 )
 
 var (
-	typeToSubtypes         map[string]set.Set[string]
-	populateTypeToSubtypes sync.Once
+	childResourceTypes         map[string]set.Set[string]
+	populateChildResourceTypes sync.Once
 )
 
-func FindSubTypesForType(t string) []string {
-	populateTypeToSubtypes.Do(func() {
-		typeToSubtypes = createTypeToSubtypesMap()
+func FindChildResourcesForResourceType(resourceType string) []string {
+	populateChildResourceTypes.Do(func() {
+		childResourceTypes = createChildResourceTypesMap()
 	})
 
-	s, ok := typeToSubtypes[t]
+	s, ok := childResourceTypes[resourceType]
 	if !ok {
 		return nil
 	}
@@ -32,7 +32,7 @@ func FindSubTypesForType(t string) []string {
 	return s.Values()
 }
 
-func createTypeToSubtypesMap() map[string]set.Set[string] {
+func createChildResourceTypesMap() map[string]set.Set[string] {
 	result := make(map[string]set.Set[string])
 	scheme := api.CreateScheme()
 	for gvk := range scheme.AllKnownTypes() {
@@ -45,6 +45,12 @@ func createTypeToSubtypesMap() map[string]set.Set[string] {
 
 		rsrc, ok := obj.(genruntime.KubernetesResource)
 		if !ok {
+			// Skip non-resources
+			continue
+		}
+
+		if _, ok := rsrc.(genruntime.ImportableResource); !ok {
+			// Skip non-importable resources
 			continue
 		}
 
