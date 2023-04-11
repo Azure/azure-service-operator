@@ -217,14 +217,14 @@ func (omc *ObjectModelConfiguration) VerifyAzureGeneratedSecretsConsumed() error
 	return visitor.Visit(omc)
 }
 
-// AzureGeneratedConfigs looks up a type to determine if it has any Azure generated configs
-func (omc *ObjectModelConfiguration) AzureGeneratedConfigs(name astmodel.TypeName) ([]string, error) {
-	var result []string
+// GeneratedConfigs looks up a type to determine if it has any generated configs
+func (omc *ObjectModelConfiguration) GeneratedConfigs(name astmodel.TypeName) (map[string]string, error) {
+	var result map[string]string
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			var err error
-			result, err = configuration.AzureGeneratedConfigs()
+			result, err = configuration.GeneratedConfigs()
 			return err
 		})
 	err := visitor.Visit(omc)
@@ -235,11 +235,38 @@ func (omc *ObjectModelConfiguration) AzureGeneratedConfigs(name astmodel.TypeNam
 	return result, nil
 }
 
-// VerifyAzureGeneratedConfigsConsumed returns an error if Azure generated configs were not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyAzureGeneratedConfigsConsumed() error {
+// VerifyGeneratedConfigsConsumed returns an error if generated configs were not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyGeneratedConfigsConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyAzureGeneratedConfigsConsumed()
+			return configuration.VerifyGeneratedConfigsConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+// ManualConfigs looks up a type to determine if it has any manual configs
+func (omc *ObjectModelConfiguration) ManualConfigs(name astmodel.TypeName) ([]string, error) {
+	var result []string
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			var err error
+			result, err = configuration.ManualConfigs()
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// VerifyManualConfigsConsumed returns an error if manual configs were not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyManualConfigsConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyManualConfigsConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -310,35 +337,6 @@ func (omc *ObjectModelConfiguration) VerifyResourceLifecycleOwnedByParentConsume
 	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			return configuration.VerifyResourceLifecycleOwnedByParentConsumed()
-		})
-	return visitor.Visit(omc)
-}
-
-// ExportAsConfigMapPropertyName looks up a property to determine the name of its ConfigMap export property (if one exists).
-func (omc *ObjectModelConfiguration) ExportAsConfigMapPropertyName(name astmodel.TypeName, property astmodel.PropertyName) (string, error) {
-	var result string
-	visitor := newSinglePropertyConfigurationVisitor(
-		name,
-		property,
-		func(configuration *PropertyConfiguration) error {
-			exportAsConfigMapPropertyName, err := configuration.ExportAsConfigMapPropertyName()
-			result = exportAsConfigMapPropertyName
-			return err
-		})
-
-	err := visitor.Visit(omc)
-	if err != nil {
-		return "", err
-	}
-
-	return result, nil
-}
-
-// VerifyExportAsConfigMapPropertyNameConsumed returns an error if any ExportAsConfigMapPropertyName configuration was not consumed
-func (omc *ObjectModelConfiguration) VerifyExportAsConfigMapPropertyNameConsumed() error {
-	visitor := newEveryPropertyConfigurationVisitor(
-		func(configuration *PropertyConfiguration) error {
-			return configuration.VerifyExportAsConfigMapPropertyNameConsumed()
 		})
 	return visitor.Visit(omc)
 }

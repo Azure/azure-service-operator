@@ -68,11 +68,13 @@ func TestAddOperatorSpec_AddsSpecWithConfiguredConfigMaps(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 	omc := config.NewObjectModelConfiguration()
 	g.Expect(
-		omc.ModifyProperty(
-			status.Name(),
-			test.StatusProperty.PropertyName(),
-			func(prop *config.PropertyConfiguration) error {
-				prop.SetExportAsConfigMapPropertyName("statusProp")
+		omc.ModifyType(
+			resource.Name(),
+			func(typ *config.TypeConfiguration) error {
+				typ.SetGeneratedConfigs(
+					map[string]string{
+						"statusProp": "$.Status.Status",
+					})
 				return nil
 			},
 		)).
@@ -110,7 +112,7 @@ func TestAddOperatorSpec_AddsSpecWithManualConfigMaps(t *testing.T) {
 		omc.ModifyType(
 			resource.Name(),
 			func(tc *config.TypeConfiguration) error {
-				tc.SetAzureGeneratedConfigs([]string{"config1"})
+				tc.SetManualConfigs([]string{"config1"})
 				return nil
 			})).
 		To(Succeed())
