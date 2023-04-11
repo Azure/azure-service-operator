@@ -49,7 +49,7 @@ func (ri *ResourceImporter) Add(importer ImportableResource) {
 	ri.lock.Lock()
 	defer ri.lock.Unlock()
 
-	ri.addCore(importer)
+	ri.addImpl(importer)
 }
 
 // AddARMID adds an ARM ID to the list of resources to import.
@@ -63,9 +63,9 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 	return nil
 }
 
-// addCore is the internal implementation of Add that assumes the lock is already held
+// addImpl is the internal implementation of Add that assumes the lock is already held
 // This allows us to call it from other methods that already have the lock
-func (ri *ResourceImporter) addCore(importer ImportableResource) {
+func (ri *ResourceImporter) addImpl(importer ImportableResource) {
 	// If we've already handled this resource, skip it
 	if _, ok := ri.completed[importer.Name()]; ok {
 		return
@@ -93,6 +93,9 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 	// requiring import.
 	for len(ri.queue) > 0 {
 		var eg errgroup.Group
+
+		// Limit concurrent processing, so we don't do too much at once
+		// The exact value isn't too important
 		eg.SetLimit(8)
 
 		for {
@@ -185,7 +188,7 @@ func (ri *ResourceImporter) Complete(importer ImportableResource, pending []Impo
 	ri.completed[importer.Name()] = importer
 	start := len(ri.pending)
 	for _, p := range pending {
-		ri.addCore(p)
+		ri.addImpl(p)
 	}
 
 	if len(ri.pending) > start {

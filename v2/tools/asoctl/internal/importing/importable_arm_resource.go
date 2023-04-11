@@ -98,8 +98,12 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 
 	var result []ImportableResource
 
+	// Find all child types that require this resource as a parent
 	childTypes := FindChildResourcesForResourceType(i.armID.ResourceType.String())
+
+	// Include extension types as they can be parented by any resource
 	childTypes = append(childTypes, FindExtensionTypes()...)
+
 	for _, subType := range childTypes {
 		subResources, err := i.importChildResources(ctx, ref, subType)
 		if err != nil {
@@ -152,10 +156,10 @@ func (i *importableARMResource) importResource(
 func (i *importableARMResource) createImportFunction(
 	instance genruntime.ImportableARMResource,
 ) extensions.ImporterFunc {
-	// Loader is a function that does the actual loading
+	// Loader is a function that does the actual loading, populating both the Spec and Status of the resource
 	loader := i.loader()
 
-	// Check to see if we have an extension to customize loading, and if we do, wrap importFn
+	// Check to see if we have an extension to customize loading, and if we do, wrap importFn to call the extension
 	gvk := instance.GetObjectKind().GroupVersionKind()
 	if ex, ok := i.GetResourceExtension(gvk); ok {
 		next := loader
@@ -168,7 +172,7 @@ func (i *importableARMResource) createImportFunction(
 		}
 	}
 
-	// Lastly, we need to wrap importFn to remove Status
+	// Lastly, we need to wrap importFn to remove Status so that it doesn't get included when we export the YAML
 	loader = i.clearStatus(loader)
 
 	return loader
@@ -189,21 +193,12 @@ func (i *importableARMResource) loader() extensions.ImporterFunc {
 		// Get the current status of the object from ARM
 		status, err := i.getStatus(ctx, i.armID.String(), importable)
 		if err != nil {
-			var responseError *azcore.ResponseError
-			if errors.As(err, &responseError) {
-				if responseError.StatusCode == http.StatusNotFound {
-					// If the resource doesn't exist, we'll just skip it and return all the resources we're allowed to see
-					return extensions.ImportSkipped("resource not found"), nil
-				}
-
-				if responseError.StatusCode == http.StatusForbidden {
-					// If we're not allowed to look, we'll just skip it and return all the resources we're allowed to see
-					return extensions.ImportSkipped("access forbidden"), nil
-				}
+			// If the error is non-fatal, we can skip the resource but still process the rest
+			if reason, nonfatal := i.classifyError(err); nonfatal {
+				return extensions.ImportSkipped(reason), nil
 			}
 
-			// Error doesn't need additional context
-			return extensions.ImportResult{}, err
+			return extensions.ImportResult{}, errors.Wrapf(err, "getting status for resource %s", i.armID)
 		}
 
 		// Set up our objects Spec & Status
@@ -293,22 +288,9 @@ func (i *importableARMResource) importChildResources(
 		containerURI,
 		imp.GetAPIVersion())
 	if err != nil {
-		var responseError *azcore.ResponseError
-		if errors.As(err, &responseError) {
-			if responseError.StatusCode == http.StatusNotFound {
-				// If the container doesn't exist, there are no child resources
-				return nil, nil
-			}
-
-			if responseError.StatusCode == http.StatusForbidden {
-				// If we're not allowed to look, we'll just skip it and return all the resources we're allowed to see
-				klog.Warningf(
-					"Forbidden (403) when listing child %s/%s for resource %s",
-					childResourceGK.Group,
-					childResourceGK.Kind,
-					i.armID)
-				return nil, nil
-			}
+		if _, nonfatal := i.classifyError(err); nonfatal {
+			// Non-fatal error, we'll just skip this child resource type
+			return nil, nil
 		}
 
 		return nil, errors.Wrapf(err, "unable to list resources of type %s", childResourceType)
@@ -330,6 +312,24 @@ func (i *importableARMResource) importChildResources(
 	}
 
 	return subResources, nil
+}
+
+func (*importableARMResource) classifyError(err error) (string, bool) {
+	var responseError *azcore.ResponseError
+	if errors.As(err, &responseError) {
+		if responseError.StatusCode == http.StatusNotFound {
+			// It's a non-fatal error if it doesn't exist
+			return "resource not found", true
+		}
+
+		if responseError.StatusCode == http.StatusForbidden {
+			// If we're not allowed to look, we can still import the rest
+			return "access forbidden", true
+		}
+	}
+
+	// otherwise we keep the error
+	return "", false
 }
 
 func (i *importableARMResource) createImportableObjectFromID(
