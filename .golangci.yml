@@ -24,6 +24,7 @@ linters:
     - gosimple
     - stylecheck
     - unused
+    - musttag # Extremely slow, at least on CI machines
 linters-settings:
   govet:
     check-shadowing: true
