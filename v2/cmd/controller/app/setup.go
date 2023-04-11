@@ -110,6 +110,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	}
 
 	if cfg.OperatorMode.IncludesWatchers() {
+		//nolint:contextcheck
 		err = initializeWatchers(nonReadyResources, cfg, mgr, clients)
 		if err != nil {
 			setupLog.Error(err, "failed to initialize watchers")
