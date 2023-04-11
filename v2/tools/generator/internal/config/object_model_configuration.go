@@ -217,14 +217,14 @@ func (omc *ObjectModelConfiguration) VerifyAzureGeneratedSecretsConsumed() error
 	return visitor.Visit(omc)
 }
 
-// AzureGeneratedConfigs looks up a type to determine if it has any Azure generated configs
-func (omc *ObjectModelConfiguration) AzureGeneratedConfigs(name astmodel.TypeName) (map[string]string, error) {
+// GeneratedConfigs looks up a type to determine if it has any generated configs
+func (omc *ObjectModelConfiguration) GeneratedConfigs(name astmodel.TypeName) (map[string]string, error) {
 	var result map[string]string
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			var err error
-			result, err = configuration.AzureGeneratedConfigs()
+			result, err = configuration.GeneratedConfigs()
 			return err
 		})
 	err := visitor.Visit(omc)
@@ -235,23 +235,23 @@ func (omc *ObjectModelConfiguration) AzureGeneratedConfigs(name astmodel.TypeNam
 	return result, nil
 }
 
-// VerifyAzureGeneratedConfigsConsumed returns an error if Azure generated configs were not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyAzureGeneratedConfigsConsumed() error {
+// VerifyGeneratedConfigsConsumed returns an error if generated configs were not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyGeneratedConfigsConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyAzureGeneratedConfigsConsumed()
+			return configuration.VerifyGeneratedConfigsConsumed()
 		})
 	return visitor.Visit(omc)
 }
 
-// ManualAzureGeneratedConfigs looks up a type to determine if it has any Azure generated configs
-func (omc *ObjectModelConfiguration) ManualAzureGeneratedConfigs(name astmodel.TypeName) ([]string, error) {
+// ManualConfigs looks up a type to determine if it has any manual configs
+func (omc *ObjectModelConfiguration) ManualConfigs(name astmodel.TypeName) ([]string, error) {
 	var result []string
 	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			var err error
-			result, err = configuration.ManualAzureGeneratedConfigs()
+			result, err = configuration.ManualConfigs()
 			return err
 		})
 	err := visitor.Visit(omc)
@@ -262,11 +262,11 @@ func (omc *ObjectModelConfiguration) ManualAzureGeneratedConfigs(name astmodel.T
 	return result, nil
 }
 
-// VerifyManualAzureGeneratedConfigsConsumed returns an error if Azure generated configs were not used, nil otherwise.
-func (omc *ObjectModelConfiguration) VerifyManualAzureGeneratedConfigsConsumed() error {
+// VerifyManualConfigsConsumed returns an error if manual configs were not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyManualConfigsConsumed() error {
 	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyManualAzureGeneratedConfigsConsumed()
+			return configuration.VerifyManualConfigsConsumed()
 		})
 	return visitor.Visit(omc)
 }

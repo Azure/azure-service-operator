@@ -71,9 +71,9 @@ func TestAddOperatorSpec_AddsSpecWithConfiguredConfigMaps(t *testing.T) {
 		omc.ModifyType(
 			resource.Name(),
 			func(typ *config.TypeConfiguration) error {
-				typ.SetAzureGeneratedConfigs(
+				typ.SetGeneratedConfigs(
 					map[string]string{
-						"statusProp": ".Status.Status",
+						"statusProp": "$.Status.Status",
 					})
 				return nil
 			},
@@ -112,7 +112,7 @@ func TestAddOperatorSpec_AddsSpecWithManualConfigMaps(t *testing.T) {
 		omc.ModifyType(
 			resource.Name(),
 			func(tc *config.TypeConfiguration) error {
-				tc.SetManualAzureGeneratedConfigs([]string{"config1"})
+				tc.SetManualConfigs([]string{"config1"})
 				return nil
 			})).
 		To(Succeed())

@@ -34,10 +34,10 @@ func TestAddKubernetesExporter_AutomaticallyGeneratesExportedConfigMaps(t *testi
 		omc.ModifyType(
 			resource.Name(),
 			func(typ *config.TypeConfiguration) error {
-				typ.SetAzureGeneratedConfigs(
+				typ.SetGeneratedConfigs(
 					map[string]string{
-						"statusProp":         ".Status.Status",
-						"optionalStringProp": ".Status.OptionalString",
+						"statusProp":         "$.Status.Status",
+						"optionalStringProp": "$.Status.OptionalString",
 					})
 				return nil
 			},

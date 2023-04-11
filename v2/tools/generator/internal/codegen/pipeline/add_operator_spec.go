@@ -46,11 +46,11 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 			if err != nil {
 				return nil, err
 			}
-			err = configuration.ObjectModelConfiguration.VerifyAzureGeneratedConfigsConsumed()
+			err = configuration.ObjectModelConfiguration.VerifyGeneratedConfigsConsumed()
 			if err != nil {
 				return nil, err
 			}
-			err = configuration.ObjectModelConfiguration.VerifyManualAzureGeneratedConfigsConsumed()
+			err = configuration.ObjectModelConfiguration.VerifyManualConfigsConsumed()
 			if err != nil {
 				return nil, err
 			}
@@ -240,8 +240,10 @@ func (w *configMapTypeWalker) Walk(def astmodel.TypeDefinition) (ExportedPropert
 	return w.exportedProperties, nil
 }
 
+// TODO: Consider actually using a real JSONPath library here...?
 func makeJSONPathFromProps(props []*astmodel.PropertyDefinition) string {
 	builder := strings.Builder{}
+	builder.WriteString("$") // Always starts with a "$" which is the root
 	for _, prop := range props {
 		builder.WriteString(".") // Always starts with a dot
 		builder.WriteString(prop.PropertyName().String())
@@ -255,19 +257,19 @@ func getConfigMapProperties(
 	configuration *config.Configuration,
 	resource astmodel.TypeDefinition) ([]string, ExportedProperties, error) {
 
-	configMapPaths, err := configuration.ObjectModelConfiguration.AzureGeneratedConfigs(resource.Name())
+	configMapPaths, err := configuration.ObjectModelConfiguration.GeneratedConfigs(resource.Name())
 	if err != nil {
 		// If error is just that there's no configured secrets, proceed
 		if !config.IsNotConfiguredError(err) {
-			return nil, nil, errors.Wrapf(err, "reading azureGeneratedConfigs for %s", resource.Name())
+			return nil, nil, errors.Wrapf(err, "reading generatedConfigs for %s", resource.Name())
 		}
 	}
 
-	additionalConfigMaps, err := configuration.ObjectModelConfiguration.ManualAzureGeneratedConfigs(resource.Name())
+	additionalConfigMaps, err := configuration.ObjectModelConfiguration.ManualConfigs(resource.Name())
 	if err != nil {
 		// If error is just that there's no configured secrets, proceed
 		if !config.IsNotConfiguredError(err) {
-			return nil, nil, errors.Wrapf(err, "reading manualAzureGeneratedConfigs for %s", resource.Name())
+			return nil, nil, errors.Wrapf(err, "reading manualConfigs for %s", resource.Name())
 		}
 	}
 
@@ -285,7 +287,7 @@ func getConfigMapProperties(
 	// There should be an exported configMap property for every configured configMapPath
 	for name, path := range configMapPaths {
 		if _, ok := exportedConfigMapProperties[name]; !ok {
-			return nil, nil, errors.Errorf("$azureGeneratedConfigs property %q not found at path %q", name, path)
+			return nil, nil, errors.Errorf("$generatedConfigs property %q not found at path %q", name, path)
 		}
 	}
 
