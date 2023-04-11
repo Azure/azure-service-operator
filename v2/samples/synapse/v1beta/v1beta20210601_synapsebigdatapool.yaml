@@ -1,0 +1,17 @@
+apiVersion: synapse.azure.com/v1beta20210601
+kind: WorkspacesBigDataPool
+metadata:
+  name: samplepool
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sampleworkspace
+  sparkVersion:   "3.3"
+  nodeCount:      4
+  nodeSize:       Medium
+  nodeSizeFamily: MemoryOptimized
+  autoScale:
+    enabled: false
+  autoPause:
+    enabled: false
