@@ -2021,6 +2021,7 @@ func StorageAccountOperatorSpecGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForStorageAccountOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountOperatorSpec(gens map[string]gopter.Gen) {
+	gens["ConfigMaps"] = gen.PtrOf(StorageAccountOperatorConfigMapsGenerator())
 	gens["Secrets"] = gen.PtrOf(StorageAccountOperatorSecretsGenerator())
 }
 
@@ -2972,6 +2973,61 @@ func AddIndependentPropertyGeneratorsForStorageAccountMicrosoftEndpoints_STATUS(
 	gens["Queue"] = gen.PtrOf(gen.AlphaString())
 	gens["Table"] = gen.PtrOf(gen.AlphaString())
 	gens["Web"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_StorageAccountOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccountOperatorConfigMaps via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountOperatorConfigMaps, StorageAccountOperatorConfigMapsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccountOperatorConfigMaps runs a test to see if a specific instance of StorageAccountOperatorConfigMaps round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountOperatorConfigMaps(subject StorageAccountOperatorConfigMaps) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccountOperatorConfigMaps
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccountOperatorConfigMaps instances for property testing - lazily instantiated by
+// StorageAccountOperatorConfigMapsGenerator()
+var storageAccountOperatorConfigMapsGenerator gopter.Gen
+
+// StorageAccountOperatorConfigMapsGenerator returns a generator of StorageAccountOperatorConfigMaps instances for property testing.
+func StorageAccountOperatorConfigMapsGenerator() gopter.Gen {
+	if storageAccountOperatorConfigMapsGenerator != nil {
+		return storageAccountOperatorConfigMapsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	storageAccountOperatorConfigMapsGenerator = gen.Struct(reflect.TypeOf(StorageAccountOperatorConfigMaps{}), generators)
+
+	return storageAccountOperatorConfigMapsGenerator
 }
 
 func Test_StorageAccountOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -18,6 +18,10 @@ import (
 // ImportableResource is an interface that wraps a Kubernetes resource that can be imported.
 // Different implementations of this interface will be used for different types of resources.
 type ImportableResource interface {
+	// GroupKind returns the GroupKind of the resource being imported.
+	// (may be empty if the GK can't be determined)
+	GroupKind() schema.GroupKind
+
 	// Name is a unique identifier for this resource
 	Name() string
 
