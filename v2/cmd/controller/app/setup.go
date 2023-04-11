@@ -7,10 +7,15 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"math/rand"
 	"os"
+	"regexp"
 	"time"
 
+	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -24,6 +29,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	clientconfig "sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
@@ -43,6 +49,40 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
+
+func SetupPreUpgradeCheck(ctx context.Context) error {
+	cfg := clientconfig.GetConfigOrDie()
+	apiExtClient, err := apiextensionsclient.NewForConfig(cfg)
+	if err != nil {
+		return errors.Wrap(err, "unable to create kubernetes client")
+	}
+
+	// Had to list CRDs this way and not with crdManager, since we did not have "serviceoperator.azure.com/version" labels in earlier versions.
+	list, err := apiExtClient.CustomResourceDefinitions().List(ctx, v1.ListOptions{})
+	if err != nil {
+		return errors.Wrap(err, "failed to list CRDs")
+	}
+
+	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
+	var errs []error
+	for _, crd := range list.Items {
+		crd := crd
+		if !crdRegexp.MatchString(crd.Name) {
+			continue
+		}
+
+		if policy, ok := crd.Annotations["helm.sh/resource-policy"]; !ok || policy != "keep" {
+			err = errors.New(fmt.Sprintf("looks like CRD '%s' does not contain helm keep policy. Make sure the upgrade is from beta.5", crd.Name))
+			errs = append(errs, err)
+		}
+	}
+
+	if err = kerrors.NewAggregate(errs); err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) manager.Manager {
 	scheme := controllers.CreateScheme()
@@ -110,7 +150,6 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	}
 
 	if cfg.OperatorMode.IncludesWatchers() {
-		//nolint:contextcheck
 		err = initializeWatchers(nonReadyResources, cfg, mgr, clients)
 		if err != nil {
 			setupLog.Error(err, "failed to initialize watchers")

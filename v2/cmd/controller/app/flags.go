@@ -20,6 +20,7 @@ type Flags struct {
 	healthAddr           string
 	enableLeaderElection bool
 	crdPatterns          []string
+	preUpgradeCheck      bool
 }
 
 func ParseFlags(args []string) (Flags, error) {
@@ -31,6 +32,7 @@ func ParseFlags(args []string) (Flags, error) {
 	var healthAddr string
 	var enableLeaderElection bool
 	var crdPatterns internalflags.SliceFlags
+	var preUpgradeCheck bool
 
 	// default here for 'metricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
@@ -38,6 +40,8 @@ func ParseFlags(args []string) (Flags, error) {
 	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
 		"Enable leader election for controllers manager. Enabling this will ensure there is only one active controllers manager.")
 	flagSet.Var(&crdPatterns, "crd-pattern", "Install these CRDs. Currently the only value supported is '*'")
+	flagSet.BoolVar(&preUpgradeCheck, "pre-upgrade-check", false,
+		"Enable pre upgrade check to check if existing crds contain helm 'keep' policy.")
 
 	flagSet.Parse(args[1:]) //nolint:errcheck
 
@@ -53,5 +57,10 @@ func ParseFlags(args []string) (Flags, error) {
 		healthAddr:           healthAddr,
 		enableLeaderElection: enableLeaderElection,
 		crdPatterns:          crdPatterns,
+		preUpgradeCheck:      preUpgradeCheck,
 	}, nil
+}
+
+func (f *Flags) PreUpgradeCheck() bool {
+	return f.preUpgradeCheck
 }

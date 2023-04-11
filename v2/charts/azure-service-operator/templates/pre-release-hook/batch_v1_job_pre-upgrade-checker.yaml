@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: azureserviceoperator-pre-upgrade-checker
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: azureserviceoperator-pre-upgrade-checker
+      containers:
+      - args:
+          - --pre-upgrade-check=true
+        image: {{.Values.image.repository}}
+        imagePullPolicy: Always
+        name: pre-upgrade-checker
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
