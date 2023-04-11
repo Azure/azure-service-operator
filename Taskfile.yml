@@ -172,7 +172,7 @@ tasks:
     dir: '{{.ASOCTL_ROOT}}'
     deps: [controller:generate-crds]
     cmds:
-      - golangci-lint run --verbose --fast=false --timeout 5m --skip-dirs="(^|/)vendor($|/)" ./...
+      - golangci-lint run --verbose --fast=false --timeout 5m ./...
 
   asoctl:build:
     desc: Generate the {{.ASOCTL_APP}} binary.
@@ -229,7 +229,7 @@ tasks:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - golangci-lint run --verbose --fast=false --skip-dirs="(^|/)vendor($|/)"
+    - golangci-lint run --verbose --fast=false
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
@@ -283,7 +283,7 @@ tasks:
     dir: "{{.CONTROLLER_ROOT}}"
     cmds:
       # Setting GOGC to increase how much debris is tolerated before running GC
-      - GOGC=200 golangci-lint run --verbose --fast=false --timeout 15m --skip-dirs="(^|/)vendor($|/)" ./...
+      - GOGC=200 golangci-lint run --verbose --fast=false --timeout 20m ./...
 
   controller:verify-samples:
     desc: Verify that a sample exists for each supported resource
