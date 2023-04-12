@@ -76,7 +76,7 @@ func SetupPreUpgradeCheck(ctx context.Context) error {
 		}
 
 		if policy, ok := crd.Annotations["helm.sh/resource-policy"]; !ok || policy != "keep" {
-			err = errors.New(fmt.Sprintf("looks like CRD '%s' does not contain helm keep policy. Make sure the upgrade is from beta.5", crd.Name))
+			err = errors.New(fmt.Sprintf("CRD '%s' does not have annotation for helm keep policy. Make sure the upgrade is from beta.5", crd.Name))
 			errs = append(errs, err)
 		}
 	}
