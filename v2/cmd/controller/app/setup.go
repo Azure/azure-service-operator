@@ -51,7 +51,11 @@ import (
 )
 
 func SetupPreUpgradeCheck(ctx context.Context) error {
-	cfg := clientconfig.GetConfigOrDie()
+	cfg, err := clientconfig.GetConfig()
+	if err != nil {
+		return errors.Wrap(err, "unable to get client config")
+	}
+
 	apiExtClient, err := apiextensionsclient.NewForConfig(cfg)
 	if err != nil {
 		return errors.Wrap(err, "unable to create kubernetes client")
@@ -77,11 +81,7 @@ func SetupPreUpgradeCheck(ctx context.Context) error {
 		}
 	}
 
-	if err = kerrors.NewAggregate(errs); err != nil {
-		return err
-	}
-
-	return nil
+	return kerrors.NewAggregate(errs)
 }
 
 func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) manager.Manager {
@@ -102,12 +102,12 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	k8sConfig := ctrl.GetConfigOrDie()
 	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
 		Scheme:                 scheme,
-		MetricsBindAddress:     flgs.metricsAddr,
+		MetricsBindAddress:     flgs.MetricsAddr,
 		NewCache:               cacheFunc,
-		LeaderElection:         flgs.enableLeaderElection,
+		LeaderElection:         flgs.EnableLeaderElection,
 		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
 		Port:                   9443,
-		HealthProbeBindAddress: flgs.healthAddr,
+		HealthProbeBindAddress: flgs.HealthAddr,
 	})
 
 	if err != nil {
@@ -141,8 +141,8 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 
 	nonReadyResources := crdmanagement.GetNonReadyCRDs(cfg, crdManager, goalCRDs, existingCRDs)
 
-	if len(flgs.crdPatterns) > 0 {
-		err = crdManager.ApplyCRDs(ctx, goalCRDs, existingCRDs, flgs.crdPatterns)
+	if len(flgs.CrdPatterns) > 0 {
+		err = crdManager.ApplyCRDs(ctx, goalCRDs, existingCRDs, flgs.CrdPatterns)
 		if err != nil {
 			setupLog.Error(err, "failed to apply CRDs")
 			os.Exit(1)
@@ -150,6 +150,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	}
 
 	if cfg.OperatorMode.IncludesWatchers() {
+		//nolint:contextcheck
 		err = initializeWatchers(nonReadyResources, cfg, mgr, clients)
 		if err != nil {
 			setupLog.Error(err, "failed to initialize watchers")

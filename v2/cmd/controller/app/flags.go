@@ -16,11 +16,11 @@ import (
 )
 
 type Flags struct {
-	metricsAddr          string
-	healthAddr           string
-	enableLeaderElection bool
-	crdPatterns          []string
-	preUpgradeCheck      bool
+	MetricsAddr          string
+	HealthAddr           string
+	EnableLeaderElection bool
+	CrdPatterns          []string
+	PreUpgradeCheck      bool
 }
 
 func ParseFlags(args []string) (Flags, error) {
@@ -34,7 +34,7 @@ func ParseFlags(args []string) (Flags, error) {
 	var crdPatterns internalflags.SliceFlags
 	var preUpgradeCheck bool
 
-	// default here for 'metricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
+	// default here for 'MetricsAddr' is set to "0", which sets metrics to be disabled if 'metrics-addr' flag is omitted.
 	flagSet.StringVar(&metricsAddr, "metrics-addr", "0", "The address the metric endpoint binds to.")
 	flagSet.StringVar(&healthAddr, "health-addr", "", "The address the healthz endpoint binds to.")
 	flagSet.BoolVar(&enableLeaderElection, "enable-leader-election", false,
@@ -53,14 +53,10 @@ func ParseFlags(args []string) (Flags, error) {
 	}
 
 	return Flags{
-		metricsAddr:          metricsAddr,
-		healthAddr:           healthAddr,
-		enableLeaderElection: enableLeaderElection,
-		crdPatterns:          crdPatterns,
-		preUpgradeCheck:      preUpgradeCheck,
+		MetricsAddr:          metricsAddr,
+		HealthAddr:           healthAddr,
+		EnableLeaderElection: enableLeaderElection,
+		CrdPatterns:          crdPatterns,
+		PreUpgradeCheck:      preUpgradeCheck,
 	}, nil
-}
-
-func (f *Flags) PreUpgradeCheck() bool {
-	return f.preUpgradeCheck
 }

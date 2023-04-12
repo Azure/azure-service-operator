@@ -26,10 +26,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	if flgs.PreUpgradeCheck() {
+	if flgs.PreUpgradeCheck {
 		err = app.SetupPreUpgradeCheck(ctx)
 		if err != nil {
-			setupLog.Error(err, "failed to run pre-upgrade checks")
+			setupLog.Error(err, "pre-upgrade check failed")
 			os.Exit(1)
 		}
 	} else {
