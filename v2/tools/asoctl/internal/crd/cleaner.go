@@ -49,6 +49,7 @@ func NewCleaner(
 		client:              client,
 		migrationBackoff:    migrationBackoff,
 		dryRun:              dryRun,
+		log:                 log,
 	}
 }
 
