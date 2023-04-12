@@ -302,8 +302,9 @@ type EncryptionDetails_STATUS struct {
 // Storage version of v1api20210601.ManagedIdentity
 // The workspace managed identity
 type ManagedIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20210601.ManagedIdentity_STATUS
@@ -416,6 +417,13 @@ type CustomerManagedKeyDetails_STATUS struct {
 	Key         *WorkspaceKeyDetails_STATUS   `json:"key,omitempty"`
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Status      *string                       `json:"status,omitempty"`
+}
+
+// Storage version of v1api20210601.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20210601.UserAssignedManagedIdentity_STATUS

@@ -43,7 +43,8 @@ func (workspace *Workspace_Spec_ARM) GetType() string {
 // The workspace managed identity
 type ManagedIdentity_ARM struct {
 	// Type: The type of managed identity for the workspace
-	Type *ManagedIdentity_Type `json:"type,omitempty"`
+	Type                   *ManagedIdentity_Type                      `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Workspace properties
@@ -143,6 +144,10 @@ type ManagedVirtualNetworkSettings_ARM struct {
 // Purview Configuration
 type PurviewConfiguration_ARM struct {
 	PurviewResourceId *string `json:"purviewResourceId,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Virtual Network Profile

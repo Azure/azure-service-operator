@@ -40,6 +40,7 @@
 | SparkConfigProperties_ConfigurationType             | v1api20210601 |
 | SparkConfigProperties_ConfigurationType_STATUS      | v1api20210601 |
 | SparkConfigProperties_STATUS                        | v1api20210601 |
+| UserAssignedIdentityDetails                         | v1api20210601 |
 | UserAssignedManagedIdentity_STATUS                  | v1api20210601 |
 | VirtualNetworkProfile                               | v1api20210601 |
 | VirtualNetworkProfile_STATUS                        | v1api20210601 |
