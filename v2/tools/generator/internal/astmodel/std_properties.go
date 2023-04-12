@@ -18,10 +18,34 @@ const (
 	OperatorSpecConfigMapsProperty   = "ConfigMaps"
 	ConditionsProperty               = "Conditions"
 	OptionalConfigMapReferenceSuffix = "FromConfig"
+	UserAssignedIdentitiesProperty   = "UserAssignedIdentities"
+	UserAssignedIdentitiesTypeName   = "UserAssignedIdentityDetails"
 )
 
 // IsKubernetesResourceProperty returns true if the supplied property name is one of the properties required by the
 // KubernetesResource interface.
 func IsKubernetesResourceProperty(name PropertyName) bool {
 	return name == AzureNameProperty || name == OwnerProperty
+}
+
+func IsUserAssignedIdentityProperty(prop *PropertyDefinition) (TypeName, bool) {
+	if !prop.HasName(UserAssignedIdentitiesProperty) {
+		return EmptyTypeName, false
+	}
+
+	arrayType, isArray := prop.PropertyType().(*ArrayType)
+	if !isArray {
+		return EmptyTypeName, false
+	}
+
+	typeName, ok := AsTypeName(arrayType.Element())
+	if !ok {
+		return EmptyTypeName, false
+	}
+
+	if typeName.Name() != UserAssignedIdentitiesTypeName {
+		return EmptyTypeName, false
+	}
+
+	return typeName, true
 }

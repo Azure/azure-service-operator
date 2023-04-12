@@ -41,7 +41,8 @@ func (server *Server_Spec_ARM) GetType() string {
 type ResourceIdentity_ARM struct {
 	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
 	// Directory principal for the resource.
-	Type *ResourceIdentity_Type `json:"type,omitempty"`
+	Type                   *ResourceIdentity_Type                     `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // The properties of a server.
@@ -106,4 +107,8 @@ type ServerExternalAdministrator_ARM struct {
 
 	// TenantId: Tenant ID of the administrator.
 	TenantId *string `json:"tenantId,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }

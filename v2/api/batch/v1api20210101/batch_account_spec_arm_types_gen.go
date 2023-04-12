@@ -62,7 +62,8 @@ type BatchAccountCreateProperties_ARM struct {
 // their Batch account encryption configuration.
 type BatchAccountIdentity_ARM struct {
 	// Type: The type of identity used for the Batch account.
-	Type *BatchAccountIdentity_Type `json:"type,omitempty"`
+	Type                   *BatchAccountIdentity_Type                 `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // The properties related to the auto-storage account.
@@ -95,6 +96,10 @@ type KeyVaultReference_ARM struct {
 
 	// Url: The URL of the Azure key vault associated with the Batch account.
 	Url *string `json:"url,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.

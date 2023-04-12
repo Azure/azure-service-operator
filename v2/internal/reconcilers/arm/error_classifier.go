@@ -49,6 +49,7 @@ func classifyCloudError(err *genericarmclient.CloudError) core.ErrorClassificati
 	case "AnotherOperationInProgress",
 		"AuthorizationFailed",
 		"AllocationFailed",
+		"FailedIdentityOperation",
 		"InvalidResourceReference",
 		"InvalidSubscriptionRegistrationState",
 		"LinkedAuthorizationFailed",

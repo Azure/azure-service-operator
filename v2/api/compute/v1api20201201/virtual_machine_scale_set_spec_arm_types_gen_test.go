@@ -330,6 +330,9 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIdentity_ARM(subject Virtu
 var virtualMachineScaleSetIdentity_ARMGenerator gopter.Gen
 
 // VirtualMachineScaleSetIdentity_ARMGenerator returns a generator of VirtualMachineScaleSetIdentity_ARM instances for property testing.
+// We first initialize virtualMachineScaleSetIdentity_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func VirtualMachineScaleSetIdentity_ARMGenerator() gopter.Gen {
 	if virtualMachineScaleSetIdentity_ARMGenerator != nil {
 		return virtualMachineScaleSetIdentity_ARMGenerator
@@ -337,6 +340,12 @@ func VirtualMachineScaleSetIdentity_ARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_ARM(generators)
+	virtualMachineScaleSetIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_ARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_ARM(generators)
 	virtualMachineScaleSetIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_ARM{}), generators)
 
 	return virtualMachineScaleSetIdentity_ARMGenerator
@@ -349,6 +358,11 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_ARM(gens 
 		VirtualMachineScaleSetIdentity_Type_SystemAssigned,
 		VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned,
 		VirtualMachineScaleSetIdentity_Type_UserAssigned))
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -753,6 +767,61 @@ func AddIndependentPropertyGeneratorsForUpgradePolicy_ARM(gens map[string]gopter
 func AddRelatedPropertyGeneratorsForUpgradePolicy_ARM(gens map[string]gopter.Gen) {
 	gens["AutomaticOSUpgradePolicy"] = gen.PtrOf(AutomaticOSUpgradePolicy_ARMGenerator())
 	gens["RollingUpgradePolicy"] = gen.PtrOf(RollingUpgradePolicy_ARMGenerator())
+}
+
+func Test_UserAssignedIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UserAssignedIdentityDetails_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityDetails_ARM, UserAssignedIdentityDetails_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUserAssignedIdentityDetails_ARM runs a test to see if a specific instance of UserAssignedIdentityDetails_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityDetails_ARM(subject UserAssignedIdentityDetails_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UserAssignedIdentityDetails_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UserAssignedIdentityDetails_ARM instances for property testing - lazily instantiated by
+// UserAssignedIdentityDetails_ARMGenerator()
+var userAssignedIdentityDetails_ARMGenerator gopter.Gen
+
+// UserAssignedIdentityDetails_ARMGenerator returns a generator of UserAssignedIdentityDetails_ARM instances for property testing.
+func UserAssignedIdentityDetails_ARMGenerator() gopter.Gen {
+	if userAssignedIdentityDetails_ARMGenerator != nil {
+		return userAssignedIdentityDetails_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	userAssignedIdentityDetails_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails_ARM{}), generators)
+
+	return userAssignedIdentityDetails_ARMGenerator
 }
 
 func Test_VirtualMachineScaleSetVMProfile_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

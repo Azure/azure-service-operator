@@ -785,7 +785,7 @@ func AddIndependentPropertyGeneratorsForIdentityProperties(gens map[string]gopte
 
 // AddRelatedPropertyGeneratorsForIdentityProperties is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentityProperties(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentityPropertiesGenerator())
+	gens["UserAssignedIdentities"] = gen.SliceOf(UserAssignedIdentityDetailsGenerator())
 }
 
 func Test_IdentityProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3133,32 +3133,32 @@ func AddIndependentPropertyGeneratorsForTrustPolicy_STATUS(gens map[string]gopte
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(TrustPolicy_Type_STATUS_Notary))
 }
 
-func Test_UserIdentityProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from UserIdentityProperties to UserIdentityProperties via AssignProperties_To_UserIdentityProperties & AssignProperties_From_UserIdentityProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUserIdentityProperties, UserIdentityPropertiesGenerator()))
+		"Round trip from UserAssignedIdentityDetails to UserAssignedIdentityDetails via AssignProperties_To_UserAssignedIdentityDetails & AssignProperties_From_UserAssignedIdentityDetails returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentityDetails, UserAssignedIdentityDetailsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUserIdentityProperties tests if a specific instance of UserIdentityProperties can be assigned to v1api20210901storage and back losslessly
-func RunPropertyAssignmentTestForUserIdentityProperties(subject UserIdentityProperties) string {
+// RunPropertyAssignmentTestForUserAssignedIdentityDetails tests if a specific instance of UserAssignedIdentityDetails can be assigned to v1api20210901storage and back losslessly
+func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssignedIdentityDetails) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1api20210901s.UserIdentityProperties
-	err := copied.AssignProperties_To_UserIdentityProperties(&other)
+	var other v1api20210901s.UserAssignedIdentityDetails
+	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UserIdentityProperties
-	err = actual.AssignProperties_From_UserIdentityProperties(&other)
+	var actual UserAssignedIdentityDetails
+	err = actual.AssignProperties_From_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3175,20 +3175,20 @@ func RunPropertyAssignmentTestForUserIdentityProperties(subject UserIdentityProp
 	return ""
 }
 
-func Test_UserIdentityProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of UserIdentityProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserIdentityProperties, UserIdentityPropertiesGenerator()))
+		"Round trip of UserAssignedIdentityDetails via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityDetails, UserAssignedIdentityDetailsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserIdentityProperties runs a test to see if a specific instance of UserIdentityProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserIdentityProperties(subject UserIdentityProperties) string {
+// RunJSONSerializationTestForUserAssignedIdentityDetails runs a test to see if a specific instance of UserAssignedIdentityDetails round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityDetails(subject UserAssignedIdentityDetails) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3196,7 +3196,7 @@ func RunJSONSerializationTestForUserIdentityProperties(subject UserIdentityPrope
 	}
 
 	// Deserialize back into memory
-	var actual UserIdentityProperties
+	var actual UserAssignedIdentityDetails
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3214,27 +3214,20 @@ func RunJSONSerializationTestForUserIdentityProperties(subject UserIdentityPrope
 	return ""
 }
 
-// Generator of UserIdentityProperties instances for property testing - lazily instantiated by
-// UserIdentityPropertiesGenerator()
-var userIdentityPropertiesGenerator gopter.Gen
+// Generator of UserAssignedIdentityDetails instances for property testing - lazily instantiated by
+// UserAssignedIdentityDetailsGenerator()
+var userAssignedIdentityDetailsGenerator gopter.Gen
 
-// UserIdentityPropertiesGenerator returns a generator of UserIdentityProperties instances for property testing.
-func UserIdentityPropertiesGenerator() gopter.Gen {
-	if userIdentityPropertiesGenerator != nil {
-		return userIdentityPropertiesGenerator
+// UserAssignedIdentityDetailsGenerator returns a generator of UserAssignedIdentityDetails instances for property testing.
+func UserAssignedIdentityDetailsGenerator() gopter.Gen {
+	if userAssignedIdentityDetailsGenerator != nil {
+		return userAssignedIdentityDetailsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserIdentityProperties(generators)
-	userIdentityPropertiesGenerator = gen.Struct(reflect.TypeOf(UserIdentityProperties{}), generators)
+	userAssignedIdentityDetailsGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails{}), generators)
 
-	return userIdentityPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUserIdentityProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserIdentityProperties(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+	return userAssignedIdentityDetailsGenerator
 }
 
 func Test_UserIdentityProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

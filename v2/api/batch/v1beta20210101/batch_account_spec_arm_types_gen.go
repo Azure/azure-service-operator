@@ -42,7 +42,8 @@ type BatchAccountCreateProperties_ARM struct {
 
 // Deprecated version of BatchAccountIdentity. Use v1api20210101.BatchAccountIdentity instead
 type BatchAccountIdentity_ARM struct {
-	Type *BatchAccountIdentity_Type `json:"type,omitempty"`
+	Type                   *BatchAccountIdentity_Type                 `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of AutoStorageBaseProperties. Use v1api20210101.AutoStorageBaseProperties instead
@@ -70,6 +71,10 @@ type EncryptionProperties_ARM struct {
 type KeyVaultReference_ARM struct {
 	Id  *string `json:"id,omitempty"`
 	Url *string `json:"url,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Deprecated version of KeyVaultProperties. Use v1api20210101.KeyVaultProperties instead

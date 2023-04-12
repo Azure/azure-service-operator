@@ -1861,10 +1861,10 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 
 // Deprecated version of IdentityProperties. Use v1api20210901.IdentityProperties instead
 type IdentityProperties struct {
-	PrincipalId            *string                           `json:"principalId,omitempty"`
-	TenantId               *string                           `json:"tenantId,omitempty"`
-	Type                   *IdentityProperties_Type          `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserIdentityProperties `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                       `json:"principalId,omitempty"`
+	TenantId               *string                       `json:"tenantId,omitempty"`
+	Type                   *IdentityProperties_Type      `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &IdentityProperties{}
@@ -1895,15 +1895,14 @@ func (properties *IdentityProperties) ConvertToARM(resolved genruntime.ConvertTo
 	}
 
 	// Set property ‘UserAssignedIdentities’:
-	if properties.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]UserIdentityProperties_ARM, len(properties.UserAssignedIdentities))
-		for key, value := range properties.UserAssignedIdentities {
-			value_ARM, err := value.ConvertToARM(resolved)
-			if err != nil {
-				return nil, err
-			}
-			result.UserAssignedIdentities[key] = *value_ARM.(*UserIdentityProperties_ARM)
+	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(properties.UserAssignedIdentities))
+	for _, ident := range properties.UserAssignedIdentities {
+		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
+		if err != nil {
+			return nil, err
 		}
+		key := identARMID
+		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
 	}
 	return result, nil
 }
@@ -1938,18 +1937,7 @@ func (properties *IdentityProperties) PopulateFromARM(owner genruntime.Arbitrary
 		properties.Type = &typeVar
 	}
 
-	// Set property ‘UserAssignedIdentities’:
-	if typedInput.UserAssignedIdentities != nil {
-		properties.UserAssignedIdentities = make(map[string]UserIdentityProperties, len(typedInput.UserAssignedIdentities))
-		for key, value := range typedInput.UserAssignedIdentities {
-			var value1 UserIdentityProperties
-			err := value1.PopulateFromARM(owner, value)
-			if err != nil {
-				return err
-			}
-			properties.UserAssignedIdentities[key] = value1
-		}
-	}
+	// no assignment for property ‘UserAssignedIdentities’
 
 	// No error
 	return nil
@@ -1974,18 +1962,18 @@ func (properties *IdentityProperties) AssignProperties_From_IdentityProperties(s
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]UserIdentityProperties, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity UserIdentityProperties
-			err := userAssignedIdentity.AssignProperties_From_UserIdentityProperties(&userAssignedIdentityValue)
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity UserAssignedIdentityDetails
+			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserIdentityProperties() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
-		properties.UserAssignedIdentities = userAssignedIdentityMap
+		properties.UserAssignedIdentities = userAssignedIdentityList
 	} else {
 		properties.UserAssignedIdentities = nil
 	}
@@ -2015,18 +2003,18 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 
 	// UserAssignedIdentities
 	if properties.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20210901s.UserIdentityProperties, len(properties.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range properties.UserAssignedIdentities {
+		userAssignedIdentityList := make([]v20210901s.UserAssignedIdentityDetails, len(properties.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range properties.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20210901s.UserIdentityProperties
-			err := userAssignedIdentityValue.AssignProperties_To_UserIdentityProperties(&userAssignedIdentity)
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity v20210901s.UserAssignedIdentityDetails
+			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserIdentityProperties() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
+		destination.UserAssignedIdentities = userAssignedIdentityList
 	} else {
 		destination.UserAssignedIdentities = nil
 	}
@@ -4529,86 +4517,28 @@ func (policy *TrustPolicy_STATUS) AssignProperties_To_TrustPolicy_STATUS(destina
 	return nil
 }
 
-// Deprecated version of UserIdentityProperties. Use v1api20210901.UserIdentityProperties instead
-type UserIdentityProperties struct {
-	ClientId    *string `json:"clientId,omitempty"`
-	PrincipalId *string `json:"principalId,omitempty"`
+// Deprecated version of UserAssignedIdentityDetails. Use v1api20210901.UserAssignedIdentityDetails instead
+type UserAssignedIdentityDetails struct {
+	Reference genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &UserIdentityProperties{}
+// AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20210901s.UserAssignedIdentityDetails) error {
 
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (properties *UserIdentityProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if properties == nil {
-		return nil, nil
-	}
-	result := &UserIdentityProperties_ARM{}
-
-	// Set property ‘ClientId’:
-	if properties.ClientId != nil {
-		clientId := *properties.ClientId
-		result.ClientId = &clientId
-	}
-
-	// Set property ‘PrincipalId’:
-	if properties.PrincipalId != nil {
-		principalId := *properties.PrincipalId
-		result.PrincipalId = &principalId
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *UserIdentityProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserIdentityProperties_ARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *UserIdentityProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserIdentityProperties_ARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserIdentityProperties_ARM, got %T", armInput)
-	}
-
-	// Set property ‘ClientId’:
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		properties.ClientId = &clientId
-	}
-
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		properties.PrincipalId = &principalId
-	}
+	// Reference
+	details.Reference = source.Reference.Copy()
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_UserIdentityProperties populates our UserIdentityProperties from the provided source UserIdentityProperties
-func (properties *UserIdentityProperties) AssignProperties_From_UserIdentityProperties(source *v20210901s.UserIdentityProperties) error {
-
-	// ClientId
-	properties.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserIdentityProperties populates the provided destination UserIdentityProperties from our UserIdentityProperties
-func (properties *UserIdentityProperties) AssignProperties_To_UserIdentityProperties(destination *v20210901s.UserIdentityProperties) error {
+// AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20210901s.UserAssignedIdentityDetails) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(properties.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(properties.PrincipalId)
+	// Reference
+	destination.Reference = details.Reference.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -478,12 +478,14 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── HostGroup: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── Identity: *Object (1 property)
-│   │   │   └── Type: *Enum (4 values)
-│   │   │       ├── "None"
-│   │   │       ├── "SystemAssigned"
-│   │   │       ├── "SystemAssigned, UserAssigned"
-│   │   │       └── "UserAssigned"
+│   │   ├── Identity: *Object (2 properties)
+│   │   │   ├── Type: *Enum (4 values)
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── LicenseType: *string
 │   │   ├── Location: *string
 │   │   ├── NetworkProfile: *Object (3 properties)
@@ -961,14 +963,17 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301
 │       ├── HostGroup: *Object (1 property)
 │       │   └── Id: *string
 │       ├── Id: *string
-│       ├── Identity: *Object (3 properties)
+│       ├── Identity: *Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   └── Type: *Enum (4 values)
-│       │       ├── "None"
-│       │       ├── "SystemAssigned"
-│       │       ├── "SystemAssigned, UserAssigned"
-│       │       └── "UserAssigned"
+│       │   ├── Type: *Enum (4 values)
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   ├── "SystemAssigned, UserAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: map[string]Object (2 properties)
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
 │       ├── InstanceView: *Object (16 properties)
 │       │   ├── AssignedHost: *string
 │       │   ├── BootDiagnostics: *Object (3 properties)
@@ -1488,12 +1493,14 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301
 │   │   │       └── "EdgeZone"
 │   │   ├── HostGroup: *Object (1 property)
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── Identity: *Object (1 property)
-│   │   │   └── Type: *Enum (4 values)
-│   │   │       ├── "None"
-│   │   │       ├── "SystemAssigned"
-│   │   │       ├── "SystemAssigned, UserAssigned"
-│   │   │       └── "UserAssigned"
+│   │   ├── Identity: *Object (2 properties)
+│   │   │   ├── Type: *Enum (4 values)
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── OrchestrationMode: *Enum (2 values)
 │   │   │   ├── "Flexible"
@@ -1841,14 +1848,17 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301
 │       ├── HostGroup: *Object (1 property)
 │       │   └── Id: *string
 │       ├── Id: *string
-│       ├── Identity: *Object (3 properties)
+│       ├── Identity: *Object (4 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── TenantId: *string
-│       │   └── Type: *Enum (4 values)
-│       │       ├── "None"
-│       │       ├── "SystemAssigned"
-│       │       ├── "SystemAssigned, UserAssigned"
-│       │       └── "UserAssigned"
+│       │   ├── Type: *Enum (4 values)
+│       │   │   ├── "None"
+│       │   │   ├── "SystemAssigned"
+│       │   │   ├── "SystemAssigned, UserAssigned"
+│       │   │   └── "UserAssigned"
+│       │   └── UserAssignedIdentities: map[string]Object (2 properties)
+│       │       ├── ClientId: *string
+│       │       └── PrincipalId: *string
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── OrchestrationMode: *Enum (2 values)
@@ -2183,14 +2193,17 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301
 │   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
-│   ├── Identity: *Object (3 properties)
+│   ├── Identity: *Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   └── Type: *Enum (4 values)
-│   │       ├── "None"
-│   │       ├── "SystemAssigned"
-│   │       ├── "SystemAssigned, UserAssigned"
-│   │       └── "UserAssigned"
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: map[string]Object (2 properties)
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
 │   ├── Location: *string
 │   ├── Name: *string
 │   ├── Plan: *Object (4 properties)
@@ -2542,12 +2555,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301
 │   │   ├── Name: *string
 │   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
-│   ├── Identity: *Object (1 property)
-│   │   └── Type: *Enum (4 values)
-│   │       ├── "None"
-│   │       ├── "SystemAssigned"
-│   │       ├── "SystemAssigned, UserAssigned"
-│   │       └── "UserAssigned"
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: map[string]Object (0 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Plan: *Object (4 properties)
@@ -2893,14 +2907,17 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301
 │   │   └── Type: *Enum (1 value)
 │   │       └── "EdgeZone"
 │   ├── Id: *string
-│   ├── Identity: *Object (3 properties)
+│   ├── Identity: *Object (4 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
-│   │   └── Type: *Enum (4 values)
-│   │       ├── "None"
-│   │       ├── "SystemAssigned"
-│   │       ├── "SystemAssigned, UserAssigned"
-│   │       └── "UserAssigned"
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: map[string]Object (2 properties)
+│   │       ├── ClientId: *string
+│   │       └── PrincipalId: *string
 │   ├── Location: *string
 │   ├── Name: *string
 │   ├── Plan: *Object (4 properties)
@@ -3611,12 +3628,13 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301
     │   ├── Name: *string
     │   └── Type: *Enum (1 value)
     │       └── "EdgeZone"
-    ├── Identity: *Object (1 property)
-    │   └── Type: *Enum (4 values)
-    │       ├── "None"
-    │       ├── "SystemAssigned"
-    │       ├── "SystemAssigned, UserAssigned"
-    │       └── "UserAssigned"
+    ├── Identity: *Object (2 properties)
+    │   ├── Type: *Enum (4 values)
+    │   │   ├── "None"
+    │   │   ├── "SystemAssigned"
+    │   │   ├── "SystemAssigned, UserAssigned"
+    │   │   └── "UserAssigned"
+    │   └── UserAssignedIdentities: map[string]Object (0 properties)
     ├── Location: *string
     ├── Name: string
     ├── Plan: *Object (4 properties)

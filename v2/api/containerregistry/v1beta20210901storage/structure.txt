@@ -22,10 +22,9 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901s
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── TenantId: *string
 │   │   │   ├── Type: *string
-│   │   │   └── UserAssignedIdentities: map[string]Object (3 properties)
-│   │   │       ├── ClientId: *string
-│   │   │       ├── PrincipalId: *string
-│   │   │       └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── NetworkRuleBypassOptions: *string
 │   │   ├── NetworkRuleSet: *Object (3 properties)
@@ -168,5 +167,5 @@ github.com/Azure/azure-service-operator/v2/api/containerregistry/v1beta20210901s
 ├── augmentConversionForSystemData_STATUS: Interface
 ├── augmentConversionForTrustPolicy: Interface
 ├── augmentConversionForTrustPolicy_STATUS: Interface
-├── augmentConversionForUserIdentityProperties: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
 └── augmentConversionForUserIdentityProperties_STATUS: Interface

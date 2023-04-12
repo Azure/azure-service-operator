@@ -27,4 +27,5 @@
 | PrivateEndpointConnection_STATUS                   | v1api20210101 | v1beta20210101 |
 | PublicNetworkAccessType                            | v1api20210101 | v1beta20210101 |
 | PublicNetworkAccessType_STATUS                     | v1api20210101 | v1beta20210101 |
+| UserAssignedIdentityDetails                        | v1api20210101 | v1beta20210101 |
 | VirtualMachineFamilyCoreQuota_STATUS               | v1api20210101 | v1beta20210101 |
