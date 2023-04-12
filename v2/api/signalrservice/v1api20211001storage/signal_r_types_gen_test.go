@@ -308,6 +308,9 @@ func RunJSONSerializationTestForManagedIdentity(subject ManagedIdentity) string 
 var managedIdentityGenerator gopter.Gen
 
 // ManagedIdentityGenerator returns a generator of ManagedIdentity instances for property testing.
+// We first initialize managedIdentityGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ManagedIdentityGenerator() gopter.Gen {
 	if managedIdentityGenerator != nil {
 		return managedIdentityGenerator
@@ -317,12 +320,23 @@ func ManagedIdentityGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForManagedIdentity(generators)
 	managedIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedIdentity(generators)
+	AddRelatedPropertyGeneratorsForManagedIdentity(generators)
+	managedIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity{}), generators)
+
 	return managedIdentityGenerator
 }
 
 // AddIndependentPropertyGeneratorsForManagedIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedIdentity(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedIdentity is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedIdentity(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.SliceOf(UserAssignedIdentityDetailsGenerator())
 }
 
 func Test_ManagedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2002,6 +2016,61 @@ func AddIndependentPropertyGeneratorsForUpstreamTemplate_STATUS(gens map[string]
 // AddRelatedPropertyGeneratorsForUpstreamTemplate_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForUpstreamTemplate_STATUS(gens map[string]gopter.Gen) {
 	gens["Auth"] = gen.PtrOf(UpstreamAuthSettings_STATUSGenerator())
+}
+
+func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UserAssignedIdentityDetails via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityDetails, UserAssignedIdentityDetailsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUserAssignedIdentityDetails runs a test to see if a specific instance of UserAssignedIdentityDetails round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityDetails(subject UserAssignedIdentityDetails) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UserAssignedIdentityDetails
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UserAssignedIdentityDetails instances for property testing - lazily instantiated by
+// UserAssignedIdentityDetailsGenerator()
+var userAssignedIdentityDetailsGenerator gopter.Gen
+
+// UserAssignedIdentityDetailsGenerator returns a generator of UserAssignedIdentityDetails instances for property testing.
+func UserAssignedIdentityDetailsGenerator() gopter.Gen {
+	if userAssignedIdentityDetailsGenerator != nil {
+		return userAssignedIdentityDetailsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	userAssignedIdentityDetailsGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails{}), generators)
+
+	return userAssignedIdentityDetailsGenerator
 }
 
 func Test_UserAssignedIdentityProperty_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -22,9 +22,12 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101storage
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── RequireInfrastructureEncryption: *bool
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── IsAutoInflateEnabled: *bool
 │   │   ├── KafkaEnabled: *bool
 │   │   ├── Location: *string

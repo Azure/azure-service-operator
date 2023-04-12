@@ -84,6 +84,7 @@
 | ResourceRequirements                                  | v1api20211001 | v1beta20211001 |
 | ResourceRequirements_STATUS                           | v1api20211001 | v1beta20211001 |
 | UserAssignedIdentities_STATUS                         | v1api20211001 | v1beta20211001 |
+| UserAssignedIdentityDetails                           | v1api20211001 | v1beta20211001 |
 | Volume                                                | v1api20211001 | v1beta20211001 |
 | VolumeMount                                           | v1api20211001 | v1beta20211001 |
 | VolumeMount_STATUS                                    | v1api20211001 | v1beta20211001 |

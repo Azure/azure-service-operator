@@ -53,7 +53,8 @@ type ContainerGroup_Properties_Spec_ARM struct {
 
 // Deprecated version of ContainerGroupIdentity. Use v1api20211001.ContainerGroupIdentity instead
 type ContainerGroupIdentity_ARM struct {
-	Type *ContainerGroupIdentity_Type `json:"type,omitempty"`
+	Type                   *ContainerGroupIdentity_Type               `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of Container. Use v1api20211001.Container instead
@@ -120,6 +121,10 @@ type IpAddress_ARM struct {
 	Ip                                *string                                      `json:"ip,omitempty"`
 	Ports                             []Port_ARM                                   `json:"ports,omitempty"`
 	Type                              *IpAddress_Type                              `json:"type,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Deprecated version of Volume. Use v1api20211001.Volume instead

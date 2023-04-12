@@ -43,7 +43,8 @@ func (server *FlexibleServer_Spec_ARM) GetType() string {
 // Properties to configure Identity for Bring your Own Keys
 type Identity_ARM struct {
 	// Type: Type of managed service identity.
-	Type *Identity_Type `json:"type,omitempty"`
+	Type                   *Identity_Type                             `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // The properties of a server.
@@ -178,4 +179,8 @@ type Storage_ARM struct {
 
 	// StorageSizeGB: Max storage size allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }

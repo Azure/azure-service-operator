@@ -13,6 +13,7 @@ const (
 	StorageFlag = TypeFlag("storage")
 	ARMFlag     = TypeFlag("arm")
 	OneOfFlag   = TypeFlag("oneof")
+	DoNotPrune  = TypeFlag("donotprune")
 )
 
 var _ fmt.Stringer = TypeFlag("")

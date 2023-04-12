@@ -183,5 +183,6 @@
 | UniqueKeyPolicy                                                           | v1api20210515 | v1beta20210515 |
 | UniqueKeyPolicy_STATUS                                                    | v1api20210515 | v1beta20210515 |
 | UniqueKey_STATUS                                                          | v1api20210515 | v1beta20210515 |
+| UserAssignedIdentityDetails                                               | v1api20210515 | v1beta20210515 |
 | VirtualNetworkRule                                                        | v1api20210515 | v1beta20210515 |
 | VirtualNetworkRule_STATUS                                                 | v1api20210515 | v1beta20210515 |

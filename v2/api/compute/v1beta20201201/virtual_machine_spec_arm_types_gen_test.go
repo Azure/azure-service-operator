@@ -142,6 +142,9 @@ func RunJSONSerializationTestForVirtualMachineIdentity_ARM(subject VirtualMachin
 var virtualMachineIdentity_ARMGenerator gopter.Gen
 
 // VirtualMachineIdentity_ARMGenerator returns a generator of VirtualMachineIdentity_ARM instances for property testing.
+// We first initialize virtualMachineIdentity_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func VirtualMachineIdentity_ARMGenerator() gopter.Gen {
 	if virtualMachineIdentity_ARMGenerator != nil {
 		return virtualMachineIdentity_ARMGenerator
@@ -149,6 +152,12 @@ func VirtualMachineIdentity_ARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForVirtualMachineIdentity_ARM(generators)
+	virtualMachineIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineIdentity_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineIdentity_ARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineIdentity_ARM(generators)
 	virtualMachineIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineIdentity_ARM{}), generators)
 
 	return virtualMachineIdentity_ARMGenerator
@@ -161,6 +170,11 @@ func AddIndependentPropertyGeneratorsForVirtualMachineIdentity_ARM(gens map[stri
 		VirtualMachineIdentity_Type_SystemAssigned,
 		VirtualMachineIdentity_Type_SystemAssignedUserAssigned,
 		VirtualMachineIdentity_Type_UserAssigned))
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineIdentity_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineIdentity_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_VirtualMachineProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -20,12 +20,14 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   │   │   │   ├── KeyVaultUri: *string
 │   │   │   │   └── KeyVersion: *string
 │   │   │   └── RequireInfrastructureEncryption: *bool
-│   │   ├── Identity: *Object (1 property)
-│   │   │   └── Type: *Enum (4 values)
-│   │   │       ├── "None"
-│   │   │       ├── "SystemAssigned"
-│   │   │       ├── "SystemAssigned, UserAssigned"
-│   │   │       └── "UserAssigned"
+│   │   ├── Identity: *Object (2 properties)
+│   │   │   ├── Type: *Enum (4 values)
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── IsAutoInflateEnabled: *bool
 │   │   ├── KafkaEnabled: *bool
 │   │   ├── Location: *string
@@ -181,12 +183,13 @@ github.com/Azure/azure-service-operator/v2/api/eventhub/v1beta20211101
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── Namespace_Spec_ARM: Object (6 properties)
-│   ├── Identity: *Object (1 property)
-│   │   └── Type: *Enum (4 values)
-│   │       ├── "None"
-│   │       ├── "SystemAssigned"
-│   │       ├── "SystemAssigned, UserAssigned"
-│   │       └── "UserAssigned"
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: map[string]Object (0 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: *Object (8 properties)

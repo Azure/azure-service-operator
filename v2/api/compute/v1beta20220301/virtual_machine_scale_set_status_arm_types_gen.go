@@ -37,9 +37,10 @@ type Sku_STATUS_ARM struct {
 
 // Deprecated version of VirtualMachineScaleSetIdentity_STATUS. Use v1api20220301.VirtualMachineScaleSetIdentity_STATUS instead
 type VirtualMachineScaleSetIdentity_STATUS_ARM struct {
-	PrincipalId *string                                     `json:"principalId,omitempty"`
-	TenantId    *string                                     `json:"tenantId,omitempty"`
-	Type        *VirtualMachineScaleSetIdentity_Type_STATUS `json:"type,omitempty"`
+	PrincipalId            *string                                                                     `json:"principalId,omitempty"`
+	TenantId               *string                                                                     `json:"tenantId,omitempty"`
+	Type                   *VirtualMachineScaleSetIdentity_Type_STATUS                                 `json:"type,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetProperties_STATUS. Use v1api20220301.VirtualMachineScaleSetProperties_STATUS instead
@@ -105,6 +106,12 @@ const (
 	VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
 	VirtualMachineScaleSetIdentity_Type_STATUS_UserAssigned               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
 )
+
+// Deprecated version of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS. Use v1api20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS instead
+type VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM struct {
+	ClientId    *string `json:"clientId,omitempty"`
+	PrincipalId *string `json:"principalId,omitempty"`
+}
 
 // Deprecated version of VirtualMachineScaleSetVMProfile_STATUS. Use v1api20220301.VirtualMachineScaleSetVMProfile_STATUS instead
 type VirtualMachineScaleSetVMProfile_STATUS_ARM struct {
