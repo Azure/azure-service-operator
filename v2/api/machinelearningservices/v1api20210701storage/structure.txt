@@ -23,9 +23,12 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api2021
 │   │   │   └── Status: *string
 │   │   ├── FriendlyName: *string
 │   │   ├── HbiWorkspace: *bool
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── ImageBuildCompute: *string
 │   │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   │   ├── Location: *string
@@ -158,9 +161,12 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api2021
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701.Workspace
 │   ├── Spec: Object (10 properties)
 │   │   ├── AzureName: string
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference

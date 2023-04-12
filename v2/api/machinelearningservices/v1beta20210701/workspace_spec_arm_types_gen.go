@@ -35,7 +35,8 @@ func (workspace *Workspace_Spec_ARM) GetType() string {
 
 // Deprecated version of Identity. Use v1api20210701.Identity instead
 type Identity_ARM struct {
-	Type *Identity_Type `json:"type,omitempty"`
+	Type                   *Identity_Type                             `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1api20210701.Sku instead
@@ -123,6 +124,10 @@ const (
 	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
+}
 
 // Deprecated version of CosmosDbSettings. Use v1api20210701.CosmosDbSettings instead
 type CosmosDbSettings_ARM struct {

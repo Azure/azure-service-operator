@@ -56,7 +56,8 @@ type ExtendedLocation_ARM struct {
 type ManagedClusterIdentity_ARM struct {
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
-	Type *ManagedClusterIdentity_Type `json:"type,omitempty"`
+	Type                   *ManagedClusterIdentity_Type               `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Properties of the managed cluster.
@@ -790,6 +791,10 @@ type UserAssignedIdentity_ARM struct {
 	// ObjectId: The object ID of the user assigned identity.
 	ObjectId   *string `json:"objectId,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Azure Key Vault key management service settings for the security profile.

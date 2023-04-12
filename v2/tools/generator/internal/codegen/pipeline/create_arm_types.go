@@ -27,8 +27,8 @@ func CreateARMTypes(idFactory astmodel.IdentifierFactory) *Stage {
 		CreateARMTypesStageID,
 		"Create types for interaction with ARM",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			armTypeCreator := &armTypeCreator{definitions: definitions, idFactory: idFactory}
-			armTypes, err := armTypeCreator.createARMTypes()
+			typeCreator := newARMTypeCreator(definitions, idFactory)
+			armTypes, err := typeCreator.createARMTypes()
 			if err != nil {
 				return nil, err
 			}
@@ -52,6 +52,19 @@ type armPropertyTypeConversionHandler func(prop *astmodel.PropertyDefinition, is
 type armTypeCreator struct {
 	definitions astmodel.TypeDefinitionSet
 	idFactory   astmodel.IdentifierFactory
+	newDefs     astmodel.TypeDefinitionSet
+	skipTypes   []func(it astmodel.TypeDefinition) bool
+}
+
+func newARMTypeCreator(definitions astmodel.TypeDefinitionSet, idFactory astmodel.IdentifierFactory) *armTypeCreator {
+	return &armTypeCreator{
+		definitions: definitions,
+		idFactory:   idFactory,
+		newDefs:     make(astmodel.TypeDefinitionSet),
+		skipTypes: []func(it astmodel.TypeDefinition) bool{
+			skipUserAssignedIdentity,
+		},
+	}
 }
 
 func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
@@ -82,6 +95,10 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 	})
 
 	for _, def := range otherDefs {
+		if !requiresARMType(def) {
+			continue
+		}
+
 		armDef, err := c.createARMTypeDefinition(
 			false, // not Spec type
 			def)
@@ -91,6 +108,8 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 
 		result.Add(armDef)
 	}
+
+	result.AddTypes(c.newDefs)
 
 	return result, nil
 }
@@ -245,6 +264,37 @@ func (c *armTypeCreator) createARMNameProperty(prop *astmodel.PropertyDefinition
 	return nil, nil
 }
 
+func (c *armTypeCreator) createUserAssignedIdentitiesProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+	typeName, ok := astmodel.IsUserAssignedIdentityProperty(prop)
+	if !ok {
+		return nil, nil
+	}
+
+	newTypeName := astmodel.CreateARMTypeName(typeName)
+	// TODO: Currently the shape of the this type is always empty. This is safe now because the expected value type
+	// TODO: of the map for all RPs is entirely readonly. If at some point in the future ARM allows users to pass
+	// TODO: values to the RP in the value of this map, we will need to be more intelligent about how we construct
+	// TODO: the map value type.
+	// TODO: Given that evolution of the UserAssignedIdentities API is infrequent and may never happen, we don't currently
+	// TODO: support that.
+	newType := astmodel.ARMFlag.ApplyTo(astmodel.DoNotPrune.ApplyTo(astmodel.EmptyObjectType))
+	newDef := astmodel.MakeTypeDefinition(newTypeName, newType).WithDescription(UserAssignedIdentityTypeDescription)
+
+	newPropType := astmodel.NewMapType(astmodel.StringType, newTypeName)
+
+	newProp := astmodel.NewPropertyDefinition(
+		c.idFactory.CreatePropertyName(astmodel.UserAssignedIdentitiesProperty, astmodel.Exported),
+		c.idFactory.CreateStringIdentifier(astmodel.UserAssignedIdentitiesProperty, astmodel.NotExported),
+		newPropType).MakeTypeOptional()
+
+	err := c.newDefs.AddAllowDuplicates(newDef)
+	if err != nil {
+		return nil, err
+	}
+
+	return newProp, nil
+}
+
 func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
 	if !astmodel.IsTypeResourceReference(prop.PropertyType()) {
 		return nil, nil
@@ -331,6 +381,7 @@ func (c *armTypeCreator) createARMProperty(prop *astmodel.PropertyDefinition, _ 
 func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, isSpecType bool) (*astmodel.ObjectType, error) {
 	propertyHandlers := []armPropertyTypeConversionHandler{
 		c.createARMNameProperty,
+		c.createUserAssignedIdentitiesProperty,
 		c.createResourceReferenceProperty,
 		c.createSecretReferenceProperty,
 		c.createConfigMapReferenceProperty,
@@ -388,4 +439,23 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 	}
 
 	return result, nil
+}
+
+var skipARMFuncs = []func(it astmodel.TypeDefinition) bool{
+	skipUserAssignedIdentity,
+}
+
+func skipUserAssignedIdentity(def astmodel.TypeDefinition) bool {
+	return def.Name().Name() == astmodel.UserAssignedIdentitiesTypeName
+}
+
+func requiresARMType(def astmodel.TypeDefinition) bool {
+	for _, f := range skipARMFuncs {
+		skip := f(def)
+		if skip {
+			return false
+		}
+	}
+
+	return true
 }

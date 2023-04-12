@@ -74,7 +74,8 @@ type DatabaseAccountCreateUpdateProperties_ARM struct {
 
 // Deprecated version of ManagedServiceIdentity. Use v1api20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentity_ARM struct {
-	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentity_Type               `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of AnalyticalStorageConfiguration. Use v1api20210515.AnalyticalStorageConfiguration instead
@@ -168,6 +169,10 @@ const (
 	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned,UserAssigned")
 	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
 )
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
+}
 
 // Deprecated version of VirtualNetworkRule. Use v1api20210515.VirtualNetworkRule instead
 type VirtualNetworkRule_ARM struct {

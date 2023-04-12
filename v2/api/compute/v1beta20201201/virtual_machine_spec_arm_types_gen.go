@@ -36,7 +36,8 @@ func (machine *VirtualMachine_Spec_ARM) GetType() string {
 
 // Deprecated version of VirtualMachineIdentity. Use v1api20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentity_ARM struct {
-	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
+	Type                   *VirtualMachineIdentity_Type               `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of VirtualMachineProperties. Use v1api20201201.VirtualMachineProperties instead

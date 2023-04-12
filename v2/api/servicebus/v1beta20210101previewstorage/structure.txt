@@ -17,9 +17,12 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── RequireInfrastructureEncryption: *bool
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── OperatorSpec: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -365,5 +368,6 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1beta20210101previews
 ├── augmentConversionForSqlFilter: Interface
 ├── augmentConversionForSqlFilter_STATUS: Interface
 ├── augmentConversionForSystemData_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
 ├── augmentConversionForUserAssignedIdentityProperties: Interface
 └── augmentConversionForUserAssignedIdentityProperties_STATUS: Interface

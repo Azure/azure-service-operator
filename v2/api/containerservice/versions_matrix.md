@@ -251,6 +251,7 @@
 | UpgradeOverrideSettings                                                              |               |               | v1api20230202preview |                |
 | UpgradeOverrideSettings_STATUS                                                       |               |               | v1api20230202preview |                |
 | UserAssignedIdentity                                                                 | v1api20210501 | v1api20230201 | v1api20230202preview | v1beta20210501 |
+| UserAssignedIdentityDetails                                                          | v1api20210501 | v1api20230201 | v1api20230202preview | v1beta20210501 |
 | UserAssignedIdentity_STATUS                                                          | v1api20210501 | v1api20230201 | v1api20230202preview | v1beta20210501 |
 | WindowsGmsaProfile                                                                   |               | v1api20230201 | v1api20230202preview |                |
 | WindowsGmsaProfile_STATUS                                                            |               | v1api20230201 | v1api20230202preview |                |

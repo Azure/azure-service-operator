@@ -6,6 +6,7 @@ allof-anyof-objects                                          Convert allOf and o
 flattenResources                                             Flatten nested resource types
 stripUnreferenced                                            Strip unreferenced types
 removeAliases                                                Remove type aliases
+handleUserAssignedIdentities                                 Transform UserAssignedIdentities on spec types be resource references with the expected shape
 nameTypes                                                    Name inner types for CRD
 propertyRewrites                                             Modify property types using configured transforms
 applyIsResourceOverrides                                     Apply $isResource overrides to objects

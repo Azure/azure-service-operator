@@ -332,6 +332,9 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIdentity_STATUS_ARM(subjec
 var virtualMachineScaleSetIdentity_STATUS_ARMGenerator gopter.Gen
 
 // VirtualMachineScaleSetIdentity_STATUS_ARMGenerator returns a generator of VirtualMachineScaleSetIdentity_STATUS_ARM instances for property testing.
+// We first initialize virtualMachineScaleSetIdentity_STATUS_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func VirtualMachineScaleSetIdentity_STATUS_ARMGenerator() gopter.Gen {
 	if virtualMachineScaleSetIdentity_STATUS_ARMGenerator != nil {
 		return virtualMachineScaleSetIdentity_STATUS_ARMGenerator
@@ -339,6 +342,12 @@ func VirtualMachineScaleSetIdentity_STATUS_ARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS_ARM(generators)
+	virtualMachineScaleSetIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_STATUS_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS_ARM(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS_ARM(generators)
 	virtualMachineScaleSetIdentity_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_STATUS_ARM{}), generators)
 
 	return virtualMachineScaleSetIdentity_STATUS_ARMGenerator
@@ -353,6 +362,11 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS_AR
 		VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssigned,
 		VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssignedUserAssigned,
 		VirtualMachineScaleSetIdentity_Type_STATUS_UserAssigned))
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetProperties_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -762,6 +776,68 @@ func AddIndependentPropertyGeneratorsForUpgradePolicy_STATUS_ARM(gens map[string
 func AddRelatedPropertyGeneratorsForUpgradePolicy_STATUS_ARM(gens map[string]gopter.Gen) {
 	gens["AutomaticOSUpgradePolicy"] = gen.PtrOf(AutomaticOSUpgradePolicy_STATUS_ARMGenerator())
 	gens["RollingUpgradePolicy"] = gen.PtrOf(RollingUpgradePolicy_STATUS_ARMGenerator())
+}
+
+func Test_VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM, VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM runs a test to see if a specific instance of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM(subject VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM instances for property testing - lazily
+// instantiated by VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator()
+var virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator gopter.Gen
+
+// VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator returns a generator of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM instances for property testing.
+func VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator() gopter.Gen {
+	if virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator != nil {
+		return virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM(generators)
+	virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM{}), generators)
+
+	return virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM(gens map[string]gopter.Gen) {
+	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualMachineScaleSetVMProfile_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

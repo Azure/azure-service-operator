@@ -256,11 +256,11 @@ type EncryptionProperty_STATUS struct {
 // Storage version of v1api20210901.IdentityProperties
 // Managed identity for the resource.
 type IdentityProperties struct {
-	PrincipalId            *string                           `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	TenantId               *string                           `json:"tenantId,omitempty"`
-	Type                   *string                           `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserIdentityProperties `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                       `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	TenantId               *string                       `json:"tenantId,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20210901.IdentityProperties_STATUS
@@ -446,11 +446,11 @@ type TrustPolicy_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1api20210901.UserIdentityProperties
-type UserIdentityProperties struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// Storage version of v1api20210901.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20210901.UserIdentityProperties_STATUS

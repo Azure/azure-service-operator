@@ -203,6 +203,7 @@
 | TransparentDataEncryptionProperties_STATUS                                       | v1api20211101 |
 | TransparentDataEncryptionProperties_State                                        | v1api20211101 |
 | TransparentDataEncryptionProperties_State_STATUS                                 | v1api20211101 |
+| UserAssignedIdentityDetails                                                      | v1api20211101 |
 | UserIdentity_STATUS                                                              | v1api20211101 |
 | VirtualNetworkRuleProperties                                                     | v1api20211101 |
 | VirtualNetworkRuleProperties_STATUS                                              | v1api20211101 |

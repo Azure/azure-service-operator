@@ -52,7 +52,8 @@ func (database *Servers_Database_Spec_ARM) GetType() string {
 // Azure Active Directory identity configuration for a resource.
 type DatabaseIdentity_ARM struct {
 	// Type: The identity type
-	Type *DatabaseIdentity_Type `json:"type,omitempty"`
+	Type                   *DatabaseIdentity_Type                     `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // The database's properties.

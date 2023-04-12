@@ -22,12 +22,14 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api2021
 │   │   │       └── "Enabled"
 │   │   ├── FriendlyName: *string
 │   │   ├── HbiWorkspace: *bool
-│   │   ├── Identity: *Object (1 property)
-│   │   │   └── Type: *Enum (4 values)
-│   │   │       ├── "None"
-│   │   │       ├── "SystemAssigned"
-│   │   │       ├── "SystemAssigned,UserAssigned"
-│   │   │       └── "UserAssigned"
+│   │   ├── Identity: *Object (2 properties)
+│   │   │   ├── Type: *Enum (4 values)
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── ImageBuildCompute: *string
 │   │   ├── KeyVaultReference: *genruntime.ResourceReference
 │   │   ├── Location: *string
@@ -275,12 +277,13 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api2021
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── Workspace_Spec_ARM: Object (7 properties)
-│   ├── Identity: *Object (1 property)
-│   │   └── Type: *Enum (4 values)
-│   │       ├── "None"
-│   │       ├── "SystemAssigned"
-│   │       ├── "SystemAssigned,UserAssigned"
-│   │       └── "UserAssigned"
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: map[string]Object (0 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: *Object (15 properties)
@@ -346,12 +349,14 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api2021
 │   ├── Owner: Workspace
 │   ├── Spec: Object (8 properties)
 │   │   ├── AzureName: string
-│   │   ├── Identity: *Object (1 property)
-│   │   │   └── Type: *Enum (4 values)
-│   │   │       ├── "None"
-│   │   │       ├── "SystemAssigned"
-│   │   │       ├── "SystemAssigned,UserAssigned"
-│   │   │       └── "UserAssigned"
+│   │   ├── Identity: *Object (2 properties)
+│   │   │   ├── Type: *Enum (4 values)
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── Owner: *genruntime.KnownResourceReference
 │   │   ├── Properties: *Object (10 properties)
@@ -1793,12 +1798,13 @@ github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api2021
 │   ├── Tags: map[string]string
 │   └── Type: *string
 ├── Workspaces_Compute_Spec_ARM: Object (7 properties)
-│   ├── Identity: *Object (1 property)
-│   │   └── Type: *Enum (4 values)
-│   │       ├── "None"
-│   │       ├── "SystemAssigned"
-│   │       ├── "SystemAssigned,UserAssigned"
-│   │       └── "UserAssigned"
+│   ├── Identity: *Object (2 properties)
+│   │   ├── Type: *Enum (4 values)
+│   │   │   ├── "None"
+│   │   │   ├── "SystemAssigned"
+│   │   │   ├── "SystemAssigned,UserAssigned"
+│   │   │   └── "UserAssigned"
+│   │   └── UserAssignedIdentities: map[string]Object (0 properties)
 │   ├── Location: *string
 │   ├── Name: string
 │   ├── Properties: *Object (10 properties)

@@ -61,5 +61,5 @@
 | TrustPolicy_Status_STATUS                          | v1api20210901 | v1beta20210901 |
 | TrustPolicy_Type                                   | v1api20210901 | v1beta20210901 |
 | TrustPolicy_Type_STATUS                            | v1api20210901 | v1beta20210901 |
-| UserIdentityProperties                             | v1api20210901 | v1beta20210901 |
+| UserAssignedIdentityDetails                        | v1api20210901 | v1beta20210901 |
 | UserIdentityProperties_STATUS                      | v1api20210901 | v1beta20210901 |

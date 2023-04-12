@@ -171,6 +171,7 @@
 | Tier_STATUS                                                          | v1api20210401 | v1beta20210401 |
 | UpdateHistoryProperty_STATUS                                         | v1api20210401 | v1beta20210401 |
 | UpdateHistoryProperty_Update_STATUS                                  | v1api20210401 | v1beta20210401 |
+| UserAssignedIdentityDetails                                          | v1api20210401 | v1beta20210401 |
 | UserAssignedIdentity_STATUS                                          | v1api20210401 | v1beta20210401 |
 | VirtualNetworkRule                                                   | v1api20210401 | v1beta20210401 |
 | VirtualNetworkRule_Action                                            | v1api20210401 | v1beta20210401 |

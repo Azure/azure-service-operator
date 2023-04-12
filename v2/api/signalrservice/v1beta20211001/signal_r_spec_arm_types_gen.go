@@ -35,7 +35,8 @@ func (signalR *SignalR_Spec_ARM) GetType() string {
 
 // Deprecated version of ManagedIdentity. Use v1api20211001.ManagedIdentity instead
 type ManagedIdentity_ARM struct {
-	Type *ManagedIdentityType `json:"type,omitempty"`
+	Type                   *ManagedIdentityType                       `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of ResourceSku. Use v1api20211001.ResourceSku instead
@@ -120,6 +121,10 @@ const (
 // Deprecated version of SignalRTlsSettings. Use v1api20211001.SignalRTlsSettings instead
 type SignalRTlsSettings_ARM struct {
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Deprecated version of NetworkACL. Use v1api20211001.NetworkACL instead

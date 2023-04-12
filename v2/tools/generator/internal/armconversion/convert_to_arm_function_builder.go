@@ -58,6 +58,7 @@ func newConvertToARMFunctionBuilder(
 	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader
 	// object structure or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(
+		result.convertUserAssignedIdentitiesCollection,
 		result.convertReferenceProperty,
 		result.convertSecretProperty,
 		result.convertConfigMapProperty,
@@ -239,6 +240,42 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 	return astbuilder.Statements(
 		strStmts,
 		refStmts,
+	), true
+}
+
+func (builder *convertToARMBuilder) userAssignedIdentitiesPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType) ([]dst.Stmt, bool) {
+
+	if _, ok := astmodel.IsUserAssignedIdentityProperty(toProp); !ok {
+		return nil, false
+	}
+
+	fromProp, ok := fromType.Property(toProp.PropertyName())
+	if !ok {
+		return nil, false
+	}
+
+	source := &dst.SelectorExpr{
+		X:   dst.NewIdent(builder.receiverIdent),
+		Sel: dst.NewIdent(string(fromProp.PropertyName())),
+	}
+
+	destination := &dst.SelectorExpr{
+		X:   dst.NewIdent(builder.resultIdent),
+		Sel: dst.NewIdent(string(toProp.PropertyName())),
+	}
+
+	return builder.typeConversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:            source,
+			SourceType:        fromProp.PropertyType(),
+			Destination:       destination,
+			DestinationType:   toProp.PropertyType(),
+			NameHint:          string(fromProp.PropertyName()),
+			ConversionContext: nil,
+			Locals:            builder.locals,
+		},
 	), true
 }
 
@@ -453,6 +490,97 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 			Locals:            builder.locals,
 		},
 	), true
+}
+
+// convertUserAssignedIdentitiesCollection handles conversion the special UserAssignedIdentities property.
+// This function generates code that looks like this:
+//
+//	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
+//	for _, ident := range identity.UserAssignedIdentities {
+//		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
+//		if err != nil {
+//			return nil, err
+//		}
+//		key := identARMID
+//		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
+//	}
+//	return result, nil
+func (builder *convertToARMBuilder) convertUserAssignedIdentitiesCollection(conversionBuilder *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+	destinationType, isDestinationMap := params.DestinationType.(*astmodel.MapType)
+	if !isDestinationMap {
+		return nil
+	}
+
+	sourceType, isSourceArray := params.SourceType.(*astmodel.ArrayType)
+	if !isSourceArray {
+		return nil
+	}
+
+	typeName, ok := astmodel.AsTypeName(sourceType.Element())
+	if !ok {
+		return nil
+	}
+
+	if typeName.Name() != astmodel.UserAssignedIdentitiesTypeName {
+		return nil
+	}
+
+	uaiDef := conversionBuilder.CodeGenerationContext.MustGetDefinition(typeName)
+
+	uaiType, ok := astmodel.AsObjectType(uaiDef.Type())
+	if !ok {
+		return nil
+	}
+
+	// There should be a single "Reference" property
+	refProperty, ok := uaiType.Property("Reference")
+	if !ok {
+		panic(fmt.Sprintf("Found UserAssignedIdentity type without Reference property"))
+	}
+
+	locals := params.Locals.Clone()
+
+	itemIdent := locals.CreateLocal("ident")
+	keyTypeAst := destinationType.KeyType().AsType(conversionBuilder.CodeGenerationContext)
+	valueTypeAst := destinationType.ValueType().AsType(conversionBuilder.CodeGenerationContext)
+
+	makeMapStatement := astbuilder.AssignmentStatement(
+		params.Destination,
+		token.ASSIGN,
+		astbuilder.MakeMapWithCapacity(keyTypeAst, valueTypeAst,
+			astbuilder.CallFunc("len", params.Source)))
+
+	key := "key"
+
+	refSelector := astbuilder.Selector(dst.NewIdent(itemIdent), "Reference")
+
+	// Rely on existing conversion handler for ResourceReference type
+	conversionStmts := conversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:            refSelector,
+			SourceType:        refProperty.PropertyType(),
+			Destination:       dst.NewIdent(key),
+			DestinationType:   destinationType.KeyType(),
+			NameHint:          itemIdent,
+			ConversionContext: append(params.ConversionContext, destinationType),
+			AssignmentHandler: astmodel.AssignmentHandlerDefine,
+			Locals:            locals,
+		})
+	valueBuilder := astbuilder.NewCompositeLiteralBuilder(valueTypeAst).WithoutNewLines()
+
+	conversionStmts = append(
+		conversionStmts,
+		astbuilder.InsertMap(params.Destination, dst.NewIdent(key), valueBuilder.Build()))
+
+	// Loop over the slice
+	loop := astbuilder.IterateOverSlice(
+		itemIdent,
+		params.Source,
+		conversionStmts...)
+
+	return []dst.Stmt{
+		makeMapStatement,
+		loop}
 }
 
 // convertReferenceProperty handles conversion of reference properties.

@@ -34,10 +34,10 @@ func (registry *Registry_Spec_ARM) GetType() string {
 
 // Deprecated version of IdentityProperties. Use v1api20210901.IdentityProperties instead
 type IdentityProperties_ARM struct {
-	PrincipalId            *string                               `json:"principalId,omitempty"`
-	TenantId               *string                               `json:"tenantId,omitempty"`
-	Type                   *IdentityProperties_Type              `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserIdentityProperties_ARM `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                                    `json:"principalId,omitempty"`
+	TenantId               *string                                    `json:"tenantId,omitempty"`
+	Type                   *IdentityProperties_Type                   `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of RegistryProperties. Use v1api20210901.RegistryProperties instead
@@ -99,10 +99,8 @@ const (
 	Sku_Name_Standard = Sku_Name("Standard")
 )
 
-// Deprecated version of UserIdentityProperties. Use v1api20210901.UserIdentityProperties instead
-type UserIdentityProperties_ARM struct {
-	ClientId    *string `json:"clientId,omitempty"`
-	PrincipalId *string `json:"principalId,omitempty"`
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Deprecated version of ExportPolicy. Use v1api20210901.ExportPolicy instead
