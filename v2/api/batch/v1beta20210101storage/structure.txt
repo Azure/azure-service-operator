@@ -17,9 +17,12 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage
 │   │   │   │   ├── KeyIdentifier: *string
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── KeyVaultReference: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── Reference: *genruntime.ResourceReference
@@ -93,4 +96,5 @@ github.com/Azure/azure-service-operator/v2/api/batch/v1beta20210101storage
 ├── augmentConversionForKeyVaultReference: Interface
 ├── augmentConversionForKeyVaultReference_STATUS: Interface
 ├── augmentConversionForPrivateEndpointConnection_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
 └── augmentConversionForVirtualMachineFamilyCoreQuota_STATUS: Interface

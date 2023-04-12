@@ -11,17 +11,26 @@ import (
 	"github.com/dave/dst"
 )
 
-// MakeSlice returns the call expression for making a slice
+// MakeSlice returns the call expression for making a slice with a specified length
 //
-// make([]<value>)
-func MakeSlice(listType dst.Expr, len dst.Expr) *dst.CallExpr {
-	return &dst.CallExpr{
-		Fun: dst.NewIdent("make"),
-		Args: []dst.Expr{
-			listType,
-			len,
-		},
-	}
+// make([]<value>, <capacity>)
+func MakeSlice(listType dst.Expr, capacity dst.Expr) *dst.CallExpr {
+	return CallFunc(
+		"make",
+		listType,
+		capacity)
+}
+
+// MakeEmptySlice returns the call expression for making a slice with a specified length that can be
+// appended to using append(...)
+//
+// make([]<value>, 0, <len>)
+func MakeEmptySlice(listType dst.Expr, capacity dst.Expr) *dst.CallExpr {
+	return CallFunc(
+		"make",
+		listType,
+		IntLiteral(0),
+		capacity)
 }
 
 // AppendItemToSlice returns a statement to append a single item to a slice

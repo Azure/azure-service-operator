@@ -101,19 +101,21 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.TypeDefinit
 
 	for _, td := range statusDefs {
 		statusType := astmodel.IgnoringErrors(td.Type())
-		if statusType != nil {
-			armStatusDefinition, err := GetARMTypeDefinition(c.definitions, td.Name())
-			if err != nil {
-				return nil, err
-			}
-
-			statusDefinition, err := c.addARMConversionInterface(td, armStatusDefinition, armconversion.TypeKindStatus)
-			if err != nil {
-				return nil, err
-			}
-
-			result.Add(statusDefinition)
+		if statusType == nil {
+			continue
 		}
+
+		armStatusDefinition, err := GetARMTypeDefinition(c.definitions, td.Name())
+		if err != nil {
+			return nil, err
+		}
+
+		statusDefinition, err := c.addARMConversionInterface(td, armStatusDefinition, armconversion.TypeKindStatus)
+		if err != nil {
+			return nil, err
+		}
+
+		result.Add(statusDefinition)
 	}
 
 	return result, nil
@@ -144,7 +146,8 @@ func (c *armConversionApplier) transformTypes() (astmodel.TypeDefinitionSet, err
 
 		_, isObjectType := astmodel.AsObjectType(td.Type())
 		hasARMFlag := astmodel.ARMFlag.IsOn(td.Type())
-		if !isObjectType || hasARMFlag {
+		requiresARMType := requiresARMType(td)
+		if !isObjectType || hasARMFlag || !requiresARMType {
 			// No special handling needed just add the existing type and continue
 			result.Add(td)
 			continue

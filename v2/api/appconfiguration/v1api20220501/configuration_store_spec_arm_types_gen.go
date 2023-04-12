@@ -70,7 +70,8 @@ type ConfigurationStoreProperties_ARM struct {
 type ResourceIdentity_ARM struct {
 	// Type: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created
 	// identity and a set of user-assigned identities. The type 'None' will remove any identities.
-	Type *ResourceIdentity_Type `json:"type,omitempty"`
+	Type                   *ResourceIdentity_Type                     `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Describes a configuration store SKU.
@@ -135,6 +136,10 @@ const (
 	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
+}
 
 // Settings concerning key vault encryption for a configuration store.
 type KeyVaultProperties_ARM struct {

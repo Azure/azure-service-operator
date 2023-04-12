@@ -102,6 +102,11 @@ type VirtualMachineScaleSetIdentity_STATUS_ARM struct {
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
 	// the virtual machine scale set.
 	Type *VirtualMachineScaleSetIdentity_Type_STATUS `json:"type,omitempty"`
+
+	// UserAssignedIdentities: The list of user identities associated with the virtual machine scale set. The user identity
+	// dictionary key references will be ARM resource ids in the form:
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Describes the properties of a Virtual Machine Scale Set.
@@ -233,6 +238,14 @@ const (
 	VirtualMachineScaleSetIdentity_Type_STATUS_SystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
 	VirtualMachineScaleSetIdentity_Type_STATUS_UserAssigned               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
 )
+
+type VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM struct {
+	// ClientId: The client id of user assigned identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// PrincipalId: The principal id of user assigned identity.
+	PrincipalId *string `json:"principalId,omitempty"`
+}
 
 // Describes a virtual machine scale set virtual machine profile.
 type VirtualMachineScaleSetVMProfile_STATUS_ARM struct {

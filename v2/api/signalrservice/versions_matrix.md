@@ -54,4 +54,5 @@
 | UpstreamAuthType_STATUS                                      | v1api20211001 | v1beta20211001 |
 | UpstreamTemplate                                             | v1api20211001 | v1beta20211001 |
 | UpstreamTemplate_STATUS                                      | v1api20211001 | v1beta20211001 |
+| UserAssignedIdentityDetails                                  | v1api20211001 | v1beta20211001 |
 | UserAssignedIdentityProperty_STATUS                          | v1api20211001 | v1beta20211001 |

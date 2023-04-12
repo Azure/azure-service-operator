@@ -61,9 +61,12 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Type: *string
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── IsHnsEnabled: *bool
 │   │   ├── IsNfsV3Enabled: *bool
 │   │   ├── KeyPolicy: *Object (2 properties)
@@ -751,6 +754,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 ├── augmentConversionForTagFilter_STATUS: Interface
 ├── augmentConversionForTagProperty_STATUS: Interface
 ├── augmentConversionForUpdateHistoryProperty_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
 ├── augmentConversionForUserAssignedIdentity_STATUS: Interface
 ├── augmentConversionForVirtualNetworkRule: Interface
 └── augmentConversionForVirtualNetworkRule_STATUS: Interface

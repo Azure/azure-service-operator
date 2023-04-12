@@ -1608,6 +1608,9 @@ type ResourceIdentity struct {
 	// Type: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active
 	// Directory principal for the resource.
 	Type *ResourceIdentity_Type `json:"type,omitempty"`
+
+	// UserAssignedIdentities: The resource ids of the user assigned identities to use
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ResourceIdentity{}
@@ -1623,6 +1626,17 @@ func (identity *ResourceIdentity) ConvertToARM(resolved genruntime.ConvertToARMR
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
+	}
+
+	// Set property ‘UserAssignedIdentities’:
+	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
+	for _, ident := range identity.UserAssignedIdentities {
+		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
+		if err != nil {
+			return nil, err
+		}
+		key := identARMID
+		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
 	}
 	return result, nil
 }
@@ -1645,6 +1659,8 @@ func (identity *ResourceIdentity) PopulateFromARM(owner genruntime.ArbitraryOwne
 		identity.Type = &typeVar
 	}
 
+	// no assignment for property ‘UserAssignedIdentities’
+
 	// No error
 	return nil
 }
@@ -1658,6 +1674,24 @@ func (identity *ResourceIdentity) AssignProperties_From_ResourceIdentity(source 
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
+	}
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity UserAssignedIdentityDetails
+			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -1675,6 +1709,24 @@ func (identity *ResourceIdentity) AssignProperties_To_ResourceIdentity(destinati
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
+	}
+
+	// UserAssignedIdentities
+	if identity.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]v1api20211101s.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity v1api20211101s.UserAssignedIdentityDetails
+			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
 
 	// Update the property bag
@@ -1697,6 +1749,18 @@ func (identity *ResourceIdentity) Initialize_From_ResourceIdentity_STATUS(source
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
+	}
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
+		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
+			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
+			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -2705,6 +2769,40 @@ func (maps *ServerOperatorConfigMaps) AssignProperties_To_ServerOperatorConfigMa
 	} else {
 		destination.FullyQualifiedDomainName = nil
 	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	Reference genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
+}
+
+// AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v1api20211101s.UserAssignedIdentityDetails) error {
+
+	// Reference
+	details.Reference = source.Reference.Copy()
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v1api20211101s.UserAssignedIdentityDetails) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Reference
+	destination.Reference = details.Reference.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -24,9 +24,12 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage
 │   │   │   ├── Mode: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── StandbyAvailabilityZone: *string
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── MaintenanceWindow: *Object (5 properties)
 │   │   │   ├── CustomWindow: *string
@@ -207,4 +210,5 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage
 ├── augmentConversionForSku_STATUS: Interface
 ├── augmentConversionForStorage: Interface
 ├── augmentConversionForStorage_STATUS: Interface
-└── augmentConversionForSystemData_STATUS: Interface
+├── augmentConversionForSystemData_STATUS: Interface
+└── augmentConversionForUserAssignedIdentityDetails: Interface

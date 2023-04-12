@@ -89,7 +89,8 @@ type ContainerGroupIdentity_ARM struct {
 	// Type: The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// container group.
-	Type *ContainerGroupIdentity_Type `json:"type,omitempty"`
+	Type                   *ContainerGroupIdentity_Type               `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // A container instance.
@@ -198,6 +199,10 @@ type IpAddress_ARM struct {
 
 	// Type: Specifies if the IP is exposed to the public internet or private VNET.
 	Type *IpAddress_Type `json:"type,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // The properties of the volume.

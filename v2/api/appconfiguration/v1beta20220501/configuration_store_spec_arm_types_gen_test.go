@@ -220,6 +220,9 @@ func RunJSONSerializationTestForResourceIdentity_ARM(subject ResourceIdentity_AR
 var resourceIdentity_ARMGenerator gopter.Gen
 
 // ResourceIdentity_ARMGenerator returns a generator of ResourceIdentity_ARM instances for property testing.
+// We first initialize resourceIdentity_ARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ResourceIdentity_ARMGenerator() gopter.Gen {
 	if resourceIdentity_ARMGenerator != nil {
 		return resourceIdentity_ARMGenerator
@@ -227,6 +230,12 @@ func ResourceIdentity_ARMGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForResourceIdentity_ARM(generators)
+	resourceIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(ResourceIdentity_ARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForResourceIdentity_ARM(generators)
+	AddRelatedPropertyGeneratorsForResourceIdentity_ARM(generators)
 	resourceIdentity_ARMGenerator = gen.Struct(reflect.TypeOf(ResourceIdentity_ARM{}), generators)
 
 	return resourceIdentity_ARMGenerator
@@ -239,6 +248,11 @@ func AddIndependentPropertyGeneratorsForResourceIdentity_ARM(gens map[string]gop
 		ResourceIdentity_Type_SystemAssigned,
 		ResourceIdentity_Type_SystemAssignedUserAssigned,
 		ResourceIdentity_Type_UserAssigned))
+}
+
+// AddRelatedPropertyGeneratorsForResourceIdentity_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForResourceIdentity_ARM(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_Sku_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -433,6 +447,61 @@ func EncryptionProperties_ARMGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForEncryptionProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEncryptionProperties_ARM(gens map[string]gopter.Gen) {
 	gens["KeyVaultProperties"] = gen.PtrOf(KeyVaultProperties_ARMGenerator())
+}
+
+func Test_UserAssignedIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of UserAssignedIdentityDetails_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityDetails_ARM, UserAssignedIdentityDetails_ARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForUserAssignedIdentityDetails_ARM runs a test to see if a specific instance of UserAssignedIdentityDetails_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityDetails_ARM(subject UserAssignedIdentityDetails_ARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual UserAssignedIdentityDetails_ARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of UserAssignedIdentityDetails_ARM instances for property testing - lazily instantiated by
+// UserAssignedIdentityDetails_ARMGenerator()
+var userAssignedIdentityDetails_ARMGenerator gopter.Gen
+
+// UserAssignedIdentityDetails_ARMGenerator returns a generator of UserAssignedIdentityDetails_ARM instances for property testing.
+func UserAssignedIdentityDetails_ARMGenerator() gopter.Gen {
+	if userAssignedIdentityDetails_ARMGenerator != nil {
+		return userAssignedIdentityDetails_ARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	userAssignedIdentityDetails_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails_ARM{}), generators)
+
+	return userAssignedIdentityDetails_ARMGenerator
 }
 
 func Test_KeyVaultProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
