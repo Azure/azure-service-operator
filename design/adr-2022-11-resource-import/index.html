@@ -36,7 +36,7 @@ Version Integration We would add new hand-written resources into ASO v2 with the
 Discussions so far have identified three possible solutions - version integration, resource import job and resource import tool.
 Version Integration We would add new hand-written resources into ASO v2 with the same names and shapes as the resources supported by ASO v1.">
 
-<meta itemprop="wordCount" content="1107">
+<meta itemprop="wordCount" content="1158">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="2022-11: ASO v1 Migration and Resource Import"/>
 <meta name="twitter:description" content="Context We have a significant number of customers successfully using ASO v1 whom we want to migrate to ASO v2. This requires both feature parity (so that users don&rsquo;t lose functionality when they switch) and a straightforward migration path (if it&rsquo;s too hard to migrate, they won&rsquo;t).
@@ -581,7 +581,9 @@ Version Integration We would add new hand-written resources into ASO v2 with the
 <li>Con: The investment would benefit only a small number of customers.</li>
 <li>Con: The conversions would need to be maintained, potentially indefinitely.</li>
 <li>Con: It&rsquo;s unlikely we&rsquo;d achieve 100% fidelity, requiring customers to change their YAML files anyway.</li>
+<li>Blocker: Automatic conversion only works between different versions of a given group/kind, not between different groups/kinds.</li>
 </ul>
+<p>Conclusion: Attractive in theory, but can&rsquo;t actually work. ASO v1 uses hand crafted names for groups and kinds, where ASO v2 uses the singular form of ARM names. (E.g. postgresql vs dbforpostgresql, rediscache vs cache)</p>
 <h3 id="resource-import-job">Resource Import Job</h3>
 <p>Hand craft a new <em>job</em> CRD that allows specification of an existing Azure Resource that requires import. ASO would reconcile that CRD by downloading the resource from Azure and creating the corresponding Kubernetes resource directly in the cluster.</p>
 <ul>
