@@ -51,7 +51,7 @@ jobs:
         with:
           excluded_paths: "ignore,.github"
           output_file: "docs/hugo/content/contributing/asoctl-structure.svg"
-          root_path: "v2/tools/asoctl"
+          root_path: "v2/cmd/asoctl"
           commit_message: "Updating visualization for asoctl"
           should_push: false
 

@@ -14,7 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/api"
 
-	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/crd"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/crd"
 )
 
 // newCleanCRDsCommand creates a new cobra command for cleaning deprecated CRDs from a cluster
