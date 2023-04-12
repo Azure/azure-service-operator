@@ -111,7 +111,6 @@ func WorkspacesBigDataPool_CRUD(tc *testcommon.KubePerTestContext, workspaces *s
 			},
 		},
 	}
-
-	tc.CreateResourcesAndWait(workspaces, pool, sa)
+	tc.CreateResourcesAndWait(sa, workspaces, pool)
 	tc.DeleteResourceAndWait(pool)
 }

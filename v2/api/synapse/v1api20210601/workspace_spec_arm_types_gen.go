@@ -103,7 +103,7 @@ type CspWorkspaceAdminProperties_ARM struct {
 // Details of the data lake storage account associated with the workspace
 type DataLakeStorageAccountDetails_ARM struct {
 	// AccountUrl: Account URL
-	AccountUrl *string `json:"accountUrl,omitempty"`
+	AccountUrl *string `json:"accountUrl,omitempty" optionalConfigMapPair:"AccountUrl"`
 
 	// CreateManagedPrivateEndpoint: Create managed private endpoint to this storage account or not
 	CreateManagedPrivateEndpoint *bool `json:"createManagedPrivateEndpoint,omitempty"`

@@ -265,10 +265,11 @@ type CspWorkspaceAdminProperties_STATUS struct {
 // Storage version of v1api20210601.DataLakeStorageAccountDetails
 // Details of the data lake storage account associated with the workspace
 type DataLakeStorageAccountDetails struct {
-	AccountUrl                   *string                `json:"accountUrl,omitempty"`
-	CreateManagedPrivateEndpoint *bool                  `json:"createManagedPrivateEndpoint,omitempty"`
-	Filesystem                   *string                `json:"filesystem,omitempty"`
-	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AccountUrl                   *string                        `json:"accountUrl,omitempty" optionalConfigMapPair:"AccountUrl"`
+	AccountUrlFromConfig         *genruntime.ConfigMapReference `json:"accountUrlFromConfig,omitempty" optionalConfigMapPair:"AccountUrl"`
+	CreateManagedPrivateEndpoint *bool                          `json:"createManagedPrivateEndpoint,omitempty"`
+	Filesystem                   *string                        `json:"filesystem,omitempty"`
+	PropertyBag                  genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 
 	// ResourceReference: ARM resource Id of this storage account
 	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`

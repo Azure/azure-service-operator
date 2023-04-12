@@ -226,7 +226,7 @@ func (workspace *Workspace) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (workspace *Workspace) createValidations() []func() error {
-	return []func() error{workspace.validateResourceReferences, workspace.validateSecretDestinations}
+	return []func() error{workspace.validateResourceReferences, workspace.validateSecretDestinations, workspace.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -244,7 +244,19 @@ func (workspace *Workspace) updateValidations() []func(old runtime.Object) error
 		func(old runtime.Object) error {
 			return workspace.validateSecretDestinations()
 		},
+		func(old runtime.Object) error {
+			return workspace.validateOptionalConfigMapReferences()
+		},
 	}
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (workspace *Workspace) validateOptionalConfigMapReferences() error {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&workspace.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateOptionalConfigMapReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
@@ -2347,7 +2359,10 @@ func (properties *CspWorkspaceAdminProperties_STATUS) AssignProperties_To_CspWor
 // Details of the data lake storage account associated with the workspace
 type DataLakeStorageAccountDetails struct {
 	// AccountUrl: Account URL
-	AccountUrl *string `json:"accountUrl,omitempty"`
+	AccountUrl *string `json:"accountUrl,omitempty" optionalConfigMapPair:"AccountUrl"`
+
+	// AccountUrlFromConfig: Account URL
+	AccountUrlFromConfig *genruntime.ConfigMapReference `json:"accountUrlFromConfig,omitempty" optionalConfigMapPair:"AccountUrl"`
 
 	// CreateManagedPrivateEndpoint: Create managed private endpoint to this storage account or not
 	CreateManagedPrivateEndpoint *bool `json:"createManagedPrivateEndpoint,omitempty"`
@@ -2371,6 +2386,14 @@ func (details *DataLakeStorageAccountDetails) ConvertToARM(resolved genruntime.C
 	// Set property ‘AccountUrl’:
 	if details.AccountUrl != nil {
 		accountUrl := *details.AccountUrl
+		result.AccountUrl = &accountUrl
+	}
+	if details.AccountUrlFromConfig != nil {
+		accountUrlValue, err := resolved.ResolvedConfigMaps.Lookup(*details.AccountUrlFromConfig)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up configmap for property AccountUrl")
+		}
+		accountUrl := accountUrlValue
 		result.AccountUrl = &accountUrl
 	}
 
@@ -2416,6 +2439,8 @@ func (details *DataLakeStorageAccountDetails) PopulateFromARM(owner genruntime.A
 		details.AccountUrl = &accountUrl
 	}
 
+	// no assignment for property ‘AccountUrlFromConfig’
+
 	// Set property ‘CreateManagedPrivateEndpoint’:
 	if typedInput.CreateManagedPrivateEndpoint != nil {
 		createManagedPrivateEndpoint := *typedInput.CreateManagedPrivateEndpoint
@@ -2439,6 +2464,14 @@ func (details *DataLakeStorageAccountDetails) AssignProperties_From_DataLakeStor
 
 	// AccountUrl
 	details.AccountUrl = genruntime.ClonePointerToString(source.AccountUrl)
+
+	// AccountUrlFromConfig
+	if source.AccountUrlFromConfig != nil {
+		accountUrlFromConfig := source.AccountUrlFromConfig.Copy()
+		details.AccountUrlFromConfig = &accountUrlFromConfig
+	} else {
+		details.AccountUrlFromConfig = nil
+	}
 
 	// CreateManagedPrivateEndpoint
 	if source.CreateManagedPrivateEndpoint != nil {
@@ -2470,6 +2503,14 @@ func (details *DataLakeStorageAccountDetails) AssignProperties_To_DataLakeStorag
 
 	// AccountUrl
 	destination.AccountUrl = genruntime.ClonePointerToString(details.AccountUrl)
+
+	// AccountUrlFromConfig
+	if details.AccountUrlFromConfig != nil {
+		accountUrlFromConfig := details.AccountUrlFromConfig.Copy()
+		destination.AccountUrlFromConfig = &accountUrlFromConfig
+	} else {
+		destination.AccountUrlFromConfig = nil
+	}
 
 	// CreateManagedPrivateEndpoint
 	if details.CreateManagedPrivateEndpoint != nil {

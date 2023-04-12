@@ -9,8 +9,9 @@ github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage
 │   │   ├── CspWorkspaceAdminProperties: *Object (2 properties)
 │   │   │   ├── InitialWorkspaceAdminObjectId: *string
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── DefaultDataLakeStorage: *Object (5 properties)
+│   │   ├── DefaultDataLakeStorage: *Object (6 properties)
 │   │   │   ├── AccountUrl: *string
+│   │   │   ├── AccountUrlFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── CreateManagedPrivateEndpoint: *bool
 │   │   │   ├── Filesystem: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag

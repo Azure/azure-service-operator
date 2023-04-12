@@ -1605,13 +1605,15 @@ objectModelConfiguration:
     2021-06-01:
       KekIdentityProperties:
         UserAssignedIdentity:
-         $armReference: true
+          $armReference: true
       DataLakeStorageAccountDetails:
         ResourceId:
-         $armReference: true
+          $armReference: true
+        AccountUrl:
+          $importConfigMapMode: optional
       PurviewConfiguration:
         PurviewResourceId:
-         $armReference: true
+          $armReference: true
       Workspace:
         $export: true
         $supportedFrom: v2.0.0

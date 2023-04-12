@@ -651,7 +651,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueService)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueServicesQueue)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v1api20211001s.Alias)})
-	result = append(result, &registration.StorageType{Obj: new(synapse_v1api20210601s.Workspace)})
+	result = append(result, &registration.StorageType{
+		Obj: new(synapse_v1api20210601s.Workspace),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.defaultDataLakeStorage.accountUrlFromConfig",
+				Func: indexSynapseWorkspaceAccountUrlFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.defaultDataLakeStorage.accountUrlFromConfig"}, &synapse_v1api20210601s.WorkspaceList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(synapse_v1api20210601s.WorkspacesBigDataPool)})
 	result = append(result, &registration.StorageType{Obj: new(web_v1api20220301s.ServerFarm)})
 	result = append(result, &registration.StorageType{
@@ -2051,6 +2065,21 @@ func indexSqlServersVulnerabilityAssessmentStorageContainerSasKey(rawObj client.
 		return nil
 	}
 	return obj.Spec.StorageContainerSasKey.Index()
+}
+
+// indexSynapseWorkspaceAccountUrlFromConfig an index function for synapse_v1api20210601s.Workspace .spec.defaultDataLakeStorage.accountUrlFromConfig
+func indexSynapseWorkspaceAccountUrlFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*synapse_v1api20210601s.Workspace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DefaultDataLakeStorage == nil {
+		return nil
+	}
+	if obj.Spec.DefaultDataLakeStorage.AccountUrlFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DefaultDataLakeStorage.AccountUrlFromConfig.Index()
 }
 
 // indexWebSiteAccessKey an index function for web_v1api20220301s.Site .spec.siteConfig.azureStorageAccounts.accessKey
