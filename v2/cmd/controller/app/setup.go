@@ -37,7 +37,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	asometrics "github.com/Azure/azure-service-operator/v2/internal/metrics"
@@ -196,7 +195,22 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	return mgr
 }
 
-func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
+func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (*identity.Credential, error) {
+	tokenCred, err := getDefaultAzureTokenCredential(cfg, setupLog)
+	if err != nil {
+		return nil, err
+	}
+	if tokenCred == nil {
+		return nil, nil
+	}
+
+	return identity.NewDefaultCredential(
+		tokenCred,
+		cfg.PodNamespace,
+		cfg.SubscriptionID), nil
+}
+
+func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (azcore.TokenCredential, error) {
 	// If subscriptionID is not supplied, then set default credential to not be used/nil
 	if cfg.SubscriptionID == "" {
 		setupLog.Info("No global credential configured, continuing without default global credential.")
@@ -231,11 +245,12 @@ func getDefaultAzureCredential(cfg config.Values, setupLog logr.Logger) (azcore.
 }
 
 type clients struct {
-	positiveConditions *conditions.PositiveConditionBuilder
-	armClientFactory   armreconciler.ARMClientFactory
-	kubeClient         kubeclient.Client
-	log                logr.Logger
-	options            generic.Options
+	positiveConditions   *conditions.PositiveConditionBuilder
+	armConnectionFactory armreconciler.ARMConnectionFactory
+	credentialProvider   identity.CredentialProvider
+	kubeClient           kubeclient.Client
+	log                  logr.Logger
+	options              generic.Options
 }
 
 func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
@@ -249,26 +264,18 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		return nil, errors.Wrap(err, "error while fetching default global credential")
 	}
 
-	clientOptions := &genericarmclient.GenericClientOptions{
-		Metrics: armMetrics,
-	}
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), credential, clientOptions)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to get new genericArmClient")
-	}
-
 	kubeClient := kubeclient.NewClient(mgr.GetClient())
-	armClientCache := identity.NewARMClientCache(
-		globalARMClient,
-		cfg.SubscriptionID,
-		cfg.PodNamespace,
+	credentialProvider := identity.NewCredentialProvider(credential, kubeClient)
+
+	armClientCache := armreconciler.NewARMClientCache(
+		credentialProvider,
 		kubeClient,
 		cfg.Cloud(),
 		nil,
 		armMetrics)
 
-	var clientFactory armreconciler.ARMClientFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (*identity.Connection, error) {
-		return armClientCache.GetClient(ctx, obj)
+	var connectionFactory armreconciler.ARMConnectionFactory = func(ctx context.Context, obj genruntime.ARMMetaObject) (armreconciler.Connection, error) {
+		return armClientCache.GetConnection(ctx, obj)
 	}
 
 	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
@@ -276,11 +283,12 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 	options := makeControllerOptions(log, cfg)
 
 	return &clients{
-		positiveConditions: positiveConditions,
-		armClientFactory:   clientFactory,
-		kubeClient:         kubeClient,
-		log:                log,
-		options:            options,
+		positiveConditions:   positiveConditions,
+		armConnectionFactory: connectionFactory,
+		credentialProvider:   credentialProvider,
+		kubeClient:           kubeClient,
+		log:                  log,
+		options:              options,
 	}, nil
 }
 
@@ -289,7 +297,8 @@ func initializeWatchers(nonReadyResources map[string]apiextensions.CustomResourc
 
 	objs, err := controllers.GetKnownStorageTypes(
 		mgr,
-		clients.armClientFactory,
+		clients.armConnectionFactory,
+		clients.credentialProvider,
 		clients.kubeClient,
 		clients.positiveConditions,
 		clients.options)

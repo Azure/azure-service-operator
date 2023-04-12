@@ -22,7 +22,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
@@ -36,25 +35,25 @@ import (
 
 type azureDeploymentReconcilerInstance struct {
 	reconcilers.ARMOwnedResourceReconcilerCommon
-	Obj              genruntime.ARMMetaObject
-	Log              logr.Logger
-	Recorder         record.EventRecorder
-	Extension        genruntime.ResourceExtension
-	ARMClientDetails *identity.Connection
+	Obj           genruntime.ARMMetaObject
+	Log           logr.Logger
+	Recorder      record.EventRecorder
+	Extension     genruntime.ResourceExtension
+	ARMConnection Connection
 }
 
 func newAzureDeploymentReconcilerInstance(
 	metaObj genruntime.ARMMetaObject,
 	log logr.Logger,
 	recorder record.EventRecorder,
-	clientDetails *identity.Connection,
+	connection Connection,
 	reconciler AzureDeploymentReconciler) *azureDeploymentReconcilerInstance {
 
 	return &azureDeploymentReconcilerInstance{
 		Obj:                              metaObj,
 		Log:                              log,
 		Recorder:                         recorder,
-		ARMClientDetails:                 clientDetails,
+		ARMConnection:                    connection,
 		Extension:                        reconciler.Extension,
 		ARMOwnedResourceReconcilerCommon: reconciler.ARMOwnedResourceReconcilerCommon,
 	}
@@ -207,7 +206,7 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
 	deleter := extensions.CreateDeleter(r.Extension, r.deleteResource)
-	result, err := deleter(ctx, r.Log, r.ResourceResolver, r.ARMClientDetails.Client, r.Obj)
+	result, err := deleter(ctx, r.Log, r.ResourceResolver, r.ARMConnection.Client(), r.Obj)
 	return result, err
 }
 
@@ -233,8 +232,8 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 		return ctrl.Result{}, errors.Errorf("cannot MonitorResourceCreation with pollerID=%s", pollerID)
 	}
 
-	poller := r.ARMClientDetails.Client.ResumeDeletePoller(pollerID)
-	err := poller.Resume(ctx, r.ARMClientDetails.Client, pollerResumeToken)
+	poller := r.ARMConnection.Client().ResumeDeletePoller(pollerID)
+	err := poller.Resume(ctx, r.ARMConnection.Client(), pollerResumeToken)
 	if err != nil {
 		return ctrl.Result{}, r.handleDeletePollerFailed(err)
 	}
@@ -291,7 +290,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 
 	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
 	if resourceID != "" {
-		err = checkSubscription(resourceID, r.ARMClientDetails.SubscriptionID)
+		err = checkSubscription(resourceID, r.ARMConnection.SubscriptionID())
 		if err != nil {
 			return ctrl.Result{}, err
 		}
@@ -310,7 +309,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 
 	// Try to create the resource
 	spec := armResource.Spec()
-	pollerResp, err := r.ARMClientDetails.Client.BeginCreateOrUpdateByID(ctx, armResource.GetID(), spec.GetAPIVersion(), spec)
+	pollerResp, err := r.ARMConnection.Client().BeginCreateOrUpdateByID(ctx, armResource.GetID(), spec.GetAPIVersion(), spec)
 	if err != nil {
 		return ctrl.Result{}, r.handleCreatePollerFailed(err)
 	}
@@ -358,7 +357,7 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(ctx context.C
 	}
 
 	// Run our pre-reconciliation checker
-	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMClientDetails.Client, r.Log)
+	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMConnection.Client(), r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PreReconcileCheckResult{}, checkErr
@@ -485,7 +484,7 @@ func (r *azureDeploymentReconcilerInstance) postReconciliationCheck(ctx context.
 	}
 
 	// Run our post-reconciliation checker
-	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMClientDetails.Client, r.Log)
+	check, checkErr := checker(ctx, r.Obj, owner, r.KubeClient, r.ARMConnection.Client(), r.Log)
 	if checkErr != nil {
 		// Something went wrong running the check.
 		return extensions.PostReconcileCheckResult{}, checkErr
@@ -504,8 +503,8 @@ func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.
 		return ctrl.Result{}, errors.Errorf("cannot MonitorResourceCreation with pollerID=%s", pollerID)
 	}
 
-	poller := r.ARMClientDetails.Client.ResumeCreatePoller(pollerID)
-	err := poller.Resume(ctx, r.ARMClientDetails.Client, pollerResumeToken)
+	poller := r.ARMConnection.Client().ResumeCreatePoller(pollerID)
+	err := poller.Resume(ctx, r.ARMConnection.Client(), pollerResumeToken)
 	if err != nil {
 		return ctrl.Result{}, r.handleCreatePollerFailed(err)
 	}
@@ -538,7 +537,7 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id st
 	}
 
 	// Get the resource
-	retryAfter, err := r.ARMClientDetails.Client.GetByID(ctx, id, apiVersion, armStatus)
+	retryAfter, err := r.ARMConnection.Client().GetByID(ctx, id, apiVersion, armStatus)
 	if err != nil {
 		return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
 	}
@@ -619,7 +618,7 @@ func (r *azureDeploymentReconcilerInstance) updateStatus(ctx context.Context) er
 // If there are no resources to save this method is a no-op.
 func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ctx context.Context) error {
 	// Check if this resource has a handcrafted extension for exporting
-	retriever := extensions.CreateKubernetesExporter(ctx, r.Extension, r.ARMClientDetails.Client, r.Log)
+	retriever := extensions.CreateKubernetesExporter(ctx, r.Extension, r.ARMConnection.Client(), r.Log)
 	resources, err := retriever(r.Obj)
 	if err != nil {
 		return errors.Wrap(err, "extension failed to produce resources for export")
@@ -629,7 +628,7 @@ func (r *azureDeploymentReconcilerInstance) saveAssociatedKubernetesResources(ct
 	exporter, ok := r.ObjAsKubernetesExporter()
 	if ok {
 		var additionalResources []client.Object
-		additionalResources, err = exporter.ExportKubernetesResources(ctx, r.Obj, r.ARMClientDetails.Client, r.Log)
+		additionalResources, err = exporter.ExportKubernetesResources(ctx, r.Obj, r.ARMConnection.Client(), r.Log)
 		if err != nil {
 			return errors.Wrap(err, "failed to produce resources for export")
 		}
@@ -713,7 +712,7 @@ func (r *azureDeploymentReconcilerInstance) ConvertResourceToARMResource(ctx con
 	metaObject := r.Obj
 	scheme := r.ResourceResolver.Scheme()
 
-	result, err := ConvertToARMResourceImpl(ctx, metaObject, scheme, r.ResourceResolver, r.ARMClientDetails.SubscriptionID)
+	result, err := ConvertToARMResourceImpl(ctx, metaObject, scheme, r.ResourceResolver, r.ARMConnection.SubscriptionID())
 	if err != nil {
 		return nil, err
 	}
@@ -788,7 +787,7 @@ func (r *azureDeploymentReconcilerInstance) deleteResource(
 		return ctrl.Result{}, nil
 	}
 
-	err := checkSubscription(resourceID, r.ARMClientDetails.SubscriptionID) // TODO: Possibly we should pass this in as a parameter?
+	err := checkSubscription(resourceID, r.ARMConnection.SubscriptionID()) // TODO: Possibly we should pass this in as a parameter?
 	if err != nil {
 		return ctrl.Result{}, err
 	}
