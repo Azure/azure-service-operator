@@ -67,7 +67,7 @@ $ asoctl.exe import azure-resource /subscriptions/[redacted]/resourceGroups/aso-
 
 While `asoctl import azure-resource` runs, you'll see progress shown dynamically as resources are found and imported:
 
-![Screenshot showing asoctl import azure-resource running](images/asoctl-import-progress-bars.png)
+![Screenshot showing asoctl import azure-resource running](../images/asoctl-import-progress-bars.png)
 
 Once finished, you'll see a list of all the imported resources, and the file they were written to:
 
