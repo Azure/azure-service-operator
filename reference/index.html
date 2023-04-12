@@ -34,8 +34,8 @@
 
 
 
-<link rel="preload" href="/azure-service-operator/scss/main.min.73bc65c1e18bb0cbd02b071f40b73b018bed23b1835e915c0f4f73a772a6713b.css" as="style">
-<link href="/azure-service-operator/scss/main.min.73bc65c1e18bb0cbd02b071f40b73b018bed23b1835e915c0f4f73a772a6713b.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/azure-service-operator/scss/main.min.bb1f3a37154c4661ae02d3cb1a733edd8005db70f626370ca004c689a63ab7d4.css" as="style">
+<link href="/azure-service-operator/scss/main.min.bb1f3a37154c4661ae02d3cb1a733edd8005db70f626370ca004c689a63ab7d4.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -50,10 +50,19 @@
   <div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
     <ul class="navbar-nav mt-2 mt-lg-0">
       <li class="nav-item mr-4 mb-2 mb-lg-0">
+        <a class="nav-link" href="/azure-service-operator/tools/asoctl/"><span>asoctl</span></a>
+      </li>
+      <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/introduction/"><span>Guide</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
+        <a class="nav-link" href="/azure-service-operator/tools/generator/"><span>generator</span></a>
+      </li>
+      <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link active" href="/azure-service-operator/reference/"><span class="active">Supported Resources</span></a>
+      </li>
+      <li class="nav-item mr-4 mb-2 mb-lg-0">
+        <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
@@ -366,6 +375,15 @@
   </ul>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatortools-li">
+  <a href="/azure-service-operator/tools/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatortools"><span class="">Tools</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortoolsasoctl-li">
+  <a href="/azure-service-operator/tools/asoctl/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsasoctl"><span class="">asoctl</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatortoolsgenerator-li">
+  <a href="/azure-service-operator/tools/generator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorcontributing-li">
   <a href="/azure-service-operator/contributing/" title="Contributing to Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorcontributing"><span class="">Contributing</span></a>
   <ul class="ul-2 foldable">
@@ -412,6 +430,8 @@
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
   <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations"><span class="">2023-01: Helm Chart Size Limitations and Workarounds</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
+  <a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension"><span class="">2023-03: Post Reconciliation Extensions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
@@ -563,6 +583,13 @@ grouped by the originating ARM service.
 <tr>
 <td>ConfigurationStore</td>
 <td>2022-05-01</td>
+<td>v1api20220501</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v1api/v1api20220501_configurationstore.yaml">View</a></td>
+</tr>
+<tr>
+<td>ConfigurationStore</td>
+<td>2022-05-01</td>
 <td>v1beta20220501</td>
 <td>v2.0.0-beta.3</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v1beta/v1beta20220501_configurationstore.yaml">View</a></td>
@@ -583,18 +610,18 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>RoleAssignment</td>
+<td>2020-08-01-preview</td>
+<td>v1api20200801preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api/v1api20200801preview_roleassignment.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/authorization/v1beta20200801preview/#authorization.azure.com/v1beta20200801preview.RoleAssignment">RoleAssignment</a></td>
 <td>2020-08-01-preview</td>
 <td>v1beta20200801preview</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1beta/v1beta20200801preview_roleassignment.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/authorization/v1alpha1api20200801preview/#authorization.azure.com/v1alpha1api20200801preview.RoleAssignment">RoleAssignment</a></td>
-<td>2020-08-01-preview</td>
-<td>v1alpha1api20200801preview</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1alpha1api/v1alpha1api20200801preview_roleassignment.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -612,18 +639,18 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>BatchAccount</td>
+<td>2021-01-01</td>
+<td>v1api20210101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v1api/v1api20210101_batchaccount.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/batch/v1beta20210101/#batch.azure.com/v1beta20210101.BatchAccount">BatchAccount</a></td>
 <td>2021-01-01</td>
 <td>v1beta20210101</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v1beta/v1beta20210101_batchaccount.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/batch/v1alpha1api20210101/#batch.azure.com/v1alpha1api20210101.BatchAccount">BatchAccount</a></td>
-<td>2021-01-01</td>
-<td>v1alpha1api20210101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/batch/v1alpha1api/v1alpha1api20210101_batchaccount.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -641,6 +668,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Redis</td>
+<td>2020-12-01</td>
+<td>v1api20201201</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20201201_redis.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1beta20201201/#cache.azure.com/v1beta20201201.Redis">Redis</a></td>
 <td>2020-12-01</td>
 <td>v1beta20201201</td>
@@ -648,11 +682,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1beta/v1beta20201201_redis.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20201201/#cache.azure.com/v1alpha1api20201201.Redis">Redis</a></td>
-<td>2020-12-01</td>
-<td>v1alpha1api20201201</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1alpha1api/v1alpha1api20201201_redis.yaml">View</a></td>
+<td>RedisEnterprise</td>
+<td>2021-03-01</td>
+<td>v1api20210301</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20210301_redisenterprise.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1beta20210301/#cache.azure.com/v1beta20210301.RedisEnterprise">RedisEnterprise</a></td>
@@ -662,11 +696,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1beta/v1beta20210301_redisenterprise.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20210301/#cache.azure.com/v1alpha1api20210301.RedisEnterprise">RedisEnterprise</a></td>
+<td>RedisEnterpriseDatabase</td>
 <td>2021-03-01</td>
-<td>v1alpha1api20210301</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1alpha1api/v1alpha1api20210301_redisenterprise.yaml">View</a></td>
+<td>v1api20210301</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20210301_redisenterprisedatabase.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1beta20210301/#cache.azure.com/v1beta20210301.RedisEnterpriseDatabase">RedisEnterpriseDatabase</a></td>
@@ -676,11 +710,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1beta/v1beta20210301_redisenterprisedatabase.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20210301/#cache.azure.com/v1alpha1api20210301.RedisEnterpriseDatabase">RedisEnterpriseDatabase</a></td>
-<td>2021-03-01</td>
-<td>v1alpha1api20210301</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1alpha1api/v1alpha1api20210301_redisenterprisedatabase.yaml">View</a></td>
+<td>RedisFirewallRule</td>
+<td>2020-12-01</td>
+<td>v1api20201201</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20201201_redisfirewallrule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1beta20201201/#cache.azure.com/v1beta20201201.RedisFirewallRule">RedisFirewallRule</a></td>
@@ -690,11 +724,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1beta/v1beta20201201_redisfirewallrule.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20201201/#cache.azure.com/v1alpha1api20201201.RedisFirewallRule">RedisFirewallRule</a></td>
+<td>RedisLinkedServer</td>
 <td>2020-12-01</td>
-<td>v1alpha1api20201201</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1alpha1api/v1alpha1api20201201_redisfirewallrule.yaml">View</a></td>
+<td>v1api20201201</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20201201_redislinkedserver.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1beta20201201/#cache.azure.com/v1beta20201201.RedisLinkedServer">RedisLinkedServer</a></td>
@@ -704,11 +738,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1beta/v1beta20201201_redislinkedserver.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20201201/#cache.azure.com/v1alpha1api20201201.RedisLinkedServer">RedisLinkedServer</a></td>
+<td>RedisPatchSchedule</td>
 <td>2020-12-01</td>
-<td>v1alpha1api20201201</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1alpha1api/v1alpha1api20201201_redislinkedserver.yaml">View</a></td>
+<td>v1api20201201</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api/v1api20201201_redispatchschedule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1beta20201201/#cache.azure.com/v1beta20201201.RedisPatchSchedule">RedisPatchSchedule</a></td>
@@ -716,13 +750,6 @@ grouped by the originating ARM service.
 <td>v1beta20201201</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1beta/v1beta20201201_redispatchschedule.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20201201/#cache.azure.com/v1alpha1api20201201.RedisPatchSchedule">RedisPatchSchedule</a></td>
-<td>2020-12-01</td>
-<td>v1alpha1api20201201</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1alpha1api/v1alpha1api20201201_redispatchschedule.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -740,11 +767,25 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Profile</td>
+<td>2021-06-01</td>
+<td>v1api20210601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api/v1api20210601_profile.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1beta20210601/#cdn.azure.com/v1beta20210601.Profile">Profile</a></td>
 <td>2021-06-01</td>
 <td>v1beta20210601</td>
 <td>v2.0.0-beta.1</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1beta/v1beta20210601_profile.yaml">View</a></td>
+</tr>
+<tr>
+<td>ProfilesEndpoint</td>
+<td>2021-06-01</td>
+<td>v1api20210601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api/v1api20210601_profilesendpoint.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/cdn/v1beta20210601/#cdn.azure.com/v1beta20210601.ProfilesEndpoint">ProfilesEndpoint</a></td>
@@ -769,6 +810,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Disk</td>
+<td>2020-09-30</td>
+<td>v1api20200930</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_disk.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20200930/#compute.azure.com/v1beta20200930.Disk">Disk</a></td>
 <td>2020-09-30</td>
 <td>v1beta20200930</td>
@@ -776,11 +824,18 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20200930_disk.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1alpha1api20200930/#compute.azure.com/v1alpha1api20200930.Disk">Disk</a></td>
-<td>2020-09-30</td>
-<td>v1alpha1api20200930</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1alpha1api/v1alpha1api20200930_disk.yaml">View</a></td>
+<td>Image</td>
+<td>2022-03-01</td>
+<td>v1api20220301</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_image.yaml">View</a></td>
+</tr>
+<tr>
+<td>Image</td>
+<td>2021-07-01</td>
+<td>v1api20210701</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20210701_image.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/#compute.azure.com/v1beta20220301.Image">Image</a></td>
@@ -797,11 +852,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20210701_image.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1alpha1api20210701/#compute.azure.com/v1alpha1api20210701.Image">Image</a></td>
-<td>2021-07-01</td>
-<td>v1alpha1api20210701</td>
-<td>v2.0.0-alpha.6</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1alpha1api/v1alpha1api20210701_image.yaml">View</a></td>
+<td>Snapshot</td>
+<td>2020-09-30</td>
+<td>v1api20200930</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20200930_snapshot.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20200930/#compute.azure.com/v1beta20200930.Snapshot">Snapshot</a></td>
@@ -811,11 +866,18 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20200930_snapshot.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1alpha1api20200930/#compute.azure.com/v1alpha1api20200930.Snapshot">Snapshot</a></td>
-<td>2020-09-30</td>
-<td>v1alpha1api20200930</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1alpha1api/v1alpha1api20200930_snapshot.yaml">View</a></td>
+<td>VirtualMachine</td>
+<td>2022-03-01</td>
+<td>v1api20220301</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachine.yaml">View</a></td>
+</tr>
+<tr>
+<td>VirtualMachine</td>
+<td>2020-12-01</td>
+<td>v1api20201201</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachine.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/#compute.azure.com/v1beta20220301.VirtualMachine">VirtualMachine</a></td>
@@ -832,11 +894,18 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20201201_virtualmachine.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1alpha1api20201201/#compute.azure.com/v1alpha1api20201201.VirtualMachine">VirtualMachine</a></td>
+<td>VirtualMachineScaleSet</td>
+<td>2022-03-01</td>
+<td>v1api20220301</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20220301_virtualmachinescaleset.yaml">View</a></td>
+</tr>
+<tr>
+<td>VirtualMachineScaleSet</td>
 <td>2020-12-01</td>
-<td>v1alpha1api20201201</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1alpha1api/v1alpha1api20201201_virtualmachine.yaml">View</a></td>
+<td>v1api20201201</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1api/v1api20201201_virtualmachinescaleset.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/#compute.azure.com/v1beta20220301.VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>
@@ -851,13 +920,6 @@ grouped by the originating ARM service.
 <td>v1beta20201201</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20201201_virtualmachinescaleset.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/compute/v1alpha1api20201201/#compute.azure.com/v1alpha1api20201201.VirtualMachineScaleSet">VirtualMachineScaleSet</a></td>
-<td>2020-12-01</td>
-<td>v1alpha1api20201201</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1alpha1api/v1alpha1api20201201_virtualmachinescaleset.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -874,6 +936,13 @@ grouped by the originating ARM service.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>ContainerGroup</td>
+<td>2021-10-01</td>
+<td>v1api20211001</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v1api/v1api20211001_containergroup.yaml">View</a></td>
+</tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerinstance/v1beta20211001/#containerinstance.azure.com/v1beta20211001.ContainerGroup">ContainerGroup</a></td>
 <td>2021-10-01</td>
@@ -897,18 +966,18 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Registry</td>
+<td>2021-09-01</td>
+<td>v1api20210901</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api/v1api20210901_registry.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerregistry/v1beta20210901/#containerregistry.azure.com/v1beta20210901.Registry">Registry</a></td>
 <td>2021-09-01</td>
 <td>v1beta20210901</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1beta/v1beta20210901_registry.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/containerregistry/v1alpha1api20210901/#containerregistry.azure.com/v1alpha1api20210901.Registry">Registry</a></td>
-<td>2021-09-01</td>
-<td>v1alpha1api20210901</td>
-<td>v2.0.0-alpha.6</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1alpha1api/v1alpha1api20210901_registry.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -928,16 +997,23 @@ grouped by the originating ARM service.
 <tr>
 <td>ManagedCluster</td>
 <td>2023-02-02-preview</td>
-<td>v1beta20230202preview</td>
+<td>v1api20230202preview</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20230202preview/v1beta20230202preview_managedcluster.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230202preview/v1api20230202preview_managedcluster.yaml">View</a></td>
 </tr>
 <tr>
 <td>ManagedCluster</td>
 <td>2023-02-01</td>
-<td>v1beta20230201</td>
+<td>v1api20230201</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20230201/v1beta20230201_managedcluster.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230201/v1api20230201_managedcluster.yaml">View</a></td>
+</tr>
+<tr>
+<td>ManagedCluster</td>
+<td>2021-05-01</td>
+<td>v1api20210501</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20210501/v1api20210501_managedcluster.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/#containerservice.azure.com/v1beta20210501.ManagedCluster">ManagedCluster</a></td>
@@ -947,25 +1023,25 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20210501/v1beta20210501_managedcluster.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1alpha1api20210501/#containerservice.azure.com/v1alpha1api20210501.ManagedCluster">ManagedCluster</a></td>
-<td>2021-05-01</td>
-<td>v1alpha1api20210501</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1alpha1api/v1alpha1api20210501_managedcluster.yaml">View</a></td>
-</tr>
-<tr>
 <td>ManagedClustersAgentPool</td>
 <td>2023-02-02-preview</td>
-<td>v1beta20230202preview</td>
+<td>v1api20230202preview</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20230202preview/v1beta20230202preview_managedclustersagentpool.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230202preview/v1api20230202preview_managedclustersagentpool.yaml">View</a></td>
 </tr>
 <tr>
 <td>ManagedClustersAgentPool</td>
 <td>2023-02-01</td>
-<td>v1beta20230201</td>
+<td>v1api20230201</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20230201/v1beta20230201_managedclustersagentpool.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20230201/v1api20230201_managedclustersagentpool.yaml">View</a></td>
+</tr>
+<tr>
+<td>ManagedClustersAgentPool</td>
+<td>2021-05-01</td>
+<td>v1api20210501</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20210501/v1api20210501_managedclustersagentpool.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/#containerservice.azure.com/v1beta20210501.ManagedClustersAgentPool">ManagedClustersAgentPool</a></td>
@@ -973,13 +1049,6 @@ grouped by the originating ARM service.
 <td>v1beta20210501</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20210501/v1beta20210501_managedclustersagentpool.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/containerservice/v1alpha1api20210501/#containerservice.azure.com/v1alpha1api20210501.ManagedClustersAgentPool">ManagedClustersAgentPool</a></td>
-<td>2021-05-01</td>
-<td>v1alpha1api20210501</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1alpha1api/v1alpha1api20210501_managedclustersagentpool.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -997,6 +1066,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Configuration</td>
+<td>2018-06-01</td>
+<td>v1api20180601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformariadb/v1api/v1api20180601_configuration.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbformariadb/v1beta20180601/#dbformariadb.azure.com/v1beta20180601.Configuration">Configuration</a></td>
 <td>2018-06-01</td>
 <td>v1beta20180601</td>
@@ -1004,11 +1080,25 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformariadb/v1beta/v1beta20180601_configuration.yaml">View</a></td>
 </tr>
 <tr>
+<td>Database</td>
+<td>2018-06-01</td>
+<td>v1api20180601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformariadb/v1api/v1api20180601_database.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbformariadb/v1beta20180601/#dbformariadb.azure.com/v1beta20180601.Database">Database</a></td>
 <td>2018-06-01</td>
 <td>v1beta20180601</td>
 <td>v2.0.0-beta.1</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformariadb/v1beta/v1beta20180601_database.yaml">View</a></td>
+</tr>
+<tr>
+<td>Server</td>
+<td>2018-06-01</td>
+<td>v1api20180601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformariadb/v1api/v1api20180601_server.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbformariadb/v1beta20180601/#dbformariadb.azure.com/v1beta20180601.Server">Server</a></td>
@@ -1035,6 +1125,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>FlexibleServer</td>
+<td>2021-05-01</td>
+<td>v1api20210501</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20210501_flexibleserver.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServer">FlexibleServer</a></td>
 <td>2021-05-01</td>
 <td>v1beta20210501</td>
@@ -1042,11 +1139,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserver.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1alpha1api20210501/#dbformysql.azure.com/v1alpha1api20210501.FlexibleServer">FlexibleServer</a></td>
+<td>FlexibleServersDatabase</td>
 <td>2021-05-01</td>
-<td>v1alpha1api20210501</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1alpha1api/v1alpha1api20210501_flexibleserver.yaml">View</a></td>
+<td>v1api20210501</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20210501_flexibleserversdatabase.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase">FlexibleServersDatabase</a></td>
@@ -1056,11 +1153,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserversdatabase.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1alpha1api20210501/#dbformysql.azure.com/v1alpha1api20210501.FlexibleServersDatabase">FlexibleServersDatabase</a></td>
+<td>FlexibleServersFirewallRule</td>
 <td>2021-05-01</td>
-<td>v1alpha1api20210501</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1alpha1api/v1alpha1api20210501_flexibleserversdatabase.yaml">View</a></td>
+<td>v1api20210501</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20210501_flexibleserversfirewallrule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
@@ -1068,13 +1165,6 @@ grouped by the originating ARM service.
 <td>v1beta20210501</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserversfirewallrule.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbformysql/v1alpha1api20210501/#dbformysql.azure.com/v1alpha1api20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-<td>2021-05-01</td>
-<td>v1alpha1api20210501</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1alpha1api/v1alpha1api20210501_flexibleserversfirewallrule.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1094,6 +1184,20 @@ grouped by the originating ARM service.
 <tr>
 <td>FlexibleServer</td>
 <td>2022-01-20-preview</td>
+<td>v1api20220120preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20220120preview/v1api20220120preview_flexibleserver.yaml">View</a></td>
+</tr>
+<tr>
+<td>FlexibleServer</td>
+<td>2021-06-01</td>
+<td>v1api20210601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserver.yaml">View</a></td>
+</tr>
+<tr>
+<td>FlexibleServer</td>
+<td>2022-01-20-preview</td>
 <td>v1beta20220120preview</td>
 <td>v2.0.0-beta.4</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20220120preview/v1beta20220120preview_flexibleserver.yaml">View</a></td>
@@ -1106,11 +1210,18 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserver.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1alpha1api20210601/#dbforpostgresql.azure.com/v1alpha1api20210601.FlexibleServer">FlexibleServer</a></td>
+<td>FlexibleServersConfiguration</td>
+<td>2022-01-20-preview</td>
+<td>v1api20220120preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20220120preview/v1api20220120preview_flexibleserversconfiguration.yaml">View</a></td>
+</tr>
+<tr>
+<td>FlexibleServersConfiguration</td>
 <td>2021-06-01</td>
-<td>v1alpha1api20210601</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1alpha1api/v1alpha1api20210601_flexibleserver.yaml">View</a></td>
+<td>v1api20210601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserversconfiguration.yaml">View</a></td>
 </tr>
 <tr>
 <td>FlexibleServersConfiguration</td>
@@ -1127,11 +1238,18 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserversconfiguration.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1alpha1api20210601/#dbforpostgresql.azure.com/v1alpha1api20210601.FlexibleServersConfiguration">FlexibleServersConfiguration</a></td>
+<td>FlexibleServersDatabase</td>
+<td>2022-01-20-preview</td>
+<td>v1api20220120preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20220120preview/v1api20220120preview_flexibleserversdatabase.yaml">View</a></td>
+</tr>
+<tr>
+<td>FlexibleServersDatabase</td>
 <td>2021-06-01</td>
-<td>v1alpha1api20210601</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1alpha1api/v1alpha1api20210601_flexibleserversconfiguration.yaml">View</a></td>
+<td>v1api20210601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserversdatabase.yaml">View</a></td>
 </tr>
 <tr>
 <td>FlexibleServersDatabase</td>
@@ -1148,11 +1266,18 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserversdatabase.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1alpha1api20210601/#dbforpostgresql.azure.com/v1alpha1api20210601.FlexibleServersDatabase">FlexibleServersDatabase</a></td>
+<td>FlexibleServersFirewallRule</td>
+<td>2022-01-20-preview</td>
+<td>v1api20220120preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20220120preview/v1api20220120preview_flexibleserversfirewallrule.yaml">View</a></td>
+</tr>
+<tr>
+<td>FlexibleServersFirewallRule</td>
 <td>2021-06-01</td>
-<td>v1alpha1api20210601</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1alpha1api/v1alpha1api20210601_flexibleserversdatabase.yaml">View</a></td>
+<td>v1api20210601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1api20210601/v1api20210601_flexibleserversfirewallrule.yaml">View</a></td>
 </tr>
 <tr>
 <td>FlexibleServersFirewallRule</td>
@@ -1167,13 +1292,6 @@ grouped by the originating ARM service.
 <td>v1beta20210601</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserversfirewallrule.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1alpha1api20210601/#dbforpostgresql.azure.com/v1alpha1api20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a></td>
-<td>2021-06-01</td>
-<td>v1alpha1api20210601</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1alpha1api/v1alpha1api20210601_flexibleserversfirewallrule.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1191,6 +1309,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>DatabaseAccount</td>
+<td>2021-05-15</td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_databaseaccount.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.DatabaseAccount">DatabaseAccount</a></td>
 <td>2021-05-15</td>
 <td>v1beta20210515</td>
@@ -1198,11 +1323,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1beta/v1beta20210515_databaseaccount.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.DatabaseAccount">DatabaseAccount</a></td>
+<td>MongodbDatabase</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1alpha1api/v1alpha1api20210515_databaseaccount.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_mongodbdatabase.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.MongodbDatabase">MongodbDatabase</a></td>
@@ -1212,11 +1337,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1beta/v1beta20210515_mongodbdatabase.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.MongodbDatabase">MongodbDatabase</a></td>
+<td>MongodbDatabaseCollection</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1alpha1api/v1alpha1api20210515_mongodbdatabase.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_mongodbdatabasecollection.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.MongodbDatabaseCollection">MongodbDatabaseCollection</a></td>
@@ -1226,11 +1351,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1beta/v1beta20210515_mongodbdatabasecollection.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.MongodbDatabaseCollection">MongodbDatabaseCollection</a></td>
+<td>MongodbDatabaseCollectionThroughputSetting</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1alpha1api/v1alpha1api20210515_mongodbdatabasecollection.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_mongodbdatabasecollectionthroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.MongodbDatabaseCollectionThroughputSetting">MongodbDatabaseCollectionThroughputSetting</a></td>
@@ -1240,11 +1365,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1beta/v1beta20210515_mongodbdatabasecollectionthroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.MongodbDatabaseCollectionThroughputSetting">MongodbDatabaseCollectionThroughputSetting</a></td>
+<td>MongodbDatabaseThroughputSetting</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1alpha1api/v1alpha1api20210515_mongodbdatabasecollectionthroughputsetting.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api/v1api20210515_mongodbdatabasethroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.MongodbDatabaseThroughputSetting">MongodbDatabaseThroughputSetting</a></td>
@@ -1254,11 +1379,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1beta/v1beta20210515_mongodbdatabasethroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.MongodbDatabaseThroughputSetting">MongodbDatabaseThroughputSetting</a></td>
+<td>SqlDatabase</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1alpha1api/v1alpha1api20210515_mongodbdatabasethroughputsetting.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabase.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlDatabase">SqlDatabase</a></td>
@@ -1268,11 +1393,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqldatabase.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.SqlDatabase">SqlDatabase</a></td>
+<td>SqlDatabaseContainer</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1alpha1api/v1alpha1api20210515_sqldatabase.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontainer.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlDatabaseContainer">SqlDatabaseContainer</a></td>
@@ -1282,11 +1407,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqldatabasecontainer.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainer">SqlDatabaseContainer</a></td>
+<td>SqlDatabaseContainerStoredProcedure</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1alpha1api/v1alpha1api20210515_sqldatabasecontainer.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontainerstoredprocedure.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlDatabaseContainerStoredProcedure">SqlDatabaseContainerStoredProcedure</a></td>
@@ -1296,11 +1421,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqldatabasecontainerstoredprocedure.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerStoredProcedure">SqlDatabaseContainerStoredProcedure</a></td>
+<td>SqlDatabaseContainerThroughputSetting</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1alpha1api/v1alpha1api20210515_sqldatabasecontainerstoredprocedure.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontainerthroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlDatabaseContainerThroughputSetting">SqlDatabaseContainerThroughputSetting</a></td>
@@ -1310,11 +1435,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqldatabasecontainerthroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerThroughputSetting">SqlDatabaseContainerThroughputSetting</a></td>
+<td>SqlDatabaseContainerTrigger</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1alpha1api/v1alpha1api20210515_sqldatabasecontainerthroughputsetting.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontainertrigger.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlDatabaseContainerTrigger">SqlDatabaseContainerTrigger</a></td>
@@ -1324,11 +1449,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqldatabasecontainertrigger.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerTrigger">SqlDatabaseContainerTrigger</a></td>
+<td>SqlDatabaseContainerUserDefinedFunction</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1alpha1api/v1alpha1api20210515_sqldatabasecontainertrigger.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasecontaineruserdefinedfunction.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlDatabaseContainerUserDefinedFunction">SqlDatabaseContainerUserDefinedFunction</a></td>
@@ -1338,11 +1463,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqldatabasecontaineruserdefinedfunction.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseContainerUserDefinedFunction">SqlDatabaseContainerUserDefinedFunction</a></td>
+<td>SqlDatabaseThroughputSetting</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1alpha1api/v1alpha1api20210515_sqldatabasecontaineruserdefinedfunction.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqldatabasethroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlDatabaseThroughputSetting">SqlDatabaseThroughputSetting</a></td>
@@ -1352,11 +1477,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqldatabasethroughputsetting.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/#documentdb.azure.com/v1alpha1api20210515.SqlDatabaseThroughputSetting">SqlDatabaseThroughputSetting</a></td>
+<td>SqlRoleAssignment</td>
 <td>2021-05-15</td>
-<td>v1alpha1api20210515</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1alpha1api/v1alpha1api20210515_sqldatabasethroughputsetting.yaml">View</a></td>
+<td>v1api20210515</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqlroleassignment.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlRoleAssignment">SqlRoleAssignment</a></td>
@@ -1381,6 +1506,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Domain</td>
+<td>2020-06-01</td>
+<td>v1api20200601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1api/v1api20200601_domain.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventgrid/v1beta20200601/#eventgrid.azure.com/v1beta20200601.Domain">Domain</a></td>
 <td>2020-06-01</td>
 <td>v1beta20200601</td>
@@ -1388,11 +1520,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1beta/v1beta20200601_domain.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventgrid/v1alpha1api20200601/#eventgrid.azure.com/v1alpha1api20200601.Domain">Domain</a></td>
+<td>DomainsTopic</td>
 <td>2020-06-01</td>
-<td>v1alpha1api20200601</td>
-<td>v2.0.0-alpha.5</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1alpha1api/v1alpha1api20200601_domain.yaml">View</a></td>
+<td>v1api20200601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1api/v1api20200601_domainstopic.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventgrid/v1beta20200601/#eventgrid.azure.com/v1beta20200601.DomainsTopic">DomainsTopic</a></td>
@@ -1402,11 +1534,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1beta/v1beta20200601_domainstopic.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventgrid/v1alpha1api20200601/#eventgrid.azure.com/v1alpha1api20200601.DomainsTopic">DomainsTopic</a></td>
+<td>EventSubscription</td>
 <td>2020-06-01</td>
-<td>v1alpha1api20200601</td>
-<td>v2.0.0-alpha.5</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1alpha1api/v1alpha1api20200601_domainstopic.yaml">View</a></td>
+<td>v1api20200601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1api/v1api20200601_eventsubscription.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventgrid/v1beta20200601/#eventgrid.azure.com/v1beta20200601.EventSubscription">EventSubscription</a></td>
@@ -1416,11 +1548,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1beta/v1beta20200601_eventsubscription.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventgrid/v1alpha1api20200601/#eventgrid.azure.com/v1alpha1api20200601.EventSubscription">EventSubscription</a></td>
+<td>Topic</td>
 <td>2020-06-01</td>
-<td>v1alpha1api20200601</td>
-<td>v2.0.0-alpha.5</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1alpha1api/v1alpha1api20200601_eventsubscription.yaml">View</a></td>
+<td>v1api20200601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1api/v1api20200601_topic.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventgrid/v1beta20200601/#eventgrid.azure.com/v1beta20200601.Topic">Topic</a></td>
@@ -1428,13 +1560,6 @@ grouped by the originating ARM service.
 <td>v1beta20200601</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1beta/v1beta20200601_topic.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventgrid/v1alpha1api20200601/#eventgrid.azure.com/v1alpha1api20200601.Topic">Topic</a></td>
-<td>2020-06-01</td>
-<td>v1alpha1api20200601</td>
-<td>v2.0.0-alpha.3</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1alpha1api/v1alpha1api20200601_topic.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1452,6 +1577,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Namespace</td>
+<td>2021-11-01</td>
+<td>v1api20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespace.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.Namespace">Namespace</a></td>
 <td>2021-11-01</td>
 <td>v1beta20211101</td>
@@ -1459,11 +1591,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespace.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1alpha1api20211101/#eventhub.azure.com/v1alpha1api20211101.Namespace">Namespace</a></td>
+<td>NamespacesAuthorizationRule</td>
 <td>2021-11-01</td>
-<td>v1alpha1api20211101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1alpha1api/v1alpha1api20211101_namespace.yaml">View</a></td>
+<td>v1api20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespacesauthorizationrule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
@@ -1473,11 +1605,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespacesauthorizationrule.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1alpha1api20211101/#eventhub.azure.com/v1alpha1api20211101.NamespacesAuthorizationRule">NamespacesAuthorizationRule</a></td>
+<td>NamespacesEventhub</td>
 <td>2021-11-01</td>
-<td>v1alpha1api20211101</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1alpha1api/v1alpha1api20211101_namespacesauthorizationrule.yaml">View</a></td>
+<td>v1api20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespaceseventhub.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesEventhub">NamespacesEventhub</a></td>
@@ -1487,11 +1619,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespaceseventhub.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1alpha1api20211101/#eventhub.azure.com/v1alpha1api20211101.NamespacesEventhub">NamespacesEventhub</a></td>
+<td>NamespacesEventhubsAuthorizationRule</td>
 <td>2021-11-01</td>
-<td>v1alpha1api20211101</td>
-<td>v2.0.0-alpha.3</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1alpha1api/v1alpha1api20211101_namespaceseventhub.yaml">View</a></td>
+<td>v1api20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespaceseventhubsauthorizationrule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a></td>
@@ -1501,11 +1633,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespaceseventhubsauthorizationrule.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1alpha1api20211101/#eventhub.azure.com/v1alpha1api20211101.NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a></td>
+<td>NamespacesEventhubsConsumerGroup</td>
 <td>2021-11-01</td>
-<td>v1alpha1api20211101</td>
-<td>v2.0.0-alpha.3</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1alpha1api/v1alpha1api20211101_namespaceseventhubsauthorizationrule.yaml">View</a></td>
+<td>v1api20211101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1api/v1api20211101_namespaceseventhubsconsumergroup.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/#eventhub.azure.com/v1beta20211101.NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a></td>
@@ -1513,13 +1645,6 @@ grouped by the originating ARM service.
 <td>v1beta20211101</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1beta/v1beta20211101_namespaceseventhubsconsumergroup.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/eventhub/v1alpha1api20211101/#eventhub.azure.com/v1alpha1api20211101.NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a></td>
-<td>2021-11-01</td>
-<td>v1alpha1api20211101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventhub/v1alpha1api/v1alpha1api20211101_namespaceseventhubsconsumergroup.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1537,6 +1662,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Component</td>
+<td>2020-02-02</td>
+<td>v1api20200202</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20200202_component.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/insights/v1beta20200202/#insights.azure.com/v1beta20200202.Component">Component</a></td>
 <td>2020-02-02</td>
 <td>v1beta20200202</td>
@@ -1544,11 +1676,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1beta/v1beta20200202_component.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/insights/v1alpha1api20200202/#insights.azure.com/v1alpha1api20200202.Component">Component</a></td>
-<td>2020-02-02</td>
-<td>v1alpha1api20200202</td>
-<td>v2.0.0-alpha.2</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1alpha1api/v1alpha1api20200202_component.yaml">View</a></td>
+<td>Webtest</td>
+<td>2018-05-01-preview</td>
+<td>v1api20180501preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20180501preview_webtest.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/insights/v1beta20180501preview/#insights.azure.com/v1beta20180501preview.Webtest">Webtest</a></td>
@@ -1556,13 +1688,6 @@ grouped by the originating ARM service.
 <td>v1beta20180501preview</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1beta/v1beta20180501preview_webtest.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/insights/v1alpha1api20180501preview/#insights.azure.com/v1alpha1api20180501preview.Webtest">Webtest</a></td>
-<td>2018-05-01-preview</td>
-<td>v1alpha1api20180501preview</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1alpha1api/v1alpha1api20180501preview_webtest.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1579,6 +1704,13 @@ grouped by the originating ARM service.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Vault</td>
+<td>2021-04-01-preview</td>
+<td>v1api20210401preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api/v1api20210401preview_vault.yaml">View</a></td>
+</tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/keyvault/v1beta20210401preview/#keyvault.azure.com/v1beta20210401preview.Vault">Vault</a></td>
 <td>2021-04-01-preview</td>
@@ -1602,6 +1734,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Workspace</td>
+<td>2021-07-01</td>
+<td>v1api20210701</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api/v1api20210701_workspace.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.Workspace">Workspace</a></td>
 <td>2021-07-01</td>
 <td>v1beta20210701</td>
@@ -1609,11 +1748,25 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspace.yaml">View</a></td>
 </tr>
 <tr>
+<td>WorkspacesCompute</td>
+<td>2021-07-01</td>
+<td>v1api20210701</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api/v1api20210701_workspacescompute.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.WorkspacesCompute">WorkspacesCompute</a></td>
 <td>2021-07-01</td>
 <td>v1beta20210701</td>
 <td>v2.0.0-beta.2</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspacescompute.yaml">View</a></td>
+</tr>
+<tr>
+<td>WorkspacesConnection</td>
+<td>2021-07-01</td>
+<td>v1api20210701</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api/v1api20210701_workspacesconnection.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.WorkspacesConnection">WorkspacesConnection</a></td>
@@ -1640,9 +1793,23 @@ grouped by the originating ARM service.
 <tr>
 <td>FederatedIdentityCredential</td>
 <td>2022-01-31-preview</td>
+<td>v1api20220131preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api/v1api20220131preview_federatedidentitycredential.yaml">View</a></td>
+</tr>
+<tr>
+<td>FederatedIdentityCredential</td>
+<td>2022-01-31-preview</td>
 <td>v1beta20220131preview</td>
 <td>v2.0.0-beta.3</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1beta/v1beta20220131preview_federatedidentitycredential.yaml">View</a></td>
+</tr>
+<tr>
+<td>UserAssignedIdentity</td>
+<td>2018-11-30</td>
+<td>v1api20181130</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api/v1api20181130_userassignedidentity.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20181130/#managedidentity.azure.com/v1beta20181130.UserAssignedIdentity">UserAssignedIdentity</a></td>
@@ -1650,13 +1817,6 @@ grouped by the originating ARM service.
 <td>v1beta20181130</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/managedidentity/v1alpha1api20181130/#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity">UserAssignedIdentity</a></td>
-<td>2018-11-30</td>
-<td>v1alpha1api20181130</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1alpha1api/v1alpha1api20181130_userassignedidentity.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1674,6 +1834,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>LoadBalancer</td>
+<td>2020-11-01</td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_loadbalancer.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.LoadBalancer">LoadBalancer</a></td>
 <td>2020-11-01</td>
 <td>v1beta20201101</td>
@@ -1681,11 +1848,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_loadbalancer.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/#network.azure.com/v1alpha1api20201101.LoadBalancer">LoadBalancer</a></td>
+<td>NetworkInterface</td>
 <td>2020-11-01</td>
-<td>v1alpha1api20201101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1alpha1api/v1alpha1api20201101_loadbalancer.yaml">View</a></td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_networkinterface.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.NetworkInterface">NetworkInterface</a></td>
@@ -1695,11 +1862,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_networkinterface.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/#network.azure.com/v1alpha1api20201101.NetworkInterface">NetworkInterface</a></td>
+<td>NetworkSecurityGroup</td>
 <td>2020-11-01</td>
-<td>v1alpha1api20201101</td>
-<td>v2.0.0-alpha.3</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1alpha1api/v1alpha1api20201101_networkinterface.yaml">View</a></td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_networksecuritygroup.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.NetworkSecurityGroup">NetworkSecurityGroup</a></td>
@@ -1709,11 +1876,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_networksecuritygroup.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/#network.azure.com/v1alpha1api20201101.NetworkSecurityGroup">NetworkSecurityGroup</a></td>
+<td>NetworkSecurityGroupsSecurityRule</td>
 <td>2020-11-01</td>
-<td>v1alpha1api20201101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1alpha1api/v1alpha1api20201101_networksecuritygroup.yaml">View</a></td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_networksecuritygroupssecurityrule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule</a></td>
@@ -1723,11 +1890,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_networksecuritygroupssecurityrule.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/#network.azure.com/v1alpha1api20201101.NetworkSecurityGroupsSecurityRule">NetworkSecurityGroupsSecurityRule</a></td>
-<td>2020-11-01</td>
-<td>v1alpha1api20201101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1alpha1api/v1alpha1api20201101_networksecuritygroupssecurityrule.yaml">View</a></td>
+<td>PrivateDnsZone</td>
+<td>2018-09-01</td>
+<td>v1api20180901</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20180901/v1api20180901_privatednszone.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20180901/#network.azure.com/v1beta20180901.PrivateDnsZone">PrivateDnsZone</a></td>
@@ -1739,79 +1906,86 @@ grouped by the originating ARM service.
 <tr>
 <td>PrivateDnsZonesAAAARecord</td>
 <td>2020-06-01</td>
-<td>v1beta20200601</td>
+<td>v1api20200601</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20200601/v1beta20200601_privatednszonesaaaarecord.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesaaaarecord.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateDnsZonesARecord</td>
 <td>2020-06-01</td>
-<td>v1beta20200601</td>
+<td>v1api20200601</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20200601/v1beta20200601_privatednszonesarecord.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesarecord.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateDnsZonesCNAMERecord</td>
 <td>2020-06-01</td>
-<td>v1beta20200601</td>
+<td>v1api20200601</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20200601/v1beta20200601_privatednszonescnamerecord.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonescnamerecord.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateDnsZonesMXRecord</td>
 <td>2020-06-01</td>
-<td>v1beta20200601</td>
+<td>v1api20200601</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20200601/v1beta20200601_privatednszonesmxrecord.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesmxrecord.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateDnsZonesPTRRecord</td>
 <td>2020-06-01</td>
-<td>v1beta20200601</td>
+<td>v1api20200601</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20200601/v1beta20200601_privatednszonesptrrecord.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesptrrecord.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateDnsZonesSRVRecord</td>
 <td>2020-06-01</td>
-<td>v1beta20200601</td>
+<td>v1api20200601</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20200601/v1beta20200601_privatednszonessrvrecord.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonessrvrecord.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateDnsZonesTXTRecord</td>
 <td>2020-06-01</td>
-<td>v1beta20200601</td>
+<td>v1api20200601</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20200601/v1beta20200601_privatednszonestxtrecord.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonestxtrecord.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateDnsZonesVirtualNetworkLink</td>
 <td>2020-06-01</td>
-<td>v1beta20200601</td>
+<td>v1api20200601</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20200601/v1beta20200601_privatednszonesvirtualnetworklink.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20200601/v1api20200601_privatednszonesvirtualnetworklink.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateEndpoint</td>
 <td>2022-07-01</td>
-<td>v1beta20220701</td>
+<td>v1api20220701</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20220701/v1beta20220701_privateendpoint.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_privateendpoint.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateEndpointsPrivateDnsZoneGroup</td>
 <td>2022-07-01</td>
-<td>v1beta20220701</td>
+<td>v1api20220701</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20220701/v1beta20220701_privateendpointsprivatednszonegroup.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_privateendpointsprivatednszonegroup.yaml">View</a></td>
 </tr>
 <tr>
 <td>PrivateLinkService</td>
 <td>2022-07-01</td>
-<td>v1beta20220701</td>
+<td>v1api20220701</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20220701/v1beta20220701_privatelinkservice.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_privatelinkservice.yaml">View</a></td>
+</tr>
+<tr>
+<td>PublicIPAddress</td>
+<td>2020-11-01</td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_publicipaddress.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.PublicIPAddress">PublicIPAddress</a></td>
@@ -1821,11 +1995,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_publicipaddress.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/#network.azure.com/v1alpha1api20201101.PublicIPAddress">PublicIPAddress</a></td>
+<td>RouteTable</td>
 <td>2020-11-01</td>
-<td>v1alpha1api20201101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1alpha1api/v1alpha1api20201101_publicipaddress.yaml">View</a></td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_routetable.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.RouteTable">RouteTable</a></td>
@@ -1835,11 +2009,25 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_routetable.yaml">View</a></td>
 </tr>
 <tr>
+<td>RouteTablesRoute</td>
+<td>2020-11-01</td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_routetablesroute.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.RouteTablesRoute">RouteTablesRoute</a></td>
 <td>2020-11-01</td>
 <td>v1beta20201101</td>
 <td>v2.0.0-beta.1</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_routetablesroute.yaml">View</a></td>
+</tr>
+<tr>
+<td>VirtualNetwork</td>
+<td>2020-11-01</td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetwork.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.VirtualNetwork">VirtualNetwork</a></td>
@@ -1849,11 +2037,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_virtualnetwork.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/#network.azure.com/v1alpha1api20201101.VirtualNetwork">VirtualNetwork</a></td>
+<td>VirtualNetworkGateway</td>
 <td>2020-11-01</td>
-<td>v1alpha1api20201101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1alpha1api/v1alpha1api20201101_virtualnetwork.yaml">View</a></td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworkgateway.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.VirtualNetworkGateway">VirtualNetworkGateway</a></td>
@@ -1863,11 +2051,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_virtualnetworkgateway.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/#network.azure.com/v1alpha1api20201101.VirtualNetworkGateway">VirtualNetworkGateway</a></td>
+<td>VirtualNetworksSubnet</td>
 <td>2020-11-01</td>
-<td>v1alpha1api20201101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1alpha1api/v1alpha1api20201101_virtualnetworkgateway.yaml">View</a></td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworkssubnet.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.VirtualNetworksSubnet">VirtualNetworksSubnet</a></td>
@@ -1877,11 +2065,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_virtualnetworkssubnet.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/#network.azure.com/v1alpha1api20201101.VirtualNetworksSubnet">VirtualNetworksSubnet</a></td>
+<td>VirtualNetworksVirtualNetworkPeering</td>
 <td>2020-11-01</td>
-<td>v1alpha1api20201101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1alpha1api/v1alpha1api20201101_virtualnetworkssubnet.yaml">View</a></td>
+<td>v1api20201101</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworksvirtualnetworkpeering.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering</a></td>
@@ -1889,13 +2077,6 @@ grouped by the originating ARM service.
 <td>v1beta20201101</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_virtualnetworksvirtualnetworkpeering.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/#network.azure.com/v1alpha1api20201101.VirtualNetworksVirtualNetworkPeering">VirtualNetworksVirtualNetworkPeering</a></td>
-<td>2020-11-01</td>
-<td>v1alpha1api20201101</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1alpha1api/v1alpha1api20201101_virtualnetworksvirtualnetworkpeering.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1913,18 +2094,18 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Workspace</td>
+<td>2021-06-01</td>
+<td>v1api20210601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/operationalinsights/v1api/v1api20210601_workspace.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/operationalinsights/v1beta20210601/#operationalinsights.azure.com/v1beta20210601.Workspace">Workspace</a></td>
 <td>2021-06-01</td>
 <td>v1beta20210601</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/operationalinsights/v1beta/v1beta20210601_workspace.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/operationalinsights/v1alpha1api20210601/#operationalinsights.azure.com/v1alpha1api20210601.Workspace">Workspace</a></td>
-<td>2021-06-01</td>
-<td>v1alpha1api20210601</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/operationalinsights/v1alpha1api/v1alpha1api20210601_workspace.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1942,18 +2123,18 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>ResourceGroup</td>
+<td>2020-06-01</td>
+<td>v1api20200601</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/resources/v1beta20200601/#resources.azure.com/v1beta20200601.ResourceGroup">ResourceGroup</a></td>
 <td>2020-06-01</td>
 <td>v1beta20200601</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1beta/v1beta20200601_resourcegroup.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/resources/v1alpha1api20200601/#resources.azure.com/v1alpha1api20200601.ResourceGroup">ResourceGroup</a></td>
-<td>2020-06-01</td>
-<td>v1alpha1api20200601</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1alpha1api/v1alpha1api20200601_resourcegroup.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -1971,6 +2152,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>Namespace</td>
+<td>2021-01-01-preview</td>
+<td>v1api20210101preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api/v1api20210101preview_namespace.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/#servicebus.azure.com/v1beta20210101preview.Namespace">Namespace</a></td>
 <td>2021-01-01-preview</td>
 <td>v1beta20210101preview</td>
@@ -1978,11 +2166,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1beta/v1beta20210101preview_namespace.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/servicebus/v1alpha1api20210101preview/#servicebus.azure.com/v1alpha1api20210101preview.Namespace">Namespace</a></td>
+<td>NamespacesQueue</td>
 <td>2021-01-01-preview</td>
-<td>v1alpha1api20210101preview</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1alpha1api/v1alpha1api20210101preview_namespace.yaml">View</a></td>
+<td>v1api20210101preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api/v1api20210101preview_namespacesqueue.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/#servicebus.azure.com/v1beta20210101preview.NamespacesQueue">NamespacesQueue</a></td>
@@ -1992,11 +2180,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1beta/v1beta20210101preview_namespacesqueue.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/servicebus/v1alpha1api20210101preview/#servicebus.azure.com/v1alpha1api20210101preview.NamespacesQueue">NamespacesQueue</a></td>
+<td>NamespacesTopic</td>
 <td>2021-01-01-preview</td>
-<td>v1alpha1api20210101preview</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1alpha1api/v1alpha1api20210101preview_namespacesqueue.yaml">View</a></td>
+<td>v1api20210101preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api/v1api20210101preview_namespacestopic.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/#servicebus.azure.com/v1beta20210101preview.NamespacesTopic">NamespacesTopic</a></td>
@@ -2006,11 +2194,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1beta/v1beta20210101preview_namespacestopic.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/servicebus/v1alpha1api20210101preview/#servicebus.azure.com/v1alpha1api20210101preview.NamespacesTopic">NamespacesTopic</a></td>
+<td>NamespacesTopicsSubscription</td>
 <td>2021-01-01-preview</td>
-<td>v1alpha1api20210101preview</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1alpha1api/v1alpha1api20210101preview_namespacestopic.yaml">View</a></td>
+<td>v1api20210101preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api/v1api20210101preview_namespacestopicssubscription.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/#servicebus.azure.com/v1beta20210101preview.NamespacesTopicsSubscription">NamespacesTopicsSubscription</a></td>
@@ -2018,6 +2206,13 @@ grouped by the originating ARM service.
 <td>v1beta20210101preview</td>
 <td>v2.0.0-beta.3</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1beta/v1beta20210101preview_namespacestopicssubscription.yaml">View</a></td>
+</tr>
+<tr>
+<td>NamespacesTopicsSubscriptionsRule</td>
+<td>2021-01-01-preview</td>
+<td>v1api20210101preview</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api/v1api20210101preview_namespacestopicssubscriptionsrule.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/#servicebus.azure.com/v1beta20210101preview.NamespacesTopicsSubscriptionsRule">NamespacesTopicsSubscriptionsRule</a></td>
@@ -2042,18 +2237,18 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>SignalR</td>
+<td>2021-10-01</td>
+<td>v1api20211001</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1api/v1api20211001_signalr.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/signalrservice/v1beta20211001/#signalrservice.azure.com/v1beta20211001.SignalR">SignalR</a></td>
 <td>2021-10-01</td>
 <td>v1beta20211001</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1beta/v1beta20211001_signalr.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/signalrservice/v1alpha1api20211001/#signalrservice.azure.com/v1alpha1api20211001.SignalR">SignalR</a></td>
-<td>2021-10-01</td>
-<td>v1alpha1api20211001</td>
-<td>v2.0.0-alpha.4</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/signalrservice/v1alpha1api/v1alpha1api20211001_signalr.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -2073,156 +2268,156 @@ grouped by the originating ARM service.
 <tr>
 <td>Server</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_server.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_server.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersAdministrator</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversadministrator.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversadministrator.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersAdvancedThreatProtectionSetting</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversadvancedthreatprotectionsetting.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversadvancedthreatprotectionsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersAuditingSetting</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversauditingsetting.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversauditingsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersAzureADOnlyAuthentication</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversazureadonlyauthentication.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversazureadonlyauthentication.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersConnectionPolicy</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversconnectionpolicy.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversconnectionpolicy.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersDatabase</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabase.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversdatabase.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersDatabasesAdvancedThreatProtectionSetting</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesadvancedthreatprotectionsetting.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversdatabasesadvancedthreatprotectionsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersDatabasesAuditingSetting</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesauditingsetting.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversdatabasesauditingsetting.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersDatabasesBackupLongTermRetentionPolicy</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesbackuplongtermretentionpolicy.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversdatabasesbackuplongtermretentionpolicy.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersDatabasesBackupShortTermRetentionPolicy</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesbackupshorttermretentionpolicy.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversdatabasesbackupshorttermretentionpolicy.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersDatabasesSecurityAlertPolicy</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasessecurityalertpolicy.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversdatabasessecurityalertpolicy.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersDatabasesTransparentDataEncryption</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasestransparentdataencryption.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversdatabasestransparentdataencryption.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersDatabasesVulnerabilityAssessment</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversdatabasesvulnerabilityassessment.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversdatabasesvulnerabilityassessment.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersElasticPool</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serverselasticpool.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serverselasticpool.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersFailoverGroup</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversfailovergroup.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversfailovergroup.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersFirewallRule</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversfirewallrule.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversfirewallrule.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersIPV6FirewallRule</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversipv6firewallrule.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversipv6firewallrule.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersOutboundFirewallRule</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversoutboundfirewallrule.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversoutboundfirewallrule.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersSecurityAlertPolicy</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serverssecurityalertpolicy.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serverssecurityalertpolicy.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersVirtualNetworkRule</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversvirtualnetworkrule.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversvirtualnetworkrule.yaml">View</a></td>
 </tr>
 <tr>
 <td>ServersVulnerabilityAssessment</td>
 <td>2021-11-01</td>
-<td>v1beta20211101</td>
+<td>v1api20211101</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1beta/v1beta20211101_serversvulnerabilityassessment.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api20211101_serversvulnerabilityassessment.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -2240,6 +2435,13 @@ grouped by the originating ARM service.
 </thead>
 <tbody>
 <tr>
+<td>StorageAccount</td>
+<td>2021-04-01</td>
+<td>v1api20210401</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1api/v1api20210401_storageaccount.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccount">StorageAccount</a></td>
 <td>2021-04-01</td>
 <td>v1beta20210401</td>
@@ -2247,11 +2449,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1beta/v1beta20210401_storageaccount.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1alpha1api20210401/#storage.azure.com/v1alpha1api20210401.StorageAccount">StorageAccount</a></td>
+<td>StorageAccountsBlobService</td>
 <td>2021-04-01</td>
-<td>v1alpha1api20210401</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1alpha1api/v1alpha1api20210401_storageaccount.yaml">View</a></td>
+<td>v1api20210401</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1api/v1api20210401_storageaccountsblobservice.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsBlobService">StorageAccountsBlobService</a></td>
@@ -2261,11 +2463,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1beta/v1beta20210401_storageaccountsblobservice.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1alpha1api20210401/#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobService">StorageAccountsBlobService</a></td>
+<td>StorageAccountsBlobServicesContainer</td>
 <td>2021-04-01</td>
-<td>v1alpha1api20210401</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1alpha1api/v1alpha1api20210401_storageaccountsblobservice.yaml">View</a></td>
+<td>v1api20210401</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1api/v1api20210401_storageaccountsblobservicescontainer.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer</a></td>
@@ -2275,11 +2477,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1beta/v1beta20210401_storageaccountsblobservicescontainer.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1alpha1api20210401/#storage.azure.com/v1alpha1api20210401.StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer</a></td>
+<td>StorageAccountsManagementPolicy</td>
 <td>2021-04-01</td>
-<td>v1alpha1api20210401</td>
-<td>v2.0.0-alpha.1</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1alpha1api/v1alpha1api20210401_storageaccountsblobservicescontainer.yaml">View</a></td>
+<td>v1api20210401</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1api/v1api20210401_storageaccountsmanagementpolicy.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a></td>
@@ -2289,11 +2491,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1beta/v1beta20210401_storageaccountsmanagementpolicy.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1alpha1api20210401/#storage.azure.com/v1alpha1api20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a></td>
+<td>StorageAccountsQueueService</td>
 <td>2021-04-01</td>
-<td>v1alpha1api20210401</td>
-<td>v2.0.0-alpha.6</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1alpha1api/v1alpha1api20210401_storageaccountsmanagementpolicy.yaml">View</a></td>
+<td>v1api20210401</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1api/v1api20210401_storageaccountsqueueservice.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsQueueService">StorageAccountsQueueService</a></td>
@@ -2303,11 +2505,11 @@ grouped by the originating ARM service.
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1beta/v1beta20210401_storageaccountsqueueservice.yaml">View</a></td>
 </tr>
 <tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1alpha1api20210401/#storage.azure.com/v1alpha1api20210401.StorageAccountsQueueService">StorageAccountsQueueService</a></td>
+<td>StorageAccountsQueueServicesQueue</td>
 <td>2021-04-01</td>
-<td>v1alpha1api20210401</td>
-<td>v2.0.0-alpha.5</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1alpha1api/v1alpha1api20210401_storageaccountsqueueservice.yaml">View</a></td>
+<td>v1api20210401</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1api/v1api20210401_storageaccountsqueueservicesqueue.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue</a></td>
@@ -2315,13 +2517,6 @@ grouped by the originating ARM service.
 <td>v1beta20210401</td>
 <td>v2.0.0-beta.0</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1beta/v1beta20210401_storageaccountsqueueservicesqueue.yaml">View</a></td>
-</tr>
-<tr>
-<td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1alpha1api20210401/#storage.azure.com/v1alpha1api20210401.StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue</a></td>
-<td>2021-04-01</td>
-<td>v1alpha1api20210401</td>
-<td>v2.0.0-alpha.5</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1alpha1api/v1alpha1api20210401_storageaccountsqueueservicesqueue.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
@@ -2338,6 +2533,13 @@ grouped by the originating ARM service.
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Alias</td>
+<td>2021-10-01</td>
+<td>v1api20211001</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/subscription/v1api/v1api20211001_alias.yaml">View</a></td>
+</tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/subscription/v1beta20211001/#subscription.azure.com/v1beta20211001.Alias">Alias</a></td>
 <td>2021-10-01</td>
@@ -2363,9 +2565,23 @@ grouped by the originating ARM service.
 <tr>
 <td>ServerFarm</td>
 <td>2022-03-01</td>
+<td>v1api20220301</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v1api/v1api20220301_serverfarm.yaml">View</a></td>
+</tr>
+<tr>
+<td>ServerFarm</td>
+<td>2022-03-01</td>
 <td>v1beta20220301</td>
 <td>v2.0.0-beta.3</td>
 <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v1beta/v1beta20220301_serverfarm.yaml">View</a></td>
+</tr>
+<tr>
+<td>Site</td>
+<td>2022-03-01</td>
+<td>v1api20220301</td>
+<td>v2.0.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v1api/v1api20220301_site.yaml">View</a></td>
 </tr>
 <tr>
 <td>Site</td>

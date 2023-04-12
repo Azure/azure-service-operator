@@ -2,9 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://azure.github.io/azure-service-operator/tools/asoctl/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/tools/generator/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/tools/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/</loc>
   </url><url>
@@ -41,6 +47,8 @@
     <loc>https://azure.github.io/azure-service-operator/design/adr-2022-12-reconciliation-extensions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
