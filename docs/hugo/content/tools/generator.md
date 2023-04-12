@@ -2,9 +2,6 @@
 title: "generator"
 linkTitle: "generator"
 weight: 20
-menu:
-  main:
-    weight: 20
 layout: single
 cascade:
 - type: docs

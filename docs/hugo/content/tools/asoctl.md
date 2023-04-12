@@ -2,9 +2,6 @@
 title: "asoctl"
 linkTitle: "asoctl"
 weight: 10
-menu:
-  main:
-    weight: 10
 layout: single
 cascade:
 - type: docs
