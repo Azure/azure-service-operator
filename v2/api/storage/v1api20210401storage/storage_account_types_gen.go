@@ -4,11 +4,16 @@
 package v1api20210401storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=storage.azure.com,resources=storageaccounts,verbs=get;list;watch;create;update;patch;delete
@@ -42,6 +47,60 @@ func (account *StorageAccount) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (account *StorageAccount) SetConditions(conditions conditions.Conditions) {
 	account.Status.Conditions = conditions
+}
+
+var _ genruntime.KubernetesExporter = &StorageAccount{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (account *StorageAccount) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(account.Namespace)
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Blob != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.BlobEndpoint, *account.Status.PrimaryEndpoints.Blob)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Dfs != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.DfsEndpoint, *account.Status.PrimaryEndpoints.Dfs)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.File != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.FileEndpoint, *account.Status.PrimaryEndpoints.File)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Queue != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.QueueEndpoint, *account.Status.PrimaryEndpoints.Queue)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Table != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.TableEndpoint, *account.Status.PrimaryEndpoints.Table)
+			}
+		}
+	}
+	if account.Spec.OperatorSpec != nil && account.Spec.OperatorSpec.ConfigMaps != nil {
+		if account.Status.PrimaryEndpoints != nil {
+			if account.Status.PrimaryEndpoints.Web != nil {
+				collector.AddValue(account.Spec.OperatorSpec.ConfigMaps.WebEndpoint, *account.Status.PrimaryEndpoints.Web)
+			}
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &StorageAccount{}
@@ -495,8 +554,9 @@ type Sku_STATUS struct {
 // Storage version of v1api20210401.StorageAccountOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type StorageAccountOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Secrets     *StorageAccountOperatorSecrets `json:"secrets,omitempty"`
+	ConfigMaps  *StorageAccountOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Secrets     *StorageAccountOperatorSecrets    `json:"secrets,omitempty"`
 }
 
 // Storage version of v1api20210401.ActiveDirectoryProperties
@@ -643,6 +703,17 @@ type StorageAccountMicrosoftEndpoints_STATUS struct {
 	Queue       *string                `json:"queue,omitempty"`
 	Table       *string                `json:"table,omitempty"`
 	Web         *string                `json:"web,omitempty"`
+}
+
+// Storage version of v1api20210401.StorageAccountOperatorConfigMaps
+type StorageAccountOperatorConfigMaps struct {
+	BlobEndpoint  *genruntime.ConfigMapDestination `json:"blobEndpoint,omitempty"`
+	DfsEndpoint   *genruntime.ConfigMapDestination `json:"dfsEndpoint,omitempty"`
+	FileEndpoint  *genruntime.ConfigMapDestination `json:"fileEndpoint,omitempty"`
+	PropertyBag   genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+	QueueEndpoint *genruntime.ConfigMapDestination `json:"queueEndpoint,omitempty"`
+	TableEndpoint *genruntime.ConfigMapDestination `json:"tableEndpoint,omitempty"`
+	WebEndpoint   *genruntime.ConfigMapDestination `json:"webEndpoint,omitempty"`
 }
 
 // Storage version of v1api20210401.StorageAccountOperatorSecrets

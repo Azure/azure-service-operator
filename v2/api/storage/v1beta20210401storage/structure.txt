@@ -90,7 +90,15 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 │   │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │   │       ├── Reference: *genruntime.ResourceReference
 │   │   │       └── State: *string
-│   │   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── OperatorSpec: *Object (3 properties)
+│   │   │   ├── ConfigMaps: *Object (7 properties)
+│   │   │   │   ├── BlobEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   ├── DfsEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   ├── FileEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   ├── QueueEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   ├── TableEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   └── WebEndpoint: *genruntime.ConfigMapDestination
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Secrets: *Object (9 properties)
 │   │   │       ├── BlobEndpoint: *genruntime.SecretDestination
@@ -719,6 +727,7 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage
 ├── augmentConversionForStorageAccount: Interface
 ├── augmentConversionForStorageAccountInternetEndpoints_STATUS: Interface
 ├── augmentConversionForStorageAccountMicrosoftEndpoints_STATUS: Interface
+├── augmentConversionForStorageAccountOperatorConfigMaps: Interface
 ├── augmentConversionForStorageAccountOperatorSecrets: Interface
 ├── augmentConversionForStorageAccountOperatorSpec: Interface
 ├── augmentConversionForStorageAccount_STATUS: Interface

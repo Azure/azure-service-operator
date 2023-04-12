@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -45,11 +46,11 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 			if err != nil {
 				return nil, err
 			}
-			err = configuration.ObjectModelConfiguration.VerifyAzureGeneratedConfigsConsumed()
+			err = configuration.ObjectModelConfiguration.VerifyGeneratedConfigsConsumed()
 			if err != nil {
 				return nil, err
 			}
-			err = configuration.ObjectModelConfiguration.VerifyExportAsConfigMapPropertyNameConsumed()
+			err = configuration.ObjectModelConfiguration.VerifyManualConfigsConsumed()
 			if err != nil {
 				return nil, err
 			}
@@ -141,15 +142,20 @@ var identityConfigMapObjectTypeVisit = astmodel.MakeIdentityVisitOfObjectType(fu
 })
 
 type configMapTypeWalker struct {
-	configuration      *config.Configuration
-	exportedProperties ExportedProperties
-	walker             *astmodel.TypeWalker
+	configuration        *config.Configuration
+	configuredProperties map[string]string
+	exportedProperties   ExportedProperties
+	walker               *astmodel.TypeWalker
 }
 
-func newConfigMapTypeWalker(defs astmodel.TypeDefinitionSet, configuration *config.Configuration) *configMapTypeWalker {
+func newConfigMapTypeWalker(
+	defs astmodel.TypeDefinitionSet,
+	paths map[string]string,
+) *configMapTypeWalker {
+
 	result := &configMapTypeWalker{
-		configuration:      configuration,
-		exportedProperties: make(ExportedProperties),
+		configuredProperties: paths,
+		exportedProperties:   make(ExportedProperties),
 	}
 
 	visitor := astmodel.TypeVisitorBuilder{
@@ -204,23 +210,15 @@ func (w *configMapTypeWalker) catalogObjectConfigMapProperties(this *astmodel.Ty
 	var errs []error
 
 	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
-		configMapPropertyName, err := w.configuration.ObjectModelConfiguration.ExportAsConfigMapPropertyName(typedCtx.typeName, prop.PropertyName())
-		if err != nil {
-			if config.IsNotConfiguredError(err) {
-				return // Skip these properties
-			}
-			errs = append(errs, err)
-			return
-		}
-
 		path := append(typedCtx.path, prop)
 
-		// Ensure we don't already have a property of this name. If we do, that's a problem
-		if _, ok := w.exportedProperties[configMapPropertyName]; ok {
-			errs = append(errs, errors.Errorf("cannot have 2 ConfigMap properties with the same name: %q", configMapPropertyName))
-			return
+		// Transform the path into a string and check if we have that path configured
+		pathStr := makeJSONPathFromProps(path)
+		for propName, propPath := range w.configuredProperties {
+			if propPath == pathStr {
+				w.exportedProperties[propName] = path
+			}
 		}
-		w.exportedProperties[configMapPropertyName] = path
 	})
 
 	// Propagate errors
@@ -242,22 +240,54 @@ func (w *configMapTypeWalker) Walk(def astmodel.TypeDefinition) (ExportedPropert
 	return w.exportedProperties, nil
 }
 
+// TODO: Consider actually using a real JSONPath library here...?
+func makeJSONPathFromProps(props []*astmodel.PropertyDefinition) string {
+	builder := strings.Builder{}
+	builder.WriteString("$") // Always starts with a "$" which is the root
+	for _, prop := range props {
+		builder.WriteString(".") // Always starts with a dot
+		builder.WriteString(prop.PropertyName().String())
+	}
+
+	return builder.String()
+}
+
 func getConfigMapProperties(
 	defs astmodel.TypeDefinitionSet,
 	configuration *config.Configuration,
 	resource astmodel.TypeDefinition) ([]string, ExportedProperties, error) {
 
-	walker := newConfigMapTypeWalker(defs, configuration)
+	configMapPaths, err := configuration.ObjectModelConfiguration.GeneratedConfigs(resource.Name())
+	if err != nil {
+		// If error is just that there's no configured secrets, proceed
+		if !config.IsNotConfiguredError(err) {
+			return nil, nil, errors.Wrapf(err, "reading generatedConfigs for %s", resource.Name())
+		}
+	}
+
+	additionalConfigMaps, err := configuration.ObjectModelConfiguration.ManualConfigs(resource.Name())
+	if err != nil {
+		// If error is just that there's no configured secrets, proceed
+		if !config.IsNotConfiguredError(err) {
+			return nil, nil, errors.Wrapf(err, "reading manualConfigs for %s", resource.Name())
+		}
+	}
+
+	// Fast out if we don't have anything configured
+	if len(configMapPaths) == 0 && len(additionalConfigMaps) == 0 {
+		return nil, nil, nil
+	}
+
+	walker := newConfigMapTypeWalker(defs, configMapPaths)
 	exportedConfigMapProperties, err := walker.Walk(resource)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	additionalConfigMaps, err := configuration.ObjectModelConfiguration.AzureGeneratedConfigs(resource.Name())
-	if err != nil {
-		// If error is just that there's no configured secrets, proceed
-		if !config.IsNotConfiguredError(err) {
-			return nil, nil, errors.Wrapf(err, "reading azureGeneratedConfigs for %s", resource.Name())
+	// There should be an exported configMap property for every configured configMapPath
+	for name, path := range configMapPaths {
+		if _, ok := exportedConfigMapProperties[name]; !ok {
+			return nil, nil, errors.Errorf("$generatedConfigs property %q not found at path %q", name, path)
 		}
 	}
 

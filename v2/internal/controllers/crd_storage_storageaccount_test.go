@@ -150,9 +150,14 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 
 	// There should be no secrets at this point
-	list := &v1.SecretList{}
-	tc.ListResources(list, client.InNamespace(tc.Namespace))
-	tc.Expect(list.Items).To(HaveLen(0))
+	secretList := &v1.SecretList{}
+	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
+	tc.Expect(secretList.Items).To(HaveLen(0))
+
+	// Also no configmaps
+	configMapList := &v1.ConfigMapList{}
+	tc.ListResources(configMapList, client.InNamespace(tc.Namespace))
+	tc.Expect(configMapList.Items).To(HaveLen(0))
 
 	// Run sub-tests on storage account
 	tc.RunSubtests(
@@ -166,6 +171,12 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 			Name: "SecretsWrittenToDifferentKubeSecrets",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc, acct)
+			},
+		},
+		testcommon.Subtest{
+			Name: "ConfigMapsWritten",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				StorageAccount_ConfigMapsWritten(tc, acct)
 			},
 		},
 	)
@@ -220,6 +231,34 @@ func StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerT
 	tc.ExpectSecretHasKeys(fileSecret, "file")
 	tc.ExpectSecretHasKeys(webSecret, "web")
 	tc.ExpectSecretHasKeys(dfsSecret, "dfs")
+}
+
+func StorageAccount_ConfigMapsWritten(tc *testcommon.KubePerTestContext, acct *storage.StorageAccount) {
+	old := acct.DeepCopy()
+	configMap := "storageconfig"
+	acct.Spec.OperatorSpec = &storage.StorageAccountOperatorSpec{
+		ConfigMaps: &storage.StorageAccountOperatorConfigMaps{
+			BlobEndpoint: &genruntime.ConfigMapDestination{
+				Name: configMap,
+				Key:  "blob",
+			},
+			DfsEndpoint: &genruntime.ConfigMapDestination{
+				Name: configMap,
+				Key:  "dfs",
+			},
+		},
+	}
+	tc.PatchResourceAndWait(old, acct)
+
+	tc.Expect(acct.Status.PrimaryEndpoints).ToNot(BeNil())
+	tc.Expect(acct.Status.PrimaryEndpoints.Blob).ToNot(BeNil())
+	tc.Expect(acct.Status.PrimaryEndpoints.Dfs).ToNot(BeNil())
+	tc.ExpectConfigMapHasKeysAndValues(
+		configMap,
+		"blob",
+		*acct.Status.PrimaryEndpoints.Blob,
+		"dfs",
+		*acct.Status.PrimaryEndpoints.Dfs)
 }
 
 func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {

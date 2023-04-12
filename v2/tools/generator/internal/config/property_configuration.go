@@ -27,7 +27,6 @@ type PropertyConfiguration struct {
 	armReference                   configurable[bool]   // Specify whether this property is an ARM reference
 	isSecret                       configurable[bool]   // Specify whether this property is a secret
 	resourceLifecycleOwnedByParent configurable[string]
-	exportAsConfigMapPropertyName  configurable[string]              // The name of the exportAsConfigMap property.
 	importConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
 }
 
@@ -147,34 +146,6 @@ func (pc *PropertyConfiguration) VerifyResourceLifecycleOwnedByParentConsumed() 
 	return nil
 }
 
-// ExportAsConfigMapPropertyName looks up a property to determine if it should support being exported to a configMap
-func (pc *PropertyConfiguration) ExportAsConfigMapPropertyName() (string, error) {
-	val, ok := pc.exportAsConfigMapPropertyName.read()
-	if !ok {
-		msg := fmt.Sprintf(exportAsConfigMapPropertyNameTag+" not specified for property %s", pc.name)
-		return "", NewNotConfiguredError(msg)
-	}
-
-	return val, nil
-}
-
-// VerifyExportAsConfigMapPropertyNameConsumed returns an error if the config has the exportAsConfigMapPropertyName flag set and
-// it was not consumed
-func (pc *PropertyConfiguration) VerifyExportAsConfigMapPropertyNameConsumed() error {
-	if pc.exportAsConfigMapPropertyName.isUnconsumed() {
-		v, _ := pc.exportAsConfigMapPropertyName.read()
-		return errors.Errorf("property %s: "+exportAsConfigMapPropertyNameTag+": %s not consumed", pc.name, v)
-	}
-
-	return nil
-}
-
-// SetExportAsConfigMapPropertyName sets the configmap property name of this property
-func (pc *PropertyConfiguration) SetExportAsConfigMapPropertyName(name string) *PropertyConfiguration {
-	pc.exportAsConfigMapPropertyName.write(name)
-	return pc
-}
-
 // SetImportConfigMapMode sets the import configMap mode
 func (pc *PropertyConfiguration) SetImportConfigMapMode(mode ImportConfigMapMode) *PropertyConfiguration {
 	pc.importConfigMapMode.write(mode)
@@ -256,18 +227,6 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			pc.armReference.write(isARMRef)
-			continue
-		}
-
-		// $exportAsConfigMapPropertyName: <string>
-		if strings.EqualFold(lastId, exportAsConfigMapPropertyNameTag) && c.Kind == yaml.ScalarNode {
-			var exportAsConfigMapPropertyName string
-			err := c.Decode(&exportAsConfigMapPropertyName)
-			if err != nil {
-				return errors.Wrapf(err, "decoding %s", exportAsConfigMapPropertyNameTag)
-			}
-
-			pc.SetExportAsConfigMapPropertyName(exportAsConfigMapPropertyName)
 			continue
 		}
 
