@@ -20,6 +20,9 @@ Since many of these resources are already supported by ASO v2, albeit with shape
 * Con: The investment would benefit only a small number of customers.
 * Con: The conversions would need to be maintained, potentially indefinitely.
 * Con: It's unlikely we'd achieve 100% fidelity, requiring customers to change their YAML files anyway.
+* Blocker: Automatic conversion only works between different versions of a given group/kind, not between different groups/kinds.
+
+Conclusion: Attractive in theory, but can't actually work. ASO v1 uses hand crafted names for groups and kinds, where ASO v2 uses the singular form of ARM names. (E.g. postgresql vs dbforpostgresql, rediscache vs cache)
 
 ### Resource Import Job
 
