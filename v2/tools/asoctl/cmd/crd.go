@@ -12,7 +12,7 @@ func newCRDCommand() (*cobra.Command, error) {
 	cmd := &cobra.Command{
 		Use:   "crd",
 		Short: "Custom Resource Definition (CRD) related actions",
-		Args:  cobra.ExactArgs(1),
+		Args:  cobra.NoArgs,
 	}
 
 	crdCleanCommand := newCRDCleanCommand()

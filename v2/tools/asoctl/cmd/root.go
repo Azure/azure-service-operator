@@ -10,12 +10,12 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
+	"github.com/go-logr/zerologr"
 	"github.com/spf13/cobra"
 )
 
 // Execute kicks off the command line
 func Execute() {
-	progress := Progress()
 	cmd, err := newRootCommand()
 	if err != nil {
 		log.Error(err, "failed to build commands")
@@ -38,20 +38,28 @@ func newRootCommand() (*cobra.Command, error) {
 		TraverseChildren: true,
 	}
 
+	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Enable verbose logging")
+
 	rootCmd.Flags().SortFlags = false
 
-	cmdFuncs := []func() (*cobra.Command, error){
+	cmds := []func() (*cobra.Command, error){
 		newCRDCommand,
 		newImportCommand,
 		version.NewCommand,
 	}
 
-	for _, f := range cmdFuncs {
+	for _, f := range cmds {
 		cmd, err := f()
 		if err != nil {
 			return rootCmd, err
 		}
 		rootCmd.AddCommand(cmd)
+	}
+
+	rootCmd.PersistentPreRun = func(cmd *cobra.Command, args []string) {
+		if verbose {
+			zerologr.SetMaxV(1)
+		}
 	}
 
 	return rootCmd, nil

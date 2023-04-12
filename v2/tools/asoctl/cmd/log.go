@@ -6,8 +6,6 @@
 package cmd
 
 import (
-	flag "github.com/spf13/pflag"
-
 	"github.com/go-logr/logr"
 	"github.com/go-logr/zerologr"
 	"github.com/rs/zerolog"
@@ -24,24 +22,7 @@ var (
 	verbose bool
 )
 
-func Configure(f *flag.FlagSet) {
-	f.BoolVar(&verbose, "verbose", false, "Enable verbose logging")
-}
-
-func Logger() logr.Logger {
-	if verbose {
-		zerologr.SetMaxV(1)
-	}
-
-	return log
-}
-
-func Progress() *mpb.Progress {
-	return progress
-}
-
 func init() {
-
 	// Create Progressbar for console output
 	progress = mpb.New()
 

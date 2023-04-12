@@ -27,7 +27,11 @@ func newCRDCleanCommand() *cobra.Command {
 		Short: "Clean deprecated CRD versions from cluster",
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			cfg := config.GetConfigOrDie()
+			cfg, err := config.GetConfig()
+			if err != nil {
+				return errors.Wrap(err, "unable to get kubernetes config")
+			}
+
 			ctx := cmd.Context()
 
 			apiExtClient, err := v1.NewForConfig(cfg)

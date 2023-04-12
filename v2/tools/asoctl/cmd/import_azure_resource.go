@@ -44,8 +44,6 @@ func newImportAzureResourceCommand() *cobra.Command {
 
 // importAzureResource imports an ARM resource and writes the YAML to stdout or a file
 func importAzureResource(ctx context.Context, armIDs []string, outputPath *string) error {
-	log := Logger()
-
 	//TODO: Support other clouds
 	activeCloud := cloud.AzurePublic
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
