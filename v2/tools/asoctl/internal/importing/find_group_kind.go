@@ -14,16 +14,16 @@ import (
 )
 
 var (
-	typeToGK         map[string]schema.GroupKind
-	populateTypeToGK sync.Once
+	resourceTypeGK         map[string]schema.GroupKind
+	populateResourceTypeGK sync.Once
 )
 
-func FindGroupKindForType(t string) (schema.GroupKind, bool) {
-	populateTypeToGK.Do(func() {
-		typeToGK = createTypeToGKMap()
+func FindGroupKindForResourceType(t string) (schema.GroupKind, bool) {
+	populateResourceTypeGK.Do(func() {
+		resourceTypeGK = createTypeToGKMap()
 	})
 
-	gk, ok := typeToGK[t]
+	gk, ok := resourceTypeGK[t]
 	return gk, ok
 }
 

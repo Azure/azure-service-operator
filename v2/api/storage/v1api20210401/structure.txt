@@ -120,7 +120,14 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401
 │   │   │           ├── "NetworkSourceDeleted"
 │   │   │           ├── "Provisioning"
 │   │   │           └── "Succeeded"
-│   │   ├── OperatorSpec: *Object (1 property)
+│   │   ├── OperatorSpec: *Object (2 properties)
+│   │   │   ├── ConfigMaps: *Object (6 properties)
+│   │   │   │   ├── BlobEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   ├── DfsEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   ├── FileEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   ├── QueueEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   ├── TableEndpoint: *genruntime.ConfigMapDestination
+│   │   │   │   └── WebEndpoint: *genruntime.ConfigMapDestination
 │   │   │   └── Secrets: *Object (8 properties)
 │   │   │       ├── BlobEndpoint: *genruntime.SecretDestination
 │   │   │       ├── DfsEndpoint: *genruntime.SecretDestination

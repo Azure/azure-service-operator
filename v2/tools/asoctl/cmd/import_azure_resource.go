@@ -65,7 +65,10 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 
 	importer := importing.NewResourceImporter(api.CreateScheme(), client)
 	for _, armID := range armIDs {
-		importer.AddARMID(armID)
+		err = importer.AddARMID(armID)
+		if err != nil {
+			return errors.Wrapf(err, "failed to add %q to import list", armID)
+		}
 	}
 
 	result, err := importer.Import(ctx)
