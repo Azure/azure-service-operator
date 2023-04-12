@@ -1617,8 +1617,9 @@ objectModelConfiguration:
       Workspace:
         $export: true
         $supportedFrom: v2.0.0
-        $azureGeneratedSecrets:
-          - SqlAdministratorLoginPassword
+      WorkspaceProperties:
+        SqlAdministratorLoginPassword:
+          $isSecret: true
       Workspaces_BigDataPool:
         $export: true
         $exportAs: WorkspacesBigDataPool

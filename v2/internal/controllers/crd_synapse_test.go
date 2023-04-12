@@ -8,12 +8,13 @@ package controllers_test
 import (
 	"testing"
 
+	. "github.com/onsi/gomega"
+
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	synapse "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	. "github.com/onsi/gomega"
 )
 
 func Test_Workspace_BigDataPool(t *testing.T) {
@@ -63,13 +64,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 		},
 	}
 
-	tc.RunSubtests(
-		testcommon.Subtest{
-			Name: "Test_WorkspacesBigDataPool_CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				WorkspacesBigDataPool_CRUD(tc, ws, sa)
-			},
-		})
+	tc.CreateResourcesAndWait(sa, ws)
 
 	tc.Expect(ws.Status.Id).ToNot(BeNil())
 	wsArmId := *ws.Status.Id
@@ -78,6 +73,14 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 	ws.Spec.Tags["cheese"] = "époisses"
 	tc.PatchResourceAndWait(old, ws)
 	tc.Expect(ws.Status.Tags).To(Equal(map[string]string{"cheese": "époisses"}))
+
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "Test_WorkspacesBigDataPool_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				WorkspacesBigDataPool_CRUD(tc, ws)
+			},
+		})
 
 	tc.DeleteResourceAndWait(ws)
 
@@ -90,7 +93,7 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func WorkspacesBigDataPool_CRUD(tc *testcommon.KubePerTestContext, workspaces *synapse.Workspace, sa *storage.StorageAccount) {
+func WorkspacesBigDataPool_CRUD(tc *testcommon.KubePerTestContext, workspaces *synapse.Workspace) {
 	nodeSize := synapse.BigDataPoolResourceProperties_NodeSize_Medium
 	nodeSizeFamily := synapse.BigDataPoolResourceProperties_NodeSizeFamily_MemoryOptimized
 
@@ -111,6 +114,9 @@ func WorkspacesBigDataPool_CRUD(tc *testcommon.KubePerTestContext, workspaces *s
 			},
 		},
 	}
-	tc.CreateResourcesAndWait(sa, workspaces, pool)
+	tc.CreateResourceAndWait(pool)
+
+	tc.Expect(pool.Status.Id).ToNot(BeNil())
+
 	tc.DeleteResourceAndWait(pool)
 }

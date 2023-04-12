@@ -658,8 +658,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.defaultDataLakeStorage.accountUrlFromConfig",
 				Func: indexSynapseWorkspaceAccountUrlFromConfig,
 			},
+			{
+				Key:  ".spec.sqlAdministratorLoginPassword",
+				Func: indexSynapseWorkspaceSqlAdministratorLoginPassword,
+			},
 		},
 		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.sqlAdministratorLoginPassword"}, &synapse_v1api20210601s.WorkspaceList{}),
+			},
 			{
 				Src:              &source.Kind{Type: &v1.ConfigMap{}},
 				MakeEventHandler: watchConfigMapsFactory([]string{".spec.defaultDataLakeStorage.accountUrlFromConfig"}, &synapse_v1api20210601s.WorkspaceList{}),
@@ -2080,6 +2088,18 @@ func indexSynapseWorkspaceAccountUrlFromConfig(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.DefaultDataLakeStorage.AccountUrlFromConfig.Index()
+}
+
+// indexSynapseWorkspaceSqlAdministratorLoginPassword an index function for synapse_v1api20210601s.Workspace .spec.sqlAdministratorLoginPassword
+func indexSynapseWorkspaceSqlAdministratorLoginPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*synapse_v1api20210601s.Workspace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.SqlAdministratorLoginPassword == nil {
+		return nil
+	}
+	return obj.Spec.SqlAdministratorLoginPassword.Index()
 }
 
 // indexWebSiteAccessKey an index function for web_v1api20220301s.Site .spec.siteConfig.azureStorageAccounts.accessKey
