@@ -49,13 +49,8 @@ type IdentityProperties_ARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *IdentityProperties_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity
-	// dictionary key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/
-	// providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]UserIdentityProperties_ARM `json:"userAssignedIdentities,omitempty"`
+	Type                   *IdentityProperties_Type                   `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // The properties of a container registry.
@@ -143,12 +138,8 @@ const (
 	Sku_Name_Standard = Sku_Name("Standard")
 )
 
-type UserIdentityProperties_ARM struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // The export policy for a container registry.

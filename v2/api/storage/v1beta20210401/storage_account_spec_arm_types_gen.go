@@ -42,7 +42,8 @@ type ExtendedLocation_ARM struct {
 
 // Deprecated version of Identity. Use v1api20210401.Identity instead
 type Identity_ARM struct {
-	Type *Identity_Type `json:"type,omitempty"`
+	Type                   *Identity_Type                             `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1api20210401.Sku instead
@@ -172,6 +173,10 @@ const (
 	Tier_Premium  = Tier("Premium")
 	Tier_Standard = Tier("Standard")
 )
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
+}
 
 // Deprecated version of ActiveDirectoryProperties. Use v1api20210401.ActiveDirectoryProperties instead
 type ActiveDirectoryProperties_ARM struct {

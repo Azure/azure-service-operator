@@ -34,7 +34,8 @@ func (namespace *Namespace_Spec_ARM) GetType() string {
 
 // Deprecated version of Identity. Use v1api20211101.Identity instead
 type Identity_ARM struct {
-	Type *Identity_Type `json:"type,omitempty"`
+	Type                   *Identity_Type                             `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of Namespace_Properties_Spec. Use v1api20211101.Namespace_Properties_Spec instead
@@ -93,6 +94,10 @@ const (
 	Sku_Tier_Premium  = Sku_Tier("Premium")
 	Sku_Tier_Standard = Sku_Tier("Standard")
 )
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
+}
 
 // Deprecated version of KeyVaultProperties. Use v1api20211101.KeyVaultProperties instead
 type KeyVaultProperties_ARM struct {

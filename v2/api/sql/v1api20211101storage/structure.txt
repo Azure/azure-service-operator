@@ -16,9 +16,12 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage
 │   │   │   └── TenantId: *string
 │   │   ├── AzureName: string
 │   │   ├── FederatedClientId: *string
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── KeyId: *string
 │   │   ├── Location: *string
 │   │   ├── MinimalTlsVersion: *string
@@ -207,9 +210,12 @@ github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101storage
 │   │   ├── ElasticPoolReference: *genruntime.ResourceReference
 │   │   ├── FederatedClientId: *string
 │   │   ├── HighAvailabilityReplicaCount: *int
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── IsLedgerOn: *bool
 │   │   ├── LicenseType: *string
 │   │   ├── Location: *string

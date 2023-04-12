@@ -263,8 +263,9 @@ func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleS
 // Storage version of v1api20211101.ResourceIdentity
 // Azure Active Directory identity configuration for a resource.
 type ResourceIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20211101.ResourceIdentity_STATUS
@@ -330,6 +331,13 @@ type PrivateEndpointConnectionProperties_STATUS struct {
 type ServerOperatorConfigMaps struct {
 	FullyQualifiedDomainName *genruntime.ConfigMapDestination `json:"fullyQualifiedDomainName,omitempty"`
 	PropertyBag              genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20211101.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20211101.UserIdentity_STATUS

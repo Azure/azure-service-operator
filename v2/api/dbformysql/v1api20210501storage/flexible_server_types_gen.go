@@ -316,8 +316,9 @@ type HighAvailability_STATUS struct {
 // Storage version of v1api20210501.Identity
 // Properties to configure Identity for Bring your Own Keys
 type Identity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20210501.Identity_STATUS
@@ -421,6 +422,13 @@ type SystemData_STATUS struct {
 type FlexibleServerOperatorSecrets struct {
 	FullyQualifiedDomainName *genruntime.SecretDestination `json:"fullyQualifiedDomainName,omitempty"`
 	PropertyBag              genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20210501.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 func init() {

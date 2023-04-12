@@ -46,7 +46,8 @@ func (signalR *SignalR_Spec_ARM) GetType() string {
 // A class represent managed identities used for request and response
 type ManagedIdentity_ARM struct {
 	// Type: Represents the identity type: systemAssigned, userAssigned, None
-	Type *ManagedIdentityType `json:"type,omitempty"`
+	Type                   *ManagedIdentityType                       `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // The billing information of the resource.
@@ -194,6 +195,10 @@ const (
 type SignalRTlsSettings_ARM struct {
 	// ClientCertEnabled: Request client certificate during TLS handshake if enabled
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Network ACL

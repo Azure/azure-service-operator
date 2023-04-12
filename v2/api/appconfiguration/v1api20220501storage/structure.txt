@@ -17,9 +17,12 @@ github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501sto
     │   │   │   ├── KeyIdentifier: *string
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── Identity: *Object (2 properties)
+    │   ├── Identity: *Object (3 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Type: *string
+    │   │   ├── Type: *string
+    │   │   └── UserAssignedIdentities: Object (2 properties)[]
+    │   │       ├── PropertyBag: genruntime.PropertyBag
+    │   │       └── Reference: genruntime.ResourceReference
     │   ├── Location: *string
     │   ├── OperatorSpec: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag

@@ -63,7 +63,8 @@ type ExtendedLocation_ARM struct {
 // Identity for the resource.
 type Identity_ARM struct {
 	// Type: The identity type.
-	Type *Identity_Type `json:"type,omitempty"`
+	Type                   *Identity_Type                             `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // The SKU of the storage account.
@@ -275,6 +276,10 @@ const (
 	Tier_Premium  = Tier("Premium")
 	Tier_Standard = Tier("Standard")
 )
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
+}
 
 // Settings properties for Active Directory (AD).
 type ActiveDirectoryProperties_ARM struct {

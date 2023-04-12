@@ -161,9 +161,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 │   │   ├── HostGroup: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── LicenseType: *string
 │   │   ├── Location: *string
 │   │   ├── NetworkProfile: *Object (4 properties)
@@ -463,11 +466,15 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Id: *string
-│       ├── Identity: *Object (4 properties)
+│       ├── Identity: *Object (5 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
-│       │   └── Type: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: map[string]Object (3 properties)
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
 │       ├── InstanceView: *Object (17 properties)
 │       │   ├── AssignedHost: *string
 │       │   ├── BootDiagnostics: *Object (4 properties)
@@ -951,9 +958,12 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 │   │   ├── HostGroup: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── Location: *string
 │   │   ├── OrchestrationMode: *string
 │   │   ├── OriginalVersion: string
@@ -1278,11 +1288,15 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 │       │   ├── Id: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Id: *string
-│       ├── Identity: *Object (4 properties)
+│       ├── Identity: *Object (5 properties)
 │       │   ├── PrincipalId: *string
 │       │   ├── PropertyBag: genruntime.PropertyBag
 │       │   ├── TenantId: *string
-│       │   └── Type: *string
+│       │   ├── Type: *string
+│       │   └── UserAssignedIdentities: map[string]Object (3 properties)
+│       │       ├── ClientId: *string
+│       │       ├── PrincipalId: *string
+│       │       └── PropertyBag: genruntime.PropertyBag
 │       ├── Location: *string
 │       ├── Name: *string
 │       ├── OrchestrationMode: *string
@@ -1695,6 +1709,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 ├── augmentConversionForUefiSettings_STATUS: Interface
 ├── augmentConversionForUpgradePolicy: Interface
 ├── augmentConversionForUpgradePolicy_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
 ├── augmentConversionForVMDiskSecurityProfile: Interface
 ├── augmentConversionForVMDiskSecurityProfile_STATUS: Interface
 ├── augmentConversionForVMGalleryApplication: Interface
@@ -1715,6 +1730,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 ├── augmentConversionForVirtualMachineHealthStatus_STATUS: Interface
 ├── augmentConversionForVirtualMachineIdentity: Interface
 ├── augmentConversionForVirtualMachineIdentity_STATUS: Interface
+├── augmentConversionForVirtualMachineIdentity_UserAssignedIdentities_STATUS: Interface
 ├── augmentConversionForVirtualMachineInstanceView_STATUS: Interface
 ├── augmentConversionForVirtualMachineIpTag: Interface
 ├── augmentConversionForVirtualMachineIpTag_STATUS: Interface
@@ -1742,6 +1758,7 @@ github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage
 ├── augmentConversionForVirtualMachineScaleSetIPConfiguration_STATUS: Interface
 ├── augmentConversionForVirtualMachineScaleSetIdentity: Interface
 ├── augmentConversionForVirtualMachineScaleSetIdentity_STATUS: Interface
+├── augmentConversionForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS: Interface
 ├── augmentConversionForVirtualMachineScaleSetIpTag: Interface
 ├── augmentConversionForVirtualMachineScaleSetIpTag_STATUS: Interface
 ├── augmentConversionForVirtualMachineScaleSetManagedDiskParameters: Interface

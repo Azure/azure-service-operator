@@ -46,7 +46,8 @@ func (site *Site_Spec_ARM) GetType() string {
 // Managed service identity.
 type ManagedServiceIdentity_ARM struct {
 	// Type: Type of managed service identity.
-	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentity_Type               `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type Site_Properties_Spec_ARM struct {
@@ -417,6 +418,10 @@ type SiteConfig_ARM struct {
 
 	// XManagedServiceIdentityId: Explicit Managed Service Identity Id
 	XManagedServiceIdentityId *int `json:"xManagedServiceIdentityId,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Information about the formal API definition for the app.

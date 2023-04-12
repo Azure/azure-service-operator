@@ -76,7 +76,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 
 func newFlexibleServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
 	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
-	location := "westcentralus"
+	location := "eastus"
 	version := mysql.ServerVersion_8021
 	tier := mysql.Sku_Tier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"

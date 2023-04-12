@@ -588,8 +588,9 @@ type ManagedClusterHTTPProxyConfig_STATUS struct {
 // Storage version of v1api20230201.ManagedClusterIdentity
 // Identity for the managed cluster.
 type ManagedClusterIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20230201.ManagedClusterIdentity_STATUS
@@ -1138,6 +1139,13 @@ type ManagedClusterWorkloadAutoScalerProfileKeda struct {
 type ManagedClusterWorkloadAutoScalerProfileKeda_STATUS struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20230201.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20230201.WindowsGmsaProfile

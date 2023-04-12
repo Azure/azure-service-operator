@@ -173,7 +173,7 @@ func AddIndependentPropertyGeneratorsForIdentityProperties_ARM(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForIdentityProperties_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIdentityProperties_ARM(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserIdentityProperties_ARMGenerator())
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityDetails_ARMGenerator())
 }
 
 func Test_RegistryProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -533,20 +533,20 @@ func AddRelatedPropertyGeneratorsForPolicies_ARM(gens map[string]gopter.Gen) {
 	gens["TrustPolicy"] = gen.PtrOf(TrustPolicy_ARMGenerator())
 }
 
-func Test_UserIdentityProperties_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UserAssignedIdentityDetails_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of UserIdentityProperties_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserIdentityProperties_ARM, UserIdentityProperties_ARMGenerator()))
+		"Round trip of UserAssignedIdentityDetails_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityDetails_ARM, UserAssignedIdentityDetails_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserIdentityProperties_ARM runs a test to see if a specific instance of UserIdentityProperties_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserIdentityProperties_ARM(subject UserIdentityProperties_ARM) string {
+// RunJSONSerializationTestForUserAssignedIdentityDetails_ARM runs a test to see if a specific instance of UserAssignedIdentityDetails_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentityDetails_ARM(subject UserAssignedIdentityDetails_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -554,7 +554,7 @@ func RunJSONSerializationTestForUserIdentityProperties_ARM(subject UserIdentityP
 	}
 
 	// Deserialize back into memory
-	var actual UserIdentityProperties_ARM
+	var actual UserAssignedIdentityDetails_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -572,27 +572,20 @@ func RunJSONSerializationTestForUserIdentityProperties_ARM(subject UserIdentityP
 	return ""
 }
 
-// Generator of UserIdentityProperties_ARM instances for property testing - lazily instantiated by
-// UserIdentityProperties_ARMGenerator()
-var userIdentityProperties_ARMGenerator gopter.Gen
+// Generator of UserAssignedIdentityDetails_ARM instances for property testing - lazily instantiated by
+// UserAssignedIdentityDetails_ARMGenerator()
+var userAssignedIdentityDetails_ARMGenerator gopter.Gen
 
-// UserIdentityProperties_ARMGenerator returns a generator of UserIdentityProperties_ARM instances for property testing.
-func UserIdentityProperties_ARMGenerator() gopter.Gen {
-	if userIdentityProperties_ARMGenerator != nil {
-		return userIdentityProperties_ARMGenerator
+// UserAssignedIdentityDetails_ARMGenerator returns a generator of UserAssignedIdentityDetails_ARM instances for property testing.
+func UserAssignedIdentityDetails_ARMGenerator() gopter.Gen {
+	if userAssignedIdentityDetails_ARMGenerator != nil {
+		return userAssignedIdentityDetails_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserIdentityProperties_ARM(generators)
-	userIdentityProperties_ARMGenerator = gen.Struct(reflect.TypeOf(UserIdentityProperties_ARM{}), generators)
+	userAssignedIdentityDetails_ARMGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityDetails_ARM{}), generators)
 
-	return userIdentityProperties_ARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUserIdentityProperties_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserIdentityProperties_ARM(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+	return userAssignedIdentityDetails_ARMGenerator
 }
 
 func Test_ExportPolicy_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

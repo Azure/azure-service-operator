@@ -35,7 +35,8 @@ func (site *Site_Spec_ARM) GetType() string {
 
 // Deprecated version of ManagedServiceIdentity. Use v1api20220301.ManagedServiceIdentity instead
 type ManagedServiceIdentity_ARM struct {
-	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
+	Type                   *ManagedServiceIdentity_Type               `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of Site_Properties_Spec. Use v1api20220301.Site_Properties_Spec instead
@@ -173,6 +174,10 @@ type SiteConfig_ARM struct {
 	WebsiteTimeZone                        *string                              `json:"websiteTimeZone,omitempty"`
 	WindowsFxVersion                       *string                              `json:"windowsFxVersion,omitempty"`
 	XManagedServiceIdentityId              *int                                 `json:"xManagedServiceIdentityId,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }
 
 // Deprecated version of ApiDefinitionInfo. Use v1api20220301.ApiDefinitionInfo instead
