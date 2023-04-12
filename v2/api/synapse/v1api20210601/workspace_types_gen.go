@@ -226,7 +226,7 @@ func (workspace *Workspace) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (workspace *Workspace) createValidations() []func() error {
-	return []func() error{workspace.validateResourceReferences, workspace.validateSecretDestinations, workspace.validateOptionalConfigMapReferences}
+	return []func() error{workspace.validateResourceReferences, workspace.validateOptionalConfigMapReferences}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -241,9 +241,6 @@ func (workspace *Workspace) updateValidations() []func(old runtime.Object) error
 			return workspace.validateResourceReferences()
 		},
 		workspace.validateWriteOnceProperties,
-		func(old runtime.Object) error {
-			return workspace.validateSecretDestinations()
-		},
 		func(old runtime.Object) error {
 			return workspace.validateOptionalConfigMapReferences()
 		},
@@ -266,20 +263,6 @@ func (workspace *Workspace) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
-}
-
-// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (workspace *Workspace) validateSecretDestinations() error {
-	if workspace.Spec.OperatorSpec == nil {
-		return nil
-	}
-	if workspace.Spec.OperatorSpec.Secrets == nil {
-		return nil
-	}
-	toValidate := []*genruntime.SecretDestination{
-		workspace.Spec.OperatorSpec.Secrets.SqlAdministratorLoginPassword,
-	}
-	return genruntime.ValidateSecretDestinations(toValidate)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -404,10 +387,6 @@ type Workspace_Spec struct {
 	// ManagedVirtualNetworkSettings: Managed Virtual Network Settings
 	ManagedVirtualNetworkSettings *ManagedVirtualNetworkSettings `json:"managedVirtualNetworkSettings,omitempty"`
 
-	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
-	// passed directly to Azure
-	OperatorSpec *WorkspaceOperatorSpec `json:"operatorSpec,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -424,7 +403,7 @@ type Workspace_Spec struct {
 	SqlAdministratorLogin *string `json:"sqlAdministratorLogin,omitempty"`
 
 	// SqlAdministratorLoginPassword: SQL administrator login password
-	SqlAdministratorLoginPassword *string `json:"sqlAdministratorLoginPassword,omitempty"`
+	SqlAdministratorLoginPassword *genruntime.SecretReference `json:"sqlAdministratorLoginPassword,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -545,7 +524,11 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Properties.SqlAdministratorLogin = &sqlAdministratorLogin
 	}
 	if workspace.SqlAdministratorLoginPassword != nil {
-		sqlAdministratorLoginPassword := *workspace.SqlAdministratorLoginPassword
+		sqlAdministratorLoginPasswordSecret, err := resolved.ResolvedSecrets.Lookup(*workspace.SqlAdministratorLoginPassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property SqlAdministratorLoginPassword")
+		}
+		sqlAdministratorLoginPassword := sqlAdministratorLoginPasswordSecret
 		result.Properties.SqlAdministratorLoginPassword = &sqlAdministratorLoginPassword
 	}
 	if workspace.TrustedServiceBypassEnabled != nil {
@@ -694,8 +677,6 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// no assignment for property ‘OperatorSpec’
-
 	// Set property ‘Owner’:
 	workspace.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
@@ -731,14 +712,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘SqlAdministratorLoginPassword’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SqlAdministratorLoginPassword != nil {
-			sqlAdministratorLoginPassword := *typedInput.Properties.SqlAdministratorLoginPassword
-			workspace.SqlAdministratorLoginPassword = &sqlAdministratorLoginPassword
-		}
-	}
+	// no assignment for property ‘SqlAdministratorLoginPassword’
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
@@ -922,18 +896,6 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v1
 		workspace.ManagedVirtualNetworkSettings = nil
 	}
 
-	// OperatorSpec
-	if source.OperatorSpec != nil {
-		var operatorSpec WorkspaceOperatorSpec
-		err := operatorSpec.AssignProperties_From_WorkspaceOperatorSpec(source.OperatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSpec() to populate field OperatorSpec")
-		}
-		workspace.OperatorSpec = &operatorSpec
-	} else {
-		workspace.OperatorSpec = nil
-	}
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -966,7 +928,12 @@ func (workspace *Workspace_Spec) AssignProperties_From_Workspace_Spec(source *v1
 	workspace.SqlAdministratorLogin = genruntime.ClonePointerToString(source.SqlAdministratorLogin)
 
 	// SqlAdministratorLoginPassword
-	workspace.SqlAdministratorLoginPassword = genruntime.ClonePointerToString(source.SqlAdministratorLoginPassword)
+	if source.SqlAdministratorLoginPassword != nil {
+		sqlAdministratorLoginPassword := source.SqlAdministratorLoginPassword.Copy()
+		workspace.SqlAdministratorLoginPassword = &sqlAdministratorLoginPassword
+	} else {
+		workspace.SqlAdministratorLoginPassword = nil
+	}
 
 	// Tags
 	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -1092,18 +1059,6 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 		destination.ManagedVirtualNetworkSettings = nil
 	}
 
-	// OperatorSpec
-	if workspace.OperatorSpec != nil {
-		var operatorSpec v1api20210601s.WorkspaceOperatorSpec
-		err := workspace.OperatorSpec.AssignProperties_To_WorkspaceOperatorSpec(&operatorSpec)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSpec() to populate field OperatorSpec")
-		}
-		destination.OperatorSpec = &operatorSpec
-	} else {
-		destination.OperatorSpec = nil
-	}
-
 	// OriginalVersion
 	destination.OriginalVersion = workspace.OriginalVersion()
 
@@ -1139,7 +1094,12 @@ func (workspace *Workspace_Spec) AssignProperties_To_Workspace_Spec(destination 
 	destination.SqlAdministratorLogin = genruntime.ClonePointerToString(workspace.SqlAdministratorLogin)
 
 	// SqlAdministratorLoginPassword
-	destination.SqlAdministratorLoginPassword = genruntime.ClonePointerToString(workspace.SqlAdministratorLoginPassword)
+	if workspace.SqlAdministratorLoginPassword != nil {
+		sqlAdministratorLoginPassword := workspace.SqlAdministratorLoginPassword.Copy()
+		destination.SqlAdministratorLoginPassword = &sqlAdministratorLoginPassword
+	} else {
+		destination.SqlAdministratorLoginPassword = nil
+	}
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(workspace.Tags)
@@ -1291,7 +1251,10 @@ func (workspace *Workspace_Spec) Initialize_From_Workspace_STATUS(source *Worksp
 	workspace.SqlAdministratorLogin = genruntime.ClonePointerToString(source.SqlAdministratorLogin)
 
 	// SqlAdministratorLoginPassword
-	workspace.SqlAdministratorLoginPassword = genruntime.ClonePointerToString(source.SqlAdministratorLoginPassword)
+	if source.SqlAdministratorLoginPassword != nil {
+	} else {
+		workspace.SqlAdministratorLoginPassword = nil
+	}
 
 	// Tags
 	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
@@ -3791,59 +3754,6 @@ func (profile *VirtualNetworkProfile_STATUS) AssignProperties_To_VirtualNetworkP
 	return nil
 }
 
-// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type WorkspaceOperatorSpec struct {
-	// Secrets: configures where to place Azure generated secrets.
-	Secrets *WorkspaceOperatorSecrets `json:"secrets,omitempty"`
-}
-
-// AssignProperties_From_WorkspaceOperatorSpec populates our WorkspaceOperatorSpec from the provided source WorkspaceOperatorSpec
-func (operator *WorkspaceOperatorSpec) AssignProperties_From_WorkspaceOperatorSpec(source *v1api20210601s.WorkspaceOperatorSpec) error {
-
-	// Secrets
-	if source.Secrets != nil {
-		var secret WorkspaceOperatorSecrets
-		err := secret.AssignProperties_From_WorkspaceOperatorSecrets(source.Secrets)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_WorkspaceOperatorSecrets() to populate field Secrets")
-		}
-		operator.Secrets = &secret
-	} else {
-		operator.Secrets = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_WorkspaceOperatorSpec populates the provided destination WorkspaceOperatorSpec from our WorkspaceOperatorSpec
-func (operator *WorkspaceOperatorSpec) AssignProperties_To_WorkspaceOperatorSpec(destination *v1api20210601s.WorkspaceOperatorSpec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Secrets
-	if operator.Secrets != nil {
-		var secret v1api20210601s.WorkspaceOperatorSecrets
-		err := operator.Secrets.AssignProperties_To_WorkspaceOperatorSecrets(&secret)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_WorkspaceOperatorSecrets() to populate field Secrets")
-		}
-		destination.Secrets = &secret
-	} else {
-		destination.Secrets = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type WorkspaceProperties_PublicNetworkAccess string
 
@@ -4707,51 +4617,6 @@ func (identity *UserAssignedManagedIdentity_STATUS) AssignProperties_To_UserAssi
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type WorkspaceOperatorSecrets struct {
-	// SqlAdministratorLoginPassword: indicates where the SqlAdministratorLoginPassword secret should be placed. If omitted,
-	// the secret will not be retrieved from Azure.
-	SqlAdministratorLoginPassword *genruntime.SecretDestination `json:"sqlAdministratorLoginPassword,omitempty"`
-}
-
-// AssignProperties_From_WorkspaceOperatorSecrets populates our WorkspaceOperatorSecrets from the provided source WorkspaceOperatorSecrets
-func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperatorSecrets(source *v1api20210601s.WorkspaceOperatorSecrets) error {
-
-	// SqlAdministratorLoginPassword
-	if source.SqlAdministratorLoginPassword != nil {
-		sqlAdministratorLoginPassword := source.SqlAdministratorLoginPassword.Copy()
-		secrets.SqlAdministratorLoginPassword = &sqlAdministratorLoginPassword
-	} else {
-		secrets.SqlAdministratorLoginPassword = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_WorkspaceOperatorSecrets populates the provided destination WorkspaceOperatorSecrets from our WorkspaceOperatorSecrets
-func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSecrets(destination *v1api20210601s.WorkspaceOperatorSecrets) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// SqlAdministratorLoginPassword
-	if secrets.SqlAdministratorLoginPassword != nil {
-		sqlAdministratorLoginPassword := secrets.SqlAdministratorLoginPassword.Copy()
-		destination.SqlAdministratorLoginPassword = &sqlAdministratorLoginPassword
-	} else {
-		destination.SqlAdministratorLoginPassword = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

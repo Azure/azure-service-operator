@@ -1,10 +1,10 @@
-apiVersion: synapse.azure.com/v1beta20210601
+apiVersion: synapse.azure.com/v1api20210601
 kind: WorkspacesBigDataPool
 metadata:
   name: samplepool
   namespace: default
 spec:
-  location: westcentralus
+  location: eastus2
   owner:
     name: sampleworkspace
   sparkVersion:   "3.3"

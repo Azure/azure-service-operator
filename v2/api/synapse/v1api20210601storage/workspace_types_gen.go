@@ -155,7 +155,6 @@ type Workspace_Spec struct {
 	ManagedResourceGroupName      *string                        `json:"managedResourceGroupName,omitempty"`
 	ManagedVirtualNetwork         *string                        `json:"managedVirtualNetwork,omitempty"`
 	ManagedVirtualNetworkSettings *ManagedVirtualNetworkSettings `json:"managedVirtualNetworkSettings,omitempty"`
-	OperatorSpec                  *WorkspaceOperatorSpec         `json:"operatorSpec,omitempty"`
 	OriginalVersion               string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -167,7 +166,7 @@ type Workspace_Spec struct {
 	PublicNetworkAccess              *string                            `json:"publicNetworkAccess,omitempty"`
 	PurviewConfiguration             *PurviewConfiguration              `json:"purviewConfiguration,omitempty"`
 	SqlAdministratorLogin            *string                            `json:"sqlAdministratorLogin,omitempty"`
-	SqlAdministratorLoginPassword    *string                            `json:"sqlAdministratorLoginPassword,omitempty"`
+	SqlAdministratorLoginPassword    *genruntime.SecretReference        `json:"sqlAdministratorLoginPassword,omitempty"`
 	Tags                             map[string]string                  `json:"tags,omitempty"`
 	TrustedServiceBypassEnabled      *bool                              `json:"trustedServiceBypassEnabled,omitempty"`
 	VirtualNetworkProfile            *VirtualNetworkProfile             `json:"virtualNetworkProfile,omitempty"`
@@ -372,13 +371,6 @@ type VirtualNetworkProfile_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20210601.WorkspaceOperatorSpec
-// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type WorkspaceOperatorSpec struct {
-	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	Secrets     *WorkspaceOperatorSecrets `json:"secrets,omitempty"`
-}
-
 // Storage version of v1api20210601.WorkspaceRepositoryConfiguration
 // Git integration settings
 type WorkspaceRepositoryConfiguration struct {
@@ -432,12 +424,6 @@ type UserAssignedManagedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20210601.WorkspaceOperatorSecrets
-type WorkspaceOperatorSecrets struct {
-	PropertyBag                   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	SqlAdministratorLoginPassword *genruntime.SecretDestination `json:"sqlAdministratorLoginPassword,omitempty"`
 }
 
 // Storage version of v1api20210601.KekIdentityProperties
