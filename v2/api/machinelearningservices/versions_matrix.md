@@ -159,6 +159,7 @@
 | SystemService_STATUS                                              | v1api20210701 | v1beta20210701 |
 | UserAccountCredentials                                            | v1api20210701 | v1beta20210701 |
 | UserAccountCredentials_STATUS                                     | v1api20210701 | v1beta20210701 |
+| UserAssignedIdentityDetails                                       | v1api20210701 | v1beta20210701 |
 | UserAssignedIdentity_STATUS                                       | v1api20210701 | v1beta20210701 |
 | VirtualMachine                                                    | v1api20210701 | v1beta20210701 |
 | VirtualMachineImage                                               | v1api20210701 | v1beta20210701 |

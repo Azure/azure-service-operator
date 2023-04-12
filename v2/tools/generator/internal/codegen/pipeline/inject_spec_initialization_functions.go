@@ -313,6 +313,17 @@ func (s *specInitializationScanner) visitArrayType(
 ) (astmodel.Type, error) {
 	status, ok := astmodel.AsArrayType(statusAny.(astmodel.Type))
 	if !ok {
+		// If the conversion is map -> array, we allow it but only for the special UserAssignedIdentityDetails type (for now).
+		// We can expand this in the future if there are other map->array scenarios we want to support
+		if _, ok := astmodel.AsMapType(statusAny.(astmodel.Type)); ok {
+			typeName, ok := astmodel.AsTypeName(spec.Element())
+			if ok {
+				if typeName.Name() == astmodel.UserAssignedIdentitiesTypeName {
+					return spec, nil
+				}
+			}
+		}
+
 		// If the status type DOESN'T have an array here, something is awry - they should have very similar structures
 		// as they're both created from the same Swagger spec
 		return nil, errors.Errorf("status type does not have an array where spec type does")

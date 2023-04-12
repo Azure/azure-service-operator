@@ -264,12 +264,14 @@ github.com/Azure/azure-service-operator/v2/api/web/v1api20220301
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── HttpsOnly: *bool
 │   │   ├── HyperV: *bool
-│   │   ├── Identity: *Object (1 property)
-│   │   │   └── Type: *Enum (4 values)
-│   │   │       ├── "None"
-│   │   │       ├── "SystemAssigned"
-│   │   │       ├── "SystemAssigned, UserAssigned"
-│   │   │       └── "UserAssigned"
+│   │   ├── Identity: *Object (2 properties)
+│   │   │   ├── Type: *Enum (4 values)
+│   │   │   │   ├── "None"
+│   │   │   │   ├── "SystemAssigned"
+│   │   │   │   ├── "SystemAssigned, UserAssigned"
+│   │   │   │   └── "UserAssigned"
+│   │   │   └── UserAssignedIdentities: Object (1 property)[]
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── IsXenon: *bool
 │   │   ├── KeyVaultReferenceIdentity: *string
 │   │   ├── Kind: *string
@@ -1183,12 +1185,13 @@ github.com/Azure/azure-service-operator/v2/api/web/v1api20220301
 └── Site_Spec_ARM: Object (7 properties)
     ├── ExtendedLocation: *Object (1 property)
     │   └── Name: *string
-    ├── Identity: *Object (1 property)
-    │   └── Type: *Enum (4 values)
-    │       ├── "None"
-    │       ├── "SystemAssigned"
-    │       ├── "SystemAssigned, UserAssigned"
-    │       └── "UserAssigned"
+    ├── Identity: *Object (2 properties)
+    │   ├── Type: *Enum (4 values)
+    │   │   ├── "None"
+    │   │   ├── "SystemAssigned"
+    │   │   ├── "SystemAssigned, UserAssigned"
+    │   │   └── "UserAssigned"
+    │   └── UserAssignedIdentities: map[string]Object (0 properties)
     ├── Kind: *string
     ├── Location: *string
     ├── Name: string

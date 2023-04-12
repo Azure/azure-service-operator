@@ -266,8 +266,9 @@ type PrivateEndpointConnectionReference_STATUS struct {
 // Storage version of v1api20220501.ResourceIdentity
 // An identity that can be associated with a resource.
 type ResourceIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20220501.ResourceIdentity_STATUS
@@ -349,6 +350,13 @@ type KeyVaultProperties_STATUS struct {
 	IdentityClientId *string                `json:"identityClientId,omitempty"`
 	KeyIdentifier    *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1api20220501.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20220501.UserIdentity_STATUS

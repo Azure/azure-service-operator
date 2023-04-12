@@ -1556,7 +1556,8 @@ func (encryption *Encryption_STATUS) AssignProperties_To_Encryption_STATUS(desti
 
 // Deprecated version of Identity. Use v1api20210101preview.Identity instead
 type Identity struct {
-	Type *Identity_Type `json:"type,omitempty"`
+	Type                   *Identity_Type                `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Identity{}
@@ -1572,6 +1573,17 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
+	}
+
+	// Set property ‘UserAssignedIdentities’:
+	result.UserAssignedIdentities = make(map[string]UserAssignedIdentityDetails_ARM, len(identity.UserAssignedIdentities))
+	for _, ident := range identity.UserAssignedIdentities {
+		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
+		if err != nil {
+			return nil, err
+		}
+		key := identARMID
+		result.UserAssignedIdentities[key] = UserAssignedIdentityDetails_ARM{}
 	}
 	return result, nil
 }
@@ -1594,6 +1606,8 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		identity.Type = &typeVar
 	}
 
+	// no assignment for property ‘UserAssignedIdentities’
+
 	// No error
 	return nil
 }
@@ -1607,6 +1621,24 @@ func (identity *Identity) AssignProperties_From_Identity(source *v20210101ps.Ide
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
+	}
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity UserAssignedIdentityDetails
+			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -1624,6 +1656,24 @@ func (identity *Identity) AssignProperties_To_Identity(destination *v20210101ps.
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
+	}
+
+	// UserAssignedIdentities
+	if identity.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]v20210101ps.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range identity.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity v20210101ps.UserAssignedIdentityDetails
+			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
 
 	// Update the property bag
@@ -2663,6 +2713,40 @@ func (secrets *NamespaceOperatorSecrets) AssignProperties_To_NamespaceOperatorSe
 	} else {
 		destination.Endpoint = nil
 	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Deprecated version of UserAssignedIdentityDetails. Use v1api20210101preview.UserAssignedIdentityDetails instead
+type UserAssignedIdentityDetails struct {
+	Reference genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
+}
+
+// AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v20210101ps.UserAssignedIdentityDetails) error {
+
+	// Reference
+	details.Reference = source.Reference.Copy()
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v20210101ps.UserAssignedIdentityDetails) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Reference
+	destination.Reference = details.Reference.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

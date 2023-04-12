@@ -342,17 +342,19 @@ type UpgradePolicy_STATUS struct {
 // Storage version of v1api20220301.VirtualMachineScaleSetIdentity
 // Identity for the virtual machine scale set.
 type VirtualMachineScaleSetIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20220301.VirtualMachineScaleSetIdentity_STATUS
 // Identity for the virtual machine scale set.
 type VirtualMachineScaleSetIdentity_STATUS struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PrincipalId            *string                                                                 `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag                                                  `json:"$propertyBag,omitempty"`
+	TenantId               *string                                                                 `json:"tenantId,omitempty"`
+	Type                   *string                                                                 `json:"type,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20220301.VirtualMachineScaleSetVMProfile
@@ -467,6 +469,13 @@ type VirtualMachineScaleSetHardwareProfile struct {
 type VirtualMachineScaleSetHardwareProfile_STATUS struct {
 	PropertyBag      genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
 	VmSizeProperties *VMSizeProperties_STATUS `json:"vmSizeProperties,omitempty"`
+}
+
+// Storage version of v1api20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
+type VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220301.VirtualMachineScaleSetNetworkProfile

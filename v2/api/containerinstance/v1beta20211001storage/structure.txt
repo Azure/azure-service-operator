@@ -99,9 +99,12 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
 │   │   │   ├── KeyVersion: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── VaultBaseUrl: *string
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── ImageRegistryCredentials: Object (6 properties)[]
 │   │   │   ├── Identity: *string
 │   │   │   ├── IdentityUrl: *string
@@ -443,6 +446,7 @@ github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001s
 ├── augmentConversionForResourceRequirements: Interface
 ├── augmentConversionForResourceRequirements_STATUS: Interface
 ├── augmentConversionForUserAssignedIdentities_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
 ├── augmentConversionForVolume: Interface
 ├── augmentConversionForVolumeMount: Interface
 ├── augmentConversionForVolumeMount_STATUS: Interface

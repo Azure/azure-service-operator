@@ -45,7 +45,8 @@ type ConfigurationStoreProperties_ARM struct {
 
 // Deprecated version of ResourceIdentity. Use v1api20220501.ResourceIdentity instead
 type ResourceIdentity_ARM struct {
-	Type *ResourceIdentity_Type `json:"type,omitempty"`
+	Type                   *ResourceIdentity_Type                     `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1api20220501.Sku instead
@@ -100,6 +101,10 @@ const (
 	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
 	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
+}
 
 // Deprecated version of KeyVaultProperties. Use v1api20220501.KeyVaultProperties instead
 type KeyVaultProperties_ARM struct {

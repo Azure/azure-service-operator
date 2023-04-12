@@ -77,6 +77,7 @@ func init() {
 		assignObjectDirectlyToObject,
 		assignObjectsViaIntermediateObject,
 		// Known definitions
+		assignUserAssignedIdentityMapFromArray,
 		copyKnownType(astmodel.KnownResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.ResourceReferenceType, "Copy", returnsValue),
 		copyKnownType(astmodel.SecretReferenceType, "Copy", returnsValue),
@@ -1167,6 +1168,140 @@ func assignMapFromMap(
 
 		return astbuilder.Statements(
 			cacheOriginal,
+			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil))
+	}, nil
+}
+
+// assignUserAssignedIdentityMapFromArray will generate a code fragment to populate a userAssignedIdentity array from
+// a map whose key is the ARM ID of the userAssignedIdentity
+//
+//	if source.UserAssignedIdentities != nil {
+//	    <arr> := make([]<arrType>, 0, len(source.UserAssignedIdentities))
+//	    for key, _ := range source.UserAssignedIdentities {
+//	        ref := genruntime.CreateResourceReferenceFromARMID(key)
+//	        <arr> = append(<arr>, UserAssignedIdentityDetails{Reference: ref})
+//	    }
+//	    <writer> = <arr>
+//	} else {
+//	   <writer> = nil
+//	}
+func assignUserAssignedIdentityMapFromArray(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	conversionContext *PropertyConversionContext) (PropertyConversion, error) {
+
+	// There's no conversion in the other direction (array -> map) for this because property_conversions only deals with:
+	// 1. Conversions between storage types, where UserAssignedIdentity's are arrays on both sides and don't need
+	//    special handling.
+	// 2. Conversions from Status -> Spec, which is the direction that this conversion method deals with.
+
+	// Require both source and destination to not be bag items
+	if sourceEndpoint.IsBagItem() || destinationEndpoint.IsBagItem() {
+		return nil, nil
+	}
+
+	// Require source to be a map type
+	sourceMapType, sourceIsMap := astmodel.AsMapType(sourceEndpoint.Type())
+	if !sourceIsMap {
+		return nil, nil
+	}
+
+	// Require destination to be an array type
+	destinationArray, destinationIsArray := astmodel.AsArrayType(destinationEndpoint.Type())
+	if !destinationIsArray {
+		return nil, nil
+	}
+
+	// Require the source endpoint to have the expected property name
+	if sourceEndpoint.Name() != astmodel.UserAssignedIdentitiesProperty {
+		return nil, nil
+	}
+
+	// Require the destination endpoint to have the expected property name
+	if destinationEndpoint.Name() != astmodel.UserAssignedIdentitiesProperty {
+		return nil, nil
+	}
+
+	// The destination should be a typeName
+	destinationElement := destinationArray.Element()
+	_, ok := astmodel.AsTypeName(destinationElement)
+	if !ok {
+		return nil, nil
+	}
+
+	// The source map should be map[string]TypeName
+	_, ok = astmodel.AsTypeName(sourceMapType.ValueType())
+	if sourceMapType.KeyType() != astmodel.StringType || !ok {
+		return nil, nil
+	}
+
+	conversion, err := CreateTypeConversion(
+		sourceEndpoint.WithType(astmodel.StringType),
+		destinationEndpoint.WithType(astmodel.ResourceReferenceType),
+		conversionContext)
+	if err != nil {
+		return nil, errors.Wrapf(
+			err,
+			"finding UserAssignedIdentities conversion from %s to %s",
+			astmodel.DebugDescription(astmodel.StringType),
+			astmodel.DebugDescription(astmodel.ResourceReferenceType))
+	}
+
+	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+
+		// <source>List := make([]<type>, 0, len(<source>)
+		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
+		declaration := astbuilder.ShortDeclaration(
+			tempId,
+			astbuilder.MakeEmptySlice(destinationArray.AsType(generationContext), astbuilder.CallFunc("len", reader)))
+
+		loopLocals := knownLocals.Clone()
+		keyID := loopLocals.CreateLocal(sourceEndpoint.Name(), "Key")
+
+		intermediateDestination := loopLocals.CreateLocal(destinationEndpoint.Name(), "Ref")
+		uaiBuilder := astbuilder.NewCompositeLiteralBuilder(destinationElement.AsType(generationContext))
+		uaiBuilder.AddField("Reference", dst.NewIdent(intermediateDestination))
+
+		writeToElement := func(expr dst.Expr) []dst.Stmt {
+			return []dst.Stmt{
+				astbuilder.ShortDeclaration(intermediateDestination, expr),
+			}
+		}
+
+		//	for key, _ := range source.UserAssignedIdentities {
+		//	   ref := genruntime.CreateResourceReferenceFromARMID(key)
+		//	   <arr> = append(<arr>, UserAssignedIdentityDetails{Reference: ref})
+		//	}
+		loopBody := astbuilder.Statements(
+			conversion(dst.NewIdent(keyID), writeToElement, loopLocals, generationContext),
+			astbuilder.AppendItemToSlice(dst.NewIdent(tempId), uaiBuilder.Build()),
+		)
+		loop := astbuilder.IterateOverMapWithKey(
+			keyID,
+			reader,
+			loopBody...,
+		)
+
+		// if source.UserAssignedIdentities != nil
+		checkForNil := astbuilder.AreNotEqual(reader, astbuilder.Nil())
+
+		// <writer> = nil
+		assignNil := writer(astbuilder.Nil())
+
+		// <writer> = <arr>
+		assignValue := writer(dst.NewIdent(tempId))
+
+		// if source.UserAssignedIdentities != nil {
+		//     <loop>
+		// } else {
+		//     <writer> = nil
+		// }
+		trueBranch := astbuilder.Statements(
+			declaration,
+			loop,
+			assignValue)
+
+		return astbuilder.Statements(
 			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil))
 	}, nil
 }

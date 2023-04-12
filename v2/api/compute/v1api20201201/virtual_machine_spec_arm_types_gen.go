@@ -54,7 +54,8 @@ type VirtualMachineIdentity_ARM struct {
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
-	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
+	Type                   *VirtualMachineIdentity_Type               `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Describes the properties of a Virtual Machine.

@@ -1202,11 +1202,11 @@ func (property *EncryptionProperty_STATUS) AssignProperties_To_EncryptionPropert
 // Storage version of v1beta20210901.IdentityProperties
 // Deprecated version of IdentityProperties. Use v1api20210901.IdentityProperties instead
 type IdentityProperties struct {
-	PrincipalId            *string                           `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	TenantId               *string                           `json:"tenantId,omitempty"`
-	Type                   *string                           `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserIdentityProperties `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                       `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	TenantId               *string                       `json:"tenantId,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // AssignProperties_From_IdentityProperties populates our IdentityProperties from the provided source IdentityProperties
@@ -1225,18 +1225,18 @@ func (properties *IdentityProperties) AssignProperties_From_IdentityProperties(s
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]UserIdentityProperties, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+		userAssignedIdentityList := make([]UserAssignedIdentityDetails, len(source.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity UserIdentityProperties
-			err := userAssignedIdentity.AssignProperties_From_UserIdentityProperties(&userAssignedIdentityValue)
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity UserAssignedIdentityDetails
+			err := userAssignedIdentity.AssignProperties_From_UserAssignedIdentityDetails(&userAssignedIdentityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_UserIdentityProperties() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_From_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
-		properties.UserAssignedIdentities = userAssignedIdentityMap
+		properties.UserAssignedIdentities = userAssignedIdentityList
 	} else {
 		properties.UserAssignedIdentities = nil
 	}
@@ -1277,18 +1277,18 @@ func (properties *IdentityProperties) AssignProperties_To_IdentityProperties(des
 
 	// UserAssignedIdentities
 	if properties.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1api20210901s.UserIdentityProperties, len(properties.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range properties.UserAssignedIdentities {
+		userAssignedIdentityList := make([]v1api20210901s.UserAssignedIdentityDetails, len(properties.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range properties.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v1api20210901s.UserIdentityProperties
-			err := userAssignedIdentityValue.AssignProperties_To_UserIdentityProperties(&userAssignedIdentity)
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity v1api20210901s.UserAssignedIdentityDetails
+			err := userAssignedIdentityItem.AssignProperties_To_UserAssignedIdentityDetails(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_UserIdentityProperties() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignProperties_To_UserAssignedIdentityDetails() to populate field UserAssignedIdentities")
 			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
+		destination.UserAssignedIdentities = userAssignedIdentityList
 	} else {
 		destination.UserAssignedIdentities = nil
 	}
@@ -3225,36 +3225,32 @@ func (policy *TrustPolicy_STATUS) AssignProperties_To_TrustPolicy_STATUS(destina
 	return nil
 }
 
-// Storage version of v1beta20210901.UserIdentityProperties
-// Deprecated version of UserIdentityProperties. Use v1api20210901.UserIdentityProperties instead
-type UserIdentityProperties struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20210901.UserAssignedIdentityDetails
+// Deprecated version of UserAssignedIdentityDetails. Use v1api20210901.UserAssignedIdentityDetails instead
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
-// AssignProperties_From_UserIdentityProperties populates our UserIdentityProperties from the provided source UserIdentityProperties
-func (properties *UserIdentityProperties) AssignProperties_From_UserIdentityProperties(source *v1api20210901s.UserIdentityProperties) error {
+// AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *v1api20210901s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ClientId
-	properties.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+	// Reference
+	details.Reference = source.Reference.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
+		details.PropertyBag = propertyBag
 	} else {
-		properties.PropertyBag = nil
+		details.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForUserIdentityProperties interface (if implemented) to customize the conversion
-	var propertiesAsAny any = properties
-	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForUserIdentityProperties); ok {
-		err := augmentedProperties.AssignPropertiesFrom(source)
+	// Invoke the augmentConversionForUserAssignedIdentityDetails interface (if implemented) to customize the conversion
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
+		err := augmentedDetails.AssignPropertiesFrom(source)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
 		}
@@ -3264,16 +3260,13 @@ func (properties *UserIdentityProperties) AssignProperties_From_UserIdentityProp
 	return nil
 }
 
-// AssignProperties_To_UserIdentityProperties populates the provided destination UserIdentityProperties from our UserIdentityProperties
-func (properties *UserIdentityProperties) AssignProperties_To_UserIdentityProperties(destination *v1api20210901s.UserIdentityProperties) error {
+// AssignProperties_To_UserAssignedIdentityDetails populates the provided destination UserAssignedIdentityDetails from our UserAssignedIdentityDetails
+func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIdentityDetails(destination *v1api20210901s.UserAssignedIdentityDetails) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(properties.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(properties.PrincipalId)
+	// Reference
+	destination.Reference = details.Reference.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3282,10 +3275,10 @@ func (properties *UserIdentityProperties) AssignProperties_To_UserIdentityProper
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForUserIdentityProperties interface (if implemented) to customize the conversion
-	var propertiesAsAny any = properties
-	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForUserIdentityProperties); ok {
-		err := augmentedProperties.AssignPropertiesTo(destination)
+	// Invoke the augmentConversionForUserAssignedIdentityDetails interface (if implemented) to customize the conversion
+	var detailsAsAny any = details
+	if augmentedDetails, ok := detailsAsAny.(augmentConversionForUserAssignedIdentityDetails); ok {
+		err := augmentedDetails.AssignPropertiesTo(destination)
 		if err != nil {
 			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
 		}
@@ -3425,9 +3418,9 @@ type augmentConversionForTrustPolicy_STATUS interface {
 	AssignPropertiesTo(dst *v1api20210901s.TrustPolicy_STATUS) error
 }
 
-type augmentConversionForUserIdentityProperties interface {
-	AssignPropertiesFrom(src *v1api20210901s.UserIdentityProperties) error
-	AssignPropertiesTo(dst *v1api20210901s.UserIdentityProperties) error
+type augmentConversionForUserAssignedIdentityDetails interface {
+	AssignPropertiesFrom(src *v1api20210901s.UserAssignedIdentityDetails) error
+	AssignPropertiesTo(dst *v1api20210901s.UserAssignedIdentityDetails) error
 }
 
 type augmentConversionForUserIdentityProperties_STATUS interface {

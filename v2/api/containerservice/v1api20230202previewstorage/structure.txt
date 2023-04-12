@@ -198,9 +198,12 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 │   │   │   ├── NoProxy: string[]
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── TrustedCa: *string
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── IdentityProfile: map[string]Object (4 properties)
 │   │   │   ├── ClientId: *string
 │   │   │   ├── ObjectId: *string
@@ -1211,6 +1214,7 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202pre
 ├── augmentConversionForSysctlConfig_STATUS: Interface
 ├── augmentConversionForSystemData_STATUS: Interface
 ├── augmentConversionForUserAssignedIdentity: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
 ├── augmentConversionForUserAssignedIdentity_STATUS: Interface
 ├── augmentConversionForWindowsGmsaProfile: Interface
 └── augmentConversionForWindowsGmsaProfile_STATUS: Interface

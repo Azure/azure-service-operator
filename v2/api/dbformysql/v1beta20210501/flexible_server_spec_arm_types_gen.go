@@ -34,7 +34,8 @@ func (server *FlexibleServer_Spec_ARM) GetType() string {
 
 // Deprecated version of Identity. Use v1api20210501.Identity instead
 type Identity_ARM struct {
-	Type *Identity_Type `json:"type,omitempty"`
+	Type                   *Identity_Type                             `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails_ARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of ServerProperties. Use v1api20210501.ServerProperties instead
@@ -117,4 +118,8 @@ type Storage_ARM struct {
 	AutoGrow      *EnableStatusEnum `json:"autoGrow,omitempty"`
 	Iops          *int              `json:"iops,omitempty"`
 	StorageSizeGB *int              `json:"storageSizeGB,omitempty"`
+}
+
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails_ARM struct {
 }

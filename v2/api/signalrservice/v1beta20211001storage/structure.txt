@@ -15,9 +15,12 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001stor
 │   │   │   ├── Properties: map[string]string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Value: *string
-│   │   ├── Identity: *Object (2 properties)
+│   │   ├── Identity: *Object (3 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
+│   │   │   ├── Type: *string
+│   │   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: genruntime.ResourceReference
 │   │   ├── Kind: *string
 │   │   ├── Location: *string
 │   │   ├── NetworkACLs: *Object (4 properties)
@@ -191,4 +194,5 @@ github.com/Azure/azure-service-operator/v2/api/signalrservice/v1beta20211001stor
 ├── augmentConversionForUpstreamAuthSettings_STATUS: Interface
 ├── augmentConversionForUpstreamTemplate: Interface
 ├── augmentConversionForUpstreamTemplate_STATUS: Interface
+├── augmentConversionForUserAssignedIdentityDetails: Interface
 └── augmentConversionForUserAssignedIdentityProperty_STATUS: Interface

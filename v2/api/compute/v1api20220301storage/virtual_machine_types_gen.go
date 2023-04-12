@@ -502,17 +502,19 @@ type VirtualMachineExtension_STATUS struct {
 // Storage version of v1api20220301.VirtualMachineIdentity
 // Identity for the virtual machine.
 type VirtualMachineIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20220301.VirtualMachineIdentity_STATUS
 // Identity for the virtual machine.
 type VirtualMachineIdentity_STATUS struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PrincipalId            *string                                                         `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
+	TenantId               *string                                                         `json:"tenantId,omitempty"`
+	Type                   *string                                                         `json:"type,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20220301.VirtualMachineInstanceView_STATUS
@@ -804,6 +806,13 @@ type UefiSettings_STATUS struct {
 	VTpmEnabled       *bool                  `json:"vTpmEnabled,omitempty"`
 }
 
+// Storage version of v1api20220301.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
+}
+
 // Storage version of v1api20220301.VaultSecretGroup
 // Describes a set of certificates which are all in the same Key Vault.
 type VaultSecretGroup struct {
@@ -845,6 +854,13 @@ type VirtualMachineExtensionInstanceView_STATUS struct {
 type VirtualMachineHealthStatus_STATUS struct {
 	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Status      *InstanceViewStatus_STATUS `json:"status,omitempty"`
+}
+
+// Storage version of v1api20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS
+type VirtualMachineIdentity_UserAssignedIdentities_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220301.VirtualMachineNetworkInterfaceConfiguration

@@ -606,6 +606,9 @@ func RunJSONSerializationTestForDatabaseIdentity(subject DatabaseIdentity) strin
 var databaseIdentityGenerator gopter.Gen
 
 // DatabaseIdentityGenerator returns a generator of DatabaseIdentity instances for property testing.
+// We first initialize databaseIdentityGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func DatabaseIdentityGenerator() gopter.Gen {
 	if databaseIdentityGenerator != nil {
 		return databaseIdentityGenerator
@@ -615,12 +618,23 @@ func DatabaseIdentityGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForDatabaseIdentity(generators)
 	databaseIdentityGenerator = gen.Struct(reflect.TypeOf(DatabaseIdentity{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDatabaseIdentity(generators)
+	AddRelatedPropertyGeneratorsForDatabaseIdentity(generators)
+	databaseIdentityGenerator = gen.Struct(reflect.TypeOf(DatabaseIdentity{}), generators)
+
 	return databaseIdentityGenerator
 }
 
 // AddIndependentPropertyGeneratorsForDatabaseIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseIdentity(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(DatabaseIdentity_Type_None, DatabaseIdentity_Type_UserAssigned))
+}
+
+// AddRelatedPropertyGeneratorsForDatabaseIdentity is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseIdentity(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.SliceOf(UserAssignedIdentityDetailsGenerator())
 }
 
 func Test_DatabaseIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

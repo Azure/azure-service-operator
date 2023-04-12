@@ -69,3 +69,18 @@ func IterateOverMapWithValue(key string, item string, mapExpr dst.Expr, statemen
 		Body:  StatementBlock(statements...),
 	}
 }
+
+// IterateOverMapWithKey creates a statement to iterate over the content of a map using the
+// specified identifiers for each key and value found.
+//
+//	for <key> := range <mapExpr> {
+//	    <statements>
+//	}
+func IterateOverMapWithKey(key string, mapExpr dst.Expr, statements ...dst.Stmt) *dst.RangeStmt {
+	return &dst.RangeStmt{
+		Key:  dst.NewIdent(key),
+		Tok:  token.DEFINE,
+		X:    mapExpr,
+		Body: StatementBlock(statements...),
+	}
+}

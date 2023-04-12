@@ -28,4 +28,5 @@
 | SystemData_LastModifiedByType                           | v1api20220501 | v1beta20220501 |
 | SystemData_LastModifiedByType_STATUS                    | v1api20220501 | v1beta20220501 |
 | SystemData_STATUS                                       | v1api20220501 | v1beta20220501 |
+| UserAssignedIdentityDetails                             | v1api20220501 | v1beta20220501 |
 | UserIdentity_STATUS                                     | v1api20220501 | v1beta20220501 |

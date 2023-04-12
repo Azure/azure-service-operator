@@ -416,8 +416,9 @@ type Location_STATUS struct {
 // Storage version of v1api20210515.ManagedServiceIdentity
 // Identity for the resource.
 type ManagedServiceIdentity struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
+	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                   *string                       `json:"type,omitempty"`
+	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20210515.ManagedServiceIdentity_STATUS
@@ -497,6 +498,13 @@ type PeriodicModeBackupPolicy_STATUS struct {
 	PeriodicModeProperties *PeriodicModeProperties_STATUS `json:"periodicModeProperties,omitempty"`
 	PropertyBag            genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	Type                   *string                        `json:"type,omitempty"`
+}
+
+// Storage version of v1api20210515.UserAssignedIdentityDetails
+// Information about the user assigned identity for the resource
+type UserAssignedIdentityDetails struct {
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v1api20210515.PeriodicModeProperties
