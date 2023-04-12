@@ -1553,6 +1553,29 @@ objectModelConfiguration:
       Alias:
         $export: true
         $supportedFrom: v2.0.0-beta.2
+  synapse:
+    2021-06-01:
+      KekIdentityProperties:
+        UserAssignedIdentity:
+          $armReference: true
+      DataLakeStorageAccountDetails:
+        ResourceId:
+          $armReference: true
+        AccountUrl:
+          $importConfigMapMode: optional
+      PurviewConfiguration:
+        PurviewResourceId:
+          $armReference: true
+      Workspace:
+        $export: true
+        $supportedFrom: v2.0.0
+      WorkspaceProperties:
+        SqlAdministratorLoginPassword:
+          $isSecret: true
+      Workspaces_BigDataPool:
+        $export: true
+        $exportAs: WorkspacesBigDataPool
+        $supportedFrom: v2.0.0
   web:
     2022-03-01:
       ApiManagementConfig:
