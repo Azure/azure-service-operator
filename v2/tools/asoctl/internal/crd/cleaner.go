@@ -120,7 +120,9 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		updated++
 	}
 
-	if !c.dryRun {
+	if c.dryRun {
+		c.log.Info("Update finished (dry run)")
+	} else {
 		c.log.Info("Update finished",
 			"crd-count", updated)
 	}
@@ -156,7 +158,7 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 	for _, obj := range objectsToMigrate.Items {
 		obj := obj
 		if c.dryRun {
-			c.log.V(1).Info(
+			c.log.Info(
 				"Would migrate resource",
 				"name", obj.GetName(),
 				"kind", obj.GroupVersionKind().Kind)
@@ -168,7 +170,7 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			return err
 		}
 
-		c.log.V(1).Info("Migrated resource",
+		c.log.Info("Migrated resource",
 			"name", obj.GetName(),
 			"kind", obj.GroupVersionKind().Kind)
 	}
