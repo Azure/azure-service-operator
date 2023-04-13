@@ -26,7 +26,7 @@ func newImportAzureResourceCommand() *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "azure-resource <ARM/ID/of/resource>",
-		Short: "imports an ARM resource as a CR",
+		Short: "Import ARM resources as Custom Resources",
 		Args:  cobra.ArbitraryArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -49,7 +49,7 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 	activeCloud := cloud.AzurePublic
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
-		return errors.Wrap(err, "unable to get default azure credential")
+		return errors.Wrap(err, "unable to get default Azure credential")
 	}
 
 	options := &genericarmclient.GenericClientOptions{
