@@ -97,15 +97,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 		// Make sure to use a version that hasn't been deprecated for migration. Deprecated versions will not be in our
 		// scheme, and so we cannot List/PUT with them. Instead, use the next available version.
-		// TODO: We need to do a better job of selecting a version to use here. If we're not careful, we could
-		// TODO: issue a GET + PUT with an older Azure API version and end up losing/removing some properties.
-		// TODO: The ideal algorithm would be:
-		// TODO: 1. Use storage version to list all CRs. Extract the OriginalGVK field
-		// TODO: 2. Swap v1alpha1 -> v1beta1 (for alpha deprecation) and save that as versionToUse for that CR
-		// TODO: 3. Issue GET + PUT with versionToUse
-		// TODO: Doing the above is tricky though so for now we'll just use the latest stored version
-		activeVersion := getVersionFromStoredVersion(newStoredVersions[len(newStoredVersions)-1])
-
+		activeVersion := newStoredVersions[len(newStoredVersions)-1]
 		c.log.Info(
 			"Starting cleanup",
 			"crd-name", crd.Name)
@@ -176,7 +168,31 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			continue
 		}
 
-		err := retry.OnError(c.migrationBackoff, isErrorFatal, func() error { return c.client.Update(ctx, &obj) })
+		originalVersionFieldPath := []string{"spec", "originalVersion"}
+
+		originalVersion, found, err := unstructured.NestedString(obj.Object, originalVersionFieldPath...)
+		if err != nil {
+			return errors.Wrap(err,
+				fmt.Sprintf("migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
+		}
+
+		if found {
+			originalVersion = strings.Replace(originalVersion, "v1alpha1api", "v1beta", 1)
+			err = unstructured.SetNestedField(obj.Object, originalVersion, originalVersionFieldPath...)
+			if err != nil {
+				return errors.Wrap(err,
+					fmt.Sprintf("migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
+			}
+		} else {
+			// If we don't find the originalVersion, it may not have been set.
+			// This can happen for some resources such as ResourceGroup which were handcrafted in versions prior to v2.0.0 and thus didn't have a StorageVersion.
+			c.log.Info(
+				"originalVersion not found. Continuing with the latest.",
+				"name", obj.GetName(),
+				"kind", obj.GroupVersionKind().Kind)
+		}
+
+		err = retry.OnError(c.migrationBackoff, isErrorFatal, func() error { return c.client.Update(ctx, &obj) })
 		if isErrorFatal(err) {
 			return err
 		}
@@ -241,10 +257,4 @@ func removeMatchingStoredVersions(oldVersions []string, versionRegexp *regexp.Re
 	}
 
 	return newStoredVersions, matchedStoredVersion
-}
-
-// getVersionFromStoredVersion returns the public (non-storage) API version for a given version
-func getVersionFromStoredVersion(version string) string {
-	result := strings.TrimSuffix(version, "storage")
-	return result
 }
