@@ -30,7 +30,7 @@
 <meta itemprop="name" content="asoctl">
 <meta itemprop="description" content="Azure Service Operator Controller">
 
-<meta itemprop="wordCount" content="58">
+<meta itemprop="wordCount" content="584">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="asoctl"/>
 <meta name="twitter:description" content="Azure Service Operator Controller"/>
@@ -54,13 +54,7 @@
   <div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
     <ul class="navbar-nav mt-2 mt-lg-0">
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link active" href="/azure-service-operator/tools/asoctl/"><span class="active">asoctl</span></a>
-      </li>
-      <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/introduction/"><span>Guide</span></a>
-      </li>
-      <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="/azure-service-operator/tools/generator/"><span>generator</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
@@ -486,7 +480,11 @@
         <nav id="TableOfContents">
   <ul>
     <li><a href="#clean-crds">Clean CRDs</a></li>
-    <li><a href="#import-azure-resource">Import Azure Resource</a></li>
+    <li><a href="#import-azure-resource">Import Azure Resource</a>
+      <ul>
+        <li><a href="#example-importing-a-postgresql-server">Example: Importing a PostgreSQL Server</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       </div>
@@ -560,8 +558,67 @@ Available Commands:
 </code></pre></div><h2 id="clean-crds">Clean CRDs</h2>
 <p>TBC</p>
 <h2 id="import-azure-resource">Import Azure Resource</h2>
-<p>TBC</p>
+<p>When you have an existing Azure resource that needs to be managed by ASO, you can use the <code>import</code> command to generate a YAML file that can be used to create a new ASO resource. This is useful when:</p>
+<ul>
+<li>You want to migrate an existing Azure resource from ASO v1 to ASO v2.</li>
+<li>You have an existing Azure resource and want ASO to manage it.</li>
+<li>You have a hand-configured Azure resource and you want to replicate it for development, staging, or production use.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl import azure-resource --help
+Import ARM resources as Custom Resources
 
+Usage:
+  asoctl import azure-resource &lt;ARM/ID/of/resource&gt; <span style="color:#f92672">[</span>flags<span style="color:#f92672">]</span>
+
+Flags:
+  -h, --help            help <span style="color:#66d9ef">for</span> azure-resource
+  -o, --output string   Write ARM resource CRD to a file
+
+Global Flags:
+      --verbose   Enable verbose logging
+</code></pre></div><p>The <code>asoctl import azure-resource</code> command will accept any number of ARM resource Ids.</p>
+<p>Each ARM resource will be scanned for supported child or extension resources, and all the results combined together into a single YAML file. If <code>asoctl</code> encounters a resource type that it doesn&rsquo;t support, details will be logged.</p>
+<h3 id="example-importing-a-postgresql-server">Example: Importing a PostgreSQL Server</h3>
+<p>To import the configuration of an existing PostgreSQL server, we&rsquo;d run the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl import azure-resource /subscriptions/<span style="color:#f92672">[</span>redacted<span style="color:#f92672">]</span>/resourceGroups/aso-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/aso-pg --output aso.yaml
+</code></pre></div><ul>
+<li>The parameter is the full ARM ID to the server; one way to find this is via the Azure Portal.</li>
+<li>Multiple ARM IDs are permitted.</li>
+<li>Here, the subscription ID has been redacted; in practice, you&rsquo;d see your own subscription list</li>
+</ul>
+<p>While <code>asoctl import azure-resource</code> runs, you&rsquo;ll see progress shown dynamically as child and extension resources are found and imported:</p>
+<p><img src="../images/asoctl-import-progress-bars.png" alt="Screenshot showing asoctl import azure-resource running"></p>
+<p>Once finished, you&rsquo;ll see a list of all the imported resources, and the file they were written to:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">14:43:34 INF Imported kind<span style="color:#f92672">=</span>FlexibleServer.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>aso-pg
+14:43:37 INF Imported kind<span style="color:#f92672">=</span>FlexibleServersFirewallRule.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>AllowAllAzureServicesAndResourcesWithinAzureIps_2023-3-30_15-26-24
+14:44:06 INF Imported kind<span style="color:#f92672">=</span>FlexibleServersConfiguration.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>shared_preload_libraries
+14:44:15 INF Imported kind<span style="color:#f92672">=</span>FlexibleServersConfiguration.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>vacuum_cost_page_miss
+14:44:18 INF Imported kind<span style="color:#f92672">=</span>FlexibleServersDatabase.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>aso-demo
+14:44:25 INF Writing to file path<span style="color:#f92672">=</span>aso.yaml
+Import Azure Resources  <span style="color:#f92672">[======================================================================================================================================================================]</span> <span style="color:#ae81ff">100</span> %
+</code></pre></div><p>The import found a total of five resources:</p>
+<ul>
+<li>1 x PostgreSQL Flexible Server (the one originally identified by ARM Id)</li>
+<li>1 x Firewall Rule</li>
+<li>2 x Configuration settings</li>
+<li>1 x Database</li>
+</ul>
+<p>Not all resources found need to imported; to see more information about those resources, and why they were omitted, use the <code>--verbose</code> command line flag.</p>
+<p>One situation where this happens is with the configuration of a PostgreSQL server, where most of the values are system defaults that don&rsquo;t need to be explicitly specified.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">14:47:56 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;system-defaults don&#39;t need to be imported&#34;</span> kind<span style="color:#f92672">=</span>FlexibleServersConfiguration.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>synchronous_commit
+14:47:56 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;system-defaults don&#39;t need to be imported&#34;</span> kind<span style="color:#f92672">=</span>FlexibleServersConfiguration.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>tcp_keepalives_idle
+14:47:57 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;system-defaults don&#39;t need to be imported&#34;</span> kind<span style="color:#f92672">=</span>FlexibleServersConfiguration.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>tcp_keepalives_count
+14:47:57 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;system-defaults don&#39;t need to be imported&#34;</span> kind<span style="color:#f92672">=</span>FlexibleServersConfiguration.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>tcp_keepalives_interval
+14:47:57 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;system-defaults don&#39;t need to be imported&#34;</span> kind<span style="color:#f92672">=</span>FlexibleServersConfiguration.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>temp_buffers
+14:47:57 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;system-defaults don&#39;t need to be imported&#34;</span> kind<span style="color:#f92672">=</span>FlexibleServersConfiguration.dbforpostgresql.azure.com name<span style="color:#f92672">=</span>temp_tablespaces
+</code></pre></div><p>Another is when role assignments have been inherited by the resource:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">14:48:03 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;role assignment is inherited&#34;</span> kind<span style="color:#f92672">=</span>RoleAssignment.authorization.azure.com name<span style="color:#f92672">=</span>fe65ff58-<span style="color:#f92672">[</span>redacted<span style="color:#f92672">]</span>
+14:48:03 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;role assignment is inherited&#34;</span> kind<span style="color:#f92672">=</span>RoleAssignment.authorization.azure.com name<span style="color:#f92672">=</span>61681810-<span style="color:#f92672">[</span>redacted<span style="color:#f92672">]</span>
+14:48:03 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;role assignment is inherited&#34;</span> kind<span style="color:#f92672">=</span>RoleAssignment.authorization.azure.com name<span style="color:#f92672">=</span>06c013cb-<span style="color:#f92672">[</span>redacted<span style="color:#f92672">]</span>
+14:48:03 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;role assignment is inherited&#34;</span> kind<span style="color:#f92672">=</span>RoleAssignment.authorization.azure.com name<span style="color:#f92672">=</span>37047941-<span style="color:#f92672">[</span>redacted<span style="color:#f92672">]</span>
+14:48:03 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;role assignment is inherited&#34;</span> kind<span style="color:#f92672">=</span>RoleAssignment.authorization.azure.com name<span style="color:#f92672">=</span>b0b9667d-<span style="color:#f92672">[</span>redacted<span style="color:#f92672">]</span>
+14:48:03 DBG Skipped because<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;role assignment is inherited&#34;</span> kind<span style="color:#f92672">=</span>RoleAssignment.authorization.azure.com name<span style="color:#f92672">=</span>88a998ec-<span style="color:#f92672">[</span>redacted<span style="color:#f92672">]</span>
+</code></pre></div>
 	
 	
 	
