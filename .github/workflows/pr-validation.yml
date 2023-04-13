@@ -10,6 +10,10 @@ on:
     branches:
       - main
 
+  merge_group:
+    branches:
+      - main
+
 jobs:
   test-go-get:
     runs-on: ubuntu-latest
