@@ -1,5 +1,6 @@
 ---
 title: "Installation: From YAML"
+weight: -4
 ---
 
 ### Prerequisites
@@ -15,7 +16,7 @@ title: "Installation: From YAML"
    ```
 2. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. 
    Make sure that you have the 4 environment variables from the [Helm installation instructions](https://azure.github.io/azure-service-operator/#installation) set.
-   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/introduction/authentication/):
+   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/guide/authentication/):
    ```bash
    cat <<EOF | kubectl apply -f -
    apiVersion: v1

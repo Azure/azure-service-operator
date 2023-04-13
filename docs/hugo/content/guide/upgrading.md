@@ -1,5 +1,6 @@
 ---
 title: "Upgrading"
+weight: -3
 ---
 
 ## Before you upgrade
@@ -33,7 +34,7 @@ the [Recommended upgrade pattern](#recommended-upgrade-pattern) for upgrading mu
 The operator can be upgraded simply by running the same command you used to install it: 
 
 ```bash
-kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.3/azureserviceoperator_v2.0.0-beta.3.yaml
+kubectl apply --server-side=true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0/azureserviceoperator_v2.0.0.yaml
 ```
 
 ### Helm
@@ -41,7 +42,7 @@ kubectl apply --server-side=true -f https://github.com/Azure/azure-service-opera
 ```bash
 helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
 helm repo update
-helm upgrade --devel --version v2.0.0-beta.3 aso2 aso2/azure-service-operator \ 
+helm upgrade --devel --version v2.0.0 aso2 aso2/azure-service-operator \ 
         --namespace=azureserviceoperator-system \
         --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
         --set azureTenantID=$AZURE_TENANT_ID \
