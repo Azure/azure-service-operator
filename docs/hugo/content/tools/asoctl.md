@@ -51,9 +51,14 @@ Global Flags:
 
 ### Steps for migration using `asoctl clean crds`:
 
-- Ensure the current ASOv2 version is `beta.5`
-- Run `asoctl clean crds`
-- Upgrade ASOv2 to `2.0.0`
+**Prerequisite:** Ensure the current ASO v2 version in your cluster is `beta.5`.
+
+Run the migration tool:
+    ``` bash
+    $ asoctl clean crds
+    ```
+
+Once that's successfully run, you can upgrade ASO to `v2.0.0`
 
 Using `asoctl clean crds` is an important step if `v1alpha1api` resources have ever been present in the cluster. If not used correctly, operator pod will produce log error messages:
 
