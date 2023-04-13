@@ -95,7 +95,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		c.log.Info(
 			"Starting cleanup",
 			"crd-name", crd.Name)
-      
+
 		objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, activeVersion)
 		if err != nil {
 			return err
@@ -172,7 +172,9 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 
 		// TODO: We continue here with the activeVersion
 		if !found {
-			klog.Warningf("originalVersion for %q of kind %s not found. Continuing with the latest.", obj.GetName(), obj.GroupVersionKind().Kind)
+			c.log.Info("originalVersion not found. Continuing with the latest.",
+				"name", obj.GetName(),
+				"kind", obj.GroupVersionKind().Kind)
 			continue
 		}
 
