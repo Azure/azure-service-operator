@@ -150,6 +150,7 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 
 		// TODO: We continue here with the activeVersion
 		if !found {
+			klog.Warningf("originalVersion for %q of kind %s not found. Continuing with the latest.", obj.GetName(), obj.GroupVersionKind().Kind)
 			continue
 		}
 
