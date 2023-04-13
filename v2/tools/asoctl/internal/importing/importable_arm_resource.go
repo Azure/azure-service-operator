@@ -15,12 +15,11 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/pkg/errors"
+	"github.com/vbauerster/mpb/v8"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/klog/v2"
-
-	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 
@@ -89,7 +88,7 @@ func (i *importableARMResource) Resource() genruntime.MetaObject {
 // ctx is the context to use for the import.
 // Returns a slice of child resources needing to be imported (if any), and/or an error.
 // Both are returned to allow returning partial results in the case of a partial failure.
-func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResource, error) {
+func (i *importableARMResource) Import(ctx context.Context, bar *mpb.Bar) ([]ImportableResource, error) {
 	var ref genruntime.ResourceReference
 	ref, err := i.importResource(ctx, i.armID)
 	if err != nil {
@@ -104,6 +103,11 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 	// Include extension types as they can be parented by any resource
 	childTypes = append(childTypes, FindExtensionTypes()...)
 
+	total := int64(len(childTypes) + 1)
+	bar.SetTotal(total, false)
+
+	bar.SetCurrent(1)
+
 	for _, subType := range childTypes {
 		subResources, err := i.importChildResources(ctx, ref, subType)
 		if err != nil {
@@ -112,6 +116,7 @@ func (i *importableARMResource) Import(ctx context.Context) ([]ImportableResourc
 		}
 
 		result = append(result, subResources...)
+		bar.Increment()
 	}
 
 	return result, nil
@@ -137,7 +142,7 @@ func (i *importableARMResource) importResource(
 
 	if because, skpped := result.Skipped(); skpped {
 		gk := importable.GetObjectKind().GroupVersionKind().GroupKind()
-		return genruntime.ResourceReference{}, NewNotImportableError(gk, id.Name, because)
+		return genruntime.ResourceReference{}, NewImportSkippedError(gk, id.Name, because)
 	}
 
 	gvk := importable.GetObjectKind().GroupVersionKind()
@@ -296,11 +301,6 @@ func (i *importableARMResource) importChildResources(
 		return nil, errors.Wrapf(err, "unable to list resources of type %s", childResourceType)
 	}
 
-	klog.Infof("Found %d child %s/%s",
-		len(childResourceReferences),
-		childResourceGK.Group,
-		childResourceGK.Kind)
-
 	subResources := make([]ImportableResource, 0, len(childResourceReferences))
 	for _, ref := range childResourceReferences {
 		importer, err := NewImportableARMResource(ref.ID, &owner, i.client, i.scheme)
@@ -354,9 +354,9 @@ func (i *importableARMResource) createImportableObjectFromID(
 
 	if owner != nil {
 		i.SetOwner(importable, *owner)
-		i.SetName(importable, i.nameFromID(armID), *owner)
+		i.SetName(importable, armID.Name, *owner)
 	} else {
-		i.SetName(importable, i.nameFromID(armID), genruntime.ResourceReference{})
+		i.SetName(importable, armID.Name, genruntime.ResourceReference{})
 	}
 
 	return importable, nil
@@ -431,11 +431,6 @@ func (i *importableARMResource) groupKindFromID(id *arm.ResourceID) (schema.Grou
 	}
 
 	return gk, nil
-}
-
-func (i *importableARMResource) nameFromID(id *arm.ResourceID) string {
-	klog.V(3).Infof("Name: %s", id.Name)
-	return id.Name
 }
 
 // createContainerURI creates the URI for a subcontainer of a resource

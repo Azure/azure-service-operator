@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	"github.com/vbauerster/mpb/v8"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 
@@ -32,7 +33,7 @@ type ImportableResource interface {
 	// Import does the actual import, updating the Spec on the wrapped resource.
 	// ctx allows for cancellation of the import.
 	// If there are any additional resources that also need to be imported, they should be returned.
-	Import(ctx context.Context) ([]ImportableResource, error)
+	Import(ctx context.Context, bar *mpb.Bar) ([]ImportableResource, error)
 }
 
 // importableResource is a core of common data and support methods for implementing ImportableResource
