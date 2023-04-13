@@ -170,22 +170,20 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 				fmt.Sprintf("migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
 		}
 
-		// If we don't find the originalVersion, it may not have been set.
-		// This can happen for some resources such as ResourceGroup which were handcrafted in versions prior to v2.0.0 and thus didn't have a StorageVersion.
-		if !found {
+		if found {
+			originalVersion = strings.Replace(originalVersion, "v1alpha1api", "v1beta", 1)
+			err = unstructured.SetNestedField(obj.Object, originalVersion, originalVersionFieldPath...)
+			if err != nil {
+				return errors.Wrap(err,
+					fmt.Sprintf("migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
+			}
+		} else {
+			// If we don't find the originalVersion, it may not have been set.
+			// This can happen for some resources such as ResourceGroup which were handcrafted in versions prior to v2.0.0 and thus didn't have a StorageVersion.
 			c.log.Info(
 				"originalVersion not found. Continuing with the latest.",
 				"name", obj.GetName(),
 				"kind", obj.GroupVersionKind().Kind)
-			// Here we set the originalVersion as active version since we can't find it
-			originalVersion = getVersionFromStoredVersion(activeVersion)
-		}
-
-		originalVersion = strings.Replace(originalVersion, "v1alpha1api", "v1beta", 1)
-		err = unstructured.SetNestedField(obj.Object, originalVersion, originalVersionFieldPath...)
-		if err != nil {
-			return errors.Wrap(err,
-				fmt.Sprintf("error while migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
 		}
 
 		err = retry.OnError(c.migrationBackoff, isErrorFatal, func() error { return c.client.Update(ctx, &obj) })
@@ -253,10 +251,4 @@ func removeMatchingStoredVersions(oldVersions []string, versionRegexp *regexp.Re
 	}
 
 	return newStoredVersions, matchedStoredVersion
-}
-
-// getVersionFromStoredVersion returns the public (non-storage) API version for a given version
-func getVersionFromStoredVersion(version string) string {
-	result := strings.TrimSuffix(version, "storage")
-	return result
 }
