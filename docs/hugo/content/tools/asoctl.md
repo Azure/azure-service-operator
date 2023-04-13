@@ -33,11 +33,11 @@ This command can be used to prepare ASOv2 `v1alpha1api`(deprecated in v2.0.0) Cu
 It ensures that any ASOv2 `v1alpha1api` deprecated version resources that may have been stored in etcd get migrated to `v1beta` version before upgrading ASO to `v2.0.0`. 
 
 ```bash
-$ asoctl crd clean --help
+$ asoctl clean crds --help
 Clean deprecated CRD versions from cluster
 
 Usage:
-  asoctl crd clean [flags]
+  asoctl clean crds [flags]
 
 Flags:
       --dry-run   
@@ -49,13 +49,13 @@ Global Flags:
 
 `--dry-run` flag outputs about CRDs and CRs to be updated and **does not** modify any CRD and CRs.
 
-### Steps for migration using `asoctl crd clean`:
+### Steps for migration using `asoctl clean crds`:
 
 - Ensure the current ASOv2 version is `beta.5`
-- Run `asoctl crd clean`
+- Run `asoctl clean crds`
 - Upgrade ASOv2 to `2.0.0`
 
-Using `asoctl clean crd` is an important step if `v1alpha1api` resources are present in the cluster. If not used correctly, operator pod would output log like:
+Using `asoctl clean crds` is an important step if `v1alpha1api` resources are present in the cluster. If not used correctly, operator pod would output log like:
 
 ```
 "msg"="failed to apply CRDs" "error"="failed to apply CRD storageaccountsqueueservicesqueues.storage.azure.com: CustomResourceDefinition.apiextensions.k8s.io \"storageaccountsqueueservicesqueues.storage.azure.com\" is invalid: status.storedVersions[0]: Invalid value: \"v1alpha1api20210401storage\": must appear in spec.versions" 
