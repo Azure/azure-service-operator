@@ -55,7 +55,7 @@ Global Flags:
 - Run `asoctl clean crds`
 - Upgrade ASOv2 to `2.0.0`
 
-Using `asoctl clean crds` is an important step if `v1alpha1api` resources are present in the cluster. If not used correctly, operator pod would output log like:
+Using `asoctl clean crds` is an important step if `v1alpha1api` resources have ever been present in the cluster. If not used correctly, operator pod will produce log error messages:
 
 ```
 "msg"="failed to apply CRDs" "error"="failed to apply CRD storageaccountsqueueservicesqueues.storage.azure.com: CustomResourceDefinition.apiextensions.k8s.io \"storageaccountsqueueservicesqueues.storage.azure.com\" is invalid: status.storedVersions[0]: Invalid value: \"v1alpha1api20210401storage\": must appear in spec.versions" 
