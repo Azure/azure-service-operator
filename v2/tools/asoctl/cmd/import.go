@@ -11,7 +11,7 @@ import "github.com/spf13/cobra"
 func newImportCommand() (*cobra.Command, error) {
 	cmd := &cobra.Command{
 		Use:   "import",
-		Short: "imports ARM resources as YAML resource definitions",
+		Short: "Imports ARM resources to YAML files containing ASO custom resource definitions",
 		Args:  cobra.ExactArgs(1),
 	}
 

@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -22,7 +22,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/util/retry"
-	"k8s.io/klog/v2"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -31,9 +30,14 @@ type Cleaner struct {
 	client              client.Client
 	migrationBackoff    wait.Backoff
 	dryRun              bool
+	log                 logr.Logger
 }
 
-func NewCleaner(apiExtensionsClient apiextensionsclient.CustomResourceDefinitionInterface, client client.Client, dryRun bool) *Cleaner {
+func NewCleaner(
+	apiExtensionsClient apiextensionsclient.CustomResourceDefinitionInterface,
+	client client.Client,
+	dryRun bool,
+	log logr.Logger) *Cleaner {
 	migrationBackoff := wait.Backoff{
 		Duration: 2 * time.Second, // wait 2s between attempts, this will help us in a state of conflict.
 		Steps:    3,               // 3 retry on error attempts per object
@@ -45,6 +49,7 @@ func NewCleaner(apiExtensionsClient apiextensionsclient.CustomResourceDefinition
 		client:              client,
 		migrationBackoff:    migrationBackoff,
 		dryRun:              dryRun,
+		log:                 log,
 	}
 }
 
@@ -78,7 +83,9 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 		// If the slice was not updated, there is no version to deprecate.
 		if len(newStoredVersions) == len(crd.Status.StoredVersions) {
-			klog.Infof("Nothing to update for %q\n", crd.Name)
+			c.log.Info(
+				"Nothing to update",
+				"crd-name", crd.Name)
 			continue
 		}
 
@@ -92,7 +99,11 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		// TODO: 3. Issue GET + PUT with versionToUse
 		// TODO: Doing the above is tricky though so for now we'll just use the latest stored version
 		activeVersion := getVersionFromStoredVersion(newStoredVersions[len(newStoredVersions)-1])
-		klog.Infof("Starting cleanup for %q", crd.Name)
+
+		c.log.Info(
+			"Starting cleanup",
+			"crd-name", crd.Name)
+
 		objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, activeVersion)
 		if err != nil {
 			return err
@@ -111,9 +122,12 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		updated++
 	}
 
-	if !c.dryRun {
-		klog.Infof("Updated %d CRD(s)\n", updated)
-
+	if c.dryRun {
+		c.log.Info("Update finished (dry run)")
+	} else {
+		c.log.Info(
+			"Update finished",
+			"crd-count", updated)
 	}
 
 	return nil
@@ -125,7 +139,10 @@ func (c *Cleaner) updateStorageVersions(
 	newStoredVersions []string) error {
 
 	if c.dryRun {
-		klog.Infof("Would update storedVersions for %q CRD to: %s\n", crd.Name, newStoredVersions)
+		c.log.Info(
+			"Would update storedVersions",
+			"crd-name", crd.Name,
+			"storedVersions", newStoredVersions)
 		return nil
 	}
 
@@ -134,7 +151,10 @@ func (c *Cleaner) updateStorageVersions(
 	if err != nil {
 		return err
 	}
-	klog.Infof("Updated %q CRD status storedVersions to : %s\n", crd.Name, updatedCrd.Status.StoredVersions)
+	c.log.Info(
+		"Updated CRD status storedVersions",
+		"crd-name", crd.Name,
+		"storedVersions", updatedCrd.Status.StoredVersions)
 
 	return nil
 }
@@ -143,7 +163,10 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 	for _, obj := range objectsToMigrate.Items {
 		obj := obj
 		if c.dryRun {
-			klog.V(2).Infof("Would migrate resource %q of kind %q", obj.GetName(), obj.GroupVersionKind().Kind)
+			c.log.Info(
+				"Would migrate resource",
+				"name", obj.GetName(),
+				"kind", obj.GroupVersionKind().Kind)
 			continue
 		}
 
@@ -152,10 +175,16 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			return err
 		}
 
-		klog.V(2).Infof("Migrated %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind)
+		c.log.Info(
+			"Migrated resource",
+			"name", obj.GetName(),
+			"kind", obj.GroupVersionKind().Kind)
 	}
 
-	klog.Infof("Migrated %d resources\n", len(objectsToMigrate.Items))
+	c.log.Info(
+		"Migration finished",
+		"resource-count", len(objectsToMigrate.Items))
+
 	return nil
 }
 

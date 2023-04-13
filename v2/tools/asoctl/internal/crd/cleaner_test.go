@@ -9,6 +9,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
@@ -36,7 +37,11 @@ type clientSet struct {
 func makeClientSets() *clientSet {
 	fakeApiExtClient := fake.NewSimpleClientset().ApiextensionsV1()
 	fakeClient := fake2.NewClientBuilder().WithScheme(api.CreateScheme()).Build()
-	cleaner := NewCleaner(fakeApiExtClient.CustomResourceDefinitions(), fakeClient, false)
+	cleaner := NewCleaner(
+		fakeApiExtClient.CustomResourceDefinitions(),
+		fakeClient,
+		false, // dry-run
+		logr.Discard())
 	return &clientSet{
 		fakeApiExtClient: fakeApiExtClient,
 		fakeClient:       fakeClient,
@@ -228,7 +233,11 @@ func Test_MigrateAndCleanDeprecatedCRDResources_DryRun_NoAction(t *testing.T) {
 
 	fakeApiExtClient := fake.NewSimpleClientset().ApiextensionsV1()
 	fakeClient := fake2.NewClientBuilder().WithScheme(api.CreateScheme()).Build()
-	cleanerDryRun := NewCleaner(fakeApiExtClient.CustomResourceDefinitions(), fakeClient, true)
+	cleanerDryRun := NewCleaner(
+		fakeApiExtClient.CustomResourceDefinitions(),
+		fakeClient,
+		true, // dry-run
+		logr.Discard())
 
 	alphaVersion := "v1alpha1api20200601"
 	betaVersion := "v1beta20200601"
