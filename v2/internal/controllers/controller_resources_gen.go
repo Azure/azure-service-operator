@@ -177,6 +177,9 @@ import (
 	subscription_v1api20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001storage"
 	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001"
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1beta20211001storage"
+	synapse_customizations "github.com/Azure/azure-service-operator/v2/api/synapse/customizations"
+	synapse_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
+	synapse_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601storage"
 	web_customizations "github.com/Azure/azure-service-operator/v2/api/web/customizations"
 	web_v1api20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	web_v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301storage"
@@ -648,6 +651,30 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueService)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueServicesQueue)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v1api20211001s.Alias)})
+	result = append(result, &registration.StorageType{
+		Obj: new(synapse_v1api20210601s.Workspace),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.defaultDataLakeStorage.accountUrlFromConfig",
+				Func: indexSynapseWorkspaceAccountUrlFromConfig,
+			},
+			{
+				Key:  ".spec.sqlAdministratorLoginPassword",
+				Func: indexSynapseWorkspaceSqlAdministratorLoginPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.sqlAdministratorLoginPassword"}, &synapse_v1api20210601s.WorkspaceList{}),
+			},
+			{
+				Src:              &source.Kind{Type: &v1.ConfigMap{}},
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.defaultDataLakeStorage.accountUrlFromConfig"}, &synapse_v1api20210601s.WorkspaceList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(synapse_v1api20210601s.WorkspacesBigDataPool)})
 	result = append(result, &registration.StorageType{Obj: new(web_v1api20220301s.ServerFarm)})
 	result = append(result, &registration.StorageType{
 		Obj: new(web_v1api20220301s.Site),
@@ -1212,6 +1239,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(subscription_v1api20211001s.Alias))
 	result = append(result, new(subscription_v20211001.Alias))
 	result = append(result, new(subscription_v20211001s.Alias))
+	result = append(result, new(synapse_v1api20210601.Workspace), new(synapse_v1api20210601.WorkspacesBigDataPool))
+	result = append(result, new(synapse_v1api20210601s.Workspace), new(synapse_v1api20210601s.WorkspacesBigDataPool))
 	result = append(result, new(web_v1api20220301.ServerFarm), new(web_v1api20220301.Site))
 	result = append(result, new(web_v1api20220301s.ServerFarm), new(web_v1api20220301s.Site))
 	result = append(result, new(web_v20220301.ServerFarm), new(web_v20220301.Site))
@@ -1369,6 +1398,8 @@ func createScheme() *runtime.Scheme {
 	_ = subscription_v1api20211001s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
+	_ = synapse_v1api20210601.AddToScheme(scheme)
+	_ = synapse_v1api20210601s.AddToScheme(scheme)
 	_ = web_v1api20220301.AddToScheme(scheme)
 	_ = web_v1api20220301s.AddToScheme(scheme)
 	_ = web_v20220301.AddToScheme(scheme)
@@ -1499,6 +1530,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &storage_customizations.StorageAccountsQueueServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServicesQueueExtension{})
 	result = append(result, &subscription_customizations.AliasExtension{})
+	result = append(result, &synapse_customizations.WorkspaceExtension{})
+	result = append(result, &synapse_customizations.WorkspacesBigDataPoolExtension{})
 	result = append(result, &web_customizations.ServerFarmExtension{})
 	result = append(result, &web_customizations.SiteExtension{})
 	return result
@@ -2040,6 +2073,33 @@ func indexSqlServersVulnerabilityAssessmentStorageContainerSasKey(rawObj client.
 		return nil
 	}
 	return obj.Spec.StorageContainerSasKey.Index()
+}
+
+// indexSynapseWorkspaceAccountUrlFromConfig an index function for synapse_v1api20210601s.Workspace .spec.defaultDataLakeStorage.accountUrlFromConfig
+func indexSynapseWorkspaceAccountUrlFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*synapse_v1api20210601s.Workspace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DefaultDataLakeStorage == nil {
+		return nil
+	}
+	if obj.Spec.DefaultDataLakeStorage.AccountUrlFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DefaultDataLakeStorage.AccountUrlFromConfig.Index()
+}
+
+// indexSynapseWorkspaceSqlAdministratorLoginPassword an index function for synapse_v1api20210601s.Workspace .spec.sqlAdministratorLoginPassword
+func indexSynapseWorkspaceSqlAdministratorLoginPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*synapse_v1api20210601s.Workspace)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.SqlAdministratorLoginPassword == nil {
+		return nil
+	}
+	return obj.Spec.SqlAdministratorLoginPassword.Index()
 }
 
 // indexWebSiteAccessKey an index function for web_v1api20220301s.Site .spec.siteConfig.azureStorageAccounts.accessKey
