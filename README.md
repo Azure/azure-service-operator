@@ -1,9 +1,7 @@
 # Azure Service Operator (for Kubernetes)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Azure/azure-service-operator)](https://goreportcard.com/report/github.com/Azure/azure-service-operator)
 [![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=main)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=main)
-![v2 Status](https://github.com/azure/azure-service-operator/actions/workflows/live-validation.yml/badge.svg?branch=main)
-
-> Note: The API is expected to change (while adhering to semantic versioning). Alpha, Beta, and Stable mean roughly the same for this project as they do for [all Kubernetes features](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
+<!-- ![v2 Status](https://github.com/azure/azure-service-operator/actions/workflows/live-validation.yml/badge.svg?branch=main) -->
 
 ## What is it?
 **Azure Service Operator** (ASO) helps you provision Azure resources and connect your applications to them from within Kubernetes.
@@ -22,10 +20,10 @@ There are two major versions of Azure Service Operator: v1 and v2. Consult the b
 
 > Note: ASO v1 and v2 are two totally independent operators. Each has its own unique set of CRDs and controllers. They can be deployed side by side in the same cluster.
 
-| ASO Version | Lifecycle stage | Development status                | Installation options                                                                                                                                                                                      |
-| ----------- |-----------------| --------------------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| v2          | Beta            | Under active development.         | [Helm chart](/v2/charts), [GitHub release 2.x](https://github.com/Azure/azure-service-operator/releases). See [installation](https://azure.github.io/azure-service-operator/#installation) for example.   |
-| v1          | Beta            | Bug and security fixes primarily. | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                            |
+| ASO Version | Lifecycle stage | Development status                | Installation options                                                                                                                                                                                    |
+|-------------|-----------------|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| v2          | Stable          | Under active development.         | [Helm chart](/v2/charts), [GitHub release 2.x](https://github.com/Azure/azure-service-operator/releases). See [installation](https://azure.github.io/azure-service-operator/#installation) for example. |
+| v1          | Beta            | Bug and security fixes primarily. | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases)                          |
 
 ### ASO v2
 Azure Service Operator v2 was built based on the lessons learned from ASO v1, with the following improvements:

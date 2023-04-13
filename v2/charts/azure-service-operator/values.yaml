@@ -37,7 +37,7 @@ azureSyncPeriod: ""
 
 # useWorkloadIdentityAuth can be set to use workload identity authentication
 # See https://azure.github.io/azure-workload-identity/docs/introduction.html for more details about Azure Workload Identity.
-# See https://azure.github.io/azure-service-operator/introduction/authentication/ for details on setting up Workload Identity with ASO
+# See https://azure.github.io/azure-service-operator/guide/authentication/ for details on setting up Workload Identity with ASO
 useWorkloadIdentityAuth: false
 
 # azureAuthorityHost is the URL of the AAD authority. If not specified, the default
