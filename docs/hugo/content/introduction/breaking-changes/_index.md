@@ -52,6 +52,14 @@ If the automatically generated intra-version conversions are not sufficient, we 
 
 This might occur if a new version of a resource API introduced a breaking change. For an example of this, see [managed_cluster_conversion_overrides.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/containerservice/v1api20210501storage/managed_cluster_conversion_overrides.go).
 
+The advantage of this approach is that migration is zero-touch for our users.
+
+### Custom Tooling
+
+For our **v2.0.0** release, we provided a specialized tool (`asoctl clean crds`) to allow users to upgrade their clusters. For this release, the tooling allows users to upgrade their clusters smoothly even though we are removing the previously deprecated `v1alpha1` resource versions.
+
+We may, in future, create additional tooling designed to smooth the way for users encountering what would otherwise be breaking changes.
+
 ### Documentation
 
 As a last resort, if we have a breaking change that we can't avoid, we'll explicitly document it, both here and in the release notes for that version.
