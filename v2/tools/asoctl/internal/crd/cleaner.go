@@ -84,14 +84,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 		// Make sure to use a version that hasn't been deprecated for migration. Deprecated versions will not be in our
 		// scheme, and so we cannot List/PUT with them. Instead, use the next available version.
-		// TODO: We need to do a better job of selecting a version to use here. If we're not careful, we could
-		// TODO: issue a GET + PUT with an older Azure API version and end up losing/removing some properties.
-		// TODO: The ideal algorithm would be:
-		// TODO: 1. Use storage version to list all CRs. Extract the OriginalGVK field
-		// TODO: 2. Swap v1alpha1 -> v1beta1 (for alpha deprecation) and save that as versionToUse for that CR
-		// TODO: 3. Issue GET + PUT with versionToUse
-		// TODO: Doing the above is tricky though so for now we'll just use the latest stored version
-		activeVersion := getVersionFromStoredVersion(newStoredVersions[len(newStoredVersions)-1])
+		activeVersion := newStoredVersions[len(newStoredVersions)-1]
 		klog.Infof("Starting cleanup for %q", crd.Name)
 		objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, activeVersion)
 		if err != nil {
@@ -147,7 +140,27 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			continue
 		}
 
-		err := retry.OnError(c.migrationBackoff, isErrorFatal, func() error { return c.client.Update(ctx, &obj) })
+		originalVersionFieldPath := []string{"spec", "originalVersion"}
+
+		originalVersion, found, err := unstructured.NestedString(obj.Object, originalVersionFieldPath...)
+		if err != nil {
+			return errors.Wrap(err,
+				fmt.Sprintf("error while migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
+		}
+
+		// TODO: We continue here with the activeVersion
+		if !found {
+			continue
+		}
+
+		strings.Replace(originalVersion, "v1alpha1api", "v1beta", 1)
+		err = unstructured.SetNestedField(obj.Object, originalVersion, originalVersionFieldPath...)
+		if err != nil {
+			return errors.Wrap(err,
+				fmt.Sprintf("error while migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
+		}
+
+		err = retry.OnError(c.migrationBackoff, isErrorFatal, func() error { return c.client.Update(ctx, &obj) })
 		if isErrorFatal(err) {
 			return err
 		}
@@ -206,10 +219,4 @@ func removeMatchingStoredVersions(oldVersions []string, versionRegexp *regexp.Re
 	}
 
 	return newStoredVersions, matchedStoredVersion
-}
-
-// getVersionFromStoredVersion returns the public (non-storage) API version for a given version
-func getVersionFromStoredVersion(version string) string {
-	result := strings.TrimSuffix(version, "storage")
-	return result
 }
