@@ -101,7 +101,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 			return err
 		}
 
-		err = c.migrateObjects(ctx, objectsToMigrate)
+		err = c.migrateObjects(ctx, objectsToMigrate, activeVersion)
 		if err != nil {
 			return err
 		}
@@ -151,7 +151,7 @@ func (c *Cleaner) updateStorageVersions(
 	return nil
 }
 
-func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstructured.UnstructuredList) error {
+func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstructured.UnstructuredList, activeVersion string) error {
 	for _, obj := range objectsToMigrate.Items {
 		obj := obj
 		if c.dryRun {
@@ -175,6 +175,8 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			c.log.Info("originalVersion not found. Continuing with the latest.",
 				"name", obj.GetName(),
 				"kind", obj.GroupVersionKind().Kind)
+			// Here we set the originalVersion as active version since we can't find it
+			originalVersion = activeVersion
 		}
 
 		strings.Replace(originalVersion, "v1alpha1api", "v1beta", 1)
