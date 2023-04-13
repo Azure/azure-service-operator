@@ -66,6 +66,23 @@ Using `asoctl clean crds` is an important step if `v1alpha1api` resources have e
 "msg"="failed to apply CRDs" "error"="failed to apply CRD storageaccountsqueueservicesqueues.storage.azure.com: CustomResourceDefinition.apiextensions.k8s.io \"storageaccountsqueueservicesqueues.storage.azure.com\" is invalid: status.storedVersions[0]: Invalid value: \"v1alpha1api20210401storage\": must appear in spec.versions" 
 ```
 
+### Example Output
+
+```bash
+$ asoctl clean crds
+...
+cleaner.go:88] Starting cleanup for "registries.containerregistry.azure.com"
+cleaner.go:172] Migrated 0 resources
+cleaner.go:130] Updated "registries.containerregistry.azure.com" CRD status storedVersions to : [v1beta20210901storage]
+cleaner.go:88] Starting cleanup for "resourcegroups.resources.azure.com"
+cleaner.go:172] Migrated 1 resources
+cleaner.go:130] Updated "resourcegroups.resources.azure.com" CRD status storedVersions to : [v1beta20200601]
+cleaner.go:81] Nothing to update for "workspacesconnections.machinelearningservices.azure.com"
+cleaner.go:108] Updated 67 CRD(s)
+
+```
+
+
 ## Import Azure Resource
 
 TBC
