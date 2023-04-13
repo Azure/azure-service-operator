@@ -167,19 +167,21 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 		originalVersion, found, err := unstructured.NestedString(obj.Object, originalVersionFieldPath...)
 		if err != nil {
 			return errors.Wrap(err,
-				fmt.Sprintf("error while migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
+				fmt.Sprintf("migrating %q of kind %s", obj.GetName(), obj.GroupVersionKind().Kind))
 		}
 
-		// TODO: We continue here with the activeVersion
+		// If we don't find the originalVersion, it may not have been set.
+		// This can happen for some resources such as ResourceGroup which were handcrafted in versions prior to v2.0.0 and thus didn't have a StorageVersion.
 		if !found {
-			c.log.Info("originalVersion not found. Continuing with the latest.",
+			c.log.Info(
+				"originalVersion not found. Continuing with the latest.",
 				"name", obj.GetName(),
 				"kind", obj.GroupVersionKind().Kind)
 			// Here we set the originalVersion as active version since we can't find it
-			originalVersion = activeVersion
+			originalVersion = getVersionFromStoredVersion(activeVersion)
 		}
 
-		strings.Replace(originalVersion, "v1alpha1api", "v1beta", 1)
+		originalVersion = strings.Replace(originalVersion, "v1alpha1api", "v1beta", 1)
 		err = unstructured.SetNestedField(obj.Object, originalVersion, originalVersionFieldPath...)
 		if err != nil {
 			return errors.Wrap(err,
@@ -251,4 +253,10 @@ func removeMatchingStoredVersions(oldVersions []string, versionRegexp *regexp.Re
 	}
 
 	return newStoredVersions, matchedStoredVersion
+}
+
+// getVersionFromStoredVersion returns the public (non-storage) API version for a given version
+func getVersionFromStoredVersion(version string) string {
+	result := strings.TrimSuffix(version, "storage")
+	return result
 }
