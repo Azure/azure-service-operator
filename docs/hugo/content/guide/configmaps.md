@@ -47,7 +47,7 @@ consult its [documentation](https://azure.github.io/azure-service-operator/refer
 Some resources support saving data into a `ConfigMap`. The individual properties can be exported to a `ConfigMap` of your choosing by
 configuring the `.spec.operatorSpec.configMaps` field. The data will be written to the destination(s) you specify once the resource has 
 successfully been provisioned in Azure.
-The resource will not move to [Condition](https://azure.github.io/azure-service-operator/introduction/conditions/) `Ready=True` 
+The resource will not move to [Condition](https://azure.github.io/azure-service-operator/guide/conditions/) `Ready=True` 
 until the data has been written.
 
 **Example (from [the UserAssignedIdentity sample](https://github.com/Azure/azure-service-operator/blob/main/v2/samples/managedidentity/v1beta/v1beta20181130_userassignedidentity.yaml)):**

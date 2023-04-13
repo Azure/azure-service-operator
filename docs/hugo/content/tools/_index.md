@@ -1,10 +1,10 @@
 ---
 title: "Tools"
 linkTitle: "Tools"
-weight: 20
+weight: 30
 menu:
   main:
-    weight: 20
+    weight: 30
 layout: single
 cascade:
 - type: docs

@@ -1,10 +1,10 @@
 ---
 title: "Supported Resources"
 linkTitle: "Supported Resources"
-weight: 20
+weight: 40
 menu:
   main:
-    weight: 20
+    weight: 40
 layout: single
 cascade:
 - type: docs

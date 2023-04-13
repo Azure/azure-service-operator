@@ -1,8 +1,6 @@
 ---
-title: ASO Metrics
+title: Metrics
 ---
-
-# ASOv2 Metrics
 
 Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing.
 The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from `controller-runtime`).
@@ -21,7 +19,7 @@ By default, metrics for ASOv2 are turned on and can be toggled by the following 
     --set metrics.address=0.0.0.0:8080 (default)    
     ```
 
-- ### Deployment Yaml
+- ### Deployment YAML
     
     In the deployment yaml, we can turn _**off**_ the metrics by omitting the `metrics-addr` flag. We can also change to use 
     a different metrics-addr by changing the default value of that same flag.
