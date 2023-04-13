@@ -101,7 +101,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 			return err
 		}
 
-		err = c.migrateObjects(ctx, objectsToMigrate, activeVersion)
+		err = c.migrateObjects(ctx, objectsToMigrate)
 		if err != nil {
 			return err
 		}
