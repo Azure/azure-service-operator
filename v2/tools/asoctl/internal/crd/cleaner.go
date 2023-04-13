@@ -175,7 +175,6 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			c.log.Info("originalVersion not found. Continuing with the latest.",
 				"name", obj.GetName(),
 				"kind", obj.GroupVersionKind().Kind)
-			continue
 		}
 
 		strings.Replace(originalVersion, "v1alpha1api", "v1beta", 1)
