@@ -7,14 +7,16 @@ package importing
 
 import (
 	"context"
+	"fmt"
 	"sync"
 
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	"github.com/vbauerster/mpb/v8"
+	"github.com/vbauerster/mpb/v8/decor"
 	"golang.org/x/sync/errgroup"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/klog/v2"
-
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
@@ -28,18 +30,23 @@ type ResourceImporter struct {
 	completed map[string]ImportableResource   // A set of importers that have been successfully imported
 	queue     []string                        // Queue of names of resources to import (so we do things in a reasonable order)
 	lock      sync.Mutex                      // Lock to protect the above maps
+	log       logr.Logger                     // Logger to use for logging
+	progress  *mpb.Progress                   // Progress bar to use for showing progress
 }
 
 // NewResourceImporter creates a new factory with the scheme baked in
 func NewResourceImporter(
 	scheme *runtime.Scheme,
 	client *genericarmclient.GenericClient,
-) *ResourceImporter {
+	log logr.Logger,
+	progress *mpb.Progress) *ResourceImporter {
 	return &ResourceImporter{
 		scheme:    scheme,
 		client:    client,
 		pending:   make(map[string]ImportableResource),
 		completed: make(map[string]ImportableResource),
+		log:       log,
+		progress:  progress,
 	}
 }
 
@@ -83,8 +90,17 @@ func (ri *ResourceImporter) addImpl(importer ImportableResource) {
 
 // Import imports all the resources that have been added to the importer.
 // Partial results are returned even in the case of an error.
-func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, error) {
-	processed := 0
+func (ri *ResourceImporter) Import(
+	ctx context.Context,
+) (*ResourceImportResult, error) {
+	var processed int64 = 0
+
+	globalBar := ri.progress.AddBar(
+		0, // zero total because we don't know how much work will be needed,
+		mpb.PrependDecorators(
+			decor.Name("Import Azure Resources", decor.WCSyncSpaceR)),
+		mpb.AppendDecorators(decor.Percentage(decor.WC{W: 5})))
+	globalBar.SetPriority(-1) // must display at the top
 
 	// Why the nested loop?
 	// We can potentially trigger all the pending resources listed in ri.queue to be imported in parallel
@@ -110,33 +126,15 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 				break
 			}
 
-			processed++
-			pendingCount := len(ri.pending)
-
-			gk := rsrc.GroupKind()
-			klog.Infof(
-				"Importing %d/%d: %s/%s %s",
-				processed,
-				processed+pendingCount,
-				gk.Group,
-				gk.Kind,
-				rsrc.Name())
-
 			eg.Go(func() error {
-				// Import it
-				pending, err := rsrc.Import(ctx)
-				if err != nil {
-					var notImportable *ImportSkippedError
-					if errors.As(err, &notImportable) {
-						klog.Infof(err.Error())
-						return nil
-					}
+				err := ri.ImportResource(ctx, rsrc)
 
-					return errors.Wrapf(err, "failed during import of %s", rsrc.Name())
-				}
+				// Update our global progress too
+				processed++
+				globalBar.SetTotal(processed+int64(len(ri.queue)), false)
+				globalBar.SetCurrent(processed)
 
-				ri.Complete(rsrc, pending)
-				return nil
+				return err
 			})
 		}
 
@@ -146,6 +144,8 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 			return nil, err
 		}
 	}
+
+	globalBar.SetTotal(processed, true)
 
 	// Now we've imported everything, return the resources
 	// We do this even if there's an error so that we can return partial results
@@ -157,6 +157,53 @@ func (ri *ResourceImporter) Import(ctx context.Context) (*ResourceImportResult, 
 	return &ResourceImportResult{
 		resources: resources,
 	}, nil
+}
+
+func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableResource) error {
+	// Import it
+	gk := rsrc.GroupKind()
+	name := fmt.Sprintf("%s %s", gk, rsrc.Name())
+	bar := ri.progress.AddBar(
+		0, // zero total because we don't know how much work will be needed
+		mpb.BarRemoveOnComplete(),
+		mpb.PrependDecorators(
+			decor.Name(name, decor.WCSyncSpaceR)),
+		mpb.AppendDecorators(decor.Percentage(decor.WC{W: 5})))
+
+	defer func() {
+		// Ensure the progress bar is always updated when we're done
+		// We're done with this resource, so remove it from the progress bar
+		bar.Increment()
+		bar.SetTotal(bar.Current(), true)
+	}()
+
+	pending, err := rsrc.Import(ctx, bar)
+	if err != nil {
+		var skipped *ImportSkippedError
+		if errors.As(err, &skipped) {
+			ri.log.V(1).Info(
+				"Skipped",
+				"kind", gk,
+				"name", rsrc.Name(),
+				"because", skipped.Because)
+			return nil
+		}
+
+		ri.log.Error(err,
+			"Failed",
+			"kind", gk,
+			"name", rsrc.Name())
+
+		return errors.Wrapf(err, "failed during import of %s", rsrc.Name())
+	}
+
+	ri.log.Info(
+		"Imported",
+		"kind", gk,
+		"name", rsrc.Name())
+
+	ri.Complete(rsrc, pending)
+	return nil
 }
 
 // DequeueResource returns the next resource to import.
@@ -186,12 +233,7 @@ func (ri *ResourceImporter) Complete(importer ImportableResource, pending []Impo
 
 	// Add it to our map and our queue
 	ri.completed[importer.Name()] = importer
-	start := len(ri.pending)
 	for _, p := range pending {
 		ri.addImpl(p)
-	}
-
-	if len(ri.pending) > start {
-		klog.Infof("Queued %d new resources", len(ri.pending)-start)
 	}
 }

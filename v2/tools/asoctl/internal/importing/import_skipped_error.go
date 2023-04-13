@@ -22,7 +22,7 @@ type ImportSkippedError struct {
 // Ensure we implement the error interface
 var _ error = &ImportSkippedError{}
 
-func NewNotImportableError(groupKind schema.GroupKind, name string, because string) *ImportSkippedError {
+func NewImportSkippedError(groupKind schema.GroupKind, name string, because string) *ImportSkippedError {
 	return &ImportSkippedError{
 		GroupKind: groupKind,
 		Name:      name,

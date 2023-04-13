@@ -14,10 +14,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
+	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
-
-	"github.com/Azure/azure-service-operator/v2/api"
 
 	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/importing"
 )
@@ -47,7 +46,6 @@ func newImportAzureResourceCommand() *cobra.Command {
 // importAzureResource imports an ARM resource and writes the YAML to stdout or a file
 func importAzureResource(ctx context.Context, armIDs []string, outputPath *string) error {
 	//TODO: Support other clouds
-
 	activeCloud := cloud.AzurePublic
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
@@ -63,7 +61,7 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 		return errors.Wrapf(err, "failed to create ARM client")
 	}
 
-	importer := importing.NewResourceImporter(api.CreateScheme(), client)
+	importer := importing.NewResourceImporter(api.CreateScheme(), client, log, progress)
 	for _, armID := range armIDs {
 		err = importer.AddARMID(armID)
 		if err != nil {
@@ -72,6 +70,7 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 	}
 
 	result, err := importer.Import(ctx)
+
 	if err != nil {
 		return errors.Wrap(err, "failed to import resources")
 	}
@@ -82,6 +81,9 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	} else {
+		log.Info(
+			"Writing to file",
+			"path", *outputPath)
 		err := result.SaveToFile(*outputPath)
 		if err != nil {
 			return errors.Wrapf(err, "failed to write to file %s", *outputPath)
