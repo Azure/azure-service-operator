@@ -43,7 +43,7 @@ func newRootCommand() (*cobra.Command, error) {
 	rootCmd.Flags().SortFlags = false
 
 	cmds := []func() (*cobra.Command, error){
-		newCRDCommand,
+		newCleanCommand,
 		newImportCommand,
 		version.NewCommand,
 	}

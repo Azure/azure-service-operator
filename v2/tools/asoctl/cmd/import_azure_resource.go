@@ -25,7 +25,7 @@ func newImportAzureResourceCommand() *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "azure-resource <ARM/ID/of/resource>",
-		Short: "imports an ARM resource as a CR",
+		Short: "Import ARM resources as Custom Resources",
 		Args:  cobra.ArbitraryArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -69,7 +69,6 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 	}
 
 	result, err := importer.Import(ctx)
-
 	if err != nil {
 		return errors.Wrap(err, "failed to import resources")
 	}
