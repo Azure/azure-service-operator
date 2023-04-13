@@ -7,10 +7,15 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"math/rand"
 	"os"
+	"regexp"
 	"time"
 
+	apiextensionsclient "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
@@ -24,6 +29,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	clientconfig "sigs.k8s.io/controller-runtime/pkg/client/config"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
@@ -44,6 +50,40 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
+func SetupPreUpgradeCheck(ctx context.Context) error {
+	cfg, err := clientconfig.GetConfig()
+	if err != nil {
+		return errors.Wrap(err, "unable to get client config")
+	}
+
+	apiExtClient, err := apiextensionsclient.NewForConfig(cfg)
+	if err != nil {
+		return errors.Wrap(err, "unable to create kubernetes client")
+	}
+
+	// Had to list CRDs this way and not with crdManager, since we did not have "serviceoperator.azure.com/version" labels in earlier versions.
+	list, err := apiExtClient.CustomResourceDefinitions().List(ctx, v1.ListOptions{})
+	if err != nil {
+		return errors.Wrap(err, "failed to list CRDs")
+	}
+
+	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
+	var errs []error
+	for _, crd := range list.Items {
+		crd := crd
+		if !crdRegexp.MatchString(crd.Name) {
+			continue
+		}
+
+		if policy, ok := crd.Annotations["helm.sh/resource-policy"]; !ok || policy != "keep" {
+			err = errors.New(fmt.Sprintf("CRD '%s' does not have annotation for helm keep policy. Make sure the upgrade is from beta.5", crd.Name))
+			errs = append(errs, err)
+		}
+	}
+
+	return kerrors.NewAggregate(errs)
+}
+
 func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flags) manager.Manager {
 	scheme := controllers.CreateScheme()
 	_ = apiextensions.AddToScheme(scheme) // Used for managing CRDs
@@ -62,12 +102,12 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 	k8sConfig := ctrl.GetConfigOrDie()
 	mgr, err := ctrl.NewManager(k8sConfig, ctrl.Options{
 		Scheme:                 scheme,
-		MetricsBindAddress:     flgs.metricsAddr,
+		MetricsBindAddress:     flgs.MetricsAddr,
 		NewCache:               cacheFunc,
-		LeaderElection:         flgs.enableLeaderElection,
+		LeaderElection:         flgs.EnableLeaderElection,
 		LeaderElectionID:       "controllers-leader-election-azinfra-generated",
 		Port:                   9443,
-		HealthProbeBindAddress: flgs.healthAddr,
+		HealthProbeBindAddress: flgs.HealthAddr,
 	})
 
 	if err != nil {
@@ -101,8 +141,8 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs Flag
 
 	nonReadyResources := crdmanagement.GetNonReadyCRDs(cfg, crdManager, goalCRDs, existingCRDs)
 
-	if len(flgs.crdPatterns) > 0 {
-		err = crdManager.ApplyCRDs(ctx, goalCRDs, existingCRDs, flgs.crdPatterns)
+	if len(flgs.CrdPatterns) > 0 {
+		err = crdManager.ApplyCRDs(ctx, goalCRDs, existingCRDs, flgs.CrdPatterns)
 		if err != nil {
 			setupLog.Error(err, "failed to apply CRDs")
 			os.Exit(1)
