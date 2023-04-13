@@ -32,13 +32,13 @@ TBC
 
 When you have an existing Azure resource that needs to be managed by ASO, you can use the `import` command to generate a YAML file that can be used to create a new ASO resource. This is useful when:
 
-* You want to migrate an existing Azure resource from ASvO v1 to ASO v2.
-* You have an existing Azure resource and want ASO to maintain it in a particular state.
+* You want to migrate an existing Azure resource from ASO v1 to ASO v2.
+* You have an existing Azure resource and want ASO to manage it.
 * You have a hand-configured Azure resource and you want to replicate it for development, staging, or production use.
 
 ``` bash
 $ asoctl import azure-resource --help
-imports an ARM resource as a CR
+Import ARM resources as Custom Resources
 
 Usage:
   asoctl import azure-resource <ARM/ID/of/resource> [flags]
@@ -51,18 +51,22 @@ Global Flags:
       --verbose   Enable verbose logging
 ```
 
+The `asoctl import azure-resource` command will accept any number of ARM resource Ids. 
+
+Each ARM resource will be scanned for supported child or extension resources, and all the results combined together into a single YAML file. If `asoctl` encounters a resource type that it doesn't support, details will be logged. 
+
 ### Example: Importing a PostgreSQL Server
 
 To import the configuration of an existing PostgreSQL server, we'd run the following command:
 
 ``` bash
-$ asoctl.exe import azure-resource /subscriptions/[redacted]/resourceGroups/aso-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/aso-pg --output aso.yaml
+$ asoctl import azure-resource /subscriptions/[redacted]/resourceGroups/aso-rg/providers/Microsoft.DBforPostgreSQL/flexibleServers/aso-pg --output aso.yaml
 ```
-* The parameter is the full ARM ID to the server; one way tto find this is via the Azure Portal.
+* The parameter is the full ARM ID to the server; one way to find this is via the Azure Portal.
 * Multiple ARM IDs are permitted.
 * Here, the subscription ID has been redacted; in practice, you'd see your own subscription list
 
-While `asoctl import azure-resource` runs, you'll see progress shown dynamically as resources are found and imported:
+While `asoctl import azure-resource` runs, you'll see progress shown dynamically as child and extension resources are found and imported:
 
 ![Screenshot showing asoctl import azure-resource running](../images/asoctl-import-progress-bars.png)
 
@@ -77,6 +81,13 @@ Once finished, you'll see a list of all the imported resources, and the file the
 14:44:25 INF Writing to file path=aso.yaml
 Import Azure Resources  [======================================================================================================================================================================] 100 %
 ```
+
+The import found a total of five resources:
+
+* 1 x PostgreSQL Flexible Server (the one originally identified by ARM Id)
+* 1 x Firewall Rule
+* 2 x Configuration settings
+* 1 x Database
 
 Not all resources found need to imported; to see more information about those resources, and why they were omitted, use the `--verbose` command line flag.
 
