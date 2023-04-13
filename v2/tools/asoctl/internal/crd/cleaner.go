@@ -83,7 +83,8 @@ func (c *Cleaner) Run(ctx context.Context) error {
 
 		// If the slice was not updated, there is no version to deprecate.
 		if len(newStoredVersions) == len(crd.Status.StoredVersions) {
-			c.log.Info("Nothing to update",
+			c.log.Info(
+				"Nothing to update",
 				"crd-name", crd.Name)
 			continue
 		}
@@ -99,7 +100,8 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		// TODO: Doing the above is tricky though so for now we'll just use the latest stored version
 		activeVersion := getVersionFromStoredVersion(newStoredVersions[len(newStoredVersions)-1])
 
-		c.log.Info("Starting cleanup",
+		c.log.Info(
+			"Starting cleanup",
 			"crd-name", crd.Name)
 
 		objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, activeVersion)
@@ -123,7 +125,8 @@ func (c *Cleaner) Run(ctx context.Context) error {
 	if c.dryRun {
 		c.log.Info("Update finished (dry run)")
 	} else {
-		c.log.Info("Update finished",
+		c.log.Info(
+			"Update finished",
 			"crd-count", updated)
 	}
 
@@ -136,7 +139,8 @@ func (c *Cleaner) updateStorageVersions(
 	newStoredVersions []string) error {
 
 	if c.dryRun {
-		c.log.Info("Would update storedVersions",
+		c.log.Info(
+			"Would update storedVersions",
 			"crd-name", crd.Name,
 			"storedVersions", newStoredVersions)
 		return nil
@@ -147,7 +151,8 @@ func (c *Cleaner) updateStorageVersions(
 	if err != nil {
 		return err
 	}
-	c.log.Info("Updated CRD status storedVersions",
+	c.log.Info(
+		"Updated CRD status storedVersions",
 		"crd-name", crd.Name,
 		"storedVersions", updatedCrd.Status.StoredVersions)
 
@@ -170,12 +175,14 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			return err
 		}
 
-		c.log.Info("Migrated resource",
+		c.log.Info(
+			"Migrated resource",
 			"name", obj.GetName(),
 			"kind", obj.GroupVersionKind().Kind)
 	}
 
-	c.log.Info("Migration finished",
+	c.log.Info(
+		"Migration finished",
 		"resource-count", len(objectsToMigrate.Items))
 
 	return nil

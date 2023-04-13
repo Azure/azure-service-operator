@@ -81,7 +81,9 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 			return errors.Wrapf(err, "failed to write to stdout")
 		}
 	} else {
-		log.Info("Writing to file", "path", *outputPath)
+		log.Info(
+			"Writing to file",
+			"path", *outputPath)
 		err := result.SaveToFile(*outputPath)
 		if err != nil {
 			return errors.Wrapf(err, "failed to write to file %s", *outputPath)
