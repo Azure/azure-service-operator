@@ -11,11 +11,12 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/pkg/errors"
+	"github.com/spf13/cobra"
+
 	"github.com/Azure/azure-service-operator/v2/api"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
-	"github.com/pkg/errors"
-	"github.com/spf13/cobra"
 
 	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/importing"
 )

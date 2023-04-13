@@ -193,6 +193,7 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 			"Failed",
 			"kind", gk,
 			"name", rsrc.Name())
+
 		return errors.Wrapf(err, "failed during import of %s", rsrc.Name())
 	}
 
