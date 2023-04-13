@@ -48,7 +48,7 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 	activeCloud := cloud.AzurePublic
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
-		return errors.Wrap(err, "unable to get default azure credential")
+		return errors.Wrap(err, "unable to get default Azure credential")
 	}
 
 	options := &genericarmclient.GenericClientOptions{

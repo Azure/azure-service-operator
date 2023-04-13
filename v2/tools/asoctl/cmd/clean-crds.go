@@ -29,19 +29,19 @@ func newCRDCleanCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cfg, err := config.GetConfig()
 			if err != nil {
-				return errors.Wrap(err, "unable to get kubernetes config")
+				return errors.Wrap(err, "unable to get Kubernetes config")
 			}
 
 			ctx := cmd.Context()
 
 			apiExtClient, err := v1.NewForConfig(cfg)
 			if err != nil {
-				return errors.Wrap(err, "unable to create kubernetes client")
+				return errors.Wrap(err, "unable to create Kubernetes client")
 			}
 
 			cl, err := client.New(cfg, client.Options{Scheme: api.CreateScheme()})
 			if err != nil {
-				return errors.Wrap(err, "unable to create kubernetes client")
+				return errors.Wrap(err, "unable to create Kubernetes client")
 			}
 
 			return crd.NewCleaner(
