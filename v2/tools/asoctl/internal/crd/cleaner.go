@@ -64,7 +64,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to list CRDs")
 	}
-  
+
 	var updated int
 	var asoCrdsSeen int
 	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
