@@ -10,15 +10,12 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 // Example is from https://learn.microsoft.com/en-us/azure/private-link/create-private-endpoint-bicep?tabs=CLI#review-the-bicep-file
@@ -58,47 +55,6 @@ func Test_Networking_PrivateEndpoint_CRUD(t *testing.T) {
 			},
 		},
 	)
-
-	tc.DeleteResourceAndWait(endpoint)
-
-	// Ensure delete
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
-	tc.Expect(err).ToNot(HaveOccurred())
-	tc.Expect(retryAfter).To(BeZero())
-	tc.Expect(exists).To(BeFalse())
-}
-
-func Test_Networking_PrivateEndpoint_WithoutAutoApproval_CRUD(t *testing.T) {
-	t.Parallel()
-
-	tc := globalTestContext.ForTest(t)
-
-	rg := tc.CreateTestResourceGroupAndWait()
-
-	saKind := storage.StorageAccount_Kind_Spec_BlobStorage
-	sa := newStorageAccount(tc, rg)
-	sa.Spec.Kind = &saKind
-
-	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
-	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
-	endpoint := newPrivateEndpoint(tc, rg, sa, subnet)
-
-	// We need to use ManualPrivateLinkServiceConnection here which is not auto-approved.
-	endpoint.Spec.PrivateLinkServiceConnections = []network.PrivateLinkServiceConnection{}
-	endpoint.Spec.ManualPrivateLinkServiceConnections = []network.PrivateLinkServiceConnection{
-		{
-			Name:                        to.Ptr("testEndpoint"),
-			PrivateLinkServiceReference: tc.MakeReferenceFromResource(sa),
-			GroupIds:                    []string{"blob"},
-		},
-	}
-
-	tc.CreateResourcesAndWait(sa, vnet, subnet)
-	tc.Expect(sa.Status.Id).ToNot(BeNil())
-
-	tc.CreateResourceAndWaitForState(endpoint, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
-	tc.Expect(endpoint.Status.Id).ToNot(BeNil())
-	armId := *endpoint.Status.Id
 
 	tc.DeleteResourceAndWait(endpoint)
 

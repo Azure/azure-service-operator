@@ -17,8 +17,8 @@ import (
 )
 
 // This test cannot be run in record/replay mode because the state it looks for at the beginning (Ready = false with warning)
-// is not "stable" (the reconciler keeps retries). Since it keeps retrying there isn't a deterministic number of
-// retry attempts it makes
+// is not "stable" (the reconciler keeps retrying). Since it keeps retrying there isn't a deterministic number of
+// retry attempts it makes which means a recording test may run out of recorded retries.
 func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T) {
 	t.Parallel()
 
