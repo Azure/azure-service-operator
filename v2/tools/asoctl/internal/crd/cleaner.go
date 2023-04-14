@@ -112,7 +112,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 	}
 
 	if asoCrdsSeen <= 0 {
-		return errors.New("found 0 results, make sure you have ASO CRDs installed")
+		return errors.New("found no Azure Service Operator CRDs, make sure you have ASO installed.")
 	}
 
 	if c.dryRun {
