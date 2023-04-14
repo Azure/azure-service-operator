@@ -63,4 +63,4 @@ Without one it may be difficult to diagnose past failures.
 
 ## Fetching controller runtime and ASO metrics
 
-Follow the metrics [documentation](https://github.com/Azure/azure-service-operator/blob/main/docs/hugo/content/introduction/metrics.md) for more information on how to fetch, configure and understand ASO and controller runtime metrics. 
+Follow the metrics [documentation](https://github.com/Azure/azure-service-operator/blob/main/docs/hugo/content/guide/metrics.md) for more information on how to fetch, configure and understand ASO and controller runtime metrics. 

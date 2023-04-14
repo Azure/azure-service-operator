@@ -4,7 +4,7 @@ type: docs
 description: "Manage your Azure resources from within your Kubernetes cluster."
 ---
 ## Project Status
-This project is a beta. We follow the [Kubernetes definition of beta](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
+This project is stable. We follow the [Kubernetes definition of stable](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
 
 ## Why use Azure Service Operator v2?
 - **K8s Native:** we provide CRDs and Golang API structures to deploy and manage Azure resources through Kubernetes.
@@ -54,7 +54,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    
    You can optionally use a service principal with a more restricted permission set 
    (for example contributor to just a Resource Group), but that will restrict what you can
-   do with ASO. See [using reduced permissions](https://azure.github.io/azure-service-operator/introduction/authentication/#using-a-credential-for-aso-with-reduced-permissions) for more details.
+   do with ASO. See [using reduced permissions](https://azure.github.io/azure-service-operator/guide/authentication/#using-a-credential-for-aso-with-reduced-permissions) for more details.
 
    ```bash
    az ad sp create-for-rbac -n azure-service-operator --role contributor \
@@ -91,9 +91,9 @@ See the list of supported resources [here](https://azure.github.io/azure-service
         --set azureClientID=$AZURE_CLIENT_ID \
         --set azureClientSecret=$AZURE_CLIENT_SECRET
    ```
-   Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/introduction/installing-from-yaml).
+   Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/guide/installing-from-yaml).
 
-   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/introduction/authentication/).
+   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/guide/authentication/).
 
 ### Usage
 

@@ -48,7 +48,7 @@ func newCleanCRDsCommand() *cobra.Command {
 				apiExtClient.CustomResourceDefinitions(),
 				cl,
 				dryRun,
-				log).Run(ctx)
+				CreateLogger()).Run(ctx)
 		},
 	}
 

@@ -1,10 +1,10 @@
 ---
 title: Contributing to Azure Service Operator v2
 linktitle: Contributing
-weight: 40
+weight: 50
 menu:
   main:
-    weight: 40
+    weight: 50
 cascade:
 - type: docs
 - render: always

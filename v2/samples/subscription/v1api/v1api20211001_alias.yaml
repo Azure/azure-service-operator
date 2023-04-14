@@ -7,7 +7,7 @@ spec:
   # Creating an Alias creates a subscription. Deleting an Alias cancels that subscription.
   # Be sure you're ready to cancel the subscription before you delete the Alias. If you don't want to
   # cancel the subscription but you want to delete the Alias through ASO, use
-  # https://azure.github.io/azure-service-operator/introduction/annotations/#serviceoperatorazurecomreconcile-policy
+  # https://azure.github.io/azure-service-operator/guide/annotations/#serviceoperatorazurecomreconcile-policy
   # RoleAssignments and other extension resources can be assigned to the Alias and apply to the actual subscription.
   properties:
     displayName: "ASO Demo Subscription"
