@@ -26,7 +26,59 @@ Available Commands:
 
 ## Clean CRDs
 
-TBC
+This command can be used to prepare ASOv2 `v1alpha1api`(deprecated in v2.0.0) CustomResources and CustomResourceDefinitions for ASO `v2.0.0` release. 
+It ensures that any ASOv2 `v1alpha1api` deprecated version resources that may have been stored in etcd get migrated to `v1beta` version before upgrading ASO to `v2.0.0`. 
+
+```bash
+$ asoctl clean crds --help
+Clean deprecated CRD versions from cluster
+
+Usage:
+  asoctl clean crds [flags]
+
+Flags:
+      --dry-run   
+  -h, --help      help for clean
+
+Global Flags:
+      --verbose   Enable verbose logging
+```
+
+`--dry-run` flag outputs about CRDs and CRs to be updated and **does not** modify any CRD and CRs.
+
+### Steps for migration using `asoctl clean crds`:
+
+**Prerequisite:** Ensure the current ASO v2 version in your cluster is `beta.5`.
+
+Run the migration tool:
+``` bash
+$ asoctl clean crds
+```
+
+Once that's successfully run, you can upgrade ASO to `v2.0.0`
+
+Using `asoctl clean crds` is an important step if `v1alpha1api` resources have ever been present in the cluster. If not used correctly, operator pod will produce log error messages:
+
+```
+"msg"="failed to apply CRDs" "error"="failed to apply CRD storageaccountsqueueservicesqueues.storage.azure.com: CustomResourceDefinition.apiextensions.k8s.io \"storageaccountsqueueservicesqueues.storage.azure.com\" is invalid: status.storedVersions[0]: Invalid value: \"v1alpha1api20210401storage\": must appear in spec.versions" 
+```
+
+### Example Output
+
+```bash
+$ asoctl clean crds
+...
+INF Starting cleanup crd-name=resourcegroups.resources.azure.com
+INF Migration finished resource-count=1
+INF Updated CRD status storedVersions crd-name=resourcegroups.resources.azure.com storedVersions=["v1beta20200601"]
+INF Starting cleanup crd-name=roleassignments.authorization.azure.com
+INF Migration finished resource-count=0
+INF Updated CRD status storedVersions crd-name=roleassignments.authorization.azure.com storedVersions=["v1beta20200801previewstorage"]
+INF Nothing to update crd-name=routetables.network.azure.com
+INF Nothing to update crd-name=routetablesroutes.network.azure.com
+INF Update finished crd-count=67
+```
+
 
 ## Import Azure Resource
 
