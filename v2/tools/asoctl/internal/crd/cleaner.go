@@ -54,19 +54,22 @@ func NewCleaner(
 }
 
 func (c *Cleaner) Run(ctx context.Context) error {
+	if c.dryRun {
+		c.log.Info("Starting update (dry run)")
+	} else {
+		c.log.Info("Starting update")
+	}
+
 	list, err := c.apiExtensionsClient.List(ctx, v1.ListOptions{})
 	if err != nil {
 		return errors.Wrap(err, "failed to list CRDs")
 	}
 
-	if list == nil || len(list.Items) == 0 {
-		return errors.New("found 0 results, make sure you have ASO CRDs installed")
-
-	}
-
 	var updated int
+	var asoCrdsSeen int
 	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
 	deprecatedVersionRegexp := regexp.MustCompile(`v1alpha1api\d{8}(preview)?(storage)?`)
+
 	for _, crd := range list.Items {
 		crd := crd
 
@@ -74,6 +77,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 			continue
 		}
 
+		asoCrdsSeen++
 		newStoredVersions, deprecatedVersion := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
 
 		// If there is no new version found other than the matched version, we short circuit here, as there is no updated version found in the CRDs
@@ -112,6 +116,10 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		}
 
 		updated++
+	}
+
+	if asoCrdsSeen <= 0 {
+		return errors.New("found no Azure Service Operator CRDs, make sure you have ASO installed.")
 	}
 
 	if c.dryRun {
@@ -214,7 +222,7 @@ func isErrorFatal(err error) bool {
 	} else if apierrors.IsConflict(err) {
 		// If resource is already in the state of update, we don't want to retry either.
 		// Since, we're also updating resources to achieve version migration, and if we see a conflict in update,
-		// that means the resource is already updated and we don't have to do anything more.
+		// that means the resource is already updated, and we don't have to do anything more.
 		return false
 	} else {
 		return true
