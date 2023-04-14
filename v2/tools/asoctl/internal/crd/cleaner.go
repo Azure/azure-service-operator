@@ -60,11 +60,12 @@ func (c *Cleaner) Run(ctx context.Context) error {
 	}
 
 	if list == nil || len(list.Items) == 0 {
-		return errors.New("found 0 results, make sure you have ASO CRDs installed")
+		return errors.New("found no CRDs. Do you have an active cluster running?")
 
 	}
 
 	var updated int
+	var asoCrdsSeen int
 	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
 	deprecatedVersionRegexp := regexp.MustCompile(`v1alpha1api\d{8}(preview)?(storage)?`)
 	for _, crd := range list.Items {
@@ -74,6 +75,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 			continue
 		}
 
+		asoCrdsSeen++
 		newStoredVersions, deprecatedVersion := removeMatchingStoredVersions(crd.Status.StoredVersions, deprecatedVersionRegexp)
 
 		// If there is no new version found other than the matched version, we short circuit here, as there is no updated version found in the CRDs
@@ -112,6 +114,10 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		}
 
 		updated++
+	}
+
+	if asoCrdsSeen <= 0 {
+		return errors.New("found 0 results, make sure you have ASO CRDs installed")
 	}
 
 	if c.dryRun {
