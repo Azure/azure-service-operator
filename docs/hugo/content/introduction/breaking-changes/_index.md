@@ -6,7 +6,7 @@ We go to great lengths to avoid breaking changes as much as possible, as we're w
 
 ## Upcoming Breaking Changes
 
-### No earlier than **v2.3.0**
+### No earlier than v2.3.0
 
 Beta CRD versions (any version with `v1beta` prefix) will be deprecated and removed.
 We recommend you start using `v1api` prefixed versions now. 
@@ -19,7 +19,7 @@ You can easily swap from a `v1beta` version to a `v1api` version by just replaci
 
 Breaking changes are:
 
-* Upgrades from releases prior to v2.0.0-beta.5 are disallowed
+* Upgrades from releases prior to `v2.0.0-beta.5` are disallowed
 * Alpha CRD versions have been removed
 * Structure change for ResourceGroup status
 
@@ -27,7 +27,9 @@ For more information see [v2.0.0 Breaking Changes](./breaking-changes-v2.0.0).
 
 ### v2.0.0-beta.4
 
-In the `beta.4` release of Azure Service Operator (ASO) we pivoted to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brought with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe. Unfortunately, this change also brings with it a number of breaking changes requiring simple manual modifications to pre-existing resources.
+In the `v2.0.0-beta.4` release of Azure Service Operator (ASO) we pivoted to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brought with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe. 
+
+Unfortunately, this change also brings with it a number of breaking changes requiring simple manual modifications to pre-existing resources.
 
 Breaking changes are:
 
@@ -62,7 +64,7 @@ We *may* introduce breaking changes between versions of resources, such as betwe
 
 We've done this before when a new version of a resource API introduced a breaking change, see [managed_cluster_conversion_overrides.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/containerservice/v1api20210501storage/managed_cluster_conversion_overrides.go).
 
-**Custom Tooling**: For our **v2.0.0** release, we provided a specialized tool (`asoctl`) specifically designed to smooth the way for upgrading users. In addition to the existing two modes, we may add further functions to cater for other scenarios.
+**Custom Tooling**: For our `v2.0.0` release, we provided a specialized tool (`asoctl`) specifically designed to smooth the way for upgrading users. In addition to the existing two modes, we may add further functions to cater for other scenarios.
 
 For users upgrading from ASO v1, [`asoctl import azure-resource`](https://azure.github.io/azure-service-operator/tools/asoctl/#import-azure-resource) provides a way to scaffold an ASO v2 resource based on an existing Azure resource. 
 
