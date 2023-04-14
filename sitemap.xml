@@ -2,15 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://azure.github.io/azure-service-operator/guide/installing-from-helm/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/installing-from-yaml/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/upgrading/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/frequently-asked-questions/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/asoctl/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/generator/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/</loc>
+    <loc>https://azure.github.io/azure-service-operator/tutorials/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tools/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/</loc>
   </url><url>
@@ -54,13 +64,9 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/annotations/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/annotations/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/metrics/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/aso-controller-settings-options/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/authentication/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization/</loc>
   </url><url>
@@ -76,7 +82,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v1beta20210101/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/breaking-changes/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/</loc>
   </url><url>
@@ -117,6 +123,10 @@
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1beta20210701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/conditions/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/</loc>
   </url><url>
@@ -160,7 +170,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20210601/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/diagnosing-problems/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/</loc>
   </url><url>
@@ -180,11 +190,9 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/frequently-asked-questions/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/secrets/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/secrets/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/reconcile-interface/</loc>
   </url><url>
@@ -197,8 +205,6 @@
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1beta20180501preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1beta20200202/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/installing-from-yaml/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/keyvault/</loc>
   </url><url>
@@ -214,7 +220,9 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20181130/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/metrics/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/multitenant-deployment/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/</loc>
   </url><url>
@@ -248,7 +256,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/configmaps/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/configmaps/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/</loc>
   </url><url>
@@ -268,18 +276,14 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tags/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</loc>
+    <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb-managed-identity/</loc>
+    <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-cosmosdb-managed-identity/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/</loc>
+    <loc>https://azure.github.io/azure-service-operator/tutorials/tutorial-postgresql/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/conditions/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/uninstalling/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/introduction/upgrading/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>
   </url>
 </urlset>
