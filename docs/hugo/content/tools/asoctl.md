@@ -24,6 +24,55 @@ Available Commands:
   version     Display version information
 ```
 
+## Installation
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**OS**:" disabled=true /%}}
+{{% tab header="Linux" %}}
+
+AMD64:
+
+`curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-amd64 -o asoctl`
+
+ARM64:
+
+`curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-arm64 -o asoctl`
+
+Install:
+
+`sudo install -o root -g root -m 0755 asoctl /usr/local/bin/asoctl`
+
+{{% /tab %}}
+{{% tab header="macOS" %}}
+
+AMD64:
+
+`curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-amd64 -o asoctl`
+
+ARM64:
+
+`curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-arm64 -o asoctl`
+
+Make the binary executable:
+
+`chmod +x ./asoctl`
+
+Move the binary to your PATH:
+
+`sudo mv ./asoctl /usr/local/bin/asoctl`
+
+{{% /tab %}}
+{{% tab header="Windows" %}}
+
+Download the latest release to your current directory:
+
+`curl.exe -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-windows-amd64.exe -o asoctl.exe`
+
+Append that directory to your `PATH` if desired.
+
+{{% /tab %}}
+{{< /tabpane >}}
+
 ## Clean CRDs
 
 This command can be used to prepare ASOv2 `v1alpha1api`(deprecated in v2.0.0) CustomResources and CustomResourceDefinitions for ASO `v2.0.0` release. 
