@@ -51,9 +51,9 @@ Global Flags:
 **Prerequisite:** Ensure the current ASO v2 version in your cluster is `beta.5`.
 
 Run the migration tool:
-    ``` bash
-    $ asoctl clean crds
-    ```
+``` bash
+$ asoctl clean crds
+```
 
 Once that's successfully run, you can upgrade ASO to `v2.0.0`
 
@@ -68,15 +68,15 @@ Using `asoctl clean crds` is an important step if `v1alpha1api` resources have e
 ```bash
 $ asoctl clean crds
 ...
-cleaner.go:88] Starting cleanup for "registries.containerregistry.azure.com"
-cleaner.go:172] Migrated 0 resources
-cleaner.go:130] Updated "registries.containerregistry.azure.com" CRD status storedVersions to : [v1beta20210901storage]
-cleaner.go:88] Starting cleanup for "resourcegroups.resources.azure.com"
-cleaner.go:172] Migrated 1 resources
-cleaner.go:130] Updated "resourcegroups.resources.azure.com" CRD status storedVersions to : [v1beta20200601]
-cleaner.go:81] Nothing to update for "workspacesconnections.machinelearningservices.azure.com"
-cleaner.go:108] Updated 67 CRD(s)
-
+INF Starting cleanup crd-name=resourcegroups.resources.azure.com
+INF Migration finished resource-count=1
+INF Updated CRD status storedVersions crd-name=resourcegroups.resources.azure.com storedVersions=["v1beta20200601"]
+INF Starting cleanup crd-name=roleassignments.authorization.azure.com
+INF Migration finished resource-count=0
+INF Updated CRD status storedVersions crd-name=roleassignments.authorization.azure.com storedVersions=["v1beta20200801previewstorage"]
+INF Nothing to update crd-name=routetables.network.azure.com
+INF Nothing to update crd-name=routetablesroutes.network.azure.com
+INF Update finished crd-count=67
 ```
 
 
