@@ -6,6 +6,10 @@
     {
       "pattern": "https://github.com/Azure/azure-resource-manager-rpc.*",
       "reason" : "The above repository is private to only Azure Members. Leaving it in the docs for internal use only."
+    },
+    {
+      "pattern": "https://azure.github.io/azure-service-operator/guide/*",
+      "reason": "Temporary suppression to allow folder rename"
     }
   ],
   "timeout": "10s",
