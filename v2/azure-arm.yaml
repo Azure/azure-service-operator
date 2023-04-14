@@ -871,6 +871,17 @@ objectModelConfiguration:
       PrivateLinkResource:
         Id:
           $armReference: true
+  datafactory:
+    2018-06-01:
+      PurviewConfiguration:
+        PurviewResourceId:
+          $armReference: true
+      CMKIdentityDefinition:
+        UserAssignedIdentity:
+          $armReference: true
+      Factory:
+        $export: true
+        $supportedFrom: v2.0.0
   dbformariadb:
     2018-06-01:
       Server:
