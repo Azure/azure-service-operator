@@ -18,17 +18,16 @@ import (
 func Execute() {
 	cmd, err := newRootCommand()
 	if err != nil {
+		log := CreateLogger()
 		log.Error(err, "failed to build commands")
 	}
 
 	ctx := xcontext.MakeInterruptibleContext(context.Background())
 	if err := cmd.ExecuteContext(ctx); err != nil {
+		log := CreateLogger()
 		log.Error(err, "failed to execute command")
 		return
 	}
-
-	// Wait for the progress bar to finish updating before exiting
-	progress.Wait()
 }
 
 func newRootCommand() (*cobra.Command, error) {

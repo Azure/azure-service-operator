@@ -54,15 +54,22 @@ func NewCleaner(
 }
 
 func (c *Cleaner) Run(ctx context.Context) error {
+	if c.dryRun {
+		c.log.Info("Starting update (dry run)")
+	} else {
+		c.log.Info("Starting update")
+	}
+
 	list, err := c.apiExtensionsClient.List(ctx, v1.ListOptions{})
 	if err != nil {
 		return errors.Wrap(err, "failed to list CRDs")
 	}
-
+  
 	var updated int
 	var asoCrdsSeen int
 	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
 	deprecatedVersionRegexp := regexp.MustCompile(`v1alpha1api\d{8}(preview)?(storage)?`)
+
 	for _, crd := range list.Items {
 		crd := crd
 
@@ -215,7 +222,7 @@ func isErrorFatal(err error) bool {
 	} else if apierrors.IsConflict(err) {
 		// If resource is already in the state of update, we don't want to retry either.
 		// Since, we're also updating resources to achieve version migration, and if we see a conflict in update,
-		// that means the resource is already updated and we don't have to do anything more.
+		// that means the resource is already updated, and we don't have to do anything more.
 		return false
 	} else {
 		return true
