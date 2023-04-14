@@ -1,12 +1,8 @@
 ---
-title: "Breaking Changes"
-linkTitle: "Breaking Changes"
+title: "v2.0.0-beta.4 Breaking Changes"
+linkTitle: "v2.0.0-beta.4"
+weight: 100
 ---
-
-We go to great lengths to avoid breaking changes as much as possible. However, they do occasionally occur. This page lists the breaking changes that have occurred in the past.
-
-## December 2022 - beta.4
-
 In the `beta.4` release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
 
 Unfortunately, this change also brings with it a number of breaking changes.
