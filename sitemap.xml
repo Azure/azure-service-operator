@@ -26,6 +26,10 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2023-02-adoption-policy/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/</loc>

@@ -30,7 +30,7 @@
 <meta itemprop="name" content="asoctl">
 <meta itemprop="description" content="Azure Service Operator Controller">
 
-<meta itemprop="wordCount" content="584">
+<meta itemprop="wordCount" content="890">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="asoctl"/>
 <meta name="twitter:description" content="Azure Service Operator Controller"/>
@@ -112,8 +112,15 @@
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
-  <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
+  <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
@@ -491,7 +498,13 @@
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#clean-crds">Clean CRDs</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#clean-crds">Clean CRDs</a>
+      <ul>
+        <li><a href="#steps-for-migration-using-asoctl-clean-crds">Steps for migration using <code>asoctl clean crds</code>:</a></li>
+        <li><a href="#example-output">Example Output</a></li>
+      </ul>
+    </li>
     <li><a href="#import-azure-resource">Import Azure Resource</a>
       <ul>
         <li><a href="#example-importing-a-postgresql-server">Example: Importing a PostgreSQL Server</a></li>
@@ -567,9 +580,112 @@ Available Commands:
   help        Help about any command
   import      imports ARM resources as YAML resource definitions
   version     Display version information
-</code></pre></div><h2 id="clean-crds">Clean CRDs</h2>
-<p>TBC</p>
-<h2 id="import-azure-resource">Import Azure Resource</h2>
+</code></pre></div><h2 id="installation">Installation</h2>
+
+
+
+
+
+<ul class="nav nav-tabs" id="tabs-0" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link disabled"
+          id="tabs-00-00-tab" data-toggle="tab" href="#tabs-00-00" role="tab"
+          aria-controls="tabs-00-00" aria-selected="false">
+        <strong>OS</strong>:
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link active"
+          id="tabs-00-01-tab" data-toggle="tab" href="#tabs-00-01" role="tab"
+          aria-controls="tabs-00-01" aria-selected="false">
+        Linux
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-00-02-tab" data-toggle="tab" href="#tabs-00-02" role="tab"
+          aria-controls="tabs-00-02" aria-selected="false">
+        macOS
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-00-03-tab" data-toggle="tab" href="#tabs-00-03" role="tab"
+          aria-controls="tabs-00-03" aria-selected="false">
+        Windows
+      </a>
+    </li>
+</ul>
+
+<div class="tab-content" id="tabs-0-content">
+    <div class="tab-body tab-pane fade"
+        id="tabs-00-00" role="tabpanel" aria-labelled-by="tabs-00-00-tab">
+        
+    </div>
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-00-01" role="tabpanel" aria-labelled-by="tabs-00-01-tab">
+        <p>AMD64:</p>
+<p><code>curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-amd64 -o asoctl</code></p>
+<p>ARM64:</p>
+<p><code>curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-linux-arm64 -o asoctl</code></p>
+<p>Install:</p>
+<p><code>sudo install -o root -g root -m 0755 asoctl /usr/local/bin/asoctl</code></p>
+
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-00-02" role="tabpanel" aria-labelled-by="tabs-00-02-tab">
+        <p>AMD64:</p>
+<p><code>curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-amd64 -o asoctl</code></p>
+<p>ARM64:</p>
+<p><code>curl -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-darwin-arm64 -o asoctl</code></p>
+<p>Make the binary executable:</p>
+<p><code>chmod +x ./asoctl</code></p>
+<p>Move the binary to your PATH:</p>
+<p><code>sudo mv ./asoctl /usr/local/bin/asoctl</code></p>
+
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-00-03" role="tabpanel" aria-labelled-by="tabs-00-03-tab">
+        <p>Download the latest release to your current directory:</p>
+<p><code>curl.exe -L https://github.com/Azure/azure-service-operator/releases/latest/download/asoctl-windows-amd64.exe -o asoctl.exe</code></p>
+<p>Append that directory to your <code>PATH</code> if desired.</p>
+
+    </div>
+</div>
+
+<h2 id="clean-crds">Clean CRDs</h2>
+<p>This command can be used to prepare ASOv2 <code>v1alpha1api</code>(deprecated in v2.0.0) CustomResources and CustomResourceDefinitions for ASO <code>v2.0.0</code> release.
+It ensures that any ASOv2 <code>v1alpha1api</code> deprecated version resources that may have been stored in etcd get migrated to <code>v1beta</code> version before upgrading ASO to <code>v2.0.0</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl clean crds --help
+Clean deprecated CRD versions from cluster
+
+Usage:
+  asoctl clean crds <span style="color:#f92672">[</span>flags<span style="color:#f92672">]</span>
+
+Flags:
+      --dry-run   
+  -h, --help      help <span style="color:#66d9ef">for</span> clean
+
+Global Flags:
+      --verbose   Enable verbose logging
+</code></pre></div><p><code>--dry-run</code> flag outputs about CRDs and CRs to be updated and <strong>does not</strong> modify any CRD and CRs.</p>
+<h3 id="steps-for-migration-using-asoctl-clean-crds">Steps for migration using <code>asoctl clean crds</code>:</h3>
+<p><strong>Prerequisite:</strong> Ensure the current ASO v2 version in your cluster is <code>beta.5</code>.</p>
+<p>Run the migration tool:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl clean crds
+</code></pre></div><p>Once that&rsquo;s successfully run, you can upgrade ASO to <code>v2.0.0</code></p>
+<p>Using <code>asoctl clean crds</code> is an important step if <code>v1alpha1api</code> resources have ever been present in the cluster. If not used correctly, operator pod will produce log error messages:</p>
+<pre tabindex="0"><code>&quot;msg&quot;=&quot;failed to apply CRDs&quot; &quot;error&quot;=&quot;failed to apply CRD storageaccountsqueueservicesqueues.storage.azure.com: CustomResourceDefinition.apiextensions.k8s.io \&quot;storageaccountsqueueservicesqueues.storage.azure.com\&quot; is invalid: status.storedVersions[0]: Invalid value: \&quot;v1alpha1api20210401storage\&quot;: must appear in spec.versions&quot; 
+</code></pre><h3 id="example-output">Example Output</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ asoctl clean crds
+...
+INF Starting cleanup crd-name<span style="color:#f92672">=</span>resourcegroups.resources.azure.com
+INF Migration finished resource-count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+INF Updated CRD status storedVersions crd-name<span style="color:#f92672">=</span>resourcegroups.resources.azure.com storedVersions<span style="color:#f92672">=[</span><span style="color:#e6db74">&#34;v1beta20200601&#34;</span><span style="color:#f92672">]</span>
+INF Starting cleanup crd-name<span style="color:#f92672">=</span>roleassignments.authorization.azure.com
+INF Migration finished resource-count<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+INF Updated CRD status storedVersions crd-name<span style="color:#f92672">=</span>roleassignments.authorization.azure.com storedVersions<span style="color:#f92672">=[</span><span style="color:#e6db74">&#34;v1beta20200801previewstorage&#34;</span><span style="color:#f92672">]</span>
+INF Nothing to update crd-name<span style="color:#f92672">=</span>routetables.network.azure.com
+INF Nothing to update crd-name<span style="color:#f92672">=</span>routetablesroutes.network.azure.com
+INF Update finished crd-count<span style="color:#f92672">=</span><span style="color:#ae81ff">67</span>
+</code></pre></div><h2 id="import-azure-resource">Import Azure Resource</h2>
 <p>When you have an existing Azure resource that needs to be managed by ASO, you can use the <code>import</code> command to generate a YAML file that can be used to create a new ASO resource. This is useful when:</p>
 <ul>
 <li>You want to migrate an existing Azure resource from ASO v1 to ASO v2.</li>

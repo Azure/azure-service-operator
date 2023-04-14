@@ -4,6 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.88.1" />
+<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/guide/breaking-changes/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,25 +20,16 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>Breaking Changes | Azure Service Operator</title>
-<meta name="description" content="We go to great lengths to avoid breaking changes as much as possible. However, they do occasionally occur. This page lists the breaking changes that have occurred in the past.
-December 2022 - beta.4 In the beta.4 release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.">
+<meta name="description" content="The most popular HTML, CSS, and JS library in the world.">
 <meta property="og:title" content="Breaking Changes" />
-<meta property="og:description" content="We go to great lengths to avoid breaking changes as much as possible. However, they do occasionally occur. This page lists the breaking changes that have occurred in the past.
-December 2022 - beta.4 In the beta.4 release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/" /><meta property="article:section" content="guide" />
-
-
+<meta property="og:description" content="The most popular HTML, CSS, and JS library in the world." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/" />
 
 <meta itemprop="name" content="Breaking Changes">
-<meta itemprop="description" content="We go to great lengths to avoid breaking changes as much as possible. However, they do occasionally occur. This page lists the breaking changes that have occurred in the past.
-December 2022 - beta.4 In the beta.4 release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.">
-
-<meta itemprop="wordCount" content="1313">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta itemprop="description" content="The most popular HTML, CSS, and JS library in the world."><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Breaking Changes"/>
-<meta name="twitter:description" content="We go to great lengths to avoid breaking changes as much as possible. However, they do occasionally occur. This page lists the breaking changes that have occurred in the past.
-December 2022 - beta.4 In the beta.4 release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe."/>
+<meta name="twitter:description" content="The most popular HTML, CSS, and JS library in the world."/>
 
 
 
@@ -51,7 +43,7 @@ December 2022 - beta.4 In the beta.4 release of Azure Service Operator (ASO) we 
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-page">
+  <body class="td-section">
     <header>
       <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
   <a class="navbar-brand" href="/azure-service-operator/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">Azure Service Operator</span></a>
@@ -116,8 +108,15 @@ December 2022 - beta.4 In the beta.4 release of Azure Service Operator (ASO) we 
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
-  <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changes"><span class="td-sidebar-nav-active-item">Breaking Changes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
+  <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="td-sidebar-nav-active-item">Breaking Changes</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/" title="v2.0.0 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200"><span class="">v2.0.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
@@ -495,132 +494,20 @@ December 2022 - beta.4 In the beta.4 release of Azure Service Operator (ASO) we 
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#december-2022---beta4">December 2022 - beta.4</a>
+    <li><a href="#upcoming-breaking-changes">Upcoming Breaking Changes</a>
       <ul>
-        <li><a href="#immediate-migration-required">Immediate migration required</a></li>
-        <li><a href="#upgrade-when-modified">Upgrade when modified</a></li>
+        <li><a href="#no-earlier-than-v230">No earlier than v2.3.0</a></li>
       </ul>
     </li>
-    <li><a href="#types-of-breaking-changes">Types of breaking changes</a></li>
-    <li><a href="#authorization">Authorization</a>
+    <li><a href="#released-breaking-changes">Released Breaking Changes</a>
       <ul>
-        <li><a href="#roleassignment">RoleAssignment</a></li>
+        <li><a href="#v200">v2.0.0</a></li>
+        <li><a href="#v200-beta4">v2.0.0-beta.4</a></li>
       </ul>
     </li>
-    <li><a href="#batch">Batch</a>
+    <li><a href="#policies">Policies</a>
       <ul>
-        <li><a href="#batchaccount">BatchAccount</a></li>
-      </ul>
-    </li>
-    <li><a href="#cache-v2020-12-01">Cache v2020-12-01</a>
-      <ul>
-        <li><a href="#redisfirewallrule">RedisFirewallRule</a></li>
-        <li><a href="#redislinkedserver">RedisLinkedServer</a></li>
-        <li><a href="#redispatchschedule">RedisPatchSchedule</a></li>
-      </ul>
-    </li>
-    <li><a href="#cache-v2021-03-01">Cache v2021-03-01</a>
-      <ul>
-        <li><a href="#redisenterprisedatabase">RedisEnterpriseDatabase</a></li>
-      </ul>
-    </li>
-    <li><a href="#cdn-v2021-06-01">CDN v2021-06-01</a>
-      <ul>
-        <li><a href="#profilesendpoint">ProfilesEndpoint</a></li>
-      </ul>
-    </li>
-    <li><a href="#compute-v2020-12-01">Compute v2020-12-01</a>
-      <ul>
-        <li><a href="#virtualmachinescaleset">VirtualMachineScaleSet</a></li>
-      </ul>
-    </li>
-    <li><a href="#compute-v2022-03-01">Compute v2022-03-01</a>
-      <ul>
-        <li><a href="#virtualmachinescaleset-1">VirtualMachineScaleSet</a></li>
-      </ul>
-    </li>
-    <li><a href="#container-service">Container Service</a>
-      <ul>
-        <li><a href="#managedcluster">ManagedCluster</a></li>
-        <li><a href="#managedclustersagentpool">ManagedClustersAgentPool</a></li>
-      </ul>
-    </li>
-    <li><a href="#dbformariadb-v2018-06-01">DbForMariaDB v2018-06-01</a>
-      <ul>
-        <li><a href="#configuration">Configuration</a></li>
-        <li><a href="#database">Database</a></li>
-        <li><a href="#server">Server</a></li>
-      </ul>
-    </li>
-    <li><a href="#dbformysql-v2021-05-01">DbForMySql v2021-05-01</a>
-      <ul>
-        <li><a href="#flexibleserversdatabase">FlexibleServersDatabase</a></li>
-        <li><a href="#flexibleserversfirewallrule">FlexibleServersFirewallRule</a></li>
-      </ul>
-    </li>
-    <li><a href="#dbforpostgresql-v2021-06-01">DbForPostgreSQL v2021-06-01</a>
-      <ul>
-        <li><a href="#flexibleserversconfiguration">FlexibleServersConfiguration</a></li>
-        <li><a href="#flexibleserversdatabase-1">FlexibleServersDatabase</a></li>
-        <li><a href="#flexibleserversfirewallrule-1">FlexibleServersFirewallRule</a></li>
-      </ul>
-    </li>
-    <li><a href="#eventgrid-v2020-06-01">EventGrid v2020-06-01</a>
-      <ul>
-        <li><a href="#domain">Domain</a></li>
-        <li><a href="#domainstopic">DomainsTopic</a></li>
-        <li><a href="#eventsubscription">EventSubscription</a></li>
-      </ul>
-    </li>
-    <li><a href="#eventhub-v2021-11-01">EventHub v2021-11-01</a>
-      <ul>
-        <li><a href="#namespace">Namespace</a></li>
-        <li><a href="#namespacesauthorizationrule">NamespacesAuthorizationRule</a></li>
-        <li><a href="#namespaceseventhub">NamespacesEventhub</a></li>
-        <li><a href="#namespaceseventhubsauthorizationrule">NamespacesEventhubsAuthorizationRule</a></li>
-        <li><a href="#namespaceseventhubsconsumergroup">NamespacesEventhubsConsumerGroup</a></li>
-      </ul>
-    </li>
-    <li><a href="#machinelearningservices-v2021-07-01">MachineLearningServices v2021-07-01</a>
-      <ul>
-        <li><a href="#workspace">Workspace</a></li>
-        <li><a href="#workspacescompute">WorkspacesCompute</a></li>
-        <li><a href="#workspacesconnection">WorkspacesConnection</a></li>
-      </ul>
-    </li>
-    <li><a href="#network-v2020-11-01">Network v2020-11-01</a>
-      <ul>
-        <li><a href="#loadbalancer">LoadBalancer</a></li>
-        <li><a href="#networksecuritygroupssecurityrule">NetworkSecurityGroupsSecurityRule</a></li>
-        <li><a href="#virtualnetworkgateway">VirtualNetworkGateway</a></li>
-      </ul>
-    </li>
-    <li><a href="#operational-insights-v2021-06-01">Operational Insights v2021-06-01</a>
-      <ul>
-        <li><a href="#workspace-1">Workspace</a></li>
-      </ul>
-    </li>
-    <li><a href="#servicebus-v2021-10-01">ServiceBus v2021-10-01</a>
-      <ul>
-        <li><a href="#namespacesqueue">NamespacesQueue</a></li>
-        <li><a href="#namespacestopic">NamespacesTopic</a></li>
-        <li><a href="#namespacestopicssubscription">NamespacesTopicsSubscription</a></li>
-        <li><a href="#namespacestopicssubscriptionsrule">NamespacesTopicsSubscriptionsRule</a></li>
-      </ul>
-    </li>
-    <li><a href="#signalrservice-v2021-11-01">SignalRService v2021-11-01</a></li>
-    <li><a href="#storage-v2021-04-01">Storage v2021-04-01</a>
-      <ul>
-        <li><a href="#storageaccountsblobservice">StorageAccountsBlobService</a></li>
-        <li><a href="#storageaccountsblobservicescontainer">StorageAccountsBlobServicesContainer</a></li>
-        <li><a href="#storageaccountsmanagementpolicy">StorageAccountsManagementPolicy</a></li>
-      </ul>
-    </li>
-    <li><a href="#storageaccountsqueueservice">StorageAccountsQueueService</a></li>
-    <li><a href="#storageaccountsqueueservicesqueue">StorageAccountsQueueServicesQueue</a></li>
-    <li><a href="#web-v2022-03-1">Web v2022-03-1</a>
-      <ul>
-        <li><a href="#site">Site</a></li>
+        <li><a href="#mitigation-techniques">Mitigation techniques</a></li>
       </ul>
     </li>
   </ul>
@@ -665,7 +552,7 @@ December 2022 - beta.4 In the beta.4 release of Azure Service Operator (ASO) we 
             
 <div class="td-content">
 	<h1>Breaking Changes</h1>
-	
+  
 	<header class="article-meta">
 		
 
@@ -680,1191 +567,87 @@ December 2022 - beta.4 In the beta.4 release of Azure Service Operator (ASO) we 
   
 
 		
-	</header>    
-	<p>We go to great lengths to avoid breaking changes as much as possible. However, they do occasionally occur. This page lists the breaking changes that have occurred in the past.</p>
-<h2 id="december-2022---beta4">December 2022 - beta.4</h2>
-<p>In the <code>beta.4</code> release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.</p>
-<p>Unfortunately, this change also brings with it a number of breaking changes.</p>
-<p>We expect that most users will find their resources are unaffected by these changes. However, if you are using a resource that is affected, you will need to take action to migrate your resources to the new format.</p>
-<p>The impact of these breaking changes falls into two categories, <em>immediate migration required</em> and <em>upgrade when modified</em>, distinguished by when you need to take remedial action.</p>
-<h3 id="immediate-migration-required">Immediate migration required</h3>
-<p>As a part of upgrading ASO in your cluster, you will need to modify these resources as described. In all cases, the changes are straightforward and can be done with a simple text editor.</p>
-<p>The process to follow is as follows:</p>
-<ol>
-<li>Annotate the resource with <code>serviceoperator.azure.com/reconcile-policy: skip</code> to prevent ASO from trying to reconcile the resource while you are upgrading.</li>
-<li>Download the current YAML for the resource using <code>kubectl</code> if you don&rsquo;t have it elsewhere.</li>
-<li>Delete the resource from your cluster using <code>kubectl delete</code>. Your Azure resource will be left untouched because of the <code>reconcile-policy</code> annotation you added above.</li>
-<li><a href="https://azure.github.io/azure-service-operator/guide/upgrading/">Upgrade ASO</a> in your cluster.</li>
-<li>Modify the YAML for your resource to address the breaking changes noted below.</li>
-<li>Apply the updated YAML to your cluster using <code>kubectl apply</code>. If any errors occur, address them.</li>
-<li>If the <code>reconcile-policy</code> annotation is still present, remove the it from the resource.</li>
-</ol>
-<p>If you are updating multiple resources, you may want to apply the <code>reconcile-policy: skip</code> annotation to all the resources up front, and then remove it only once you&rsquo;ve successfully applied all the changes to all the resources.</p>
-<h3 id="upgrade-when-modified">Upgrade when modified</h3>
-<p>You can upgrade ASO in your cluster and the resource will continue to operate normally. If you modify the resource in the future you will need to make the indicated changes at that point.</p>
-<h2 id="types-of-breaking-changes">Types of breaking changes</h2>
-<p>We&rsquo;ve identified a number of different cases where breaking changes have occurred. The following table describes the different types of breaking changes and how they affect you.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Type</th>
-<th style="text-align:left">Description</th>
-<th style="text-align:left">Impact</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Discriminator</td>
-<td style="text-align:left">The discriminator value for polymorphic types has been changed to match the name of the property used to specify that option. Previously we were synthesizing a name based on other factors, resulting in longer property names that did not appear in the ARM/Bicep documentation.<br/><br/><em>Example</em>:<br/><code>DeliveryRuleCacheExpiration</code> renamed to <code>CacheExpiration</code></td>
-<td style="text-align:left">Immediate migration</td>
-</tr>
-<tr>
-<td style="text-align:left">Enumeration</td>
-<td style="text-align:left">Properties that previously had a base type but no enumeration values have been updated to include the enumeration values.<br/><br/><em>Example</em>:<br/><code>KubernetesCluster.KubernetesVersion</code>.</td>
-<td style="text-align:left">Immediate migration for malformed resources only</td>
-</tr>
-<tr>
-<td style="text-align:left">Inlined</td>
-<td style="text-align:left">Objects that were incorrectly generated as nested properties have been inlined.<br/><br/><em>Example:</em><br/>Properties found in <code>DeadLetterDestination.Properties</code> have been promoted to <code>DeadLetterDestination</code>.</td>
-<td style="text-align:left">Immediate migration</td>
-</tr>
-<tr>
-<td style="text-align:left">Reference Detection</td>
-<td style="text-align:left">Id fields now correctly identified as references which now allow for linking to a resource in Kubernetes instead of only in Azure.<br/><br/><em>Example:</em><br/>Property <code>VirtualMachineProfile.NetworkProfile.Id</code> has been changed to <code>VirtualMachineProfile.NetworkProfile.Reference</code>.</td>
-<td style="text-align:left">Immediate migration</td>
-</tr>
-<tr>
-<td style="text-align:left">Status Only</td>
-<td style="text-align:left">Status properties that cannot be set by the end user on a Spec that were included in the Spec in error.<br/><br/><em>Example</em>:<br/><code>Identity.UserAssignedIdentities</code></td>
-<td style="text-align:left">Upgrade when modified</td>
-</tr>
-<tr>
-<td style="text-align:left">Subresource</td>
-<td style="text-align:left">Sub-resources that were incorrectly inlined into the parent resource have been moved to a separate resource.<br/><br/><em>Example</em>:<br/><code>VirtualNetworkGateway.VirtualNetworkExtendedLocation</code></td>
-<td style="text-align:left">Immediate migration</td>
-</tr>
-<tr>
-<td style="text-align:left">Unused</td>
-<td style="text-align:left">Properties that previously included on Spec but actually had no function have been removed.<br/><br/><em>Examples</em>:<br/><code>Location</code> on child resources that inherit their actual location from their parent resource.<br/><code>Tags</code> on resources that don&rsquo;t support tags.</td>
-<td style="text-align:left">Upgrade when modified</td>
-</tr>
-<tr>
-<td style="text-align:left">Validation</td>
-<td style="text-align:left">Validation rules have been tightened, or added to properties that previously had no validation rules.<br/><br/><em>Example:</em><br/> The property <code>BatchAccount.AzureName</code> now has a more restrictive regular expression.</td>
-<td style="text-align:left">Upgrade when modified</td>
-</tr>
-</tbody>
-</table>
-<h2 id="authorization">Authorization</h2>
-<h3 id="roleassignment">RoleAssignment</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="batch">Batch</h2>
-<h3 id="batchaccount">BatchAccount</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">AzureName</td>
-<td style="text-align:left">Restricted</td>
-<td style="text-align:left">Validation</td>
-</tr>
-</tbody>
-</table>
-<h2 id="cache-v2020-12-01">Cache v2020-12-01</h2>
-<h3 id="redisfirewallrule">RedisFirewallRule</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="redislinkedserver">RedisLinkedServer</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="redispatchschedule">RedisPatchSchedule</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="cache-v2021-03-01">Cache v2021-03-01</h2>
-<h3 id="redisenterprisedatabase">RedisEnterpriseDatabase</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="cdn-v2021-06-01">CDN v2021-06-01</h2>
-<h3 id="profilesendpoint">ProfilesEndpoint</h3>
-<table>
-<thead>
-<tr>
-<th>Property Path</th>
-<th>Change</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>DeliveryPolicy.Rules.Actions.DeliveryRuleCacheExpiration</td>
-<td>Renamed to CacheExpiration</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Actions.DeliveryRuleCacheKeyQueryString</td>
-<td>Renamed to CacheKeyQueryString</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Actions.DeliveryRuleRequestHeader</td>
-<td>Renamed to ModifyRequestHeader</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Actions.DeliveryRuleResponseHeader</td>
-<td>Renamed to ModifyResponseHeader</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Actions.DeliveryRuleRouteConfigurationOverride</td>
-<td>Renamed to RouteConfigurationOverride</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleClientPort</td>
-<td>Renamed to ClientPort</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleCookies</td>
-<td>Renamed to Cookies</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleHostName</td>
-<td>Renamed to HostName</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleHttpVersion</td>
-<td>Renamed to HttpVersion</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleIsDevice</td>
-<td>Renamed to IsDevice</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRulePostArgs</td>
-<td>Renamed to PostArgs</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleQueryString</td>
-<td>Renamed to QueryString</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRemoteAddress</td>
-<td>Renamed to RemoteAddress</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestBody</td>
-<td>Renamed to RequestBody</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestHeader</td>
-<td>Renamed to RequestHeader</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestMethod</td>
-<td>Renamed to RequestMethod</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestScheme</td>
-<td>Renamed to RequestScheme</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleRequestUri</td>
-<td>Renamed to RequestUri</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleServerPort</td>
-<td>Renamed to ServerPort</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleSslProtocol</td>
-<td>Renamed to SslProtocol</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileExtension</td>
-<td>Renamed to UrlFileExtension</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlFileName</td>
-<td>Renamed to UrlFileName</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>DeliveryPolicy.Rules.Conditions.DeliveryRuleUrlPath</td>
-<td>Renamed to UrlPath</td>
-<td>Discriminator</td>
-</tr>
-</tbody>
-</table>
-<h2 id="compute-v2020-12-01">Compute v2020-12-01</h2>
-<h3 id="virtualmachinescaleset">VirtualMachineScaleSet</h3>
-<table>
-<thead>
-<tr>
-<th>Property Path</th>
-<th>Change</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.Id</td>
-<td>Renamed to Reference</td>
-<td>Reference Detection</td>
-</tr>
-<tr>
-<td>VirtualMachineProfile.NetworkProfile.NetworkInterfaceConfigurations.IpConfigurations.Id</td>
-<td>Renamed to Reference</td>
-<td>Reference Detection</td>
-</tr>
-</tbody>
-</table>
-<h2 id="compute-v2022-03-01">Compute v2022-03-01</h2>
-<h3 id="virtualmachinescaleset-1">VirtualMachineScaleSet</h3>
-<table>
-<thead>
-<tr>
-<th>Property Path</th>
-<th>Change</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>VirtualMachineProfile.NetworkProfile.Id</td>
-<td>Renamed to Reference</td>
-<td>Reference Detection</td>
-</tr>
-<tr>
-<td>VirtualMachineProfile.NetworkProfile.IpConfigurations.Id</td>
-<td>Renamed to Reference</td>
-<td>Reference Detection</td>
-</tr>
-</tbody>
-</table>
-<h2 id="container-service">Container Service</h2>
-<h3 id="managedcluster">ManagedCluster</h3>
-<table>
-<thead>
-<tr>
-<th>Property Path</th>
-<th>Change</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Identity.UserAssignedIdentities</td>
-<td>Removed</td>
-<td>Status Only</td>
-</tr>
-</tbody>
-</table>
-<h3 id="managedclustersagentpool">ManagedClustersAgentPool</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="dbformariadb-v2018-06-01">DbForMariaDB v2018-06-01</h2>
-<h3 id="configuration">Configuration</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="database">Database</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="server">Server</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property Path</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Properties.ServerPropertiesForDefaultCreate</td>
-<td style="text-align:left">Renamed to Default</td>
-<td style="text-align:left">Discriminator</td>
-</tr>
-<tr>
-<td style="text-align:left">Properties.ServerPropertiesForGeoRestore</td>
-<td style="text-align:left">Renamed to GeoRestore</td>
-<td style="text-align:left">Discriminator</td>
-</tr>
-<tr>
-<td style="text-align:left">Properties.ServerPropertiesForReplica</td>
-<td style="text-align:left">Renamed to Replica</td>
-<td style="text-align:left">Discriminator</td>
-</tr>
-<tr>
-<td style="text-align:left">Properties.ServerPropertiesForRestore</td>
-<td style="text-align:left">Renamed to PointInTimeRestore</td>
-<td style="text-align:left">Discriminator</td>
-</tr>
-</tbody>
-</table>
-<h2 id="dbformysql-v2021-05-01">DbForMySql v2021-05-01</h2>
-<h3 id="flexibleserversdatabase">FlexibleServersDatabase</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="flexibleserversfirewallrule">FlexibleServersFirewallRule</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="dbforpostgresql-v2021-06-01">DbForPostgreSQL v2021-06-01</h2>
-<h3 id="flexibleserversconfiguration">FlexibleServersConfiguration</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="flexibleserversdatabase-1">FlexibleServersDatabase</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="flexibleserversfirewallrule-1">FlexibleServersFirewallRule</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="eventgrid-v2020-06-01">EventGrid v2020-06-01</h2>
-<h3 id="domain">Domain</h3>
-<table>
-<thead>
-<tr>
-<th>Property Path</th>
-<th>Change</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>InputSchemaMapping.InputSchemaMappingType</td>
-<td>Removed</td>
-<td>Discriminator</td>
-</tr>
-<tr>
-<td>InputSchemaMapping.Properties</td>
-<td>Renamed to Json</td>
-<td>Discriminator</td>
-</tr>
-</tbody>
-</table>
-<h3 id="domainstopic">DomainsTopic</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="eventsubscription">EventSubscription</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property Path</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">DeadLetterDestination.Properties</td>
-<td style="text-align:left">Promoted to parent</td>
-<td style="text-align:left">Inlined</td>
-</tr>
-<tr>
-<td style="text-align:left">Destination.AzureFunction.Properties</td>
-<td style="text-align:left">Promoted to parent</td>
-<td style="text-align:left">Inlined</td>
-</tr>
-<tr>
-<td style="text-align:left">Destination.EventHub.Properties</td>
-<td style="text-align:left">Promoted to parent</td>
-<td style="text-align:left">Inlined</td>
-</tr>
-<tr>
-<td style="text-align:left">Destination.HybridConnection.Properties</td>
-<td style="text-align:left">Promoted to parent</td>
-<td style="text-align:left">Inlined</td>
-</tr>
-<tr>
-<td style="text-align:left">Destination.ServiceBusQueue.Properties</td>
-<td style="text-align:left">Promoted to parent</td>
-<td style="text-align:left">Inlined</td>
-</tr>
-<tr>
-<td style="text-align:left">Destination.ServiceBusTopic.Properties</td>
-<td style="text-align:left">Promoted to parent</td>
-<td style="text-align:left">Inlined</td>
-</tr>
-<tr>
-<td style="text-align:left">Destination.StorageQueue.Properties</td>
-<td style="text-align:left">Promoted to parent</td>
-<td style="text-align:left">Inlined</td>
-</tr>
-<tr>
-<td style="text-align:left">Destination.WebHook.Properties</td>
-<td style="text-align:left">Promoted to parent</td>
-<td style="text-align:left">Inlined</td>
-</tr>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="eventhub-v2021-11-01">EventHub v2021-11-01</h2>
-<h3 id="namespace">Namespace</h3>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Change</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PrivateEndpointConnections</td>
-<td>Removed</td>
-<td>Status Only</td>
-</tr>
-</tbody>
-</table>
-<h3 id="namespacesauthorizationrule">NamespacesAuthorizationRule</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="namespaceseventhub">NamespacesEventhub</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="namespaceseventhubsauthorizationrule">NamespacesEventhubsAuthorizationRule</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="namespaceseventhubsconsumergroup">NamespacesEventhubsConsumerGroup</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="machinelearningservices-v2021-07-01">MachineLearningServices v2021-07-01</h2>
-<h3 id="workspace">Workspace</h3>
-<table>
-<thead>
-<tr>
-<th>Property Path</th>
-<th>Change</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Identity.UserAssignedIdentities</td>
-<td>Removed</td>
-<td>Status Only</td>
-</tr>
-</tbody>
-</table>
-<h3 id="workspacescompute">WorkspacesCompute</h3>
-<table>
-<thead>
-<tr>
-<th>Property Path</th>
-<th>Change</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Identity.UserAssignedIdentities</td>
-<td>Removed</td>
-<td>Status Only</td>
-</tr>
-</tbody>
-</table>
-<h3 id="workspacesconnection">WorkspacesConnection</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="network-v2020-11-01">Network v2020-11-01</h2>
-<h3 id="loadbalancer">LoadBalancer</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property Path</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">BackendAddressPools.Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="networksecuritygroupssecurityrule">NetworkSecurityGroupsSecurityRule</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="virtualnetworkgateway">VirtualNetworkGateway</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">VirtualNetworkExtendedLocation</td>
-<td style="text-align:left">Renamed to ExtendedLocation</td>
-<td style="text-align:left">Discriminator</td>
-</tr>
-</tbody>
-</table>
-<h2 id="operational-insights-v2021-06-01">Operational Insights v2021-06-01</h2>
-<h3 id="workspace-1">Workspace</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property Path</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Sku.CapacityReservationLevel</td>
-<td style="text-align:left">Restricted</td>
-<td style="text-align:left">Validation</td>
-</tr>
-</tbody>
-</table>
-<h2 id="servicebus-v2021-10-01">ServiceBus v2021-10-01</h2>
-<h3 id="namespacesqueue">NamespacesQueue</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="namespacestopic">NamespacesTopic</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="namespacestopicssubscription">NamespacesTopicsSubscription</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="namespacestopicssubscriptionsrule">NamespacesTopicsSubscriptionsRule</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="signalrservice-v2021-11-01">SignalRService v2021-11-01</h2>
-<table>
-<thead>
-<tr>
-<th>Property Path</th>
-<th>Change</th>
-<th>Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Identity.UserAssignedIdentities</td>
-<td>Removed</td>
-<td>Status Only</td>
-</tr>
-</tbody>
-</table>
-<h2 id="storage-v2021-04-01">Storage v2021-04-01</h2>
-<h3 id="storageaccountsblobservice">StorageAccountsBlobService</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="storageaccountsblobservicescontainer">StorageAccountsBlobServicesContainer</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h3 id="storageaccountsmanagementpolicy">StorageAccountsManagementPolicy</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="storageaccountsqueueservice">StorageAccountsQueueService</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="storageaccountsqueueservicesqueue">StorageAccountsQueueServicesQueue</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Property</th>
-<th style="text-align:left">Change</th>
-<th style="text-align:left">Reason</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Location</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-<tr>
-<td style="text-align:left">Tags</td>
-<td style="text-align:left">Removed</td>
-<td style="text-align:left">Unused</td>
-</tr>
-</tbody>
-</table>
-<h2 id="web-v2022-03-1">Web v2022-03-1</h2>
-<h3 id="site">Site</h3>
-<table>
-<thead>
-<tr>
-<th>Property Path</th>
-<th>Change</th>
-<th>Reason Only</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Identity.UserAssignedIdentities</td>
-<td>Removed</td>
-<td>Status Only</td>
-</tr>
-</tbody>
-</table>
+	</header>
+	<p>We go to great lengths to avoid breaking changes as much as possible, as we&rsquo;re well aware that they can cause issues for our users. However, they do occasionally occur, so we&rsquo;ve committed to providing good documentation each time this occurs.</p>
+<h2 id="upcoming-breaking-changes">Upcoming Breaking Changes</h2>
+<h3 id="no-earlier-than-v230">No earlier than v2.3.0</h3>
+<p>Beta CRD versions (any version with <code>v1beta</code> prefix) will be deprecated and removed.
+We recommend you start using <code>v1api</code> prefixed versions now.</p>
+<p>You can easily swap from a <code>v1beta</code> version to a <code>v1api</code> version by just replacing <code>v1beta</code> with <code>v1api</code> in your CRD YAML, the resource shapes are the same.</p>
+<h2 id="released-breaking-changes">Released Breaking Changes</h2>
+<h3 id="v200">v2.0.0</h3>
+<p>Breaking changes are:</p>
+<ul>
+<li>Upgrades from releases prior to <code>v2.0.0-beta.5</code> are disallowed</li>
+<li>Alpha CRD versions have been removed</li>
+<li>Structure change for ResourceGroup status</li>
+</ul>
+<p>For more information see <a href="./breaking-changes-v2.0.0">v2.0.0 Breaking Changes</a>.</p>
+<h3 id="v200-beta4">v2.0.0-beta.4</h3>
+<p>In the <code>v2.0.0-beta.4</code> release of Azure Service Operator (ASO) we pivoted to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brought with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.</p>
+<p>Unfortunately, this change also brings with it a number of breaking changes requiring simple manual modifications to pre-existing resources.</p>
+<p>Breaking changes are:</p>
+<ul>
+<li>The discriminator value for polymorphic types has been changed to match the name of the property used to specify that option.</li>
+<li>Enumerated properties that previously had a base type but no enumeration values have been updated to include the enumeration values.</li>
+<li>Objects that were incorrectly generated as nested properties have been directly inlined</li>
+<li>ARM Id fields are now correctly identified as references, allowing linking to a resource in Kubernetes instead of only in Azure.</li>
+<li>Status properties that cannot be set by the end user on a Spec that were included in the Spec in error</li>
+<li>Sub-resources that were incorrectly inlined into the parent resource have been moved to a separate resource.</li>
+<li>Properties that previously included on Spec but actually had no function have been removed.</li>
+<li>Validation rules have been tightened, or added to properties that previously had no validation rules.</li>
+</ul>
+<p>For detailed information, including an exhaustive list of all affected resource properties, see <a href="./breaking-changes-v2.0.0-beta.4">v2.0.0 Breaking Changes</a>.</p>
+<h2 id="policies">Policies</h2>
+<p>We know that breaking changes are a problem for many of our users, so we&rsquo;re making the following commitments.</p>
+<p><strong>No breaking changes to existing resource versions</strong></p>
+<p>We will not introduce a breaking change in an existing version of a resource such as <code>v1api20230101</code>.</p>
+<p>In the unlikely event of such a change being forced upon us by an upstream team, we will take all reasonable steps to reduce the impact as far as possible. (We consider this to be extremely unlikely because of the stringent API change criteria used by Azure.)</p>
+<p><strong>Minimal breaking changes in new resource versions</strong></p>
+<p>We <em>may</em> introduce breaking changes between versions of resources, such as between <code>v1api20230101</code> and <code>v1api20230201</code>. These two versions correspond to two different Azure API versions (that is, <code>2023-01-01</code> and <code>2023-02-01</code>), and if the upstream Azure service introduces a breaking change in the newer of these two API versions we may pass that breaking change along.</p>
+<h3 id="mitigation-techniques">Mitigation techniques</h3>
+<p><strong>Automatic conversion</strong>: By manually augmenting the intra-version conversions produced by our code-generator, we may be able to automatically upgrade resources from the older version to the new. Migration would be zero-touch for our users.</p>
+<p>We&rsquo;ve done this before when a new version of a resource API introduced a breaking change, see <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/api/containerservice/v1api20210501storage/managed_cluster_conversion_overrides.go">managed_cluster_conversion_overrides.go</a>.</p>
+<p><strong>Custom Tooling</strong>: For our <code>v2.0.0</code> release, we provided a specialized tool (<code>asoctl</code>) specifically designed to smooth the way for upgrading users. In addition to the existing two modes, we may add further functions to cater for other scenarios.</p>
+<p>For users upgrading from ASO v1, <a href="https://azure.github.io/azure-service-operator/tools/asoctl/#import-azure-resource"><code>asoctl import azure-resource</code></a> provides a way to scaffold an ASO v2 resource based on an existing Azure resource.</p>
+<p>For clusters that once had an alpha release of ASO v2 installed, <a href="https://azure.github.io/azure-service-operator/tools/asoctl/#clean-crds"><code>asoctl clean crds</code></a> does the cleanup required to ensure the upgrade from <code>v2.0.0-beta.5</code> to <code>v2.0.0</code> goes smoothly.</p>
+<p>We may, in future, create additional tooling designed to smooth the way for users encountering what would otherwise be breaking changes.</p>
+<p><strong>Documentation</strong>: As a last resort, if we have a breaking change that we can&rsquo;t avoid (or can&rsquo;t transparently mitigate), we&rsquo;ll explicitly document it, both here and in the release notes for that version.</p>
+
+        <div class="section-index">
+    
+    
+    
+    
+    
+    
+    
+    
+    <hr class="panel-line">
+        
+            
+            <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0/">v2.0.0 Breaking Changes</a>
+                </h5>
+                <p></p>
+            </div>
+        
+            
+            <div class="entry">
+                <h5>
+                    <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/">v2.0.0-beta.4 Breaking Changes</a>
+                </h5>
+                <p></p>
+            </div>
+        
+    
+</div>
 
 	
 	
 	
 </div>
-
 
           </main>
         </div>
