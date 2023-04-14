@@ -41,7 +41,7 @@ Breaking changes are:
 * Sub-resources that were incorrectly inlined into the parent resource have been moved to a separate resource.
 * Properties that previously included on Spec but actually had no function have been removed.
 * Validation rules have been tightened, or added to properties that previously had no validation rules.
-* 
+
 For detailed information, including an exhaustive list of all affected resource properties, see [v2.0.0 Breaking Changes](./breaking-changes-v2.0.0-beta.4).
 
 ## Policies
