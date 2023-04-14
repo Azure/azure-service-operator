@@ -64,10 +64,10 @@ We've done this before when a new version of a resource API introduced a breakin
 
 **Custom Tooling**: For our **v2.0.0** release, we provided a specialized tool (`asoctl`) specifically designed to smooth the way for upgrading users. In addition to the existing two modes, we may add further functions to cater for other scenarios.
 
-For users upgrading from ASO v1, `asoctl import azure-resource` provides a way to scaffold an ASO v2 resource based on an existing Azure resource. 
+For users upgrading from ASO v1, [`asoctl import azure-resource`](https://azure.github.io/azure-service-operator/tools/asoctl/#import-azure-resource) provides a way to scaffold an ASO v2 resource based on an existing Azure resource. 
 
-For clusters that once had an alpha release of ASO v2 installed, `asoctl clean crds` does the cleanup required to ensure the upgrade from `v2.0.0-beta.5` to `v2.0.0` goes smoothly.
+For clusters that once had an alpha release of ASO v2 installed, [`asoctl clean crds`](https://azure.github.io/azure-service-operator/tools/asoctl/#clean-crds) does the cleanup required to ensure the upgrade from `v2.0.0-beta.5` to `v2.0.0` goes smoothly.
 
 We may, in future, create additional tooling designed to smooth the way for users encountering what would otherwise be breaking changes.
 
-**Documentation**: As a last resort, if we have a breaking change that we can't avoid, we'll explicitly document it, both here and in the release notes for that version.
+**Documentation**: As a last resort, if we have a breaking change that we can't avoid (or can't transparently mitigate), we'll explicitly document it, both here and in the release notes for that version.
