@@ -20,8 +20,9 @@ To make deprecations visible, we will modify our ObjectModelConfiguration to all
 
 When we become aware of resource or version deprecation, we'll do the following:
 
-* Modify our configuration to indicate deprecation of the resource (or resource version) and the next release of Azure Service Operator will include that information.
-* Include details on the deprecation in our release notes for that release of ASO
+* Modify our configuration to indicate deprecation of the resource
+* Include deprecation details in our release notes for that release of ASO
+* Add a documentation fragment to our Supported Resource page
 * List the deprecation as a future breaking change
 
 After the Azure deprecation has taken effect (that is, the resource or version is no longer deployable), we'll remove it from the following ASO release, with the breaking change noted in both the release notes and on our website.
