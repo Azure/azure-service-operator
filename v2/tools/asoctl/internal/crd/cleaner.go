@@ -59,11 +59,6 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		return errors.Wrap(err, "failed to list CRDs")
 	}
 
-	if list == nil || len(list.Items) == 0 {
-		return errors.New("found no CRDs. Do you have an active cluster running?")
-
-	}
-
 	var updated int
 	var asoCrdsSeen int
 	crdRegexp := regexp.MustCompile(`.*\.azure\.com`)
