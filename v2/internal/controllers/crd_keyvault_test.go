@@ -128,7 +128,8 @@ func newVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *k
 					Name:   &skuName,
 				},
 				TenantId: to.Ptr(tc.AzureTenant),
-				// This is true as default. We need to set this false to purge delete the KeyVault so there's no residue.
+				// EnableSoftDelete is true as default. We need to set this false to purge delete the KeyVault so there's no while re-running tests.
+				// This is not best practice and should be left to true for any production KV, it is only set to false here for test purposes
 				EnableSoftDelete: to.Ptr(false),
 			},
 		},
