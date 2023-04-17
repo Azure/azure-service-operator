@@ -194,11 +194,11 @@ The volume of output is high, so the logs are written into a new temp directory.
 
 A separate output file is generated after each pipeline stage runs, allowing for easy comparison to identify what each stage achieves.
 
-![Debug Output](./images/debug-output.png)
+![Debug Output](../images/debug-output.png)
 
 In this screenshot, I'm comparing the output after stage 44 with the output after stage 52, reviewing the results of all the intervening stages.
 
-![Stage diffs](./images/stage-diff.png)
+![Stage diffs](../images/stage-diff.png)
 
 Normal use of the `--debug` flag is to specify a single output group (e.g. `--debug network`) but you can also specify multiple groups using semicolons (e.g. `--debug network;compute`) or wildcards (e.g. `--debug db*`).
 
