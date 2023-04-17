@@ -1,4 +1,4 @@
-apiVersion: datafactory.azure.com/v1api20210601
+apiVersion: datafactory.azure.com/v1api20180601
 kind: Factory
 metadata:
   name: samplefactory
@@ -9,3 +9,5 @@ spec:
     name: aso-sample-rg
   identity:
     type: SystemAssigned
+  publicNetworkAccess: Enabled
+  

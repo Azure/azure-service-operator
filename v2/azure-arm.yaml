@@ -881,7 +881,7 @@ objectModelConfiguration:
           $armReference: true
       Factory:
         $export: true
-        $supportedFrom: v2.0.0
+        $supportedFrom: v2.1.0
   dbformariadb:
     2018-06-01:
       Server:

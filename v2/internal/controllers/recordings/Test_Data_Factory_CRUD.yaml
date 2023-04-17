@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"location":"westus2","name":"asotest-rg-wjutgz","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"westus2","name":"asotest-rg-czjvyk","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,10 +13,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz","name":"asotest-rg-wjutgz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk","name":"asotest-rg-czjvyk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz","name":"asotest-rg-wjutgz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk","name":"asotest-rg-czjvyk","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,35 +66,43 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"asotestdatafactoryuyjcgj","tags":{"cheese":"blue"}}'
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"asotestdatafactoryccuhbb","properties":{"globalParameters":{"testKey":{"type":"String","value":{"foo":"value"}}}},"tags":{"cheese":"blue"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "118"
+      - "206"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb?api-version=2018-06-01
     method: PUT
   response:
     body: |-
       {
-        "name": "asotestdatafactoryuyjcgj",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj",
+        "name": "asotestdatafactoryccuhbb",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb",
         "type": "Microsoft.DataFactory/factories",
         "properties": {
           "provisioningState": "Succeeded",
           "createTime": "2001-02-03T04:05:06Z",
-          "version": "2018-06-01"
+          "version": "2018-06-01",
+          "globalParameters": {
+            "testKey": {
+              "type": "String",
+              "value": {
+                "foo": "value"
+              }
+            }
+          }
         },
-        "eTag": "\"3600cfa0-0000-0800-0000-643876a60000\"",
+        "eTag": "\"4f001c0d-0000-0800-0000-643db9a10000\"",
         "location": "westus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "df39a53d-7b6c-41b7-8b30-213c0ccea293",
+          "principalId": "c7d0f538-cf0d-4d1f-b76a-6d5845ab3b48",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {
@@ -129,13 +137,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb?api-version=2018-06-01
     method: GET
   response:
     body: |-
       {
-        "name": "asotestdatafactoryuyjcgj",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj",
+        "name": "asotestdatafactoryccuhbb",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb",
         "type": "Microsoft.DataFactory/factories",
         "properties": {
           "provisioningState": "Succeeded",
@@ -146,13 +154,21 @@ interactions:
             "maxAllowedResourceCount": 0,
             "factorySizeInGbUnits": 0,
             "maxAllowedFactorySizeInGbUnits": 0
+          },
+          "globalParameters": {
+            "testKey": {
+              "type": "String",
+              "value": {
+                "foo": "value"
+              }
+            }
           }
         },
-        "eTag": "\"3600cfa0-0000-0800-0000-643876a60000\"",
+        "eTag": "\"4f001c0d-0000-0800-0000-643db9a10000\"",
         "location": "westus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "df39a53d-7b6c-41b7-8b30-213c0ccea293",
+          "principalId": "c7d0f538-cf0d-4d1f-b76a-6d5845ab3b48",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {
@@ -180,35 +196,43 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"asotestdatafactoryuyjcgj","tags":{"cheese":"époisses"}}'
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"asotestdatafactoryccuhbb","properties":{"globalParameters":{"testKey":{"type":"String","value":{"foo":"value"}}}},"tags":{"cheese":"époisses"}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "123"
+      - "211"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb?api-version=2018-06-01
     method: PUT
   response:
     body: |-
       {
-        "name": "asotestdatafactoryuyjcgj",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj",
+        "name": "asotestdatafactoryccuhbb",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb",
         "type": "Microsoft.DataFactory/factories",
         "properties": {
           "provisioningState": "Succeeded",
           "createTime": "2001-02-03T04:05:06Z",
-          "version": "2018-06-01"
+          "version": "2018-06-01",
+          "globalParameters": {
+            "testKey": {
+              "type": "String",
+              "value": {
+                "foo": "value"
+              }
+            }
+          }
         },
-        "eTag": "\"3600d8a0-0000-0800-0000-643876a70000\"",
+        "eTag": "\"4f00220d-0000-0800-0000-643db9a40000\"",
         "location": "westus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "df39a53d-7b6c-41b7-8b30-213c0ccea293",
+          "principalId": "c7d0f538-cf0d-4d1f-b76a-6d5845ab3b48",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {
@@ -243,13 +267,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb?api-version=2018-06-01
     method: GET
   response:
     body: |-
       {
-        "name": "asotestdatafactoryuyjcgj",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj",
+        "name": "asotestdatafactoryccuhbb",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb",
         "type": "Microsoft.DataFactory/factories",
         "properties": {
           "provisioningState": "Succeeded",
@@ -260,13 +284,21 @@ interactions:
             "maxAllowedResourceCount": 0,
             "factorySizeInGbUnits": 0,
             "maxAllowedFactorySizeInGbUnits": 0
+          },
+          "globalParameters": {
+            "testKey": {
+              "type": "String",
+              "value": {
+                "foo": "value"
+              }
+            }
           }
         },
-        "eTag": "\"3600d8a0-0000-0800-0000-643876a70000\"",
+        "eTag": "\"4f00220d-0000-0800-0000-643db9a40000\"",
         "location": "westus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "df39a53d-7b6c-41b7-8b30-213c0ccea293",
+          "principalId": "c7d0f538-cf0d-4d1f-b76a-6d5845ab3b48",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {
@@ -301,7 +333,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb?api-version=2018-06-01
     method: DELETE
   response:
     body: ""
@@ -331,11 +363,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz/providers/Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj?api-version=2018-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk/providers/Microsoft.DataFactory/factories/asotestdatafactoryccuhbb?api-version=2018-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DataFactory/factories/asotestdatafactoryuyjcgj''
-      under resource group ''asotest-rg-wjutgz'' was not found. For more details please
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DataFactory/factories/asotestdatafactoryccuhbb''
+      under resource group ''asotest-rg-czjvyk'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
@@ -365,7 +397,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wjutgz?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-czjvyk?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -377,7 +409,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRXSlVUR1otV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWkpWWUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -395,7 +427,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRXSlVUR1otV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRDWkpWWUstV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
