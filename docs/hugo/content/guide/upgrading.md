@@ -60,9 +60,9 @@ If you encounter an issue after an upgrade of ASO that can't be addressed by any
 
 Summary: If the new version of ASO didn't change the stored version of your resource, then you should be able to downgrade without issue. If the new version of ASO did change the stored version of your resource, then you will need to manually fix things up.
 
-To determine whether the new version of ASO changed the stored version of your resource, consult both the [release notes](https://github.com/Azure/azure-service-operator/releases) for that version and the list of [supported resources](https://azure.github.io/azure-service-operator/reference/).
+To determine whether the new version of ASO changed the stored version of your resource, consult both the [release notes](https://github.com/Azure/azure-service-operator/releases) for that version and the list of [supported resources](../../reference/).
 
-Each ASO resource is stored within the cluster using a canonical storage (or hub) version, regardless of the actual version used for interaction with the cluster or with Azure. These stored versions are based on the latest Stable Azure API version of that resource. (See [Resource Versioning](https://azure.github.io/azure-service-operator/design/versioning/) for all the background on this design decision.)
+Each ASO resource is stored within the cluster using a canonical storage (or hub) version, regardless of the actual version used for interaction with the cluster or with Azure. These stored versions are based on the latest Stable Azure API version of that resource. (See [Resource Versioning](../../design/versioning/) for all the background on this design decision.)
 
 When a new version of ASO adds support for a later version of an already supported resource (say, adding support for the latest release of Azure Redis, `v1api20220601`, in addition to the existing support for `v1api20211201`), then the new version of ASO will use the newer API version of the resource as the storage version. In this situation, downgrading ASO to the prior version will orphan the resource, as the older version of ASO is unaware of the newer storage version and is unable to interact with it. This means that any resources created with, or modified by, the newer version of ASO will be unable to be managed by the older version of ASO. They will also be inaccessible via `kubectl` or any other tool.
 
@@ -77,6 +77,6 @@ Given that it's unusual for a release of ASO to upgrade all resources, it's like
 
 For each ASO managed resource in your cluster
 
-* Check the [ASO release notes](https://github.com/Azure/azure-service-operator/releases) and the list of [supported resources](https://azure.github.io/azure-service-operator/reference/) to identify whether the ASO upgrade added a new version for that resource type.
+* Check the [ASO release notes](https://github.com/Azure/azure-service-operator/releases) and the list of [supported resources](../../reference/) to identify whether the ASO upgrade added a new version for that resource type.
 * Ensure you have the required YAML definition to recreate the resource in your cluster. If necessary, download the YAML definition for the resource using `kubectl get`.
 
