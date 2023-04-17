@@ -1,4 +1,6 @@
-# Adoption Policy
+---
+title: '2023-02: Adoption Policy'
+---
 
 ## Context
 
@@ -156,7 +158,7 @@ be used.
 The full matrix of possibilities (where there is overlap) is:
 
 | `reconcile-policy` | `adoption-policy`          | Resource already exists in Azure? | Behavior                                 |
-|--------------------|----------------------------|-----------------------------------|------------------------------------------|
+| ------------------ | -------------------------- | --------------------------------- | ---------------------------------------- |
 | Unspecified        | Unspecified                | Yes                               | Fully manages the resource¹              |
 | Unspecified        | skip-if-exists             | Yes                               | Skips managing the resource              |
 | Unspecified        | skip-if-exists             | No                                | Fully manages the resource               |
