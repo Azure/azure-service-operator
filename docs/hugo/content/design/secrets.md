@@ -325,7 +325,7 @@ the right `ListKeys` or `GetKeys` call. To support rollover we would need a diff
 This is a relatively involved topic so not designing it all here. As a starting point, resources manually implementing the following interface would
 get us what we need. Issue [#1978](https://github.com/Azure/azure-service-operator/issues/1978) is tracking this request in more detail. 
 
-See also the design of [reconciler extensions](../architecture-decision-records/ADR-2022-01-Reconciler-Extensions.md).
+See also the design of [reconciler extensions](../adr-2022-01-reconciler-extensions).
 
 ```go
 type ARMDetails struct {

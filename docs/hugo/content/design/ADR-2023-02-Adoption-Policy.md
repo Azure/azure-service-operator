@@ -226,7 +226,7 @@ when reconciliation ran for the first time. The operator would check if the reso
 
 #### An implementation note on fault tolerance
 
-If we choose either flavor of [option 4](#option-4--allow-configuration-at-the-operator-or-per-resource-level) we need to
+If we choose either flavor of [option 4](#option-4-allow-configuration-at-the-operator-or-per-resource-level) we need to
 ensure that we are fault-tolerant. We must avoid a situation where the operator:
 
 - Checks if the resource in Azure exists and determines it does not
@@ -243,13 +243,13 @@ concurrency support on the server side.
 
 ## Decision
 
-I propose we choose [option 1: Default `reconcile-policy` is `manage`](#option-1--the-default-reconcile-policy-for-adopted-resources-is-manage).
+I propose we choose [option 1: Default `reconcile-policy` is `manage`](#option-1-the-default-reconcile-policy-for-adopted-resources-is-manage).
 As mentioned in the discussion of that topic, it's the default we currently have and so is non-breaking to adopt, and is how
 ARM templates/BICEP, raw REST and the SDKs work today already. Extra protection against adoption/updating a resource that
 already exists can be achieved with some of those technologies, but it's not the default and requires the user to opt-in
 to it.
 
-Alongside that, I propose we choose [option 4.2: `reconcile-policy-if-exists` annotation](#option-42--reconcile-policy-if-exists-annotation)
+Alongside that, I propose we choose [option 4.2: `reconcile-policy-if-exists` annotation](#option-42-reconcile-policy-if-exists-annotation)
 to allow users to configure this behavior at the operator level or at the per-resource level. This is the other side of the
 coin, if we're going to default to adopting we should give users who do _not_ want that as the default a way to configure
 the behavior they do want.
