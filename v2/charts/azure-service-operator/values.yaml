@@ -37,7 +37,7 @@ azureSyncPeriod: ""
 
 # useWorkloadIdentityAuth can be set to use workload identity authentication
 # See https://azure.github.io/azure-workload-identity/docs/introduction.html for more details about Azure Workload Identity.
-# See https://azure.github.io/azure-service-operator/introduction/authentication/ for details on setting up Workload Identity with ASO
+# See https://azure.github.io/azure-service-operator/guide/authentication/ for details on setting up Workload Identity with ASO
 useWorkloadIdentityAuth: false
 
 # azureAuthorityHost is the URL of the AAD authority. If not specified, the default
@@ -76,7 +76,7 @@ azureOperatorMode: ""
 # corresponding CRD yaml in the cart (and so no CRD in the k8s
 # repository).
 image:
-  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0-beta.5
+  repository: mcr.microsoft.com/k8s/azureserviceoperator:v2.0.0
   kubeRBACProxy: gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
 
 # 'metrics' define settings for the metrics from controller.
