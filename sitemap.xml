@@ -30,8 +30,6 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/adr-2023-02-adoption-policy/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2020-07-pipeline-architecture/</loc>
@@ -63,6 +61,8 @@
     <loc>https://azure.github.io/azure-service-operator/design/adr-2022-12-reconciliation-extensions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2023-02-adoption-policy/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/</loc>
   </url><url>
