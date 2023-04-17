@@ -28,7 +28,7 @@ jobs:
           echo "id=$container_id" >> $GITHUB_OUTPUT
 
       - name: Run CI tasks against live resources
-        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT "${{steps.devcontainer.outputs.id}}" task ci-live
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT  -e AZURE_CLIENT_ID_CERT_AUTH -e AZURE_CLIENT_SECRET_CERT_AUTH "${{steps.devcontainer.outputs.id}}" task ci-live
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -36,6 +36,8 @@ jobs:
           AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           AZURE_CLIENT_SECRET_MULTITENANT: ${{ secrets.AZURE_CLIENT_SECRET_MULTITENANT }}
           AZURE_CLIENT_ID_MULTITENANT: ${{ secrets.AZURE_CLIENT_ID_MULTITENANT }}
+          AZURE_CLIENT_ID_CERT_AUTH: ${{ secrets.AZURE_CLIENT_ID_CERT_AUTH }}
+          AZURE_CLIENT_SECRET_CERT_AUTH: ${{ secrets.AZURE_CLIENT_SECRET_CERT_AUTH }}
 
       # We explicitly do not upload coverage for live tests as it messes with the diffs for PRs,
       # since they will not exercize the authorization codepaths.
