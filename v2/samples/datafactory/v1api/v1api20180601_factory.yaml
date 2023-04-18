@@ -10,4 +10,3 @@ spec:
   identity:
     type: SystemAssigned
   publicNetworkAccess: Enabled
-  

@@ -98,11 +98,11 @@ interactions:
             }
           }
         },
-        "eTag": "\"4f001c0d-0000-0800-0000-643db9a10000\"",
+        "eTag": "\"0d007d07-0000-0800-0000-643f054a0000\"",
         "location": "westus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "c7d0f538-cf0d-4d1f-b76a-6d5845ab3b48",
+          "principalId": "6b7e083d-daca-4dc6-8ccd-362f568d9bed",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {
@@ -164,11 +164,11 @@ interactions:
             }
           }
         },
-        "eTag": "\"4f001c0d-0000-0800-0000-643db9a10000\"",
+        "eTag": "\"0d007d07-0000-0800-0000-643f054a0000\"",
         "location": "westus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "c7d0f538-cf0d-4d1f-b76a-6d5845ab3b48",
+          "principalId": "6b7e083d-daca-4dc6-8ccd-362f568d9bed",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {
@@ -228,11 +228,11 @@ interactions:
             }
           }
         },
-        "eTag": "\"4f00220d-0000-0800-0000-643db9a40000\"",
+        "eTag": "\"0d00be07-0000-0800-0000-643f054d0000\"",
         "location": "westus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "c7d0f538-cf0d-4d1f-b76a-6d5845ab3b48",
+          "principalId": "6b7e083d-daca-4dc6-8ccd-362f568d9bed",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {
@@ -294,11 +294,11 @@ interactions:
             }
           }
         },
-        "eTag": "\"4f00220d-0000-0800-0000-643db9a40000\"",
+        "eTag": "\"0d00be07-0000-0800-0000-643f054d0000\"",
         "location": "westus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "c7d0f538-cf0d-4d1f-b76a-6d5845ab3b48",
+          "principalId": "6b7e083d-daca-4dc6-8ccd-362f568d9bed",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {

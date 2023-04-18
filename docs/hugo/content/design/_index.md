@@ -1,10 +1,10 @@
 ---
 title: "Design & Specifications"
 linktitle: "Design"
-weight: 50
+weight: 60
 menu:
   main:
-    weight: 50
+    weight: 60
 cascade:
 - type: docs
 description: "Design discussions, decisions, and specifications for Azure Service Operator v2"

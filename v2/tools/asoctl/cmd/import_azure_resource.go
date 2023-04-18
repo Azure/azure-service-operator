@@ -45,6 +45,9 @@ func newImportAzureResourceCommand() *cobra.Command {
 
 // importAzureResource imports an ARM resource and writes the YAML to stdout or a file
 func importAzureResource(ctx context.Context, armIDs []string, outputPath *string) error {
+
+	log, progress := CreateLoggerAndProgressBar()
+
 	//TODO: Support other clouds
 	activeCloud := cloud.AzurePublic
 	creds, err := azidentity.NewDefaultAzureCredential(nil)
@@ -89,6 +92,9 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 			return errors.Wrapf(err, "failed to write to file %s", *outputPath)
 		}
 	}
+
+	// Wait for progress bar to finish & flush
+	progress.Wait()
 
 	return nil
 }

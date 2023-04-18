@@ -1,16 +1,34 @@
 {
   "ignorePatterns": [
     {
-      "pattern": "^(?!http).*"
+      "pattern": "https://github.com/Azure/azure-resource-manager-rpc.*",
+      "reason": "The above repository is private to only Azure Members. Leaving it in the docs for internal use only."
+    }
+  ],
+  "replacementPatterns": [
+    {
+      "pattern": "^\\.\\.\\/",
+      "replacement": "./",
+      "reason": "Hugo renders files as folders, so strip off leading ../ to become ./"
     },
     {
-      "pattern": "https://github.com/Azure/azure-resource-manager-rpc.*",
-      "reason" : "The above repository is private to only Azure Members. Leaving it in the docs for internal use only."
+      "pattern": "^(?<path>(?!http).*\\/)(#.*)?$",
+      "replacement": "$<path>_index.md",
+      "reason": "Non HTTP/s references to directories should be looking for _index.md files in those folders"
+    },
+    {
+      "pattern": "^(?<path>(?!http).*\\/[\\-_\\w]+)(#.*)?$",
+      "replacement": "$<path>.md",
+      "reason": "Non HTTP/s references without trailing file types should be .md files"
     }
   ],
   "timeout": "10s",
   "retryOn429": true,
   "retryCount": 3,
   "fallbackRetryDelay": "15s",
-  "aliveStatusCodes": [200, 206, 401]
+  "aliveStatusCodes": [
+    200,
+    206,
+    401
+  ]
 }

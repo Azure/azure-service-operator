@@ -18,7 +18,7 @@ When presented with multiple credential choices, the operator chooses the most s
 
 To deploy the operator in single-operator multi-tenant mode:
 
-1. Follow the normal ASO [installation](https://azure.github.io/azure-service-operator/#installation)
+1. Follow the normal ASO [installation](../../#installation)
 2. To use namespace scoped credential, create a credential secret named `aso-credential` in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.
 3. To use per-resource credential, create a credential secret and add an annotation to the resource like `serviceoperator.azure.com/credential-from: <SECRET_NAMESPACE>/<SECRET_NAME>`
 
@@ -41,11 +41,11 @@ To deploy the operator in single-operator multi-tenant mode:
 
 To deploy the operator in single-operator multi-tenant mode:
 
-1. Follow the normal ASO [workload identity installation](https://azure.github.io/azure-service-operator/introduction/authentication/#azure-workload-identity)
+1. Follow the normal ASO [workload identity installation](../authentication#azure-workload-identity)
 2. To use namespace scoped credential, create a credential secret named `aso-credential` in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.
 3. To use per-resource credential, create a credential secret and add an annotation to the resource like `serviceoperator.azure.com/credential-from: <SECRET_NAMESPACE>/<SECRET_NAME>`
 
-**Note:** Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC issuer URL and the backing Service Principal or Managed Identity. See [how to configure trust](https://azure.github.io/azure-service-operator/introduction/authentication/#configure-trust) for more details.
+**Note:** Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC issuer URL and the backing Service Principal or Managed Identity. See [how to configure trust](../authentication#configure-trust) for more details.
 
 ### Example Secret
 
@@ -98,7 +98,7 @@ The cluster-wide file `multitenant-cluster_v2.0.0-beta.0.yaml` can be used as-is
 but the namespaces and cluster role binding in the per-tenant file `multitenant-tenant_v2.0.0-beta.0.yaml` will need to be customised in each tenant's YAML file from `tenant1` to the desired name for that tenant.
 
 #### Per-tenant configuration
-Create the `aso-controller-settings` secret as described in the [authentication docs](https://azure.github.io/azure-service-operator/introduction/authentication/),
+Create the `aso-controller-settings` secret as described in the [authentication docs](../authentication),
 but create the secret in the tenant namespace and add an extra target namespaces key to it:
 ```
    export TENANT_NAMESPACE="<tenant namespace>"

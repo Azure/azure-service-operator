@@ -101,10 +101,8 @@ tasks:
   check-docs-site-links:
     dir: docs/hugo
     cmds:
-      # Pinned to 3.10 due to https://github.com/tcort/markdown-link-check/issues/246
-      - npm install -g markdown-link-check@3.10 # TODO: Add to devcontainer?
       # Excluding './content/reference/*' path as it contains all auto-generated API docs.
-      - find . -type f -name "*.md" -not -path "./content/reference/*/*.md" -print0 | xargs -0 -n1 markdown-link-check -c link-checker.json
+      - find . -type f -name "*.md" -not -path "./content/reference/*" -not -path "./node_modules/*" -print0 | xargs -0 -n1 markdown-link-check -c link-checker.json
     env:
       NODE_PATH:
         sh: npm root -g
