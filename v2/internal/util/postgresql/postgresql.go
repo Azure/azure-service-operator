@@ -92,7 +92,6 @@ func DoesUserExist(ctx context.Context, db *sql.DB, username string) (bool, erro
 	}
 	rows, err := res.RowsAffected()
 	return rows > 0, err
-
 }
 
 // DropUser drops a user from db
@@ -107,14 +106,12 @@ func DropUser(ctx context.Context, db *sql.DB, user string) error {
 
 // DatabaseExists checks if a database exists
 func DatabaseExists(ctx context.Context, db *sql.DB, dbName string) (bool, error) {
-
 	res, err := db.ExecContext(ctx, "SELECT datname FROM pg_catalog.pg_database WHERE datname = $1", dbName)
 	if err != nil {
 		return false, err
 	}
 	rows, err := res.RowsAffected()
 	return rows > 0, err
-
 }
 
 // RoleExists checks if db contains role

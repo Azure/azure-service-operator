@@ -23,7 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_PostgreSql_Combined(t *testing.T) {
+func Test_PostgreSQL_Combined(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
@@ -32,14 +32,14 @@ func Test_PostgreSql_Combined(t *testing.T) {
 	adminUsername := "myadmin"
 	adminPasswordKey := "adminPassword"
 	adminPassword := tc.Namer.GeneratePassword()
-	secret := newPostgresSqlSecret(tc, adminPasswordKey, adminPassword)
+	secret := newPostgresSQLSecret(tc, adminPasswordKey, adminPassword)
 
 	tc.CreateResource(secret)
 
-	flexibleServer := newPostgreSqlServer(tc, rg, adminUsername, adminPasswordKey, secret.Name)
+	flexibleServer := newPostgreSQLServer(tc, rg, adminUsername, adminPasswordKey, secret.Name)
 	tc.CreateResourceAndWait(flexibleServer)
 
-	firewallRule := newPostgreSqlServerOpenFirewallRule(tc, flexibleServer)
+	firewallRule := newPostgreSQLServerOpenFirewallRule(tc, flexibleServer)
 	tc.CreateResourceAndWait(firewallRule)
 
 	tc.Expect(flexibleServer.Status.FullyQualifiedDomainName).ToNot(BeNil())
@@ -48,31 +48,31 @@ func Test_PostgreSql_Combined(t *testing.T) {
 	// These must run sequentially as they're mutating SQL state
 	tc.RunSubtests(
 		testcommon.Subtest{
-			Name: "PostgreSql User Helpers",
+			Name: "PostgreSQL User Helpers",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				PostgreSql_User_Helpers(testContext, fqdn, adminUsername, adminPassword)
+				PostgreSQL_User_Helpers(testContext, fqdn, adminUsername, adminPassword)
 			},
 		},
 		testcommon.Subtest{
-			Name: "PostgreSql User CRUD",
+			Name: "PostgreSQL User CRUD",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				PostgreSql_User_CRUD(testContext, flexibleServer, adminPassword)
+				PostgreSQL_User_CRUD(testContext, flexibleServer, adminPassword)
 			},
 		},
 		testcommon.Subtest{
-			Name: "PostgreSql Secret Rollover",
+			Name: "PostgreSQL Secret Rollover",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				PostgreSql_AdminSecret_Rollover(testContext, fqdn, adminUsername, adminPasswordKey, adminPassword, secret)
+				PostgreSQL_AdminSecret_Rollover(testContext, fqdn, adminUsername, adminPasswordKey, adminPassword, secret)
 			},
 		},
 	)
 }
 
-// PostgreSql_AdminSecret_Rollover ensures that when a secret is modified, the modified value
+// PostgreSQL_AdminSecret_Rollover ensures that when a secret is modified, the modified value
 // is sent to Azure. This cannot be tested in the recording tests because they do not use
 // a cached client. The index functionality used to check if a secret is being used by an
 // ASO resource requires the cached client (the indexes are local to the cache).
-func PostgreSql_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn string, adminUsername string, adminPasswordKey string, adminPassword string, secret *v1.Secret) {
+func PostgreSQL_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn string, adminUsername string, adminPasswordKey string, adminPassword string, secret *v1.Secret) {
 	// Connect to the DB
 	conn, err := postgresqlutil.ConnectToDB(
 		tc.Ctx,
@@ -96,7 +96,7 @@ func PostgreSql_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn str
 	}
 	tc.UpdateResource(newSecret)
 
-	// Connect to the DB - this may fail initially as reconcile runs and PostgreSql
+	// Connect to the DB - this may fail initially as reconcile runs and PostgreSQL
 	// performs the update
 	tc.G.Eventually(
 		func() error {
@@ -119,7 +119,7 @@ func PostgreSql_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn str
 
 // We could also test this with https://hub.docker.com/_/postgresql, but since we're provisioning a real SQL server anyway we might
 // as well use it
-func PostgreSql_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, adminUsername string, adminPassword string) {
+func PostgreSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, adminUsername string, adminPassword string) {
 	// Connect to the DB
 	ctx := tc.Ctx
 	db, err := postgresqlutil.ConnectToDB(
@@ -170,10 +170,10 @@ func PostgreSql_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, adm
 	tc.Expect(exists).To(BeFalse())
 }
 
-func PostgreSql_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.FlexibleServer, adminPassword string) {
+func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.FlexibleServer, adminPassword string) {
 	passwordKey := "password"
 	password := tc.Namer.GeneratePassword()
-	userSecret := newPostgresSqlSecret(tc, passwordKey, password)
+	userSecret := newPostgresSQLSecret(tc, passwordKey, password)
 
 	tc.CreateResource(userSecret)
 
@@ -275,7 +275,7 @@ func PostgreSql_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 	tc.DeleteResourceAndWait(user)
 }
 
-func Test_PostgreSql_User(t *testing.T) {
+func Test_PostgreSQL_User(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
@@ -284,17 +284,17 @@ func Test_PostgreSql_User(t *testing.T) {
 	adminUsername := "myadmin"
 	adminPasswordKey := "adminPassword"
 	adminPassword := tc.Namer.GeneratePassword()
-	adminSecret := newPostgresSqlSecret(tc, adminPasswordKey, adminPassword)
+	adminSecret := newPostgresSQLSecret(tc, adminPasswordKey, adminPassword)
 
 	passwordKey := "password"
 	password := tc.Namer.GeneratePassword()
-	userSecret := newPostgresSqlSecret(tc, passwordKey, password)
+	userSecret := newPostgresSQLSecret(tc, passwordKey, password)
 
 	tc.CreateResource(adminSecret)
 	tc.CreateResource(userSecret)
 
-	flexibleServer := newPostgreSqlServer(tc, rg, adminUsername, adminPasswordKey, adminSecret.Name)
-	firewallRule := newPostgreSqlServerOpenFirewallRule(tc, flexibleServer)
+	flexibleServer := newPostgreSQLServer(tc, rg, adminUsername, adminPasswordKey, adminSecret.Name)
+	firewallRule := newPostgreSQLServerOpenFirewallRule(tc, flexibleServer)
 
 	user := &postgresqlv1.User{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("user")),
@@ -318,7 +318,7 @@ func Test_PostgreSql_User(t *testing.T) {
 	tc.DeleteResourceAndWait(user)
 }
 
-func newPostgresSqlSecret(tc *testcommon.KubePerTestContext, key string, password string) *v1.Secret {
+func newPostgresSQLSecret(tc *testcommon.KubePerTestContext, key string, password string) *v1.Secret {
 	secret := &v1.Secret{
 		ObjectMeta: tc.MakeObjectMeta("postgresqlsecret"),
 		StringData: map[string]string{
@@ -329,11 +329,7 @@ func newPostgresSqlSecret(tc *testcommon.KubePerTestContext, key string, passwor
 	return secret
 }
 
-func newPostgreSqlServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminUsername string, adminKey string, adminSecretName string) *postgresql.FlexibleServer {
-	// Force this test to run in a region that is not capacity constrained.
-	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
-	location := to.Ptr("australiaeast")
-
+func newPostgreSQLServer(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminUsername string, adminKey string, adminSecretName string) *postgresql.FlexibleServer {
 	version := postgresql.ServerVersion_13
 	secretRef := genruntime.SecretReference{
 		Name: adminSecretName,
@@ -361,7 +357,7 @@ func newPostgreSqlServer(tc *testcommon.KubePerTestContext, rg *resources.Resour
 	return flexibleServer
 }
 
-func newPostgreSqlServerOpenFirewallRule(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) *postgresql.FlexibleServersFirewallRule {
+func newPostgreSQLServerOpenFirewallRule(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) *postgresql.FlexibleServersFirewallRule {
 	// This rule opens access to the public internet. Safe in this case
 	// because there's no data in the database anyway
 	firewallRule := &postgresql.FlexibleServersFirewallRule{

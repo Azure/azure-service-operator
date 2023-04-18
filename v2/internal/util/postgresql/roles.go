@@ -132,13 +132,13 @@ func addRoles(ctx context.Context, db *sql.DB, user SQLUser, Roles set.Set[strin
 	return err
 }
 
-func deleteRoles(ctx context.Context, db *sql.DB, user SQLUser, Roles set.Set[string]) error {
-	if len(Roles) == 0 {
+func deleteRoles(ctx context.Context, db *sql.DB, user SQLUser, roles set.Set[string]) error {
+	if len(roles) == 0 {
 		// Nothing to do
 		return nil
 	}
 
-	toDelete := strings.Join(Roles.Values(), ",")
+	toDelete := strings.Join(roles.Values(), ",")
 	_, err := db.ExecContext(ctx, fmt.Sprintf("REVOKE %s FROM \"%s\"", toDelete, user.Name))
 
 	return err
