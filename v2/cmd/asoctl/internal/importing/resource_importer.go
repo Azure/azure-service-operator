@@ -33,6 +33,7 @@ type ResourceImporter struct {
 	lock      sync.Mutex                      // Lock to protect the above maps
 	log       logr.Logger                     // Logger to use for logging
 	progress  *mpb.Progress                   // Progress bar to use for showing progress
+	report    *resourceImportReport           // Report to summarise the import
 }
 
 // NewResourceImporter creates a new factory with the scheme baked in
@@ -48,6 +49,7 @@ func NewResourceImporter(
 		completed: make(map[string]ImportableResource),
 		log:       log,
 		progress:  progress,
+		report:    newResourceImportReport(),
 	}
 }
 
@@ -156,6 +158,8 @@ func (ri *ResourceImporter) Import(
 		resources = append(resources, importer.Resource())
 	}
 
+	ri.report.WriteToLog(ri.log)
+
 	return &ResourceImportResult{
 		resources: resources,
 	}, kerrors.NewAggregate(errs)
@@ -188,6 +192,7 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 				"kind", gk,
 				"name", rsrc.Name(),
 				"because", skipped.Because)
+			ri.report.AddSkippedImport(rsrc, skipped.Because)
 			return nil
 		}
 
@@ -195,6 +200,8 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 			"Failed",
 			"kind", gk,
 			"name", rsrc.Name())
+
+		ri.report.AddFailedImport(rsrc, err.Error())
 
 		// Don't need to wrap the error, it's already been logged (we don't want to log it twice)
 		return errors.Errorf("failed during import of %s", rsrc.Name())
@@ -204,6 +211,8 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 		"Imported",
 		"kind", gk,
 		"name", rsrc.Name())
+
+	ri.report.AddSuccessfulImport(rsrc)
 
 	ri.Complete(rsrc, pending)
 	return nil
