@@ -26,7 +26,9 @@ import (
 func Test_PostgreSQL_Combined(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
-
+	// Force this test to run in a region that is not capacity constrained.
+	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
+	tc.AzureRegion = to.Ptr("australiaeast")
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminUsername := "myadmin"
@@ -339,7 +341,7 @@ func newPostgreSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Resour
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServer_Spec{
-			Location: location,
+			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &postgresql.Sku{
