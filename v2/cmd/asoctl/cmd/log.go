@@ -38,8 +38,6 @@ func CreateLogger() logr.Logger {
 
 	// Use standard interface for logging
 	zerologr.VerbosityFieldName = "" // Don't include verbosity in output
-	zerologr.SetMaxV(0)              // Default to quiet
-
 	log := zerologr.New(&zl)
 	return log
 }
@@ -63,7 +61,6 @@ func CreateLoggerAndProgressBar() (logr.Logger, *mpb.Progress) {
 
 	// Use standard interface for logging
 	zerologr.VerbosityFieldName = "" // Don't include verbosity in output
-	zerologr.SetMaxV(0)              // Default to quiet
 
 	log := zerologr.New(&zl)
 	return log, progress
