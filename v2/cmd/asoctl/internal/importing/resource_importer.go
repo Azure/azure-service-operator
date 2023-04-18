@@ -196,7 +196,8 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 			"kind", gk,
 			"name", rsrc.Name())
 
-		return errors.Wrapf(err, "failed during import of %s", rsrc.Name())
+		// Don't need to wrap the error, it's already been logged (we don't want to log it twice)
+		return errors.Errorf("failed during import of %s", rsrc.Name())
 	}
 
 	ri.log.Info(
