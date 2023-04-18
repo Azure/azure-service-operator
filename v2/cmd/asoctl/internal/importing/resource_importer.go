@@ -17,6 +17,7 @@ import (
 	"github.com/vbauerster/mpb/v8/decor"
 	"golang.org/x/sync/errgroup"
 	"k8s.io/apimachinery/pkg/runtime"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
@@ -107,6 +108,7 @@ func (ri *ResourceImporter) Import(
 	// and end up with nothing on the queue because they're still running.
 	// The outer loop gives us a last look at the queue and allows us to keep going if there are new items
 	// requiring import.
+	var errs []error
 	for len(ri.queue) > 0 {
 		var eg errgroup.Group
 
@@ -141,7 +143,7 @@ func (ri *ResourceImporter) Import(
 		// Wait for all the running imports to complete
 		err := eg.Wait()
 		if err != nil {
-			return nil, err
+			errs = append(errs, err)
 		}
 	}
 
@@ -156,7 +158,7 @@ func (ri *ResourceImporter) Import(
 
 	return &ResourceImportResult{
 		resources: resources,
-	}, nil
+	}, kerrors.NewAggregate(errs)
 }
 
 func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableResource) error {

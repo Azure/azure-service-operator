@@ -36,6 +36,8 @@ func newRootCommand() (*cobra.Command, error) {
 		Use:              "asoctl",
 		Short:            "asoctl provides a cmdline interface for working with Azure Service Operator",
 		TraverseChildren: true,
+		SilenceErrors:    true, // We show errors ourselves using our logger
+		SilenceUsage:     true, // Let users ask for usage themselves
 	}
 
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Enable verbose logging")
@@ -67,7 +69,6 @@ func newRootCommand() (*cobra.Command, error) {
 		} else {
 			zerologr.SetMaxV(0)
 		}
-
 	}
 
 	return rootCmd, nil
