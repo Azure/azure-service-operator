@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 	"github.com/go-logr/zerologr"
+	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
 )
 
@@ -38,6 +39,7 @@ func newRootCommand() (*cobra.Command, error) {
 	}
 
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Enable verbose logging")
+	rootCmd.PersistentFlags().BoolVar(&quiet, "quiet", false, "Silence most logging")
 
 	rootCmd.Flags().SortFlags = false
 
@@ -56,9 +58,16 @@ func newRootCommand() (*cobra.Command, error) {
 	}
 
 	rootCmd.PersistentPreRun = func(cmd *cobra.Command, args []string) {
+		// Configure logging; --verbose overrides --quiet
 		if verbose {
 			zerologr.SetMaxV(1)
+		} else if quiet {
+			// Can't use zerologr.SetMaxV(-1)
+			zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+		} else {
+			zerologr.SetMaxV(0)
 		}
+
 	}
 
 	return rootCmd, nil
