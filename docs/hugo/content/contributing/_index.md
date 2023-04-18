@@ -13,8 +13,8 @@ description: "How to contribute new resources to Azure Service Operator v2"
 
 ## Related pages
 
-* [Adding a new code-generator resource](add-a-new-code-generated-resource).
-* [Generator code overview](generator-overview)
+* [Adding a new code-generator resource](../add-a-new-code-generated-resource).
+* [Generator code overview](../generator-overview)
 
 ## Developer setup (with VS Code)
 This is the recommended setup, especially if you are using Windows as your development platform.
