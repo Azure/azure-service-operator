@@ -128,6 +128,14 @@ Supporting 2 resources: ManagedCluster, ManagedClustersAgentPool
 | ManagedClustersAgentPool                                                                                                                                                                 | 2021-05-01         | v1api20210501        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20210501/v1api20210501_managedclustersagentpool.yaml)               |
 | [ManagedClustersAgentPool](https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/#containerservice.azure.com/v1beta20210501.ManagedClustersAgentPool) | 2021-05-01         | v1beta20210501       | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20210501/v1beta20210501_managedclustersagentpool.yaml)             |
 
+## Datafactory
+
+Supporting 1 resource: Factory
+
+| Resource | ARM Version | CRD Version   | Supported From | Sample |
+|----------|-------------|---------------|----------------|--------|
+| Factory  | 2018-06-01  | v1api20180601 | v2.1.0         | -      |
+
 ## Dbformariadb
 
 Supporting 3 resources: Configuration, Database, Server
