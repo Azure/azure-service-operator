@@ -12,11 +12,10 @@ spec:
   # your server admin user
   roles:
     - "azure_pg_admin"
-  # Specify a list of server-level role options of the user. Role options
-  # include the following: LOGIN, CREATEROLE, CREATEDB, SUPERUSER
-  # BYPASSRLS, REPLICATION
+  # Specify server-level role options of the user.
   roleOptions:
-    - CREATEDB
+    login: true
+    createRole: true
   localUser:
     serverAdminUsername: admin
     serverAdminPassword:
