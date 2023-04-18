@@ -44,7 +44,9 @@ func CreateLogger() logr.Logger {
 // Use this when your command wants to show progress to the user.
 func CreateLoggerAndProgressBar() (logr.Logger, *mpb.Progress) {
 	// Create Progressbar for console output
-	progress := mpb.New()
+	progress := mpb.New(
+		mpb.WithOutput(os.Stderr), // Write to StdErr
+	)
 
 	// Configure console writer for ZeroLog
 	output := zerolog.ConsoleWriter{
