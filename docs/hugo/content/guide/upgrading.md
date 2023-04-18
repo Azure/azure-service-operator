@@ -9,11 +9,9 @@ Ensure that you have carefully reviewed the upgrade instructions included in the
 
 ### Caution
 
-If upgrading to **v2.0.0**, you *must* be starting from **v2.0.0-beta.5** because we've changed the way CRDs are managed. See [v2.0.0 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0.md) for more information.
+If upgrading to **v2.0.0**, carefully review [v2.0.0 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0.md), especially the section on using [`asoctl clean crds`](../../../tools/asoctl.md#clean-crds).
 
-If ASO **v2.0.0-alpha.5** or earlier was *ever* installed on your cluster, you must use [`asoctl clean crds`](../../../tools/asoctl.md#clean-crds) to prepare your cluster before upgrading to **v2.0.0**. See [v2.0.0 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0.md).
-
-If upgrading from earlier than **v2.0.0-beta.4**, you may need to make some minor modifications to your resources. See [v2.0.0-beta.4 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0-beta.4.md).
+If upgrading to **v2.0.0-beta.4**, carefully review [v2.0.0-beta.4 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0-beta.4.md), you may need to make some minor changes to your resources.
 
 ## Recommended upgrade pattern
 
