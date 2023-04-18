@@ -7,6 +7,12 @@ weight: -3
 
 Ensure that you have carefully reviewed the upgrade instructions included in the [release notes](https://github.com/Azure/azure-service-operator/releases) for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version. 
 
+### Caution
+
+If upgrading to **v2.0.0**, carefully review [v2.0.0 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0.md), especially the section on using [`asoctl clean crds`](../../../tools/asoctl.md#clean-crds).
+
+If upgrading to **v2.0.0-beta.4**, carefully review [v2.0.0-beta.4 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0-beta.4.md), you may need to make some minor changes to your resources.
+
 ## Recommended upgrade pattern
 
 We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.
