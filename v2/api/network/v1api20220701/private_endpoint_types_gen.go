@@ -332,11 +332,6 @@ type PrivateEndpointList struct {
 	Items           []PrivateEndpoint `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2022-07-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-07-01")
-
 type PrivateEndpoint_Spec struct {
 	// ApplicationSecurityGroups: Application security groups in which the private endpoint IP configuration is included.
 	ApplicationSecurityGroups []ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded `json:"applicationSecurityGroups,omitempty"`
@@ -1651,16 +1646,6 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	// No error
 	return nil
 }
-
-// The current provisioning state.
-type ApplicationGatewayProvisioningState_STATUS string
-
-const (
-	ApplicationGatewayProvisioningState_STATUS_Deleting  = ApplicationGatewayProvisioningState_STATUS("Deleting")
-	ApplicationGatewayProvisioningState_STATUS_Failed    = ApplicationGatewayProvisioningState_STATUS("Failed")
-	ApplicationGatewayProvisioningState_STATUS_Succeeded = ApplicationGatewayProvisioningState_STATUS("Succeeded")
-	ApplicationGatewayProvisioningState_STATUS_Updating  = ApplicationGatewayProvisioningState_STATUS("Updating")
-)
 
 // An application security group in a resource group.
 type ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded struct {

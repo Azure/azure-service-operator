@@ -1,5 +1,6 @@
 github.com/Azure/azure-service-operator/v2/api/network/customizations
 ├── LoadBalancerExtension: Object (0 properties)
+├── NatGatewayExtension: Object (0 properties)
 ├── NetworkInterfaceExtension: Object (0 properties)
 ├── NetworkSecurityGroupExtension: Object (0 properties)
 ├── NetworkSecurityGroupsSecurityRuleExtension: Object (0 properties)

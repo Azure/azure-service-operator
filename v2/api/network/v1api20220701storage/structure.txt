@@ -1,6 +1,51 @@
 github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-07-01"
+├── NatGateway: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (11 properties)
+│   │   ├── AzureName: string
+│   │   ├── IdleTimeoutInMinutes: *int
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicIpAddresses: Object (2 properties)[]
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── PublicIpPrefixes: Object (2 properties)[]
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Sku: *Object (2 properties)
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Tags: map[string]string
+│   │   └── Zones: string[]
+│   └── Status: Object (16 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── IdleTimeoutInMinutes: *int
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PublicIpAddresses: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PublicIpPrefixes: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ResourceGuid: *string
+│       ├── Sku: *Object (2 properties)
+│       │   ├── Name: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Subnets: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       ├── Type: *string
+│       └── Zones: string[]
 ├── PrivateEndpoint: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (13 properties)

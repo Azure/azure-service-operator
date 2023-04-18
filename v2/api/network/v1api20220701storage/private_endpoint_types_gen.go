@@ -133,12 +133,6 @@ type PrivateEndpointList struct {
 	Items           []PrivateEndpoint `json:"items"`
 }
 
-// Storage version of v1api20220701.APIVersion
-// +kubebuilder:validation:Enum={"2022-07-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-07-01")
-
 // Storage version of v1api20220701.PrivateEndpoint_Spec
 type PrivateEndpoint_Spec struct {
 	ApplicationSecurityGroups []ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded `json:"applicationSecurityGroups,omitempty"`

@@ -13,6 +13,8 @@
 | ApplicationGatewayIPConfiguration_VirtualNetwork_SubResourceEmbedded                   |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationGatewayIPConfiguration_VirtualNetworks_Subnet_SubResourceEmbedded           |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationGatewayProvisioningState_STATUS                                             |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySubResource                                                          |               |               |               | v1api20220701 |                |                |
+| ApplicationGatewaySubResource_STATUS                                                   |               |               |               | v1api20220701 |                |                |
 | ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded                      |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationSecurityGroupSpec_NetworkSecurityGroups_SecurityRule_SubResourceEmbedded    |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded                       |               |               |               | v1api20220701 |                |                |
@@ -105,8 +107,17 @@
 | LoadBalancingRule_STATUS                                                               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | MxRecord                                                                               |               | v1api20200601 |               |               |                |                |
 | MxRecord_STATUS                                                                        |               | v1api20200601 |               |               |                |                |
+| NatGateway                                                                             |               |               |               | v1api20220701 |                |                |
+| NatGatewayPropertiesFormat                                                             |               |               |               | v1api20220701 |                |                |
+| NatGatewayPropertiesFormat_STATUS                                                      |               |               |               | v1api20220701 |                |                |
+| NatGatewaySku                                                                          |               |               |               | v1api20220701 |                |                |
+| NatGatewaySku_Name                                                                     |               |               |               | v1api20220701 |                |                |
+| NatGatewaySku_Name_STATUS                                                              |               |               |               | v1api20220701 |                |                |
+| NatGatewaySku_STATUS                                                                   |               |               |               | v1api20220701 |                |                |
 | NatGatewaySpec_PublicIPAddress_SubResourceEmbedded                                     |               |               | v1api20201101 |               |                | v1beta20201101 |
+| NatGateway_STATUS                                                                      |               |               |               | v1api20220701 |                |                |
 | NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded                                  |               |               | v1api20201101 |               |                | v1beta20201101 |
+| NatGateway_Spec                                                                        |               |               |               | v1api20220701 |                |                |
 | NetworkInterface                                                                       |               |               | v1api20201101 |               |                | v1beta20201101 |
 | NetworkInterfaceDnsSettings                                                            |               |               | v1api20201101 |               |                | v1beta20201101 |
 | NetworkInterfaceDnsSettings_STATUS                                                     |               |               | v1api20201101 |               |                | v1beta20201101 |

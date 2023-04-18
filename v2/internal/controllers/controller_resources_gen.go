@@ -471,6 +471,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworkGateway)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworksSubnet)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.VirtualNetworksVirtualNetworkPeering)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.NatGateway)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PrivateEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PrivateEndpointsPrivateDnsZoneGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PrivateLinkService)})
@@ -1079,11 +1080,13 @@ func getKnownTypes() []client.Object {
 		new(network_v1api20201101s.VirtualNetworksVirtualNetworkPeering))
 	result = append(
 		result,
+		new(network_v1api20220701.NatGateway),
 		new(network_v1api20220701.PrivateEndpoint),
 		new(network_v1api20220701.PrivateEndpointsPrivateDnsZoneGroup),
 		new(network_v1api20220701.PrivateLinkService))
 	result = append(
 		result,
+		new(network_v1api20220701s.NatGateway),
 		new(network_v1api20220701s.PrivateEndpoint),
 		new(network_v1api20220701s.PrivateEndpointsPrivateDnsZoneGroup),
 		new(network_v1api20220701s.PrivateLinkService))
@@ -1471,6 +1474,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
+	result = append(result, &network_customizations.NatGatewayExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupsSecurityRuleExtension{})
