@@ -4,13 +4,18 @@
 package v1beta20200202storage
 
 import (
+	"context"
 	"fmt"
 	v1api20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
 
@@ -61,6 +66,28 @@ func (component *Component) ConvertTo(hub conversion.Hub) error {
 	}
 
 	return component.AssignProperties_To_Component(destination)
+}
+
+var _ genruntime.KubernetesExporter = &Component{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (component *Component) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(component.Namespace)
+	if component.Spec.OperatorSpec != nil && component.Spec.OperatorSpec.ConfigMaps != nil {
+		if component.Status.ConnectionString != nil {
+			collector.AddValue(component.Spec.OperatorSpec.ConfigMaps.ConnectionString, *component.Status.ConnectionString)
+		}
+	}
+	if component.Spec.OperatorSpec != nil && component.Spec.OperatorSpec.ConfigMaps != nil {
+		if component.Status.InstrumentationKey != nil {
+			collector.AddValue(component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey, *component.Status.InstrumentationKey)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Component{}
@@ -235,18 +262,19 @@ type Component_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                       string  `json:"azureName,omitempty"`
-	DisableIpMasking                *bool   `json:"DisableIpMasking,omitempty"`
-	DisableLocalAuth                *bool   `json:"DisableLocalAuth,omitempty"`
-	Etag                            *string `json:"etag,omitempty"`
-	Flow_Type                       *string `json:"Flow_Type,omitempty"`
-	ForceCustomerStorageForProfiler *bool   `json:"ForceCustomerStorageForProfiler,omitempty"`
-	HockeyAppId                     *string `json:"HockeyAppId,omitempty"`
-	ImmediatePurgeDataOn30Days      *bool   `json:"ImmediatePurgeDataOn30Days,omitempty"`
-	IngestionMode                   *string `json:"IngestionMode,omitempty"`
-	Kind                            *string `json:"kind,omitempty"`
-	Location                        *string `json:"location,omitempty"`
-	OriginalVersion                 string  `json:"originalVersion,omitempty"`
+	AzureName                       string                 `json:"azureName,omitempty"`
+	DisableIpMasking                *bool                  `json:"DisableIpMasking,omitempty"`
+	DisableLocalAuth                *bool                  `json:"DisableLocalAuth,omitempty"`
+	Etag                            *string                `json:"etag,omitempty"`
+	Flow_Type                       *string                `json:"Flow_Type,omitempty"`
+	ForceCustomerStorageForProfiler *bool                  `json:"ForceCustomerStorageForProfiler,omitempty"`
+	HockeyAppId                     *string                `json:"HockeyAppId,omitempty"`
+	ImmediatePurgeDataOn30Days      *bool                  `json:"ImmediatePurgeDataOn30Days,omitempty"`
+	IngestionMode                   *string                `json:"IngestionMode,omitempty"`
+	Kind                            *string                `json:"kind,omitempty"`
+	Location                        *string                `json:"location,omitempty"`
+	OperatorSpec                    *ComponentOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                 string                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -374,6 +402,18 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v1
 	// Location
 	component.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ComponentOperatorSpec
+		err := operatorSpec.AssignProperties_From_ComponentOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ComponentOperatorSpec() to populate field OperatorSpec")
+		}
+		component.OperatorSpec = &operatorSpec
+	} else {
+		component.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	component.OriginalVersion = source.OriginalVersion
 
@@ -496,6 +536,18 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(component.Location)
+
+	// OperatorSpec
+	if component.OperatorSpec != nil {
+		var operatorSpec v1api20200202s.ComponentOperatorSpec
+		err := component.OperatorSpec.AssignProperties_To_ComponentOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = component.OriginalVersion
@@ -986,6 +1038,87 @@ type augmentConversionForComponent_STATUS interface {
 	AssignPropertiesTo(dst *v1api20200202s.Component_STATUS) error
 }
 
+// Storage version of v1beta20200202.ComponentOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ComponentOperatorSpec struct {
+	ConfigMaps  *ComponentOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ComponentOperatorSpec populates our ComponentOperatorSpec from the provided source ComponentOperatorSpec
+func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSpec(source *v1api20200202s.ComponentOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap ComponentOperatorConfigMaps
+		err := configMap.AssignProperties_From_ComponentOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ComponentOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForComponentOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForComponentOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ComponentOperatorSpec populates the provided destination ComponentOperatorSpec from our ComponentOperatorSpec
+func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec(destination *v1api20200202s.ComponentOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v1api20200202s.ComponentOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_ComponentOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForComponentOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForComponentOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1beta20200202.PrivateLinkScopedResource_STATUS
 // Deprecated version of PrivateLinkScopedResource_STATUS. Use v1api20200202.PrivateLinkScopedResource_STATUS instead
 type PrivateLinkScopedResource_STATUS struct {
@@ -1056,9 +1189,108 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignProperties_To_PrivateLin
 	return nil
 }
 
+type augmentConversionForComponentOperatorSpec interface {
+	AssignPropertiesFrom(src *v1api20200202s.ComponentOperatorSpec) error
+	AssignPropertiesTo(dst *v1api20200202s.ComponentOperatorSpec) error
+}
+
 type augmentConversionForPrivateLinkScopedResource_STATUS interface {
 	AssignPropertiesFrom(src *v1api20200202s.PrivateLinkScopedResource_STATUS) error
 	AssignPropertiesTo(dst *v1api20200202s.PrivateLinkScopedResource_STATUS) error
+}
+
+// Storage version of v1beta20200202.ComponentOperatorConfigMaps
+type ComponentOperatorConfigMaps struct {
+	ConnectionString   *genruntime.ConfigMapDestination `json:"connectionString,omitempty"`
+	InstrumentationKey *genruntime.ConfigMapDestination `json:"instrumentationKey,omitempty"`
+	PropertyBag        genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ComponentOperatorConfigMaps populates our ComponentOperatorConfigMaps from the provided source ComponentOperatorConfigMaps
+func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperatorConfigMaps(source *v1api20200202s.ComponentOperatorConfigMaps) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConnectionString
+	if source.ConnectionString != nil {
+		connectionString := source.ConnectionString.Copy()
+		maps.ConnectionString = &connectionString
+	} else {
+		maps.ConnectionString = nil
+	}
+
+	// InstrumentationKey
+	if source.InstrumentationKey != nil {
+		instrumentationKey := source.InstrumentationKey.Copy()
+		maps.InstrumentationKey = &instrumentationKey
+	} else {
+		maps.InstrumentationKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		maps.PropertyBag = propertyBag
+	} else {
+		maps.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForComponentOperatorConfigMaps interface (if implemented) to customize the conversion
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForComponentOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ComponentOperatorConfigMaps populates the provided destination ComponentOperatorConfigMaps from our ComponentOperatorConfigMaps
+func (maps *ComponentOperatorConfigMaps) AssignProperties_To_ComponentOperatorConfigMaps(destination *v1api20200202s.ComponentOperatorConfigMaps) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(maps.PropertyBag)
+
+	// ConnectionString
+	if maps.ConnectionString != nil {
+		connectionString := maps.ConnectionString.Copy()
+		destination.ConnectionString = &connectionString
+	} else {
+		destination.ConnectionString = nil
+	}
+
+	// InstrumentationKey
+	if maps.InstrumentationKey != nil {
+		instrumentationKey := maps.InstrumentationKey.Copy()
+		destination.InstrumentationKey = &instrumentationKey
+	} else {
+		destination.InstrumentationKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForComponentOperatorConfigMaps interface (if implemented) to customize the conversion
+	var mapsAsAny any = maps
+	if augmentedMaps, ok := mapsAsAny.(augmentConversionForComponentOperatorConfigMaps); ok {
+		err := augmentedMaps.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForComponentOperatorConfigMaps interface {
+	AssignPropertiesFrom(src *v1api20200202s.ComponentOperatorConfigMaps) error
+	AssignPropertiesTo(dst *v1api20200202s.ComponentOperatorConfigMaps) error
 }
 
 func init() {

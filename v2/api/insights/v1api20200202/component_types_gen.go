@@ -4,16 +4,21 @@
 package v1api20200202
 
 import (
+	"context"
 	"fmt"
 	v1api20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202storage"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -100,6 +105,28 @@ func (component *Component) InitializeSpec(status genruntime.ConvertibleStatus) 
 	}
 
 	return fmt.Errorf("expected Status of type Component_STATUS but received %T instead", status)
+}
+
+var _ genruntime.KubernetesExporter = &Component{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (component *Component) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(component.Namespace)
+	if component.Spec.OperatorSpec != nil && component.Spec.OperatorSpec.ConfigMaps != nil {
+		if component.Status.ConnectionString != nil {
+			collector.AddValue(component.Spec.OperatorSpec.ConfigMaps.ConnectionString, *component.Status.ConnectionString)
+		}
+	}
+	if component.Spec.OperatorSpec != nil && component.Spec.OperatorSpec.ConfigMaps != nil {
+		if component.Status.InstrumentationKey != nil {
+			collector.AddValue(component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey, *component.Status.InstrumentationKey)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Component{}
@@ -225,7 +252,7 @@ func (component *Component) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (component *Component) createValidations() []func() error {
-	return []func() error{component.validateResourceReferences}
+	return []func() error{component.validateResourceReferences, component.validateConfigMapDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -239,7 +266,26 @@ func (component *Component) updateValidations() []func(old runtime.Object) error
 		func(old runtime.Object) error {
 			return component.validateResourceReferences()
 		},
-		component.validateWriteOnceProperties}
+		component.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return component.validateConfigMapDestinations()
+		},
+	}
+}
+
+// validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations's
+func (component *Component) validateConfigMapDestinations() error {
+	if component.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if component.Spec.OperatorSpec.ConfigMaps == nil {
+		return nil
+	}
+	toValidate := []*genruntime.ConfigMapDestination{
+		component.Spec.OperatorSpec.ConfigMaps.ConnectionString,
+		component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey,
+	}
+	return genruntime.ValidateConfigMapDestinations(toValidate)
 }
 
 // validateResourceReferences validates all resource references
@@ -380,6 +426,10 @@ type Component_Spec struct {
 	// +kubebuilder:validation:Required
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ComponentOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -635,6 +685,8 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		component.Location = &location
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	component.Owner = &genruntime.KnownResourceReference{Name: owner.Name}
 
@@ -821,6 +873,18 @@ func (component *Component_Spec) AssignProperties_From_Component_Spec(source *v1
 	// Location
 	component.Location = genruntime.ClonePointerToString(source.Location)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ComponentOperatorSpec
+		err := operatorSpec.AssignProperties_From_ComponentOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ComponentOperatorSpec() to populate field OperatorSpec")
+		}
+		component.OperatorSpec = &operatorSpec
+	} else {
+		component.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -954,6 +1018,18 @@ func (component *Component_Spec) AssignProperties_To_Component_Spec(destination 
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(component.Location)
+
+	// OperatorSpec
+	if component.OperatorSpec != nil {
+		var operatorSpec v1api20200202s.ComponentOperatorSpec
+		err := component.OperatorSpec.AssignProperties_To_ComponentOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = component.OriginalVersion()
@@ -2017,6 +2093,59 @@ type ApplicationInsightsComponentProperties_Request_Source_STATUS string
 
 const ApplicationInsightsComponentProperties_Request_Source_STATUS_Rest = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ComponentOperatorSpec struct {
+	// ConfigMaps: configures where to place operator written ConfigMaps.
+	ConfigMaps *ComponentOperatorConfigMaps `json:"configMaps,omitempty"`
+}
+
+// AssignProperties_From_ComponentOperatorSpec populates our ComponentOperatorSpec from the provided source ComponentOperatorSpec
+func (operator *ComponentOperatorSpec) AssignProperties_From_ComponentOperatorSpec(source *v1api20200202s.ComponentOperatorSpec) error {
+
+	// ConfigMaps
+	if source.ConfigMaps != nil {
+		var configMap ComponentOperatorConfigMaps
+		err := configMap.AssignProperties_From_ComponentOperatorConfigMaps(source.ConfigMaps)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_ComponentOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		operator.ConfigMaps = &configMap
+	} else {
+		operator.ConfigMaps = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ComponentOperatorSpec populates the provided destination ComponentOperatorSpec from our ComponentOperatorSpec
+func (operator *ComponentOperatorSpec) AssignProperties_To_ComponentOperatorSpec(destination *v1api20200202s.ComponentOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConfigMaps
+	if operator.ConfigMaps != nil {
+		var configMap v1api20200202s.ComponentOperatorConfigMaps
+		err := operator.ConfigMaps.AssignProperties_To_ComponentOperatorConfigMaps(&configMap)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_ComponentOperatorConfigMaps() to populate field ConfigMaps")
+		}
+		destination.ConfigMaps = &configMap
+	} else {
+		destination.ConfigMaps = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS struct {
 	// ResourceId: The full resource Id of the private link scope resource.
@@ -2107,6 +2236,71 @@ const (
 	PublicNetworkAccessType_STATUS_Disabled = PublicNetworkAccessType_STATUS("Disabled")
 	PublicNetworkAccessType_STATUS_Enabled  = PublicNetworkAccessType_STATUS("Enabled")
 )
+
+type ComponentOperatorConfigMaps struct {
+	// ConnectionString: indicates where the ConnectionString config map should be placed. If omitted, no config map will be
+	// created.
+	ConnectionString *genruntime.ConfigMapDestination `json:"connectionString,omitempty"`
+
+	// InstrumentationKey: indicates where the InstrumentationKey config map should be placed. If omitted, no config map will
+	// be created.
+	InstrumentationKey *genruntime.ConfigMapDestination `json:"instrumentationKey,omitempty"`
+}
+
+// AssignProperties_From_ComponentOperatorConfigMaps populates our ComponentOperatorConfigMaps from the provided source ComponentOperatorConfigMaps
+func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperatorConfigMaps(source *v1api20200202s.ComponentOperatorConfigMaps) error {
+
+	// ConnectionString
+	if source.ConnectionString != nil {
+		connectionString := source.ConnectionString.Copy()
+		maps.ConnectionString = &connectionString
+	} else {
+		maps.ConnectionString = nil
+	}
+
+	// InstrumentationKey
+	if source.InstrumentationKey != nil {
+		instrumentationKey := source.InstrumentationKey.Copy()
+		maps.InstrumentationKey = &instrumentationKey
+	} else {
+		maps.InstrumentationKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ComponentOperatorConfigMaps populates the provided destination ComponentOperatorConfigMaps from our ComponentOperatorConfigMaps
+func (maps *ComponentOperatorConfigMaps) AssignProperties_To_ComponentOperatorConfigMaps(destination *v1api20200202s.ComponentOperatorConfigMaps) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ConnectionString
+	if maps.ConnectionString != nil {
+		connectionString := maps.ConnectionString.Copy()
+		destination.ConnectionString = &connectionString
+	} else {
+		destination.ConnectionString = nil
+	}
+
+	// InstrumentationKey
+	if maps.InstrumentationKey != nil {
+		instrumentationKey := maps.InstrumentationKey.Copy()
+		destination.InstrumentationKey = &instrumentationKey
+	} else {
+		destination.InstrumentationKey = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 func init() {
 	SchemeBuilder.Register(&Component{}, &ComponentList{})
