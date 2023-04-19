@@ -337,7 +337,7 @@ func newPostgreSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Resour
 		Name: adminSecretName,
 		Key:  adminKey,
 	}
-	tier := postgresql.Sku_Tier_Burstable
+	tier := postgresql.Sku_Tier_GeneralPurpose
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServer_Spec{
@@ -345,7 +345,7 @@ func newPostgreSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Resour
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &postgresql.Sku{
-				Name: to.Ptr("Standard_B1ms"),
+				Name: to.Ptr("Standard_D4s_v3"),
 				Tier: &tier,
 			},
 			AdministratorLogin:         to.Ptr(adminUsername),
