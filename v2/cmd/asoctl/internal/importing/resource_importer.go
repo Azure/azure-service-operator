@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -29,6 +30,7 @@ type ResourceImporter struct {
 	client    *genericarmclient.GenericClient // Client to use when talking to ARM
 	pending   map[string]ImportableResource   // A set of importers that are pending import
 	completed map[string]ImportableResource   // A set of importers that have been successfully imported
+	unique    set.Set[string]                 // A set used to ensure we don't process the same resource twice
 	queue     []string                        // Queue of names of resources to import (so we do things in a reasonable order)
 	lock      sync.Mutex                      // Lock to protect the above maps
 	log       logr.Logger                     // Logger to use for logging
@@ -47,6 +49,7 @@ func NewResourceImporter(
 		client:    client,
 		pending:   make(map[string]ImportableResource),
 		completed: make(map[string]ImportableResource),
+		unique:    set.Make[string](),
 		log:       log,
 		progress:  progress,
 		report:    newResourceImportReport(),
@@ -77,18 +80,14 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 // This allows us to call it from other methods that already have the lock
 func (ri *ResourceImporter) addImpl(importer ImportableResource) {
 	// If we've already handled this resource, skip it
-	if _, ok := ri.completed[importer.Name()]; ok {
-		return
-	}
-
-	// If we're already pending import of this resource, skip it
-	if _, ok := ri.pending[importer.Name()]; ok {
+	if ri.unique.Contains(importer.Name()) {
 		return
 	}
 
 	// Add it to our map and our queue
 	ri.queue = append(ri.queue, importer.Name())
 	ri.pending[importer.Name()] = importer
+	ri.unique.Add(importer.Name())
 }
 
 // Import imports all the resources that have been added to the importer.
