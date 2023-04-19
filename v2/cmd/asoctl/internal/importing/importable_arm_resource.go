@@ -102,8 +102,6 @@ func (i *importableARMResource) Import(ctx context.Context, bar *mpb.Bar) ([]Imp
 	rsrcType := i.armID.ResourceType.String()
 	childTypes := FindChildResourcesForResourceType(rsrcType)
 
-	// Include extension types as they can be parented by any resource
-	childTypes = append(childTypes, FindExtensionTypes()...)
 	// If we're not already looking at an extension type, look for any extensions as they can be parented by any resource
 	if !IsExtensionType(rsrcType) {
 		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeExtension)...)
