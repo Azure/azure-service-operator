@@ -9,11 +9,6 @@ on:
     paths:
       - "docs/**"
 
-  repository_dispatch:
-    types: [ok-to-test-command]
-    paths:
-      - "docs/**"
-
   merge_group:
     branches:
       - main
