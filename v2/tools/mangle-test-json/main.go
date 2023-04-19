@@ -9,12 +9,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"log"
 	"os"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/go-logr/logr"
 )
 
 type JSONFormat struct {
@@ -34,11 +34,15 @@ type TestRun struct {
 }
 
 func main() {
+	log := CreateLogger()
+
 	for _, testOutputFile := range os.Args[1:] {
-		log.Printf("Parsing  %s\n\n", testOutputFile)
+		log.Info(
+			"Parsing",
+			"file", testOutputFile)
 		fmt.Printf("# `%s`\n\n", testOutputFile)
 
-		byPackage := loadJSON(testOutputFile)
+		byPackage := loadJSON(testOutputFile, log)
 
 		packages := []string{}
 		for k, v := range byPackage {
@@ -54,7 +58,8 @@ func main() {
 		printDetails(packages, byPackage)
 		printSlowTests(byPackage)
 	}
-	log.Println("Complete.")
+
+	log.Info("Complete")
 }
 
 func min(i, j int) int {
@@ -78,10 +83,16 @@ func actionSymbol(d TestRun) string {
 	}
 }
 
-func loadJSON(testOutputFile string) map[string][]TestRun {
-	content, err := ioutil.ReadFile(testOutputFile)
+func loadJSON(
+	testOutputFile string,
+	log logr.Logger,
+) map[string][]TestRun {
+	content, err := os.ReadFile(testOutputFile)
 	if err != nil {
-		log.Fatalf("Unable to read file: %e", err)
+		log.Error(
+			err,
+			"Unable to read file",
+			"file", testOutputFile)
 	}
 
 	// Break into individual lines to make error reporting easier
@@ -94,10 +105,13 @@ func loadJSON(testOutputFile string) map[string][]TestRun {
 		err := json.Unmarshal([]byte(line), &d)
 		if err != nil {
 			// Write the line to the log so we don't lose the content
-			log.Println(line)
+			log.Info(
+				"Unable to parse",
+				"line", line)
+
 			if line != "" && !strings.HasPrefix(line, "FAIL") {
 				// It's a parse failure we care about, write details
-				logError(err, row, line)
+				logError(log, err, row, line)
 				errCount++
 			}
 
@@ -108,7 +122,9 @@ func loadJSON(testOutputFile string) map[string][]TestRun {
 	}
 
 	if errCount > 0 {
-		log.Fatalf("%d fatal error(s) parsing JSON", errCount)
+		log.Info(
+			"Errors parsing JSON",
+			"count", errCount)
 	}
 
 	// track when each test started running
@@ -308,26 +324,45 @@ func printSlowTests(byPackage map[string][]TestRun) {
 	}
 }
 
-func logError(err error, row int, line string) {
+func logError(
+	log logr.Logger,
+	err error,
+	row int,
+	line string,
+) {
+	// If syntax error, log it and return
 	var syntaxError *json.SyntaxError
 	if errors.As(err, &syntaxError) {
-		log.Printf(
-			"Syntax error parsing JSON on line %d at column %d: %s (line: %q)",
-			row,
-			syntaxError.Offset,
-			syntaxError.Error(),
-			line)
+		log.Error(
+			err,
+			"Syntax error parsing JSON",
+			"row", row,
+			"column", syntaxError.Offset,
+			"line", line,
+		)
+
+		return
 	}
 
+	// If unmarshal type error, log it and return
 	var unmarshalError *json.UnmarshalTypeError
 	if errors.As(err, &unmarshalError) {
-		log.Printf(
-			"Unmarshal type error parsing JSON on line %d at column %d: %s (near: %q)",
-			row,
-			unmarshalError.Offset,
-			unmarshalError.Error(),
-			line)
+		log.Error(
+			err,
+			"Unmarshal type error parsing JSON",
+			"row", row,
+			"column", unmarshalError.Offset,
+			"line", line,
+		)
+
+		return
 	}
 
-	log.Printf("Unexpected error parsing JSON: %s", err)
+	// Otherwise unknown error, log it and return
+	log.Error(
+		err,
+		"Unexpected error parsing JSON",
+		"row", row,
+		"line", line,
+	)
 }
