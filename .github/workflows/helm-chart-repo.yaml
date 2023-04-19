@@ -31,7 +31,7 @@ jobs:
           echo "sha=$(git rev-parse HEAD)" >> $GITHUB_ENV
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@c2800a3a9edbba2218da6861fa46496cf8f3195a # Pinned to 2.2.0
+        uses: peterjgrainger/action-create-branch@v2.3.0 # Pinned to v2.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:

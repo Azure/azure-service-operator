@@ -13,7 +13,7 @@ jobs:
           ref: main
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@b48b0ca0e307c9b56f059b70274984ffeaa90a43 # Pinned to v2.0.1
+        uses: peterjgrainger/action-create-branch@v2.3.0 # Pinned to v2.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:
