@@ -38,7 +38,7 @@ jobs:
       - name: Build & push Devcontainer image 
         uses: docker/build-push-action@v4
         with:
-          context: .devcontainer
+          context: "{{defaultContext}}:.devcontainer"
           push: true
           # Build an image usable as cache-from, per: https://docs.docker.com/engine/reference/commandline/build/#specifying-external-cache-sources
           build-args: BUILDKIT_INLINE_CACHE=1
