@@ -7,10 +7,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/Azure/azure-service-operator/api"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+
+	"github.com/Azure/azure-service-operator/api"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1beta1"
@@ -55,7 +56,7 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 		return true, nil
 	}
 
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(fg.Creds)
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(azuresqlshared.GetSubscriptionCredentials(fg.Creds, instance.Spec.SubscriptionID))
 	if err != nil {
 		return false, errors.Wrapf(err, "failed to create failovergroup client")
 	}
@@ -122,7 +123,13 @@ func (fg *AzureSqlFailoverGroupManager) Ensure(ctx context.Context, obj runtime.
 	// We need to reconcile as our state didn't match Azure
 	instance.Status.SetProvisioning("")
 
-	future, err := fg.CreateOrUpdateFailoverGroup(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, failoverGroupName, failoverGroupProperties)
+	future, err := fg.CreateOrUpdateFailoverGroup(
+		ctx,
+		instance.Spec.SubscriptionID,
+		instance.Spec.ResourceGroup,
+		instance.Spec.Server,
+		failoverGroupName,
+		failoverGroupProperties)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		allowedErrors := []string{
@@ -166,7 +173,7 @@ func (fg *AzureSqlFailoverGroupManager) Delete(ctx context.Context, obj runtime.
 	// key for Secret to delete on successful provision
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
 
-	_, err = fg.DeleteFailoverGroup(ctx, groupName, serverName, failoverGroupName)
+	_, err = fg.DeleteFailoverGroup(ctx, instance.Spec.SubscriptionID, groupName, serverName, failoverGroupName)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureError(err)

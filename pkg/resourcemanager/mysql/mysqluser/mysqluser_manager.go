@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
 
-//MySQLUser interface provides the functions of mySQLUser
+// MySQLUser interface provides the functions of mySQLUser
 type MySQLUser interface {
 	GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (mysql.Database, error)
 	ConnectToMySqlDb(ctx context.Context, drivername string, server string, dbname string, port int, username string, password string) (*sql.DB, error)

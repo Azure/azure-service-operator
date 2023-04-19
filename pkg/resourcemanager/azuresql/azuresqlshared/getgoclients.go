@@ -4,9 +4,10 @@
 package azuresqlshared
 
 import (
-	network "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
+	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
@@ -72,8 +73,8 @@ func GetGoVNetRulesClient(creds config.Credentials) (sql.VirtualNetworkRulesClie
 }
 
 // GetNetworkSubnetClient retrieves a Subnetclient
-func GetGoNetworkSubnetClient(creds config.Credentials, subscription string) (network.SubnetsClient, error) {
-	subnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), subscription)
+func GetGoNetworkSubnetClient(creds config.Credentials) (network.SubnetsClient, error) {
+	subnetsClient := network.NewSubnetsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer(creds)
 	if err != nil {
 		return network.SubnetsClient{}, err
@@ -105,4 +106,12 @@ func GetBackupShortTermRetentionPoliciesClient(creds config.Credentials) (sql3.B
 	backupClient.Authorizer = a
 	backupClient.AddToUserAgent(config.UserAgent())
 	return backupClient, nil
+}
+
+func GetSubscriptionCredentials(creds config.Credentials, subscriptionID string) config.Credentials {
+	if subscriptionID == "" {
+		return creds
+	}
+
+	return creds.WithSubscriptionID(subscriptionID)
 }

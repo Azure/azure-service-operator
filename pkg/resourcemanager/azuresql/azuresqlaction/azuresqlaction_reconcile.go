@@ -32,6 +32,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 	var userSecretClient secrets.SecretClient
 	serverName := instance.Spec.ServerName
 	groupName := instance.Spec.ResourceGroup
+	subscriptionID := instance.Spec.SubscriptionID
 
 	if strings.ToLower(instance.Spec.ActionName) == "rolladmincreds" {
 		if !instance.Status.Provisioned {
@@ -62,7 +63,7 @@ func (s *AzureSqlActionManager) Ensure(ctx context.Context, obj runtime.Object, 
 			}
 
 			// Roll SQL server's admin password
-			err := s.UpdateAdminPassword(ctx, groupName, serverName, adminSecretKey, adminSecretClient)
+			err := s.UpdateAdminPassword(ctx, subscriptionID, groupName, serverName, adminSecretKey, adminSecretClient)
 			if err != nil {
 				instance.Status.Message = err.Error()
 				catch := []string{
