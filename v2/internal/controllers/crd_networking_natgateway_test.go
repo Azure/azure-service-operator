@@ -40,8 +40,6 @@ func Test_Networking_NatGateway_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.ExportAsSample(natgw)
-
 	tc.CreateResourcesAndWait(publicIPAddress, natgw)
 
 	tc.Expect(publicIPAddress.Status.Id).ToNot(BeNil())
