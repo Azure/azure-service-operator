@@ -1,5 +1,5 @@
 ---
-title: '2023-04: Resource Deprecation'
+title: '2023-04: Azure Resource Deprecation'
 ---
 
 ## Context
