@@ -4,11 +4,16 @@
 package v1api20200202storage
 
 import (
+	"context"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // +kubebuilder:rbac:groups=insights.azure.com,resources=components,verbs=get;list;watch;create;update;patch;delete
@@ -42,6 +47,28 @@ func (component *Component) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (component *Component) SetConditions(conditions conditions.Conditions) {
 	component.Status.Conditions = conditions
+}
+
+var _ genruntime.KubernetesExporter = &Component{}
+
+// ExportKubernetesResources defines a resource which can create other resources in Kubernetes.
+func (component *Component) ExportKubernetesResources(_ context.Context, _ genruntime.MetaObject, _ *genericarmclient.GenericClient, _ logr.Logger) ([]client.Object, error) {
+	collector := configmaps.NewCollector(component.Namespace)
+	if component.Spec.OperatorSpec != nil && component.Spec.OperatorSpec.ConfigMaps != nil {
+		if component.Status.ConnectionString != nil {
+			collector.AddValue(component.Spec.OperatorSpec.ConfigMaps.ConnectionString, *component.Status.ConnectionString)
+		}
+	}
+	if component.Spec.OperatorSpec != nil && component.Spec.OperatorSpec.ConfigMaps != nil {
+		if component.Status.InstrumentationKey != nil {
+			collector.AddValue(component.Spec.OperatorSpec.ConfigMaps.InstrumentationKey, *component.Status.InstrumentationKey)
+		}
+	}
+	result, err := collector.Values()
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.SliceToClientObjectSlice(result), nil
 }
 
 var _ genruntime.KubernetesResource = &Component{}
@@ -145,18 +172,19 @@ type Component_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                       string  `json:"azureName,omitempty"`
-	DisableIpMasking                *bool   `json:"DisableIpMasking,omitempty"`
-	DisableLocalAuth                *bool   `json:"DisableLocalAuth,omitempty"`
-	Etag                            *string `json:"etag,omitempty"`
-	Flow_Type                       *string `json:"Flow_Type,omitempty"`
-	ForceCustomerStorageForProfiler *bool   `json:"ForceCustomerStorageForProfiler,omitempty"`
-	HockeyAppId                     *string `json:"HockeyAppId,omitempty"`
-	ImmediatePurgeDataOn30Days      *bool   `json:"ImmediatePurgeDataOn30Days,omitempty"`
-	IngestionMode                   *string `json:"IngestionMode,omitempty"`
-	Kind                            *string `json:"kind,omitempty"`
-	Location                        *string `json:"location,omitempty"`
-	OriginalVersion                 string  `json:"originalVersion,omitempty"`
+	AzureName                       string                 `json:"azureName,omitempty"`
+	DisableIpMasking                *bool                  `json:"DisableIpMasking,omitempty"`
+	DisableLocalAuth                *bool                  `json:"DisableLocalAuth,omitempty"`
+	Etag                            *string                `json:"etag,omitempty"`
+	Flow_Type                       *string                `json:"Flow_Type,omitempty"`
+	ForceCustomerStorageForProfiler *bool                  `json:"ForceCustomerStorageForProfiler,omitempty"`
+	HockeyAppId                     *string                `json:"HockeyAppId,omitempty"`
+	ImmediatePurgeDataOn30Days      *bool                  `json:"ImmediatePurgeDataOn30Days,omitempty"`
+	IngestionMode                   *string                `json:"IngestionMode,omitempty"`
+	Kind                            *string                `json:"kind,omitempty"`
+	Location                        *string                `json:"location,omitempty"`
+	OperatorSpec                    *ComponentOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion                 string                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -254,12 +282,26 @@ func (component *Component_STATUS) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(component)
 }
 
+// Storage version of v1api20200202.ComponentOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ComponentOperatorSpec struct {
+	ConfigMaps  *ComponentOperatorConfigMaps `json:"configMaps,omitempty"`
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1api20200202.PrivateLinkScopedResource_STATUS
 // The private link scope resource reference.
 type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"ResourceId,omitempty"`
 	ScopeId     *string                `json:"ScopeId,omitempty"`
+}
+
+// Storage version of v1api20200202.ComponentOperatorConfigMaps
+type ComponentOperatorConfigMaps struct {
+	ConnectionString   *genruntime.ConfigMapDestination `json:"connectionString,omitempty"`
+	InstrumentationKey *genruntime.ConfigMapDestination `json:"instrumentationKey,omitempty"`
+	PropertyBag        genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 }
 
 func init() {
