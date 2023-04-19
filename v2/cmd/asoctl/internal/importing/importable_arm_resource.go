@@ -41,7 +41,8 @@ type importableARMResource struct {
 var _ ImportableResource = &importableARMResource{}
 
 // NewImportableARMResource creates a new importable ARM resource
-// ARMID is the ARM ID of the resource to import.
+// id is the ARM ID of the resource to import.
+// owner is the resource that owns this resource (if any).
 // client is the client to use to talk to ARM.
 // scheme is the scheme to use to create the resource.
 func NewImportableARMResource(
@@ -50,7 +51,7 @@ func NewImportableARMResource(
 	client *genericarmclient.GenericClient,
 	scheme *runtime.Scheme,
 ) (ImportableResource, error) {
-	// Parse ARMID into a more useful form
+	// Parse id into a more useful form
 	armID, err := arm.ParseResourceID(id)
 	if err != nil {
 		return nil, err // arm.ParseResourceID already returns a good error, no need to wrap
@@ -150,7 +151,7 @@ func (i *importableARMResource) importResource(
 		return genruntime.ResourceReference{}, err
 	}
 
-	if because, skpped := result.Skipped(); skpped {
+	if because, skipped := result.Skipped(); skipped {
 		gk := importable.GetObjectKind().GroupVersionKind().GroupKind()
 		return genruntime.ResourceReference{}, NewImportSkippedError(gk, id.Name, because)
 	}
@@ -451,7 +452,7 @@ func (i *importableARMResource) groupKindFromID(id *arm.ResourceID) (schema.Grou
 	return gk, nil
 }
 
-// createContainerURI creates the URI for a subcontainer of a resource
+// createContainerURI creates the URI for a sub-container of a resource
 // id is the ARM ID of the parent resource
 // subType is the type of the subresource, e.g. "Microsoft.Network/virtualNetworks/subnets"
 func (i *importableARMResource) createContainerURI(id *arm.ResourceID, subType string) string {
@@ -470,7 +471,7 @@ func (i *importableARMResource) SetName(
 	name string,
 	owner genruntime.ResourceReference,
 ) {
-	// Kubernetes names are prefixed with the owner name to avoid collisions
+	// Kubernetes' names are prefixed with the owner name to avoid collisions
 	n := name
 	if owner.Name != "" {
 		n = fmt.Sprintf("%s-%s", owner.Name, name)
