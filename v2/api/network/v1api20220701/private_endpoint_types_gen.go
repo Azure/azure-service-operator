@@ -332,11 +332,6 @@ type PrivateEndpointList struct {
 	Items           []PrivateEndpoint `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2022-07-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-07-01")
-
 type PrivateEndpoint_Spec struct {
 	// ApplicationSecurityGroups: Application security groups in which the private endpoint IP configuration is included.
 	ApplicationSecurityGroups []ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded `json:"applicationSecurityGroups,omitempty"`

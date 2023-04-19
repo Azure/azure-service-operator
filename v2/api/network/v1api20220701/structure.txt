@@ -1,6 +1,113 @@
 github.com/Azure/azure-service-operator/v2/api/network/v1api20220701
 ├── APIVersion: Enum (1 value)
 │   └── "2022-07-01"
+├── BastionHost: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (13 properties)
+│   │   ├── AzureName: string
+│   │   ├── DisableCopyPaste: *bool
+│   │   ├── DnsName: *string
+│   │   ├── EnableFileCopy: *bool
+│   │   ├── EnableIpConnect: *bool
+│   │   ├── EnableShareableLink: *bool
+│   │   ├── EnableTunneling: *bool
+│   │   ├── IpConfigurations: Object (4 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── PrivateIPAllocationMethod: *Enum (2 values)
+│   │   │   │   ├── "Dynamic"
+│   │   │   │   └── "Static"
+│   │   │   ├── PublicIPAddress: *Object (1 property)
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── Subnet: *Object (1 property)
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── ScaleUnits: Validated<*int> (2 rules)
+│   │   │   ├── Rule 0: Maximum: 50
+│   │   │   └── Rule 1: Minimum: 2
+│   │   ├── Sku: *Object (1 property)
+│   │   │   └── Name: *Enum (2 values)
+│   │   │       ├── "Basic"
+│   │   │       └── "Standard"
+│   │   └── Tags: map[string]string
+│   └── Status: Object (17 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── DisableCopyPaste: *bool
+│       ├── DnsName: *string
+│       ├── EnableFileCopy: *bool
+│       ├── EnableIpConnect: *bool
+│       ├── EnableShareableLink: *bool
+│       ├── EnableTunneling: *bool
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── IpConfigurations: Object (1 property)[]
+│       │   └── Id: *string
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── ProvisioningState: *Enum (4 values)
+│       │   ├── "Deleting"
+│       │   ├── "Failed"
+│       │   ├── "Succeeded"
+│       │   └── "Updating"
+│       ├── ScaleUnits: *int
+│       ├── Sku: *Object (1 property)
+│       │   └── Name: *Enum (2 values)
+│       │       ├── "Basic"
+│       │       └── "Standard"
+│       ├── Tags: map[string]string
+│       └── Type: *string
+├── BastionHost_STATUS_ARM: Object (8 properties)
+│   ├── Etag: *string
+│   ├── Id: *string
+│   ├── Location: *string
+│   ├── Name: *string
+│   ├── Properties: *Object (9 properties)
+│   │   ├── DisableCopyPaste: *bool
+│   │   ├── DnsName: *string
+│   │   ├── EnableFileCopy: *bool
+│   │   ├── EnableIpConnect: *bool
+│   │   ├── EnableShareableLink: *bool
+│   │   ├── EnableTunneling: *bool
+│   │   ├── IpConfigurations: Object (1 property)[]
+│   │   │   └── Id: *string
+│   │   ├── ProvisioningState: *Enum (4 values)
+│   │   │   ├── "Deleting"
+│   │   │   ├── "Failed"
+│   │   │   ├── "Succeeded"
+│   │   │   └── "Updating"
+│   │   └── ScaleUnits: *int
+│   ├── Sku: *Object (1 property)
+│   │   └── Name: *Enum (2 values)
+│   │       ├── "Basic"
+│   │       └── "Standard"
+│   ├── Tags: map[string]string
+│   └── Type: *string
+├── BastionHost_Spec_ARM: Object (5 properties)
+│   ├── Location: *string
+│   ├── Name: string
+│   ├── Properties: *Object (8 properties)
+│   │   ├── DisableCopyPaste: *bool
+│   │   ├── DnsName: *string
+│   │   ├── EnableFileCopy: *bool
+│   │   ├── EnableIpConnect: *bool
+│   │   ├── EnableShareableLink: *bool
+│   │   ├── EnableTunneling: *bool
+│   │   ├── IpConfigurations: Object (2 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   └── Properties: *Object (3 properties)
+│   │   │       ├── PrivateIPAllocationMethod: *Enum (2 values)
+│   │   │       │   ├── "Dynamic"
+│   │   │       │   └── "Static"
+│   │   │       ├── PublicIPAddress: *Object (1 property)
+│   │   │       │   └── Id: *string
+│   │   │       └── Subnet: *Object (1 property)
+│   │   │           └── Id: *string
+│   │   └── ScaleUnits: *int
+│   ├── Sku: *Object (1 property)
+│   │   └── Name: *Enum (2 values)
+│   │       ├── "Basic"
+│   │       └── "Standard"
+│   └── Tags: map[string]string
 ├── PrivateEndpoint: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (11 properties)

@@ -1325,6 +1325,13 @@ objectModelConfiguration:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
     2022-07-01:
+      BastionHost:
+        # This technically supports 2022-09-01 API version too, but it's identical to the 2022-07-01 version
+        # so limiting proliferation of APIVersions and using 2022-07-01 for it
+        $export: true
+        $supportedFrom: v2.1.0
+      BastionHostIPConfiguration:
+        $resourceEmbeddedInParent: BastionHost
       PrivateEndpoint:
         $export: true
         $supportedFrom: v2.0.0
