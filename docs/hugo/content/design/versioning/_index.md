@@ -35,11 +35,11 @@ Unlike the typical situation with a hand written service operator, we don't have
 
 There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform as a synthetic ARM style API evolves over time.
 
-The [**Chained Versions**](case-studies/chained-storage-versions/) case study shows how the preferred solution adapts to changes as the API is modified.
+The [**Chained Versions**](../case-studies/chained-storage-versions/) case study shows how the preferred solution adapts to changes as the API is modified.
 
-The [**Rolling Versions**](case-studies/rolling-storage-versions/) case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.
+The [**Rolling Versions**](../case-studies/rolling-storage-versions/) case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.
 
-The [**Fixed Version**](case-studies/fixed-storage-version/) case study shows how a popular alternative would fare, calling out some specific problems that will occur.
+The [**Fixed Version**](../case-studies/fixed-storage-version/) case study shows how a popular alternative would fare, calling out some specific problems that will occur.
 
 **TL;DR:** Using a *fixed storage version* appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. While there is up front complexity to address with *chained storage versions*, the approach doesn't break down over time and we can generate useful automated tests for verification. The *rolling storage version* approach is viable, but requires additional ongoing maintenance when manual conversions are introduced between versions.
 
@@ -315,7 +315,7 @@ The "v1" storage version of each supported resource type will be created by merg
 
 To maintain backward compatibility as Azure APIs evolve over time, we will include properties across all versions of the API, even for versions we are not currently generating as output. This ensures that properties in use by older APIs are still present and available for forward conversion to newer APIs, even as those older APIs age out of use.
 
-This approach has a number of issues that are called out in detail in the [fixed storage version case study](/design/case-studies/case-study-fixed-storage-version/).
+This approach has a number of issues that are called out in detail in the [fixed storage version case study](./case-studies/fixed-storage-version/).
 
 **Property Bloat**: As our API evolves over time, our storage version is accumulating all the properties that have ever existed, bloating the storage version with obsolete properties that are seldom (if ever) used. Even properties that only ever existed on a single preview release of an ARM API need to be correctly managed for the lifetime of the service operator.
 

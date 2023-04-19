@@ -1,12 +1,8 @@
 ---
-title: "Breaking Changes"
-linkTitle: "Breaking Changes"
+title: "v2.0.0-beta.4 Breaking Changes"
+linkTitle: "v2.0.0-beta.4"
+weight: 100
 ---
-
-We go to great lengths to avoid breaking changes as much as possible. However, they do occasionally occur. This page lists the breaking changes that have occurred in the past.
-
-## December 2022 - beta.4
-
 In the `beta.4` release of Azure Service Operator (ASO) we are pivoting to using Azure Swagger API Specifications as the sole source of truth for our code generator. This change brings with it a significant improvement in fidelity - the code we generate is now much closer to what the Azure Swagger API Specifications describe.
 
 Unfortunately, this change also brings with it a number of breaking changes.
@@ -24,7 +20,7 @@ The process to follow is as follows:
 1. Annotate the resource with `serviceoperator.azure.com/reconcile-policy: skip` to prevent ASO from trying to reconcile the resource while you are upgrading.
 2. Download the current YAML for the resource using `kubectl` if you don't have it elsewhere.
 3. Delete the resource from your cluster using `kubectl delete`. Your Azure resource will be left untouched because of the `reconcile-policy` annotation you added above.
-4. [Upgrade ASO](https://azure.github.io/azure-service-operator/guide/upgrading/) in your cluster.
+4. [Upgrade ASO](../../upgrading) in your cluster.
 5. Modify the YAML for your resource to address the breaking changes noted below.
 6. Apply the updated YAML to your cluster using `kubectl apply`. If any errors occur, address them.
 7. If the `reconcile-policy` annotation is still present, remove the it from the resource.
