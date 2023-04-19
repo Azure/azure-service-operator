@@ -24,7 +24,7 @@ jobs:
         id: devcontainer
         run: |
           docker build --tag devcontainer:latest .devcontainer
-          mkdir -p $HOME/.docker # in case it doesn’t exist
+          mkdir -p $HOME/.docker # in case it doesn't exist
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
           echo "container_id=$container_id" >> $GITHUB_ENV

@@ -38,6 +38,7 @@ jobs:
       - name: Build & push Devcontainer image 
         uses: docker/build-push-action@v4
         with:
+          # This context means the action does its own checkout of the repo
           context: "{{defaultContext}}:.devcontainer"
           push: true
           # Build an image usable as cache-from, per: https://docs.docker.com/engine/reference/commandline/build/#specifying-external-cache-sources
