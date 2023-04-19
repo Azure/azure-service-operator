@@ -91,11 +91,11 @@ interactions:
           "version": "2018-06-01",
           "publicNetworkAccess": "Enabled"
         },
-        "eTag": "\"050041ff-0000-0200-0000-643db9ad0000\"",
+        "eTag": "\"0600f72f-0000-0200-0000-64407a430000\"",
         "location": "eastus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "2c0493de-7187-4f97-9544-0ab7d17dbe4e",
+          "principalId": "77fcaf68-04b1-478b-bc33-13e487400948",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {}
@@ -148,11 +148,11 @@ interactions:
           },
           "publicNetworkAccess": "Enabled"
         },
-        "eTag": "\"050041ff-0000-0200-0000-643db9ad0000\"",
+        "eTag": "\"0600f72f-0000-0200-0000-64407a430000\"",
         "location": "eastus2",
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "2c0493de-7187-4f97-9544-0ab7d17dbe4e",
+          "principalId": "77fcaf68-04b1-478b-bc33-13e487400948",
           "tenantId": "00000000-0000-0000-0000-000000000000"
         },
         "tags": {}
