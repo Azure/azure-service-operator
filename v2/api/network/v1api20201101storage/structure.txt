@@ -1059,4 +1059,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage
 │       ├── Type: *string
 │       └── UseRemoteGateways: *bool
 ├── augmentConversionForExtendedLocation: Interface
-└── augmentConversionForExtendedLocation_STATUS: Interface
+├── augmentConversionForExtendedLocation_STATUS: Interface
+├── augmentConversionForIpTag: Interface
+└── augmentConversionForIpTag_STATUS: Interface

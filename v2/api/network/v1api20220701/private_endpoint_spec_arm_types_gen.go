@@ -37,15 +37,6 @@ func (endpoint *PrivateEndpoint_Spec_ARM) GetType() string {
 	return "Microsoft.Network/privateEndpoints"
 }
 
-// ExtendedLocation complex type.
-type ExtendedLocation_ARM struct {
-	// Name: The name of the extended location.
-	Name *string `json:"name,omitempty"`
-
-	// Type: The type of the extended location.
-	Type *ExtendedLocationType `json:"type,omitempty"`
-}
-
 // Properties of the private endpoint.
 type PrivateEndpointProperties_ARM struct {
 	// ApplicationSecurityGroups: Application security groups in which the private endpoint IP configuration is included.
@@ -73,12 +64,6 @@ type PrivateEndpointProperties_ARM struct {
 type ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded_ARM struct {
 	Id *string `json:"id,omitempty"`
 }
-
-// The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
-// +kubebuilder:validation:Enum={"EdgeZone"}
-type ExtendedLocationType string
-
-const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // An IP Configuration of the private endpoint.
 type PrivateEndpointIPConfiguration_ARM struct {
