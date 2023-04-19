@@ -9,9 +9,9 @@ Ensure that you have carefully reviewed the upgrade instructions included in the
 
 ### Caution
 
-If upgrading to **v2.0.0**, carefully review [v2.0.0 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0.md), especially the section on using [`asoctl clean crds`](../../../tools/asoctl.md#clean-crds).
+If upgrading to **v2.0.0**, carefully review [v2.0.0 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0), especially the section on using [`asoctl clean crds`](./../../tools/asoctl#clean-crds).
 
-If upgrading to **v2.0.0-beta.4**, carefully review [v2.0.0-beta.4 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0-beta.4.md), you may need to make some minor changes to your resources.
+If upgrading to **v2.0.0-beta.4**, carefully review [v2.0.0-beta.4 Breaking Changes](../breaking-changes/breaking-changes-v2.0.0-beta.4), you may need to make some minor changes to your resources.
 
 ## Recommended upgrade pattern
 
