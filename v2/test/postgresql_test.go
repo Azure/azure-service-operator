@@ -280,7 +280,7 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 func Test_PostgreSQL_User(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
-
+	tc.AzureRegion = to.Ptr("australiaeast")
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminUsername := "myadmin"
