@@ -116,14 +116,12 @@ func DatabaseExists(ctx context.Context, db *sql.DB, dbName string) (bool, error
 
 // RoleExists checks if db contains role
 func RoleExists(ctx context.Context, db *sql.DB, rolname string) (bool, error) {
-
 	res, err := db.ExecContext(ctx, "SELECT * FROM pg_roles WHERE rolname = $1", rolname)
 	if err != nil {
 		return false, err
 	}
 	rows, err := res.RowsAffected()
 	return rows > 0, err
-
 }
 
 // Use this type only for user, which are already checked

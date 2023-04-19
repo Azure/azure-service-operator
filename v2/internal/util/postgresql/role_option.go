@@ -21,7 +21,10 @@ type SQLRoleOptionDelta struct {
 	ChangedRoleOptions set.Set[RoleOption]
 }
 
-type RoleOptionsSpec struct {
+// RoleOptions PostgreSQL role options but without SuperUser or BypassRLS here,
+// because they are only settable with an existing a superuser
+// Azure Flexible server does not offer superuser access for customers
+type RoleOptions struct {
 
 	// WITH LOGIN or NOLOGIN
 	Login bool
@@ -36,7 +39,7 @@ type RoleOptionsSpec struct {
 	Replication bool
 }
 
-func DiffCurrentAndExpectedSQLRoleOptions(currentRoleOptions RoleOptionsSpec, expectedRoleOptions RoleOptionsSpec) SQLRoleOptionDelta {
+func DiffCurrentAndExpectedSQLRoleOptions(currentRoleOptions RoleOptions, expectedRoleOptions RoleOptions) SQLRoleOptionDelta {
 	result := SQLRoleOptionDelta{
 		ChangedRoleOptions: set.Make[RoleOption](),
 	}
@@ -72,10 +75,10 @@ func DiffCurrentAndExpectedSQLRoleOptions(currentRoleOptions RoleOptionsSpec, ex
 }
 
 // GetUserRoleOptions gets the server-level RoleOptions the user has as a set.
-func GetUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser) (*RoleOptionsSpec, error) {
-
+func GetUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser) (*RoleOptions, error) {
 	// Note: This query returns always all options which the enabled or disabled key
 	// https://www.postgresql.org/docs/current/sql-alterrole.html
+	// Exclude roles which start with 'pg_' as these are system roles we don't manage
 	rows, err := db.QueryContext(
 		ctx,
 		"SELECT rolcanlogin, rolcreaterole, rolcreatedb, rolreplication FROM pg_roles WHERE rolname !~ '^pg_' AND rolname = $1",
@@ -85,7 +88,7 @@ func GetUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser) (*RoleOpt
 	}
 	defer rows.Close()
 
-	result := new(RoleOptionsSpec)
+	result := new(RoleOptions)
 
 	for rows.Next() {
 		err := rows.Scan(&result.Login, &result.CreateRole, &result.CreateDb, &result.Replication)
@@ -95,7 +98,7 @@ func GetUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser) (*RoleOpt
 		//No error handling required here, as sql returns already defined constants
 	}
 	if rows.Err() != nil {
-		return nil, errors.Wrapf(rows.Err(), "iterating RoleOptions")
+		return nil, errors.Wrap(rows.Err(), "iterating RoleOptions")
 	}
 
 	return result, nil
@@ -103,7 +106,7 @@ func GetUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser) (*RoleOpt
 
 // ReconcileUserRoleOptions revokes and grants server-level role options as
 // needed so the role options for the user match those passed in.
-func ReconcileUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser, desiredOptions RoleOptionsSpec) error {
+func ReconcileUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser, desiredOptions RoleOptions) error {
 	var errs []error
 	currentOptions, err := GetUserRoleOptions(ctx, db, user)
 	if err != nil {
@@ -124,9 +127,6 @@ func ReconcileUserRoleOptions(ctx context.Context, db *sql.DB, user SQLUser, des
 }
 
 func setRoleOptions(ctx context.Context, db *sql.DB, user SQLUser, options set.Set[RoleOption]) error {
-	if options.Contains(UnknownRoleOption) {
-		options.Remove(UnknownRoleOption)
-	}
 	if len(options) == 0 {
 		// Nothing to do
 		return nil
@@ -134,7 +134,7 @@ func setRoleOptions(ctx context.Context, db *sql.DB, user SQLUser, options set.S
 	optionsValues := options.Values()
 	values := make([]string, len(optionsValues))
 	for i, e := range optionsValues {
-		values[i] = e.slug
+		values[i] = string(e)
 	}
 	toChange := strings.Join(values, " ")
 	_, err := db.ExecContext(ctx, fmt.Sprintf("ALTER ROLE \"%s\"  WITH %s", user.Name, toChange))
@@ -142,42 +142,16 @@ func setRoleOptions(ctx context.Context, db *sql.DB, user SQLUser, options set.S
 	return err
 }
 
-type RoleOption struct {
-	slug string
-}
+type RoleOption string
 
 // see https://www.postgresql.org/docs/current/sql-createrole.html
 var (
-	UnknownRoleOption = RoleOption{""}
-	Login             = RoleOption{"LOGIN"}
-	CreateRole        = RoleOption{"CREATEROLE"}
-	CreateDb          = RoleOption{"CREATEDB"}
-	Replication       = RoleOption{"REPLICATION"}
-	NoLogin           = RoleOption{"NOLOGIN"}
-	NoCreateRole      = RoleOption{"NOCREATEROLE"}
-	NoCreateDb        = RoleOption{"NOCREATEDB"}
-	NoReplication     = RoleOption{"NOREPLICATION"}
+	Login         = RoleOption("LOGIN")
+	CreateRole    = RoleOption("CREATEROLE")
+	CreateDb      = RoleOption("CREATEDB")
+	Replication   = RoleOption("REPLICATION")
+	NoLogin       = RoleOption("NOLOGIN")
+	NoCreateRole  = RoleOption("NOCREATEROLE")
+	NoCreateDb    = RoleOption("NOCREATEDB")
+	NoReplication = RoleOption("NOREPLICATION")
 )
-
-func FromRoleOptionString(s string) (RoleOption, error) {
-	upperCaseName := strings.ToUpper(s)
-	switch upperCaseName {
-	case Login.slug:
-		return Login, nil
-	case CreateRole.slug:
-		return CreateRole, nil
-	case CreateDb.slug:
-		return CreateDb, nil
-	case Replication.slug:
-		return Replication, nil
-	case NoLogin.slug:
-		return NoLogin, nil
-	case NoCreateRole.slug:
-		return NoCreateRole, nil
-	case NoCreateDb.slug:
-		return NoCreateDb, nil
-	case NoReplication.slug:
-		return NoReplication, nil
-	}
-	return UnknownRoleOption, errors.New("unknown option: " + s)
-}

@@ -45,7 +45,7 @@ func DiffCurrentAndExpectedSQLRoles(currentRoles set.Set[string], expectedRoles 
 	return result
 }
 
-// GetUserServerRoles gets the server-level Roles the user has as a set.
+// GetUserServerRoles gets the server-level roles the user has as a set.
 func GetUserServerRoles(ctx context.Context, db *sql.DB, user SQLUser) (set.Set[string], error) {
 
 	rows, err := db.QueryContext(
@@ -62,27 +62,27 @@ func GetUserServerRoles(ctx context.Context, db *sql.DB, user SQLUser) (set.Set[
 		var row string
 		err := rows.Scan(&row)
 		if err != nil {
-			return nil, errors.Wrapf(err, "extracting Role field")
+			return nil, errors.Wrapf(err, "extracting role field")
 		}
 
 		result.Add(row)
 	}
 	if rows.Err() != nil {
-		return nil, errors.Wrapf(rows.Err(), "iterating Roles")
+		return nil, errors.Wrapf(rows.Err(), "iterating roles")
 	}
 
 	return result, nil
 }
 
-// ReconcileUserServerRoles revokes and grants server-level Roles as
-// needed so the Roles for the user match those passed in.
-func ReconcileUserServerRoles(ctx context.Context, db *sql.DB, user SQLUser, Roles []string) error {
+// ReconcileUserServerRoles revokes and grants server-level roles as
+// needed so the roles for the user match those passed in.
+func ReconcileUserServerRoles(ctx context.Context, db *sql.DB, user SQLUser, roles []string) error {
 	var errs []error
-	desiredRoles := set.Make[string](Roles...)
+	desiredRoles := set.Make[string](roles...)
 
 	currentRoles, err := GetUserServerRoles(ctx, db, user)
 	if err != nil {
-		return errors.Wrapf(err, "couldn't get existing Roles for user %s", user)
+		return errors.Wrapf(err, "couldn't get existing roles for user %s", user)
 	}
 
 	privsDiff := DiffCurrentAndExpectedSQLRoles(currentRoles, desiredRoles)
@@ -102,13 +102,13 @@ func ReconcileUserServerRoles(ctx context.Context, db *sql.DB, user SQLUser, Rol
 	return nil
 }
 
-func addRoles(ctx context.Context, db *sql.DB, user SQLUser, Roles set.Set[string]) error {
-	if len(Roles) == 0 {
+func addRoles(ctx context.Context, db *sql.DB, user SQLUser, roles set.Set[string]) error {
+	if len(roles) == 0 {
 		// Nothing to do
 		return nil
 	}
 	var errorStrings []string
-	for _, role := range Roles.Values() {
+	for _, role := range roles.Values() {
 
 		if err := FindBadChars(role); err != nil {
 			return errors.Wrap(err, "problem found with role")
@@ -121,7 +121,7 @@ func addRoles(ctx context.Context, db *sql.DB, user SQLUser, Roles set.Set[strin
 			return errors.Wrap(err, fmt.Sprintf("Role %q does not exists", role))
 		}
 	}
-	toAdd := strings.Join(Roles.Values(), ",")
+	toAdd := strings.Join(roles.Values(), ",")
 	_, err := db.ExecContext(ctx, fmt.Sprintf("GRANT %s TO \"%s\"", toAdd, user.Name))
 	if err != nil {
 		errorStrings = append(errorStrings, err.Error())

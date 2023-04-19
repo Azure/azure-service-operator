@@ -113,7 +113,7 @@ func (r *PostgreSQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.
 	if user.Spec.RoleOptions == nil {
 		return ctrl.Result{}, errors.Wrap(err, "failed to look up .spec.roleOptions")
 	}
-	roleOptions := postgresqlutil.RoleOptionsSpec(*user.Spec.RoleOptions)
+	roleOptions := postgresqlutil.RoleOptions(*user.Spec.RoleOptions)
 	// Ensure that the user role options are set
 	err = postgresqlutil.ReconcileUserRoleOptions(ctx, db, *sqlUser, roleOptions)
 	if err != nil {

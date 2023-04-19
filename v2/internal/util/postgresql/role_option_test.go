@@ -18,58 +18,58 @@ func TestDiffCurrentAndExpectedSQLRoleOptions(t *testing.T) {
 
 	cases := []struct {
 		name                       string
-		currentRoleOptions         RoleOptionsSpec
-		expectedRoleOptions        RoleOptionsSpec
+		currentRoleOptions         RoleOptions
+		expectedRoleOptions        RoleOptions
 		expectedChangedRoleOptions set.Set[RoleOption]
 	}{{
 		name:                       "Current and expected equal",
-		currentRoleOptions:         RoleOptionsSpec{Login: true, CreateRole: false, CreateDb: false, Replication: false},
-		expectedRoleOptions:        RoleOptionsSpec{Login: true},
+		currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
+		expectedRoleOptions:        RoleOptions{Login: true},
 		expectedChangedRoleOptions: set.Make[RoleOption](),
 	}, {
 		name:                       "Expected has single option more than current",
-		currentRoleOptions:         RoleOptionsSpec{Login: true, CreateRole: false, CreateDb: false, Replication: false},
-		expectedRoleOptions:        RoleOptionsSpec{Login: true, CreateDb: true},
+		currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
+		expectedRoleOptions:        RoleOptions{Login: true, CreateDb: true},
 		expectedChangedRoleOptions: set.Set[RoleOption]{CreateDb: {}},
 	}, {
 		name:                       "Expected all new values are set",
-		currentRoleOptions:         RoleOptionsSpec{Login: true, CreateRole: false, CreateDb: false, Replication: false},
-		expectedRoleOptions:        RoleOptionsSpec{Login: false, CreateRole: true, CreateDb: true, Replication: true},
+		currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
+		expectedRoleOptions:        RoleOptions{Login: false, CreateRole: true, CreateDb: true, Replication: true},
 		expectedChangedRoleOptions: set.Set[RoleOption]{NoLogin: {}, CreateRole: {}, CreateDb: {}, Replication: {}},
 	},
 		{
 			name:                       "Expected all new values are set (non defaults)",
-			currentRoleOptions:         RoleOptionsSpec{Login: false, CreateRole: true, CreateDb: true, Replication: true},
-			expectedRoleOptions:        RoleOptionsSpec{Login: true, CreateRole: false, CreateDb: false, Replication: false},
+			currentRoleOptions:         RoleOptions{Login: false, CreateRole: true, CreateDb: true, Replication: true},
+			expectedRoleOptions:        RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
 			expectedChangedRoleOptions: set.Set[RoleOption]{Login: {}, NoCreateRole: {}, NoCreateDb: {}, NoReplication: {}},
 		},
 		{
 			name:                       "Nothing changed if current is equal",
-			currentRoleOptions:         RoleOptionsSpec{Login: false, CreateRole: true, CreateDb: true, Replication: true},
-			expectedRoleOptions:        RoleOptionsSpec{Login: false, CreateRole: true, CreateDb: true, Replication: true},
+			currentRoleOptions:         RoleOptions{Login: false, CreateRole: true, CreateDb: true, Replication: true},
+			expectedRoleOptions:        RoleOptions{Login: false, CreateRole: true, CreateDb: true, Replication: true},
 			expectedChangedRoleOptions: set.Set[RoleOption]{},
 		},
 		{
 			name:                       "Test Login changed",
-			currentRoleOptions:         RoleOptionsSpec{},
-			expectedRoleOptions:        RoleOptionsSpec{Login: true},
+			currentRoleOptions:         RoleOptions{},
+			expectedRoleOptions:        RoleOptions{Login: true},
 			expectedChangedRoleOptions: set.Set[RoleOption]{Login: {}},
 		}, {
 			name:                       "Test CreateRole changed",
-			currentRoleOptions:         RoleOptionsSpec{},
-			expectedRoleOptions:        RoleOptionsSpec{CreateRole: true},
+			currentRoleOptions:         RoleOptions{},
+			expectedRoleOptions:        RoleOptions{CreateRole: true},
 			expectedChangedRoleOptions: set.Set[RoleOption]{CreateRole: {}},
 		},
 		{
 			name:                       "Test CreateDb changed",
-			currentRoleOptions:         RoleOptionsSpec{},
-			expectedRoleOptions:        RoleOptionsSpec{CreateDb: true},
+			currentRoleOptions:         RoleOptions{},
+			expectedRoleOptions:        RoleOptions{CreateDb: true},
 			expectedChangedRoleOptions: set.Set[RoleOption]{CreateDb: {}},
 		},
 		{
 			name:                       "Test Replication changed",
-			currentRoleOptions:         RoleOptionsSpec{Login: true, CreateRole: false, CreateDb: false, Replication: false},
-			expectedRoleOptions:        RoleOptionsSpec{Login: true, Replication: true},
+			currentRoleOptions:         RoleOptions{Login: true, CreateRole: false, CreateDb: false, Replication: false},
+			expectedRoleOptions:        RoleOptions{Login: true, Replication: true},
 			expectedChangedRoleOptions: set.Set[RoleOption]{Replication: {}},
 		},
 	}
