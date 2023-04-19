@@ -101,6 +101,11 @@ func loadJSON(
 	data := make([]JSONFormat, 0, len(lines))
 	errCount := 0
 	for row, line := range lines {
+		if len(line) == 0 {
+			// Skip empty lines
+			continue
+		}
+		
 		var d JSONFormat
 		err := json.Unmarshal([]byte(line), &d)
 		if err != nil {
