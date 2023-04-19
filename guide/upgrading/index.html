@@ -20,10 +20,12 @@
 
 <title>Upgrading | Azure Service Operator</title>
 <meta name="description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.">
+Caution If upgrading to v2.0.0, carefully review v2.0.0 Breaking Changes, especially the section on using asoctl clean crds.
+If upgrading to v2.0.0-beta.4, carefully review v2.0.0-beta.4 Breaking Changes, you may need to make some minor changes to your resources.">
 <meta property="og:title" content="Upgrading" />
 <meta property="og:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features." />
+Caution If upgrading to v2.0.0, carefully review v2.0.0 Breaking Changes, especially the section on using asoctl clean crds.
+If upgrading to v2.0.0-beta.4, carefully review v2.0.0-beta.4 Breaking Changes, you may need to make some minor changes to your resources." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/upgrading/" /><meta property="article:section" content="guide" />
 
@@ -31,13 +33,15 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
 
 <meta itemprop="name" content="Upgrading">
 <meta itemprop="description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.">
+Caution If upgrading to v2.0.0, carefully review v2.0.0 Breaking Changes, especially the section on using asoctl clean crds.
+If upgrading to v2.0.0-beta.4, carefully review v2.0.0-beta.4 Breaking Changes, you may need to make some minor changes to your resources.">
 
-<meta itemprop="wordCount" content="875">
+<meta itemprop="wordCount" content="913">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Upgrading"/>
 <meta name="twitter:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.
-Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features."/>
+Caution If upgrading to v2.0.0, carefully review v2.0.0 Breaking Changes, especially the section on using asoctl clean crds.
+If upgrading to v2.0.0-beta.4, carefully review v2.0.0-beta.4 Breaking Changes, you may need to make some minor changes to your resources."/>
 
 
 
@@ -502,7 +506,11 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#before-you-upgrade">Before you upgrade</a></li>
+    <li><a href="#before-you-upgrade">Before you upgrade</a>
+      <ul>
+        <li><a href="#caution">Caution</a></li>
+      </ul>
+    </li>
     <li><a href="#recommended-upgrade-pattern">Recommended upgrade pattern</a></li>
     <li><a href="#upgrading">Upgrading</a>
       <ul>
@@ -576,6 +584,15 @@ Recommended upgrade pattern We recommend that you upgrade ASO one minor version 
 	</header>    
 	<h2 id="before-you-upgrade">Before you upgrade</h2>
 <p>Ensure that you have carefully reviewed the upgrade instructions included in the <a href="https://github.com/Azure/azure-service-operator/releases">release notes</a> for the release you are upgrading to. If you are upgrading multiple versions, check the release notes for each version.</p>
+<h3 id="caution">Caution</h3>
+<!-- Our replacementPatterns don't handle `.` in the filename well.
+     Manually checked by @theunrepentantgeek -->
+<!-- markdown-link-check-disable-next-line -->
+<p>If upgrading to <strong>v2.0.0</strong>, carefully review <a href="../breaking-changes/breaking-changes-v2.0.0">v2.0.0 Breaking Changes</a>, especially the section on using <a href="./../../tools/asoctl#clean-crds"><code>asoctl clean crds</code></a>.</p>
+<!-- Our replacementPatterns don't handle `.` in the filename well.
+     Manually checked by @theunrepentantgeek -->
+<!-- markdown-link-check-disable-next-line -->
+<p>If upgrading to <strong>v2.0.0-beta.4</strong>, carefully review <a href="../breaking-changes/breaking-changes-v2.0.0-beta.4">v2.0.0-beta.4 Breaking Changes</a>, you may need to make some minor changes to your resources.</p>
 <h2 id="recommended-upgrade-pattern">Recommended upgrade pattern</h2>
 <p>We recommend that you upgrade ASO one minor version at a time, and that you plan to upgrade to the latest version of ASO so that you get benefit from the latest bug fixes and features.</p>
 <table>
