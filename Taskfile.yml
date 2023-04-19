@@ -99,6 +99,7 @@ tasks:
         sh: npm root -g
 
   check-docs-site-links:
+    desc: Verify documentation site links
     dir: docs/hugo
     cmds:
       # Excluding './content/reference/*' path as it contains all auto-generated API docs.
