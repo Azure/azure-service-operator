@@ -108,6 +108,10 @@ func (i *importableARMResource) Import(ctx context.Context, bar *mpb.Bar) ([]Imp
 		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeExtension)...)
 	}
 
+	// if we're looking at a ResourceGroup, we need to look for any resources that are parented by a ResourceGroup
+	if IsResourceGroupType(rsrcType) {
+		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeResourceGroup)...)
+	}
 
 	total := int64(len(childTypes) + 1)
 	bar.SetTotal(total, false)
@@ -547,4 +551,8 @@ func (i *importableARMResource) GetResourceExtension(gvk schema.GroupVersionKind
 	}
 
 	return imp, true
+}
+
+func IsResourceGroupType(rsrcType string) bool {
+	return strings.EqualFold(rsrcType, "Microsoft.Resources/resourceGroups")
 }
