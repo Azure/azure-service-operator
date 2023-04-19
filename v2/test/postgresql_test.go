@@ -237,7 +237,7 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 	conn, err = postgresqlutil.ConnectToDB(
 		tc.Ctx,
 		fqdn,
-		"",
+		postgresqlutil.DefaultMaintanenceDatabase,
 		postgresqlutil.PSqlServerPort,
 		user.Spec.AzureName,
 		password)
@@ -261,7 +261,7 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 			conn, err = postgresqlutil.ConnectToDB(
 				tc.Ctx,
 				fqdn,
-				"",
+				postgresqlutil.DefaultMaintanenceDatabase,
 				postgresqlutil.PSqlServerPort,
 				user.Spec.AzureName,
 				newPassword)
