@@ -27,16 +27,16 @@ jobs:
           mkdir -p $HOME/.docker # in case it doesn’t exist
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
-          echo "id=$container_id" >> $GITHUB_OUTPUT
+          echo "container_id=$container_id" >> $GITHUB_ENV
         
       - name: Build required release files
         run: |
-          container_id=${{steps.devcontainer.outputs.id}}
+          container_id=${{env.container_id}}
           docker exec "$container_id" task make-release-artifacts
 
       - name: Build & tag Docker image
         run: |
-          container_id=${{steps.devcontainer.outputs.id}}
+          container_id=${{env.container_id}}
           docker exec -e DOCKER_PUSH_TARGET "$container_id" task controller:docker-tag-version
         env:
           DOCKER_PUSH_TARGET: ${{ secrets.REGISTRY_PUBLIC }}

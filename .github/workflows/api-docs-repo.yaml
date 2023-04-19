@@ -58,11 +58,11 @@ jobs:
         run: |
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
-          echo "id=$container_id" >> $GITHUB_OUTPUT
+          echo "container_id=$container_id" >> $GITHUB_ENV
 
       - name: Generate API docs
         run: |
-          container_id=${{steps.devcontainer.outputs.id}}
+          container_id=${{ env.container_id }}
           docker exec "$container_id" task controller:gen-crd-docs
 
       - name: Commit and push changes
