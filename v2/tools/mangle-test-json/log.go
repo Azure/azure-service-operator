@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package main
 
 import (
@@ -24,7 +29,6 @@ func CreateLogger() logr.Logger {
 
 	// Use standard interface for logging
 	zerologr.VerbosityFieldName = "" // Don't include verbosity in output
-	zerologr.SetMaxV(0)              // Default to quiet
 
 	log := zerologr.New(&zl)
 	return log
