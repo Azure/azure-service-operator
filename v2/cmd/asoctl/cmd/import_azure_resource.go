@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 
-	"github.com/Azure/azure-service-operator/v2/tools/asoctl/internal/importing"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/internal/importing"
 )
 
 func newImportAzureResourceCommand() *cobra.Command {

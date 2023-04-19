@@ -6,7 +6,7 @@
 package main
 
 import (
-	"github.com/Azure/azure-service-operator/v2/tools/asoctl/cmd"
+	"github.com/Azure/azure-service-operator/v2/cmd/asoctl/cmd"
 )
 
 func main() {
