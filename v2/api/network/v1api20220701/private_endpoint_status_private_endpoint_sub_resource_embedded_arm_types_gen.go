@@ -30,6 +30,15 @@ type PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded_ARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// ExtendedLocation complex type.
+type ExtendedLocation_STATUS_ARM struct {
+	// Name: The name of the extended location.
+	Name *string `json:"name,omitempty"`
+
+	// Type: The type of the extended location.
+	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
+}
+
 // Properties of the private endpoint.
 type PrivateEndpointProperties_STATUS_ARM struct {
 	// ApplicationSecurityGroups: Application security groups in which the private endpoint IP configuration is included.
@@ -76,6 +85,11 @@ type CustomDnsConfigPropertiesFormat_STATUS_ARM struct {
 	// IpAddresses: A list of private ip addresses of the private endpoint.
 	IpAddresses []string `json:"ipAddresses,omitempty"`
 }
+
+// The supported ExtendedLocation types. Currently only EdgeZone is supported in Microsoft.Network resources.
+type ExtendedLocationType_STATUS string
+
+const ExtendedLocationType_STATUS_EdgeZone = ExtendedLocationType_STATUS("EdgeZone")
 
 // A network interface in a resource group.
 type NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded_ARM struct {

@@ -1,67 +1,6 @@
 github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 ├── APIVersion: Enum (1 value)
 │   └── "2022-07-01"
-├── CustomIpPrefix: Resource
-│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-│   ├── Spec: Object (18 properties)
-│   │   ├── Asn: *string
-│   │   ├── AuthorizationMessage: *string
-│   │   ├── AzureName: string
-│   │   ├── Cidr: *string
-│   │   ├── CommissionedState: *string
-│   │   ├── CustomIpPrefixParent: *Object (2 properties)
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Reference: *genruntime.ResourceReference
-│   │   ├── ExpressRouteAdvertise: *bool
-│   │   ├── ExtendedLocation: *Object (3 properties)
-│   │   │   ├── Name: *string
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Type: *string
-│   │   ├── Geo: *string
-│   │   ├── Location: *string
-│   │   ├── NoInternetAdvertise: *bool
-│   │   ├── OriginalVersion: string
-│   │   ├── Owner: *genruntime.KnownResourceReference
-│   │   ├── PrefixType: *string
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── SignedMessage: *string
-│   │   ├── Tags: map[string]string
-│   │   └── Zones: string[]
-│   └── Status: Object (25 properties)
-│       ├── Asn: *string
-│       ├── AuthorizationMessage: *string
-│       ├── ChildCustomIpPrefixes: Object (2 properties)[]
-│       │   ├── Id: *string
-│       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Cidr: *string
-│       ├── CommissionedState: *string
-│       ├── Conditions: conditions.Condition[]
-│       ├── CustomIpPrefixParent: *Object (2 properties)
-│       │   ├── Id: *string
-│       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── Etag: *string
-│       ├── ExpressRouteAdvertise: *bool
-│       ├── ExtendedLocation: *Object (3 properties)
-│       │   ├── Name: *string
-│       │   ├── PropertyBag: genruntime.PropertyBag
-│       │   └── Type: *string
-│       ├── FailedReason: *string
-│       ├── Geo: *string
-│       ├── Id: *string
-│       ├── Location: *string
-│       ├── Name: *string
-│       ├── NoInternetAdvertise: *bool
-│       ├── PrefixType: *string
-│       ├── PropertyBag: genruntime.PropertyBag
-│       ├── ProvisioningState: *string
-│       ├── PublicIpPrefixes: Object (2 properties)[]
-│       │   ├── Id: *string
-│       │   └── PropertyBag: genruntime.PropertyBag
-│       ├── ResourceGuid: *string
-│       ├── SignedMessage: *string
-│       ├── Tags: map[string]string
-│       ├── Type: *string
-│       └── Zones: string[]
 ├── NatGateway: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (11 properties)

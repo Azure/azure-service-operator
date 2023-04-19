@@ -245,6 +245,22 @@ type CustomDnsConfigPropertiesFormat_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1api20220701.ExtendedLocation
+// ExtendedLocation complex type.
+type ExtendedLocation struct {
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+// Storage version of v1api20220701.ExtendedLocation_STATUS
+// ExtendedLocation complex type.
+type ExtendedLocation_STATUS struct {
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
 // Storage version of v1api20220701.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 // A network interface in a resource group.
 type NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded struct {

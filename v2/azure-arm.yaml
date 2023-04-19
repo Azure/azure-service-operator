@@ -1322,9 +1322,6 @@ objectModelConfiguration:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
     2022-07-01:
-      CustomIPPrefix:
-        $export: true
-        $supportedFrom: v2.1.0
       NatGateway:
         $export: true
         $supportedFrom: v2.1.0

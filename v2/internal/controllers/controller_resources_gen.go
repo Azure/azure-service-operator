@@ -475,6 +475,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PrivateEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PrivateEndpointsPrivateDnsZoneGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PrivateLinkService)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PublicIPPrefix)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v1api20210601s.Workspace)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v1api20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.Namespace)})
@@ -1083,13 +1084,15 @@ func getKnownTypes() []client.Object {
 		new(network_v1api20220701.NatGateway),
 		new(network_v1api20220701.PrivateEndpoint),
 		new(network_v1api20220701.PrivateEndpointsPrivateDnsZoneGroup),
-		new(network_v1api20220701.PrivateLinkService))
+		new(network_v1api20220701.PrivateLinkService),
+		new(network_v1api20220701.PublicIPPrefix))
 	result = append(
 		result,
 		new(network_v1api20220701s.NatGateway),
 		new(network_v1api20220701s.PrivateEndpoint),
 		new(network_v1api20220701s.PrivateEndpointsPrivateDnsZoneGroup),
-		new(network_v1api20220701s.PrivateLinkService))
+		new(network_v1api20220701s.PrivateLinkService),
+		new(network_v1api20220701s.PublicIPPrefix))
 	result = append(result, new(network_v20180901.PrivateDnsZone))
 	result = append(result, new(network_v20180901s.PrivateDnsZone))
 	result = append(
@@ -1491,6 +1494,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.PrivateEndpointsPrivateDnsZoneGroupExtension{})
 	result = append(result, &network_customizations.PrivateLinkServiceExtension{})
 	result = append(result, &network_customizations.PublicIPAddressExtension{})
+	result = append(result, &network_customizations.PublicIPPrefixExtension{})
 	result = append(result, &network_customizations.RouteTableExtension{})
 	result = append(result, &network_customizations.RouteTablesRouteExtension{})
 	result = append(result, &network_customizations.VirtualNetworkExtension{})

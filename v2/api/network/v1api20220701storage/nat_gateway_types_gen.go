@@ -133,6 +133,12 @@ type NatGatewayList struct {
 	Items           []NatGateway `json:"items"`
 }
 
+// Storage version of v1api20220701.APIVersion
+// +kubebuilder:validation:Enum={"2022-07-01"}
+type APIVersion string
+
+const APIVersion_Value = APIVersion("2022-07-01")
+
 // Storage version of v1api20220701.NatGateway_Spec
 type NatGateway_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it

@@ -32,20 +32,6 @@
 | CnameRecord                                                                            |               | v1api20200601 |               |               |                |                |
 | CnameRecord_STATUS                                                                     |               | v1api20200601 |               |               |                |                |
 | CustomDnsConfigPropertiesFormat_STATUS                                                 |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefix                                                                         |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixPropertiesFormat                                                         |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixPropertiesFormat_CommissionedState                                       |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixPropertiesFormat_CommissionedState_STATUS                                |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixPropertiesFormat_Geo                                                     |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixPropertiesFormat_Geo_STATUS                                              |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixPropertiesFormat_PrefixType                                              |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixPropertiesFormat_PrefixType_STATUS                                       |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixPropertiesFormat_STATUS                                                  |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixProvisioningState_STATUS                                                 |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixSubResource                                                              |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefixSubResource_STATUS                                                       |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefix_STATUS                                                                  |               |               |               | v1api20220701 |                |                |
-| CustomIpPrefix_Spec                                                                    |               |               |               | v1api20220701 |                |                |
 | DdosSettings                                                                           |               |               | v1api20201101 |               |                | v1beta20201101 |
 | DdosSettings_ProtectionCoverage                                                        |               |               | v1api20201101 |               |                | v1beta20201101 |
 | DdosSettings_ProtectionCoverage_STATUS                                                 |               |               | v1api20201101 |               |                | v1beta20201101 |
