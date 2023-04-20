@@ -16,6 +16,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
@@ -37,14 +38,18 @@ any actions that appear to be ARM resources (have PUT methods with types we can 
 action path). Then for each resource, we use the existing JSON AST parser to extract the status type
 (the type-definition part of swagger is the same as JSON Schema).
 */
-func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuration) *Stage {
+func LoadTypes(
+	idFactory astmodel.IdentifierFactory,
+	config *config.Configuration,
+	log logr.Logger,
+) *Stage {
 	return NewLegacyStage(
 		LoadTypesStageID,
 		"Load all types from Swagger files",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 			klog.V(1).Infof("Loading Swagger data from %q", config.SchemaRoot)
 
-			swaggerTypes, err := loadSwaggerData(ctx, idFactory, config)
+			swaggerTypes, err := loadSwaggerData(ctx, idFactory, config, log)
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to load Swagger data")
 			}
@@ -292,7 +297,12 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 	return resources, otherTypes, nil
 }
 
-func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (jsonast.SwaggerTypes, error) {
+func loadSwaggerData(
+	ctx context.Context,
+	idFactory astmodel.IdentifierFactory,
+	config *config.Configuration,
+	log logr.Logger,
+) (jsonast.SwaggerTypes, error) {
 	schemas, err := loadAllSchemas(ctx, config.SchemaRoot, config.LocalPathPrefix(), idFactory, config.Status.Overrides)
 	if err != nil {
 		return jsonast.SwaggerTypes{}, err
@@ -309,7 +319,8 @@ func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, 
 			schema.Swagger,
 			schemaPath,
 			*schema.Package, // always set during generation
-			loader)
+			loader,
+			log)
 
 		types, err := extractor.ExtractTypes(ctx)
 		if err != nil {

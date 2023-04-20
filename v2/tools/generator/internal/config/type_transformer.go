@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -331,6 +332,25 @@ func (r PropertyTransformResult) String() string {
 		r.NewPropertyType.String(),
 		r.Because,
 	)
+}
+
+// Log creates a log message for the transformation
+func (r PropertyTransformResult) Log(log logr.Logger) {
+	if r.Removed {
+		log.V(2).Info(
+			"Removing property",
+			"type", r.TypeName,
+			"property", r.Property,
+			"because", r.Because)
+		return
+	}
+
+	log.V(1).Info(
+		"Transforming property",
+		"type", r.TypeName,
+		"property", r.Property,
+		"newType", r.NewPropertyType.String(),
+		"because", r.Because)
 }
 
 func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {

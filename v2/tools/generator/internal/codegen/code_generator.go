@@ -104,7 +104,7 @@ func createAllPipelineStages(
 ) []*pipeline.Stage {
 	return []*pipeline.Stage{
 		// Import Swagger data:
-		pipeline.LoadTypes(idFactory, configuration),
+		pipeline.LoadTypes(idFactory, configuration, log),
 
 		// Assemble actual one-of types from roots and leaves
 		pipeline.AssembleOneOfTypes(idFactory),
@@ -129,7 +129,7 @@ func createAllPipelineStages(
 		// Apply property type rewrites from the config file
 		// Must come after NameTypesForCRD ('nameTypes') and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
-		pipeline.ApplyPropertyRewrites(configuration),
+		pipeline.ApplyPropertyRewrites(configuration, log),
 
 		pipeline.ApplyIsResourceOverrides(configuration),
 		pipeline.FixIDFields(),
@@ -146,11 +146,11 @@ func createAllPipelineStages(
 		pipeline.StripUnreferencedTypeDefinitions(),
 		pipeline.AssertTypesCollectionValid(),
 
-		pipeline.RemoveEmbeddedResources(configuration).UsedFor(pipeline.ARMTarget),
+		pipeline.RemoveEmbeddedResources(configuration, log).UsedFor(pipeline.ARMTarget),
 
 		// Apply export filters before generating
 		// ARM types for resources etc:
-		pipeline.ApplyExportFilters(configuration),
+		pipeline.ApplyExportFilters(configuration, log),
 
 		pipeline.AddAPIVersionEnums(),
 		pipeline.RemoveTypeAliases(),
@@ -172,7 +172,7 @@ func createAllPipelineStages(
 
 		pipeline.FixOptionalCollectionAliases(),
 
-		pipeline.ApplyCrossResourceReferencesFromConfig(configuration).UsedFor(pipeline.ARMTarget),
+		pipeline.ApplyCrossResourceReferencesFromConfig(configuration, log).UsedFor(pipeline.ARMTarget),
 		pipeline.TransformCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.TransformCrossResourceReferencesToString().UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
@@ -187,11 +187,11 @@ func createAllPipelineStages(
 
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
-		pipeline.CreateARMTypes(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.CreateARMTypes(idFactory, log).UsedFor(pipeline.ARMTarget),
 		pipeline.PruneResourcesWithLifecycleOwnedByParent(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.MakeOneOfDiscriminantRequired().UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory).UsedFor(pipeline.ARMTarget),
-		pipeline.ApplyKubernetesResourceInterface(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ApplyKubernetesResourceInterface(idFactory, log).UsedFor(pipeline.ARMTarget),
 
 		// Effects the "flatten" property of Properties:
 		pipeline.FlattenProperties(),
@@ -249,7 +249,7 @@ func createAllPipelineStages(
 		pipeline.DetectSkippingProperties().UsedFor(pipeline.ARMTarget),
 
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
-		pipeline.ExportPackages(configuration.FullTypesOutputPath(), configuration.EmitDocFiles),
+		pipeline.ExportPackages(configuration.FullTypesOutputPath(), configuration.EmitDocFiles, log),
 
 		pipeline.ExportControllerResourceRegistrations(idFactory, configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 
@@ -300,7 +300,28 @@ func (generator *CodeGenerator) Generate(
 			return errors.Errorf("all type definitions removed by stage %s", stage.Id())
 		}
 
-		generator.logStateChange(state, newState, log)
+		duration := time.Since(start).Round(time.Millisecond)
+
+		defsAdded := newState.Definitions().Except(state.Definitions())
+		defsRemoved := state.Definitions().Except(newState.Definitions())
+
+		if len(defsAdded) > 0 && len(defsRemoved) > 0 {
+			log.Info(
+				stageDescription,
+				"elapsed", duration,
+				"added", len(defsAdded),
+				"removed", len(defsRemoved))
+		} else if len(defsAdded) > 0 {
+			log.Info(
+				stageDescription,
+				"elapsed", duration,
+				"added", len(defsAdded))
+		} else if len(defsRemoved) > 0 {
+			log.Info(
+				stageDescription,
+				"elapsed", duration,
+				"removed", len(defsRemoved))
+		}
 
 		if generator.debugReporter != nil {
 			err := generator.debugReporter.ReportStage(i, stage.Description(), newState)
@@ -308,11 +329,6 @@ func (generator *CodeGenerator) Generate(
 				return errors.Wrapf(err, "failed to generate debug report for stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
 			}
 		}
-
-		duration := time.Since(start).Round(time.Millisecond)
-		log.Info(
-			stageDescription,
-			"elapsed", duration)
 
 		state = newState
 	}
@@ -325,27 +341,6 @@ func (generator *CodeGenerator) Generate(
 	log.Info("Finished")
 
 	return nil
-}
-
-func (generator *CodeGenerator) logStateChange(
-	former *pipeline.State,
-	later *pipeline.State,
-	log logr.Logger,
-) {
-	defsAdded := later.Definitions().Except(former.Definitions())
-	defsRemoved := former.Definitions().Except(later.Definitions())
-
-	if len(defsAdded) > 0 {
-		log.V(1).Info(
-			"Stage added type definitions",
-			"count", len(defsAdded))
-	}
-
-	if len(defsRemoved) > 0 {
-		log.V(1).Info(
-			"Stage removed type definitions",
-			"count", len(defsRemoved))
-	}
 }
 
 // RemoveStages will remove all stages from the pipeline with the given ids.

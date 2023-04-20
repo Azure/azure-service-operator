@@ -6,23 +6,26 @@
 package embeddedresources
 
 import (
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func RemoveEmptyObjects(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
+func RemoveEmptyObjects(
+	definitions astmodel.TypeDefinitionSet,
+	log logr.Logger,
+) (astmodel.TypeDefinitionSet, error) {
 	result := definitions
 	for {
-		toRemove := findEmptyObjectTypes(result)
+		toRemove := findEmptyObjectTypes(result, log)
 		if len(toRemove) == 0 {
 			break
 		}
 
 		var err error
-		result, err = removeReferencesToTypes(result, toRemove)
+		result, err = removeReferencesToTypes(result, toRemove, log)
 		if err != nil {
 			return nil, err
 		}
@@ -31,7 +34,10 @@ func RemoveEmptyObjects(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDe
 	return result, nil
 }
 
-func findEmptyObjectTypes(definitions astmodel.TypeDefinitionSet) astmodel.TypeNameSet {
+func findEmptyObjectTypes(
+	definitions astmodel.TypeDefinitionSet,
+	log logr.Logger,
+) astmodel.TypeNameSet {
 	result := astmodel.NewTypeNameSet()
 
 	for _, def := range definitions {
@@ -49,16 +55,23 @@ func findEmptyObjectTypes(definitions astmodel.TypeDefinitionSet) astmodel.TypeN
 			continue
 		}
 
-		klog.V(4).Infof("Removing %q as it has no properties", def.Name())
+		log.V(1).Info(
+			"Removing empty type",
+			"name", def.Name())
+
 		result.Add(def.Name())
 	}
 
 	return result
 }
 
-func removeReferencesToTypes(definitions astmodel.TypeDefinitionSet, toRemove astmodel.TypeNameSet) (astmodel.TypeDefinitionSet, error) {
+func removeReferencesToTypes(
+	definitions astmodel.TypeDefinitionSet,
+	toRemove astmodel.TypeNameSet,
+	log logr.Logger,
+) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
-	visitor := makeRemovedTypeVisitor(toRemove)
+	visitor := makeRemovedTypeVisitor(toRemove, log)
 
 	for _, def := range definitions {
 		if toRemove.Contains(def.Name()) {
@@ -79,7 +92,10 @@ type visitorCtx struct {
 	typeName *astmodel.TypeName
 }
 
-func makeRemovedTypeVisitor(toRemove astmodel.TypeNameSet) astmodel.TypeVisitor {
+func makeRemovedTypeVisitor(
+	toRemove astmodel.TypeNameSet,
+	log logr.Logger,
+) astmodel.TypeVisitor {
 	// This is basically copied from IdentityVisitOfObjectType, but since it has/needs a per-property context we can't use that
 	removeReferencesToEmptyTypes := func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		// just map the property types
@@ -93,7 +109,10 @@ func makeRemovedTypeVisitor(toRemove astmodel.TypeNameSet) astmodel.TypeVisitor 
 			} else if ctx.typeName == nil || !toRemove.Contains(*ctx.typeName) {
 				newProps = append(newProps, prop.WithType(p))
 			} else if toRemove.Contains(*ctx.typeName) {
-				klog.V(4).Infof("Removing property %q (referencing %q) as the type has no properties", prop.PropertyName(), *ctx.typeName)
+				log.V(1).Info(
+					"Removing reference to empty type",
+					"property", prop.PropertyName(),
+					"referencing", *ctx.typeName)
 			}
 		})
 

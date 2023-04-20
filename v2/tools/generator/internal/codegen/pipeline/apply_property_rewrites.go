@@ -8,7 +8,7 @@ package pipeline
 import (
 	"context"
 
-	"k8s.io/klog/v2"
+	"github.com/go-logr/logr"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -17,7 +17,10 @@ import (
 // ApplyPropertyRewrites applies any typeTransformers for properties.
 // It is its own pipeline stage so that we can apply it after the allOf/oneOf types have
 // been "lowered" to objects.
-func ApplyPropertyRewrites(config *config.Configuration) *Stage {
+func ApplyPropertyRewrites(
+	config *config.Configuration,
+	log logr.Logger,
+) *Stage {
 	stage := NewLegacyStage(
 		"propertyRewrites",
 		"Modify property types using configured transforms",
@@ -32,7 +35,7 @@ func ApplyPropertyRewrites(config *config.Configuration) *Stage {
 
 				transformations := config.TransformTypeProperties(name, objectType)
 				for _, transformation := range transformations {
-					klog.V(3).Infof("Transforming %s", transformation)
+					transformation.Log(log)
 					objectType = transformation.NewType
 				}
 

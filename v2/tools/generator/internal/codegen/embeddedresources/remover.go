@@ -8,6 +8,7 @@ package embeddedresources
 import (
 	"fmt"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
@@ -103,7 +104,9 @@ func MakeEmbeddedResourceRemover(configuration *config.Configuration, definition
 }
 
 // RemoveEmbeddedResources removes any embedded resources according to the
-func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.TypeDefinitionSet, error) {
+func (e EmbeddedResourceRemover) RemoveEmbeddedResources(
+	log logr.Logger,
+) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 
 	originalNames := make(map[astmodel.TypeName]embeddedResourceTypeName)
@@ -135,7 +138,7 @@ func (e EmbeddedResourceRemover) RemoveEmbeddedResources() (astmodel.TypeDefinit
 		return nil, err
 	}
 
-	return RemoveEmptyObjects(result)
+	return RemoveEmptyObjects(result, log)
 }
 
 func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmodel.TypeVisitor {

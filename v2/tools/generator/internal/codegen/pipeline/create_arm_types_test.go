@@ -8,6 +8,7 @@ package pipeline
 import (
 	"testing"
 
+	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -97,7 +98,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 	configuration := config.NewConfiguration()
 	configuration.ObjectModelConfiguration = omc
 
-	configToARMIDs := ApplyCrossResourceReferencesFromConfig(configuration)
+	configToARMIDs := ApplyCrossResourceReferencesFromConfig(configuration, logr.Discard())
 	crossResourceRefs := TransformCrossResourceReferences(configuration, idFactory)
 	createARMTypes := CreateARMTypes(idFactory)
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)

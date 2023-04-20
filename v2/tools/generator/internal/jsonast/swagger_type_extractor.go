@@ -11,10 +11,10 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
 	"golang.org/x/exp/slices"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -22,13 +22,13 @@ import (
 )
 
 type SwaggerTypeExtractor struct {
-	idFactory   astmodel.IdentifierFactory
-	config      *config.Configuration
-	cache       CachingFileLoader
-	swagger     spec.Swagger
-	swaggerPath string
-	// package for output types (e.g. Microsoft.Network.Frontdoor/v20200101)
-	outputPackage astmodel.LocalPackageReference
+	idFactory     astmodel.IdentifierFactory
+	config        *config.Configuration
+	cache         CachingFileLoader
+	swagger       spec.Swagger
+	swaggerPath   string
+	outputPackage astmodel.LocalPackageReference // package for output types (e.g. Microsoft.Network.Frontdoor/v20200101)
+	log           logr.Logger
 }
 
 // NewSwaggerTypeExtractor creates a new SwaggerTypeExtractor
@@ -39,6 +39,7 @@ func NewSwaggerTypeExtractor(
 	swaggerPath string,
 	outputPackage astmodel.LocalPackageReference,
 	cache CachingFileLoader,
+	log logr.Logger,
 ) SwaggerTypeExtractor {
 	return SwaggerTypeExtractor{
 		idFactory:     idFactory,
@@ -47,6 +48,7 @@ func NewSwaggerTypeExtractor(
 		outputPackage: outputPackage,
 		cache:         cache,
 		config:        config,
+		log:           log,
 	}
 }
 
@@ -120,7 +122,6 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 
 		specSchema, statusSchema, ok := extractor.findARMResourceSchema(op, rawOperationPath)
 		if !ok {
-			// klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
 			continue
 		}
 
@@ -160,13 +161,19 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 
 	armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 	if err != nil {
-		klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
+		extractor.log.V(1).Error(
+			err,
+			"Error extracting resource name",
+			"swaggerPath", extractor.swaggerPath)
 		return nil
 	}
 
 	shouldPrune, because := scanner.configuration.ShouldPrune(resourceName)
 	if shouldPrune == config.Prune {
-		klog.V(3).Infof("Skipping %s because %s", resourceName, because)
+		extractor.log.V(1).Info(
+			"Skipping resource",
+			"name", resourceName,
+			"because", because)
 		return nil
 	}
 
@@ -236,8 +243,8 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 }
 
 // ExtractOneOfTypes ensures we haven't missed any of the required OneOf type definitions.
-// The depth-first search of the Swagger spec done by ExtractResourcetypes() won't have found any "loose" one of options
-// so we need this extra step.
+// The depth-first search of the Swagger spec done by ExtractResourcetypes() won't have found any "loose" one of
+// options, so we need this extra step.
 func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 	ctx context.Context,
 	scanner *SchemaScanner,
@@ -259,7 +266,8 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 			extractor.swaggerPath,
 			extractor.outputPackage,
 			extractor.idFactory,
-			extractor.cache)
+			extractor.cache,
+			extractor.log)
 
 		// Run a handler to generate our type
 		t, err := scanner.RunHandlerForSchema(ctx, schema)
@@ -317,7 +325,10 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 
 	params := op.Put.Parameters
 	if op.Parameters != nil {
-		klog.Warningf("overriding parameters for %q in %s", rawOperationPath, extractor.swaggerPath)
+		extractor.log.V(1).Info(
+			"overriding parameters",
+			"operation", rawOperationPath,
+			"swagger", extractor.swaggerPath)
 		params = op.Parameters
 	}
 
@@ -345,9 +356,14 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 
 	if foundSpec == nil {
 		if noBody {
-			klog.V(3).Infof("Empty body for %s", rawOperationPath)
+			extractor.log.V(2).Info(
+				"no body parameter found for PUT operation",
+				"operation", rawOperationPath)
 		} else {
-			klog.Warningf("Response indicated that type was ARM resource but no schema found for %s in %q", rawOperationPath, extractor.swaggerPath)
+			extractor.log.Info(
+				"no schema found for PUT operation",
+				"operation", rawOperationPath,
+				"swagger", extractor.swaggerPath)
 			return nil, nil, false
 		}
 	}
@@ -377,7 +393,6 @@ func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter)
 	if param.Schema == nil {
 		// We're dealing with a simple schema here
 		if param.SimpleSchema.Type == "" {
-			klog.Warningf("schemaFromParameter invoked on parameter without schema or simpleschema")
 			return nil
 		}
 
@@ -387,7 +402,8 @@ func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter)
 			paramPath,
 			extractor.outputPackage,
 			extractor.idFactory,
-			extractor.cache)
+			extractor.cache,
+			extractor.log)
 	} else {
 		result = MakeOpenAPISchema(
 			nameFromRef(param.Schema.Ref),
@@ -395,7 +411,8 @@ func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter)
 			paramPath,
 			extractor.outputPackage,
 			extractor.idFactory,
-			extractor.cache)
+			extractor.cache,
+			extractor.log)
 	}
 
 	return &result
@@ -412,7 +429,8 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 			extractor.swaggerPath,
 			extractor.outputPackage,
 			extractor.idFactory,
-			extractor.cache)
+			extractor.cache,
+			extractor.log)
 
 		return &result, isMarkedAsARMResource(result)
 	}
@@ -432,12 +450,16 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 			refFilePath,
 			outputPackage,
 			extractor.idFactory,
-			extractor.cache)
+			extractor.cache,
+			extractor.log)
 
 		return &schema, isMarkedAsARMResource(schema)
 	}
 
-	klog.Warningf("Unable to locate schema on response for %q in %s", rawOperationPath, extractor.swaggerPath)
+	extractor.log.Info(
+		"no schema found for response",
+		"operation", rawOperationPath,
+		"swagger", extractor.swaggerPath)
 	return nil, false
 }
 
@@ -582,7 +604,12 @@ func (extractor *SwaggerTypeExtractor) expandAndCanonicalizePath(
 	if err != nil {
 		// This error is safe to ignore in this case as it means that we can't parse the path as a resource.
 		// Just return the raw path so we do further processing and log a message
-		klog.Errorf("Error expanding enums in path (%s): %s", extractor.swaggerPath, err.Error())
+		// We don't log using Error() here because this is a common case and we don't want to spam the logs
+		// (Error logs are always emitted, and can't be suppressed)
+		extractor.log.V(1).Info(
+			"expanding enums in path",
+			"swaggerPath", extractor.swaggerPath,
+			"error", err.Error())
 		return results
 	}
 
