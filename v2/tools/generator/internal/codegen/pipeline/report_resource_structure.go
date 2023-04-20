@@ -78,6 +78,7 @@ func (report *ResourceStructureReport) getFilePath(baseFolder string, pkg astmod
 func (report *ResourceStructureReport) saveReport(filePath string, defs astmodel.TypeDefinitionSet) error {
 	rpt := reporting.NewTypeCatalogReport(defs)
 	rpt.InlineTypes()
+	rpt.AddHeader(astmodel.CodeGenerationComments...)
 	err := rpt.SaveTo(filePath)
 	return errors.Wrapf(err, "unable to save type catalog report to %q", filePath)
 }
