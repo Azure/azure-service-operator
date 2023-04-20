@@ -947,10 +947,10 @@ tasks:
     desc: Builds a test output summary for Github
     deps: [build-mangle-test]
     cmds:
-    - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
+    - cmd: ./v2/bin/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
 
   build-mangle-test:
     desc: Builds the tool we use for mangling test results
     dir: v2/tools/mangle-test-json
     cmds:
-    - go build 
+    - go build -o ../../bin/mangle-test-json .
