@@ -18,26 +18,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>2022-09: Support For Multiple Credentials Under Global Operator | Azure Service Operator</title>
-<meta name="description" content="Context Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription. To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
-Global Secret(aso-controller-settings) is a currently existing one and is used as default for all Azure Resources">
-<meta property="og:title" content="2022-09: Support For Multiple Credentials Under Global Operator" />
-<meta property="og:description" content="Context Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription. To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
-Global Secret(aso-controller-settings) is a currently existing one and is used as default for all Azure Resources" />
+<title>2023-04: Azure Resource Deprecation | Azure Service Operator</title>
+<meta name="description" content="Context As succinctly raised by @sakthi-vetrivel in (#2070)[https://github.com/Azure/azure-service-operator/issues/2070]:
+ Today, there&amp;rsquo;s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?
+ Starting in Kubernetes v1.19, it&amp;rsquo;s possible to flag individual versions of a custom resource as (deprecated)[https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation]. This results in the follow behaviour:">
+<meta property="og:title" content="2023-04: Azure Resource Deprecation" />
+<meta property="og:description" content="Context As succinctly raised by @sakthi-vetrivel in (#2070)[https://github.com/Azure/azure-service-operator/issues/2070]:
+ Today, there&rsquo;s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?
+ Starting in Kubernetes v1.19, it&rsquo;s possible to flag individual versions of a custom resource as (deprecated)[https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation]. This results in the follow behaviour:" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" /><meta property="article:section" content="design" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-04-deprecation/" /><meta property="article:section" content="design" />
 
 
 
-<meta itemprop="name" content="2022-09: Support For Multiple Credentials Under Global Operator">
-<meta itemprop="description" content="Context Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription. To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
-Global Secret(aso-controller-settings) is a currently existing one and is used as default for all Azure Resources">
+<meta itemprop="name" content="2023-04: Azure Resource Deprecation">
+<meta itemprop="description" content="Context As succinctly raised by @sakthi-vetrivel in (#2070)[https://github.com/Azure/azure-service-operator/issues/2070]:
+ Today, there&rsquo;s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?
+ Starting in Kubernetes v1.19, it&rsquo;s possible to flag individual versions of a custom resource as (deprecated)[https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation]. This results in the follow behaviour:">
 
-<meta itemprop="wordCount" content="1487">
+<meta itemprop="wordCount" content="247">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="2022-09: Support For Multiple Credentials Under Global Operator"/>
-<meta name="twitter:description" content="Context Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription. To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:
-Global Secret(aso-controller-settings) is a currently existing one and is used as default for all Azure Resources"/>
+<meta name="twitter:title" content="2023-04: Azure Resource Deprecation"/>
+<meta name="twitter:description" content="Context As succinctly raised by @sakthi-vetrivel in (#2070)[https://github.com/Azure/azure-service-operator/issues/2070]:
+ Today, there&rsquo;s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?
+ Starting in Kubernetes v1.19, it&rsquo;s possible to flag individual versions of a custom resource as (deprecated)[https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation]. This results in the follow behaviour:"/>
 
 
 
@@ -437,8 +441,8 @@ Global Secret(aso-controller-settings) is a currently existing one and is used a
   <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator"><span class="">2022-08 Evil Discriminator</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
-  <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="td-sidebar-nav-active-item">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+  <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
@@ -453,8 +457,8 @@ Global Secret(aso-controller-settings) is a currently existing one and is used a
   <a href="/azure-service-operator/design/adr-2023-02-adoption-policy/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-adoption-policy"><span class="">2023-02: Adoption Policy</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
   <a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension"><span class="">2023-03: Post Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
-  <a href="/azure-service-operator/design/adr-2023-04-deprecation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-deprecation"><span class="">2023-04: Azure Resource Deprecation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
+  <a href="/azure-service-operator/design/adr-2023-04-deprecation/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-deprecation"><span class="td-sidebar-nav-active-item">2023-04: Azure Resource Deprecation</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
@@ -505,24 +509,8 @@ Global Secret(aso-controller-settings) is a currently existing one and is used a
         <nav id="TableOfContents">
   <ul>
     <li><a href="#context">Context</a></li>
-    <li><a href="#credential-selection-hierarchy">Credential selection hierarchy</a></li>
-    <li><a href="#options">Options</a>
-      <ul>
-        <li><a href="#option-1-fixed-secret-names">Option 1: Fixed secret names</a></li>
-        <li><a href="#option-2-configuration-using-annotations">Option 2: Configuration using annotations</a></li>
-        <li><a href="#option-3-fixed-secret-name-for-namespace--configuration-using-annotations">Option 3: Fixed secret name for namespace + configuration using annotations</a></li>
-        <li><a href="#option-4-fixed-secret-name-for-namespace--configuration-using-global-secret">Option 4: Fixed secret name for namespace + configuration using global secret</a></li>
-      </ul>
-    </li>
     <li><a href="#decision">Decision</a></li>
-    <li><a href="#example-secret">Example Secret</a></li>
-    <li><a href="#steps-to-support-workload-identity">Steps to support workload identity</a></li>
-    <li><a href="#handling-for-the-failure-cases-and-logging">Handling for the failure cases and logging</a>
-      <ul>
-        <li><a href="#per-resource-group-secrets">Per resource group secrets</a></li>
-      </ul>
-    </li>
-    <li><a href="#milestones">Milestones</a></li>
+    <li><a href="#status">Status</a></li>
     <li><a href="#consequences">Consequences</a></li>
     <li><a href="#experience-report">Experience Report</a></li>
     <li><a href="#references">References</a></li>
@@ -561,13 +549,13 @@ Global Secret(aso-controller-settings) is a currently existing one and is used a
     <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" aria-disabled="true" class="btn-link disabled">2022-09: Support For Multiple Credentials Under Global Operator</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2023-04-deprecation/" aria-disabled="true" class="btn-link disabled">2023-04: Azure Resource Deprecation</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>2022-09: Support For Multiple Credentials Under Global Operator</h1>
+	<h1>2023-04: Azure Resource Deprecation</h1>
 	
 	<header class="article-meta">
 		
@@ -585,171 +573,28 @@ Global Secret(aso-controller-settings) is a currently existing one and is used a
 		
 	</header>    
 	<h2 id="context">Context</h2>
-<p>Some users of Azure Service Operator want to have a single instance that manages Azure resources across multiple subscriptions. This is useful, for example, if the organisation has a large cluster used by multiple teams, each team having their own Azure subscription.
-To support this, ASO will introduce support for multiple credentials, each associated with a specific scope:</p>
-<p><strong>Global Secret(aso-controller-settings)</strong> is a currently existing one and is used as default for all Azure Resources</p>
-<p><strong>Namespaced Secrets</strong> will be used for all Azure Resources within a specific cluster namespace</p>
-<p><strong>Per-resource-group Secrets</strong> will be used for all Azure Resources within a specific Resource Group</p>
-<p><strong>Per-resource Secrets</strong> will be used for specific resources</p>
-<h2 id="credential-selection-hierarchy">Credential selection hierarchy</h2>
-<p>We&rsquo;ll be using a pattern to determine which of the above secrets we use for operation on a resource. As in the below flow chart, if a resource is applied to the operator and the resource exists, operator would fetch and apply credentials in a following manner. If it&rsquo;s a new resource, operator would have to go through the secret selection hierarchy. Where, operator would first check if Per-resource or per-resource-group secret exists, if not, then will check for the namespaced secret. If any of the above is provided, operator would perform actions according to the <strong>options</strong> below. If none is provided, we&rsquo;ll fallback to use the global credential for that resource, which is the default cluster scoped secret(aso-controller-settings) in ASO namespace used today.</p>
-<p><img src="images/adr-2022-09-multiple-credential-operator.png" alt="hierarchy"></p>
-<h2 id="options">Options</h2>
-<p>In all the proposed solutions:</p>
-<ol>
-<li>Operator would cache (in-memory) the credentials to be used for resources when we reconcile and a mechanism to identify the credentials used for a resource.</li>
-<li>Operator would add <code>serviceoperator.azure.com/subscription: &lt;SUBSCRIPTION_ID&gt;</code> annotation on each resource, which would be checked with the current credentials on each reconcile. This would prevent users from updating a credential and causing their resource to be created in another subscription without deleting it from the first subscription.</li>
-</ol>
-<h3 id="option-1-fixed-secret-names">Option 1: Fixed secret names</h3>
-<p>In secrets lookup option, fixed naming patterns would be used to look up a secret each time a new resource is created. Operator would first use the naming pattern for the resource group, then for the cluster namespace. If a secret is found with the expected name, the credentials for the resource would be cached for use the next time. If no secret was found matching any patter, the default global secret would be used.</p>
-<p>NOTE: Annotation/condition will be added on the resource while creation which will have information about the secret name used for creation/reconcile.</p>
-<p><strong>Fixed secret name pattern:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Secret Type</th>
-<th>Pattern</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Namespaced</td>
-<td>aso-credential</td>
-</tr>
-<tr>
-<td>Per-resource-group</td>
-<td>aso-credential-{rg-name}</td>
-</tr>
-<tr>
-<td>Per-resource</td>
-<td>aso-credential-{resource-name}</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Pros:</strong></p>
-<ol>
-<li>Users don&rsquo;t have to specify the configuration for each resource explicitly</li>
-</ol>
-<p><strong>Cons:</strong></p>
-<ol>
-<li>Not very flexible, as users don&rsquo;t have much control for which resource they want to use which credential</li>
-<li>Can not re-use a secret across Resource Groups. Will have to specify secrets individually for each Resource Group, even if they are same</li>
-<li>Not friendly to apply-at-once code, as there could be a race while applying secret and resource at the same time</li>
-</ol>
-<h3 id="option-2-configuration-using-annotations">Option 2: Configuration using annotations</h3>
-<p>In Configuration using annotations option, we&rsquo;ll use annotations like below on the resource to fetch credentials from a secret and cache it. If secret is not found, operator would block the creation and set the condition to be <code>Ready condition == false</code> with <code>severity == Warning</code>, so that operator would keepo retrying to fetch the credentials until created.</p>
-<pre tabindex="0"><code>annotations: 
-  serviceoperator.azure.com/credential-from: any-secret
-</code></pre><p><strong>Pros:</strong></p>
-<ol>
-<li>Flexible, as users have the control for which resource they want to use which credential</li>
-</ol>
-<p><strong>Cons:</strong></p>
-<ol>
-<li>Will have to specify annotation on every resource explicitly, involving lots of repetition</li>
-</ol>
-<h3 id="option-3-fixed-secret-name-for-namespace--configuration-using-annotations">Option 3: Fixed secret name for namespace + configuration using annotations</h3>
-<p>Here, we would use a fixed pattern for namespaces secrets + annotations for per-resource-group and per-resource secrets. Operator would look up for the annotation(<code>serviceoperator.azure.com/credential-from</code>) on resource created, if annotation found, then use credentials from secret in annotation. If not, then look for the namespaced secret and use the namespaced credential.If none provided, operator shall continue with the global credential.</p>
-<p><strong>NOTE:</strong> Annotations should be watched for changes by the operator and trigger reconcile.</p>
-<p><strong>Fixed namespaced secret name pattern:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Secret Type</th>
-<th>Pattern</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Namespaced</td>
-<td>aso-credential</td>
-<td>Created in the Cluster namespace</td>
-</tr>
-<tr>
-<td>Per-resource-group</td>
-<td>serviceoperator.azure.com/credential-from: <code>SECRET_NAME</code></td>
-<td>Annotation on resource mentioning the secret to use for the resource</td>
-</tr>
-<tr>
-<td>Per-resource</td>
-<td>serviceoperator.azure.com/credential-from: <code>SECRET_NAME</code></td>
-<td>Annotation on resource mentioning the secret to use for the resource</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Pros:</strong></p>
-<ol>
-<li>Users don&rsquo;t have to specify the configuration for each resource explicitly if using a namespaced secret</li>
-<li>Users get the flexibility of overriding the credential they want to use as per resource and as per resource group</li>
-</ol>
-<p><strong>Cons:</strong></p>
-<ol>
-<li>Could be complicated/confusing for users to understand the usage and credentials being used. This can be mitigated to an extent by having <code>serviceoperator.azure.com/credential-from</code> annotation on each resource using credential other than global.</li>
-</ol>
-<h3 id="option-4-fixed-secret-name-for-namespace--configuration-using-global-secret">Option 4: Fixed secret name for namespace + configuration using global secret</h3>
-<p>We&rsquo;d use Fixed secret name for namespace + configuration using global secret for per-resource-group and per-resource secret. We can add another list(CREDENTIAL_FROM) in the global secret where admin users can specify the secrets they want to load on the startup.
-Then only these loaded secrets would be used further for per-resource and per-resource-group. This option would restrict the other non-admin users(who don&rsquo;t have access to the global secret) to add their credential.</p>
-<p><strong>Pros:</strong></p>
-<ol>
-<li>Users don&rsquo;t have to specify the configuration for each resource explicitly if using a namespaced secret</li>
-<li>Security conscious, not anyone in the cluster can add to use their credentials.</li>
-</ol>
-<p><strong>Cons:</strong></p>
-<ol>
-<li>Could be complicated/confusing for users to understand the usage and credentials being used</li>
-<li>Not very flexible, as pod will have to startup again if a new secret needs to be loaded and only administrators can add secrets</li>
-</ol>
+<p>As succinctly raised by <code>@sakthi-vetrivel</code> in (#2070)[https://github.com/Azure/azure-service-operator/issues/2070]:</p>
+<blockquote>
+<p>Today, there&rsquo;s no change to the support for an Azure Service Operator CRD when the underlying Azure service/offering is being deprecated. How should we communicate these deprecations and what timelines should we follow? How will we keep our catalog up to date?</p>
+</blockquote>
+<p>Starting in Kubernetes v1.19, it&rsquo;s possible to flag individual versions of a custom resource as (deprecated)[https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/#version-deprecation]. This results in the follow behaviour:</p>
+<blockquote>
+<p>When API requests to a deprecated version of that resource are made, a warning message is
+returned in the API response as a header. The warning message for each deprecated version of the
+resource can be customized if desired.</p>
+</blockquote>
 <h2 id="decision">Decision</h2>
-<p>After the analysis of the above options, we&rsquo;ve decided to go forward with Option 3(Fixed secret name for namespace + configuration using annotations). Which would be a flexible option for the users to add and move existing resources to use different credentials.</p>
-<p>As part of this, we decided to publish <code>Last Credential Used</code> events for each resource on reconcile. Which would be helpful for the users to know which credential was last used to reconcile a resource.</p>
-<h2 id="example-secret">Example Secret</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">   <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-   <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
-   <span style="color:#f92672">metadata</span>:
-     <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-credential </span>
-     <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">any-namespace</span>
-   <span style="color:#f92672">stringData</span>:
-     <span style="color:#f92672">AZURE_SUBSCRIPTION_ID</span>: <span style="color:#e6db74">&#34;$AZURE_SUBSCRIPTION_ID&#34;</span>
-     <span style="color:#f92672">AZURE_TENANT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_TENANT_ID&#34;</span>
-     <span style="color:#f92672">AZURE_CLIENT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_ID&#34;</span>
-     <span style="color:#f92672">AZURE_CLIENT_SECRET</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_SECRET&#34;</span>
-</code></pre></div><h2 id="steps-to-support-workload-identity">Steps to support workload identity</h2>
-<ol>
-<li>ASO must be installed with workload identity. This is because we need access to the Service Account Token, which will only be injected and used if they configure that for the global credential.</li>
-<li>Users create a UserManagedIdentity which they want to use as the identity in a particular namespace. They assign permissions to this identity. This can be done either using ASO itself, or</li>
-<li>Users register a FederatedIdentityCredential for that ManagedIdentity. The FederatedIdentityCredential must be registered for the ASO system service account <code>(&quot;subject&quot;: &quot;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&quot;)</code>. Note that the users don&rsquo;t need access to our namespace to do this, that subject is basically just a magic string they need to use.</li>
-<li>User would then create the namespace-scoped aso-credential Secret, containing the clientId of the User Managed Identity. ASO will read and use that clientId when authenticating with Azure.</li>
-</ol>
-<h2 id="handling-for-the-failure-cases-and-logging">Handling for the failure cases and logging</h2>
+<p>To make deprecations visible, we will modify our ObjectModelConfiguration to allow flagging a particular resource (or resource version) as deprecated (including a message), with this flowing through into the generated code and our custom resource definitions.</p>
+<p>When we become aware of resource or version deprecation, we&rsquo;ll do the following:</p>
 <ul>
-<li>Failure on loading a secret would result in failure on resource creation</li>
-<li>Failure on authenticating the credentials would result in failure on resource creation</li>
-<li>Logging should be clear about which credential is being used for a resource</li>
-<li>Logging should be clear about the credential load/authentication failure</li>
-<li>Errors can be reported through the standard <code>Condition</code> mechanism</li>
+<li>Modify our configuration to indicate deprecation of the resource</li>
+<li>Include deprecation details in our release notes for that release of ASO</li>
+<li>Add a documentation fragment to our Supported Resource page</li>
+<li>List the deprecation as a future breaking change</li>
 </ul>
-<h3 id="per-resource-group-secrets">Per resource group secrets</h3>
-<p>To use credential for resources under parent ResourceGroup, we will traverse up the resource hierarchy to find the containing Resource Group and look up credential for it through the <code>ArmClientCache</code>.</p>
-<h4 id="issue">Issue</h4>
-<p>Looking the resource group credential up for create or update is straightforward as we can easily access the annotation on any existing resource group. However, looking it up for delete is hard when we have already deleted the resource group, and any associated annotations are gone.</p>
-<p>Then we run into problems of</p>
-<ul>
-<li>what secret to use for children?</li>
-<li>where to get the annotation from? and,</li>
-<li>if we re-create a ResourceGroup with a different objectID later, how do we avoid using the wrong credentials accidentally.</li>
-</ul>
-<h4 id="solution">Solution</h4>
-<p>When using per resource group credentials, we&rsquo;ll add an ASO managed annotation (TBD) on each Kubernetes resource recording the name of the credential secret last used with that resource. The annotation will be updated each time the resource is reconciled by ASO.
-If the resource group is deleted from the cluster first, we will fall back to the annotation on the resource to identify the credential to use for deletion.</p>
-<h2 id="milestones">Milestones</h2>
-<ol>
-<li>Namespaced secrets: Completed in <a href="https://github.com/Azure/azure-service-operator/pull/2559">PR #2559</a></li>
-<li>Per-Resource secrets: Completed in <a href="https://github.com/Azure/azure-service-operator/pull/2576">PR #2576</a></li>
-<li>Support for workload identity: TBD</li>
-<li>Watch secrets: TBD</li>
-<li>Per-ResourceGroup secrets: Will not be implemented unless there is strong user demand. We believe that per-Resource secrets should be sufficiently granular.</li>
-</ol>
+<p>After the Azure deprecation has taken effect (that is, the resource or version is no longer deployable), we&rsquo;ll remove it from the following ASO release, with the breaking change noted in both the release notes and on our website.</p>
+<h2 id="status">Status</h2>
+<p>TBC</p>
 <h2 id="consequences">Consequences</h2>
 <p>TBC</p>
 <h2 id="experience-report">Experience Report</h2>

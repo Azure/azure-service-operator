@@ -66,6 +66,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2023-04-deprecation/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/annotations/</loc>
