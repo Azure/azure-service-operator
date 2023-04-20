@@ -99,6 +99,9 @@ func (tcr *TypeCatalogReport) WriteTo(writer io.Writer) error {
 		}
 
 		_, err = io.WriteString(writer, "\n")
+		if err != nil {
+			return err
+		}
 	}
 
 	packages := tcr.findPackages()
