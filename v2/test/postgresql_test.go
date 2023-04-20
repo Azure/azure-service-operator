@@ -46,7 +46,24 @@ func Test_PostgreSQL_Combined(t *testing.T) {
 
 	tc.Expect(flexibleServer.Status.FullyQualifiedDomainName).ToNot(BeNil())
 	fqdn := *flexibleServer.Status.FullyQualifiedDomainName
+	// This test is just to check, if the db is already accepting connections
+	tc.G.Eventually(
+		func() error {
+			conn, err := postgresqlutil.ConnectToDB(
+				tc.Ctx,
+				fqdn,
+				postgresqlutil.DefaultMaintanenceDatabase,
+				postgresqlutil.PSqlServerPort,
+				adminUsername,
+				adminPassword)
+			if err != nil {
+				return err
+			}
 
+			return conn.Close()
+		},
+		2*time.Minute, // We expect this to pass pretty quickly
+	).Should(Succeed())
 	// These must run sequentially as they're mutating SQL state
 	tc.RunSubtests(
 		testcommon.Subtest{
