@@ -21,6 +21,7 @@ type TypeCatalogReport struct {
 	defs                   astmodel.TypeDefinitionSet
 	inlinedTypes           astmodel.TypeNameSet // Set of types that we inline when generating the report
 	optionIncludeFunctions bool
+	header                 []string
 }
 
 func NewTypeCatalogReport(defs astmodel.TypeDefinitionSet) *TypeCatalogReport {
@@ -28,6 +29,11 @@ func NewTypeCatalogReport(defs astmodel.TypeDefinitionSet) *TypeCatalogReport {
 		defs:         defs,
 		inlinedTypes: astmodel.NewTypeNameSet(),
 	}
+}
+
+// AddHeader allows you to add lines to the header of the report
+func (tcr *TypeCatalogReport) AddHeader(lines ...string) {
+	tcr.header = append(tcr.header, lines...)
 }
 
 // SaveTo writes the report to the specified file
@@ -86,6 +92,18 @@ func (tcr *TypeCatalogReport) inlineTypesFrom(container astmodel.PropertyContain
 }
 
 func (tcr *TypeCatalogReport) WriteTo(writer io.Writer) error {
+	for _, l := range tcr.header {
+		_, err := io.WriteString(writer, l)
+		if err != nil {
+			return err
+		}
+
+		_, err = io.WriteString(writer, "\n")
+		if err != nil {
+			return err
+		}
+	}
+
 	packages := tcr.findPackages()
 	for _, pkg := range packages {
 		rpt := NewStructureReport(pkg.PackagePath())
