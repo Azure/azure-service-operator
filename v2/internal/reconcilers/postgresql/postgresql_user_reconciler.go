@@ -3,47 +3,45 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package mysql
+package postgresql
 
 import (
 	"context"
 	"database/sql"
-
+	dbforpostgressql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601storage"
 	"github.com/go-logr/logr"
-	_ "github.com/go-sql-driver/mysql" //mysql driver
 	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
-	asomysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
-	dbformysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
+	asopostgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
-	mysqlutil "github.com/Azure/azure-service-operator/v2/internal/util/mysql"
+	postgresqlutil "github.com/Azure/azure-service-operator/v2/internal/util/postgresql"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
-var _ genruntime.Reconciler = &MySQLUserReconciler{}
+var _ genruntime.Reconciler = &PostgreSQLUserReconciler{}
 
-type MySQLUserReconciler struct {
+type PostgreSQLUserReconciler struct {
 	reconcilers.ARMOwnedResourceReconcilerCommon
 	ResourceResolver *resolver.Resolver
 	Config           config.Values
 }
 
-func NewMySQLUserReconciler(
+func NewPostgreSQLUserReconciler(
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
-	cfg config.Values) *MySQLUserReconciler {
+	cfg config.Values) *PostgreSQLUserReconciler {
 
-	return &MySQLUserReconciler{
+	return &PostgreSQLUserReconciler{
 		ResourceResolver: resourceResolver,
 		Config:           cfg,
 		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
@@ -56,16 +54,16 @@ func NewMySQLUserReconciler(
 	}
 }
 
-func (r *MySQLUserReconciler) asUser(obj genruntime.MetaObject) (*asomysql.User, error) {
-	typedObj, ok := obj.(*asomysql.User)
+func (r *PostgreSQLUserReconciler) asUser(obj genruntime.MetaObject) (*asopostgresql.User, error) {
+	typedObj, ok := obj.(*asopostgresql.User)
 	if !ok {
-		return nil, errors.Errorf("cannot modify resource that is not of type *asomysql.User. Type is %T", obj)
+		return nil, errors.Errorf("cannot modify resource that is not of type *asopostgresql.User. Type is %T", obj)
 	}
 
 	return typedObj, nil
 }
 
-func (r *MySQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
+func (r *PostgreSQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -86,7 +84,7 @@ func (r *MySQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.Logge
 	}
 	defer db.Close()
 
-	log.V(Status).Info("Creating MySQL user")
+	log.V(Status).Info("Creating PostgreSql user")
 
 	password, err := secrets.LookupFromPtr(user.Spec.LocalUser.Password)
 	if err != nil {
@@ -95,28 +93,45 @@ func (r *MySQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.Logge
 
 	// Create or update the user. Note that this updates password if it has changed
 	username := user.Spec.AzureName
-	err = mysqlutil.CreateOrUpdateUser(ctx, db, user.Spec.AzureName, user.Spec.Hostname, password)
+
+	sqlUser, err := postgresqlutil.FindUserIfExist(ctx, db, username)
 	if err != nil {
-		return ctrl.Result{}, errors.Wrap(err, "failed to create user")
+		return ctrl.Result{}, errors.Wrap(err, "failed to find user")
+	}
+	if sqlUser == nil {
+		sqlUser, err = postgresqlutil.CreateUser(ctx, db, username, password)
+		if err != nil {
+			return ctrl.Result{}, errors.Wrap(err, "failed to create user")
+		}
+	} else {
+		err = postgresqlutil.UpdateUser(ctx, db, *sqlUser, password)
+		if err != nil {
+			return ctrl.Result{}, errors.Wrap(err, "failed to update user")
+		}
+	}
+	// TODO integrate in create and update user?
+	if user.Spec.RoleOptions == nil {
+		return ctrl.Result{}, errors.Wrap(err, "failed to look up .spec.roleOptions")
+	}
+	roleOptions := postgresqlutil.RoleOptions(*user.Spec.RoleOptions)
+	// Ensure that the user role options are set
+	err = postgresqlutil.ReconcileUserRoleOptions(ctx, db, *sqlUser, roleOptions)
+	if err != nil {
+		return ctrl.Result{}, errors.Wrap(err, "ensuring user role options")
 	}
 
-	// Ensure that the privileges are set
-	err = mysqlutil.ReconcileUserServerPrivileges(ctx, db, username, user.Spec.Hostname, user.Spec.Privileges)
+	// Ensure that the roles are set
+	err = postgresqlutil.ReconcileUserServerRoles(ctx, db, *sqlUser, user.Spec.Roles)
 	if err != nil {
 		return ctrl.Result{}, errors.Wrap(err, "ensuring server roles")
 	}
 
-	err = mysqlutil.ReconcileUserDatabasePrivileges(ctx, db, username, user.Spec.Hostname, user.Spec.DatabasePrivileges)
-	if err != nil {
-		return ctrl.Result{}, errors.Wrap(err, "ensuring database roles")
-	}
-
-	log.V(Status).Info("Successfully reconciled MySQLUser")
+	log.V(Status).Info("Successfully reconciled PostgreSqlUser")
 
 	return ctrl.Result{}, nil
 }
 
-func (r *MySQLUserReconciler) Delete(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
+func (r *PostgreSQLUserReconciler) Delete(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -153,7 +168,7 @@ func (r *MySQLUserReconciler) Delete(ctx context.Context, log logr.Logger, event
 	// TODO: so might cause an error triggering the resource to get stuck).
 	// TODO: We check for owner not existing above, but cases where the server is in the process of being
 	// TODO: deleted (or all system tables have been wiped?) might also exist...
-	err = mysqlutil.DropUser(ctx, db, user.Spec.AzureName)
+	err = postgresqlutil.DropUser(ctx, db, user.Spec.AzureName)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -161,7 +176,7 @@ func (r *MySQLUserReconciler) Delete(ctx context.Context, log logr.Logger, event
 	return ctrl.Result{}, nil
 }
 
-func (r *MySQLUserReconciler) Claim(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
+func (r *PostgreSQLUserReconciler) Claim(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return err
@@ -175,7 +190,7 @@ func (r *MySQLUserReconciler) Claim(ctx context.Context, log logr.Logger, eventR
 	return nil
 }
 
-func (r *MySQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
+func (r *PostgreSQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return err
@@ -192,7 +207,7 @@ func (r *MySQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger,
 	}
 	defer db.Close()
 
-	exists, err := mysqlutil.DoesUserExist(ctx, db, user.Spec.AzureName)
+	exists, err := postgresqlutil.DoesUserExist(ctx, db, user.Spec.AzureName)
 	if err != nil {
 		return err
 	}
@@ -206,19 +221,19 @@ func (r *MySQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger,
 	return nil
 }
 
-func (r *MySQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, user *asomysql.User, secrets genruntime.Resolved[genruntime.SecretReference]) (*sql.DB, error) {
+func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, user *asopostgresql.User, secrets genruntime.Resolved[genruntime.SecretReference]) (*sql.DB, error) {
 	// Get the owner - at this point it must exist
 	owner, err := r.ResourceResolver.ResolveOwner(ctx, user)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(err, "resolving owner for user %s", user.Name)
 	}
 
-	flexibleServer, ok := owner.(*dbformysql.FlexibleServer)
+	flexibleServer, ok := owner.(*dbforpostgressql.FlexibleServer)
 	if !ok {
 		return nil, errors.Errorf("owner was not type FlexibleServer, instead: %T", owner)
 	}
 	// Magical assertion to ensure that this is still the storage type
-	var _ ctrlconversion.Hub = &dbformysql.FlexibleServer{}
+	var _ ctrlconversion.Hub = &dbforpostgressql.FlexibleServer{}
 
 	if flexibleServer.Status.FullyQualifiedDomainName == nil {
 		// This possibly means that the server hasn't finished deploying yet
@@ -238,14 +253,14 @@ func (r *MySQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logger, us
 	adminUser := user.Spec.LocalUser.ServerAdminUsername
 
 	// Connect to the DB
-	db, err := mysqlutil.ConnectToDB(ctx, serverFQDN, mysqlutil.SystemDatabase, mysqlutil.ServerPort, adminUser, adminPassword)
+	db, err := postgresqlutil.ConnectToDB(ctx, serverFQDN, postgresqlutil.DefaultMaintanenceDatabase, postgresqlutil.PSqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		return nil, errors.Wrapf(
 			err,
 			"failed to connect database. Server: %s, Database: %s, Port: %d, AdminUser: %s",
 			serverFQDN,
-			mysqlutil.SystemDatabase,
-			mysqlutil.ServerPort,
+			postgresqlutil.DefaultMaintanenceDatabase,
+			postgresqlutil.PSqlServerPort,
 			adminUser)
 	}
 

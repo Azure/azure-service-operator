@@ -67,6 +67,10 @@ type SampleObject struct {
 	RefsMap    map[string]genruntime.ARMMetaObject
 }
 
+func (s *SampleObject) HasSamples() bool {
+	return len(s.SamplesMap) > 0
+}
+
 func NewSampleObject() *SampleObject {
 	return &SampleObject{
 		SamplesMap: make(map[string]genruntime.ARMMetaObject),
