@@ -16,6 +16,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_Insights_Component_CRUD(t *testing.T) {
@@ -25,19 +26,7 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Create a component
-	applicationType := insights.ApplicationInsightsComponentProperties_Application_Type_Other
-	component := &insights.Component{
-		ObjectMeta: tc.MakeObjectMeta("component"),
-		Spec: insights.Component_Spec{
-			Location: tc.AzureRegion,
-			Owner:    testcommon.AsOwner(rg),
-			// According to their documentation you can set anything here, it's ignored.
-			Application_Type: &applicationType,
-			Kind:             to.Ptr("web"),
-		},
-	}
-
+	component := newAppInsightsComponent(tc, rg)
 	tc.CreateResourceAndWait(component)
 
 	tc.Expect(component.Status.Location).To(Equal(tc.AzureRegion))
@@ -132,4 +121,95 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 		string(insightswebtest.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func Test_Insights_Component_ExportConfigMap(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	component := newAppInsightsComponent(tc, rg)
+	tc.CreateResourceAndWait(component)
+
+	tc.Expect(component.Status.Location).To(Equal(tc.AzureRegion))
+	tc.Expect(component.Status.Kind).To(Equal(to.Ptr("web")))
+	tc.Expect(component.Status.Id).ToNot(BeNil())
+	armId := *component.Status.Id
+
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "ConfigValuesWrittenToSameConfigMap",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Component_ConfigValuesWrittenToSameConfigMap(tc, component)
+			},
+		},
+		testcommon.Subtest{
+			Name: "ConfigValuesWrittenToDifferentConfigMap",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Component_ConfigValuesWrittenToDifferentConfigMap(tc, component)
+			},
+		})
+
+	tc.DeleteResourceAndWait(component)
+
+	// Ensure that the resource was really deleted in Azure
+	exists, _, err := tc.AzureClient.HeadByID(
+		tc.Ctx,
+		armId,
+		string(insights.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func Component_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestContext, component *insights.Component) {
+	old := component.DeepCopy()
+	componentConfigMap := "component-config"
+
+	component.Spec.OperatorSpec = &insights.ComponentOperatorSpec{
+		ConfigMaps: &insights.ComponentOperatorConfigMaps{
+			ConnectionString:   &genruntime.ConfigMapDestination{Name: componentConfigMap, Key: "connectionString"},
+			InstrumentationKey: &genruntime.ConfigMapDestination{Name: componentConfigMap, Key: "instrumentationKey"},
+		},
+	}
+	tc.PatchResourceAndWait(old, component)
+
+	tc.ExpectConfigMapHasKeysAndValues(
+		componentConfigMap,
+		"connectionString", *component.Status.ConnectionString,
+		"instrumentationKey", *component.Status.InstrumentationKey)
+}
+
+func Component_ConfigValuesWrittenToDifferentConfigMap(tc *testcommon.KubePerTestContext, component *insights.Component) {
+	old := component.DeepCopy()
+	componentConfigMap1 := "component-config1"
+	componentConfigMap2 := "component-config2"
+
+	component.Spec.OperatorSpec = &insights.ComponentOperatorSpec{
+		ConfigMaps: &insights.ComponentOperatorConfigMaps{
+			ConnectionString:   &genruntime.ConfigMapDestination{Name: componentConfigMap1, Key: "connectionString"},
+			InstrumentationKey: &genruntime.ConfigMapDestination{Name: componentConfigMap2, Key: "instrumentationKey"},
+		},
+	}
+	tc.PatchResourceAndWait(old, component)
+
+	tc.ExpectConfigMapHasKeysAndValues(componentConfigMap1, "connectionString", *component.Status.ConnectionString)
+	tc.ExpectConfigMapHasKeysAndValues(componentConfigMap2, "instrumentationKey", *component.Status.InstrumentationKey)
+}
+
+func newAppInsightsComponent(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *insights.Component {
+	// Create a component
+	applicationType := insights.ApplicationInsightsComponentProperties_Application_Type_Other
+	component := &insights.Component{
+		ObjectMeta: tc.MakeObjectMeta("component"),
+		Spec: insights.Component_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			// According to their documentation you can set anything here, it's ignored.
+			Application_Type: &applicationType,
+			Kind:             to.Ptr("web"),
+		},
+	}
+	return component
 }

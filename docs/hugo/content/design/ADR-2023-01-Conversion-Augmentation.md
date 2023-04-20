@@ -8,7 +8,7 @@ The Kubernetes ecosystem has [strong requirements](https://book.kubebuilder.io/m
 
 > In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.
 
-To achieve this, we are [code generating conversions](https://azure.github.io/azure-service-operator/design/versioning/) between versions of our resources.
+To achieve this, we are [code generating conversions](../versioning/) between versions of our resources.
 
 However, we've always known that we'd need the capability to augment these conversions with some hand-written code, if only because we would quickly hit a point of diminishing returns if we try to handle everything with the generator. 
 
@@ -158,7 +158,7 @@ TBC.
 
 Our object conversion graph is shaped a bit like a comb:
 
-![Sample Conversion Graph](https://azure.github.io/azure-service-operator/design/versioning/conversions.png)
+![Sample Conversion Graph](../versioning/conversions.png)
 
 The API versions of resources inter-convert with Storage versions of those same resources (shown as vertical links, above). These types have (by design) identical shapes, so there's no need for any custom conversion logic. 
 Conversions between different versions of a resource are handled by conversions between storage versions (shown as horizontal links), so those are the only versions that need to implement the conversion hook.
