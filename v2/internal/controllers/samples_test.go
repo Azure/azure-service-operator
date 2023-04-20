@@ -92,8 +92,12 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 
 	tc.Expect(err).To(BeNil())
 	tc.Expect(samples).ToNot(BeNil())
-
 	tc.Expect(samples).ToNot(BeZero())
+
+	if !samples.HasSamples() {
+		// No testable samples in this folder, skip
+		return
+	}
 
 	tc.CreateResourceAndWait(rg)
 
