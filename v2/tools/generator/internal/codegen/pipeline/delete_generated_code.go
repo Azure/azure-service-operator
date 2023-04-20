@@ -53,6 +53,12 @@ func deleteGeneratedCodeFromFolder(ctx context.Context, outputFolder string) err
 		return err
 	}
 
+	structurePattern := filepath.Join(outputFolder, "**", "*", "*.txt")
+	err = deleteGeneratedCodeByPattern(ctx, structurePattern)
+	if err != nil {
+		return err
+	}
+
 	return deleteEmptyDirectories(ctx, outputFolder)
 }
 
