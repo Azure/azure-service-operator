@@ -945,6 +945,7 @@ tasks:
 
   produce-markdown-summary:
     desc: Builds a test output summary for Github
+    deps: [build-mangle-test]
     cmds:
     - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
 
@@ -952,4 +953,4 @@ tasks:
     desc: Builds the tool we use for mangling test results
     dir: v2/tools/mangle-test-json
     cmds:
-    - go build 
+    - go build
