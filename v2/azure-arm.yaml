@@ -1086,6 +1086,9 @@ objectModelConfiguration:
       Component:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
+        $generatedConfigs:
+          ConnectionString: $.Status.ConnectionString
+          InstrumentationKey: $.Status.InstrumentationKey
   keyvault:
     2021-04-01-preview:
       Vault:

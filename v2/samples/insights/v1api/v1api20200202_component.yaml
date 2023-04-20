@@ -13,3 +13,11 @@ spec:
     group: operationalinsights.azure.com
     kind: Workspace
     name: sampleworkspace
+  operatorSpec:
+    configMaps:
+      connectionString:
+        name: componentconfig
+        key: connectionString
+      instrumentationKey:
+        name: componentconfig
+        key: instrumentationKey
