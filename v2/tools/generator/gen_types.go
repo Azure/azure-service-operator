@@ -33,7 +33,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 
 			log := CreateLogger()
 
-			cg, err := codegen.NewCodeGeneratorFromConfigFile(configFile)
+			cg, err := codegen.NewCodeGeneratorFromConfigFile(configFile, log)
 			if err != nil {
 				log.Error(err, "Error creating code generator")
 				return err
