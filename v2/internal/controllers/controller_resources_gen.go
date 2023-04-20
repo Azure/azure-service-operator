@@ -69,6 +69,9 @@ import (
 	containerservice_v1api20230202ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20230202previewstorage"
 	containerservice_v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
 	containerservice_v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
+	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
+	datafactory_v1api20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
+	datafactory_v1api20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601storage"
 	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
 	dbformariadb_v1api20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
 	dbformariadb_v1api20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601storage"
@@ -285,6 +288,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v1api20210901s.Registry)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230201s.ManagedCluster)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v1api20230201s.ManagedClustersAgentPool)})
+	result = append(result, &registration.StorageType{Obj: new(datafactory_v1api20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v1api20180601s.Configuration)})
 	result = append(result, &registration.StorageType{Obj: new(dbformariadb_v1api20180601s.Database)})
 	result = append(result, &registration.StorageType{
@@ -790,6 +794,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerservice_v1api20230202ps.ManagedCluster), new(containerservice_v1api20230202ps.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501.ManagedCluster), new(containerservice_v20210501.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501s.ManagedCluster), new(containerservice_v20210501s.ManagedClustersAgentPool))
+	result = append(result, new(datafactory_v1api20180601.Factory))
+	result = append(result, new(datafactory_v1api20180601s.Factory))
 	result = append(
 		result,
 		new(dbformariadb_v1api20180601.Configuration),
@@ -1311,6 +1317,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v1api20230202ps.AddToScheme(scheme)
 	_ = containerservice_v20210501.AddToScheme(scheme)
 	_ = containerservice_v20210501s.AddToScheme(scheme)
+	_ = datafactory_v1api20180601.AddToScheme(scheme)
+	_ = datafactory_v1api20180601s.AddToScheme(scheme)
 	_ = dbformariadb_v1api20180601.AddToScheme(scheme)
 	_ = dbformariadb_v1api20180601s.AddToScheme(scheme)
 	_ = dbformariadb_v20180601.AddToScheme(scheme)
@@ -1433,6 +1441,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
+	result = append(result, &datafactory_customizations.FactoryExtension{})
 	result = append(result, &dbformariadb_customizations.ConfigurationExtension{})
 	result = append(result, &dbformariadb_customizations.DatabaseExtension{})
 	result = append(result, &dbformariadb_customizations.ServerExtension{})

@@ -105,7 +105,7 @@ func loadJSON(
 			// Skip empty lines
 			continue
 		}
-		
+
 		var d JSONFormat
 		err := json.Unmarshal([]byte(line), &d)
 		if err != nil {

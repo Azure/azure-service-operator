@@ -16,8 +16,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// If recording this test, might need to manually purge the old KeyVault: az keyvault purge --name asotest-keyvault-ngmgjs
-
 func Test_KeyVault_Vault_CRUD(t *testing.T) {
 
 	t.Parallel()
@@ -130,6 +128,9 @@ func newVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *k
 					Name:   &skuName,
 				},
 				TenantId: to.Ptr(tc.AzureTenant),
+				// EnableSoftDelete is true as default. We need to set this false to purge delete the KeyVault so there's no conflict while re-running tests.
+				// This is not best practice and should be left to true for any production KV, it is only set to false here for test purposes
+				EnableSoftDelete: to.Ptr(false),
 			},
 		},
 	}
