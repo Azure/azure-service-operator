@@ -10,7 +10,7 @@ vars:
   GENERATOR_ROOT: v2/tools/generator/
 
   ASOCTL_APP: asoctl
-  ASOCTL_ROOT: v2/tools/asoctl/
+  ASOCTL_ROOT: v2/cmd/asoctl/
 
   CONTROLLER_APP: aso-controller
   CONTROLLER_ROOT: v2/

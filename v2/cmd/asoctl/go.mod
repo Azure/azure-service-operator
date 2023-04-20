@@ -1,4 +1,4 @@
-module github.com/Azure/azure-service-operator/v2/tools/asoctl
+module github.com/Azure/azure-service-operator/v2/cmd/asoctl
 
 go 1.20
 
