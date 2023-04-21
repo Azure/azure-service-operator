@@ -59,8 +59,6 @@ func Test_Networking_BastionHost_CRUD(t *testing.T) {
 
 	tc.CreateResourcesAndWait(vnet, subnet, publicIPAddress, host)
 
-	tc.ExportAsSample(host)
-
 	tc.Expect(host.Status.Id).ToNot(BeNil())
 	armID := *publicIPAddress.Status.Id
 
