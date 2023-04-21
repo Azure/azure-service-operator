@@ -78,7 +78,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 		OtherDefinitions:    make(astmodel.TypeDefinitionSet),
 	}
 
-	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
+	scanner := NewSchemaScanner(extractor.idFactory, extractor.config, extractor.log)
 
 	err := extractor.ExtractResourceTypes(ctx, scanner, result)
 	if err != nil {
@@ -161,10 +161,11 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 
 	armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 	if err != nil {
-		extractor.log.V(1).Error(
-			err,
+		// Logging using Info() because this is common and Error() can't be suppressed
+		extractor.log.V(1).Info(
 			"Error extracting resource name",
-			"swaggerPath", extractor.swaggerPath)
+			"swaggerPath", extractor.swaggerPath,
+			"error", err)
 		return nil
 	}
 

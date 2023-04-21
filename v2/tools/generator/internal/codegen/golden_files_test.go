@@ -15,6 +15,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
@@ -241,7 +242,7 @@ func loadTestSchemaIntoTypes(
 				return nil, errors.Wrapf(err, "could not compile input")
 			}
 
-			scanner := jsonast.NewSchemaScanner(idFactory, configuration)
+			scanner := jsonast.NewSchemaScanner(idFactory, configuration, logr.Discard())
 
 			klog.V(0).Infof("Walking deployment template")
 

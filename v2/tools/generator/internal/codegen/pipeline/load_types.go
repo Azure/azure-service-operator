@@ -21,7 +21,6 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -47,14 +46,19 @@ func LoadTypes(
 		LoadTypesStageID,
 		"Load all types from Swagger files",
 		func(ctx context.Context, definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-			klog.V(1).Infof("Loading Swagger data from %q", config.SchemaRoot)
+			log.V(1).Info(
+				"Loading Swagger data",
+				"source", config.SchemaRoot)
 
 			swaggerTypes, err := loadSwaggerData(ctx, idFactory, config, log)
 			if err != nil {
 				return nil, errors.Wrapf(err, "unable to load Swagger data")
 			}
 
-			klog.V(1).Infof("Loaded Swagger data (%d resources, %d other definitions)", len(swaggerTypes.ResourceDefinitions), len(swaggerTypes.OtherDefinitions))
+			log.V(1).Info(
+				"Loaded Swagger data",
+				"resources", len(swaggerTypes.ResourceDefinitions),
+				"otherDefinitions", len(swaggerTypes.OtherDefinitions))
 
 			if len(swaggerTypes.ResourceDefinitions) == 0 || len(swaggerTypes.OtherDefinitions) == 0 {
 				return nil, errors.Errorf("Failed to load swagger information")
@@ -303,7 +307,13 @@ func loadSwaggerData(
 	config *config.Configuration,
 	log logr.Logger,
 ) (jsonast.SwaggerTypes, error) {
-	schemas, err := loadAllSchemas(ctx, config.SchemaRoot, config.LocalPathPrefix(), idFactory, config.Status.Overrides)
+	schemas, err := loadAllSchemas(
+		ctx,
+		config.SchemaRoot,
+		config.LocalPathPrefix(),
+		idFactory,
+		config.Status.Overrides,
+		log)
 	if err != nil {
 		return jsonast.SwaggerTypes{}, err
 	}
@@ -636,6 +646,7 @@ func loadAllSchemas(
 	localPathPrefix string,
 	idFactory astmodel.IdentifierFactory,
 	overrides []config.SchemaOverride,
+	log logr.Logger,
 ) (map[string]jsonast.PackageAndSwagger, error) {
 	var mutex sync.Mutex
 	schemas := make(map[string]jsonast.PackageAndSwagger)
@@ -673,7 +684,9 @@ func loadAllSchemas(
 			eg.Go(func() error {
 				var swagger spec.Swagger
 
-				klog.V(3).Infof("Loading file %q", filePath)
+				log.V(1).Info(
+					"Loading OpenAPI spec",
+					"file", filePath)
 
 				fileContent, err := ioutil.ReadFile(filePath)
 				if err != nil {
