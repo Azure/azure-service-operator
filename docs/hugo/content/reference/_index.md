@@ -128,6 +128,14 @@ Supporting 2 resources: ManagedCluster, ManagedClustersAgentPool
 | ManagedClustersAgentPool                                                                                                                                                                 | 2021-05-01         | v1api20210501        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20210501/v1api20210501_managedclustersagentpool.yaml)               |
 | [ManagedClustersAgentPool](https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/#containerservice.azure.com/v1beta20210501.ManagedClustersAgentPool) | 2021-05-01         | v1beta20210501       | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20210501/v1beta20210501_managedclustersagentpool.yaml)             |
 
+## Datafactory
+
+Supporting 1 resource: Factory
+
+| Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                                    |
+|----------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------|
+| Factory  | 2018-06-01  | v1api20180601 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/datafactory/v1api/v1api20180601_factory.yaml) |
+
 ## Dbformariadb
 
 Supporting 3 resources: Configuration, Database, Server
@@ -292,10 +300,11 @@ Supporting 2 resources: FederatedIdentityCredential, UserAssignedIdentity
 
 ## Network
 
-Supporting 25 resources: LoadBalancer, NatGateway, NetworkInterface, NetworkSecurityGroup, NetworkSecurityGroupsSecurityRule, PrivateDnsZone, PrivateDnsZonesAAAARecord, PrivateDnsZonesARecord, PrivateDnsZonesCNAMERecord, PrivateDnsZonesMXRecord, PrivateDnsZonesPTRRecord, PrivateDnsZonesSRVRecord, PrivateDnsZonesTXTRecord, PrivateDnsZonesVirtualNetworkLink, PrivateEndpoint, PrivateEndpointsPrivateDnsZoneGroup, PrivateLinkService, PublicIPAddress, PublicIPPrefix, RouteTable, RouteTablesRoute, VirtualNetwork, VirtualNetworkGateway, VirtualNetworksSubnet, VirtualNetworksVirtualNetworkPeering
+Supporting 26 resources: BastionHost, LoadBalancer, NatGateway, NetworkInterface, NetworkSecurityGroup, NetworkSecurityGroupsSecurityRule, PrivateDnsZone, PrivateDnsZonesAAAARecord, PrivateDnsZonesARecord, PrivateDnsZonesCNAMERecord, PrivateDnsZonesMXRecord, PrivateDnsZonesPTRRecord, PrivateDnsZonesSRVRecord, PrivateDnsZonesTXTRecord, PrivateDnsZonesVirtualNetworkLink, PrivateEndpoint, PrivateEndpointsPrivateDnsZoneGroup, PrivateLinkService, PublicIPAddress, PublicIPPrefix, RouteTable, RouteTablesRoute, VirtualNetwork, VirtualNetworkGateway, VirtualNetworksSubnet, VirtualNetworksVirtualNetworkPeering
 
 | Resource                                                                                                                                                                                       | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                                       |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| BastionHost                                                                                                                                                                                    | 2022-07-01  | v1api20220701  | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_bastionhost.yaml)                            |
 | LoadBalancer                                                                                                                                                                                   | 2020-11-01  | v1api20201101  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_loadbalancer.yaml)                           |
 | [LoadBalancer](https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.LoadBalancer)                                                 | 2020-11-01  | v1beta20201101 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_loadbalancer.yaml)                         |
 | NatGateway                                                                                                                                                                                     | 2022-07-01  | v1api20220701  | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_natgateway.yaml)                             |

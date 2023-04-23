@@ -1,0 +1,37 @@
+| Type Definitions in package "datafactory"    | v1api20180601 |
+|----------------------------------------------|---------------|
+| APIVersion                                   | v1api20180601 |
+| CMKIdentityDefinition                        | v1api20180601 |
+| CMKIdentityDefinition_STATUS                 | v1api20180601 |
+| EncryptionConfiguration                      | v1api20180601 |
+| EncryptionConfiguration_STATUS               | v1api20180601 |
+| Factory                                      | v1api20180601 |
+| FactoryGitHubConfiguration                   | v1api20180601 |
+| FactoryGitHubConfiguration_STATUS            | v1api20180601 |
+| FactoryGitHubConfiguration_Type              | v1api20180601 |
+| FactoryGitHubConfiguration_Type_STATUS       | v1api20180601 |
+| FactoryIdentity                              | v1api20180601 |
+| FactoryIdentity_STATUS                       | v1api20180601 |
+| FactoryIdentity_Type                         | v1api20180601 |
+| FactoryIdentity_Type_STATUS                  | v1api20180601 |
+| FactoryProperties                            | v1api20180601 |
+| FactoryProperties_PublicNetworkAccess        | v1api20180601 |
+| FactoryProperties_PublicNetworkAccess_STATUS | v1api20180601 |
+| FactoryProperties_STATUS                     | v1api20180601 |
+| FactoryRepoConfiguration                     | v1api20180601 |
+| FactoryRepoConfiguration_STATUS              | v1api20180601 |
+| FactoryVSTSConfiguration                     | v1api20180601 |
+| FactoryVSTSConfiguration_STATUS              | v1api20180601 |
+| FactoryVSTSConfiguration_Type                | v1api20180601 |
+| FactoryVSTSConfiguration_Type_STATUS         | v1api20180601 |
+| Factory_STATUS                               | v1api20180601 |
+| Factory_Spec                                 | v1api20180601 |
+| GitHubClientSecret                           | v1api20180601 |
+| GitHubClientSecret_STATUS                    | v1api20180601 |
+| GlobalParameterSpecification                 | v1api20180601 |
+| GlobalParameterSpecification_STATUS          | v1api20180601 |
+| GlobalParameterSpecification_Type            | v1api20180601 |
+| GlobalParameterSpecification_Type_STATUS     | v1api20180601 |
+| PurviewConfiguration                         | v1api20180601 |
+| PurviewConfiguration_STATUS                  | v1api20180601 |
+| UserAssignedIdentityDetails                  | v1api20180601 |

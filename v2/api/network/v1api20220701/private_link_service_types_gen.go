@@ -2684,15 +2684,6 @@ func (resourceSet *ResourceSet_STATUS) AssignProperties_To_ResourceSet_STATUS(de
 }
 
 // IP address allocation method.
-// +kubebuilder:validation:Enum={"Dynamic","Static"}
-type IPAllocationMethod string
-
-const (
-	IPAllocationMethod_Dynamic = IPAllocationMethod("Dynamic")
-	IPAllocationMethod_Static  = IPAllocationMethod("Static")
-)
-
-// IP address allocation method.
 type IPAllocationMethod_STATUS string
 
 const (

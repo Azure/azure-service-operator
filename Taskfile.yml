@@ -10,7 +10,7 @@ vars:
   GENERATOR_ROOT: v2/tools/generator/
 
   ASOCTL_APP: asoctl
-  ASOCTL_ROOT: v2/tools/asoctl/
+  ASOCTL_ROOT: v2/cmd/asoctl/
 
   CONTROLLER_APP: aso-controller
   CONTROLLER_ROOT: v2/
@@ -99,6 +99,7 @@ tasks:
         sh: npm root -g
 
   check-docs-site-links:
+    desc: Verify documentation site links
     dir: docs/hugo
     cmds:
       # Excluding './content/reference/*' path as it contains all auto-generated API docs.
@@ -944,5 +945,12 @@ tasks:
 
   produce-markdown-summary:
     desc: Builds a test output summary for Github
+    deps: [build-mangle-test]
     cmds:
-    - cmd: go run v2/tools/mangle-test-json/main.go "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
+    - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
+
+  build-mangle-test:
+    desc: Builds the tool we use for mangling test results
+    dir: v2/tools/mangle-test-json
+    cmds:
+    - go build

@@ -53,12 +53,12 @@ if [[ "$CHECK_ESTABLISHED" -eq 1 ]]; then
 fi
 
 echo "Waiting for pod ready..."
-kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager
+kubectl wait --for=condition=ready --timeout=3m pod -n azureserviceoperator-system -l control-plane=controller-manager
 
 echo "Waiting for CRD cabundle..."
 export -f all_crds_have_cabundle
 export -f wait_for_crds_cabundle
-timeout 1m bash -c wait_for_crds_cabundle
+timeout 2m bash -c wait_for_crds_cabundle
 
 echo "The operator is ready"
 exit 0

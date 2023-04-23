@@ -27,6 +27,16 @@
 | BackendAddressPool_NetworkInterface_SubResourceEmbedded                                |               |               | v1api20201101 |               |                | v1beta20201101 |
 | BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded                             |               |               | v1api20201101 |               |                | v1beta20201101 |
 | BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded                         |               |               | v1api20201101 |               |                | v1beta20201101 |
+| BastionHost                                                                            |               |               |               | v1api20220701 |                |                |
+| BastionHostIPConfiguration                                                             |               |               |               | v1api20220701 |                |                |
+| BastionHostIPConfigurationPropertiesFormat                                             |               |               |               | v1api20220701 |                |                |
+| BastionHostIPConfiguration_STATUS                                                      |               |               |               | v1api20220701 |                |                |
+| BastionHostPropertiesFormat                                                            |               |               |               | v1api20220701 |                |                |
+| BastionHostPropertiesFormat_STATUS                                                     |               |               |               | v1api20220701 |                |                |
+| BastionHostProvisioningState_STATUS                                                    |               |               |               | v1api20220701 |                |                |
+| BastionHostSubResource                                                                 |               |               |               | v1api20220701 |                |                |
+| BastionHost_STATUS                                                                     |               |               |               | v1api20220701 |                |                |
+| BastionHost_Spec                                                                       |               |               |               | v1api20220701 |                |                |
 | BgpSettings                                                                            |               |               | v1api20201101 |               |                | v1beta20201101 |
 | BgpSettings_STATUS                                                                     |               |               | v1api20201101 |               |                | v1beta20201101 |
 | CnameRecord                                                                            |               | v1api20200601 |               |               |                |                |
@@ -312,6 +322,10 @@
 | ServiceEndpointPolicy_STATUS_VirtualNetworks_Subnet_SubResourceEmbedded                |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ServiceEndpointPropertiesFormat                                                        |               |               | v1api20201101 |               |                | v1beta20201101 |
 | ServiceEndpointPropertiesFormat_STATUS                                                 |               |               | v1api20201101 |               |                | v1beta20201101 |
+| Sku                                                                                    |               |               |               | v1api20220701 |                |                |
+| Sku_Name                                                                               |               |               |               | v1api20220701 |                |                |
+| Sku_Name_STATUS                                                                        |               |               |               | v1api20220701 |                |                |
+| Sku_STATUS                                                                             |               |               |               | v1api20220701 |                |                |
 | SoaRecord                                                                              |               | v1api20200601 |               |               |                |                |
 | SoaRecord_STATUS                                                                       |               | v1api20200601 |               |               |                |                |
 | SrvRecord                                                                              |               | v1api20200601 |               |               |                |                |
