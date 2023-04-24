@@ -1,0 +1,11 @@
+apiVersion: network.azure.com/v1api20180501
+kind: DnsZonesARecord
+metadata:
+  name: aso-sample-record-a
+  namespace: default
+spec:
+  ARecords:
+  - ipv4Address: 10.0.1.9
+  owner:
+    name: aso-sample-dz.com
+  TTL: 3600
