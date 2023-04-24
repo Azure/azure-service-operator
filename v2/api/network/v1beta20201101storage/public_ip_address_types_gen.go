@@ -5,6 +5,7 @@ package v1beta20201101storage
 
 import (
 	"fmt"
+	v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
 	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -423,8 +424,13 @@ func (address *PublicIPAddress_Spec) AssignProperties_From_PublicIPAddress_Spec(
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from PublicIPPrefix")
 		}
+		var subResourceStashLocal v1api20180501s.SubResource
+		err = subResourceStashLocal.AssignProperties_From_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash")
+		}
 		var publicIPPrefix SubResource
-		err = publicIPPrefix.AssignProperties_From_SubResource(&subResourceStash)
+		err = publicIPPrefix.AssignProperties_From_SubResource(&subResourceStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field PublicIPPrefix from SubResourceStash")
 		}
@@ -597,13 +603,18 @@ func (address *PublicIPAddress_Spec) AssignProperties_To_PublicIPAddress_Spec(de
 
 	// PublicIPPrefix
 	if address.PublicIPPrefix != nil {
-		var subResourceStash v1api20200601s.SubResource
+		var subResourceStash v1api20180501s.SubResource
 		err := address.PublicIPPrefix.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from PublicIPPrefix")
 		}
+		var subResourceStashLocal v1api20200601s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&subResourceStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash")
+		}
 		var publicIPPrefix v1api20201101s.SubResource
-		err = subResourceStash.AssignProperties_To_SubResource(&publicIPPrefix)
+		err = subResourceStashLocal.AssignProperties_To_SubResource(&publicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field PublicIPPrefix from SubResourceStash")
 		}
@@ -864,8 +875,13 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
 		}
+		var subResourceSTATUSStashLocal v1api20180501s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var publicIPPrefix SubResource_STATUS
-		err = publicIPPrefix.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = publicIPPrefix.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field PublicIPPrefix from SubResource_STATUSStash")
 		}
@@ -1036,13 +1052,18 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Assi
 
 	// PublicIPPrefix
 	if embedded.PublicIPPrefix != nil {
-		var subResourceSTATUSStash v1api20200601s.SubResource_STATUS
+		var subResourceSTATUSStash v1api20180501s.SubResource_STATUS
 		err := embedded.PublicIPPrefix.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
 		}
+		var subResourceSTATUSStashLocal v1api20200601s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var publicIPPrefix v1api20201101s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&publicIPPrefix)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&publicIPPrefix)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field PublicIPPrefix from SubResource_STATUSStash")
 		}
@@ -1126,8 +1147,13 @@ func (settings *DdosSettings) AssignProperties_From_DdosSettings(source *v1api20
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from DdosCustomPolicy")
 		}
+		var subResourceStashLocal v1api20180501s.SubResource
+		err = subResourceStashLocal.AssignProperties_From_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash")
+		}
 		var ddosCustomPolicy SubResource
-		err = ddosCustomPolicy.AssignProperties_From_SubResource(&subResourceStash)
+		err = ddosCustomPolicy.AssignProperties_From_SubResource(&subResourceStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field DdosCustomPolicy from SubResourceStash")
 		}
@@ -1174,13 +1200,18 @@ func (settings *DdosSettings) AssignProperties_To_DdosSettings(destination *v1ap
 
 	// DdosCustomPolicy
 	if settings.DdosCustomPolicy != nil {
-		var subResourceStash v1api20200601s.SubResource
+		var subResourceStash v1api20180501s.SubResource
 		err := settings.DdosCustomPolicy.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from DdosCustomPolicy")
 		}
+		var subResourceStashLocal v1api20200601s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&subResourceStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash")
+		}
 		var ddosCustomPolicy v1api20201101s.SubResource
-		err = subResourceStash.AssignProperties_To_SubResource(&ddosCustomPolicy)
+		err = subResourceStashLocal.AssignProperties_To_SubResource(&ddosCustomPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field DdosCustomPolicy from SubResourceStash")
 		}
@@ -1241,8 +1272,13 @@ func (settings *DdosSettings_STATUS) AssignProperties_From_DdosSettings_STATUS(s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DdosCustomPolicy")
 		}
+		var subResourceSTATUSStashLocal v1api20180501s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var ddosCustomPolicy SubResource_STATUS
-		err = ddosCustomPolicy.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = ddosCustomPolicy.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DdosCustomPolicy from SubResource_STATUSStash")
 		}
@@ -1289,13 +1325,18 @@ func (settings *DdosSettings_STATUS) AssignProperties_To_DdosSettings_STATUS(des
 
 	// DdosCustomPolicy
 	if settings.DdosCustomPolicy != nil {
-		var subResourceSTATUSStash v1api20200601s.SubResource_STATUS
+		var subResourceSTATUSStash v1api20180501s.SubResource_STATUS
 		err := settings.DdosCustomPolicy.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DdosCustomPolicy")
 		}
+		var subResourceSTATUSStashLocal v1api20200601s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var ddosCustomPolicy v1api20201101s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&ddosCustomPolicy)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&ddosCustomPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DdosCustomPolicy from SubResource_STATUSStash")
 		}
@@ -2049,7 +2090,7 @@ type SubResource struct {
 }
 
 // AssignProperties_From_SubResource populates our SubResource from the provided source SubResource
-func (resource *SubResource) AssignProperties_From_SubResource(source *v1api20200601s.SubResource) error {
+func (resource *SubResource) AssignProperties_From_SubResource(source *v1api20180501s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2082,7 +2123,7 @@ func (resource *SubResource) AssignProperties_From_SubResource(source *v1api2020
 }
 
 // AssignProperties_To_SubResource populates the provided destination SubResource from our SubResource
-func (resource *SubResource) AssignProperties_To_SubResource(destination *v1api20200601s.SubResource) error {
+func (resource *SubResource) AssignProperties_To_SubResource(destination *v1api20180501s.SubResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -2175,8 +2216,8 @@ type augmentConversionForPublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded
 }
 
 type augmentConversionForSubResource interface {
-	AssignPropertiesFrom(src *v1api20200601s.SubResource) error
-	AssignPropertiesTo(dst *v1api20200601s.SubResource) error
+	AssignPropertiesFrom(src *v1api20180501s.SubResource) error
+	AssignPropertiesTo(dst *v1api20180501s.SubResource) error
 }
 
 func init() {
