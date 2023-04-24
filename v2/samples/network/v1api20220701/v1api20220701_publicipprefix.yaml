@@ -1,0 +1,14 @@
+apiVersion: network.azure.com/v1api20220701
+kind: PublicIPPrefix
+metadata:
+  name: aso-sample-ipprefix
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  prefixLength: 28
+  publicIPAddressVersion: IPv4
+  sku:
+    name: Standard
+    tier: Regional
