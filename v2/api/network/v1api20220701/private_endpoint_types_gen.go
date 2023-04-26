@@ -1647,16 +1647,6 @@ func (embedded *PrivateEndpoint_STATUS_PrivateEndpoint_SubResourceEmbedded) Assi
 	return nil
 }
 
-// The current provisioning state.
-type ApplicationGatewayProvisioningState_STATUS string
-
-const (
-	ApplicationGatewayProvisioningState_STATUS_Deleting  = ApplicationGatewayProvisioningState_STATUS("Deleting")
-	ApplicationGatewayProvisioningState_STATUS_Failed    = ApplicationGatewayProvisioningState_STATUS("Failed")
-	ApplicationGatewayProvisioningState_STATUS_Succeeded = ApplicationGatewayProvisioningState_STATUS("Succeeded")
-	ApplicationGatewayProvisioningState_STATUS_Updating  = ApplicationGatewayProvisioningState_STATUS("Updating")
-)
-
 // An application security group in a resource group.
 type ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded struct {
 	// Id: Resource ID.

@@ -1343,6 +1343,12 @@ objectModelConfiguration:
         $supportedFrom: v2.1.0
       BastionHostIPConfiguration:
         $resourceEmbeddedInParent: BastionHost
+      NatGateway:
+        $export: true
+        $supportedFrom: v2.1.0
+      PublicIPPrefix:
+        $export: true
+        $supportedFrom: v2.1.0
       PrivateEndpoint:
         $export: true
         $supportedFrom: v2.0.0

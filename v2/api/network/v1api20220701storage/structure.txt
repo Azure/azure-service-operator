@@ -54,6 +54,51 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       ├── Tags: map[string]string
 │       └── Type: *string
+├── NatGateway: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (11 properties)
+│   │   ├── AzureName: string
+│   │   ├── IdleTimeoutInMinutes: *int
+│   │   ├── Location: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── PublicIpAddresses: Object (2 properties)[]
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── PublicIpPrefixes: Object (2 properties)[]
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Sku: *Object (2 properties)
+│   │   │   ├── Name: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── Tags: map[string]string
+│   │   └── Zones: string[]
+│   └── Status: Object (16 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Etag: *string
+│       ├── Id: *string
+│       ├── IdleTimeoutInMinutes: *int
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── PublicIpAddresses: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PublicIpPrefixes: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── ResourceGuid: *string
+│       ├── Sku: *Object (2 properties)
+│       │   ├── Name: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Subnets: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Tags: map[string]string
+│       ├── Type: *string
+│       └── Zones: string[]
 ├── PrivateEndpoint: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
 │   ├── Spec: Object (13 properties)
@@ -198,88 +243,157 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20220701storage
 │       │       └── Ttl: *int
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── ProvisioningState: *string
-└── PrivateLinkService: Resource
+├── PrivateLinkService: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
+│   ├── Spec: Object (14 properties)
+│   │   ├── AutoApproval: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Subscriptions: string[]
+│   │   ├── AzureName: string
+│   │   ├── EnableProxyProtocol: *bool
+│   │   ├── ExtendedLocation: *Object (3 properties)
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Type: *string
+│   │   ├── Fqdns: string[]
+│   │   ├── IpConfigurations: Object (7 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── Primary: *bool
+│   │   │   ├── PrivateIPAddress: *string
+│   │   │   ├── PrivateIPAddressVersion: *string
+│   │   │   ├── PrivateIPAllocationMethod: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Subnet: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
+│   │   ├── LoadBalancerFrontendIpConfigurations: Object (2 properties)[]
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   ├── Location: *string
+│   │   ├── OperatorSpec: *Object (2 properties)
+│   │   │   ├── ConfigMaps: *Object (2 properties)
+│   │   │   │   ├── Alias: *genruntime.ConfigMapDestination
+│   │   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Tags: map[string]string
+│   │   └── Visibility: *Object (2 properties)
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── Subscriptions: string[]
+│   └── Status: Object (19 properties)
+│       ├── Alias: *string
+│       ├── AutoApproval: *Object (2 properties)
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Subscriptions: string[]
+│       ├── Conditions: conditions.Condition[]
+│       ├── EnableProxyProtocol: *bool
+│       ├── Etag: *string
+│       ├── ExtendedLocation: *Object (3 properties)
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── Fqdns: string[]
+│       ├── Id: *string
+│       ├── IpConfigurations: Object (11 properties)[]
+│       │   ├── Etag: *string
+│       │   ├── Id: *string
+│       │   ├── Name: *string
+│       │   ├── Primary: *bool
+│       │   ├── PrivateIPAddress: *string
+│       │   ├── PrivateIPAddressVersion: *string
+│       │   ├── PrivateIPAllocationMethod: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── ProvisioningState: *string
+│       │   ├── Subnet: *Object (2 properties)
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   └── Type: *string
+│       ├── LoadBalancerFrontendIpConfigurations: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── Location: *string
+│       ├── Name: *string
+│       ├── NetworkInterfaces: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PrivateEndpointConnections: Object (2 properties)[]
+│       │   ├── Id: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── ProvisioningState: *string
+│       ├── Tags: map[string]string
+│       ├── Type: *string
+│       └── Visibility: *Object (2 properties)
+│           ├── PropertyBag: genruntime.PropertyBag
+│           └── Subscriptions: string[]
+└── PublicIPPrefix: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
     ├── Spec: Object (14 properties)
-    │   ├── AutoApproval: *Object (2 properties)
-    │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Subscriptions: string[]
     │   ├── AzureName: string
-    │   ├── EnableProxyProtocol: *bool
+    │   ├── CustomIPPrefix: *Object (2 properties)
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Reference: *genruntime.ResourceReference
     │   ├── ExtendedLocation: *Object (3 properties)
     │   │   ├── Name: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Type: *string
-    │   ├── Fqdns: string[]
-    │   ├── IpConfigurations: Object (7 properties)[]
-    │   │   ├── Name: *string
-    │   │   ├── Primary: *bool
-    │   │   ├── PrivateIPAddress: *string
-    │   │   ├── PrivateIPAddressVersion: *string
-    │   │   ├── PrivateIPAllocationMethod: *string
+    │   ├── IpTags: Object (3 properties)[]
+    │   │   ├── IpTagType: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
-    │   │   └── Subnet: *Object (2 properties)
-    │   │       ├── PropertyBag: genruntime.PropertyBag
-    │   │       └── Reference: *genruntime.ResourceReference
-    │   ├── LoadBalancerFrontendIpConfigurations: Object (2 properties)[]
+    │   │   └── Tag: *string
+    │   ├── Location: *string
+    │   ├── NatGateway: *Object (2 properties)
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Reference: *genruntime.ResourceReference
-    │   ├── Location: *string
-    │   ├── OperatorSpec: *Object (2 properties)
-    │   │   ├── ConfigMaps: *Object (2 properties)
-    │   │   │   ├── Alias: *genruntime.ConfigMapDestination
-    │   │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── OriginalVersion: string
     │   ├── Owner: *genruntime.KnownResourceReference
+    │   ├── PrefixLength: *int
     │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── PublicIPAddressVersion: *string
+    │   ├── Sku: *Object (3 properties)
+    │   │   ├── Name: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── Tier: *string
     │   ├── Tags: map[string]string
-    │   └── Visibility: *Object (2 properties)
-    │       ├── PropertyBag: genruntime.PropertyBag
-    │       └── Subscriptions: string[]
-    └── Status: Object (19 properties)
-        ├── Alias: *string
-        ├── AutoApproval: *Object (2 properties)
-        │   ├── PropertyBag: genruntime.PropertyBag
-        │   └── Subscriptions: string[]
+    │   └── Zones: string[]
+    └── Status: Object (21 properties)
         ├── Conditions: conditions.Condition[]
-        ├── EnableProxyProtocol: *bool
+        ├── CustomIPPrefix: *Object (2 properties)
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
         ├── Etag: *string
         ├── ExtendedLocation: *Object (3 properties)
         │   ├── Name: *string
         │   ├── PropertyBag: genruntime.PropertyBag
         │   └── Type: *string
-        ├── Fqdns: string[]
         ├── Id: *string
-        ├── IpConfigurations: Object (11 properties)[]
-        │   ├── Etag: *string
-        │   ├── Id: *string
-        │   ├── Name: *string
-        │   ├── Primary: *bool
-        │   ├── PrivateIPAddress: *string
-        │   ├── PrivateIPAddressVersion: *string
-        │   ├── PrivateIPAllocationMethod: *string
+        ├── IpPrefix: *string
+        ├── IpTags: Object (3 properties)[]
+        │   ├── IpTagType: *string
         │   ├── PropertyBag: genruntime.PropertyBag
-        │   ├── ProvisioningState: *string
-        │   ├── Subnet: *Object (2 properties)
-        │   │   ├── Id: *string
-        │   │   └── PropertyBag: genruntime.PropertyBag
-        │   └── Type: *string
-        ├── LoadBalancerFrontendIpConfigurations: Object (2 properties)[]
+        │   └── Tag: *string
+        ├── LoadBalancerFrontendIpConfiguration: *Object (2 properties)
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
         ├── Location: *string
         ├── Name: *string
-        ├── NetworkInterfaces: Object (2 properties)[]
+        ├── NatGateway: *Object (2 properties)
         │   ├── Id: *string
         │   └── PropertyBag: genruntime.PropertyBag
-        ├── PrivateEndpointConnections: Object (2 properties)[]
-        │   ├── Id: *string
-        │   └── PropertyBag: genruntime.PropertyBag
+        ├── PrefixLength: *int
         ├── PropertyBag: genruntime.PropertyBag
         ├── ProvisioningState: *string
+        ├── PublicIPAddressVersion: *string
+        ├── PublicIPAddresses: Object (2 properties)[]
+        │   ├── Id: *string
+        │   └── PropertyBag: genruntime.PropertyBag
+        ├── ResourceGuid: *string
+        ├── Sku: *Object (3 properties)
+        │   ├── Name: *string
+        │   ├── PropertyBag: genruntime.PropertyBag
+        │   └── Tier: *string
         ├── Tags: map[string]string
         ├── Type: *string
-        └── Visibility: *Object (2 properties)
-            ├── PropertyBag: genruntime.PropertyBag
-            └── Subscriptions: string[]
+        └── Zones: string[]

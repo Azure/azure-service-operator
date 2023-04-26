@@ -2,6 +2,7 @@
 github.com/Azure/azure-service-operator/v2/api/network/customizations
 ├── BastionHostExtension: Object (0 properties)
 ├── LoadBalancerExtension: Object (0 properties)
+├── NatGatewayExtension: Object (0 properties)
 ├── NetworkInterfaceExtension: Object (0 properties)
 ├── NetworkSecurityGroupExtension: Object (0 properties)
 ├── NetworkSecurityGroupsSecurityRuleExtension: Object (0 properties)
@@ -18,6 +19,7 @@ github.com/Azure/azure-service-operator/v2/api/network/customizations
 ├── PrivateEndpointsPrivateDnsZoneGroupExtension: Object (0 properties)
 ├── PrivateLinkServiceExtension: Object (0 properties)
 ├── PublicIPAddressExtension: Object (0 properties)
+├── PublicIPPrefixExtension: Object (0 properties)
 ├── RouteTableExtension: Object (0 properties)
 ├── RouteTablesRouteExtension: Object (0 properties)
 ├── VirtualNetworkExtension: Object (0 properties)
