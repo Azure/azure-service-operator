@@ -13,7 +13,7 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     steps:
       - name: Slash Command Dispatch
-        uses: peter-evans/slash-command-dispatch@v1
+        uses: peter-evans/slash-command-dispatch@v3
         with:
           token: ${{ secrets.GH_PAT }}
           reaction-token: ${{ secrets.GITHUB_TOKEN }}
