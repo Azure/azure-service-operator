@@ -15,7 +15,7 @@ weight: -4
    ```
 2. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. 
    Make sure that you have the 4 environment variables from the [Helm installation instructions](../../#installation) set.
-   To learn more about other authentication options, see the [authentication documentation](../authentication):
+   To learn more about other authentication options, see the [authentication documentation](../authentication/):
    ```bash
    cat <<EOF | kubectl apply -f -
    apiVersion: v1

@@ -3,66 +3,6 @@ title: Deploying Azure Service Operator v2 in multi-tenant mode
 linktitle: Multitenancy
 ---
 
-Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
-
-## Single operator multitenancy (default, recommended)
-Single operator deployed in the `azureserviceoperator-system` namespace.
-This operator can be configured to manage resources with multiple different identities:
-* Single global credential `aso-controller-settings` deployed as part of operator deployment in operator's namespace.
-* Per-namespace credential `aso-credential`. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential. This credential can be in a different tenant or subscription than the global credential.
-* Per-resource credential, indicated by the `serviceoperator.azure.com/credential-from` annotation. Create this annotation on each resource to configure the credential used for that resource. The secret containing the credential must be in the same Kubernetes namespace as the resource but may be in a different tenant or subscription than both the global credential and per-namespace credential.
-
-When presented with multiple credential choices, the operator chooses the most specific one: per-resource takes precedence over per-namespace which takes precedence over global.
-
-### Deployment using Service Principal
-
-To deploy the operator in single-operator multi-tenant mode:
-
-1. Follow the normal ASO [installation](../../#installation)
-2. To use namespace scoped credential, create a credential secret named `aso-credential` in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.
-3. To use per-resource credential, create a credential secret and add an annotation to the resource like `serviceoperator.azure.com/credential-from: <SECRET_NAMESPACE>/<SECRET_NAME>`
-
-### Example Secret
-
-```yaml
-   apiVersion: v1
-   kind: Secret
-   metadata:
-     name: aso-credential 
-     namespace: any-namespace
-   stringData:
-     AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
-     AZURE_TENANT_ID: "$AZURE_TENANT_ID"
-     AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
-     AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
-```
-
-### Deployment using Workload Identity
-
-To deploy the operator in single-operator multi-tenant mode:
-
-1. Follow the normal ASO [workload identity installation](../authentication#azure-workload-identity)
-2. To use namespace scoped credential, create a credential secret named `aso-credential` in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.
-3. To use per-resource credential, create a credential secret and add an annotation to the resource like `serviceoperator.azure.com/credential-from: <SECRET_NAMESPACE>/<SECRET_NAME>`
-
-**Note:** Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC issuer URL and the backing Service Principal or Managed Identity. See [how to configure trust](../authentication#configure-trust) for more details.
-
-### Example Secret
-
-```yaml
-   apiVersion: v1
-   kind: Secret
-   metadata:
-     name: aso-credential 
-     namespace: any-namespace
-   stringData:
-     AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"  # The Azure Subscription ID the identity is in.
-     AZURE_TENANT_ID: "$AZURE_TENANT_ID"              # The Azure AAD Tenant the identity/subscription is associated with.
-     AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"              # The Client ID (sometimes called App Id) of the Service Principal, 
-                                                      # or the Client ID of the Managed Identity with which you are using Workload Identity.
-```
-
-
 ## Multiple operator multitenancy
 Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
 
@@ -98,7 +38,7 @@ The cluster-wide file `multitenant-cluster_v2.0.0-beta.0.yaml` can be used as-is
 but the namespaces and cluster role binding in the per-tenant file `multitenant-tenant_v2.0.0-beta.0.yaml` will need to be customised in each tenant's YAML file from `tenant1` to the desired name for that tenant.
 
 #### Per-tenant configuration
-Create the `aso-controller-settings` secret as described in the [authentication docs](../authentication),
+Create the `aso-controller-settings` secret as described in the [authentication docs](./credential-format.md),
 but create the secret in the tenant namespace and add an extra target namespaces key to it:
 ```
    export TENANT_NAMESPACE="<tenant namespace>"
