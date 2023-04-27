@@ -1,27 +1,24 @@
 ---
-title: Authentication in Azure Service Operator v2
-linktitle: Authentication
+title: Credential Format
+linktitle: Credential Format
 ---
 
-Azure Service Operator supports four different styles of authentication today. Each of these options can be used either as a global credential applied to all resources created by the operator (as shown below), or as a per-resource or per-namespace credential as documented in [single-operator-multitenancy](../multitenant-deployment#single-operator-multitenancy-default).
+Azure Service Operator supports four different styles of authentication today. 
 
-1. Service Principal using a Client Secret
-2. Service Principal using a Client Certificate
-3. [Azure-Workload-Identity](https://github.com/Azure/azure-workload-identity) authentication (OIDC + Managed Identity or Service Principal)
-4. [Deprecated] aad-pod-identity authentication (Managed Identity)
-
+Each section below dives into one of these authentication options, including examples for how to set it up and
+use it at the different [credential scopes](../credential-scope).
 
 ## Service Principal using a Client Secret
 
 ### Prerequisites
 1. An existing Azure Service Principal.
 
-To use Service Principal authentication with **client secret**, specify an `aso-controller-settings` secret with the `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` keys set.
+To use Service Principal authentication with **client secret**, create a secret with the `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET` keys set.
 
 For more information about Service Principals, see [creating an Azure Service Principal using the Azure CLI](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication).
 The `AZURE_CLIENT_ID` is sometimes also called the App ID. The `AZURE_CLIENT_SECRET` is the "password" returned by the command in the previously linked documentation.
 
-Use the following Bash script to set the environment variables for the `aso-controller-settings` secret:
+Use the following Bash commands to set the environment variables containing the service principal secret (customize with your values):
 ```bash
 export AZURE_CLIENT_ID="00000000-0000-0000-0000-00000000000"       # The client ID (sometimes called App Id) of the Service Principal.
 export AZURE_CLIENT_SECRET="00000000-0000-0000-0000-00000000000"   # The client secret of the Service Principal.
@@ -29,7 +26,25 @@ export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000" # The Azure S
 export AZURE_TENANT_ID="00000000-0000-0000-0000-00000000000"       # The Azure AAD Tenant the identity/subscription is associated with.
 ```
 
-Create the `aso-controller-settings` secret:
+### Create the secret
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**Scope**:" disabled=true /%}}
+{{% tab header="Global" %}}
+
+If installing ASO for the first time, you can pass these values via Helm arguments:
+```bash
+helm upgrade --install --devel aso2 aso2/azure-service-operator \
+        --create-namespace \
+        --namespace=azureserviceoperator-system \
+        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+        --set azureTenantID=$AZURE_TENANT_ID \
+        --set azureClientID=$AZURE_CLIENT_ID \
+        --set azureClientSecret=$AZURE_CLIENT_SECRET
+```
+
+Otherwise, create or update the `aso-controller-settings` secret:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -45,18 +60,80 @@ stringData:
 EOF
 ```
 
+**Note:** The `aso-controller-settings` secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the `aso-controller-settings` secret, ensure that
+[other values](../../aso-controller-settings-options.md) in that secret are not being overwritten.
+
+{{% /tab %}}
+{{% tab header="Namespace" %}}
+
+Create the `aso-credential` secret in your namespace:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-credential
+ namespace: my-namespace
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
+EOF
+```
+
+{{% /tab %}}
+{{% tab header="Resource" %}}
+
+Create a per-resource secret. We'll use `my-resource-secret`:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: my-resource-secret
+ namespace: my-namespace
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ AZURE_CLIENT_SECRET: "$AZURE_CLIENT_SECRET"
+EOF
+```
+
+Create the ASO resource referring to `my-resource-secret`. We show a `ResourceGroup` here, but any ASO resource will work.
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: aso-sample-rg
+  namespace: default
+  annotation:
+    serviceoperator.azure.com/credential-from: my-resource-secret
+spec:
+  location: westcentralus
+EOF
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
+
+
 ## Service Principal using a Client Certificate
 
 ### Prerequisites
 1. An existing Azure Service Principal.
 2. X.509 certificate in ASCII format such as PEM, CER, or DER. 
 
-To use Service Principal authentication via client certificate, specify an `aso-controller-settings` secret with the `AZURE_CLIENT_ID`, `AZURE_CLIENT_CERTIFICATE` and `AZURE_CLIENT_CERTIFICATE_PASSWORD`(optional) keys set.
+To use Service Principal authentication via client certificate, create a secret with the `AZURE_CLIENT_ID`, `AZURE_CLIENT_CERTIFICATE` and `AZURE_CLIENT_CERTIFICATE_PASSWORD`(optional) keys set.
 
 For more information about creating Service Principals with certificate, see [creating an Azure Service Principal using the Azure CLI](https://learn.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#certificate-based-authentication).
 The `AZURE_CLIENT_ID` is sometimes also called the App ID. The `AZURE_CLIENT_CERTIFICATE` is the _certificate_ returned by the command in the previously linked documentation.
 
-Use the following Bash script to set the environment variables for the `aso-controller-settings` secret:
+Use the following Bash commands to set the environment variables containing the service principal certificate secret (customize with your values):
 ```bash
 export AZURE_CLIENT_ID="00000000-0000-0000-0000-00000000000"          # The client ID (sometimes called App Id) of the Service Principal.
 export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000"    # The Azure Subscription ID the identity is in.
@@ -65,7 +142,25 @@ export AZURE_CLIENT_CERTIFICATE=`cat path/to/certFile.pem`                    # 
 export AZURE_CLIENT_CERTIFICATE_PASSWORD="myPrivateKeyValue"          # The private key for the above certificate (optional)
 ```
 
-Create the `aso-controller-settings` secret:
+### Create the secret
+
+{{< tabpane text=true left=true >}}
+{{% tab header="**Scope**:" disabled=true /%}}
+{{% tab header="Global" %}}
+
+If installing ASO for the first time, you can pass these values via Helm arguments:
+```bash
+helm upgrade --install --devel aso2 aso2/azure-service-operator \
+        --create-namespace \
+        --namespace=azureserviceoperator-system \
+        --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+        --set azureTenantID=$AZURE_TENANT_ID \
+        --set azureClientID=$AZURE_CLIENT_ID \
+        --set azureClientCertificatePassword=$AZURE_CLIENT_CERTIFICATE_PASSWORD
+```
+
+Otherwise, create or update the `aso-controller-settings` secret:
+
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -82,14 +177,78 @@ stringData:
 EOF
 ```
 
+**Note:** The `aso-controller-settings` secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the `aso-controller-settings` secret, ensure that
+[other values](../../aso-controller-settings-options.md) in that secret are not being overwritten.
+
+{{% /tab %}}
+{{% tab header="Namespace" %}}
+
+Create the `aso-credential` secret in your namespace:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-credential
+ namespace: my-namespace
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ AZURE_CLIENT_CERTIFICATE: "$AZURE_CLIENT_CERTIFICATE"
+ AZURE_CLIENT_CERTIFICATE_PASSWORD: "$AZURE_CLIENT_CERTIFICATE_PASSWORD"
+EOF
+```
+
+{{% /tab %}}
+{{% tab header="Resource" %}}
+
+Create a per-resource secret. We'll use `my-resource-secret`:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: my-resource-secret
+ namespace: my-namespace
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+ AZURE_CLIENT_CERTIFICATE: "$AZURE_CLIENT_CERTIFICATE"
+ AZURE_CLIENT_CERTIFICATE_PASSWORD: "$AZURE_CLIENT_CERTIFICATE_PASSWORD"
+EOF
+```
+
+Create the ASO resource referring to `my-resource-secret`. We show a `ResourceGroup` here, but any ASO resource will work.
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: aso-sample-rg
+  namespace: default
+  annotation:
+    serviceoperator.azure.com/credential-from: my-resource-secret
+spec:
+  location: westcentralus
+EOF
+```
+
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## Azure Workload Identity
+
+See [Azure Workload Identity](https://github.com/Azure/azure-workload-identity) for details about the workload identity project.
 
 ### Prerequisites
 1. An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.
 2. The [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli).
 
-Use the following Bash script to set the environment variables required for the below commands:
+Use the following Bash commands to set the environment variables containing the workload identity secret (customize with your values):
 ```bash
 export AZURE_CLIENT_ID="00000000-0000-0000-0000-00000000000"       # The client ID (sometimes called App Id) of the Service Principal, or the Client ID of the Managed Identity with which you are using Workload Identity.
 export AZURE_SUBSCRIPTION_ID="00000000-0000-0000-0000-00000000000" # The Azure Subscription ID the identity is in.
@@ -151,11 +310,13 @@ EOF
 az rest --method put --url /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourcegroups/${MI_RESOURCE_GROUP}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/${MI_NAME}/federatedIdentityCredentials/aso-federated-credential?api-version=2022-01-31-preview --body @body.json
 ```
 
-### Set ASO to use the Service Account token
+### Create the secret
 
-#### Helm
-When installing ASO via Helm, set `useWorkloadIdentityAuth` to `true`.
+{{< tabpane text=true left=true >}}
+{{% tab header="**Scope**:" disabled=true /%}}
+{{% tab header="Global" %}}
 
+If installing ASO for the first time, you can pass these values via Helm arguments:
 ```bash
 helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --create-namespace \
@@ -166,19 +327,8 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
         --set useWorkloadIdentityAuth=true
 ```
 
-#### Kubectl
+Otherwise, create or update the `aso-controller-settings` secret:
 
-##### Updating an existing deployment
-
-If you installed ASO manually, you can update the existing `Secret` to use Workload Identity authentication.
-
-Update the `aso-controller-settings` secret to have string data `USE_WORKLOAD_IDENTITY_AUTH: "true"`
-
-Ensure that the `aso-controller-settings` secret has the key `USE_WORKLOAD_IDENTITY_AUTH` set to `true` and restart the ASO pod. 
-
-##### New Deployment
-
-Create the `aso-controller-settings` secret:
 ```bash
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -193,6 +343,71 @@ stringData:
  USE_WORKLOAD_IDENTITY_AUTH: "true"
 EOF
 ```
+
+**Note:** The `aso-controller-settings` secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the `aso-controller-settings` secret, ensure that
+[other values](../../aso-controller-settings-options.md) in that secret are not being overwritten.
+
+{{% /tab %}}
+{{% tab header="Namespace" %}}
+
+Create the `aso-credential` secret in your namespace:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: aso-credential
+ namespace: my-namespace
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+EOF
+```
+
+**Note:** Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC 
+issuer URL and the backing Service Principal or Managed Identity. See [how to configure trust](#configure-trust) for more details.
+
+{{% /tab %}}
+{{% tab header="Resource" %}}
+
+Create a per-resource secret. We'll use `my-resource-secret`:
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+ name: my-resource-secret
+ namespace: my-namespace
+stringData:
+ AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
+ AZURE_TENANT_ID: "$AZURE_TENANT_ID"
+ AZURE_CLIENT_ID: "$AZURE_CLIENT_ID"
+EOF
+```
+
+Create the ASO resource referring to `my-resource-secret`. We show a `ResourceGroup` here, but any ASO resource will work.
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: aso-sample-rg
+  namespace: default
+  annotation:
+    serviceoperator.azure.com/credential-from: my-resource-secret
+spec:
+  location: westcentralus
+EOF
+```
+
+**Note:** Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
+issuer URL and the backing Service Principal or Managed Identity. See [how to configure trust](#configure-trust) for more details.
+
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## [Deprecated] Managed Identity (aad-pod-identity)
 
@@ -277,63 +492,3 @@ helm upgrade --install --devel aso2 aso2/azure-service-operator \
      --set aadPodIdentity.azureManagedIdentityResourceId=${IDENTITY_RESOURCE_ID} \
      --set azureClientID=${IDENTITY_CLIENT_ID}
 ```
-
-## Using a credential for ASO with reduced permissions
-
-Most examples of installing ASO suggest using an identity that has Contributor access to the Subscription.
-Such broadly scoped access is _**not**_ required to run the operator, it's just the easiest way to set things up and so
-is often used in examples. 
-
-Here we discuss a few approaches to restricting the access that the ASO identity has.
-
-### Contributor access at a reduced scope
-
-In some scenarios you may know that ASO will be operating on only certain resource groups. For example, if you have two
-teams working in a cluster with ASO, "Marketing" and "Product". If you know ahead of time that the only resource groups these
-teams will use are `marketing-dev`, `marketing-prod`, `product-dev` and `product-prod`, you can pre-create the following resources:
-
-* The 4 resource groups.
-* An identity for use by ASO, assigned Contributor permission to each of the 4 resource groups.
-
-Now install ASO following the instructions above. Once ASO is installed, adopt the existing resource groups in ASO by applying a YAML in the cluster
-for each of the 4 resource groups. Now users of ASO are free to create resources in those resource groups as normal. If they attempt
-to use ASO to create a new resource group `foo` they will be rejected by Azure as the ASO identity doesn't have permission to create
-arbitrary resource groups in the Subscription.
-
-### Reduced access at Subscription scope
-
-In other scenarios, you may want to give out reduced access at the Subscription scope. This can be done by determining what resources 
-in ASO you will be using and creating a custom role scoped to just those permissions. 
-
-For example if you want to use ASO to manage ResourceGroups, Redis and MySQL flexible servers, but _not_ anything else, you could 
-[create a role](https://learn.microsoft.com/azure/role-based-access-control/custom-roles-cli) similar to `aso-operator.json`:
-
-```json
-{
-  "Name": "ASO Operator",
-  "IsCustom": true,
-  "Description": "Role with access to perform only the operations which we allow ASO to perform",
-  "Actions": [
-    "Microsoft.Resources/subscriptions/resourceGroups/*",
-    "Microsoft.Cache/*",
-    "Microsoft.DBforMySQL/*"
-  ],
-  "NotActions": [
-  ],
-  "AssignableScopes": [
-    "/subscriptions/{subscriptionId1}",
-    "/subscriptions/{subscriptionId2}"
-  ]
-}
-```
-Then use the az cli to create that custom role definition: `az role definition create --role-definition ~/aso-operator.json`
-
-See [list of resource provider operations](https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations) for a comprehensive
-list of operations. 
-
-**Note: We strongly recommend giving full permissions to the resource types ASO will be managing.** ASO needs `read`, `write`, and `delete` permissions to a resource
-to fully manage it. In some cases, it also needs `action` permissions. It's recommended to give `*` permissions for a given resource type which ASO 
-will be managing.
-
-Once the role has been created, assign it to the ASO identity and install the operator as normal. It will be able to
-manage any resource of the types you allowed. Any other resources will fail to be created/updated/deleted with a permissions error.
