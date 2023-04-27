@@ -326,6 +326,14 @@ func (*importableARMResource) classifyError(err error) (string, bool) {
 			// If we're not allowed to look, we can still import the rest
 			return "access forbidden", true
 		}
+
+		if responseError.StatusCode == http.StatusBadRequest &&
+			strings.Contains(responseError.Error(), "RequestUrlInvalid") {
+			// We constructed an invalid URL
+			// (Seems that some extension resources aren't permitted on some resource types)
+			// An empty error is special cased as a silent skip, so we don't alarm casual users
+			return "", true
+		}
 	}
 
 	// otherwise we keep the error
