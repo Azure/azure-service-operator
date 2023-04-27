@@ -35,8 +35,7 @@ const (
 	// #nosec
 	globalCredentialSecretName = "aso-controller-settings"
 	// #nosec
-	NamespacedSecretName    = "aso-credential"
-	namespacedNameSeparator = "/"
+	NamespacedSecretName = "aso-credential"
 )
 
 // ARMClientCache is a cache for armClients to hold multiple credential clients and global credential client.
@@ -147,8 +146,18 @@ func (c *ARMClientCache) getCredentialFromAnnotation(ctx context.Context, obj ge
 		return nil, nil
 	}
 
+	// Disallow credentials with `/` in their credentialFrom
+	if strings.Contains(credentialFrom, "/") {
+		err := errors.Errorf("%s cannot contain '/'. Secret must be in same namespace as resource.", annotation)
+		namespacedName := types.NamespacedName{
+			Namespace: obj.GetNamespace(),
+			Name:      credentialFrom,
+		}
+		return nil, core.NewSecretNotFoundError(namespacedName, err)
+	}
+
 	// annotation exists, use specified secret
-	secretNamespacedName := getSecretNameFromAnnotation(credentialFrom, obj.GetNamespace())
+	secretNamespacedName := types.NamespacedName{Namespace: obj.GetNamespace(), Name: credentialFrom}
 
 	secret, err := c.getSecret(ctx, secretNamespacedName.Namespace, secretNamespacedName.Name)
 	if err != nil {
@@ -163,16 +172,6 @@ func (c *ARMClientCache) getCredentialFromAnnotation(ctx context.Context, obj ge
 		return nil, errors.Wrapf(err, "failed to get armClient from annotation for %q", secretNamespacedName.String())
 	}
 	return armClient, nil
-}
-
-func getSecretNameFromAnnotation(credentialFrom string, resourceNamespace string) types.NamespacedName {
-	if strings.Contains(credentialFrom, namespacedNameSeparator) {
-		slice := strings.Split(credentialFrom, namespacedNameSeparator)
-		return types.NamespacedName{Namespace: slice[0], Name: slice[1]}
-	} else {
-		// If namespace is not specified, look into the resource namespace
-		return types.NamespacedName{Namespace: resourceNamespace, Name: credentialFrom}
-	}
 }
 
 func (c *ARMClientCache) getARMClientFromSecret(secret *v1.Secret) (*armClient, error) {

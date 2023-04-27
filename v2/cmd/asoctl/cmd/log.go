@@ -15,16 +15,13 @@ import (
 )
 
 var (
-	// Global logger and progress bar
-	// While these are global here, they can't be referenced from internal packages and should be passed through
-	// as parameters where needed.
-	verbose bool
+	verbose bool // True if the user specifies --verbose or -v
+	quiet   bool // True if the user specifies --quiet or -q
 )
 
 // CreateLogger creates a logger  for console output.
 // Use this when your command wants to show only log messages
 func CreateLogger() logr.Logger {
-
 	// Configure console writer for ZeroLog
 	output := zerolog.ConsoleWriter{
 		Out:        os.Stderr,      // Write to StdErr
@@ -38,9 +35,8 @@ func CreateLogger() logr.Logger {
 
 	// Use standard interface for logging
 	zerologr.VerbosityFieldName = "" // Don't include verbosity in output
-	zerologr.SetMaxV(0)              // Default to quiet
-
 	log := zerologr.New(&zl)
+
 	return log
 }
 
@@ -48,7 +44,9 @@ func CreateLogger() logr.Logger {
 // Use this when your command wants to show progress to the user.
 func CreateLoggerAndProgressBar() (logr.Logger, *mpb.Progress) {
 	// Create Progressbar for console output
-	progress := mpb.New()
+	progress := mpb.New(
+		mpb.WithOutput(os.Stderr), // Write to StdErr
+	)
 
 	// Configure console writer for ZeroLog
 	output := zerolog.ConsoleWriter{
@@ -63,7 +61,6 @@ func CreateLoggerAndProgressBar() (logr.Logger, *mpb.Progress) {
 
 	// Use standard interface for logging
 	zerologr.VerbosityFieldName = "" // Don't include verbosity in output
-	zerologr.SetMaxV(0)              // Default to quiet
 
 	log := zerologr.New(&zl)
 	return log, progress
