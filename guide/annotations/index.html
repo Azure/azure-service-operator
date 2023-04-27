@@ -36,7 +36,7 @@ serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use
 serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use. Allowed values are:
  manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped. GETs are still issued to ensure that the resource exists.">
 
-<meta itemprop="wordCount" content="217">
+<meta itemprop="wordCount" content="272">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Annotations understood by the operator"/>
 <meta name="twitter:description" content="Annotations specified by the user Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
@@ -118,8 +118,19 @@ serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="td-sidebar-nav-active-item">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthentication-li">
-  <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
+  <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
+  <a href="/azure-service-operator/guide/authentication/credential-format/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-format"><span class="">Credential Format</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-scope-li">
+  <a href="/azure-service-operator/guide/authentication/credential-scope/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-scope"><span class="">Credential Scope</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationmultitenant-deployment-li">
+  <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationreducing-access-li">
+  <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
@@ -139,8 +150,6 @@ serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use
   <a href="/azure-service-operator/guide/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemultitenant-deployment-li">
-  <a href="/azure-service-operator/guide/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemultitenant-deployment"><span class="">Multitenancy</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
@@ -511,6 +520,7 @@ serviceoperator.azure.com/reconcile-policy Specifies the reconcile policy to use
     <li><a href="#annotations-specified-by-the-user">Annotations specified by the user</a>
       <ul>
         <li><a href="#serviceoperatorazurecomreconcile-policy"><code>serviceoperator.azure.com/reconcile-policy</code></a></li>
+        <li><a href="#serviceoperatorazurecomcredential-from"><code>serviceoperator.azure.com/credential-from</code></a></li>
       </ul>
     </li>
     <li><a href="#annotations-written-by-the-operator">Annotations written by the operator</a></li>
@@ -586,6 +596,14 @@ PUT and DELETE are skipped while GET is allowed.</li>
 it is <em>not</em> deleted in Azure. In REST API terminology, PUT and GET are allowed while DELETE is skipped.</li>
 </ul>
 <p>Unknown values default to <code>manage</code>.</p>
+<h3 id="serviceoperatorazurecomcredential-from"><code>serviceoperator.azure.com/credential-from</code></h3>
+<p>Instructs the operator to read the credential for the resource from the specified secret.
+This credential supersedes any global or namespace scoped credentials the operator has configured</p>
+<p>Allow values are:</p>
+<ul>
+<li>The name of any secret in the same namespace as the resource. Secrets from other namespaces cannot be referenced.</li>
+</ul>
+<p>See <a href="./authentication/_index.md#credential-scope">authentication</a> for more details.</p>
 <h2 id="annotations-written-by-the-operator">Annotations written by the operator</h2>
 <p>These annotations are written by the operator for its own internal use. Their existence and usage may change in the future.
 We recommend users avoid depending upon these annotations:</p>

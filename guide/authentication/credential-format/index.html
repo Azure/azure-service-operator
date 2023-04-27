@@ -18,30 +18,34 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Deploying Azure Service Operator v2 in multi-tenant mode | Azure Service Operator</title>
-<meta name="description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
-Single operator multitenancy (default, recommended) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
- Single global credential aso-controller-settings deployed as part of operator deployment in operator&amp;rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential.">
-<meta property="og:title" content="Deploying Azure Service Operator v2 in multi-tenant mode" />
-<meta property="og:description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
-Single operator multitenancy (default, recommended) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
- Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential." />
+<title>Credential Format | Azure Service Operator</title>
+<meta name="description" content="Azure Service Operator supports four different styles of authentication today.
+Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
+Service Principal using a Client Secret Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication with client secret, create a secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
+For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI.">
+<meta property="og:title" content="Credential Format" />
+<meta property="og:description" content="Azure Service Operator supports four different styles of authentication today.
+Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
+Service Principal using a Client Secret Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication with client secret, create a secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
+For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/multitenant-deployment/" /><meta property="article:section" content="guide" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/authentication/credential-format/" /><meta property="article:section" content="guide" />
 
 
 
-<meta itemprop="name" content="Deploying Azure Service Operator v2 in multi-tenant mode">
-<meta itemprop="description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
-Single operator multitenancy (default, recommended) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
- Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential.">
+<meta itemprop="name" content="Credential Format">
+<meta itemprop="description" content="Azure Service Operator supports four different styles of authentication today.
+Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
+Service Principal using a Client Secret Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication with client secret, create a secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
+For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI.">
 
-<meta itemprop="wordCount" content="1160">
+<meta itemprop="wordCount" content="1620">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Deploying Azure Service Operator v2 in multi-tenant mode"/>
-<meta name="twitter:description" content="Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.
-Single operator multitenancy (default, recommended) Single operator deployed in the azureserviceoperator-system namespace. This operator can be configured to manage resources with multiple different identities:
- Single global credential aso-controller-settings deployed as part of operator deployment in operator&rsquo;s namespace. Per-namespace credential aso-credential. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential."/>
+<meta name="twitter:title" content="Credential Format"/>
+<meta name="twitter:description" content="Azure Service Operator supports four different styles of authentication today.
+Each section below dives into one of these authentication options, including examples for how to set it up and use it at the different credential scopes.
+Service Principal using a Client Secret Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication with client secret, create a secret with the AZURE_CLIENT_ID and AZURE_CLIENT_SECRET keys set.
+For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI."/>
 
 
 
@@ -118,8 +122,19 @@ Single operator multitenancy (default, recommended) Single operator deployed in 
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthentication-li">
-  <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguideauthentication-li">
+  <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideauthenticationcredential-format-li">
+  <a href="/azure-service-operator/guide/authentication/credential-format/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-format"><span class="td-sidebar-nav-active-item">Credential Format</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationcredential-scope-li">
+  <a href="/azure-service-operator/guide/authentication/credential-scope/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-scope"><span class="">Credential Scope</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationmultitenant-deployment-li">
+  <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthenticationreducing-access-li">
+  <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
@@ -139,8 +154,6 @@ Single operator multitenancy (default, recommended) Single operator deployed in 
   <a href="/azure-service-operator/guide/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidemultitenant-deployment-li">
-  <a href="/azure-service-operator/guide/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemultitenant-deployment"><span class="td-sidebar-nav-active-item">Multitenancy</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
@@ -508,21 +521,29 @@ Single operator multitenancy (default, recommended) Single operator deployed in 
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#single-operator-multitenancy-default-recommended">Single operator multitenancy (default, recommended)</a>
+    <li><a href="#service-principal-using-a-client-secret">Service Principal using a Client Secret</a>
       <ul>
-        <li><a href="#deployment-using-service-principal">Deployment using Service Principal</a></li>
-        <li><a href="#example-secret">Example Secret</a></li>
-        <li><a href="#deployment-using-workload-identity">Deployment using Workload Identity</a></li>
-        <li><a href="#example-secret-1">Example Secret</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#create-the-secret">Create the secret</a></li>
       </ul>
     </li>
-    <li><a href="#multiple-operator-multitenancy">Multiple operator multitenancy</a>
+    <li><a href="#service-principal-using-a-client-certificate">Service Principal using a Client Certificate</a>
       <ul>
-        <li><a href="#multiple-operator-multitenancy-deployment">Multiple operator multitenancy deployment</a></li>
-        <li><a href="#yaml-installation">YAML Installation</a></li>
-        <li><a href="#helm-installation">Helm Installation</a></li>
-        <li><a href="#role-handling">Role handling</a></li>
-        <li><a href="#upgrading">Upgrading</a></li>
+        <li><a href="#prerequisites-1">Prerequisites</a></li>
+        <li><a href="#create-the-secret-1">Create the secret</a></li>
+      </ul>
+    </li>
+    <li><a href="#azure-workload-identity">Azure Workload Identity</a>
+      <ul>
+        <li><a href="#prerequisites-2">Prerequisites</a></li>
+        <li><a href="#get-the-application-object-id-of-the-identity">Get the Application Object ID of the identity</a></li>
+        <li><a href="#configure-trust">Configure trust</a></li>
+        <li><a href="#create-the-secret-2">Create the secret</a></li>
+      </ul>
+    </li>
+    <li><a href="#deprecated-managed-identity-aad-pod-identity">[Deprecated] Managed Identity (aad-pod-identity)</a>
+      <ul>
+        <li><a href="#prerequisites-3">Prerequisites</a></li>
       </ul>
     </li>
   </ul>
@@ -559,14 +580,17 @@ Single operator multitenancy (default, recommended) Single operator deployed in 
   <li class="breadcrumb-item">
     <a href="https://azure.github.io/azure-service-operator/guide/">Guide</a>
   </li>
+  <li class="breadcrumb-item">
+    <a href="https://azure.github.io/azure-service-operator/guide/authentication/">Authentication</a>
+  </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/guide/multitenant-deployment/" aria-disabled="true" class="btn-link disabled">Multitenancy</a>
+    <a href="https://azure.github.io/azure-service-operator/guide/authentication/credential-format/" aria-disabled="true" class="btn-link disabled">Credential Format</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Deploying Azure Service Operator v2 in multi-tenant mode</h1>
+	<h1>Credential Format</h1>
 	
 	<header class="article-meta">
 		
@@ -583,180 +607,504 @@ Single operator multitenancy (default, recommended) Single operator deployed in 
 
 		
 	</header>    
-	<p>Currently, we support two types of multitenancy with Azure Service Operator (ASO): single operator and multiple operator.</p>
-<h2 id="single-operator-multitenancy-default-recommended">Single operator multitenancy (default, recommended)</h2>
-<p>Single operator deployed in the <code>azureserviceoperator-system</code> namespace.
-This operator can be configured to manage resources with multiple different identities:</p>
-<ul>
-<li>Single global credential <code>aso-controller-settings</code> deployed as part of operator deployment in operator&rsquo;s namespace.</li>
-<li>Per-namespace credential <code>aso-credential</code>. Create this in a Kubernetes namespace to configure the credential used for all resources in that namespace, overriding the global credential. This credential can be in a different tenant or subscription than the global credential.</li>
-<li>Per-resource credential, indicated by the <code>serviceoperator.azure.com/credential-from</code> annotation. Create this annotation on each resource to configure the credential used for that resource. The secret containing the credential must be in the same Kubernetes namespace as the resource but may be in a different tenant or subscription than both the global credential and per-namespace credential.</li>
+	<p>Azure Service Operator supports four different styles of authentication today.</p>
+<p>Each section below dives into one of these authentication options, including examples for how to set it up and
+use it at the different <a href="../credential-scope">credential scopes</a>.</p>
+<h2 id="service-principal-using-a-client-secret">Service Principal using a Client Secret</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ol>
+<li>An existing Azure Service Principal.</li>
+</ol>
+<p>To use Service Principal authentication with <strong>client secret</strong>, create a secret with the <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> keys set.</p>
+<p>For more information about Service Principals, see <a href="https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication">creating an Azure Service Principal using the Azure CLI</a>.
+The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>AZURE_CLIENT_SECRET</code> is the &ldquo;password&rdquo; returned by the command in the previously linked documentation.</p>
+<p>Use the following Bash commands to set the environment variables containing the service principal secret (customize with your values):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export AZURE_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The client ID (sometimes called App Id) of the Service Principal.</span>
+export AZURE_CLIENT_SECRET<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>   <span style="color:#75715e"># The client secret of the Service Principal.</span>
+export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span> <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
+export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
+</code></pre></div><h3 id="create-the-secret">Create the secret</h3>
+
+
+
+
+
+<ul class="nav nav-tabs" id="tabs-0" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link disabled"
+          id="tabs-00-00-tab" data-toggle="tab" href="#tabs-00-00" role="tab"
+          aria-controls="tabs-00-00" aria-selected="false">
+        <strong>Scope</strong>:
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link active"
+          id="tabs-00-01-tab" data-toggle="tab" href="#tabs-00-01" role="tab"
+          aria-controls="tabs-00-01" aria-selected="false">
+        Global
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-00-02-tab" data-toggle="tab" href="#tabs-00-02" role="tab"
+          aria-controls="tabs-00-02" aria-selected="false">
+        Namespace
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-00-03-tab" data-toggle="tab" href="#tabs-00-03" role="tab"
+          aria-controls="tabs-00-03" aria-selected="false">
+        Resource
+      </a>
+    </li>
 </ul>
-<p>When presented with multiple credential choices, the operator chooses the most specific one: per-resource takes precedence over per-namespace which takes precedence over global.</p>
-<h3 id="deployment-using-service-principal">Deployment using Service Principal</h3>
-<p>To deploy the operator in single-operator multi-tenant mode:</p>
+
+<div class="tab-content" id="tabs-0-content">
+    <div class="tab-body tab-pane fade"
+        id="tabs-00-00" role="tabpanel" aria-labelled-by="tabs-00-00-tab">
+        
+    </div>
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-00-01" role="tabpanel" aria-labelled-by="tabs-00-01-tab">
+        <p>If installing ASO for the first time, you can pass these values via Helm arguments:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --create-namespace <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureTenantID<span style="color:#f92672">=</span>$AZURE_TENANT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureClientSecret<span style="color:#f92672">=</span>$AZURE_CLIENT_SECRET
+</code></pre></div><p>Otherwise, create or update the <code>aso-controller-settings</code> secret:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-controller-settings
+</span><span style="color:#e6db74"> namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_SECRET: &#34;$AZURE_CLIENT_SECRET&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p><strong>Note:</strong> The <code>aso-controller-settings</code> secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the <code>aso-controller-settings</code> secret, ensure that
+<a href="../../aso-controller-settings-options.md">other values</a> in that secret are not being overwritten.</p>
+
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-00-02" role="tabpanel" aria-labelled-by="tabs-00-02-tab">
+        <p>Create the <code>aso-credential</code> secret in your namespace:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-credential
+</span><span style="color:#e6db74"> namespace: my-namespace
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_SECRET: &#34;$AZURE_CLIENT_SECRET&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-00-03" role="tabpanel" aria-labelled-by="tabs-00-03-tab">
+        <p>Create a per-resource secret. We&rsquo;ll use <code>my-resource-secret</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: my-resource-secret
+</span><span style="color:#e6db74"> namespace: my-namespace
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_SECRET: &#34;$AZURE_CLIENT_SECRET&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>Create the ASO resource referring to <code>my-resource-secret</code>. We show a <code>ResourceGroup</code> here, but any ASO resource will work.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: resources.azure.com/v1api20200601
+</span><span style="color:#e6db74">kind: ResourceGroup
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: aso-sample-rg
+</span><span style="color:#e6db74">  namespace: default
+</span><span style="color:#e6db74">  annotation:
+</span><span style="color:#e6db74">    serviceoperator.azure.com/credential-from: my-resource-secret
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">  location: westcentralus
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div>
+    </div>
+</div>
+
+<h2 id="service-principal-using-a-client-certificate">Service Principal using a Client Certificate</h2>
+<h3 id="prerequisites-1">Prerequisites</h3>
 <ol>
-<li>Follow the normal ASO <a href="../../#installation">installation</a></li>
-<li>To use namespace scoped credential, create a credential secret named <code>aso-credential</code> in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.</li>
-<li>To use per-resource credential, create a credential secret and add an annotation to the resource like <code>serviceoperator.azure.com/credential-from: &lt;SECRET_NAMESPACE&gt;/&lt;SECRET_NAME&gt;</code></li>
+<li>An existing Azure Service Principal.</li>
+<li>X.509 certificate in ASCII format such as PEM, CER, or DER.</li>
 </ol>
-<h3 id="example-secret">Example Secret</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">   <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-   <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
-   <span style="color:#f92672">metadata</span>:
-     <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-credential </span>
-     <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">any-namespace</span>
-   <span style="color:#f92672">stringData</span>:
-     <span style="color:#f92672">AZURE_SUBSCRIPTION_ID</span>: <span style="color:#e6db74">&#34;$AZURE_SUBSCRIPTION_ID&#34;</span>
-     <span style="color:#f92672">AZURE_TENANT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_TENANT_ID&#34;</span>
-     <span style="color:#f92672">AZURE_CLIENT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_ID&#34;</span>
-     <span style="color:#f92672">AZURE_CLIENT_SECRET</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_SECRET&#34;</span>
-</code></pre></div><h3 id="deployment-using-workload-identity">Deployment using Workload Identity</h3>
-<p>To deploy the operator in single-operator multi-tenant mode:</p>
-<ol>
-<li>Follow the normal ASO <a href="../authentication#azure-workload-identity">workload identity installation</a></li>
-<li>To use namespace scoped credential, create a credential secret named <code>aso-credential</code> in the desired namespace. Using this, all the resources in that namespace will use namespace scoped credential.</li>
-<li>To use per-resource credential, create a credential secret and add an annotation to the resource like <code>serviceoperator.azure.com/credential-from: &lt;SECRET_NAMESPACE&gt;/&lt;SECRET_NAME&gt;</code></li>
-</ol>
-<p><strong>Note:</strong> Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC issuer URL and the backing Service Principal or Managed Identity. See <a href="../authentication#configure-trust">how to configure trust</a> for more details.</p>
-<h3 id="example-secret-1">Example Secret</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">   <span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
-   <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
-   <span style="color:#f92672">metadata</span>:
-     <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-credential </span>
-     <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">any-namespace</span>
-   <span style="color:#f92672">stringData</span>:
-     <span style="color:#f92672">AZURE_SUBSCRIPTION_ID</span>: <span style="color:#e6db74">&#34;$AZURE_SUBSCRIPTION_ID&#34;</span>  <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
-     <span style="color:#f92672">AZURE_TENANT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_TENANT_ID&#34;</span>              <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
-     <span style="color:#f92672">AZURE_CLIENT_ID</span>: <span style="color:#e6db74">&#34;$AZURE_CLIENT_ID&#34;</span>              <span style="color:#75715e"># The Client ID (sometimes called App Id) of the Service Principal, </span>
-                                                      <span style="color:#75715e"># or the Client ID of the Managed Identity with which you are using Workload Identity.</span>
-</code></pre></div><h2 id="multiple-operator-multitenancy">Multiple operator multitenancy</h2>
-<p>Multiple operators deployed in different namespaces requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.</p>
-<p>ASO may also be deployed in a <em>multi-tenant</em> configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.</p>
-<h3 id="multiple-operator-multitenancy-deployment">Multiple operator multitenancy deployment</h3>
-<p>To deploy the operator in multi-operator multi-tenant mode the release YAML/helm installation has been split into two parts:</p>
-<ol>
-<li>
-<p><strong>Cluster-wide resources</strong>:</p>
-<ul>
-<li>
-<p>Custom resource definitions for the Azure resources.</p>
-</li>
-<li>
-<p>Cluster roles for managing those resources.</p>
-</li>
-<li>
-<p>The <code>azureserviceoperator-system</code> namespace containing the deployment and service to handle ASO webhooks.
-The webhook service is a deployment of the ASO image, but configured to run in webhook-only mode.
-It won&rsquo;t try to reconcile Azure resources with ARM, and so doesn&rsquo;t need any Azure credentials.</p>
-</li>
-<li>
-<p>Webhook configuration referring to that service.</p>
-</li>
+<p>To use Service Principal authentication via client certificate, create a secret with the <code>AZURE_CLIENT_ID</code>, <code>AZURE_CLIENT_CERTIFICATE</code> and <code>AZURE_CLIENT_CERTIFICATE_PASSWORD</code>(optional) keys set.</p>
+<p>For more information about creating Service Principals with certificate, see <a href="https://learn.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#certificate-based-authentication">creating an Azure Service Principal using the Azure CLI</a>.
+The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>AZURE_CLIENT_CERTIFICATE</code> is the <em>certificate</em> returned by the command in the previously linked documentation.</p>
+<p>Use the following Bash commands to set the environment variables containing the service principal certificate secret (customize with your values):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export AZURE_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>          <span style="color:#75715e"># The client ID (sometimes called App Id) of the Service Principal.</span>
+export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>    <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
+export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>          <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
+export AZURE_CLIENT_CERTIFICATE<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>cat path/to/certFile.pem<span style="color:#e6db74">`</span>                    <span style="color:#75715e"># The client certificate of the Service Principal.</span>
+export AZURE_CLIENT_CERTIFICATE_PASSWORD<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myPrivateKeyValue&#34;</span>          <span style="color:#75715e"># The private key for the above certificate (optional)</span>
+</code></pre></div><h3 id="create-the-secret-1">Create the secret</h3>
+
+
+
+
+
+<ul class="nav nav-tabs" id="tabs-1" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link disabled"
+          id="tabs-01-00-tab" data-toggle="tab" href="#tabs-01-00" role="tab"
+          aria-controls="tabs-01-00" aria-selected="false">
+        <strong>Scope</strong>:
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link active"
+          id="tabs-01-01-tab" data-toggle="tab" href="#tabs-01-01" role="tab"
+          aria-controls="tabs-01-01" aria-selected="false">
+        Global
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-01-02-tab" data-toggle="tab" href="#tabs-01-02" role="tab"
+          aria-controls="tabs-01-02" aria-selected="false">
+        Namespace
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-01-03-tab" data-toggle="tab" href="#tabs-01-03" role="tab"
+          aria-controls="tabs-01-03" aria-selected="false">
+        Resource
+      </a>
+    </li>
 </ul>
-</li>
-<li>
-<p><strong>Per-tenant resources</strong>:</p>
-<ul>
-<li>
-<p>A namespace containing the deployment to run the tenant operator, configured for watchers-only mode.</p>
-</li>
-<li>
-<p>The <code>aso-controller-settings</code> secret defining the Azure credentials that should be used, and the set of namespaces that this operator will watch for Azure resources.</p>
-</li>
-<li>
-<p>A cluster role binding enabling the per-tenant operator&rsquo;s service account to manage the Azure resources.</p>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="yaml-installation">YAML Installation</h3>
-<p>Examples of the deployment YAML files are available on the release page for ASO v2 releases from <a href="https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0-beta.0">v2.0.0-beta.0</a>.
-The cluster-wide file <code>multitenant-cluster_v2.0.0-beta.0.yaml</code> can be used as-is (the webhook deployment namespace is fixed as <code>azureserviceoperator-system</code>),
-but the namespaces and cluster role binding in the per-tenant file <code>multitenant-tenant_v2.0.0-beta.0.yaml</code> will need to be customised in each tenant&rsquo;s YAML file from <code>tenant1</code> to the desired name for that tenant.</p>
-<h4 id="per-tenant-configuration">Per-tenant configuration</h4>
-<p>Create the <code>aso-controller-settings</code> secret as described in the <a href="../authentication">authentication docs</a>,
-but create the secret in the tenant namespace and add an extra target namespaces key to it:</p>
-<pre tabindex="0"><code>   export TENANT_NAMESPACE=&quot;&lt;tenant namespace&gt;&quot;
-   export AZURE_SUBSCRIPTION_ID=&quot;&lt;subscription id&gt;&quot;
-   export AZURE_TENANT_ID=&quot;&lt;tenant id&gt;&quot;
-   export AZURE_CLIENT_ID=&quot;&lt;client id&gt;&quot;
-   export AZURE_CLIENT_SECRET=&quot;&lt;client secret&gt;&quot;
-   export AZURE_TARGET_NAMESPACES=&quot;&lt;comma-separated namespace names&gt;&quot;
-   kubectl create namespace &quot;$TENANT_NAMESPACE&quot;
-   cat &lt;&lt;EOF | kubectl apply -f -
-   apiVersion: v1
-   kind: Secret
-   metadata:
-     name: aso-controller-settings
-     namespace: $TENANT_NAMESPACE
-   stringData:
-     AZURE_SUBSCRIPTION_ID: &quot;$AZURE_SUBSCRIPTION_ID&quot;
-     AZURE_TENANT_ID: &quot;$AZURE_TENANT_ID&quot;
-     AZURE_CLIENT_ID: &quot;$AZURE_CLIENT_ID&quot;
-     AZURE_CLIENT_SECRET: &quot;$AZURE_CLIENT_SECRET&quot;
-     AZURE_TARGET_NAMESPACES: &quot;$AZURE_TARGET_NAMESPACES&quot;
-     EOF
-</code></pre><p>Once the tenant operator is deployed and configured the contents of the tenant namespace will look something like the following:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl get pods,replicasets,deployments,serviceaccounts,secrets  -n tenant1-system
-NAME                                                           READY   STATUS    RESTARTS   AGE
-pod/azureserviceoperator-controller-manager-657948696b-dzfmw   1/1     Running   <span style="color:#ae81ff">3</span>          3d
 
-NAME                                                                 DESIRED   CURRENT   READY   AGE
-replicaset.apps/azureserviceoperator-controller-manager-657948696b   <span style="color:#ae81ff">1</span>         <span style="color:#ae81ff">1</span>         <span style="color:#ae81ff">1</span>       3d
+<div class="tab-content" id="tabs-1-content">
+    <div class="tab-body tab-pane fade"
+        id="tabs-01-00" role="tabpanel" aria-labelled-by="tabs-01-00-tab">
+        
+    </div>
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-01-01" role="tabpanel" aria-labelled-by="tabs-01-01-tab">
+        <p>If installing ASO for the first time, you can pass these values via Helm arguments:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --create-namespace <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureTenantID<span style="color:#f92672">=</span>$AZURE_TENANT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureClientCertificatePassword<span style="color:#f92672">=</span>$AZURE_CLIENT_CERTIFICATE_PASSWORD
+</code></pre></div><p>Otherwise, create or update the <code>aso-controller-settings</code> secret:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-controller-settings
+</span><span style="color:#e6db74"> namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_CERTIFICATE: &#34;$AZURE_CLIENT_CERTIFICATE&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_CERTIFICATE_PASSWORD: &#34;$AZURE_CLIENT_CERTIFICATE_PASSWORD&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p><strong>Note:</strong> The <code>aso-controller-settings</code> secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the <code>aso-controller-settings</code> secret, ensure that
+<a href="../../aso-controller-settings-options.md">other values</a> in that secret are not being overwritten.</p>
 
-NAME                                                      READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/azureserviceoperator-controller-manager   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           3d
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-01-02" role="tabpanel" aria-labelled-by="tabs-01-02-tab">
+        <p>Create the <code>aso-credential</code> secret in your namespace:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-credential
+</span><span style="color:#e6db74"> namespace: my-namespace
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_CERTIFICATE: &#34;$AZURE_CLIENT_CERTIFICATE&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_CERTIFICATE_PASSWORD: &#34;$AZURE_CLIENT_CERTIFICATE_PASSWORD&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div>
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-01-03" role="tabpanel" aria-labelled-by="tabs-01-03-tab">
+        <p>Create a per-resource secret. We&rsquo;ll use <code>my-resource-secret</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: my-resource-secret
+</span><span style="color:#e6db74"> namespace: my-namespace
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_CERTIFICATE: &#34;$AZURE_CLIENT_CERTIFICATE&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_CERTIFICATE_PASSWORD: &#34;$AZURE_CLIENT_CERTIFICATE_PASSWORD&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>Create the ASO resource referring to <code>my-resource-secret</code>. We show a <code>ResourceGroup</code> here, but any ASO resource will work.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: resources.azure.com/v1api20200601
+</span><span style="color:#e6db74">kind: ResourceGroup
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: aso-sample-rg
+</span><span style="color:#e6db74">  namespace: default
+</span><span style="color:#e6db74">  annotation:
+</span><span style="color:#e6db74">    serviceoperator.azure.com/credential-from: my-resource-secret
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">  location: westcentralus
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div>
+    </div>
+</div>
 
-NAME                     SECRETS   AGE
-serviceaccount/default   <span style="color:#ae81ff">1</span>         3d
-
-NAME                             TYPE                                  DATA   AGE
-secret/aso-controller-settings   Opaque                                <span style="color:#ae81ff">5</span>      3d
-secret/default-token-mqmpb       kubernetes.io/service-account-token   <span style="color:#ae81ff">3</span>      3d
-</code></pre></div><h3 id="helm-installation">Helm Installation</h3>
-<p>To deploy the operator in multi-operator multi-tenant using helm is split into two parts:</p>
+<h2 id="azure-workload-identity">Azure Workload Identity</h2>
+<p>See <a href="https://github.com/Azure/azure-workload-identity">Azure Workload Identity</a> for details about the workload identity project.</p>
+<h3 id="prerequisites-2">Prerequisites</h3>
 <ol>
-<li>
-<p><strong>Cluster-wide operator installation</strong>:</p>
-<pre tabindex="0"><code>helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-</code></pre><pre tabindex="0"><code>helm upgrade --install --devel aso2 aso2/azure-service-operator \
-   --create-namespace \
-   --namespace=azureserviceoperator-system \
-   --set multitenant.enable=true \
-   --set azureOperatorMode=webhooks
-</code></pre></li>
-<li>
-<p><strong>Per-tenant operator installation</strong>:</p>
-<pre tabindex="0"><code>helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
-</code></pre><pre tabindex="0"><code>helm upgrade --install --devel aso2 aso2/azure-service-operator \
-   --create-namespace \
-   --namespace=tenant1-system \
-   --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
-   --set azureTenantID=$AZURE_TENANT_ID \
-   --set azureClientID=$AZURE_CLIENT_ID \
-   --set azureClientSecret=$AZURE_CLIENT_SECRET \
-   --set multitenant.enable=true \
-   --set azureTargetNamespaces='{ns1,ns2,ns3}' \
-   --set azureOperatorMode=watchers
-</code></pre></li>
+<li>An existing Azure Service Principal or Managed Identity. The setup is the same regardless of which you choose.</li>
+<li>The <a href="https://docs.microsoft.com/cli/azure/install-azure-cli">Azure CLI</a>.</li>
 </ol>
-<h3 id="role-handling">Role handling</h3>
-<p>The multi-tenant deployment example files have a single <code>ClusterRole</code> that grants access to the Azure resource types,
-and then a binding to that <code>ClusterRole</code> for the service account in each tenant-operator namespace.
-Each <code>ClusterRoleBinding</code> is named for the specific tenant, so they don&rsquo;t collide and can be managed separately:</p>
-<p><img src="../multitenant-simple-roles.png" alt="diagram showing cluster-level role bindings pointing to tenant namespace service accounts"></p>
-<p>This is convenient since there&rsquo;s no need to permit access for Azure resources in each of the target namespaces individually,
-but it means that the only thing preventing one tenant operator from reading another&rsquo;s resources is the <code>AZURE_TARGET_NAMESPACES</code> setting for each operator.</p>
-<p>For some usage scenarios that might be too permissive.</p>
-<p>In those cases the <code>azureserviceoperator-manager-role</code> should be changed from a <code>ClusterRole</code> into <code>Role</code>s in each of the target namespaces (where the Azure resources will be created, rather than where the tenant-operator pods run),
-and a <code>RoleBinding</code> should be created in that namespace linking the <code>Role</code> to the service account for the tenant operator that will be managing Azure resources in this target namespace:</p>
-<p><img src="../multitenant-restrictive-roles.png" alt="diagram showing namespace-scoped roles and bindings pointing to tenant operator service accounts"></p>
-<h3 id="upgrading">Upgrading</h3>
-<p>When upgrading to a newer version of ASO the cluster-wide resources (CRDs, cluster roles) and the webhook deployment must be upgraded before upgrading the tenant operators.</p>
-<p>Applying the new version of the <code>multitenant-cluster</code> YAML file will add new and updated CRDs, then update the webhook configuration and cluster roles.
-After that the new version of the <code>multitenant-tenant</code> YAML files (customised for the specific tenant names) can be applied.</p>
+<p>Use the following Bash commands to set the environment variables containing the workload identity secret (customize with your values):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export AZURE_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The client ID (sometimes called App Id) of the Service Principal, or the Client ID of the Managed Identity with which you are using Workload Identity.</span>
+export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span> <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
+export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
+export SERVICE_ACCOUNT_ISSUER<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://oidc.prod-aks.azure.com/00000000-0000-0000-0000-00000000000/&#34;</span> <span style="color:#75715e"># The OIDC endpoint for your cluster in this example AKS</span>
+</code></pre></div><h3 id="get-the-application-object-id-of-the-identity">Get the Application Object ID of the identity</h3>
+<p>For Managed Identity: <code>export APPLICATION_OBJECT_ID=$(az resource show --id /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/{my resource group name}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{my managed identity name} --query &quot;properties.principalId&quot; -o tsv | tr -d '[:space:]')</code></p>
+<h3 id="configure-trust">Configure trust</h3>
+<p>Establish trust between your OIDC issuer URL and the backing Service Principal or Managed Identity. See <a href="https://docs.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation#how-it-works">how it works</a> for details.</p>
+<h4 id="service-principal">Service Principal</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export APPLICATION_OBJECT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>az ad app show --id <span style="color:#e6db74">${</span>AZURE_CLIENT_ID<span style="color:#e6db74">}</span> --query id -otsv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 
+cat <span style="color:#e6db74">&lt;&lt;EOF &gt; params.json
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">  &#34;name&#34;: &#34;aso-federated-credential&#34;,
+</span><span style="color:#e6db74">  &#34;issuer&#34;: &#34;${SERVICE_ACCOUNT_ISSUER}&#34;,
+</span><span style="color:#e6db74">  &#34;subject&#34;: &#34;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&#34;,
+</span><span style="color:#e6db74">  &#34;description&#34;: &#34;Kubernetes service account federated credential&#34;,
+</span><span style="color:#e6db74">  &#34;audiences&#34;: [
+</span><span style="color:#e6db74">    &#34;api://AzureADTokenExchange&#34;
+</span><span style="color:#e6db74">  ]
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">EOF</span>
+
+az ad app federated-credential create --id <span style="color:#e6db74">${</span>APPLICATION_OBJECT_ID<span style="color:#e6db74">}</span> --parameters @params.json
+</code></pre></div><h4 id="managed-identity">Managed Identity</h4>
+<p>Set the following additional environment variables:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export MI_RESOURCE_GROUP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-rg&#34;</span>  <span style="color:#75715e"># The resource group containing the managed identity that will be used by ASO</span>
+export MI_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my-mi&#34;</span>            <span style="color:#75715e"># The name of the managed identity that will be used by ASO</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF &gt; body.json
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">  &#34;name&#34;: &#34;aso-federated-credential&#34;,
+</span><span style="color:#e6db74">  &#34;type&#34;:&#34;Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials&#34;,
+</span><span style="color:#e6db74">  &#34;properties&#34;: {
+</span><span style="color:#e6db74">    &#34;issuer&#34;:&#34;${SERVICE_ACCOUNT_ISSUER}&#34;,
+</span><span style="color:#e6db74">    &#34;subject&#34;:&#34;system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default&#34;,
+</span><span style="color:#e6db74">    &#34;audiences&#34;: [
+</span><span style="color:#e6db74">      &#34;api://AzureADTokenExchange&#34;
+</span><span style="color:#e6db74">    ]
+</span><span style="color:#e6db74">  }
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">EOF</span>
+
+az rest --method put --url /subscriptions/<span style="color:#e6db74">${</span>AZURE_SUBSCRIPTION_ID<span style="color:#e6db74">}</span>/resourcegroups/<span style="color:#e6db74">${</span>MI_RESOURCE_GROUP<span style="color:#e6db74">}</span>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<span style="color:#e6db74">${</span>MI_NAME<span style="color:#e6db74">}</span>/federatedIdentityCredentials/aso-federated-credential?api-version<span style="color:#f92672">=</span>2022-01-31-preview --body @body.json
+</code></pre></div><h3 id="create-the-secret-2">Create the secret</h3>
+
+
+
+
+
+<ul class="nav nav-tabs" id="tabs-2" role="tablist">
+  <li class="nav-item">
+      <a class="nav-link disabled"
+          id="tabs-02-00-tab" data-toggle="tab" href="#tabs-02-00" role="tab"
+          aria-controls="tabs-02-00" aria-selected="false">
+        <strong>Scope</strong>:
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link active"
+          id="tabs-02-01-tab" data-toggle="tab" href="#tabs-02-01" role="tab"
+          aria-controls="tabs-02-01" aria-selected="false">
+        Global
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-02-02-tab" data-toggle="tab" href="#tabs-02-02" role="tab"
+          aria-controls="tabs-02-02" aria-selected="false">
+        Namespace
+      </a>
+    </li><li class="nav-item">
+      <a class="nav-link"
+          id="tabs-02-03-tab" data-toggle="tab" href="#tabs-02-03" role="tab"
+          aria-controls="tabs-02-03" aria-selected="false">
+        Resource
+      </a>
+    </li>
+</ul>
+
+<div class="tab-content" id="tabs-2-content">
+    <div class="tab-body tab-pane fade"
+        id="tabs-02-00" role="tabpanel" aria-labelled-by="tabs-02-00-tab">
+        
+    </div>
+    <div class="tab-body tab-pane fade show active"
+        id="tabs-02-01" role="tabpanel" aria-labelled-by="tabs-02-01-tab">
+        <p>If installing ASO for the first time, you can pass these values via Helm arguments:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --create-namespace <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureTenantID<span style="color:#f92672">=</span>$AZURE_TENANT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set useWorkloadIdentityAuth<span style="color:#f92672">=</span>true
+</code></pre></div><p>Otherwise, create or update the <code>aso-controller-settings</code> secret:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-controller-settings
+</span><span style="color:#e6db74"> namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74"> USE_WORKLOAD_IDENTITY_AUTH: &#34;true&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p><strong>Note:</strong> The <code>aso-controller-settings</code> secret contains more configuration than just the global credential.
+If ASO was already installed on your cluster and you are updating the <code>aso-controller-settings</code> secret, ensure that
+<a href="../../aso-controller-settings-options.md">other values</a> in that secret are not being overwritten.</p>
+
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-02-02" role="tabpanel" aria-labelled-by="tabs-02-02-tab">
+        <p>Create the <code>aso-credential</code> secret in your namespace:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-credential
+</span><span style="color:#e6db74"> namespace: my-namespace
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p><strong>Note:</strong> Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
+issuer URL and the backing Service Principal or Managed Identity. See <a href="#configure-trust">how to configure trust</a> for more details.</p>
+
+    </div>
+    <div class="tab-body tab-pane fade"
+        id="tabs-02-03" role="tabpanel" aria-labelled-by="tabs-02-03-tab">
+        <p>Create a per-resource secret. We&rsquo;ll use <code>my-resource-secret</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: my-resource-secret
+</span><span style="color:#e6db74"> namespace: my-namespace
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>Create the ASO resource referring to <code>my-resource-secret</code>. We show a <code>ResourceGroup</code> here, but any ASO resource will work.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: resources.azure.com/v1api20200601
+</span><span style="color:#e6db74">kind: ResourceGroup
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: aso-sample-rg
+</span><span style="color:#e6db74">  namespace: default
+</span><span style="color:#e6db74">  annotation:
+</span><span style="color:#e6db74">    serviceoperator.azure.com/credential-from: my-resource-secret
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">  location: westcentralus
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p><strong>Note:</strong> Each credential (both namespaced and per-resource) you create must have a trust relationship between your OIDC
+issuer URL and the backing Service Principal or Managed Identity. See <a href="#configure-trust">how to configure trust</a> for more details.</p>
+
+    </div>
+</div>
+
+<h2 id="deprecated-managed-identity-aad-pod-identity">[Deprecated] Managed Identity (aad-pod-identity)</h2>
+<blockquote>
+<p><strong>This authentication mechanism still works but is deprecated. See <a href="#azure-workload-identity">Azure Workload Identity</a> for the new way</strong></p>
+</blockquote>
+<h3 id="prerequisites-3">Prerequisites</h3>
+<ol>
+<li>An existing Azure Managed Identity.</li>
+<li><a href="https://github.com/Azure/aad-pod-identity">aad-pod-identity</a> installed into your cluster. If you are running ASO on an Azure Kubernetes Service (AKS) cluster, you can instead use the
+<a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity">integrated aad-pod-identity</a>.</li>
+</ol>
+<p>First, set the following environment variables:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export IDENTITY_RESOURCE_GROUP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myrg&#34;</span>                              <span style="color:#75715e"># The resource group containing the managed identity.</span>
+export IDENTITY_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myidentity&#34;</span>                                  <span style="color:#75715e"># The name of the identity.</span>
+export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span> <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
+export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
+</code></pre></div><p>Use the <code>az cli</code> to get some more details about the identity to use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export IDENTITY_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>az identity show -g <span style="color:#e6db74">${</span>IDENTITY_RESOURCE_GROUP<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>IDENTITY_NAME<span style="color:#e6db74">}</span> --query clientId -otsv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+export IDENTITY_RESOURCE_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>az identity show -g <span style="color:#e6db74">${</span>IDENTITY_RESOURCE_GROUP<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>IDENTITY_NAME<span style="color:#e6db74">}</span> --query id -otsv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><h4 id="manual-deploy">Manual Deploy</h4>
+<p>Deploy an <code>AzureIdentity</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: &#34;aadpodidentity.k8s.io/v1&#34;
+</span><span style="color:#e6db74">kind: AzureIdentity
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: aso-identity
+</span><span style="color:#e6db74">  namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">  type: 0
+</span><span style="color:#e6db74">  resourceID: ${IDENTITY_RESOURCE_ID}
+</span><span style="color:#e6db74">  clientID: ${IDENTITY_CLIENT_ID}
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>Deploy an <code>AzureIdentityBinding</code> to bind this identity to the Azure Service Operator manager pod:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: &#34;aadpodidentity.k8s.io/v1&#34;
+</span><span style="color:#e6db74">kind: AzureIdentityBinding
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: aso-identity-binding
+</span><span style="color:#e6db74">  namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">  azureIdentity: aso-identity
+</span><span style="color:#e6db74">  selector: aso-manager-binding
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><p>Deploy the <code>aso-controller-settings</code> secret, configured to use the identity:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74"> name: aso-controller-settings
+</span><span style="color:#e6db74"> namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$IDENTITY_CLIENT_ID&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div><h4 id="helm-chart-deploy">Helm Chart Deploy</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+helm repo update
+
+helm upgrade --install --devel aso2 aso2/azure-service-operator <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --create-namespace <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --set aadPodIdentity.enable<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --set aadPodIdentity.azureManagedIdentityResourceId<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>IDENTITY_RESOURCE_ID<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     --set azureClientID<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>IDENTITY_CLIENT_ID<span style="color:#e6db74">}</span>
+</code></pre></div>
 	
 	
 	

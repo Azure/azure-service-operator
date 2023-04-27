@@ -152,6 +152,10 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/authentication/credential-format/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/authentication/credential-scope/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/crossplane/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/defaulter-validator/</loc>
@@ -228,7 +232,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/metrics/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/multitenant-deployment/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/authentication/multitenant-deployment/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/</loc>
   </url><url>
@@ -243,6 +247,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v1alpha1api20210601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v1beta20210601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/resource-states/</loc>
   </url><url>

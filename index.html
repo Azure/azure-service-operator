@@ -106,8 +106,19 @@
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthentication-li">
-  <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
+  <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
+  <a href="/azure-service-operator/guide/authentication/credential-format/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-format"><span class="">Credential Format</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-scope-li">
+  <a href="/azure-service-operator/guide/authentication/credential-scope/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-scope"><span class="">Credential Scope</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationmultitenant-deployment-li">
+  <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationreducing-access-li">
+  <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
@@ -127,8 +138,6 @@
   <a href="/azure-service-operator/guide/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemultitenant-deployment-li">
-  <a href="/azure-service-operator/guide/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemultitenant-deployment"><span class="">Multitenancy</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
@@ -603,7 +612,7 @@ cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   <span style="color:#
 <p>Next, create a service principal with Contributor permissions for your subscription.</p>
 <p>You can optionally use a service principal with a more restricted permission set
 (for example contributor to just a Resource Group), but that will restrict what you can
-do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/authentication/#using-a-credential-for-aso-with-reduced-permissions">using reduced permissions</a> for more details.</p>
+do with ASO. See <a href="https://azure.github.io/azure-service-operator/guide/authentication/reducing-access#using-a-credential-for-aso-with-reduced-permissions">using reduced permissions</a> for more details.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az ad sp create-for-rbac -n azure-service-operator --role contributor <span style="color:#ae81ff">\
 </span><span style="color:#ae81ff"></span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
 </code></pre></div><p>This should give you output like the following:</p>

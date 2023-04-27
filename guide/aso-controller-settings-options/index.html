@@ -134,8 +134,19 @@ This may be set to empty string to configure no global credential."/>
   <a href="/azure-service-operator/guide/frequently-asked-questions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideauthentication-li">
-  <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
+  <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
+  <a href="/azure-service-operator/guide/authentication/credential-format/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-format"><span class="">Credential Format</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-scope-li">
+  <a href="/azure-service-operator/guide/authentication/credential-scope/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationcredential-scope"><span class="">Credential Scope</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationmultitenant-deployment-li">
+  <a href="/azure-service-operator/guide/authentication/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationmultitenant-deployment"><span class="">Multitenancy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationreducing-access-li">
+  <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
@@ -155,8 +166,6 @@ This may be set to empty string to configure no global credential."/>
   <a href="/azure-service-operator/guide/secrets/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemultitenant-deployment-li">
-  <a href="/azure-service-operator/guide/multitenant-deployment/" title="Deploying Azure Service Operator v2 in multi-tenant mode" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemultitenant-deployment"><span class="">Multitenancy</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
@@ -603,7 +612,7 @@ as well as other operator pod options.</p>
 <p>The supported options are:</p>
 <h3 id="azure_subscription_id">AZURE_SUBSCRIPTION_ID</h3>
 <p>Azure subscription the operator will use for ARM communication if
-no <a href="multitenant-deployment.md#single-operator-multitenancy-default-recommended">more specific</a>
+no <a href="authentication/credential-scope">more specific</a>
 credential is specified at the per-resource or per-namespace scope.</p>
 <p><strong>Format:</strong> <code>GUID</code></p>
 <p><strong>Example:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
@@ -611,7 +620,7 @@ credential is specified at the per-resource or per-namespace scope.</p>
 <p>This may be set to empty string to configure no global credential.</p>
 <h3 id="azure_tenant_id">AZURE_TENANT_ID</h3>
 <p>Azure tenantID the operator will use for ARM communication if
-no <a href="multitenant-deployment.md#single-operator-multitenancy-default-recommended">more specific</a>
+no <a href="authentication/credential-scope">more specific</a>
 credential is specified at the per-resource or per-namespace scope.</p>
 <p><strong>Format:</strong> <code>GUID</code></p>
 <p><strong>Example:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
@@ -619,7 +628,7 @@ credential is specified at the per-resource or per-namespace scope.</p>
 <p>This may be set to empty string to configure no global credential.</p>
 <h3 id="azure_client_id">AZURE_CLIENT_ID</h3>
 <p>Azure clientID the operator will use for ARM communication if
-no <a href="multitenant-deployment.md#single-operator-multitenancy-default-recommended">more specific</a>
+no <a href="authentication/credential-scope">more specific</a>
 credential is specified at the per-resource or per-namespace scope.</p>
 <p><strong>Format:</strong> <code>GUID</code></p>
 <p><strong>Example:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
@@ -627,7 +636,7 @@ credential is specified at the per-resource or per-namespace scope.</p>
 <p>This may be set to empty string to configure no global credential.</p>
 <h3 id="azure_client_secret">AZURE_CLIENT_SECRET</h3>
 <p>The secret associated with the client to use if
-no <a href="multitenant-deployment.md#single-operator-multitenancy-default-recommended">more specific</a>
+no <a href="authentication/credential-scope">more specific</a>
 credential is specified at the per-resource or per-namespace scope.</p>
 <p><strong>Format:</strong> <code>String</code></p>
 <p><strong>Required</strong>: False</p>
