@@ -79,7 +79,10 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 // addImpl is the internal implementation of Add that assumes the lock is already held
 // This allows us to call it from other methods that already have the lock
 func (ri *ResourceImporter) addImpl(importer ImportableResource) {
-	// If we've already handled this resource, skip it
+	// If we've already seen this resource, skip it
+	// This happens frequently with extension resources as they can be inherited onto many regular resources
+	// and we don't want to attempt to import them more than once.
+	// It can also happen with regular resources if they are referenced by multiple other resources.
 	if ri.unique.Contains(importer.Name()) {
 		return
 	}

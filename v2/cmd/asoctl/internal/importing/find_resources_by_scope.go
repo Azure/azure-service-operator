@@ -14,8 +14,8 @@ import (
 )
 
 var (
-	resourceTypesByScope         map[genruntime.ResourceScope]set.Set[string]
-	populateResourceTypesByScope sync.Once
+	resourceTypesByScope         map[genruntime.ResourceScope]set.Set[string] // a map from resource scope to a set of resource type names
+	populateResourceTypesByScope sync.Once                                    // ensures that resourceTypesByScope is populated only once
 )
 
 // FindResourceTypesByScope returns the resource types that may be parented in the given scope
@@ -51,7 +51,7 @@ func ensureResourceTypesByScope() {
 }
 
 func createResourceTypesByScope() map[genruntime.ResourceScope]set.Set[string] {
-	result := make(map[genruntime.ResourceScope]set.Set[string], 4)
+	result := make(map[genruntime.ResourceScope]set.Set[string])
 
 	scheme := api.CreateScheme()
 	for gvk := range scheme.AllKnownTypes() {
