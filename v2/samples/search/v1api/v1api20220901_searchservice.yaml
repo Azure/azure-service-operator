@@ -1,4 +1,4 @@
-apiVersion: search.azure.com/v1api20210401preview
+apiVersion: search.azure.com/v1api20220901
 kind: SearchService
 metadata:
   name: aso-sample-search
@@ -8,20 +8,12 @@ spec:
     enforcement: Disabled
   hostingMode: default
   identity:
-    type: SystemAssigned, UserAssigned
-    userAssignedIdentities:
-    - reference:
-        group: managedidentity.azure.com
-        kind: UserAssignedIdentity
-        name: aso-sample-userassignedidentity
+    type: SystemAssigned
   location: westus2
-  networkRuleSet:
-    bypass: None
   owner:
     name: aso-sample-rg
   partitionCount: 1
   publicNetworkAccess: disabled
   replicaCount: 1
-  semanticSearch: free
   sku:
     name: standard

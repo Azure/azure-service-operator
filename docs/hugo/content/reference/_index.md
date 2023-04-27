@@ -363,9 +363,9 @@ Supporting 1 resource: ResourceGroup
 
 Supporting 1 resource: SearchService
 
-| Resource      | ARM Version        | CRD Version          | Supported From | Sample |
-|---------------|--------------------|----------------------|----------------|--------|
-| SearchService | 2021-04-01-preview | v1api20210401preview | v2.1.0         | -      |
+| Resource      | ARM Version | CRD Version   | Supported From | Sample |
+|---------------|-------------|---------------|----------------|--------|
+| SearchService | 2022-09-01  | v1api20220901 | v2.1.0         | -      |
 
 ## Servicebus
 

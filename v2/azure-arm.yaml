@@ -56,11 +56,6 @@ typeFilters:
     group: dbforpostgresql
     version: v*20220120preview
     because: We want to export this particular preview version
-    
-  - action: include
-    group: search
-    version: v*20210401preview
-    because: We want to export this particular preview version
 
   - action: include
     group: containerservice
@@ -1387,7 +1382,7 @@ objectModelConfiguration:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
   search:
-    2021-04-01-preview:
+    2022-09-01:
       SearchService:
         $export: true
         $supportedFrom: v2.1.0

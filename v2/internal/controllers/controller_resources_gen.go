@@ -158,8 +158,8 @@ import (
 	resources_v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601storage"
 	search_customizations "github.com/Azure/azure-service-operator/v2/api/search/customizations"
-	search_v1api20210401p "github.com/Azure/azure-service-operator/v2/api/search/v1api20210401preview"
-	search_v1api20210401ps "github.com/Azure/azure-service-operator/v2/api/search/v1api20210401previewstorage"
+	search_v1api20220901 "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901"
+	search_v1api20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901storage"
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
 	servicebus_v1api20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	servicebus_v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
@@ -484,7 +484,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PrivateLinkService)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v1api20210601s.Workspace)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v1api20200601s.ResourceGroup)})
-	result = append(result, &registration.StorageType{Obj: new(search_v1api20210401ps.SearchService)})
+	result = append(result, &registration.StorageType{Obj: new(search_v1api20220901s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesQueue)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesTopic)})
@@ -1136,8 +1136,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(resources_v1api20200601s.ResourceGroup))
 	result = append(result, new(resources_v20200601.ResourceGroup))
 	result = append(result, new(resources_v20200601s.ResourceGroup))
-	result = append(result, new(search_v1api20210401p.SearchService))
-	result = append(result, new(search_v1api20210401ps.SearchService))
+	result = append(result, new(search_v1api20220901.SearchService))
+	result = append(result, new(search_v1api20220901s.SearchService))
 	result = append(
 		result,
 		new(servicebus_v1api20210101p.Namespace),
@@ -1397,8 +1397,8 @@ func createScheme() *runtime.Scheme {
 	_ = resources_v1api20200601s.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
 	_ = resources_v20200601s.AddToScheme(scheme)
-	_ = search_v1api20210401p.AddToScheme(scheme)
-	_ = search_v1api20210401ps.AddToScheme(scheme)
+	_ = search_v1api20220901.AddToScheme(scheme)
+	_ = search_v1api20220901s.AddToScheme(scheme)
 	_ = servicebus_v1api20210101p.AddToScheme(scheme)
 	_ = servicebus_v1api20210101ps.AddToScheme(scheme)
 	_ = servicebus_v20210101p.AddToScheme(scheme)
