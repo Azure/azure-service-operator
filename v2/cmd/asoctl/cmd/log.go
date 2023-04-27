@@ -16,7 +16,7 @@ import (
 
 var (
 	verbose bool // True if the user specifies --verbose or -v
-	quiet   bool // True if the user specifies --quiet or -s
+	quiet   bool // True if the user specifies --quiet or -q
 )
 
 // CreateLogger creates a logger  for console output.

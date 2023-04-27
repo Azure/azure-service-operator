@@ -15,8 +15,8 @@ import (
 
 // resourceImportReport is used to generate a report of the resources that were imported (or not).
 type resourceImportReport struct {
-	content map[resourceImportReportKey]int
-	lock    sync.Mutex // Lock to protect the above maps
+	content map[resourceImportReportKey]int // Track the number of occurrences for each resource type and result
+	lock    sync.Mutex                      // Lock to protect the above map
 }
 
 // resourceImportReportKey is a key used to accumulate the results of resource imports

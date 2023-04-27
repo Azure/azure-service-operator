@@ -63,6 +63,11 @@ func newRootCommand() (*cobra.Command, error) {
 		// Configure logging; --verbose overrides --quiet
 		if verbose {
 			zerologr.SetMaxV(1)
+			if quiet {
+				// Illegal combination, tell the user
+				log := CreateLogger()
+				log.Error(nil, "--quiet has no effect when --verbose is specified")
+			}
 		} else if quiet {
 			// Can't use zerologr.SetMaxV(-1)
 			zerolog.SetGlobalLevel(zerolog.ErrorLevel)
