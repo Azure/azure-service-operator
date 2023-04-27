@@ -28,7 +28,8 @@ func Test_Networking_DnsZone_CRUD(t *testing.T) {
 	zone := newDNSZone(tc, name, rg)
 
 	tc.CreateResourceAndWait(zone)
-
+	armId, hasID := genruntime.GetResourceID(zone)
+	tc.Expect(hasID).To(BeTrue())
 	tc.Expect(zone.Status.MaxNumberOfRecordSets).ToNot(BeNil())
 
 	tc.RunParallelSubtests(
@@ -43,9 +44,6 @@ func Test_Networking_DnsZone_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(zone)
 
 	//Ensure that the resource was really deleted in Azure
-	armId, hasID := genruntime.GetResourceID(zone)
-	tc.Expect(hasID).To(BeTrue())
-
 	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
