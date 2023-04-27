@@ -74,6 +74,9 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 
 	result, err := importer.Import(ctx)
 
+	// Wait for progress bar to finish & flush
+	progress.Wait()
+
 	if err != nil {
 		return errors.Wrap(err, "failed to import resources")
 	}
@@ -92,9 +95,6 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 			return errors.Wrapf(err, "failed to write to file %s", *outputPath)
 		}
 	}
-
-	// Wait for progress bar to finish & flush
-	progress.Wait()
 
 	return nil
 }

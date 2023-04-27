@@ -17,6 +17,7 @@ import (
 	"github.com/vbauerster/mpb/v8/decor"
 	"golang.org/x/sync/errgroup"
 	"k8s.io/apimachinery/pkg/runtime"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
@@ -32,6 +33,7 @@ type ResourceImporter struct {
 	lock      sync.Mutex                      // Lock to protect the above maps
 	log       logr.Logger                     // Logger to use for logging
 	progress  *mpb.Progress                   // Progress bar to use for showing progress
+	report    *resourceImportReport           // Report to summarise the import
 }
 
 // NewResourceImporter creates a new factory with the scheme baked in
@@ -47,6 +49,7 @@ func NewResourceImporter(
 		completed: make(map[string]ImportableResource),
 		log:       log,
 		progress:  progress,
+		report:    newResourceImportReport(),
 	}
 }
 
@@ -107,6 +110,7 @@ func (ri *ResourceImporter) Import(
 	// and end up with nothing on the queue because they're still running.
 	// The outer loop gives us a last look at the queue and allows us to keep going if there are new items
 	// requiring import.
+	var errs []error
 	for len(ri.queue) > 0 {
 		var eg errgroup.Group
 
@@ -141,7 +145,7 @@ func (ri *ResourceImporter) Import(
 		// Wait for all the running imports to complete
 		err := eg.Wait()
 		if err != nil {
-			return nil, err
+			errs = append(errs, err)
 		}
 	}
 
@@ -154,9 +158,11 @@ func (ri *ResourceImporter) Import(
 		resources = append(resources, importer.Resource())
 	}
 
+	ri.report.WriteToLog(ri.log)
+
 	return &ResourceImportResult{
 		resources: resources,
-	}, nil
+	}, kerrors.NewAggregate(errs)
 }
 
 func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableResource) error {
@@ -186,6 +192,7 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 				"kind", gk,
 				"name", rsrc.Name(),
 				"because", skipped.Because)
+			ri.report.AddSkippedImport(rsrc, skipped.Because)
 			return nil
 		}
 
@@ -194,13 +201,18 @@ func (ri *ResourceImporter) ImportResource(ctx context.Context, rsrc ImportableR
 			"kind", gk,
 			"name", rsrc.Name())
 
-		return errors.Wrapf(err, "failed during import of %s", rsrc.Name())
+		ri.report.AddFailedImport(rsrc, err.Error())
+
+		// Don't need to wrap the error, it's already been logged (we don't want to log it twice)
+		return errors.Errorf("failed during import of %s", rsrc.Name())
 	}
 
 	ri.log.Info(
 		"Imported",
 		"kind", gk,
 		"name", rsrc.Name())
+
+	ri.report.AddSuccessfulImport(rsrc)
 
 	ri.Complete(rsrc, pending)
 	return nil
