@@ -1,16 +1,16 @@
 ---
-title: dbforpostgresql.azure.com/v1beta20210601
+title: dbforpostgresql.azure.com/v1beta20220120preview
 ---
-<h2 id="dbforpostgresql.azure.com/v1beta20210601">dbforpostgresql.azure.com/v1beta20210601</h2>
+<h2 id="dbforpostgresql.azure.com/v1beta20220120preview">dbforpostgresql.azure.com/v1beta20220120preview</h2>
 <div>
-<p>Package v1beta20210601 contains API Schema definitions for the dbforpostgresql v1beta20210601 API group</p>
+<p>Package v1beta20220120preview contains API Schema definitions for the dbforpostgresql v1beta20220120preview API group</p>
 </div>
 Resource Types:
 <ul></ul>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.APIVersion">APIVersion
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.APIVersion">APIVersion
 (<code>string</code> alias)</h3>
 <div>
-<p>Deprecated version of APIVersion. Use v1api20210601.APIVersion instead</p>
+<p>Deprecated version of APIVersion. Use v1api20220120preview.APIVersion instead</p>
 </div>
 <table>
 <thead>
@@ -19,17 +19,17 @@ Resource Types:
 <th>Description</th>
 </tr>
 </thead>
-<tbody><tr><td><p>&#34;2021-06-01&#34;</p></td>
+<tbody><tr><td><p>&#34;2022-01-20-preview&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup">Backup
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Backup">Backup
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Deprecated version of Backup. Use v1api20210601.Backup instead</p>
+<p>Deprecated version of Backup. Use v1api20220120preview.Backup instead</p>
 </div>
 <table>
 <thead>
@@ -53,7 +53,7 @@ int
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_GeoRedundantBackup">
 Backup_GeoRedundantBackup
 </a>
 </em>
@@ -63,13 +63,13 @@ Backup_GeoRedundantBackup
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_ARM">Backup_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Backup_ARM">Backup_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Backup. Use v1api20210601.Backup instead</p>
+<p>Deprecated version of Backup. Use v1api20220120preview.Backup instead</p>
 </div>
 <table>
 <thead>
@@ -93,7 +93,7 @@ int
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_GeoRedundantBackup">
 Backup_GeoRedundantBackup
 </a>
 </em>
@@ -103,13 +103,13 @@ Backup_GeoRedundantBackup
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup">Backup_GeoRedundantBackup
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Backup_GeoRedundantBackup">Backup_GeoRedundantBackup
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Backup">Backup</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_ARM">Backup_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup">Backup</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_ARM">Backup_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Backup_GeoRedundantBackup. Use v1api20210601.Backup_GeoRedundantBackup instead</p>
+<p>Deprecated version of Backup_GeoRedundantBackup. Use v1api20220120preview.Backup_GeoRedundantBackup instead</p>
 </div>
 <table>
 <thead>
@@ -124,13 +124,13 @@ Backup_GeoRedundantBackup
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup_STATUS">Backup_GeoRedundantBackup_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Backup_GeoRedundantBackup_STATUS">Backup_GeoRedundantBackup_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS">Backup_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS_ARM">Backup_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_STATUS">Backup_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_STATUS_ARM">Backup_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Backup_GeoRedundantBackup_STATUS. Use v1api20210601.Backup_GeoRedundantBackup_STATUS instead</p>
+<p>Deprecated version of Backup_GeoRedundantBackup_STATUS. Use v1api20220120preview.Backup_GeoRedundantBackup_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -145,13 +145,13 @@ Backup_GeoRedundantBackup
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS">Backup_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Backup_STATUS">Backup_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
-<p>Deprecated version of Backup_STATUS. Use v1api20210601.Backup_STATUS instead</p>
+<p>Deprecated version of Backup_STATUS. Use v1api20220120preview.Backup_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -185,7 +185,7 @@ string
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_GeoRedundantBackup_STATUS">
 Backup_GeoRedundantBackup_STATUS
 </a>
 </em>
@@ -195,13 +195,13 @@ Backup_GeoRedundantBackup_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS_ARM">Backup_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Backup_STATUS_ARM">Backup_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Backup_STATUS. Use v1api20210601.Backup_STATUS instead</p>
+<p>Deprecated version of Backup_STATUS. Use v1api20220120preview.Backup_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -235,7 +235,7 @@ string
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_GeoRedundantBackup_STATUS">
 Backup_GeoRedundantBackup_STATUS
 </a>
 </em>
@@ -245,13 +245,13 @@ Backup_GeoRedundantBackup_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_ARM">ConfigurationProperties_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ConfigurationProperties_ARM">ConfigurationProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_Spec_ARM">FlexibleServers_Configuration_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_Spec_ARM">FlexibleServers_Configuration_Spec_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of ConfigurationProperties. Use v1api20210601.ConfigurationProperties instead</p>
+<p>Deprecated version of ConfigurationProperties. Use v1api20220120preview.ConfigurationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -283,14 +283,14 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_DataType_STATUS">ConfigurationProperties_DataType_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ConfigurationProperties_DataType_STATUS">ConfigurationProperties_DataType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_STATUS_ARM">ConfigurationProperties_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ConfigurationProperties_STATUS_ARM">ConfigurationProperties_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS</a>)
 </p>
 <div>
-<p>Deprecated version of ConfigurationProperties_DataType_STATUS. Use v1api20210601.ConfigurationProperties_DataType_STATUS
-instead</p>
+<p>Deprecated version of ConfigurationProperties_DataType_STATUS. Use
+v1api20220120preview.ConfigurationProperties_DataType_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -309,13 +309,13 @@ instead</p>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_STATUS_ARM">ConfigurationProperties_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ConfigurationProperties_STATUS_ARM">ConfigurationProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS_ARM">FlexibleServers_Configuration_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_STATUS_ARM">FlexibleServers_Configuration_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of ConfigurationProperties_STATUS. Use v1api20210601.ConfigurationProperties_STATUS instead</p>
+<p>Deprecated version of ConfigurationProperties_STATUS. Use v1api20220120preview.ConfigurationProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -339,7 +339,7 @@ string
 <td>
 <code>dataType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_DataType_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ConfigurationProperties_DataType_STATUS">
 ConfigurationProperties_DataType_STATUS
 </a>
 </em>
@@ -439,13 +439,13 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_ARM">DatabaseProperties_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.DatabaseProperties_ARM">DatabaseProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_Spec_ARM">FlexibleServers_Database_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_Spec_ARM">FlexibleServers_Database_Spec_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of DatabaseProperties. Use v1api20210601.DatabaseProperties instead</p>
+<p>Deprecated version of DatabaseProperties. Use v1api20220120preview.DatabaseProperties instead</p>
 </div>
 <table>
 <thead>
@@ -477,13 +477,13 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_STATUS_ARM">DatabaseProperties_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.DatabaseProperties_STATUS_ARM">DatabaseProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of DatabaseProperties_STATUS. Use v1api20210601.DatabaseProperties_STATUS instead</p>
+<p>Deprecated version of DatabaseProperties_STATUS. Use v1api20220120preview.DatabaseProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -515,13 +515,13 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_ARM">FirewallRuleProperties_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FirewallRuleProperties_ARM">FirewallRuleProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_Spec_ARM">FlexibleServers_FirewallRule_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_Spec_ARM">FlexibleServers_FirewallRule_Spec_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of FirewallRuleProperties. Use v1api20210601.FirewallRuleProperties instead</p>
+<p>Deprecated version of FirewallRuleProperties. Use v1api20220120preview.FirewallRuleProperties instead</p>
 </div>
 <table>
 <thead>
@@ -553,13 +553,13 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_STATUS_ARM">FirewallRuleProperties_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FirewallRuleProperties_STATUS_ARM">FirewallRuleProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of FirewallRuleProperties_STATUS. Use v1api20210601.FirewallRuleProperties_STATUS instead</p>
+<p>Deprecated version of FirewallRuleProperties_STATUS. Use v1api20220120preview.FirewallRuleProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -591,10 +591,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer">FlexibleServer
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer">FlexibleServer
 </h3>
 <div>
-<p>Deprecated version of FlexibleServer. Use v1api20210601.FlexibleServer instead</p>
+<p>Deprecated version of FlexibleServer. Use v1api20220120preview.FlexibleServer instead</p>
 </div>
 <table>
 <thead>
@@ -622,7 +622,7 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">
 FlexibleServer_Spec
 </a>
 </em>
@@ -679,7 +679,7 @@ doesn&rsquo;t have to be.</p>
 <td>
 <code>backup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup">
 Backup
 </a>
 </em>
@@ -691,7 +691,7 @@ Backup
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_CreateMode">
 ServerProperties_CreateMode
 </a>
 </em>
@@ -703,7 +703,7 @@ ServerProperties_CreateMode
 <td>
 <code>highAvailability</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability">
 HighAvailability
 </a>
 </em>
@@ -725,7 +725,7 @@ string
 <td>
 <code>maintenanceWindow</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.MaintenanceWindow">
 MaintenanceWindow
 </a>
 </em>
@@ -737,7 +737,7 @@ MaintenanceWindow
 <td>
 <code>network</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Network">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Network">
 Network
 </a>
 </em>
@@ -749,7 +749,7 @@ Network
 <td>
 <code>operatorSpec</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServerOperatorSpec">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServerOperatorSpec">
 FlexibleServerOperatorSpec
 </a>
 </em>
@@ -788,7 +788,7 @@ string
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku">
 Sku
 </a>
 </em>
@@ -812,7 +812,7 @@ genruntime.ResourceReference
 <td>
 <code>storage</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Storage">
 Storage
 </a>
 </em>
@@ -834,7 +834,7 @@ map[string]string
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerVersion">
 ServerVersion
 </a>
 </em>
@@ -849,7 +849,7 @@ ServerVersion
 <td>
 <code>status</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">
 FlexibleServer_STATUS
 </a>
 </em>
@@ -859,10 +859,10 @@ FlexibleServer_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServerOperatorSecrets">FlexibleServerOperatorSecrets
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServerOperatorConfigMaps">FlexibleServerOperatorConfigMaps
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec</a>)
 </p>
 <div>
 </div>
@@ -878,22 +878,22 @@ FlexibleServer_STATUS
 <td>
 <code>fullyQualifiedDomainName</code><br/>
 <em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">
-genruntime.SecretDestination
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">
+genruntime.ConfigMapDestination
 </a>
 </em>
 </td>
 <td>
-<p>FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret
-will not be retrieved from Azure.</p>
+<p>FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName config map should be placed. If omitted, no
+config map will be created.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
@@ -908,26 +908,26 @@ will not be retrieved from Azure.</p>
 <tbody>
 <tr>
 <td>
-<code>secrets</code><br/>
+<code>configMaps</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServerOperatorSecrets">
-FlexibleServerOperatorSecrets
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServerOperatorConfigMaps">
+FlexibleServerOperatorConfigMaps
 </a>
 </em>
 </td>
 <td>
-<p>Secrets: configures where to place Azure generated secrets.</p>
+<p>ConfigMaps: configures where to place operator written ConfigMaps.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer">FlexibleServer</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer">FlexibleServer</a>)
 </p>
 <div>
-<p>Deprecated version of FlexibleServer_STATUS. Use v1api20210601.FlexibleServer_STATUS instead</p>
+<p>Deprecated version of FlexibleServer_STATUS. Use v1api20220120preview.FlexibleServer_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -961,7 +961,7 @@ string
 <td>
 <code>backup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_STATUS">
 Backup_STATUS
 </a>
 </em>
@@ -986,7 +986,7 @@ Backup_STATUS
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_CreateMode_STATUS">
 ServerProperties_CreateMode_STATUS
 </a>
 </em>
@@ -1008,7 +1008,7 @@ string
 <td>
 <code>highAvailability</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_STATUS">
 HighAvailability_STATUS
 </a>
 </em>
@@ -1040,7 +1040,7 @@ string
 <td>
 <code>maintenanceWindow</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.MaintenanceWindow_STATUS">
 MaintenanceWindow_STATUS
 </a>
 </em>
@@ -1072,7 +1072,7 @@ string
 <td>
 <code>network</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Network_STATUS">
 Network_STATUS
 </a>
 </em>
@@ -1094,7 +1094,7 @@ string
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_STATUS">
 Sku_STATUS
 </a>
 </em>
@@ -1116,7 +1116,7 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_State_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_State_STATUS">
 ServerProperties_State_STATUS
 </a>
 </em>
@@ -1128,7 +1128,7 @@ ServerProperties_State_STATUS
 <td>
 <code>storage</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Storage_STATUS">
 Storage_STATUS
 </a>
 </em>
@@ -1140,7 +1140,7 @@ Storage_STATUS
 <td>
 <code>systemData</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS">
 SystemData_STATUS
 </a>
 </em>
@@ -1172,7 +1172,7 @@ string
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerVersion_STATUS">
 ServerVersion_STATUS
 </a>
 </em>
@@ -1182,10 +1182,10 @@ ServerVersion_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM
 </h3>
 <div>
-<p>Deprecated version of FlexibleServer_STATUS. Use v1api20210601.FlexibleServer_STATUS instead</p>
+<p>Deprecated version of FlexibleServer_STATUS. Use v1api20220120preview.FlexibleServer_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -1229,7 +1229,7 @@ string
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">
 ServerProperties_STATUS_ARM
 </a>
 </em>
@@ -1241,7 +1241,7 @@ ServerProperties_STATUS_ARM
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_STATUS_ARM">
 Sku_STATUS_ARM
 </a>
 </em>
@@ -1253,7 +1253,7 @@ Sku_STATUS_ARM
 <td>
 <code>systemData</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS_ARM">
 SystemData_STATUS_ARM
 </a>
 </em>
@@ -1283,10 +1283,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer">FlexibleServer</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer">FlexibleServer</a>)
 </p>
 <div>
 </div>
@@ -1346,7 +1346,7 @@ doesn&rsquo;t have to be.</p>
 <td>
 <code>backup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup">
 Backup
 </a>
 </em>
@@ -1358,7 +1358,7 @@ Backup
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_CreateMode">
 ServerProperties_CreateMode
 </a>
 </em>
@@ -1370,7 +1370,7 @@ ServerProperties_CreateMode
 <td>
 <code>highAvailability</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability">
 HighAvailability
 </a>
 </em>
@@ -1392,7 +1392,7 @@ string
 <td>
 <code>maintenanceWindow</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.MaintenanceWindow">
 MaintenanceWindow
 </a>
 </em>
@@ -1404,7 +1404,7 @@ MaintenanceWindow
 <td>
 <code>network</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Network">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Network">
 Network
 </a>
 </em>
@@ -1416,7 +1416,7 @@ Network
 <td>
 <code>operatorSpec</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServerOperatorSpec">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServerOperatorSpec">
 FlexibleServerOperatorSpec
 </a>
 </em>
@@ -1455,7 +1455,7 @@ string
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku">
 Sku
 </a>
 </em>
@@ -1479,7 +1479,7 @@ genruntime.ResourceReference
 <td>
 <code>storage</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Storage">
 Storage
 </a>
 </em>
@@ -1501,7 +1501,7 @@ map[string]string
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerVersion">
 ServerVersion
 </a>
 </em>
@@ -1511,10 +1511,10 @@ ServerVersion
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM
 </h3>
 <div>
-<p>Deprecated version of FlexibleServer_Spec. Use v1api20210601.FlexibleServer_Spec instead</p>
+<p>Deprecated version of FlexibleServer_Spec. Use v1api20220120preview.FlexibleServer_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -1548,7 +1548,7 @@ string
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_ARM">
 ServerProperties_ARM
 </a>
 </em>
@@ -1560,7 +1560,7 @@ ServerProperties_ARM
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_ARM">
 Sku_ARM
 </a>
 </em>
@@ -1580,10 +1580,10 @@ map[string]string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfiguration">FlexibleServersConfiguration
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersConfiguration">FlexibleServersConfiguration
 </h3>
 <div>
-<p>Deprecated version of FlexibleServersConfiguration. Use v1api20210601.FlexibleServersConfiguration instead</p>
+<p>Deprecated version of FlexibleServersConfiguration. Use v1api20220120preview.FlexibleServersConfiguration instead</p>
 </div>
 <table>
 <thead>
@@ -1611,7 +1611,7 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_Spec">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_Spec">
 FlexibleServers_Configuration_Spec
 </a>
 </em>
@@ -1674,7 +1674,7 @@ string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_STATUS">
 FlexibleServers_Configuration_STATUS
 </a>
 </em>
@@ -1684,10 +1684,10 @@ FlexibleServers_Configuration_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase">FlexibleServersDatabase
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersDatabase">FlexibleServersDatabase
 </h3>
 <div>
-<p>Deprecated version of FlexibleServersDatabase. Use v1api20210601.FlexibleServersDatabase instead</p>
+<p>Deprecated version of FlexibleServersDatabase. Use v1api20220120preview.FlexibleServersDatabase instead</p>
 </div>
 <table>
 <thead>
@@ -1715,7 +1715,7 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_Spec">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_Spec">
 FlexibleServers_Database_Spec
 </a>
 </em>
@@ -1778,7 +1778,7 @@ reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
 <td>
 <code>status</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_STATUS">
 FlexibleServers_Database_STATUS
 </a>
 </em>
@@ -1788,10 +1788,10 @@ FlexibleServers_Database_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersFirewallRule">FlexibleServersFirewallRule
 </h3>
 <div>
-<p>Deprecated version of FlexibleServersFirewallRule. Use v1api20210601.FlexibleServersFirewallRule instead</p>
+<p>Deprecated version of FlexibleServersFirewallRule. Use v1api20220120preview.FlexibleServersFirewallRule instead</p>
 </div>
 <table>
 <thead>
@@ -1819,7 +1819,7 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_Spec">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_Spec">
 FlexibleServers_FirewallRule_Spec
 </a>
 </em>
@@ -1882,7 +1882,7 @@ string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_STATUS">
 FlexibleServers_FirewallRule_STATUS
 </a>
 </em>
@@ -1892,13 +1892,13 @@ FlexibleServers_FirewallRule_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
 </p>
 <div>
-<p>Deprecated version of FlexibleServers_Configuration_STATUS. Use v1api20210601.FlexibleServers_Configuration_STATUS instead</p>
+<p>Deprecated version of FlexibleServers_Configuration_STATUS. Use v1api20220120preview.FlexibleServers_Configuration_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -1935,7 +1935,7 @@ string
 <td>
 <code>dataType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_DataType_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ConfigurationProperties_DataType_STATUS">
 ConfigurationProperties_DataType_STATUS
 </a>
 </em>
@@ -2037,7 +2037,7 @@ string
 <td>
 <code>systemData</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS">
 SystemData_STATUS
 </a>
 </em>
@@ -2077,10 +2077,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS_ARM">FlexibleServers_Configuration_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_STATUS_ARM">FlexibleServers_Configuration_STATUS_ARM
 </h3>
 <div>
-<p>Deprecated version of FlexibleServers_Configuration_STATUS. Use v1api20210601.FlexibleServers_Configuration_STATUS instead</p>
+<p>Deprecated version of FlexibleServers_Configuration_STATUS. Use v1api20220120preview.FlexibleServers_Configuration_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2114,7 +2114,7 @@ string
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ConfigurationProperties_STATUS_ARM">
 ConfigurationProperties_STATUS_ARM
 </a>
 </em>
@@ -2126,7 +2126,7 @@ ConfigurationProperties_STATUS_ARM
 <td>
 <code>systemData</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS_ARM">
 SystemData_STATUS_ARM
 </a>
 </em>
@@ -2146,10 +2146,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_Spec">FlexibleServers_Configuration_Spec
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_Spec">FlexibleServers_Configuration_Spec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
 </p>
 <div>
 </div>
@@ -2210,10 +2210,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_Spec_ARM">FlexibleServers_Configuration_Spec_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_Spec_ARM">FlexibleServers_Configuration_Spec_ARM
 </h3>
 <div>
-<p>Deprecated version of FlexibleServers_Configuration_Spec. Use v1api20210601.FlexibleServers_Configuration_Spec instead</p>
+<p>Deprecated version of FlexibleServers_Configuration_Spec. Use v1api20220120preview.FlexibleServers_Configuration_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2237,7 +2237,7 @@ string
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ConfigurationProperties_ARM">
 ConfigurationProperties_ARM
 </a>
 </em>
@@ -2247,13 +2247,13 @@ ConfigurationProperties_ARM
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS">FlexibleServers_Database_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_STATUS">FlexibleServers_Database_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersDatabase">FlexibleServersDatabase</a>)
 </p>
 <div>
-<p>Deprecated version of FlexibleServers_Database_STATUS. Use v1api20210601.FlexibleServers_Database_STATUS instead</p>
+<p>Deprecated version of FlexibleServers_Database_STATUS. Use v1api20220120preview.FlexibleServers_Database_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2320,7 +2320,7 @@ string
 <td>
 <code>systemData</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS">
 SystemData_STATUS
 </a>
 </em>
@@ -2340,10 +2340,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM
 </h3>
 <div>
-<p>Deprecated version of FlexibleServers_Database_STATUS. Use v1api20210601.FlexibleServers_Database_STATUS instead</p>
+<p>Deprecated version of FlexibleServers_Database_STATUS. Use v1api20220120preview.FlexibleServers_Database_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2377,7 +2377,7 @@ string
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.DatabaseProperties_STATUS_ARM">
 DatabaseProperties_STATUS_ARM
 </a>
 </em>
@@ -2389,7 +2389,7 @@ DatabaseProperties_STATUS_ARM
 <td>
 <code>systemData</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS_ARM">
 SystemData_STATUS_ARM
 </a>
 </em>
@@ -2409,10 +2409,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_Spec">FlexibleServers_Database_Spec
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_Spec">FlexibleServers_Database_Spec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersDatabase">FlexibleServersDatabase</a>)
 </p>
 <div>
 </div>
@@ -2473,10 +2473,10 @@ reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_Spec_ARM">FlexibleServers_Database_Spec_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_Spec_ARM">FlexibleServers_Database_Spec_ARM
 </h3>
 <div>
-<p>Deprecated version of FlexibleServers_Database_Spec. Use v1api20210601.FlexibleServers_Database_Spec instead</p>
+<p>Deprecated version of FlexibleServers_Database_Spec. Use v1api20220120preview.FlexibleServers_Database_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2500,7 +2500,7 @@ string
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.DatabaseProperties_ARM">
 DatabaseProperties_ARM
 </a>
 </em>
@@ -2510,13 +2510,13 @@ DatabaseProperties_ARM
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS">FlexibleServers_FirewallRule_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_STATUS">FlexibleServers_FirewallRule_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
 </p>
 <div>
-<p>Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1api20210601.FlexibleServers_FirewallRule_STATUS instead</p>
+<p>Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1api20220120preview.FlexibleServers_FirewallRule_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2583,7 +2583,7 @@ string
 <td>
 <code>systemData</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS">
 SystemData_STATUS
 </a>
 </em>
@@ -2603,10 +2603,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM
 </h3>
 <div>
-<p>Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1api20210601.FlexibleServers_FirewallRule_STATUS instead</p>
+<p>Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1api20220120preview.FlexibleServers_FirewallRule_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2640,7 +2640,7 @@ string
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FirewallRuleProperties_STATUS_ARM">
 FirewallRuleProperties_STATUS_ARM
 </a>
 </em>
@@ -2652,7 +2652,7 @@ FirewallRuleProperties_STATUS_ARM
 <td>
 <code>systemData</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS_ARM">
 SystemData_STATUS_ARM
 </a>
 </em>
@@ -2672,10 +2672,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_Spec">FlexibleServers_FirewallRule_Spec
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_Spec">FlexibleServers_FirewallRule_Spec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
 </p>
 <div>
 </div>
@@ -2736,10 +2736,10 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_Spec_ARM">FlexibleServers_FirewallRule_Spec_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_Spec_ARM">FlexibleServers_FirewallRule_Spec_ARM
 </h3>
 <div>
-<p>Deprecated version of FlexibleServers_FirewallRule_Spec. Use v1api20210601.FlexibleServers_FirewallRule_Spec instead</p>
+<p>Deprecated version of FlexibleServers_FirewallRule_Spec. Use v1api20220120preview.FlexibleServers_FirewallRule_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2763,7 +2763,7 @@ string
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.FirewallRuleProperties_ARM">
 FirewallRuleProperties_ARM
 </a>
 </em>
@@ -2773,13 +2773,13 @@ FirewallRuleProperties_ARM
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability">HighAvailability
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability">HighAvailability
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Deprecated version of HighAvailability. Use v1api20210601.HighAvailability instead</p>
+<p>Deprecated version of HighAvailability. Use v1api20220120preview.HighAvailability instead</p>
 </div>
 <table>
 <thead>
@@ -2793,7 +2793,7 @@ FirewallRuleProperties_ARM
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_Mode">
 HighAvailability_Mode
 </a>
 </em>
@@ -2813,13 +2813,13 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_ARM">HighAvailability_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_ARM">HighAvailability_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of HighAvailability. Use v1api20210601.HighAvailability instead</p>
+<p>Deprecated version of HighAvailability. Use v1api20220120preview.HighAvailability instead</p>
 </div>
 <table>
 <thead>
@@ -2833,7 +2833,7 @@ string
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_Mode">
 HighAvailability_Mode
 </a>
 </em>
@@ -2853,13 +2853,13 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode">HighAvailability_Mode
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_Mode">HighAvailability_Mode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability">HighAvailability</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_ARM">HighAvailability_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability">HighAvailability</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_ARM">HighAvailability_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of HighAvailability_Mode. Use v1api20210601.HighAvailability_Mode instead</p>
+<p>Deprecated version of HighAvailability_Mode. Use v1api20220120preview.HighAvailability_Mode instead</p>
 </div>
 <table>
 <thead>
@@ -2870,17 +2870,19 @@ string
 </thead>
 <tbody><tr><td><p>&#34;Disabled&#34;</p></td>
 <td></td>
+</tr><tr><td><p>&#34;SameZone&#34;</p></td>
+<td></td>
 </tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of HighAvailability_Mode_STATUS. Use v1api20210601.HighAvailability_Mode_STATUS instead</p>
+<p>Deprecated version of HighAvailability_Mode_STATUS. Use v1api20220120preview.HighAvailability_Mode_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2891,17 +2893,19 @@ string
 </thead>
 <tbody><tr><td><p>&#34;Disabled&#34;</p></td>
 <td></td>
+</tr><tr><td><p>&#34;SameZone&#34;</p></td>
+<td></td>
 </tr><tr><td><p>&#34;ZoneRedundant&#34;</p></td>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS">HighAvailability_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_STATUS">HighAvailability_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
-<p>Deprecated version of HighAvailability_STATUS. Use v1api20210601.HighAvailability_STATUS instead</p>
+<p>Deprecated version of HighAvailability_STATUS. Use v1api20220120preview.HighAvailability_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2915,7 +2919,7 @@ string
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_Mode_STATUS">
 HighAvailability_Mode_STATUS
 </a>
 </em>
@@ -2937,7 +2941,7 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_State_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_State_STATUS">
 HighAvailability_State_STATUS
 </a>
 </em>
@@ -2947,13 +2951,13 @@ HighAvailability_State_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of HighAvailability_STATUS. Use v1api20210601.HighAvailability_STATUS instead</p>
+<p>Deprecated version of HighAvailability_STATUS. Use v1api20220120preview.HighAvailability_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2967,7 +2971,7 @@ HighAvailability_State_STATUS
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_Mode_STATUS">
 HighAvailability_Mode_STATUS
 </a>
 </em>
@@ -2989,7 +2993,7 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_State_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_State_STATUS">
 HighAvailability_State_STATUS
 </a>
 </em>
@@ -2999,13 +3003,13 @@ HighAvailability_State_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_State_STATUS">HighAvailability_State_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_State_STATUS">HighAvailability_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of HighAvailability_State_STATUS. Use v1api20210601.HighAvailability_State_STATUS instead</p>
+<p>Deprecated version of HighAvailability_State_STATUS. Use v1api20220120preview.HighAvailability_State_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3028,13 +3032,13 @@ HighAvailability_State_STATUS
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow">MaintenanceWindow
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.MaintenanceWindow">MaintenanceWindow
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Deprecated version of MaintenanceWindow. Use v1api20210601.MaintenanceWindow instead</p>
+<p>Deprecated version of MaintenanceWindow. Use v1api20220120preview.MaintenanceWindow instead</p>
 </div>
 <table>
 <thead>
@@ -3086,13 +3090,13 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_ARM">MaintenanceWindow_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.MaintenanceWindow_ARM">MaintenanceWindow_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of MaintenanceWindow. Use v1api20210601.MaintenanceWindow instead</p>
+<p>Deprecated version of MaintenanceWindow. Use v1api20220120preview.MaintenanceWindow instead</p>
 </div>
 <table>
 <thead>
@@ -3144,13 +3148,13 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_STATUS">MaintenanceWindow_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.MaintenanceWindow_STATUS">MaintenanceWindow_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
-<p>Deprecated version of MaintenanceWindow_STATUS. Use v1api20210601.MaintenanceWindow_STATUS instead</p>
+<p>Deprecated version of MaintenanceWindow_STATUS. Use v1api20220120preview.MaintenanceWindow_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3202,13 +3206,13 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_STATUS_ARM">MaintenanceWindow_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.MaintenanceWindow_STATUS_ARM">MaintenanceWindow_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of MaintenanceWindow_STATUS. Use v1api20210601.MaintenanceWindow_STATUS instead</p>
+<p>Deprecated version of MaintenanceWindow_STATUS. Use v1api20220120preview.MaintenanceWindow_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3260,13 +3264,13 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network">Network
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Network">Network
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Deprecated version of Network. Use v1api20210601.Network instead</p>
+<p>Deprecated version of Network. Use v1api20220120preview.Network instead</p>
 </div>
 <table>
 <thead>
@@ -3302,13 +3306,13 @@ genruntime.ResourceReference
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_ARM">Network_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Network_ARM">Network_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Network. Use v1api20210601.Network instead</p>
+<p>Deprecated version of Network. Use v1api20220120preview.Network instead</p>
 </div>
 <table>
 <thead>
@@ -3340,13 +3344,14 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_PublicNetworkAccess_STATUS">Network_PublicNetworkAccess_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Network_PublicNetworkAccess_STATUS">Network_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Network_STATUS">Network_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Network_STATUS_ARM">Network_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.Network_STATUS">Network_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.Network_STATUS_ARM">Network_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Network_PublicNetworkAccess_STATUS. Use v1api20210601.Network_PublicNetworkAccess_STATUS instead</p>
+<p>Deprecated version of Network_PublicNetworkAccess_STATUS. Use v1api20220120preview.Network_PublicNetworkAccess_STATUS
+instead</p>
 </div>
 <table>
 <thead>
@@ -3361,13 +3366,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_STATUS">Network_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Network_STATUS">Network_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
-<p>Deprecated version of Network_STATUS. Use v1api20210601.Network_STATUS instead</p>
+<p>Deprecated version of Network_STATUS. Use v1api20220120preview.Network_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3401,7 +3406,7 @@ string
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_PublicNetworkAccess_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Network_PublicNetworkAccess_STATUS">
 Network_PublicNetworkAccess_STATUS
 </a>
 </em>
@@ -3411,13 +3416,13 @@ Network_PublicNetworkAccess_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_STATUS_ARM">Network_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Network_STATUS_ARM">Network_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Network_STATUS. Use v1api20210601.Network_STATUS instead</p>
+<p>Deprecated version of Network_STATUS. Use v1api20220120preview.Network_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3451,7 +3456,7 @@ string
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_PublicNetworkAccess_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Network_PublicNetworkAccess_STATUS">
 Network_PublicNetworkAccess_STATUS
 </a>
 </em>
@@ -3461,13 +3466,13 @@ Network_PublicNetworkAccess_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_ARM">ServerProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of ServerProperties. Use v1api20210601.ServerProperties instead</p>
+<p>Deprecated version of ServerProperties. Use v1api20220120preview.ServerProperties instead</p>
 </div>
 <table>
 <thead>
@@ -3511,7 +3516,7 @@ string
 <td>
 <code>backup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_ARM">
 Backup_ARM
 </a>
 </em>
@@ -3523,7 +3528,7 @@ Backup_ARM
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_CreateMode">
 ServerProperties_CreateMode
 </a>
 </em>
@@ -3535,7 +3540,7 @@ ServerProperties_CreateMode
 <td>
 <code>highAvailability</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_ARM">
 HighAvailability_ARM
 </a>
 </em>
@@ -3547,7 +3552,7 @@ HighAvailability_ARM
 <td>
 <code>maintenanceWindow</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.MaintenanceWindow_ARM">
 MaintenanceWindow_ARM
 </a>
 </em>
@@ -3559,7 +3564,7 @@ MaintenanceWindow_ARM
 <td>
 <code>network</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Network_ARM">
 Network_ARM
 </a>
 </em>
@@ -3591,7 +3596,7 @@ string
 <td>
 <code>storage</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Storage_ARM">
 Storage_ARM
 </a>
 </em>
@@ -3603,7 +3608,7 @@ Storage_ARM
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerVersion">
 ServerVersion
 </a>
 </em>
@@ -3613,13 +3618,13 @@ ServerVersion
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode">ServerProperties_CreateMode
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_CreateMode">ServerProperties_CreateMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of ServerProperties_CreateMode. Use v1api20210601.ServerProperties_CreateMode instead</p>
+<p>Deprecated version of ServerProperties_CreateMode. Use v1api20220120preview.ServerProperties_CreateMode instead</p>
 </div>
 <table>
 <thead>
@@ -3638,13 +3643,14 @@ ServerVersion
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of ServerProperties_CreateMode_STATUS. Use v1api20210601.ServerProperties_CreateMode_STATUS instead</p>
+<p>Deprecated version of ServerProperties_CreateMode_STATUS. Use v1api20220120preview.ServerProperties_CreateMode_STATUS
+instead</p>
 </div>
 <table>
 <thead>
@@ -3663,13 +3669,13 @@ ServerVersion
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of ServerProperties_STATUS. Use v1api20210601.ServerProperties_STATUS instead</p>
+<p>Deprecated version of ServerProperties_STATUS. Use v1api20220120preview.ServerProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3703,7 +3709,7 @@ string
 <td>
 <code>backup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Backup_STATUS_ARM">
 Backup_STATUS_ARM
 </a>
 </em>
@@ -3715,7 +3721,7 @@ Backup_STATUS_ARM
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_CreateMode_STATUS">
 ServerProperties_CreateMode_STATUS
 </a>
 </em>
@@ -3737,7 +3743,7 @@ string
 <td>
 <code>highAvailability</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.HighAvailability_STATUS_ARM">
 HighAvailability_STATUS_ARM
 </a>
 </em>
@@ -3749,7 +3755,7 @@ HighAvailability_STATUS_ARM
 <td>
 <code>maintenanceWindow</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.MaintenanceWindow_STATUS_ARM">
 MaintenanceWindow_STATUS_ARM
 </a>
 </em>
@@ -3771,7 +3777,7 @@ string
 <td>
 <code>network</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Network_STATUS_ARM">
 Network_STATUS_ARM
 </a>
 </em>
@@ -3803,7 +3809,7 @@ string
 <td>
 <code>state</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_State_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_State_STATUS">
 ServerProperties_State_STATUS
 </a>
 </em>
@@ -3815,7 +3821,7 @@ ServerProperties_State_STATUS
 <td>
 <code>storage</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage_STATUS_ARM">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Storage_STATUS_ARM">
 Storage_STATUS_ARM
 </a>
 </em>
@@ -3827,7 +3833,7 @@ Storage_STATUS_ARM
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerVersion_STATUS">
 ServerVersion_STATUS
 </a>
 </em>
@@ -3837,13 +3843,13 @@ ServerVersion_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_State_STATUS">ServerProperties_State_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_State_STATUS">ServerProperties_State_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of ServerProperties_State_STATUS. Use v1api20210601.ServerProperties_State_STATUS instead</p>
+<p>Deprecated version of ServerProperties_State_STATUS. Use v1api20220120preview.ServerProperties_State_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3868,13 +3874,13 @@ ServerVersion_STATUS
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerVersion">ServerVersion
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ServerVersion">ServerVersion
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of ServerVersion. Use v1api20210601.ServerVersion instead</p>
+<p>Deprecated version of ServerVersion. Use v1api20220120preview.ServerVersion instead</p>
 </div>
 <table>
 <thead>
@@ -3893,13 +3899,13 @@ ServerVersion_STATUS
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerVersion_STATUS">ServerVersion_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.ServerVersion_STATUS">ServerVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of ServerVersion_STATUS. Use v1api20210601.ServerVersion_STATUS instead</p>
+<p>Deprecated version of ServerVersion_STATUS. Use v1api20220120preview.ServerVersion_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3918,13 +3924,13 @@ ServerVersion_STATUS
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku">Sku
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Sku">Sku
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Deprecated version of Sku. Use v1api20210601.Sku instead</p>
+<p>Deprecated version of Sku. Use v1api20220120preview.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -3948,7 +3954,7 @@ string
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Tier">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_Tier">
 Sku_Tier
 </a>
 </em>
@@ -3958,13 +3964,13 @@ Sku_Tier
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_ARM">Sku_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Sku_ARM">Sku_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Sku. Use v1api20210601.Sku instead</p>
+<p>Deprecated version of Sku. Use v1api20220120preview.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -3988,7 +3994,7 @@ string
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Tier">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_Tier">
 Sku_Tier
 </a>
 </em>
@@ -3998,13 +4004,13 @@ Sku_Tier
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS">Sku_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Sku_STATUS">Sku_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
-<p>Deprecated version of Sku_STATUS. Use v1api20210601.Sku_STATUS instead</p>
+<p>Deprecated version of Sku_STATUS. Use v1api20220120preview.Sku_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4028,7 +4034,7 @@ string
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Tier_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_Tier_STATUS">
 Sku_Tier_STATUS
 </a>
 </em>
@@ -4038,13 +4044,13 @@ Sku_Tier_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS_ARM">Sku_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Sku_STATUS_ARM">Sku_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Sku_STATUS. Use v1api20210601.Sku_STATUS instead</p>
+<p>Deprecated version of Sku_STATUS. Use v1api20220120preview.Sku_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4068,7 +4074,7 @@ string
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Tier_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_Tier_STATUS">
 Sku_Tier_STATUS
 </a>
 </em>
@@ -4078,13 +4084,13 @@ Sku_Tier_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_Tier">Sku_Tier
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Sku_Tier">Sku_Tier
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Sku">Sku</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_ARM">Sku_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku">Sku</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_ARM">Sku_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Sku_Tier. Use v1api20210601.Sku_Tier instead</p>
+<p>Deprecated version of Sku_Tier. Use v1api20220120preview.Sku_Tier instead</p>
 </div>
 <table>
 <thead>
@@ -4101,13 +4107,13 @@ Sku_Tier_STATUS
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_Tier_STATUS">Sku_Tier_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Sku_Tier_STATUS">Sku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS">Sku_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_STATUS">Sku_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Sku_Tier_STATUS. Use v1api20210601.Sku_Tier_STATUS instead</p>
+<p>Deprecated version of Sku_Tier_STATUS. Use v1api20220120preview.Sku_Tier_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4124,13 +4130,13 @@ Sku_Tier_STATUS
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage">Storage
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Storage">Storage
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Deprecated version of Storage. Use v1api20210601.Storage instead</p>
+<p>Deprecated version of Storage. Use v1api20220120preview.Storage instead</p>
 </div>
 <table>
 <thead>
@@ -4152,13 +4158,13 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage_ARM">Storage_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Storage_ARM">Storage_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Storage. Use v1api20210601.Storage instead</p>
+<p>Deprecated version of Storage. Use v1api20220120preview.Storage instead</p>
 </div>
 <table>
 <thead>
@@ -4180,13 +4186,13 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage_STATUS">Storage_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Storage_STATUS">Storage_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
-<p>Deprecated version of Storage_STATUS. Use v1api20210601.Storage_STATUS instead</p>
+<p>Deprecated version of Storage_STATUS. Use v1api20220120preview.Storage_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4208,13 +4214,13 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage_STATUS_ARM">Storage_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.Storage_STATUS_ARM">Storage_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of Storage_STATUS. Use v1api20210601.Storage_STATUS instead</p>
+<p>Deprecated version of Storage_STATUS. Use v1api20220120preview.Storage_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4236,13 +4242,13 @@ int
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of SystemData_CreatedByType_STATUS. Use v1api20210601.SystemData_CreatedByType_STATUS instead</p>
+<p>Deprecated version of SystemData_CreatedByType_STATUS. Use v1api20220120preview.SystemData_CreatedByType_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4261,14 +4267,14 @@ int
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1api20210601.SystemData_LastModifiedByType_STATUS
-instead</p>
+<p>Deprecated version of SystemData_LastModifiedByType_STATUS. Use
+v1api20220120preview.SystemData_LastModifiedByType_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4287,13 +4293,13 @@ instead</p>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">SystemData_STATUS
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS">SystemData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS">FlexibleServers_Database_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS">FlexibleServers_FirewallRule_STATUS</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_STATUS">FlexibleServers_Database_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_STATUS">FlexibleServers_FirewallRule_STATUS</a>)
 </p>
 <div>
-<p>Deprecated version of SystemData_STATUS. Use v1api20210601.SystemData_STATUS instead</p>
+<p>Deprecated version of SystemData_STATUS. Use v1api20220120preview.SystemData_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4327,7 +4333,7 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_CreatedByType_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_CreatedByType_STATUS">
 SystemData_CreatedByType_STATUS
 </a>
 </em>
@@ -4359,7 +4365,7 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_LastModifiedByType_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_LastModifiedByType_STATUS">
 SystemData_LastModifiedByType_STATUS
 </a>
 </em>
@@ -4369,13 +4375,13 @@ SystemData_LastModifiedByType_STATUS
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM
+<h3 id="dbforpostgresql.azure.com/v1beta20220120preview.SystemData_STATUS_ARM">SystemData_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS_ARM">FlexibleServers_Configuration_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Configuration_STATUS_ARM">FlexibleServers_Configuration_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM</a>)
 </p>
 <div>
-<p>Deprecated version of SystemData_STATUS. Use v1api20210601.SystemData_STATUS instead</p>
+<p>Deprecated version of SystemData_STATUS. Use v1api20220120preview.SystemData_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4409,7 +4415,7 @@ string
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_CreatedByType_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_CreatedByType_STATUS">
 SystemData_CreatedByType_STATUS
 </a>
 </em>
@@ -4441,7 +4447,7 @@ string
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_LastModifiedByType_STATUS">
+<a href="#dbforpostgresql.azure.com/v1beta20220120preview.SystemData_LastModifiedByType_STATUS">
 SystemData_LastModifiedByType_STATUS
 </a>
 </em>
