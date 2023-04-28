@@ -20,16 +20,16 @@
 
 <title>dbforpostgresql.azure.com/v1beta20210601 | Azure Service Operator</title>
 <meta name="description" content="dbforpostgresql.azure.com/v1beta20210601  Package v1beta20210601 contains API Schema definitions for the dbforpostgresql v1beta20210601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &amp;#34;2021-06-01&amp;#34;
-    Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
-    Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
-    geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.">
+ Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210601.APIVersion instead
+    Value Description   &amp;#34;2021-06-01&amp;#34;
+    Backup   (Appears on:FlexibleServer_Spec)  Deprecated version of Backup. Use v1api20210601.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  Backup_GeoRedundantBackup         Backup_ARM   (Appears on:ServerProperties_ARM)  Deprecated version of Backup.">
 <meta property="og:title" content="dbforpostgresql.azure.com/v1beta20210601" />
 <meta property="og:description" content="dbforpostgresql.azure.com/v1beta20210601  Package v1beta20210601 contains API Schema definitions for the dbforpostgresql v1beta20210601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-06-01&#34;
-    Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
-    Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
-    geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server." />
+ Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210601.APIVersion instead
+    Value Description   &#34;2021-06-01&#34;
+    Backup   (Appears on:FlexibleServer_Spec)  Deprecated version of Backup. Use v1api20210601.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  Backup_GeoRedundantBackup         Backup_ARM   (Appears on:ServerProperties_ARM)  Deprecated version of Backup." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20210601/" /><meta property="article:section" content="reference" />
 
@@ -37,19 +37,19 @@
 
 <meta itemprop="name" content="dbforpostgresql.azure.com/v1beta20210601">
 <meta itemprop="description" content="dbforpostgresql.azure.com/v1beta20210601  Package v1beta20210601 contains API Schema definitions for the dbforpostgresql v1beta20210601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-06-01&#34;
-    Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
-    Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
-    geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.">
+ Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210601.APIVersion instead
+    Value Description   &#34;2021-06-01&#34;
+    Backup   (Appears on:FlexibleServer_Spec)  Deprecated version of Backup. Use v1api20210601.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  Backup_GeoRedundantBackup         Backup_ARM   (Appears on:ServerProperties_ARM)  Deprecated version of Backup.">
 
-<meta itemprop="wordCount" content="3976">
+<meta itemprop="wordCount" content="2247">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="dbforpostgresql.azure.com/v1beta20210601"/>
 <meta name="twitter:description" content="dbforpostgresql.azure.com/v1beta20210601  Package v1beta20210601 contains API Schema definitions for the dbforpostgresql v1beta20210601 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-06-01&#34;
-    Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
-    Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
-    geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server."/>
+ Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210601.APIVersion instead
+    Value Description   &#34;2021-06-01&#34;
+    Backup   (Appears on:FlexibleServer_Spec)  Deprecated version of Backup. Use v1api20210601.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  Backup_GeoRedundantBackup         Backup_ARM   (Appears on:ServerProperties_ARM)  Deprecated version of Backup."/>
 
 
 
@@ -187,11 +187,20 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+  <a href="/azure-service-operator/reference/appconfiguration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">appconfiguration</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
+  <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">appconfiguration.azure.com/v1api20220501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1beta20220501-li">
+  <a href="/azure-service-operator/reference/appconfiguration/v1beta20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1beta20220501"><span class="">appconfiguration.azure.com/v1beta20220501</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">authorization</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview-li">
-  <a href="/azure-service-operator/reference/authorization/v1alpha1api20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview"><span class="">authorization.azure.com/v1alpha1api20200801preview</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
+  <a href="/azure-service-operator/reference/authorization/v1api20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview"><span class="">authorization.azure.com/v1api20200801preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview-li">
   <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
 </li>
@@ -199,8 +208,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">batch</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1alpha1api20210101-li">
-  <a href="/azure-service-operator/reference/batch/v1alpha1api20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1alpha1api20210101"><span class="">batch.azure.com/v1alpha1api20210101</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
+  <a href="/azure-service-operator/reference/batch/v1api20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">batch.azure.com/v1api20210101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1beta20210101-li">
   <a href="/azure-service-operator/reference/batch/v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
 </li>
@@ -208,10 +217,10 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">cache</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20201201-li">
-  <a href="/azure-service-operator/reference/cache/v1alpha1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1alpha1api20201201"><span class="">cache.azure.com/v1alpha1api20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20210301-li">
-  <a href="/azure-service-operator/reference/cache/v1alpha1api20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1alpha1api20210301"><span class="">cache.azure.com/v1alpha1api20210301</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
+  <a href="/azure-service-operator/reference/cache/v1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20201201"><span class="">cache.azure.com/v1api20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20210301-li">
+  <a href="/azure-service-operator/reference/cache/v1api20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20210301"><span class="">cache.azure.com/v1api20210301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1beta20201201-li">
   <a href="/azure-service-operator/reference/cache/v1beta20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20201201"><span class="">cache.azure.com/v1beta20201201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1beta20210301-li">
@@ -221,19 +230,23 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">cdn</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1beta20210601-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
+  <a href="/azure-service-operator/reference/cdn/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20210601"><span class="">cdn.azure.com/v1api20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1beta20210601-li">
   <a href="/azure-service-operator/reference/cdn/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1beta20210601"><span class="">cdn.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">compute</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20200930-li">
-  <a href="/azure-service-operator/reference/compute/v1alpha1api20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20200930"><span class="">compute.azure.com/v1alpha1api20200930</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20201201-li">
-  <a href="/azure-service-operator/reference/compute/v1alpha1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20201201"><span class="">compute.azure.com/v1alpha1api20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20210701-li">
-  <a href="/azure-service-operator/reference/compute/v1alpha1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20210701"><span class="">compute.azure.com/v1alpha1api20210701</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
+  <a href="/azure-service-operator/reference/compute/v1api20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20200930"><span class="">compute.azure.com/v1api20200930</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20201201-li">
+  <a href="/azure-service-operator/reference/compute/v1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20201201"><span class="">compute.azure.com/v1api20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20210701-li">
+  <a href="/azure-service-operator/reference/compute/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20210701"><span class="">compute.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220301-li">
+  <a href="/azure-service-operator/reference/compute/v1api20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220301"><span class="">compute.azure.com/v1api20220301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20200930-li">
   <a href="/azure-service-operator/reference/compute/v1beta20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20200930"><span class="">compute.azure.com/v1beta20200930</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20201201-li">
@@ -247,15 +260,17 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">containerinstance</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
+  <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001"><span class="">containerinstance.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">containerregistry</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901-li">
-  <a href="/azure-service-operator/reference/containerregistry/v1alpha1api20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901"><span class="">containerregistry.azure.com/v1alpha1api20210901</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
+  <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">containerregistry.azure.com/v1api20210901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901-li">
   <a href="/azure-service-operator/reference/containerregistry/v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
 </li>
@@ -263,24 +278,39 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">containerservice</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501-li">
-  <a href="/azure-service-operator/reference/containerservice/v1alpha1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501"><span class="">containerservice.azure.com/v1alpha1api20210501</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20210501"><span class="">containerservice.azure.com/v1api20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20230201-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20230201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230201"><span class="">containerservice.azure.com/v1api20230201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20230202preview-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20230202preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230202preview"><span class="">containerservice.azure.com/v1api20230202preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1beta20210501-li">
   <a href="/azure-service-operator/reference/containerservice/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
+  <a href="/azure-service-operator/reference/datafactory/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">datafactory</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
+  <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">dbformariadb</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1beta20180601-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
+  <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">dbformariadb.azure.com/v1api20180601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1beta20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1beta20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1beta20180601"><span class="">dbformariadb.azure.com/v1beta20180601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">dbformysql</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1alpha1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501"><span class="">dbformysql.azure.com/v1alpha1api20210501</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="">dbformysql.azure.com/v1</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">dbformysql.azure.com/v1api20210501</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1beta1-li">
   <a href="/azure-service-operator/reference/dbformysql/v1beta1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta1"><span class="">dbformysql.azure.com/v1beta1</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1beta20210501-li">
@@ -290,17 +320,23 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">dbforpostgresql</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1alpha1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601"><span class="">dbforpostgresql.azure.com/v1alpha1api20210601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1"><span class="">dbforpostgresql.azure.com/v1</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601"><span class="">dbforpostgresql.azure.com/v1api20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview"><span class="">dbforpostgresql.azure.com/v1api20220120preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20210601/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601"><span class="td-sidebar-nav-active-item">dbforpostgresql.azure.com/v1beta20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20220120preview-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20220120preview"><span class="">dbforpostgresql.azure.com/v1beta20220120preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">documentdb</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515-li">
-  <a href="/azure-service-operator/reference/documentdb/v1alpha1api20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515"><span class="">documentdb.azure.com/v1alpha1api20210515</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
+  <a href="/azure-service-operator/reference/documentdb/v1api20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20210515"><span class="">documentdb.azure.com/v1api20210515</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1beta20210515-li">
   <a href="/azure-service-operator/reference/documentdb/v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
 </li>
@@ -308,8 +344,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">eventgrid</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601-li">
-  <a href="/azure-service-operator/reference/eventgrid/v1alpha1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601"><span class="">eventgrid.azure.com/v1alpha1api20200601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
+  <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">eventgrid.azure.com/v1api20200601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1beta20200601-li">
   <a href="/azure-service-operator/reference/eventgrid/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
 </li>
@@ -317,8 +353,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">eventhub</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101-li">
-  <a href="/azure-service-operator/reference/eventhub/v1alpha1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101"><span class="">eventhub.azure.com/v1alpha1api20211101</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
+  <a href="/azure-service-operator/reference/eventhub/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">eventhub.azure.com/v1api20211101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1beta20211101-li">
   <a href="/azure-service-operator/reference/eventhub/v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
 </li>
@@ -326,10 +362,10 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">insights</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview-li">
-  <a href="/azure-service-operator/reference/insights/v1alpha1api20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview"><span class="">insights.azure.com/v1alpha1api20180501preview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20200202-li">
-  <a href="/azure-service-operator/reference/insights/v1alpha1api20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1alpha1api20200202"><span class="">insights.azure.com/v1alpha1api20200202</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
+  <a href="/azure-service-operator/reference/insights/v1api20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">insights.azure.com/v1api20180501preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
+  <a href="/azure-service-operator/reference/insights/v1api20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">insights.azure.com/v1api20200202</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview-li">
   <a href="/azure-service-operator/reference/insights/v1beta20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview"><span class="">insights.azure.com/v1beta20180501preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20200202-li">
@@ -339,31 +375,45 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">keyvault</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
+  <a href="/azure-service-operator/reference/keyvault/v1api20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview"><span class="">keyvault.azure.com/v1api20210401preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview-li">
   <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">machinelearningservices</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701"><span class="">machinelearningservices.azure.com/v1beta20210701</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">managedidentity</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130-li">
-  <a href="/azure-service-operator/reference/managedidentity/v1alpha1api20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130"><span class="">managedidentity.azure.com/v1alpha1api20181130</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
+  <a href="/azure-service-operator/reference/managedidentity/v1api20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20181130"><span class="">managedidentity.azure.com/v1api20181130</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview-li">
+  <a href="/azure-service-operator/reference/managedidentity/v1api20220131preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview"><span class="">managedidentity.azure.com/v1api20220131preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130-li">
   <a href="/azure-service-operator/reference/managedidentity/v1beta20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130"><span class="">managedidentity.azure.com/v1beta20181130</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1beta20220131preview-li">
+  <a href="/azure-service-operator/reference/managedidentity/v1beta20220131preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20220131preview"><span class="">managedidentity.azure.com/v1beta20220131preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">network</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101-li">
-  <a href="/azure-service-operator/reference/network/v1alpha1api20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101"><span class="">network.azure.com/v1alpha1api20201101</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
+  <a href="/azure-service-operator/reference/network/v1api20180901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="">network.azure.com/v1api20180901</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20200601-li">
+  <a href="/azure-service-operator/reference/network/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20200601"><span class="">network.azure.com/v1api20200601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20201101-li">
+  <a href="/azure-service-operator/reference/network/v1api20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20201101"><span class="">network.azure.com/v1api20201101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
+  <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1beta20180901-li">
   <a href="/azure-service-operator/reference/network/v1beta20180901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20180901"><span class="">network.azure.com/v1beta20180901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1beta20201101-li">
@@ -373,8 +423,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">operationalinsights</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601-li">
-  <a href="/azure-service-operator/reference/operationalinsights/v1alpha1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601"><span class="">operationalinsights.azure.com/v1alpha1api20210601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
+  <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601-li">
   <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
 </li>
@@ -382,8 +432,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">resources</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601-li">
-  <a href="/azure-service-operator/reference/resources/v1alpha1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601"><span class="">resources.azure.com/v1alpha1api20200601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
+  <a href="/azure-service-operator/reference/resources/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">resources.azure.com/v1api20200601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1beta20200601-li">
   <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
 </li>
@@ -391,8 +441,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">servicebus</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview-li">
-  <a href="/azure-service-operator/reference/servicebus/v1alpha1api20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview"><span class="">servicebus.azure.com/v1alpha1api20210101preview</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
+  <a href="/azure-service-operator/reference/servicebus/v1api20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20210101preview"><span class="">servicebus.azure.com/v1api20210101preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview-li">
   <a href="/azure-service-operator/reference/servicebus/v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
 </li>
@@ -400,17 +450,24 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">signalrservice</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001-li">
-  <a href="/azure-service-operator/reference/signalrservice/v1alpha1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001"><span class="">signalrservice.azure.com/v1alpha1api20211001</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
+  <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">signalrservice.azure.com/v1api20211001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1beta20211001-li">
   <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+  <a href="/azure-service-operator/reference/sql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">sql</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1api20211101-li">
+  <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">storage</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1alpha1api20210401-li">
-  <a href="/azure-service-operator/reference/storage/v1alpha1api20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1alpha1api20210401"><span class="">storage.azure.com/v1alpha1api20210401</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
+  <a href="/azure-service-operator/reference/storage/v1api20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20210401"><span class="">storage.azure.com/v1api20210401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1beta20210401-li">
   <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
 </li>
@@ -418,8 +475,26 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">subscription</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
+  <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1beta20211001"><span class="">subscription.azure.com/v1beta20211001</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+  <a href="/azure-service-operator/reference/synapse/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">synapse</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
+  <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+  <a href="/azure-service-operator/reference/web/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">web</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
+  <a href="/azure-service-operator/reference/web/v1api20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">web.azure.com/v1api20220301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1beta20220301-li">
+  <a href="/azure-service-operator/reference/web/v1beta20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1beta20220301"><span class="">web.azure.com/v1beta20220301</span></a>
 </li>
   </ul>
 </li>
@@ -589,6 +664,7 @@ Resource Types:
 <h3 id="dbforpostgresql.azure.com/v1beta20210601.APIVersion">APIVersion
 (<code>string</code> alias)</h3>
 <div>
+<p>Deprecated version of APIVersion. Use v1api20210601.APIVersion instead</p>
 </div>
 <table>
 <thead>
@@ -604,10 +680,10 @@ Resource Types:
 <h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup">Backup
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup</a></p>
+<p>Deprecated version of Backup. Use v1api20210601.Backup instead</p>
 </div>
 <table>
 <thead>
@@ -625,31 +701,29 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.BackupGeoRedundantBackup">
-BackupGeoRedundantBackup
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup">
+Backup_GeoRedundantBackup
 </a>
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.BackupARM">BackupARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_ARM">Backup_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup</a></p>
+<p>Deprecated version of Backup. Use v1api20210601.Backup instead</p>
 </div>
 <table>
 <thead>
@@ -667,30 +741,29 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.BackupGeoRedundantBackup">
-BackupGeoRedundantBackup
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup">
+Backup_GeoRedundantBackup
 </a>
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.BackupGeoRedundantBackup">BackupGeoRedundantBackup
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup">Backup_GeoRedundantBackup
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Backup">Backup</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.BackupARM">BackupARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Backup">Backup</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_ARM">Backup_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Backup_GeoRedundantBackup. Use v1api20210601.Backup_GeoRedundantBackup instead</p>
 </div>
 <table>
 <thead>
@@ -705,12 +778,13 @@ BackupGeoRedundantBackup
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.BackupStatusGeoRedundantBackup">BackupStatusGeoRedundantBackup
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup_STATUS">Backup_GeoRedundantBackup_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_Status">Backup_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_StatusARM">Backup_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS">Backup_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS_ARM">Backup_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Backup_GeoRedundantBackup_STATUS. Use v1api20210601.Backup_GeoRedundantBackup_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -725,12 +799,13 @@ BackupGeoRedundantBackup
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_Status">Backup_Status
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS">Backup_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of Backup_STATUS. Use v1api20210601.Backup_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -748,7 +823,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
@@ -759,30 +833,29 @@ string
 </em>
 </td>
 <td>
-<p>EarliestRestoreDate: The earliest restore point time (ISO8601 format) for server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.BackupStatusGeoRedundantBackup">
-BackupStatusGeoRedundantBackup
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup_STATUS">
+Backup_GeoRedundantBackup_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_StatusARM">Backup_StatusARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS_ARM">Backup_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Backup_STATUS. Use v1api20210601.Backup_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -800,7 +873,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
@@ -811,31 +883,29 @@ string
 </em>
 </td>
 <td>
-<p>EarliestRestoreDate: The earliest restore point time (ISO8601 format) for server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.BackupStatusGeoRedundantBackup">
-BackupStatusGeoRedundantBackup
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_GeoRedundantBackup_STATUS">
+Backup_GeoRedundantBackup_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ConfigurationPropertiesARM">ConfigurationPropertiesARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_ARM">ConfigurationProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfigurations_SpecARM">FlexibleServersConfigurations_SpecARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_Spec_ARM">FlexibleServers_Configuration_Spec_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/ConfigurationProperties">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/ConfigurationProperties</a></p>
+<p>Deprecated version of ConfigurationProperties. Use v1api20210601.ConfigurationProperties instead</p>
 </div>
 <table>
 <thead>
@@ -853,7 +923,6 @@ string
 </em>
 </td>
 <td>
-<p>Source: Source of the configuration.</p>
 </td>
 </tr>
 <tr>
@@ -864,17 +933,18 @@ string
 </em>
 </td>
 <td>
-<p>Value: Value of the configuration.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ConfigurationPropertiesStatusDataType">ConfigurationPropertiesStatusDataType
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_DataType_STATUS">ConfigurationProperties_DataType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_StatusARM">ConfigurationProperties_StatusARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Configuration_Status">Configuration_Status</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_STATUS_ARM">ConfigurationProperties_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of ConfigurationProperties_DataType_STATUS. Use v1api20210601.ConfigurationProperties_DataType_STATUS
+instead</p>
 </div>
 <table>
 <thead>
@@ -893,12 +963,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_StatusARM">ConfigurationProperties_StatusARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_STATUS_ARM">ConfigurationProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Configuration_StatusARM">Configuration_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS_ARM">FlexibleServers_Configuration_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ConfigurationProperties_STATUS. Use v1api20210601.ConfigurationProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -916,20 +987,18 @@ string
 </em>
 </td>
 <td>
-<p>AllowedValues: Allowed values of the configuration.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>dataType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationPropertiesStatusDataType">
-ConfigurationPropertiesStatusDataType
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_DataType_STATUS">
+ConfigurationProperties_DataType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>DataType: Data type of the configuration.</p>
 </td>
 </tr>
 <tr>
@@ -940,7 +1009,6 @@ string
 </em>
 </td>
 <td>
-<p>DefaultValue: Default value of the configuration.</p>
 </td>
 </tr>
 <tr>
@@ -951,7 +1019,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: Description of the configuration.</p>
 </td>
 </tr>
 <tr>
@@ -962,7 +1029,6 @@ string
 </em>
 </td>
 <td>
-<p>DocumentationLink: Configuration documentation link.</p>
 </td>
 </tr>
 <tr>
@@ -973,7 +1039,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsConfigPendingRestart: Configuration is pending restart or not.</p>
 </td>
 </tr>
 <tr>
@@ -984,7 +1049,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsDynamicConfig: Configuration dynamic or static.</p>
 </td>
 </tr>
 <tr>
@@ -995,7 +1059,6 @@ bool
 </em>
 </td>
 <td>
-<p>IsReadOnly: Configuration read-only or not.</p>
 </td>
 </tr>
 <tr>
@@ -1006,7 +1069,6 @@ string
 </em>
 </td>
 <td>
-<p>Source: Source of the configuration.</p>
 </td>
 </tr>
 <tr>
@@ -1017,7 +1079,6 @@ string
 </em>
 </td>
 <td>
-<p>Unit: Configuration unit.</p>
 </td>
 </tr>
 <tr>
@@ -1028,292 +1089,17 @@ string
 </em>
 </td>
 <td>
-<p>Value: Value of the configuration.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Configuration_Status">Configuration_Status
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_ARM">DatabaseProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_Spec_ARM">FlexibleServers_Database_Spec_ARM</a>)
 </p>
 <div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>allowedValues</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AllowedValues: Allowed values of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataType</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationPropertiesStatusDataType">
-ConfigurationPropertiesStatusDataType
-</a>
-</em>
-</td>
-<td>
-<p>DataType: Data type of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>defaultValue</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DefaultValue: Default value of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Description: Description of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>documentationLink</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>DocumentationLink: Configuration documentation link.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isConfigPendingRestart</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsConfigPendingRestart: Configuration is pending restart or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isDynamicConfig</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsDynamicConfig: Configuration dynamic or static.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>isReadOnly</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-<p>IsReadOnly: Configuration read-only or not.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>source</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Source: Source of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_Status">
-SystemData_Status
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>unit</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Unit: Configuration unit.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Value: Value of the configuration.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Configuration_StatusARM">Configuration_StatusARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_StatusARM">
-ConfigurationProperties_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of a configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_StatusARM">
-SystemData_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.DatabasePropertiesARM">DatabasePropertiesARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabases_SpecARM">FlexibleServersDatabases_SpecARM</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/DatabaseProperties">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/DatabaseProperties</a></p>
+<p>Deprecated version of DatabaseProperties. Use v1api20210601.DatabaseProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1331,7 +1117,6 @@ string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1342,17 +1127,17 @@ string
 </em>
 </td>
 <td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_StatusARM">DatabaseProperties_StatusARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_STATUS_ARM">DatabaseProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Database_StatusARM">Database_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseProperties_STATUS. Use v1api20210601.DatabaseProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -1370,7 +1155,6 @@ string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1381,191 +1165,17 @@ string
 </em>
 </td>
 <td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Database_Status">Database_Status
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_ARM">FirewallRuleProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_Spec_ARM">FlexibleServers_FirewallRule_Spec_ARM</a>)
 </p>
 <div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>charset</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Charset: The charset of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collation</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Collation: The collation of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_Status">
-SystemData_Status
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Database_StatusARM">Database_StatusARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_StatusARM">
-DatabaseProperties_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of a database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_StatusARM">
-SystemData_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FirewallRulePropertiesARM">FirewallRulePropertiesARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRules_SpecARM">FlexibleServersFirewallRules_SpecARM</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/FirewallRuleProperties">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/FirewallRuleProperties</a></p>
+<p>Deprecated version of FirewallRuleProperties. Use v1api20210601.FirewallRuleProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1583,7 +1193,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -1594,17 +1203,17 @@ string
 </em>
 </td>
 <td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_StatusARM">FirewallRuleProperties_StatusARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_STATUS_ARM">FirewallRuleProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRule_StatusARM">FirewallRule_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of FirewallRuleProperties_STATUS. Use v1api20210601.FirewallRuleProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -1622,7 +1231,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -1633,180 +1241,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FirewallRule_Status">FirewallRule_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>endIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_Status">
-SystemData_Status
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FirewallRule_StatusARM">FirewallRule_StatusARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_StatusARM">
-FirewallRuleProperties_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of a firewall rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_StatusARM">
-SystemData_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1814,7 +1248,7 @@ string
 <h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer">FlexibleServer
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers</a></p>
+<p>Deprecated version of FlexibleServer. Use v1api20210601.FlexibleServer instead</p>
 </div>
 <table>
 <thead>
@@ -1842,8 +1276,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">
-FlexibleServers_Spec
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">
+FlexibleServer_Spec
 </a>
 </em>
 </td>
@@ -1859,8 +1293,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -1873,7 +1305,6 @@ genruntime.SecretReference
 </em>
 </td>
 <td>
-<p>AdministratorLoginPassword: The administrator login password (required for server creation).</p>
 </td>
 </tr>
 <tr>
@@ -1884,7 +1315,6 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability zone information of the server.</p>
 </td>
 </tr>
 <tr>
@@ -1909,20 +1339,18 @@ Backup
 </em>
 </td>
 <td>
-<p>Backup: Backup properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesCreateMode">
-ServerPropertiesCreateMode
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode">
+ServerProperties_CreateMode
 </a>
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new PostgreSQL server.</p>
 </td>
 </tr>
 <tr>
@@ -1935,7 +1363,6 @@ HighAvailability
 </em>
 </td>
 <td>
-<p>HighAvailability: High availability properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -1946,7 +1373,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1959,7 +1385,6 @@ MaintenanceWindow
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -1972,7 +1397,6 @@ Network
 </em>
 </td>
 <td>
-<p>Network: Network properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -2012,8 +1436,6 @@ string
 </em>
 </td>
 <td>
-<p>PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It&rsquo;s required when
-&lsquo;createMode&rsquo; is &lsquo;PointInTimeRestore&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -2026,7 +1448,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: Sku information related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -2039,8 +1460,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>SourceServerResourceReference: The source server resource ID to restore from. It&rsquo;s required when &lsquo;createMode&rsquo; is
-&lsquo;PointInTimeRestore&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -2053,7 +1472,6 @@ Storage
 </em>
 </td>
 <td>
-<p>Storage: Storage properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -2064,20 +1482,18 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesVersion">
-ServerPropertiesVersion
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion">
+ServerVersion
 </a>
 </em>
 </td>
 <td>
-<p>Version: PostgreSQL Server version.</p>
 </td>
 </tr>
 </table>
@@ -2087,8 +1503,8 @@ ServerPropertiesVersion
 <td>
 <code>status</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">
-Server_Status
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">
+FlexibleServer_STATUS
 </a>
 </em>
 </td>
@@ -2131,7 +1547,7 @@ will not be retrieved from Azure.</p>
 <h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
@@ -2159,140 +1575,13 @@ FlexibleServerOperatorSecrets
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfiguration">FlexibleServersConfiguration
-</h3>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_configurations">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_configurations</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfigurations_Spec">
-FlexibleServersConfigurations_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>source</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Source: Source of the configuration.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Value: Value of the configuration.</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Configuration_Status">
-Configuration_Status
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfigurations_Spec">FlexibleServersConfigurations_Spec
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer">FlexibleServer</a>)
 </p>
 <div>
+<p>Deprecated version of FlexibleServer_STATUS. Use v1api20210601.FlexibleServer_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2304,89 +1593,93 @@ Configuration_Status
 <tbody>
 <tr>
 <td>
-<code>azureName</code><br/>
+<code>administratorLogin</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>location</code><br/>
+<code>availabilityZone</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>owner</code><br/>
+<code>backup</code><br/>
 <em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS">
+Backup_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>source</code><br/>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>createMode</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode_STATUS">
+ServerProperties_CreateMode_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>fullyQualifiedDomainName</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Source: Source of the configuration.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>tags</code><br/>
+<code>highAvailability</code><br/>
 <em>
-map[string]string
+<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS">
+HighAvailability_STATUS
+</a>
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>value</code><br/>
+<code>id</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Value: Value of the configuration.</p>
 </td>
 </tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfigurations_SpecARM">FlexibleServersConfigurations_SpecARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>
 <code>location</code><br/>
@@ -2395,7 +1688,28 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>maintenanceWindow</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_STATUS">
+MaintenanceWindow_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>minorVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
 </td>
 </tr>
 <tr>
@@ -2406,20 +1720,86 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the server configuration.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>properties</code><br/>
+<code>network</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationPropertiesARM">
-ConfigurationPropertiesARM
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_STATUS">
+Network_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>Properties: The properties of a configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>pointInTimeUTC</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS">
+Sku_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceServerResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_State_STATUS">
+ServerProperties_State_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>storage</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage_STATUS">
+Storage_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 <tr>
@@ -2430,15 +1810,36 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion_STATUS">
+ServerVersion_STATUS
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase">FlexibleServersDatabase
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_databases">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_databases</a></p>
+<p>Deprecated version of FlexibleServer_STATUS. Use v1api20210601.FlexibleServer_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2450,63 +1851,12 @@ map[string]string
 <tbody>
 <tr>
 <td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabases_Spec">
-FlexibleServersDatabases_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
+<code>id</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>charset</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Charset: The charset of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collation</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 <tr>
@@ -2517,161 +1867,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Database_Status">
-Database_Status
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabases_Spec">FlexibleServersDatabases_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase">FlexibleServersDatabase</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>charset</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Charset: The charset of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collation</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Collation: The collation of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabases_SpecARM">FlexibleServersDatabases_SpecARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2682,20 +1877,42 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the database.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.DatabasePropertiesARM">
-DatabasePropertiesARM
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">
+ServerProperties_STATUS_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Properties: The properties of a database.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS_ARM">
+Sku_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 <tr>
@@ -2706,132 +1923,13 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule
-</h3>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_firewallRules">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_firewallRules</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
 </td>
 </tr>
 <tr>
 <td>
-<code>spec</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRules_Spec">
-FlexibleServersFirewallRules_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
+<code>type</code><br/>
 <em>
 string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>endIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRule_Status">
-FirewallRule_Status
-</a>
 </em>
 </td>
 <td>
@@ -2839,155 +1937,7 @@ FirewallRule_Status
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRules_Spec">FlexibleServersFirewallRules_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>endIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRules_SpecARM">FlexibleServersFirewallRules_SpecARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the server firewall rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRulePropertiesARM">
-FirewallRulePropertiesARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of a server firewall rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer">FlexibleServer</a>)
@@ -3010,8 +1960,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -3024,7 +1972,6 @@ genruntime.SecretReference
 </em>
 </td>
 <td>
-<p>AdministratorLoginPassword: The administrator login password (required for server creation).</p>
 </td>
 </tr>
 <tr>
@@ -3035,7 +1982,6 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability zone information of the server.</p>
 </td>
 </tr>
 <tr>
@@ -3060,20 +2006,18 @@ Backup
 </em>
 </td>
 <td>
-<p>Backup: Backup properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesCreateMode">
-ServerPropertiesCreateMode
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode">
+ServerProperties_CreateMode
 </a>
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new PostgreSQL server.</p>
 </td>
 </tr>
 <tr>
@@ -3086,7 +2030,6 @@ HighAvailability
 </em>
 </td>
 <td>
-<p>HighAvailability: High availability properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -3097,7 +2040,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -3110,7 +2052,6 @@ MaintenanceWindow
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3123,7 +2064,6 @@ Network
 </em>
 </td>
 <td>
-<p>Network: Network properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -3163,8 +2103,6 @@ string
 </em>
 </td>
 <td>
-<p>PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It&rsquo;s required when
-&lsquo;createMode&rsquo; is &lsquo;PointInTimeRestore&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -3177,7 +2115,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: Sku information related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3190,8 +2127,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>SourceServerResourceReference: The source server resource ID to restore from. It&rsquo;s required when &lsquo;createMode&rsquo; is
-&lsquo;PointInTimeRestore&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -3204,7 +2139,6 @@ Storage
 </em>
 </td>
 <td>
-<p>Storage: Storage properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -3215,27 +2149,26 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesVersion">
-ServerPropertiesVersion
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion">
+ServerVersion
 </a>
 </em>
 </td>
 <td>
-<p>Version: PostgreSQL Server version.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_SpecARM">FlexibleServers_SpecARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM
 </h3>
 <div>
+<p>Deprecated version of FlexibleServer_Spec. Use v1api20210601.FlexibleServer_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -3253,7 +2186,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -3264,33 +2196,30 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesARM">
-ServerPropertiesARM
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">
+ServerProperties_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Properties: The properties of a server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SkuARM">
-SkuARM
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_ARM">
+Sku_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Sku: Sku information related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -3301,7 +2230,1199 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfiguration">FlexibleServersConfiguration
+</h3>
+<div>
+<p>Deprecated version of FlexibleServersConfiguration. Use v1api20210601.FlexibleServersConfiguration instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_Spec">
+FlexibleServers_Configuration_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>source</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS">
+FlexibleServers_Configuration_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase">FlexibleServersDatabase
+</h3>
+<div>
+<p>Deprecated version of FlexibleServersDatabase. Use v1api20210601.FlexibleServersDatabase instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_Spec">
+FlexibleServers_Database_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>charset</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>collation</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS">
+FlexibleServers_Database_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule
+</h3>
+<div>
+<p>Deprecated version of FlexibleServersFirewallRule. Use v1api20210601.FlexibleServersFirewallRule instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_Spec">
+FlexibleServers_FirewallRule_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>endIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS">
+FlexibleServers_FirewallRule_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
+</p>
+<div>
+<p>Deprecated version of FlexibleServers_Configuration_STATUS. Use v1api20210601.FlexibleServers_Configuration_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>allowedValues</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataType</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_DataType_STATUS">
+ConfigurationProperties_DataType_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>defaultValue</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>description</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>documentationLink</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>isConfigPendingRestart</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>isDynamicConfig</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>isReadOnly</code><br/>
+<em>
+bool
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>source</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>unit</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS_ARM">FlexibleServers_Configuration_STATUS_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_Configuration_STATUS. Use v1api20210601.FlexibleServers_Configuration_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_STATUS_ARM">
+ConfigurationProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_Spec">FlexibleServers_Configuration_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersConfiguration">FlexibleServersConfiguration</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>source</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>value</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_Spec_ARM">FlexibleServers_Configuration_Spec_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_Configuration_Spec. Use v1api20210601.FlexibleServers_Configuration_Spec instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ConfigurationProperties_ARM">
+ConfigurationProperties_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS">FlexibleServers_Database_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+</p>
+<div>
+<p>Deprecated version of FlexibleServers_Database_STATUS. Use v1api20210601.FlexibleServers_Database_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>charset</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>collation</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_Database_STATUS. Use v1api20210601.FlexibleServers_Database_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_STATUS_ARM">
+DatabaseProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_Spec">FlexibleServers_Database_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>charset</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>collation</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_Spec_ARM">FlexibleServers_Database_Spec_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_Database_Spec. Use v1api20210601.FlexibleServers_Database_Spec instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.DatabaseProperties_ARM">
+DatabaseProperties_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS">FlexibleServers_FirewallRule_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
+</p>
+<div>
+<p>Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1api20210601.FlexibleServers_FirewallRule_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>endIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>startIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1api20210601.FlexibleServers_FirewallRule_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_STATUS_ARM">
+FirewallRuleProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_Spec">FlexibleServers_FirewallRule_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>endIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbforpostgresql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_Spec_ARM">FlexibleServers_FirewallRule_Spec_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_FirewallRule_Spec. Use v1api20210601.FlexibleServers_FirewallRule_Spec instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRuleProperties_ARM">
+FirewallRuleProperties_ARM
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -3309,10 +3430,10 @@ map[string]string
 <h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability">HighAvailability
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/HighAvailability">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/HighAvailability</a></p>
+<p>Deprecated version of HighAvailability. Use v1api20210601.HighAvailability instead</p>
 </div>
 <table>
 <thead>
@@ -3326,13 +3447,12 @@ map[string]string
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityMode">
-HighAvailabilityMode
+<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode">
+HighAvailability_Mode
 </a>
 </em>
 </td>
 <td>
-<p>Mode: The HA mode for the server.</p>
 </td>
 </tr>
 <tr>
@@ -3343,18 +3463,17 @@ string
 </em>
 </td>
 <td>
-<p>StandbyAvailabilityZone: availability zone information of the standby.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityARM">HighAvailabilityARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_ARM">HighAvailability_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/HighAvailability">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/HighAvailability</a></p>
+<p>Deprecated version of HighAvailability. Use v1api20210601.HighAvailability instead</p>
 </div>
 <table>
 <thead>
@@ -3368,13 +3487,12 @@ string
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityMode">
-HighAvailabilityMode
+<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode">
+HighAvailability_Mode
 </a>
 </em>
 </td>
 <td>
-<p>Mode: The HA mode for the server.</p>
 </td>
 </tr>
 <tr>
@@ -3385,17 +3503,17 @@ string
 </em>
 </td>
 <td>
-<p>StandbyAvailabilityZone: availability zone information of the standby.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityMode">HighAvailabilityMode
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode">HighAvailability_Mode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability">HighAvailability</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityARM">HighAvailabilityARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability">HighAvailability</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_ARM">HighAvailability_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailability_Mode. Use v1api20210601.HighAvailability_Mode instead</p>
 </div>
 <table>
 <thead>
@@ -3410,12 +3528,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityStatusMode">HighAvailabilityStatusMode
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Status">HighAvailability_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_StatusARM">HighAvailability_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailability_Mode_STATUS. Use v1api20210601.HighAvailability_Mode_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3430,12 +3549,117 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityStatusState">HighAvailabilityStatusState
-(<code>string</code> alias)</h3>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS">HighAvailability_STATUS
+</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Status">HighAvailability_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_StatusARM">HighAvailability_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailability_STATUS. Use v1api20210601.HighAvailability_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode_STATUS">
+HighAvailability_Mode_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>standbyAvailabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_State_STATUS">
+HighAvailability_State_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of HighAvailability_STATUS. Use v1api20210601.HighAvailability_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Mode_STATUS">
+HighAvailability_Mode_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>standbyAvailabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_State_STATUS">
+HighAvailability_State_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_State_STATUS">HighAvailability_State_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of HighAvailability_State_STATUS. Use v1api20210601.HighAvailability_State_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3458,121 +3682,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Status">HighAvailability_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityStatusMode">
-HighAvailabilityStatusMode
-</a>
-</em>
-</td>
-<td>
-<p>Mode: The HA mode for the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>standbyAvailabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StandbyAvailabilityZone: availability zone information of the standby.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityStatusState">
-HighAvailabilityStatusState
-</a>
-</em>
-</td>
-<td>
-<p>State: A state of a HA server that is visible to user.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.HighAvailability_StatusARM">HighAvailability_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityStatusMode">
-HighAvailabilityStatusMode
-</a>
-</em>
-</td>
-<td>
-<p>Mode: The HA mode for the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>standbyAvailabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StandbyAvailabilityZone: availability zone information of the standby.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityStatusState">
-HighAvailabilityStatusState
-</a>
-</em>
-</td>
-<td>
-<p>State: A state of a HA server that is visible to user.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow">MaintenanceWindow
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow</a></p>
+<p>Deprecated version of MaintenanceWindow. Use v1api20210601.MaintenanceWindow instead</p>
 </div>
 <table>
 <thead>
@@ -3590,7 +3706,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -3601,7 +3716,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3612,7 +3726,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3623,18 +3736,17 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindowARM">MaintenanceWindowARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_ARM">MaintenanceWindow_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow</a></p>
+<p>Deprecated version of MaintenanceWindow. Use v1api20210601.MaintenanceWindow instead</p>
 </div>
 <table>
 <thead>
@@ -3652,7 +3764,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -3663,7 +3774,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3674,7 +3784,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3685,17 +3794,17 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_Status">MaintenanceWindow_Status
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_STATUS">MaintenanceWindow_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of MaintenanceWindow_STATUS. Use v1api20210601.MaintenanceWindow_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3713,7 +3822,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -3724,7 +3832,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3735,7 +3842,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3746,17 +3852,17 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_StatusARM">MaintenanceWindow_StatusARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_STATUS_ARM">MaintenanceWindow_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of MaintenanceWindow_STATUS. Use v1api20210601.MaintenanceWindow_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3774,7 +3880,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -3785,7 +3890,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3796,7 +3900,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3807,7 +3910,6 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
@@ -3815,10 +3917,10 @@ int
 <h3 id="dbforpostgresql.azure.com/v1beta20210601.Network">Network
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Network">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Network</a></p>
+<p>Deprecated version of Network. Use v1api20210601.Network instead</p>
 </div>
 <table>
 <thead>
@@ -3838,7 +3940,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DelegatedSubnetResourceReference: delegated subnet arm resource id.</p>
 </td>
 </tr>
 <tr>
@@ -3851,18 +3952,17 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>PrivateDnsZoneArmResourceReference: private dns zone arm resource id.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.NetworkARM">NetworkARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_ARM">Network_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Network">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Network</a></p>
+<p>Deprecated version of Network. Use v1api20210601.Network instead</p>
 </div>
 <table>
 <thead>
@@ -3894,12 +3994,13 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.NetworkStatusPublicNetworkAccess">NetworkStatusPublicNetworkAccess
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_PublicNetworkAccess_STATUS">Network_PublicNetworkAccess_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Network_Status">Network_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Network_StatusARM">Network_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Network_STATUS">Network_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Network_STATUS_ARM">Network_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Network_PublicNetworkAccess_STATUS. Use v1api20210601.Network_PublicNetworkAccess_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3914,12 +4015,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_Status">Network_Status
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_STATUS">Network_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of Network_STATUS. Use v1api20210601.Network_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3937,7 +4039,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedSubnetResourceId: delegated subnet arm resource id.</p>
 </td>
 </tr>
 <tr>
@@ -3948,30 +4049,29 @@ string
 </em>
 </td>
 <td>
-<p>PrivateDnsZoneArmResourceId: private dns zone arm resource id.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.NetworkStatusPublicNetworkAccess">
-NetworkStatusPublicNetworkAccess
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_PublicNetworkAccess_STATUS">
+Network_PublicNetworkAccess_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: public network access is enabled or not</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_StatusARM">Network_StatusARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Network_STATUS_ARM">Network_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Network_STATUS. Use v1api20210601.Network_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3989,7 +4089,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedSubnetResourceId: delegated subnet arm resource id.</p>
 </td>
 </tr>
 <tr>
@@ -4000,31 +4099,29 @@ string
 </em>
 </td>
 <td>
-<p>PrivateDnsZoneArmResourceId: private dns zone arm resource id.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.NetworkStatusPublicNetworkAccess">
-NetworkStatusPublicNetworkAccess
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_PublicNetworkAccess_STATUS">
+Network_PublicNetworkAccess_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: public network access is enabled or not</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesARM">ServerPropertiesARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_SpecARM">FlexibleServers_SpecARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/ServerProperties">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/ServerProperties</a></p>
+<p>Deprecated version of ServerProperties. Use v1api20210601.ServerProperties instead</p>
 </div>
 <table>
 <thead>
@@ -4042,8 +4139,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -4054,7 +4149,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLoginPassword: The administrator login password (required for server creation).</p>
 </td>
 </tr>
 <tr>
@@ -4065,72 +4159,66 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability zone information of the server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>backup</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.BackupARM">
-BackupARM
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_ARM">
+Backup_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Backup: Backup properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesCreateMode">
-ServerPropertiesCreateMode
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode">
+ServerProperties_CreateMode
 </a>
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new PostgreSQL server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>highAvailability</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailabilityARM">
-HighAvailabilityARM
+<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_ARM">
+HighAvailability_ARM
 </a>
 </em>
 </td>
 <td>
-<p>HighAvailability: High availability properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>maintenanceWindow</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindowARM">
-MaintenanceWindowARM
+<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_ARM">
+MaintenanceWindow_ARM
 </a>
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window properties of a server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>network</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.NetworkARM">
-NetworkARM
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_ARM">
+Network_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Network: Network properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -4141,8 +4229,6 @@ string
 </em>
 </td>
 <td>
-<p>PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It&rsquo;s required when
-&lsquo;createMode&rsquo; is &lsquo;PointInTimeRestore&rsquo;.</p>
 </td>
 </tr>
 <tr>
@@ -4159,36 +4245,35 @@ string
 <td>
 <code>storage</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.StorageARM">
-StorageARM
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage_ARM">
+Storage_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Storage: Storage properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesVersion">
-ServerPropertiesVersion
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion">
+ServerVersion
 </a>
 </em>
 </td>
 <td>
-<p>Version: PostgreSQL Server version.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesCreateMode">ServerPropertiesCreateMode
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode">ServerProperties_CreateMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerProperties_CreateMode. Use v1api20210601.ServerProperties_CreateMode instead</p>
 </div>
 <table>
 <thead>
@@ -4207,12 +4292,13 @@ ServerPropertiesVersion
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesStatusCreateMode">ServerPropertiesStatusCreateMode
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerProperties_CreateMode_STATUS. Use v1api20210601.ServerProperties_CreateMode_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4231,12 +4317,187 @@ ServerPropertiesVersion
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesStatusState">ServerPropertiesStatusState
-(<code>string</code> alias)</h3>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM
+</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerProperties_STATUS. Use v1api20210601.ServerProperties_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>administratorLogin</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>availabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>backup</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_STATUS_ARM">
+Backup_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>createMode</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_CreateMode_STATUS">
+ServerProperties_CreateMode_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>fullyQualifiedDomainName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>highAvailability</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_STATUS_ARM">
+HighAvailability_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>maintenanceWindow</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_STATUS_ARM">
+MaintenanceWindow_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>minorVersion</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>network</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_STATUS_ARM">
+Network_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>pointInTimeUTC</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceServerResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_State_STATUS">
+ServerProperties_State_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>storage</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage_STATUS_ARM">
+Storage_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion_STATUS">
+ServerVersion_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_State_STATUS">ServerProperties_State_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of ServerProperties_State_STATUS. Use v1api20210601.ServerProperties_State_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4261,12 +4522,13 @@ ServerPropertiesVersion
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesVersion">ServerPropertiesVersion
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerVersion">ServerVersion
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerVersion. Use v1api20210601.ServerVersion instead</p>
 </div>
 <table>
 <thead>
@@ -4281,204 +4543,17 @@ ServerPropertiesVersion
 <td></td>
 </tr><tr><td><p>&#34;13&#34;</p></td>
 <td></td>
+</tr><tr><td><p>&#34;14&#34;</p></td>
+<td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">ServerProperties_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Server_StatusARM">Server_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>administratorLogin</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AvailabilityZone: availability zone information of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>backup</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_StatusARM">
-Backup_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Backup: Backup properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesStatusCreateMode">
-ServerPropertiesStatusCreateMode
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: The mode to create a new PostgreSQL server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>fullyQualifiedDomainName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FullyQualifiedDomainName: The fully qualified domain name of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>highAvailability</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_StatusARM">
-HighAvailability_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>HighAvailability: High availability properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maintenanceWindow</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_StatusARM">
-MaintenanceWindow_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>MaintenanceWindow: Maintenance window properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MinorVersion: The minor version of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>network</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_StatusARM">
-Network_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Network: Network properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>pointInTimeUTC</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It&rsquo;s required when
-&lsquo;createMode&rsquo; is &lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceServerResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceServerResourceId: The source server resource ID to restore from. It&rsquo;s required when &lsquo;createMode&rsquo; is
-&lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesStatusState">
-ServerPropertiesStatusState
-</a>
-</em>
-</td>
-<td>
-<p>State: A state of a server that is visible to user.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storage</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage_StatusARM">
-Storage_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Storage: Storage properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion_Status">
-ServerVersion_Status
-</a>
-</em>
-</td>
-<td>
-<p>Version: PostgreSQL Server version.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerVersion_Status">ServerVersion_Status
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.ServerVersion_STATUS">ServerVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerVersion_STATUS. Use v1api20210601.ServerVersion_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4493,409 +4568,17 @@ ServerVersion_Status
 <td></td>
 </tr><tr><td><p>&#34;13&#34;</p></td>
 <td></td>
+</tr><tr><td><p>&#34;14&#34;</p></td>
+<td></td>
 </tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer">FlexibleServer</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>administratorLogin</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AvailabilityZone: availability zone information of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>backup</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Backup_Status">
-Backup_Status
-</a>
-</em>
-</td>
-<td>
-<p>Backup: Backup properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesStatusCreateMode">
-ServerPropertiesStatusCreateMode
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: The mode to create a new PostgreSQL server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>fullyQualifiedDomainName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FullyQualifiedDomainName: The fully qualified domain name of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>highAvailability</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.HighAvailability_Status">
-HighAvailability_Status
-</a>
-</em>
-</td>
-<td>
-<p>HighAvailability: High availability properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maintenanceWindow</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.MaintenanceWindow_Status">
-MaintenanceWindow_Status
-</a>
-</em>
-</td>
-<td>
-<p>MaintenanceWindow: Maintenance window properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>minorVersion</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>MinorVersion: The minor version of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>network</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Network_Status">
-Network_Status
-</a>
-</em>
-</td>
-<td>
-<p>Network: Network properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>pointInTimeUTC</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PointInTimeUTC: Restore point creation time (ISO8601 format), specifying the time to restore from. It&rsquo;s required when
-&lsquo;createMode&rsquo; is &lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Status">
-Sku_Status
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (pricing tier) of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceServerResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceServerResourceId: The source server resource ID to restore from. It&rsquo;s required when &lsquo;createMode&rsquo; is
-&lsquo;PointInTimeRestore&rsquo;.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesStatusState">
-ServerPropertiesStatusState
-</a>
-</em>
-</td>
-<td>
-<p>State: A state of a server that is visible to user.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storage</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Storage_Status">
-Storage_Status
-</a>
-</em>
-</td>
-<td>
-<p>Storage: Storage properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_Status">
-SystemData_Status
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerVersion_Status">
-ServerVersion_Status
-</a>
-</em>
-</td>
-<td>
-<p>Version: PostgreSQL Server version.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Server_StatusARM">Server_StatusARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">
-ServerProperties_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_StatusARM">
-Sku_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (pricing tier) of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_StatusARM">
-SystemData_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku">Sku
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1api20210601.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -4913,31 +4596,29 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SkuTier">
-SkuTier
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Tier">
+Sku_Tier
 </a>
 </em>
 </td>
 <td>
-<p>Tier: The tier of the particular SKU, e.g. Burstable.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SkuARM">SkuARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_ARM">Sku_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_SpecARM">FlexibleServers_SpecARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1api20210601.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -4955,30 +4636,109 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SkuTier">
-SkuTier
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Tier">
+Sku_Tier
 </a>
 </em>
 </td>
 <td>
-<p>Tier: The tier of the particular SKU, e.g. Burstable.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SkuStatusTier">SkuStatusTier
-(<code>string</code> alias)</h3>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS">Sku_STATUS
+</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Status">Sku_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_StatusARM">Sku_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_STATUS. Use v1api20210601.Sku_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tier</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Tier_STATUS">
+Sku_Tier_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS_ARM">Sku_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of Sku_STATUS. Use v1api20210601.Sku_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tier</code><br/>
+<em>
+<a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_Tier_STATUS">
+Sku_Tier_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_Tier">Sku_Tier
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Sku">Sku</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_ARM">Sku_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of Sku_Tier. Use v1api20210601.Sku_Tier instead</p>
 </div>
 <table>
 <thead>
@@ -4995,12 +4755,13 @@ SkuTier
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SkuTier">SkuTier
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_Tier_STATUS">Sku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Sku">Sku</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.SkuARM">SkuARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS">Sku_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Tier_STATUS. Use v1api20210601.Sku_Tier_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5016,96 +4777,14 @@ SkuTier
 </tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_Status">Sku_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SkuStatusTier">
-SkuStatusTier
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The tier of the particular SKU, e.g. Burstable.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Sku_StatusARM">Sku_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Server_StatusARM">Server_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SkuStatusTier">
-SkuStatusTier
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The tier of the particular SKU, e.g. Burstable.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage">Storage
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage</a></p>
+<p>Deprecated version of Storage. Use v1api20210601.Storage instead</p>
 </div>
 <table>
 <thead>
@@ -5123,18 +4802,17 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage allowed for a server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.StorageARM">StorageARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage_ARM">Storage_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage">https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage</a></p>
+<p>Deprecated version of Storage. Use v1api20210601.Storage instead</p>
 </div>
 <table>
 <thead>
@@ -5152,17 +4830,17 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage allowed for a server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage_Status">Storage_Status
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage_STATUS">Storage_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of Storage_STATUS. Use v1api20210601.Storage_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5180,17 +4858,17 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage allowed for a server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage_StatusARM">Storage_StatusARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.Storage_STATUS_ARM">Storage_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Storage_STATUS. Use v1api20210601.Storage_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5208,17 +4886,17 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage allowed for a server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemDataStatusCreatedByType">SystemDataStatusCreatedByType
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_Status">SystemData_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_StatusARM">SystemData_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_CreatedByType_STATUS. Use v1api20210601.SystemData_CreatedByType_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5237,12 +4915,14 @@ int
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemDataStatusLastModifiedByType">SystemDataStatusLastModifiedByType
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_Status">SystemData_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_StatusARM">SystemData_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1api20210601.SystemData_LastModifiedByType_STATUS
+instead</p>
 </div>
 <table>
 <thead>
@@ -5261,12 +4941,13 @@ int
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_Status">SystemData_Status
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS">SystemData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Configuration_Status">Configuration_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Database_Status">Database_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRule_Status">FirewallRule_Status</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS">FlexibleServers_Configuration_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS">FlexibleServers_Database_STATUS</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS">FlexibleServers_FirewallRule_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_STATUS. Use v1api20210601.SystemData_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5284,7 +4965,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -5295,20 +4975,18 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemDataStatusCreatedByType">
-SystemDataStatusCreatedByType
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_CreatedByType_STATUS">
+SystemData_CreatedByType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -5319,7 +4997,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -5330,30 +5007,29 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemDataStatusLastModifiedByType">
-SystemDataStatusLastModifiedByType
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_LastModifiedByType_STATUS">
+SystemData_LastModifiedByType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_StatusARM">SystemData_StatusARM
+<h3 id="dbforpostgresql.azure.com/v1beta20210601.SystemData_STATUS_ARM">SystemData_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.Configuration_StatusARM">Configuration_StatusARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Database_StatusARM">Database_StatusARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FirewallRule_StatusARM">FirewallRule_StatusARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.Server_StatusARM">Server_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Configuration_STATUS_ARM">FlexibleServers_Configuration_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM</a>, <a href="#dbforpostgresql.azure.com/v1beta20210601.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_STATUS. Use v1api20210601.SystemData_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5371,7 +5047,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -5382,20 +5057,18 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemDataStatusCreatedByType">
-SystemDataStatusCreatedByType
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_CreatedByType_STATUS">
+SystemData_CreatedByType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -5406,7 +5079,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -5417,20 +5089,18 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemDataStatusLastModifiedByType">
-SystemDataStatusLastModifiedByType
+<a href="#dbforpostgresql.azure.com/v1beta20210601.SystemData_LastModifiedByType_STATUS">
+SystemData_LastModifiedByType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>

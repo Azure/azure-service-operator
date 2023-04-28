@@ -20,16 +20,16 @@
 
 <title>dbformysql.azure.com/v1beta20210501 | Azure Service Operator</title>
 <meta name="description" content="dbformysql.azure.com/v1beta20210501  Package v1beta20210501 contains API Schema definitions for the dbformysql v1beta20210501 API group
- Resource Types:  APIVersion (string alias)      Value Description   &amp;#34;2021-05-01&amp;#34;
-    Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
-    Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
-    geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: Whether or not geo redundant backup is enabled.">
+ Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210501.APIVersion instead
+    Value Description   &amp;#34;2021-05-01&amp;#34;
+    Backup   (Appears on:FlexibleServer_Spec)  Deprecated version of Backup. Use v1api20210501.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  EnableStatusEnum         Backup_ARM   (Appears on:ServerProperties_ARM)  Deprecated version of Backup.">
 <meta property="og:title" content="dbformysql.azure.com/v1beta20210501" />
 <meta property="og:description" content="dbformysql.azure.com/v1beta20210501  Package v1beta20210501 contains API Schema definitions for the dbformysql v1beta20210501 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-05-01&#34;
-    Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
-    Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
-    geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: Whether or not geo redundant backup is enabled." />
+ Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210501.APIVersion instead
+    Value Description   &#34;2021-05-01&#34;
+    Backup   (Appears on:FlexibleServer_Spec)  Deprecated version of Backup. Use v1api20210501.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  EnableStatusEnum         Backup_ARM   (Appears on:ServerProperties_ARM)  Deprecated version of Backup." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/" /><meta property="article:section" content="reference" />
 
@@ -37,19 +37,19 @@
 
 <meta itemprop="name" content="dbformysql.azure.com/v1beta20210501">
 <meta itemprop="description" content="dbformysql.azure.com/v1beta20210501  Package v1beta20210501 contains API Schema definitions for the dbformysql v1beta20210501 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-05-01&#34;
-    Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
-    Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
-    geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: Whether or not geo redundant backup is enabled.">
+ Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210501.APIVersion instead
+    Value Description   &#34;2021-05-01&#34;
+    Backup   (Appears on:FlexibleServer_Spec)  Deprecated version of Backup. Use v1api20210501.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  EnableStatusEnum         Backup_ARM   (Appears on:ServerProperties_ARM)  Deprecated version of Backup.">
 
-<meta itemprop="wordCount" content="3986">
+<meta itemprop="wordCount" content="2218">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="dbformysql.azure.com/v1beta20210501"/>
 <meta name="twitter:description" content="dbformysql.azure.com/v1beta20210501  Package v1beta20210501 contains API Schema definitions for the dbformysql v1beta20210501 API group
- Resource Types:  APIVersion (string alias)      Value Description   &#34;2021-05-01&#34;
-    Backup   (Appears on:FlexibleServers_Spec)  Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup
-    Field Description      backupRetentionDays  int    BackupRetentionDays: Backup retention days for the server.
-    geoRedundantBackup  BackupGeoRedundantBackup     GeoRedundantBackup: Whether or not geo redundant backup is enabled."/>
+ Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20210501.APIVersion instead
+    Value Description   &#34;2021-05-01&#34;
+    Backup   (Appears on:FlexibleServer_Spec)  Deprecated version of Backup. Use v1api20210501.Backup instead
+    Field Description      backupRetentionDays  int        geoRedundantBackup  EnableStatusEnum         Backup_ARM   (Appears on:ServerProperties_ARM)  Deprecated version of Backup."/>
 
 
 
@@ -187,11 +187,20 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+  <a href="/azure-service-operator/reference/appconfiguration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">appconfiguration</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
+  <a href="/azure-service-operator/reference/appconfiguration/v1api20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1api20220501"><span class="">appconfiguration.azure.com/v1api20220501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1beta20220501-li">
+  <a href="/azure-service-operator/reference/appconfiguration/v1beta20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1beta20220501"><span class="">appconfiguration.azure.com/v1beta20220501</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">authorization</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview-li">
-  <a href="/azure-service-operator/reference/authorization/v1alpha1api20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1alpha1api20200801preview"><span class="">authorization.azure.com/v1alpha1api20200801preview</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
+  <a href="/azure-service-operator/reference/authorization/v1api20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview"><span class="">authorization.azure.com/v1api20200801preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview-li">
   <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
 </li>
@@ -199,8 +208,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">batch</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1alpha1api20210101-li">
-  <a href="/azure-service-operator/reference/batch/v1alpha1api20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1alpha1api20210101"><span class="">batch.azure.com/v1alpha1api20210101</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
+  <a href="/azure-service-operator/reference/batch/v1api20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1api20210101"><span class="">batch.azure.com/v1api20210101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1beta20210101-li">
   <a href="/azure-service-operator/reference/batch/v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
 </li>
@@ -208,10 +217,10 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">cache</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20201201-li">
-  <a href="/azure-service-operator/reference/cache/v1alpha1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1alpha1api20201201"><span class="">cache.azure.com/v1alpha1api20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1alpha1api20210301-li">
-  <a href="/azure-service-operator/reference/cache/v1alpha1api20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1alpha1api20210301"><span class="">cache.azure.com/v1alpha1api20210301</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
+  <a href="/azure-service-operator/reference/cache/v1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20201201"><span class="">cache.azure.com/v1api20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20210301-li">
+  <a href="/azure-service-operator/reference/cache/v1api20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20210301"><span class="">cache.azure.com/v1api20210301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1beta20201201-li">
   <a href="/azure-service-operator/reference/cache/v1beta20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20201201"><span class="">cache.azure.com/v1beta20201201</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1beta20210301-li">
@@ -221,19 +230,23 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">cdn</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1beta20210601-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
+  <a href="/azure-service-operator/reference/cdn/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20210601"><span class="">cdn.azure.com/v1api20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1beta20210601-li">
   <a href="/azure-service-operator/reference/cdn/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1beta20210601"><span class="">cdn.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">compute</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20200930-li">
-  <a href="/azure-service-operator/reference/compute/v1alpha1api20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20200930"><span class="">compute.azure.com/v1alpha1api20200930</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20201201-li">
-  <a href="/azure-service-operator/reference/compute/v1alpha1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20201201"><span class="">compute.azure.com/v1alpha1api20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1alpha1api20210701-li">
-  <a href="/azure-service-operator/reference/compute/v1alpha1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1alpha1api20210701"><span class="">compute.azure.com/v1alpha1api20210701</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
+  <a href="/azure-service-operator/reference/compute/v1api20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20200930"><span class="">compute.azure.com/v1api20200930</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20201201-li">
+  <a href="/azure-service-operator/reference/compute/v1api20201201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20201201"><span class="">compute.azure.com/v1api20201201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20210701-li">
+  <a href="/azure-service-operator/reference/compute/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20210701"><span class="">compute.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20220301-li">
+  <a href="/azure-service-operator/reference/compute/v1api20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20220301"><span class="">compute.azure.com/v1api20220301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20200930-li">
   <a href="/azure-service-operator/reference/compute/v1beta20200930/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20200930"><span class="">compute.azure.com/v1beta20200930</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1beta20201201-li">
@@ -247,15 +260,17 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">containerinstance</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
+  <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">containerinstance.azure.com/v1api20211001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001"><span class="">containerinstance.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">containerregistry</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901-li">
-  <a href="/azure-service-operator/reference/containerregistry/v1alpha1api20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1alpha1api20210901"><span class="">containerregistry.azure.com/v1alpha1api20210901</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
+  <a href="/azure-service-operator/reference/containerregistry/v1api20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20210901"><span class="">containerregistry.azure.com/v1api20210901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901-li">
   <a href="/azure-service-operator/reference/containerregistry/v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
 </li>
@@ -263,24 +278,39 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">containerservice</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501-li">
-  <a href="/azure-service-operator/reference/containerservice/v1alpha1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1alpha1api20210501"><span class="">containerservice.azure.com/v1alpha1api20210501</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20210501"><span class="">containerservice.azure.com/v1api20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20230201-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20230201/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230201"><span class="">containerservice.azure.com/v1api20230201</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20230202preview-li">
+  <a href="/azure-service-operator/reference/containerservice/v1api20230202preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20230202preview"><span class="">containerservice.azure.com/v1api20230202preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1beta20210501-li">
   <a href="/azure-service-operator/reference/containerservice/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
+  <a href="/azure-service-operator/reference/datafactory/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">datafactory</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
+  <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">dbformariadb</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1beta20180601-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
+  <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">dbformariadb.azure.com/v1api20180601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1beta20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1beta20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1beta20180601"><span class="">dbformariadb.azure.com/v1beta20180601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">dbformysql</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501-li">
-  <a href="/azure-service-operator/reference/dbformysql/v1alpha1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1alpha1api20210501"><span class="">dbformysql.azure.com/v1alpha1api20210501</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="">dbformysql.azure.com/v1</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">dbformysql.azure.com/v1api20210501</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedbformysqlv1beta1-li">
   <a href="/azure-service-operator/reference/dbformysql/v1beta1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta1"><span class="">dbformysql.azure.com/v1beta1</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencedbformysqlv1beta20210501-li">
@@ -290,17 +320,23 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">dbforpostgresql</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601-li">
-  <a href="/azure-service-operator/reference/dbforpostgresql/v1alpha1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1alpha1api20210601"><span class="">dbforpostgresql.azure.com/v1alpha1api20210601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1"><span class="">dbforpostgresql.azure.com/v1</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20210601"><span class="">dbforpostgresql.azure.com/v1api20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1api20220120preview"><span class="">dbforpostgresql.azure.com/v1api20220120preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20210601"><span class="">dbforpostgresql.azure.com/v1beta20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20220120preview-li">
+  <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20220120preview"><span class="">dbforpostgresql.azure.com/v1beta20220120preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">documentdb</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515-li">
-  <a href="/azure-service-operator/reference/documentdb/v1alpha1api20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1alpha1api20210515"><span class="">documentdb.azure.com/v1alpha1api20210515</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
+  <a href="/azure-service-operator/reference/documentdb/v1api20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20210515"><span class="">documentdb.azure.com/v1api20210515</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1beta20210515-li">
   <a href="/azure-service-operator/reference/documentdb/v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
 </li>
@@ -308,8 +344,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">eventgrid</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601-li">
-  <a href="/azure-service-operator/reference/eventgrid/v1alpha1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1alpha1api20200601"><span class="">eventgrid.azure.com/v1alpha1api20200601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
+  <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">eventgrid.azure.com/v1api20200601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1beta20200601-li">
   <a href="/azure-service-operator/reference/eventgrid/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
 </li>
@@ -317,8 +353,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">eventhub</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101-li">
-  <a href="/azure-service-operator/reference/eventhub/v1alpha1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1alpha1api20211101"><span class="">eventhub.azure.com/v1alpha1api20211101</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
+  <a href="/azure-service-operator/reference/eventhub/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">eventhub.azure.com/v1api20211101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1beta20211101-li">
   <a href="/azure-service-operator/reference/eventhub/v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
 </li>
@@ -326,10 +362,10 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">insights</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview-li">
-  <a href="/azure-service-operator/reference/insights/v1alpha1api20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1alpha1api20180501preview"><span class="">insights.azure.com/v1alpha1api20180501preview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1alpha1api20200202-li">
-  <a href="/azure-service-operator/reference/insights/v1alpha1api20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1alpha1api20200202"><span class="">insights.azure.com/v1alpha1api20200202</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
+  <a href="/azure-service-operator/reference/insights/v1api20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">insights.azure.com/v1api20180501preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
+  <a href="/azure-service-operator/reference/insights/v1api20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">insights.azure.com/v1api20200202</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview-li">
   <a href="/azure-service-operator/reference/insights/v1beta20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview"><span class="">insights.azure.com/v1beta20180501preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20200202-li">
@@ -339,31 +375,45 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">keyvault</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
+  <a href="/azure-service-operator/reference/keyvault/v1api20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview"><span class="">keyvault.azure.com/v1api20210401preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview-li">
   <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">machinelearningservices</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
+  <a href="/azure-service-operator/reference/machinelearningservices/v1api20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701"><span class="">machinelearningservices.azure.com/v1api20210701</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701-li">
   <a href="/azure-service-operator/reference/machinelearningservices/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701"><span class="">machinelearningservices.azure.com/v1beta20210701</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">managedidentity</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130-li">
-  <a href="/azure-service-operator/reference/managedidentity/v1alpha1api20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1alpha1api20181130"><span class="">managedidentity.azure.com/v1alpha1api20181130</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
+  <a href="/azure-service-operator/reference/managedidentity/v1api20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20181130"><span class="">managedidentity.azure.com/v1api20181130</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview-li">
+  <a href="/azure-service-operator/reference/managedidentity/v1api20220131preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20220131preview"><span class="">managedidentity.azure.com/v1api20220131preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130-li">
   <a href="/azure-service-operator/reference/managedidentity/v1beta20181130/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20181130"><span class="">managedidentity.azure.com/v1beta20181130</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1beta20220131preview-li">
+  <a href="/azure-service-operator/reference/managedidentity/v1beta20220131preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20220131preview"><span class="">managedidentity.azure.com/v1beta20220131preview</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">network</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101-li">
-  <a href="/azure-service-operator/reference/network/v1alpha1api20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1alpha1api20201101"><span class="">network.azure.com/v1alpha1api20201101</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
+  <a href="/azure-service-operator/reference/network/v1api20180901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="">network.azure.com/v1api20180901</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20200601-li">
+  <a href="/azure-service-operator/reference/network/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20200601"><span class="">network.azure.com/v1api20200601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20201101-li">
+  <a href="/azure-service-operator/reference/network/v1api20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20201101"><span class="">network.azure.com/v1api20201101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
+  <a href="/azure-service-operator/reference/network/v1api20220701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">network.azure.com/v1api20220701</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1beta20180901-li">
   <a href="/azure-service-operator/reference/network/v1beta20180901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20180901"><span class="">network.azure.com/v1beta20180901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1beta20201101-li">
@@ -373,8 +423,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">operationalinsights</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601-li">
-  <a href="/azure-service-operator/reference/operationalinsights/v1alpha1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1alpha1api20210601"><span class="">operationalinsights.azure.com/v1alpha1api20210601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
+  <a href="/azure-service-operator/reference/operationalinsights/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601"><span class="">operationalinsights.azure.com/v1api20210601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601-li">
   <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
 </li>
@@ -382,8 +432,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">resources</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601-li">
-  <a href="/azure-service-operator/reference/resources/v1alpha1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1alpha1api20200601"><span class="">resources.azure.com/v1alpha1api20200601</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
+  <a href="/azure-service-operator/reference/resources/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">resources.azure.com/v1api20200601</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1beta20200601-li">
   <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
 </li>
@@ -391,8 +441,8 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">servicebus</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview-li">
-  <a href="/azure-service-operator/reference/servicebus/v1alpha1api20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1alpha1api20210101preview"><span class="">servicebus.azure.com/v1alpha1api20210101preview</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
+  <a href="/azure-service-operator/reference/servicebus/v1api20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20210101preview"><span class="">servicebus.azure.com/v1api20210101preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview-li">
   <a href="/azure-service-operator/reference/servicebus/v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
 </li>
@@ -400,17 +450,24 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">signalrservice</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001-li">
-  <a href="/azure-service-operator/reference/signalrservice/v1alpha1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1alpha1api20211001"><span class="">signalrservice.azure.com/v1alpha1api20211001</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
+  <a href="/azure-service-operator/reference/signalrservice/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20211001"><span class="">signalrservice.azure.com/v1api20211001</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1beta20211001-li">
   <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+  <a href="/azure-service-operator/reference/sql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">sql</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1api20211101-li">
+  <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">storage</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1alpha1api20210401-li">
-  <a href="/azure-service-operator/reference/storage/v1alpha1api20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1alpha1api20210401"><span class="">storage.azure.com/v1alpha1api20210401</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
+  <a href="/azure-service-operator/reference/storage/v1api20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1api20210401"><span class="">storage.azure.com/v1api20210401</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1beta20210401-li">
   <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
 </li>
@@ -418,8 +475,26 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">subscription</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
+  <a href="/azure-service-operator/reference/subscription/v1api20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">subscription.azure.com/v1api20211001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1beta20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1beta20211001"><span class="">subscription.azure.com/v1beta20211001</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+  <a href="/azure-service-operator/reference/synapse/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">synapse</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
+  <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+  <a href="/azure-service-operator/reference/web/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">web</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
+  <a href="/azure-service-operator/reference/web/v1api20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">web.azure.com/v1api20220301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1beta20220301-li">
+  <a href="/azure-service-operator/reference/web/v1beta20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1beta20220301"><span class="">web.azure.com/v1beta20220301</span></a>
 </li>
   </ul>
 </li>
@@ -589,6 +664,7 @@ Resource Types:
 <h3 id="dbformysql.azure.com/v1beta20210501.APIVersion">APIVersion
 (<code>string</code> alias)</h3>
 <div>
+<p>Deprecated version of APIVersion. Use v1api20210501.APIVersion instead</p>
 </div>
 <table>
 <thead>
@@ -604,10 +680,10 @@ Resource Types:
 <h3 id="dbformysql.azure.com/v1beta20210501.Backup">Backup
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup</a></p>
+<p>Deprecated version of Backup. Use v1api20210501.Backup instead</p>
 </div>
 <table>
 <thead>
@@ -625,31 +701,29 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.BackupGeoRedundantBackup">
-BackupGeoRedundantBackup
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum">
+EnableStatusEnum
 </a>
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.BackupARM">BackupARM
+<h3 id="dbformysql.azure.com/v1beta20210501.Backup_ARM">Backup_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Backup</a></p>
+<p>Deprecated version of Backup. Use v1api20210501.Backup instead</p>
 </div>
 <table>
 <thead>
@@ -667,50 +741,29 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.BackupGeoRedundantBackup">
-BackupGeoRedundantBackup
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum">
+EnableStatusEnum
 </a>
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.BackupGeoRedundantBackup">BackupGeoRedundantBackup
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Backup">Backup</a>, <a href="#dbformysql.azure.com/v1beta20210501.BackupARM">BackupARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Backup_Status">Backup_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.Backup_STATUS">Backup_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of Backup_STATUS. Use v1api20210501.Backup_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -728,7 +781,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
@@ -739,30 +791,29 @@ string
 </em>
 </td>
 <td>
-<p>EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_Status">
-EnableStatusEnum_Status
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Backup_StatusARM">Backup_StatusARM
+<h3 id="dbformysql.azure.com/v1beta20210501.Backup_STATUS_ARM">Backup_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Backup_STATUS. Use v1api20210501.Backup_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -780,7 +831,6 @@ int
 </em>
 </td>
 <td>
-<p>BackupRetentionDays: Backup retention days for the server.</p>
 </td>
 </tr>
 <tr>
@@ -791,20 +841,18 @@ string
 </em>
 </td>
 <td>
-<p>EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>geoRedundantBackup</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_Status">
-EnableStatusEnum_Status
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>GeoRedundantBackup: Whether or not geo redundant backup is enabled.</p>
 </td>
 </tr>
 </tbody>
@@ -812,10 +860,10 @@ EnableStatusEnum_Status
 <h3 id="dbformysql.azure.com/v1beta20210501.DataEncryption">DataEncryption
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DataEncryption">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DataEncryption</a></p>
+<p>Deprecated version of DataEncryption. Use v1api20210501.DataEncryption instead</p>
 </div>
 <table>
 <thead>
@@ -827,13 +875,12 @@ EnableStatusEnum_Status
 <tbody>
 <tr>
 <td>
-<code>geoBackupKeyUri</code><br/>
+<code>geoBackupKeyURI</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>GeoBackupKeyUri: Geo backup key uri as key vault can&rsquo;t cross region, need cmk in same region as geo backup</p>
 </td>
 </tr>
 <tr>
@@ -846,19 +893,16 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>GeoBackupUserAssignedIdentityReference: Geo backup user identity resource id as identity can&rsquo;t cross region, need
-identity in same region as geo backup</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>primaryKeyUri</code><br/>
+<code>primaryKeyURI</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>PrimaryKeyUri: Primary key uri</p>
 </td>
 </tr>
 <tr>
@@ -871,31 +915,29 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>PrimaryUserAssignedIdentityReference: Primary user identity resource id</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.DataEncryptionType">
-DataEncryptionType
+<a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_Type">
+DataEncryption_Type
 </a>
 </em>
 </td>
 <td>
-<p>Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryptionARM">DataEncryptionARM
+<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryption_ARM">DataEncryption_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DataEncryption">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DataEncryption</a></p>
+<p>Deprecated version of DataEncryption. Use v1api20210501.DataEncryption instead</p>
 </div>
 <table>
 <thead>
@@ -907,13 +949,12 @@ DataEncryptionType
 <tbody>
 <tr>
 <td>
-<code>geoBackupKeyUri</code><br/>
+<code>geoBackupKeyURI</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>GeoBackupKeyUri: Geo backup key uri as key vault can&rsquo;t cross region, need cmk in same region as geo backup</p>
 </td>
 </tr>
 <tr>
@@ -928,13 +969,12 @@ string
 </tr>
 <tr>
 <td>
-<code>primaryKeyUri</code><br/>
+<code>primaryKeyURI</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>PrimaryKeyUri: Primary key uri</p>
 </td>
 </tr>
 <tr>
@@ -951,23 +991,163 @@ string
 <td>
 <code>type</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.DataEncryptionType">
-DataEncryptionType
+<a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_Type">
+DataEncryption_Type
 </a>
 </em>
 </td>
 <td>
-<p>Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryptionStatusType">DataEncryptionStatusType
-(<code>string</code> alias)</h3>
+<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryption_STATUS">DataEncryption_STATUS
+</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_Status">DataEncryption_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_StatusARM">DataEncryption_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of DataEncryption_STATUS. Use v1api20210501.DataEncryption_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>geoBackupKeyURI</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>geoBackupUserAssignedIdentityId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryKeyURI</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryUserAssignedIdentityId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_Type_STATUS">
+DataEncryption_Type_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryption_STATUS_ARM">DataEncryption_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of DataEncryption_STATUS. Use v1api20210501.DataEncryption_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>geoBackupKeyURI</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>geoBackupUserAssignedIdentityId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryKeyURI</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>primaryUserAssignedIdentityId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_Type_STATUS">
+DataEncryption_Type_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryption_Type">DataEncryption_Type
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.DataEncryption">DataEncryption</a>, <a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_ARM">DataEncryption_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of DataEncryption_Type. Use v1api20210501.DataEncryption_Type instead</p>
 </div>
 <table>
 <thead>
@@ -982,12 +1162,13 @@ DataEncryptionType
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryptionType">DataEncryptionType
+<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryption_Type_STATUS">DataEncryption_Type_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.DataEncryption">DataEncryption</a>, <a href="#dbformysql.azure.com/v1beta20210501.DataEncryptionARM">DataEncryptionARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_STATUS">DataEncryption_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_STATUS_ARM">DataEncryption_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of DataEncryption_Type_STATUS. Use v1api20210501.DataEncryption_Type_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -1002,163 +1183,13 @@ DataEncryptionType
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryption_Status">DataEncryption_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.DatabaseProperties_ARM">DatabaseProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_Spec_ARM">FlexibleServers_Database_Spec_ARM</a>)
 </p>
 <div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>geoBackupKeyUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>GeoBackupKeyUri: Geo backup key uri as key vault can&rsquo;t cross region, need cmk in same region as geo backup</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>geoBackupUserAssignedIdentityId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can&rsquo;t cross region, need identity in
-same region as geo backup</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>primaryKeyUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrimaryKeyUri: Primary key uri</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>primaryUserAssignedIdentityId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrimaryUserAssignedIdentityId: Primary user identity resource id</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.DataEncryptionStatusType">
-DataEncryptionStatusType
-</a>
-</em>
-</td>
-<td>
-<p>Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.DataEncryption_StatusARM">DataEncryption_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>geoBackupKeyUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>GeoBackupKeyUri: Geo backup key uri as key vault can&rsquo;t cross region, need cmk in same region as geo backup</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>geoBackupUserAssignedIdentityId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can&rsquo;t cross region, need identity in
-same region as geo backup</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>primaryKeyUri</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrimaryKeyUri: Primary key uri</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>primaryUserAssignedIdentityId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>PrimaryUserAssignedIdentityId: Primary user identity resource id</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.DataEncryptionStatusType">
-DataEncryptionStatusType
-</a>
-</em>
-</td>
-<td>
-<p>Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.DatabasePropertiesARM">DatabasePropertiesARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabases_SpecARM">FlexibleServersDatabases_SpecARM</a>)
-</p>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DatabaseProperties">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DatabaseProperties</a></p>
+<p>Deprecated version of DatabaseProperties. Use v1api20210501.DatabaseProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1176,7 +1207,6 @@ string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1187,17 +1217,17 @@ string
 </em>
 </td>
 <td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.DatabaseProperties_StatusARM">DatabaseProperties_StatusARM
+<h3 id="dbformysql.azure.com/v1beta20210501.DatabaseProperties_STATUS_ARM">DatabaseProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Database_StatusARM">Database_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of DatabaseProperties_STATUS. Use v1api20210501.DatabaseProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -1215,7 +1245,6 @@ string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
@@ -1226,190 +1255,17 @@ string
 </em>
 </td>
 <td>
-<p>Collation: The collation of the database.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Database_Status">Database_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase">FlexibleServersDatabase</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>charset</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Charset: The charset of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collation</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Collation: The collation of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemData_Status">
-SystemData_Status
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Database_StatusARM">Database_StatusARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.DatabaseProperties_StatusARM">
-DatabaseProperties_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of a database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemData_StatusARM">
-SystemData_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.EnableStatusEnum_Status">EnableStatusEnum_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.EnableStatusEnum">EnableStatusEnum
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Backup_Status">Backup_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.Backup_StatusARM">Backup_StatusARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Network_Status">Network_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.Network_StatusARM">Network_StatusARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Storage_Status">Storage_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.Storage_StatusARM">Storage_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Backup">Backup</a>, <a href="#dbformysql.azure.com/v1beta20210501.Backup_ARM">Backup_ARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Storage">Storage</a>, <a href="#dbformysql.azure.com/v1beta20210501.Storage_ARM">Storage_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of EnableStatusEnum. Use v1api20210501.EnableStatusEnum instead</p>
 </div>
 <table>
 <thead>
@@ -1424,13 +1280,34 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FirewallRulePropertiesARM">FirewallRulePropertiesARM
-</h3>
+<h3 id="dbformysql.azure.com/v1beta20210501.EnableStatusEnum_STATUS">EnableStatusEnum_STATUS
+(<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRules_SpecARM">FlexibleServersFirewallRules_SpecARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Backup_STATUS">Backup_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.Backup_STATUS_ARM">Backup_STATUS_ARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Network_STATUS">Network_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.Network_STATUS_ARM">Network_STATUS_ARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Storage_STATUS">Storage_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.Storage_STATUS_ARM">Storage_STATUS_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/FirewallRuleProperties">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/FirewallRuleProperties</a></p>
+<p>Deprecated version of EnableStatusEnum_STATUS. Use v1api20210501.EnableStatusEnum_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Enabled&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FirewallRuleProperties_ARM">FirewallRuleProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_Spec_ARM">FlexibleServers_FirewallRule_Spec_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of FirewallRuleProperties. Use v1api20210501.FirewallRuleProperties instead</p>
 </div>
 <table>
 <thead>
@@ -1448,7 +1325,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -1459,17 +1335,17 @@ string
 </em>
 </td>
 <td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FirewallRuleProperties_StatusARM">FirewallRuleProperties_StatusARM
+<h3 id="dbformysql.azure.com/v1beta20210501.FirewallRuleProperties_STATUS_ARM">FirewallRuleProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FirewallRule_StatusARM">FirewallRule_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of FirewallRuleProperties_STATUS. Use v1api20210501.FirewallRuleProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -1487,7 +1363,6 @@ string
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -1498,180 +1373,6 @@ string
 </em>
 </td>
 <td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FirewallRule_Status">FirewallRule_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>endIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemData_Status">
-SystemData_Status
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FirewallRule_StatusARM">FirewallRule_StatusARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.FirewallRuleProperties_StatusARM">
-FirewallRuleProperties_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: The properties of a firewall rule.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemData_StatusARM">
-SystemData_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
 </td>
 </tr>
 </tbody>
@@ -1679,7 +1380,7 @@ string
 <h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServer">FlexibleServer
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers</a></p>
+<p>Deprecated version of FlexibleServer. Use v1api20210501.FlexibleServer instead</p>
 </div>
 <table>
 <thead>
@@ -1707,8 +1408,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">
-FlexibleServers_Spec
+<a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">
+FlexibleServer_Spec
 </a>
 </em>
 </td>
@@ -1724,8 +1425,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -1738,7 +1437,6 @@ genruntime.SecretReference
 </em>
 </td>
 <td>
-<p>AdministratorLoginPassword: The password of the administrator login (required for server creation).</p>
 </td>
 </tr>
 <tr>
@@ -1749,7 +1447,6 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
 </td>
 </tr>
 <tr>
@@ -1774,20 +1471,18 @@ Backup
 </em>
 </td>
 <td>
-<p>Backup: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesCreateMode">
-ServerPropertiesCreateMode
+<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_CreateMode">
+ServerProperties_CreateMode
 </a>
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
 </td>
 </tr>
 <tr>
@@ -1800,7 +1495,6 @@ DataEncryption
 </em>
 </td>
 <td>
-<p>DataEncryption: The date encryption for cmk.</p>
 </td>
 </tr>
 <tr>
@@ -1813,7 +1507,6 @@ HighAvailability
 </em>
 </td>
 <td>
-<p>HighAvailability: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -1826,7 +1519,6 @@ Identity
 </em>
 </td>
 <td>
-<p>Identity: Properties to configure Identity for Bring your Own Keys</p>
 </td>
 </tr>
 <tr>
@@ -1837,7 +1529,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -1850,7 +1541,6 @@ MaintenanceWindow
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
 </td>
 </tr>
 <tr>
@@ -1863,7 +1553,6 @@ Network
 </em>
 </td>
 <td>
-<p>Network: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -1899,13 +1588,12 @@ reference to a resources.azure.com/ResourceGroup resource</p>
 <td>
 <code>replicationRole</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesReplicationRole">
-ServerPropertiesReplicationRole
+<a href="#dbformysql.azure.com/v1beta20210501.ReplicationRole">
+ReplicationRole
 </a>
 </em>
 </td>
 <td>
-<p>ReplicationRole: The replication role.</p>
 </td>
 </tr>
 <tr>
@@ -1916,7 +1604,6 @@ string
 </em>
 </td>
 <td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
 </td>
 </tr>
 <tr>
@@ -1929,7 +1616,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: Billing information related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -1940,7 +1626,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
 </td>
 </tr>
 <tr>
@@ -1953,7 +1638,6 @@ Storage
 </em>
 </td>
 <td>
-<p>Storage: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -1964,20 +1648,18 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesVersion">
-ServerPropertiesVersion
+<a href="#dbformysql.azure.com/v1beta20210501.ServerVersion">
+ServerVersion
 </a>
 </em>
 </td>
 <td>
-<p>Version: Server version.</p>
 </td>
 </tr>
 </table>
@@ -1987,8 +1669,8 @@ ServerPropertiesVersion
 <td>
 <code>status</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.Server_Status">
-Server_Status
+<a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">
+FlexibleServer_STATUS
 </a>
 </em>
 </td>
@@ -2031,7 +1713,7 @@ will not be retrieved from Azure.</p>
 <h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServerOperatorSpec">FlexibleServerOperatorSpec
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
@@ -2059,140 +1741,13 @@ FlexibleServerOperatorSecrets
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase">FlexibleServersDatabase
-</h3>
-<div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_databases</a></p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabases_Spec">
-FlexibleServersDatabases_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>charset</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Charset: The charset of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>collation</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Collation: The collation of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbformysql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Database_Status">
-Database_Status
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServersDatabases_Spec">FlexibleServersDatabases_Spec
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer">FlexibleServer</a>)
 </p>
 <div>
+<p>Deprecated version of FlexibleServer_STATUS. Use v1api20210501.FlexibleServer_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2204,89 +1759,117 @@ Database_Status
 <tbody>
 <tr>
 <td>
-<code>azureName</code><br/>
+<code>administratorLogin</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>charset</code><br/>
+<code>availabilityZone</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Charset: The charset of the database.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>collation</code><br/>
+<code>backup</code><br/>
 <em>
-string
-</em>
-</td>
-<td>
-<p>Collation: The collation of the database.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
+<a href="#dbformysql.azure.com/v1beta20210501.Backup_STATUS">
+Backup_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbformysql.azure.com/FlexibleServer resource</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>tags</code><br/>
+<code>conditions</code><br/>
 <em>
-map[string]string
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
+<p>Conditions: The observed state of the resource</p>
 </td>
 </tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServersDatabases_SpecARM">FlexibleServersDatabases_SpecARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
 <tr>
-<th>Field</th>
-<th>Description</th>
+<td>
+<code>createMode</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_CreateMode_STATUS">
+ServerProperties_CreateMode_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
 </tr>
-</thead>
-<tbody>
+<tr>
+<td>
+<code>dataEncryption</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_STATUS">
+DataEncryption_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>fullyQualifiedDomainName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>highAvailability</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_STATUS">
+HighAvailability_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>identity</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.Identity_STATUS">
+Identity_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
 <tr>
 <td>
 <code>location</code><br/>
@@ -2295,7 +1878,18 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>maintenanceWindow</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.MaintenanceWindow_STATUS">
+MaintenanceWindow_STATUS
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 <tr>
@@ -2306,20 +1900,108 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the database.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>properties</code><br/>
+<code>network</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.DatabasePropertiesARM">
-DatabasePropertiesARM
+<a href="#dbformysql.azure.com/v1beta20210501.Network_STATUS">
+Network_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>Properties: The properties of a database.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicaCapacity</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicationRole</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.ReplicationRole_STATUS">
+ReplicationRole_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>restorePointInTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.Sku_STATUS">
+Sku_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceServerResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_State_STATUS">
+ServerProperties_State_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>storage</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.Storage_STATUS">
+Storage_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 <tr>
@@ -2330,15 +2012,36 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.ServerVersion_STATUS">
+ServerVersion_STATUS
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_firewallRules">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/resourceDefinitions/flexibleServers_firewallRules</a></p>
+<p>Deprecated version of FlexibleServer_STATUS. Use v1api20210501.FlexibleServer_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -2350,52 +2053,24 @@ map[string]string
 <tbody>
 <tr>
 <td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRules_Spec">
-FlexibleServersFirewallRules_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
+<code>id</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
 </td>
 </tr>
 <tr>
 <td>
-<code>endIpAddress</code><br/>
+<code>identity</code><br/>
 <em>
-string
+<a href="#dbformysql.azure.com/v1beta20210501.Identity_STATUS_ARM">
+Identity_STATUS_ARM
+</a>
 </em>
 </td>
 <td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
 </td>
 </tr>
 <tr>
@@ -2406,172 +2081,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbformysql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.FirewallRule_Status">
-FirewallRule_Status
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRules_Spec">FlexibleServersFirewallRules_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>endIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>EndIpAddress: The end IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a dbformysql.azure.com/FlexibleServer resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>startIpAddress</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StartIpAddress: The start IP address of the server firewall rule. Must be IPv4 format.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRules_SpecARM">FlexibleServersFirewallRules_SpecARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -2582,20 +2091,42 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the server firewall rule.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.FirewallRulePropertiesARM">
-FirewallRulePropertiesARM
+<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">
+ServerProperties_STATUS_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Properties: The properties of a server firewall rule.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>sku</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.Sku_STATUS_ARM">
+Sku_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 <tr>
@@ -2606,12 +2137,21 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer">FlexibleServer</a>)
@@ -2634,8 +2174,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -2648,7 +2186,6 @@ genruntime.SecretReference
 </em>
 </td>
 <td>
-<p>AdministratorLoginPassword: The password of the administrator login (required for server creation).</p>
 </td>
 </tr>
 <tr>
@@ -2659,7 +2196,6 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
 </td>
 </tr>
 <tr>
@@ -2684,20 +2220,18 @@ Backup
 </em>
 </td>
 <td>
-<p>Backup: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesCreateMode">
-ServerPropertiesCreateMode
+<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_CreateMode">
+ServerProperties_CreateMode
 </a>
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
 </td>
 </tr>
 <tr>
@@ -2710,7 +2244,6 @@ DataEncryption
 </em>
 </td>
 <td>
-<p>DataEncryption: The date encryption for cmk.</p>
 </td>
 </tr>
 <tr>
@@ -2723,7 +2256,6 @@ HighAvailability
 </em>
 </td>
 <td>
-<p>HighAvailability: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -2736,7 +2268,6 @@ Identity
 </em>
 </td>
 <td>
-<p>Identity: Properties to configure Identity for Bring your Own Keys</p>
 </td>
 </tr>
 <tr>
@@ -2747,7 +2278,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2760,7 +2290,6 @@ MaintenanceWindow
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
 </td>
 </tr>
 <tr>
@@ -2773,7 +2302,6 @@ Network
 </em>
 </td>
 <td>
-<p>Network: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -2809,13 +2337,12 @@ reference to a resources.azure.com/ResourceGroup resource</p>
 <td>
 <code>replicationRole</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesReplicationRole">
-ServerPropertiesReplicationRole
+<a href="#dbformysql.azure.com/v1beta20210501.ReplicationRole">
+ReplicationRole
 </a>
 </em>
 </td>
 <td>
-<p>ReplicationRole: The replication role.</p>
 </td>
 </tr>
 <tr>
@@ -2826,7 +2353,6 @@ string
 </em>
 </td>
 <td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
 </td>
 </tr>
 <tr>
@@ -2839,7 +2365,6 @@ Sku
 </em>
 </td>
 <td>
-<p>Sku: Billing information related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -2850,7 +2375,6 @@ string
 </em>
 </td>
 <td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
 </td>
 </tr>
 <tr>
@@ -2863,7 +2387,6 @@ Storage
 </em>
 </td>
 <td>
-<p>Storage: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
@@ -2874,27 +2397,26 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesVersion">
-ServerPropertiesVersion
+<a href="#dbformysql.azure.com/v1beta20210501.ServerVersion">
+ServerVersion
 </a>
 </em>
 </td>
 <td>
-<p>Version: Server version.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_SpecARM">FlexibleServers_SpecARM
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM
 </h3>
 <div>
+<p>Deprecated version of FlexibleServer_Spec. Use v1api20210501.FlexibleServer_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -2908,13 +2430,12 @@ ServerPropertiesVersion
 <td>
 <code>identity</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.IdentityARM">
-IdentityARM
+<a href="#dbformysql.azure.com/v1beta20210501.Identity_ARM">
+Identity_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Identity: Properties to configure Identity for Bring your Own Keys</p>
 </td>
 </tr>
 <tr>
@@ -2925,7 +2446,6 @@ string
 </em>
 </td>
 <td>
-<p>Location: The geo-location where the resource lives</p>
 </td>
 </tr>
 <tr>
@@ -2936,33 +2456,30 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">
-ServerPropertiesARM
+<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">
+ServerProperties_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Properties: The properties of a server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>sku</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.SkuARM">
-SkuARM
+<a href="#dbformysql.azure.com/v1beta20210501.Sku_ARM">
+Sku_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Sku: Billing information related properties of a server.</p>
 </td>
 </tr>
 <tr>
@@ -2973,7 +2490,740 @@ map[string]string
 </em>
 </td>
 <td>
-<p>Tags: Name-value pairs to add to the resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase">FlexibleServersDatabase
+</h3>
+<div>
+<p>Deprecated version of FlexibleServersDatabase. Use v1api20210501.FlexibleServersDatabase instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_Spec">
+FlexibleServers_Database_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>charset</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>collation</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_STATUS">
+FlexibleServers_Database_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule
+</h3>
+<div>
+<p>Deprecated version of FlexibleServersFirewallRule. Use v1api20210501.FlexibleServersFirewallRule instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code><br/>
+<em>
+<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_Spec">
+FlexibleServers_FirewallRule_Spec
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>endIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+<code>status</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_STATUS">
+FlexibleServers_FirewallRule_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_STATUS">FlexibleServers_Database_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+</p>
+<div>
+<p>Deprecated version of FlexibleServers_Database_STATUS. Use v1api20210501.FlexibleServers_Database_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>charset</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>collation</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_Database_STATUS. Use v1api20210501.FlexibleServers_Database_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.DatabaseProperties_STATUS_ARM">
+DatabaseProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_Spec">FlexibleServers_Database_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersDatabase">FlexibleServersDatabase</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>charset</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>collation</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_Spec_ARM">FlexibleServers_Database_Spec_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_Database_Spec. Use v1api20210501.FlexibleServers_Database_Spec instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.DatabaseProperties_ARM">
+DatabaseProperties_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_STATUS">FlexibleServers_FirewallRule_STATUS
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
+</p>
+<div>
+<p>Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1api20210501.FlexibleServers_FirewallRule_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>conditions</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
+[]genruntime/conditions.Condition
+</a>
+</em>
+</td>
+<td>
+<p>Conditions: The observed state of the resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>endIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>startIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS">
+SystemData_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_FirewallRule_STATUS. Use v1api20210501.FlexibleServers_FirewallRule_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>id</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.FirewallRuleProperties_STATUS_ARM">
+FirewallRuleProperties_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>systemData</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS_ARM">
+SystemData_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>type</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_Spec">FlexibleServers_FirewallRule_Spec
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule">FlexibleServersFirewallRule</a>)
+</p>
+<div>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>azureName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&rsquo;t have to be.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>endIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>owner</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
+genruntime.KnownResourceReference
+</a>
+</em>
+</td>
+<td>
+<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a dbformysql.azure.com/FlexibleServer resource</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>startIpAddress</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_Spec_ARM">FlexibleServers_FirewallRule_Spec_ARM
+</h3>
+<div>
+<p>Deprecated version of FlexibleServers_FirewallRule_Spec. Use v1api20210501.FlexibleServers_FirewallRule_Spec instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>properties</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.FirewallRuleProperties_ARM">
+FirewallRuleProperties_ARM
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -2981,10 +3231,10 @@ map[string]string
 <h3 id="dbformysql.azure.com/v1beta20210501.HighAvailability">HighAvailability
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability</a></p>
+<p>Deprecated version of HighAvailability. Use v1api20210501.HighAvailability instead</p>
 </div>
 <table>
 <thead>
@@ -2998,13 +3248,12 @@ map[string]string
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.HighAvailabilityMode">
-HighAvailabilityMode
+<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_Mode">
+HighAvailability_Mode
 </a>
 </em>
 </td>
 <td>
-<p>Mode: High availability mode for a server.</p>
 </td>
 </tr>
 <tr>
@@ -3015,18 +3264,17 @@ string
 </em>
 </td>
 <td>
-<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailabilityARM">HighAvailabilityARM
+<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailability_ARM">HighAvailability_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability</a></p>
+<p>Deprecated version of HighAvailability. Use v1api20210501.HighAvailability instead</p>
 </div>
 <table>
 <thead>
@@ -3040,13 +3288,12 @@ string
 <td>
 <code>mode</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.HighAvailabilityMode">
-HighAvailabilityMode
+<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_Mode">
+HighAvailability_Mode
 </a>
 </em>
 </td>
 <td>
-<p>Mode: High availability mode for a server.</p>
 </td>
 </tr>
 <tr>
@@ -3057,17 +3304,17 @@ string
 </em>
 </td>
 <td>
-<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailabilityMode">HighAvailabilityMode
+<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailability_Mode">HighAvailability_Mode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.HighAvailability">HighAvailability</a>, <a href="#dbformysql.azure.com/v1beta20210501.HighAvailabilityARM">HighAvailabilityARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.HighAvailability">HighAvailability</a>, <a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_ARM">HighAvailability_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailability_Mode. Use v1api20210501.HighAvailability_Mode instead</p>
 </div>
 <table>
 <thead>
@@ -3084,12 +3331,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailabilityStatusMode">HighAvailabilityStatusMode
+<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailability_Mode_STATUS">HighAvailability_Mode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_Status">HighAvailability_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_StatusARM">HighAvailability_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailability_Mode_STATUS. Use v1api20210501.HighAvailability_Mode_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3106,12 +3354,117 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailabilityStatusState">HighAvailabilityStatusState
-(<code>string</code> alias)</h3>
+<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailability_STATUS">HighAvailability_STATUS
+</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_Status">HighAvailability_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_StatusARM">HighAvailability_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of HighAvailability_STATUS. Use v1api20210501.HighAvailability_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_Mode_STATUS">
+HighAvailability_Mode_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>standbyAvailabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_State_STATUS">
+HighAvailability_State_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of HighAvailability_STATUS. Use v1api20210501.HighAvailability_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>mode</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_Mode_STATUS">
+HighAvailability_Mode_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>standbyAvailabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_State_STATUS">
+HighAvailability_State_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailability_State_STATUS">HighAvailability_State_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_STATUS">HighAvailability_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_STATUS_ARM">HighAvailability_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of HighAvailability_State_STATUS. Use v1api20210501.HighAvailability_State_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3132,121 +3485,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailability_Status">HighAvailability_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.HighAvailabilityStatusMode">
-HighAvailabilityStatusMode
-</a>
-</em>
-</td>
-<td>
-<p>Mode: High availability mode for a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>standbyAvailabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.HighAvailabilityStatusState">
-HighAvailabilityStatusState
-</a>
-</em>
-</td>
-<td>
-<p>State: The state of server high availability.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.HighAvailability_StatusARM">HighAvailability_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>mode</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.HighAvailabilityStatusMode">
-HighAvailabilityStatusMode
-</a>
-</em>
-</td>
-<td>
-<p>Mode: High availability mode for a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>standbyAvailabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>StandbyAvailabilityZone: Availability zone of the standby server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.HighAvailabilityStatusState">
-HighAvailabilityStatusState
-</a>
-</em>
-</td>
-<td>
-<p>State: The state of server high availability.</p>
-</td>
-</tr>
-</tbody>
-</table>
 <h3 id="dbformysql.azure.com/v1beta20210501.Identity">Identity
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Identity">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Identity</a></p>
+<p>Deprecated version of Identity. Use v1api20210501.Identity instead</p>
 </div>
 <table>
 <thead>
@@ -3260,24 +3505,35 @@ HighAvailabilityStatusState
 <td>
 <code>type</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.IdentityType">
-IdentityType
+<a href="#dbformysql.azure.com/v1beta20210501.Identity_Type">
+Identity_Type
 </a>
 </em>
 </td>
 <td>
-<p>Type: Type of managed service identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>userAssignedIdentities</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.UserAssignedIdentityDetails">
+[]UserAssignedIdentityDetails
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.IdentityARM">IdentityARM
+<h3 id="dbformysql.azure.com/v1beta20210501.Identity_ARM">Identity_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_SpecARM">FlexibleServers_SpecARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Identity">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Identity</a></p>
+<p>Deprecated version of Identity. Use v1api20210501.Identity instead</p>
 </div>
 <table>
 <thead>
@@ -3291,59 +3547,35 @@ IdentityType
 <td>
 <code>type</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.IdentityType">
-IdentityType
+<a href="#dbformysql.azure.com/v1beta20210501.Identity_Type">
+Identity_Type
 </a>
 </em>
 </td>
 <td>
-<p>Type: Type of managed service identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>userAssignedIdentities</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.UserAssignedIdentityDetails_ARM">
+map[string]github/azure/azure-service-operator/v2/api/dbformysql/v1beta20210501.UserAssignedIdentityDetails_ARM
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.IdentityStatusType">IdentityStatusType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Identity_Status">Identity_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.Identity_StatusARM">Identity_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.IdentityType">IdentityType
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Identity">Identity</a>, <a href="#dbformysql.azure.com/v1beta20210501.IdentityARM">IdentityARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;UserAssigned&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Identity_Status">Identity_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.Identity_STATUS">Identity_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of Identity_STATUS. Use v1api20210501.Identity_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3361,7 +3593,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: ObjectId from the KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3372,20 +3603,18 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: TenantId from the KeyVault</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.IdentityStatusType">
-IdentityStatusType
+<a href="#dbformysql.azure.com/v1beta20210501.Identity_Type_STATUS">
+Identity_Type_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>Type: Type of managed service identity.</p>
 </td>
 </tr>
 <tr>
@@ -3398,17 +3627,17 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Metadata of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Identity_StatusARM">Identity_StatusARM
+<h3 id="dbformysql.azure.com/v1beta20210501.Identity_STATUS_ARM">Identity_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_StatusARM">Server_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Identity_STATUS. Use v1api20210501.Identity_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3426,7 +3655,6 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: ObjectId from the KeyVault</p>
 </td>
 </tr>
 <tr>
@@ -3437,20 +3665,18 @@ string
 </em>
 </td>
 <td>
-<p>TenantId: TenantId from the KeyVault</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>type</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.IdentityStatusType">
-IdentityStatusType
+<a href="#dbformysql.azure.com/v1beta20210501.Identity_Type_STATUS">
+Identity_Type_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>Type: Type of managed service identity.</p>
 </td>
 </tr>
 <tr>
@@ -3463,18 +3689,55 @@ map[string]k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1.JSON
 </em>
 </td>
 <td>
-<p>UserAssignedIdentities: Metadata of user assigned identity.</p>
 </td>
 </tr>
 </tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.Identity_Type">Identity_Type
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Identity">Identity</a>, <a href="#dbformysql.azure.com/v1beta20210501.Identity_ARM">Identity_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of Identity_Type. Use v1api20210501.Identity_Type instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.Identity_Type_STATUS">Identity_Type_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Identity_STATUS">Identity_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.Identity_STATUS_ARM">Identity_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of Identity_Type_STATUS. Use v1api20210501.Identity_Type_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;UserAssigned&#34;</p></td>
+<td></td>
+</tr></tbody>
 </table>
 <h3 id="dbformysql.azure.com/v1beta20210501.MaintenanceWindow">MaintenanceWindow
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow</a></p>
+<p>Deprecated version of MaintenanceWindow. Use v1api20210501.MaintenanceWindow instead</p>
 </div>
 <table>
 <thead>
@@ -3492,7 +3755,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -3503,7 +3765,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3514,7 +3775,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3525,18 +3785,17 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.MaintenanceWindowARM">MaintenanceWindowARM
+<h3 id="dbformysql.azure.com/v1beta20210501.MaintenanceWindow_ARM">MaintenanceWindow_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow</a></p>
+<p>Deprecated version of MaintenanceWindow. Use v1api20210501.MaintenanceWindow instead</p>
 </div>
 <table>
 <thead>
@@ -3554,7 +3813,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -3565,7 +3823,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3576,7 +3833,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3587,17 +3843,17 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.MaintenanceWindow_Status">MaintenanceWindow_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.MaintenanceWindow_STATUS">MaintenanceWindow_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of MaintenanceWindow_STATUS. Use v1api20210501.MaintenanceWindow_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3615,7 +3871,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -3626,7 +3881,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3637,7 +3891,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3648,17 +3901,17 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.MaintenanceWindow_StatusARM">MaintenanceWindow_StatusARM
+<h3 id="dbformysql.azure.com/v1beta20210501.MaintenanceWindow_STATUS_ARM">MaintenanceWindow_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of MaintenanceWindow_STATUS. Use v1api20210501.MaintenanceWindow_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3676,7 +3929,6 @@ string
 </em>
 </td>
 <td>
-<p>CustomWindow: indicates whether custom window is enabled or disabled</p>
 </td>
 </tr>
 <tr>
@@ -3687,7 +3939,6 @@ int
 </em>
 </td>
 <td>
-<p>DayOfWeek: day of week for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3698,7 +3949,6 @@ int
 </em>
 </td>
 <td>
-<p>StartHour: start hour for maintenance window</p>
 </td>
 </tr>
 <tr>
@@ -3709,7 +3959,6 @@ int
 </em>
 </td>
 <td>
-<p>StartMinute: start minute for maintenance window</p>
 </td>
 </tr>
 </tbody>
@@ -3717,10 +3966,10 @@ int
 <h3 id="dbformysql.azure.com/v1beta20210501.Network">Network
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network</a></p>
+<p>Deprecated version of Network. Use v1api20210501.Network instead</p>
 </div>
 <table>
 <thead>
@@ -3740,7 +3989,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>DelegatedSubnetResourceReference: Delegated subnet resource id used to setup vnet for a server.</p>
 </td>
 </tr>
 <tr>
@@ -3753,18 +4001,17 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>PrivateDnsZoneResourceReference: Private DNS zone resource id.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.NetworkARM">NetworkARM
+<h3 id="dbformysql.azure.com/v1beta20210501.Network_ARM">Network_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Network</a></p>
+<p>Deprecated version of Network. Use v1api20210501.Network instead</p>
 </div>
 <table>
 <thead>
@@ -3796,12 +4043,13 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Network_Status">Network_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.Network_STATUS">Network_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of Network_STATUS. Use v1api20210501.Network_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3819,7 +4067,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.</p>
 </td>
 </tr>
 <tr>
@@ -3830,31 +4077,29 @@ string
 </em>
 </td>
 <td>
-<p>PrivateDnsZoneResourceId: Private DNS zone resource id.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_Status">
-EnableStatusEnum_Status
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is &lsquo;Disabled&rsquo; when server
-has VNet integration.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Network_StatusARM">Network_StatusARM
+<h3 id="dbformysql.azure.com/v1beta20210501.Network_STATUS_ARM">Network_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Network_STATUS. Use v1api20210501.Network_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -3872,7 +4117,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedSubnetResourceId: Delegated subnet resource id used to setup vnet for a server.</p>
 </td>
 </tr>
 <tr>
@@ -3883,31 +4127,29 @@ string
 </em>
 </td>
 <td>
-<p>PrivateDnsZoneResourceId: Private DNS zone resource id.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>publicNetworkAccess</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_Status">
-EnableStatusEnum_Status
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is &lsquo;Disabled&rsquo; when server
-has VNet integration.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.ReplicationRole_Status">ReplicationRole_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.ReplicationRole">ReplicationRole
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ReplicationRole. Use v1api20210501.ReplicationRole instead</p>
 </div>
 <table>
 <thead>
@@ -3924,13 +4166,36 @@ has VNet integration.</p>
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM
-</h3>
+<h3 id="dbformysql.azure.com/v1beta20210501.ReplicationRole_STATUS">ReplicationRole_STATUS
+(<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_SpecARM">FlexibleServers_SpecARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties</a></p>
+<p>Deprecated version of ReplicationRole_STATUS. Use v1api20210501.ReplicationRole_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr><td><p>&#34;None&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Replica&#34;</p></td>
+<td></td>
+</tr><tr><td><p>&#34;Source&#34;</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of ServerProperties. Use v1api20210501.ServerProperties instead</p>
 </div>
 <table>
 <thead>
@@ -3948,8 +4213,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
 </td>
 </tr>
 <tr>
@@ -3960,7 +4223,6 @@ string
 </em>
 </td>
 <td>
-<p>AdministratorLoginPassword: The password of the administrator login (required for server creation).</p>
 </td>
 </tr>
 <tr>
@@ -3971,98 +4233,90 @@ string
 </em>
 </td>
 <td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>backup</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.BackupARM">
-BackupARM
+<a href="#dbformysql.azure.com/v1beta20210501.Backup_ARM">
+Backup_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Backup: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createMode</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesCreateMode">
-ServerPropertiesCreateMode
+<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_CreateMode">
+ServerProperties_CreateMode
 </a>
 </em>
 </td>
 <td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>dataEncryption</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.DataEncryptionARM">
-DataEncryptionARM
+<a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_ARM">
+DataEncryption_ARM
 </a>
 </em>
 </td>
 <td>
-<p>DataEncryption: The date encryption for cmk.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>highAvailability</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.HighAvailabilityARM">
-HighAvailabilityARM
+<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_ARM">
+HighAvailability_ARM
 </a>
 </em>
 </td>
 <td>
-<p>HighAvailability: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>maintenanceWindow</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.MaintenanceWindowARM">
-MaintenanceWindowARM
+<a href="#dbformysql.azure.com/v1beta20210501.MaintenanceWindow_ARM">
+MaintenanceWindow_ARM
 </a>
 </em>
 </td>
 <td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>network</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.NetworkARM">
-NetworkARM
+<a href="#dbformysql.azure.com/v1beta20210501.Network_ARM">
+Network_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Network: Network related properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>replicationRole</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesReplicationRole">
-ServerPropertiesReplicationRole
+<a href="#dbformysql.azure.com/v1beta20210501.ReplicationRole">
+ReplicationRole
 </a>
 </em>
 </td>
 <td>
-<p>ReplicationRole: The replication role.</p>
 </td>
 </tr>
 <tr>
@@ -4073,7 +4327,6 @@ string
 </em>
 </td>
 <td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
 </td>
 </tr>
 <tr>
@@ -4084,43 +4337,41 @@ string
 </em>
 </td>
 <td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>storage</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.StorageARM">
-StorageARM
+<a href="#dbformysql.azure.com/v1beta20210501.Storage_ARM">
+Storage_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Storage: Storage Profile properties of a server</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>version</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesVersion">
-ServerPropertiesVersion
+<a href="#dbformysql.azure.com/v1beta20210501.ServerVersion">
+ServerVersion
 </a>
 </em>
 </td>
 <td>
-<p>Version: Server version.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.ServerPropertiesCreateMode">ServerPropertiesCreateMode
+<h3 id="dbformysql.azure.com/v1beta20210501.ServerProperties_CreateMode">ServerProperties_CreateMode
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerProperties_CreateMode. Use v1api20210501.ServerProperties_CreateMode instead</p>
 </div>
 <table>
 <thead>
@@ -4139,34 +4390,13 @@ ServerPropertiesVersion
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.ServerPropertiesReplicationRole">ServerPropertiesReplicationRole
+<h3 id="dbformysql.azure.com/v1beta20210501.ServerProperties_CreateMode_STATUS">ServerProperties_CreateMode_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;None&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Replica&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Source&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.ServerPropertiesStatusCreateMode">ServerPropertiesStatusCreateMode
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
-</p>
-<div>
+<p>Deprecated version of ServerProperties_CreateMode_STATUS. Use v1api20210501.ServerProperties_CreateMode_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4185,12 +4415,211 @@ ServerPropertiesVersion
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.ServerPropertiesStatusState">ServerPropertiesStatusState
-(<code>string</code> alias)</h3>
+<h3 id="dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM
+</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerProperties_STATUS. Use v1api20210501.ServerProperties_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>administratorLogin</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>availabilityZone</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>backup</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.Backup_STATUS_ARM">
+Backup_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>createMode</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_CreateMode_STATUS">
+ServerProperties_CreateMode_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>dataEncryption</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_STATUS_ARM">
+DataEncryption_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>fullyQualifiedDomainName</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>highAvailability</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_STATUS_ARM">
+HighAvailability_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>maintenanceWindow</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.MaintenanceWindow_STATUS_ARM">
+MaintenanceWindow_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>network</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.Network_STATUS_ARM">
+Network_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicaCapacity</code><br/>
+<em>
+int
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>replicationRole</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.ReplicationRole_STATUS">
+ReplicationRole_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>restorePointInTime</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>sourceServerResourceId</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>state</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_State_STATUS">
+ServerProperties_State_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>storage</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.Storage_STATUS_ARM">
+Storage_STATUS_ARM
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>version</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.ServerVersion_STATUS">
+ServerVersion_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.ServerProperties_State_STATUS">ServerProperties_State_STATUS
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of ServerProperties_State_STATUS. Use v1api20210501.ServerProperties_State_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4215,12 +4644,13 @@ ServerPropertiesVersion
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.ServerPropertiesVersion">ServerPropertiesVersion
+<h3 id="dbformysql.azure.com/v1beta20210501.ServerVersion">ServerVersion
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerVersion. Use v1api20210501.ServerVersion instead</p>
 </div>
 <table>
 <thead>
@@ -4235,226 +4665,13 @@ ServerPropertiesVersion
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_StatusARM">Server_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>administratorLogin</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>backup</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Backup_StatusARM">
-Backup_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Backup: Backup related properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesStatusCreateMode">
-ServerPropertiesStatusCreateMode
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataEncryption</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_StatusARM">
-DataEncryption_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>DataEncryption: The Data Encryption for CMK.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>fullyQualifiedDomainName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FullyQualifiedDomainName: The fully qualified domain name of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>highAvailability</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_StatusARM">
-HighAvailability_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>HighAvailability: High availability related properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maintenanceWindow</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.MaintenanceWindow_StatusARM">
-MaintenanceWindow_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>network</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Network_StatusARM">
-Network_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Network: Network related properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replicaCapacity</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>ReplicaCapacity: The maximum number of replicas that a primary server can have.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replicationRole</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.ReplicationRole_Status">
-ReplicationRole_Status
-</a>
-</em>
-</td>
-<td>
-<p>ReplicationRole: The replication role.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>restorePointInTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceServerResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesStatusState">
-ServerPropertiesStatusState
-</a>
-</em>
-</td>
-<td>
-<p>State: The state of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storage</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Storage_StatusARM">
-Storage_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Storage: Storage related properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerVersion_Status">
-ServerVersion_Status
-</a>
-</em>
-</td>
-<td>
-<p>Version: Server version.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.ServerVersion_Status">ServerVersion_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.ServerVersion_STATUS">ServerVersion_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of ServerVersion_STATUS. Use v1api20210501.ServerVersion_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -4468,458 +4685,14 @@ ServerVersion_Status
 </tr><tr><td><p>&#34;8.0.21&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer">FlexibleServer</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>administratorLogin</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AdministratorLogin: The administrator&rsquo;s login name of a server. Can only be specified when the server is being created
-(and is required for creation).</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>availabilityZone</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AvailabilityZone: availability Zone information of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>backup</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Backup_Status">
-Backup_Status
-</a>
-</em>
-</td>
-<td>
-<p>Backup: Backup related properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>createMode</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesStatusCreateMode">
-ServerPropertiesStatusCreateMode
-</a>
-</em>
-</td>
-<td>
-<p>CreateMode: The mode to create a new MySQL server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>dataEncryption</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.DataEncryption_Status">
-DataEncryption_Status
-</a>
-</em>
-</td>
-<td>
-<p>DataEncryption: The Data Encryption for CMK.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>fullyQualifiedDomainName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>FullyQualifiedDomainName: The fully qualified domain name of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>highAvailability</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.HighAvailability_Status">
-HighAvailability_Status
-</a>
-</em>
-</td>
-<td>
-<p>HighAvailability: High availability related properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Identity_Status">
-Identity_Status
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The cmk identity for the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>maintenanceWindow</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.MaintenanceWindow_Status">
-MaintenanceWindow_Status
-</a>
-</em>
-</td>
-<td>
-<p>MaintenanceWindow: Maintenance window of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>network</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Network_Status">
-Network_Status
-</a>
-</em>
-</td>
-<td>
-<p>Network: Network related properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replicaCapacity</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-<p>ReplicaCapacity: The maximum number of replicas that a primary server can have.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>replicationRole</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.ReplicationRole_Status">
-ReplicationRole_Status
-</a>
-</em>
-</td>
-<td>
-<p>ReplicationRole: The replication role.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>restorePointInTime</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Sku_Status">
-Sku_Status
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (pricing tier) of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sourceServerResourceId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>SourceServerResourceId: The source MySQL server id.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>state</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesStatusState">
-ServerPropertiesStatusState
-</a>
-</em>
-</td>
-<td>
-<p>State: The state of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>storage</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Storage_Status">
-Storage_Status
-</a>
-</em>
-</td>
-<td>
-<p>Storage: Storage related properties of a server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemData_Status">
-SystemData_Status
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>version</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerVersion_Status">
-ServerVersion_Status
-</a>
-</em>
-</td>
-<td>
-<p>Version: Server version.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Server_StatusARM">Server_StatusARM
-</h3>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Id: Fully qualified resource ID for the resource. Ex -
-/&#x200b;subscriptions/&#x200b;{subscriptionId}/&#x200b;resourceGroups/&#x200b;{resourceGroupName}/&#x200b;providers/&#x200b;{resourceProviderNamespace}/&#x200b;{resourceType}/&#x200b;{resourceName}</&#x200b;p>
-</td>
-</tr>
-<tr>
-<td>
-<code>identity</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Identity_StatusARM">
-Identity_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Identity: The cmk identity for the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: The geo-location where the resource lives</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">
-ServerProperties_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Properties: Properties of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>sku</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.Sku_StatusARM">
-Sku_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>Sku: The SKU (pricing tier) of the server.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>systemData</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemData_StatusARM">
-SystemData_StatusARM
-</a>
-</em>
-</td>
-<td>
-<p>SystemData: The system metadata relating to this resource.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Resource tags.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Type: The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="dbformysql.azure.com/v1beta20210501.Sku">Sku
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1api20210501.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -4937,31 +4710,29 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.SkuTier">
-SkuTier
+<a href="#dbformysql.azure.com/v1beta20210501.Sku_Tier">
+Sku_Tier
 </a>
 </em>
 </td>
 <td>
-<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.SkuARM">SkuARM
+<h3 id="dbformysql.azure.com/v1beta20210501.Sku_ARM">Sku_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_SpecARM">FlexibleServers_SpecARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec_ARM">FlexibleServer_Spec_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Sku</a></p>
+<p>Deprecated version of Sku. Use v1api20210501.Sku instead</p>
 </div>
 <table>
 <thead>
@@ -4979,30 +4750,109 @@ string
 </em>
 </td>
 <td>
-<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>tier</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.SkuTier">
-SkuTier
+<a href="#dbformysql.azure.com/v1beta20210501.Sku_Tier">
+Sku_Tier
 </a>
 </em>
 </td>
 <td>
-<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.SkuStatusTier">SkuStatusTier
-(<code>string</code> alias)</h3>
+<h3 id="dbformysql.azure.com/v1beta20210501.Sku_STATUS">Sku_STATUS
+</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Sku_Status">Sku_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.Sku_StatusARM">Sku_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_STATUS. Use v1api20210501.Sku_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tier</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.Sku_Tier_STATUS">
+Sku_Tier_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.Sku_STATUS_ARM">Sku_STATUS_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of Sku_STATUS. Use v1api20210501.Sku_STATUS instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>name</code><br/>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>tier</code><br/>
+<em>
+<a href="#dbformysql.azure.com/v1beta20210501.Sku_Tier_STATUS">
+Sku_Tier_STATUS
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.Sku_Tier">Sku_Tier
+(<code>string</code> alias)</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Sku">Sku</a>, <a href="#dbformysql.azure.com/v1beta20210501.Sku_ARM">Sku_ARM</a>)
+</p>
+<div>
+<p>Deprecated version of Sku_Tier. Use v1api20210501.Sku_Tier instead</p>
 </div>
 <table>
 <thead>
@@ -5019,12 +4869,13 @@ SkuTier
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.SkuTier">SkuTier
+<h3 id="dbformysql.azure.com/v1beta20210501.Sku_Tier_STATUS">Sku_Tier_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Sku">Sku</a>, <a href="#dbformysql.azure.com/v1beta20210501.SkuARM">SkuARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Sku_STATUS">Sku_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.Sku_STATUS_ARM">Sku_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Sku_Tier_STATUS. Use v1api20210501.Sku_Tier_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5040,96 +4891,14 @@ SkuTier
 </tr><tr><td><p>&#34;MemoryOptimized&#34;</p></td>
 <td></td>
 </tr></tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Sku_Status">Sku_Status
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.SkuStatusTier">
-SkuStatusTier
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Sku_StatusARM">Sku_StatusARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_StatusARM">Server_StatusARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Name: The name of the sku, e.g. Standard_D32s_v3.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tier</code><br/>
-<em>
-<a href="#dbformysql.azure.com/v1beta20210501.SkuStatusTier">
-SkuStatusTier
-</a>
-</em>
-</td>
-<td>
-<p>Tier: The tier of the particular SKU, e.g. GeneralPurpose.</p>
-</td>
-</tr>
-</tbody>
 </table>
 <h3 id="dbformysql.azure.com/v1beta20210501.Storage">Storage
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Spec">FlexibleServers_Spec</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_Spec">FlexibleServer_Spec</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage</a></p>
+<p>Deprecated version of Storage. Use v1api20210501.Storage instead</p>
 </div>
 <table>
 <thead>
@@ -5143,13 +4912,12 @@ SkuStatusTier
 <td>
 <code>autoGrow</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.StorageAutoGrow">
-StorageAutoGrow
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum">
+EnableStatusEnum
 </a>
 </em>
 </td>
 <td>
-<p>AutoGrow: Enable Storage Auto Grow or not.</p>
 </td>
 </tr>
 <tr>
@@ -5160,7 +4928,6 @@ int
 </em>
 </td>
 <td>
-<p>Iops: Storage IOPS for a server.</p>
 </td>
 </tr>
 <tr>
@@ -5171,18 +4938,17 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage size allowed for a server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.StorageARM">StorageARM
+<h3 id="dbformysql.azure.com/v1beta20210501.Storage_ARM">Storage_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerPropertiesARM">ServerPropertiesARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_ARM">ServerProperties_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage">https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Storage</a></p>
+<p>Deprecated version of Storage. Use v1api20210501.Storage instead</p>
 </div>
 <table>
 <thead>
@@ -5196,13 +4962,12 @@ int
 <td>
 <code>autoGrow</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.StorageAutoGrow">
-StorageAutoGrow
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum">
+EnableStatusEnum
 </a>
 </em>
 </td>
 <td>
-<p>AutoGrow: Enable Storage Auto Grow or not.</p>
 </td>
 </tr>
 <tr>
@@ -5213,7 +4978,6 @@ int
 </em>
 </td>
 <td>
-<p>Iops: Storage IOPS for a server.</p>
 </td>
 </tr>
 <tr>
@@ -5224,37 +4988,17 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage size allowed for a server.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.StorageAutoGrow">StorageAutoGrow
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Storage">Storage</a>, <a href="#dbformysql.azure.com/v1beta20210501.StorageARM">StorageARM</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;Disabled&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;Enabled&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Storage_Status">Storage_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.Storage_STATUS">Storage_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of Storage_STATUS. Use v1api20210501.Storage_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5268,13 +5012,12 @@ int
 <td>
 <code>autoGrow</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_Status">
-EnableStatusEnum_Status
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>AutoGrow: Enable Storage Auto Grow or not.</p>
 </td>
 </tr>
 <tr>
@@ -5285,7 +5028,6 @@ int
 </em>
 </td>
 <td>
-<p>Iops: Storage IOPS for a server.</p>
 </td>
 </tr>
 <tr>
@@ -5296,7 +5038,6 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage size allowed for a server.</p>
 </td>
 </tr>
 <tr>
@@ -5307,17 +5048,17 @@ string
 </em>
 </td>
 <td>
-<p>StorageSku: The sku name of the server storage.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.Storage_StatusARM">Storage_StatusARM
+<h3 id="dbformysql.azure.com/v1beta20210501.Storage_STATUS_ARM">Storage_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_StatusARM">ServerProperties_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.ServerProperties_STATUS_ARM">ServerProperties_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of Storage_STATUS. Use v1api20210501.Storage_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5331,13 +5072,12 @@ string
 <td>
 <code>autoGrow</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_Status">
-EnableStatusEnum_Status
+<a href="#dbformysql.azure.com/v1beta20210501.EnableStatusEnum_STATUS">
+EnableStatusEnum_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>AutoGrow: Enable Storage Auto Grow or not.</p>
 </td>
 </tr>
 <tr>
@@ -5348,7 +5088,6 @@ int
 </em>
 </td>
 <td>
-<p>Iops: Storage IOPS for a server.</p>
 </td>
 </tr>
 <tr>
@@ -5359,7 +5098,6 @@ int
 </em>
 </td>
 <td>
-<p>StorageSizeGB: Max storage size allowed for a server.</p>
 </td>
 </tr>
 <tr>
@@ -5370,17 +5108,17 @@ string
 </em>
 </td>
 <td>
-<p>StorageSku: The sku name of the server storage.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.SystemDataStatusCreatedByType">SystemDataStatusCreatedByType
+<h3 id="dbformysql.azure.com/v1beta20210501.SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.SystemData_Status">SystemData_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.SystemData_StatusARM">SystemData_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_CreatedByType_STATUS. Use v1api20210501.SystemData_CreatedByType_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5399,12 +5137,14 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.SystemDataStatusLastModifiedByType">SystemDataStatusLastModifiedByType
+<h3 id="dbformysql.azure.com/v1beta20210501.SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.SystemData_Status">SystemData_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.SystemData_StatusARM">SystemData_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS">SystemData_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.SystemData_STATUS_ARM">SystemData_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1api20210501.SystemData_LastModifiedByType_STATUS
+instead</p>
 </div>
 <table>
 <thead>
@@ -5423,12 +5163,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.SystemData_Status">SystemData_Status
+<h3 id="dbformysql.azure.com/v1beta20210501.SystemData_STATUS">SystemData_STATUS
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Database_Status">Database_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.FirewallRule_Status">FirewallRule_Status</a>, <a href="#dbformysql.azure.com/v1beta20210501.Server_Status">Server_Status</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS">FlexibleServer_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_STATUS">FlexibleServers_Database_STATUS</a>, <a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_STATUS">FlexibleServers_FirewallRule_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_STATUS. Use v1api20210501.SystemData_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5446,7 +5187,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -5457,20 +5197,18 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemDataStatusCreatedByType">
-SystemDataStatusCreatedByType
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_CreatedByType_STATUS">
+SystemData_CreatedByType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -5481,7 +5219,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -5492,30 +5229,29 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemDataStatusLastModifiedByType">
-SystemDataStatusLastModifiedByType
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_LastModifiedByType_STATUS">
+SystemData_LastModifiedByType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="dbformysql.azure.com/v1beta20210501.SystemData_StatusARM">SystemData_StatusARM
+<h3 id="dbformysql.azure.com/v1beta20210501.SystemData_STATUS_ARM">SystemData_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Database_StatusARM">Database_StatusARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.FirewallRule_StatusARM">FirewallRule_StatusARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.Server_StatusARM">Server_StatusARM</a>)
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.FlexibleServer_STATUS_ARM">FlexibleServer_STATUS_ARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_Database_STATUS_ARM">FlexibleServers_Database_STATUS_ARM</a>, <a href="#dbformysql.azure.com/v1beta20210501.FlexibleServers_FirewallRule_STATUS_ARM">FlexibleServers_FirewallRule_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of SystemData_STATUS. Use v1api20210501.SystemData_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -5533,7 +5269,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedAt: The timestamp of resource creation (UTC).</p>
 </td>
 </tr>
 <tr>
@@ -5544,20 +5279,18 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: The identity that created the resource.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>createdByType</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemDataStatusCreatedByType">
-SystemDataStatusCreatedByType
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_CreatedByType_STATUS">
+SystemData_CreatedByType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>CreatedByType: The type of identity that created the resource.</p>
 </td>
 </tr>
 <tr>
@@ -5568,7 +5301,6 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedAt: The timestamp of resource last modification (UTC)</p>
 </td>
 </tr>
 <tr>
@@ -5579,24 +5311,60 @@ string
 </em>
 </td>
 <td>
-<p>LastModifiedBy: The identity that last modified the resource.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>lastModifiedByType</code><br/>
 <em>
-<a href="#dbformysql.azure.com/v1beta20210501.SystemDataStatusLastModifiedByType">
-SystemDataStatusLastModifiedByType
+<a href="#dbformysql.azure.com/v1beta20210501.SystemData_LastModifiedByType_STATUS">
+SystemData_LastModifiedByType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>LastModifiedByType: The type of identity that last modified the resource.</p>
 </td>
 </tr>
 </tbody>
 </table>
+<h3 id="dbformysql.azure.com/v1beta20210501.UserAssignedIdentityDetails">UserAssignedIdentityDetails
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Identity">Identity</a>)
+</p>
+<div>
+<p>Deprecated version of UserAssignedIdentityDetails. Use v1api20210501.UserAssignedIdentityDetails instead</p>
+</div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>reference</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">
+genruntime.ResourceReference
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dbformysql.azure.com/v1beta20210501.UserAssignedIdentityDetails_ARM">UserAssignedIdentityDetails_ARM
+</h3>
+<p>
+(<em>Appears on:</em><a href="#dbformysql.azure.com/v1beta20210501.Identity_ARM">Identity_ARM</a>)
+</p>
+<div>
+<p>Information about the user assigned identity for the resource</p>
+</div>
 <hr/>
 
 	

@@ -72,11 +72,17 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/annotations/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v1api20220501/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v1beta20220501/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/authentication/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/authorization/v1alpha1api20200801preview/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/authorization/v1api20200801preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/authorization/v1beta20200801preview/</loc>
   </url><url>
@@ -84,7 +90,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/batch/v1alpha1api20210101/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/batch/v1api20210101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v1beta20210101/</loc>
   </url><url>
@@ -92,9 +98,9 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20201201/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20201201/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/cache/v1alpha1api20210301/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v1api20210301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cache/v1beta20201201/</loc>
   </url><url>
@@ -106,6 +112,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cdn/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cdn/v1api20210601/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cdn/v1beta20210601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/</loc>
@@ -116,11 +124,13 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1alpha1api20200930/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20200930/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1alpha1api20201201/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20201201/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1alpha1api20210701/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20210701/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/compute/v1api20220301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v1beta20200930/</loc>
   </url><url>
@@ -136,17 +146,23 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/v1api20211001/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/v1beta20211001/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v1alpha1api20210901/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20210901/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerregistry/v1beta20210901/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1alpha1api20210501/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20210501/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230201/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1api20230202preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/</loc>
   </url><url>
@@ -160,15 +176,23 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/defaulter-validator/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/datafactory/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/datafactory/v1api20180601/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/secrets/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformariadb/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbformariadb/v1api20180601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformariadb/v1beta20180601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v1alpha1api20210501/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v1/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20210501/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta1/</loc>
   </url><url>
@@ -176,27 +200,33 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1alpha1api20210601/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20210601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1api20220120preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20210601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/diagnosing-problems/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1alpha1api20210515/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/v1alpha1api20200601/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/v1api20200601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/v1beta20200601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventhub/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v1alpha1api20211101/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v1api20211101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/eventhub/v1beta20211101/</loc>
   </url><url>
@@ -208,9 +238,9 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1alpha1api20180501preview/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20180501preview/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1alpha1api20200202/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/insights/v1api20200202/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights/v1beta20180501preview/</loc>
   </url><url>
@@ -218,17 +248,25 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/keyvault/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/keyvault/v1api20210401preview/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/keyvault/v1beta20210401preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/machinelearningservices/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20210701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1alpha1api20181130/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20181130/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1api20220131preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20181130/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20220131preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/metrics/</loc>
   </url><url>
@@ -236,7 +274,13 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/network/v1alpha1api20201101/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20180901/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20200601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20201101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v1api20220701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v1beta20180901/</loc>
   </url><url>
@@ -244,7 +288,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v1alpha1api20210601/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v1api20210601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v1beta20210601/</loc>
   </url><url>
@@ -256,7 +300,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/resources/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/resources/v1alpha1api20200601/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/resources/v1api20200601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/resources/v1beta20200601/</loc>
   </url><url>
@@ -264,7 +308,7 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1alpha1api20210101preview/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20210101preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/</loc>
   </url><url>
@@ -272,19 +316,29 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/v1alpha1api20211001/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/v1api20211001/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/signalrservice/v1beta20211001/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/sql/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/sql/v1api20211101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/reference/storage/v1alpha1api20210401/</loc>
+    <loc>https://azure.github.io/azure-service-operator/reference/storage/v1api20210401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/subscription/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/subscription/v1api20211001/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/subscription/v1beta20211001/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/synapse/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/synapse/v1api20210601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tags/</loc>
   </url><url>
@@ -297,5 +351,11 @@
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/web/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/web/v1api20220301/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/web/v1beta20220301/</loc>
   </url>
 </urlset>

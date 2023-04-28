@@ -15,23 +15,41 @@
     
     
     <item>
-      <title>Reference: resources.azure.com/v1alpha1api20200601</title>
-      <link>https://azure.github.io/azure-service-operator/reference/resources/v1alpha1api20200601/</link>
+      <title>Reference: resources.azure.com/v1api20200601</title>
+      <link>https://azure.github.io/azure-service-operator/reference/resources/v1api20200601/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/reference/resources/v1alpha1api20200601/</guid>
+      <guid>https://azure.github.io/azure-service-operator/reference/resources/v1api20200601/</guid>
       <description>
         
         
-        &lt;h2 id=&#34;resources.azure.com/v1alpha1api20200601&#34;&gt;resources.azure.com/v1alpha1api20200601&lt;/h2&gt;
+        &lt;h2 id=&#34;resources.azure.com/v1api20200601&#34;&gt;resources.azure.com/v1api20200601&lt;/h2&gt;
 &lt;div&gt;
-&lt;p&gt;Package v1alpha1api20200601 contains API Schema definitions for the resources v1alpha1api20200601 API group&lt;/p&gt;
+&lt;p&gt;Package v1api20200601 contains API Schema definitions for the resources v1api20200601 API group&lt;/p&gt;
 &lt;/div&gt;
 Resource Types:
 &lt;ul&gt;&lt;/ul&gt;
-&lt;h3 id=&#34;resources.azure.com/v1alpha1api20200601.ResourceGroup&#34;&gt;ResourceGroup
+&lt;h3 id=&#34;resources.azure.com/v1api20200601.APIVersion&#34;&gt;APIVersion
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;2020-06-01&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;resources.azure.com/v1api20200601.ResourceGroup&#34;&gt;ResourceGroup
 &lt;/h3&gt;
 &lt;div&gt;
+&lt;p&gt;Generator information:
+- Generated from: /resources/resource-manager/Microsoft.Resources/stable/2020-06-01/resources.json
+- ARM URI: /&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourcegroups/&amp;#x200b;{resourceGroupName}&lt;/&amp;#x200b;p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -59,8 +77,8 @@ Refer to the Kubernetes API documentation for the fields of the
 &lt;td&gt;
 &lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#resources.azure.com/v1alpha1api20200601.ResourceGroupSpec&#34;&gt;
-ResourceGroupSpec
+&lt;a href=&#34;#resources.azure.com/v1api20200601.ResourceGroup_Spec&#34;&gt;
+ResourceGroup_Spec
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -76,8 +94,8 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name
-of the resource in Kubernetes but it doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -88,7 +106,8 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Location is the Azure location for the group (eg westus2, southcentralus, etc&amp;hellip;)&lt;/p&gt;
+&lt;p&gt;Location: The location of the resource group. It cannot be changed after the resource group has been created. It must be
+one of the supported Azure locations.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -99,7 +118,7 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
+&lt;p&gt;ManagedBy: The ID of the resource that manages this resource group.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -110,7 +129,7 @@ map[string]string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
+&lt;p&gt;Tags: The tags attached to the resource group.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
@@ -120,8 +139,8 @@ map[string]string
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#resources.azure.com/v1alpha1api20200601.ResourceGroupStatus&#34;&gt;
-ResourceGroupStatus
+&lt;a href=&#34;#resources.azure.com/v1api20200601.ResourceGroup_STATUS&#34;&gt;
+ResourceGroup_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -130,12 +149,13 @@ ResourceGroupStatus
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1alpha1api20200601.ResourceGroupSpec&#34;&gt;ResourceGroupSpec
+&lt;h3 id=&#34;resources.azure.com/v1api20200601.ResourceGroupProperties_STATUS&#34;&gt;ResourceGroupProperties_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1alpha1api20200601.ResourceGroup&#34;&gt;ResourceGroup&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1api20200601.ResourceGroup_STATUS&#34;&gt;ResourceGroup_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
+&lt;p&gt;The resource group properties.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -145,178 +165,6 @@ ResourceGroupStatus
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name
-of the resource in Kubernetes but it doesn&amp;rsquo;t have to be.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Location is the Azure location for the group (eg westus2, southcentralus, etc&amp;hellip;)&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1alpha1api20200601.ResourceGroupSpecARM&#34;&gt;ResourceGroupSpecARM
-&lt;/h3&gt;
-&lt;div&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Name: Name of the resource&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Location is the Azure location for the group (eg westus2, southcentralus, etc&amp;hellip;)&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1alpha1api20200601.ResourceGroupStatus&#34;&gt;ResourceGroupStatus
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1alpha1api20200601.ResourceGroup&#34;&gt;ResourceGroup&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
@@ -325,8 +173,56 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
+&lt;p&gt;ProvisioningState: The provisioning state.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;resources.azure.com/v1api20200601.ResourceGroupProperties_STATUS_ARM&#34;&gt;ResourceGroupProperties_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1api20200601.ResourceGroup_STATUS_ARM&#34;&gt;ResourceGroup_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;The resource group properties.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ProvisioningState: The provisioning state.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;resources.azure.com/v1api20200601.ResourceGroup_STATUS&#34;&gt;ResourceGroup_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1api20200601.ResourceGroup&#34;&gt;ResourceGroup&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Resource group information.&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
@@ -337,14 +233,95 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Conditions describe the observed state of the resource&lt;/p&gt;
+&lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: The ID of the resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The location of the resource group. It cannot be changed after the resource group has been created. It must be
+one of the supported Azure locations.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ManagedBy: The ID of the resource that manages this resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#resources.azure.com/v1api20200601.ResourceGroupProperties_STATUS&#34;&gt;
+ResourceGroupProperties_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: The resource group properties.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: The tags attached to the resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource group.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1alpha1api20200601.ResourceGroupStatusARM&#34;&gt;ResourceGroupStatusARM
+&lt;h3 id=&#34;resources.azure.com/v1api20200601.ResourceGroup_STATUS_ARM&#34;&gt;ResourceGroup_STATUS_ARM
 &lt;/h3&gt;
 &lt;div&gt;
+&lt;p&gt;Resource group information.&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -362,6 +339,176 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
+&lt;p&gt;Id: The ID of the resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The location of the resource group. It cannot be changed after the resource group has been created. It must be
+one of the supported Azure locations.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ManagedBy: The ID of the resource that manages this resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#resources.azure.com/v1api20200601.ResourceGroupProperties_STATUS_ARM&#34;&gt;
+ResourceGroupProperties_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: The resource group properties.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: The tags attached to the resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;resources.azure.com/v1api20200601.ResourceGroup_Spec&#34;&gt;ResourceGroup_Spec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1api20200601.ResourceGroup&#34;&gt;ResourceGroup&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The location of the resource group. It cannot be changed after the resource group has been created. It must be
+one of the supported Azure locations.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ManagedBy: The ID of the resource that manages this resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: The tags attached to the resource group.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;resources.azure.com/v1api20200601.ResourceGroup_Spec_ARM&#34;&gt;ResourceGroup_Spec_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The location of the resource group. It cannot be changed after the resource group has been created. It must be
+one of the supported Azure locations.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ManagedBy: The ID of the resource that manages this resource group.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -376,91 +523,16 @@ string
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
 &lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 map[string]string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-&lt;a href=&#34;#resources.azure.com/v1alpha1api20200601.ResourceGroupStatusPropertiesARM&#34;&gt;
-ResourceGroupStatusPropertiesARM
-&lt;/a&gt;
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
+&lt;p&gt;Tags: The tags attached to the resource group.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1alpha1api20200601.ResourceGroupStatusPropertiesARM&#34;&gt;ResourceGroupStatusPropertiesARM
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1alpha1api20200601.ResourceGroupStatusARM&#34;&gt;ResourceGroupStatusARM&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1alpha1api20200601.ResourceGroupType&#34;&gt;ResourceGroupType
-(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
-&lt;div&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Value&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.Resources/resourceGroups&amp;#34;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;hr/&gt;
 
@@ -482,9 +554,26 @@ string
 &lt;/div&gt;
 Resource Types:
 &lt;ul&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;resources.azure.com/v1beta20200601.APIVersion&#34;&gt;APIVersion
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of APIVersion. Use v1api20200601.APIVersion instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;2020-06-01&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroup&#34;&gt;ResourceGroup
 &lt;/h3&gt;
 &lt;div&gt;
+&lt;p&gt;Deprecated version of ResourceGroup. Use v1api20200601.ResourceGroup instead&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -512,8 +601,8 @@ Refer to the Kubernetes API documentation for the fields of the
 &lt;td&gt;
 &lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroupSpec&#34;&gt;
-ResourceGroupSpec
+&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroup_Spec&#34;&gt;
+ResourceGroup_Spec
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -529,8 +618,8 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name
-of the resource in Kubernetes but it doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -541,7 +630,6 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Location is the Azure location for the group (eg westus2, southcentralus, etc&amp;hellip;)&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -552,7 +640,6 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -563,7 +650,6 @@ map[string]string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
@@ -573,8 +659,8 @@ map[string]string
 &lt;td&gt;
 &lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroupStatus&#34;&gt;
-ResourceGroupStatus
+&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroup_STATUS&#34;&gt;
+ResourceGroup_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -583,12 +669,13 @@ ResourceGroupStatus
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroupSpec&#34;&gt;ResourceGroupSpec
+&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroupProperties_STATUS&#34;&gt;ResourceGroupProperties_STATUS
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroup&#34;&gt;ResourceGroup&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroup_STATUS&#34;&gt;ResourceGroup_STATUS&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
+&lt;p&gt;Deprecated version of ResourceGroupProperties_STATUS. Use v1api20200601.ResourceGroupProperties_STATUS instead&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -598,178 +685,6 @@ ResourceGroupStatus
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name
-of the resource in Kubernetes but it doesn&amp;rsquo;t have to be.&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Location is the Azure location for the group (eg westus2, southcentralus, etc&amp;hellip;)&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroupSpecARM&#34;&gt;ResourceGroupSpecARM
-&lt;/h3&gt;
-&lt;div&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Name: Name of the resource&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Location is the Azure location for the group (eg westus2, southcentralus, etc&amp;hellip;)&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroupStatus&#34;&gt;ResourceGroupStatus
-&lt;/h3&gt;
-&lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroup&#34;&gt;ResourceGroup&lt;/a&gt;)
-&lt;/p&gt;
-&lt;div&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-map[string]string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
@@ -780,6 +695,52 @@ string
 &lt;td&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroupProperties_STATUS_ARM&#34;&gt;ResourceGroupProperties_STATUS_ARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroup_STATUS_ARM&#34;&gt;ResourceGroup_STATUS_ARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of ResourceGroupProperties_STATUS. Use v1api20200601.ResourceGroupProperties_STATUS instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroup_STATUS&#34;&gt;ResourceGroup_STATUS
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroup&#34;&gt;ResourceGroup&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of ResourceGroup_STATUS. Use v1api20200601.ResourceGroup_STATUS instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
@@ -790,36 +751,12 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Conditions describe the observed state of the resource&lt;/p&gt;
+&lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroupStatusARM&#34;&gt;ResourceGroupStatusARM
-&lt;/h3&gt;
-&lt;div&gt;
-&lt;/div&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Field&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;
 &lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
-&lt;em&gt;
-string
-&lt;/em&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
 &lt;/em&gt;
@@ -845,7 +782,28 @@ string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;ManagedBy is the management group responsible for managing this group&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroupProperties_STATUS&#34;&gt;
+ResourceGroupProperties_STATUS
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -856,16 +814,13 @@ map[string]string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Tags are user defined key value pairs&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
-&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroupStatusPropertiesARM&#34;&gt;
-ResourceGroupStatusPropertiesARM
-&lt;/a&gt;
+string
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
@@ -873,10 +828,97 @@ ResourceGroupStatusPropertiesARM
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroupStatusPropertiesARM&#34;&gt;ResourceGroupStatusPropertiesARM
+&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroup_STATUS_ARM&#34;&gt;ResourceGroup_STATUS_ARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of ResourceGroup_STATUS. Use v1api20200601.ResourceGroup_STATUS instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroupProperties_STATUS_ARM&#34;&gt;
+ResourceGroupProperties_STATUS_ARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroup_Spec&#34;&gt;ResourceGroup_Spec
 &lt;/h3&gt;
 &lt;p&gt;
-(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroupStatusARM&#34;&gt;ResourceGroupStatusARM&lt;/a&gt;)
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#resources.azure.com/v1beta20200601.ResourceGroup&#34;&gt;ResourceGroup&lt;/a&gt;)
 &lt;/p&gt;
 &lt;div&gt;
 &lt;/div&gt;
@@ -890,7 +932,19 @@ ResourceGroupStatusPropertiesARM
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;
-&lt;code&gt;provisioningState&lt;/code&gt;&lt;br/&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 string
 &lt;/em&gt;
@@ -898,22 +952,82 @@ string
 &lt;td&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroupType&#34;&gt;ResourceGroupType
-(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;h3 id=&#34;resources.azure.com/v1beta20200601.ResourceGroup_Spec_ARM&#34;&gt;ResourceGroup_Spec_ARM
+&lt;/h3&gt;
 &lt;div&gt;
+&lt;p&gt;Deprecated version of ResourceGroup_Spec. Use v1api20200601.ResourceGroup_Spec instead&lt;/p&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Field&lt;/th&gt;
 &lt;th&gt;Description&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
-&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;Microsoft.Resources/resourceGroups&amp;#34;&lt;/p&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;&lt;/tbody&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;managedBy&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;
 &lt;hr/&gt;
 
