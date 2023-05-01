@@ -13,7 +13,7 @@ APIROOT=$1
 OUTPUTDIR=$2
 TEMPLATEDIR=$3
 
-PATTERN='^v[0-9]((alpha|beta)[a-z0-9]+)?$'
+PATTERN='^v[0-9]((beta|api)[a-z0-9]+)?$'
 
 # Create the output folder if it's missing
 mkdir "$OUTPUTDIR" --parents
