@@ -11,6 +11,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	. "github.com/onsi/gomega"
+	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -26,6 +27,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 const (
@@ -119,23 +121,23 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 		Name:      "test-secret",
 	}
 
-	perResourceSecret := newSecret(perResourceCredentialName.Name, perResourceCredentialName.Namespace)
+	perResourceSecret := newSecret(perResourceCredentialName)
 
 	err = res.kubeClient.Create(ctx, perResourceSecret)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	namespacedSecretName := types.NamespacedName{
-		Namespace: "test-secret",
+		Namespace: "test-namespace",
 		Name:      NamespacedSecretName,
 	}
 
-	secret := newSecret(namespacedSecretName.Name, namespacedSecretName.Namespace)
+	secret := newSecret(namespacedSecretName)
 
 	err = res.kubeClient.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.String()}
+	rg := newResourceGroup("test-namespace")
+	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -147,6 +149,36 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
 	g.Expect(details.SubscriptionID).To(BeEquivalentTo(fakeID))
 	g.Expect(details.Client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
+}
+
+func Test_ARMClientCache_PerResourceSecretInDifferentNamespace_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	res, err := testSetup()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	perResourceCredentialName := types.NamespacedName{
+		Namespace: "test-namespace-2",
+		Name:      "test-secret",
+	}
+
+	perResourceSecret := newSecret(perResourceCredentialName)
+
+	err = res.kubeClient.Create(ctx, perResourceSecret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := newResourceGroup("test-namespace")
+	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: perResourceCredentialName.String()}
+	err = res.kubeClient.Create(ctx, rg)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
+	_, err = res.ARMClientCache.GetClient(ctx, rg)
+	g.Expect(err).To(HaveOccurred())
+	var target *core.SecretNotFound
+	g.Expect(errors.As(err, &target)).To(BeTrue())
 }
 
 func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
@@ -163,7 +195,7 @@ func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
 	}
 
 	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.String()}
+	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -188,13 +220,13 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
 		Name:      "test-secret",
 	}
 
-	secret := newSecret(credentialNamespacedName.Name, credentialNamespacedName.Namespace)
+	secret := newSecret(credentialNamespacedName)
 
 	err = res.kubeClient.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	rg := newResourceGroup("")
-	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.String()}
+	rg := newResourceGroup("test-namespace")
+	rg.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: credentialNamespacedName.Name}
 	err = res.kubeClient.Create(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
@@ -221,7 +253,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 		Name:      NamespacedSecretName,
 	}
 
-	secret := newSecret(credentialNamespacedName.Name, credentialNamespacedName.Namespace)
+	secret := newSecret(credentialNamespacedName)
 
 	err = res.kubeClient.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -253,7 +285,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 		Name:      NamespacedSecretName,
 	}
 
-	secret := newSecret(credentialNamespacedName.Name, credentialNamespacedName.Namespace)
+	secret := newSecret(credentialNamespacedName)
 
 	err = res.kubeClient.Create(ctx, secret)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -307,7 +339,7 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 	g.Expect(details.Client).To(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient()))
 }
 
-func newSecret(name string, namespace string) *v1.Secret {
+func newSecret(namespacedName types.NamespacedName) *v1.Secret {
 	secretData := make(map[string][]byte)
 	secretData[config.ClientIDVar] = []byte(fakeID)
 	secretData[config.ClientSecretVar] = []byte(fakeID)
@@ -316,8 +348,8 @@ func newSecret(name string, namespace string) *v1.Secret {
 
 	return &v1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      name,
-			Namespace: namespace,
+			Name:      namespacedName.Name,
+			Namespace: namespacedName.Namespace,
 		},
 		Data: secretData,
 	}

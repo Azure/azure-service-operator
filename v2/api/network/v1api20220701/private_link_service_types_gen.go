@@ -2691,23 +2691,6 @@ const (
 	IPAllocationMethod_STATUS_Static  = IPAllocationMethod_STATUS("Static")
 )
 
-// IP address version.
-// +kubebuilder:validation:Enum={"IPv4","IPv6"}
-type IPVersion string
-
-const (
-	IPVersion_IPv4 = IPVersion("IPv4")
-	IPVersion_IPv6 = IPVersion("IPv6")
-)
-
-// IP address version.
-type IPVersion_STATUS string
-
-const (
-	IPVersion_STATUS_IPv4 = IPVersion_STATUS("IPv4")
-	IPVersion_STATUS_IPv6 = IPVersion_STATUS("IPv6")
-)
-
 type PrivateLinkServiceOperatorConfigMaps struct {
 	// Alias: indicates where the Alias config map should be placed. If omitted, no config map will be created.
 	Alias *genruntime.ConfigMapDestination `json:"alias,omitempty"`

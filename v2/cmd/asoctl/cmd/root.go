@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 	"github.com/go-logr/zerologr"
+	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
 )
 
@@ -35,9 +36,12 @@ func newRootCommand() (*cobra.Command, error) {
 		Use:              "asoctl",
 		Short:            "asoctl provides a cmdline interface for working with Azure Service Operator",
 		TraverseChildren: true,
+		SilenceErrors:    true, // We show errors ourselves using our logger
+		SilenceUsage:     true, // Let users ask for usage themselves
 	}
 
 	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "Enable verbose logging")
+	rootCmd.PersistentFlags().BoolVar(&quiet, "quiet", false, "Silence most logging")
 
 	rootCmd.Flags().SortFlags = false
 
@@ -56,8 +60,19 @@ func newRootCommand() (*cobra.Command, error) {
 	}
 
 	rootCmd.PersistentPreRun = func(cmd *cobra.Command, args []string) {
+		// Configure logging; --verbose overrides --quiet
 		if verbose {
 			zerologr.SetMaxV(1)
+			if quiet {
+				// Illegal combination, tell the user
+				log := CreateLogger()
+				log.Error(nil, "--quiet has no effect when --verbose is specified")
+			}
+		} else if quiet {
+			// Can't use zerologr.SetMaxV(-1)
+			zerolog.SetGlobalLevel(zerolog.ErrorLevel)
+		} else {
+			zerologr.SetMaxV(0)
 		}
 	}
 

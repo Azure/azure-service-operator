@@ -29,7 +29,7 @@ jobs:
           submodules: 'true'
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
           username: ${{ github.actor }}
@@ -60,9 +60,9 @@ jobs:
         run: |
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
-          echo "id=$container_id" >> $GITHUB_OUTPUT
+          echo "container_id=$container_id" >> $GITHUB_ENV
 
       - name: Scan controller image
         run: |
-          container_id=${{steps.devcontainer.outputs.id}}
+          container_id=${{ env.container_id }}
           docker exec "$container_id" task controller:scan-image
