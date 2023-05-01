@@ -74,6 +74,7 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		crd := crd
 
 		if !crdRegexp.MatchString(crd.Name) {
+			c.log.V(1).Info("Skipping CRD", "crd-name", crd.Name)
 			continue
 		}
 

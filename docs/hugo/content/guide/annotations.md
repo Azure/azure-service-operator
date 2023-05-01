@@ -21,6 +21,16 @@ it is _not_ deleted in Azure. In REST API terminology, PUT and GET are allowed w
     
 Unknown values default to `manage`.
 
+### `serviceoperator.azure.com/credential-from`
+
+Instructs the operator to read the credential for the resource from the specified secret. 
+This credential supersedes any global or namespace scoped credentials the operator has configured
+
+Allow values are:
+- The name of any secret in the same namespace as the resource. Secrets from other namespaces cannot be referenced.
+
+See [authentication](./authentication/_index.md#credential-scope) for more details.
+
 ## Annotations written by the operator
 
 These annotations are written by the operator for its own internal use. Their existence and usage may change in the future.
