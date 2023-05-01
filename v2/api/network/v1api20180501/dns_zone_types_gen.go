@@ -342,9 +342,6 @@ type DnsZone_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Etag: The etag of the zone.
-	Etag *string `json:"etag,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
@@ -378,12 +375,6 @@ func (zone *DnsZone_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		return nil, nil
 	}
 	result := &DnsZone_Spec_ARM{}
-
-	// Set property ‘Etag’:
-	if zone.Etag != nil {
-		etag := *zone.Etag
-		result.Etag = &etag
-	}
 
 	// Set property ‘Location’:
 	if zone.Location != nil {
@@ -443,12 +434,6 @@ func (zone *DnsZone_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property ‘AzureName’:
 	zone.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		zone.Etag = &etag
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -562,9 +547,6 @@ func (zone *DnsZone_Spec) AssignProperties_From_DnsZone_Spec(source *v1api201805
 	// AzureName
 	zone.AzureName = source.AzureName
 
-	// Etag
-	zone.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// Location
 	zone.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -634,9 +616,6 @@ func (zone *DnsZone_Spec) AssignProperties_To_DnsZone_Spec(destination *v1api201
 
 	// AzureName
 	destination.AzureName = zone.AzureName
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(zone.Etag)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(zone.Location)
@@ -712,9 +691,6 @@ func (zone *DnsZone_Spec) AssignProperties_To_DnsZone_Spec(destination *v1api201
 
 // Initialize_From_DnsZone_STATUS populates our DnsZone_Spec from the provided source DnsZone_STATUS
 func (zone *DnsZone_Spec) Initialize_From_DnsZone_STATUS(source *DnsZone_STATUS) error {
-
-	// Etag
-	zone.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Location
 	zone.Location = genruntime.ClonePointerToString(source.Location)

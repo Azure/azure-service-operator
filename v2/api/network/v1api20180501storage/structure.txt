@@ -4,9 +4,8 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage
 │   └── "2018-05-01"
 ├── DnsZone: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-│   ├── Spec: Object (10 properties)
+│   ├── Spec: Object (9 properties)
 │   │   ├── AzureName: string
-│   │   ├── Etag: *string
 │   │   ├── Location: *string
 │   │   ├── OriginalVersion: string
 │   │   ├── Owner: *genruntime.KnownResourceReference

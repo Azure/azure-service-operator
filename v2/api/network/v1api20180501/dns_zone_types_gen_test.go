@@ -273,7 +273,6 @@ func DnsZone_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDnsZone_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDnsZone_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["ZoneType"] = gen.PtrOf(gen.OneConstOf(ZoneProperties_ZoneType_Private, ZoneProperties_ZoneType_Public))

@@ -215,6 +215,12 @@ typeTransformers:
     because: it is supposed to be marked ReadOnly in Swagger
   - group: network
     version: "*"
+    name: DnsZone_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
     name: Delegation
     property: Id
     # TODO[donotmerge]: We should do something more clean than this

@@ -6,9 +6,6 @@ package v1api20180501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DnsZone_Spec_ARM struct {
-	// Etag: The etag of the zone.
-	Etag *string `json:"etag,omitempty"`
-
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 	Name     string  `json:"name,omitempty"`
