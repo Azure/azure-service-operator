@@ -26,10 +26,10 @@ jobs:
           docker build --tag devcontainer:latest .devcontainer
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
-          echo "id=$container_id" >> $GITHUB_OUTPUT
+          echo "container_id=$container_id" >> $GITHUB_ENV
 
       - name: Run Pre Release Tests
-        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task controller:test-upgrade
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{ env.container_id }}" task controller:test-upgrade
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -38,7 +38,7 @@ jobs:
 
       - name: Cleanup test resources
         if: always()
-        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task cleanup-azure-resources
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{ env.container_id }}" task cleanup-azure-resources
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}

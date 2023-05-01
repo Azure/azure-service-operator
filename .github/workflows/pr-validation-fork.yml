@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     if:
       github.event_name == 'repository_dispatch' &&
-      github.event.client_payload.slash_command.sha != '' &&
-      contains(github.event.client_payload.pull_request.head.sha, github.event.client_payload.slash_command.sha)
+      github.event.client_payload.slash_command.args.named.sha != '' &&
+      contains(github.event.client_payload.pull_request.head.sha, github.event.client_payload.slash_command.args.named.sha)
     permissions:
       checks: write
 
@@ -57,7 +57,7 @@ jobs:
           ref: 'refs/pull/${{ github.event.client_payload.pull_request.number }}/merge'
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
           username: ${{ github.actor }}
@@ -89,11 +89,11 @@ jobs:
         run: |
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
-          echo "id=$container_id" >> $GITHUB_OUTPUT
+          echo "container_id=$container_id" >> $GITHUB_ENV
 
       - name: Run integration tests
         run: |
-          container_id=${{steps.devcontainer.outputs.id}}
+          container_id=${{ env.container_id }}
           docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID -e AZURE_CLIENT_SECRET_MULTITENANT -e AZURE_CLIENT_ID_MULTITENANT -e AZURE_CLIENT_ID_CERT_AUTH -e AZURE_CLIENT_SECRET_CERT_AUTH "$container_id" task controller:ci-integration-tests --concurrency 1 # limit concurrency because build machines are small
         env:
           AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}

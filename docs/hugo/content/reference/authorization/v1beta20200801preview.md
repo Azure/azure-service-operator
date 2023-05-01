@@ -10,6 +10,7 @@ Resource Types:
 <h3 id="authorization.azure.com/v1beta20200801preview.APIVersion">APIVersion
 (<code>string</code> alias)</h3>
 <div>
+<p>Deprecated version of APIVersion. Use v1api20200801preview.APIVersion instead</p>
 </div>
 <table>
 <thead>
@@ -25,7 +26,7 @@ Resource Types:
 <h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignment">RoleAssignment
 </h3>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments">https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments</a></p>
+<p>Deprecated version of RoleAssignment. Use v1api20200801preview.RoleAssignment instead</p>
 </div>
 <table>
 <thead>
@@ -53,8 +54,8 @@ Refer to the Kubernetes API documentation for the fields of the
 <td>
 <code>spec</code><br/>
 <em>
-<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignments_Spec">
-RoleAssignments_Spec
+<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment_Spec">
+RoleAssignment_Spec
 </a>
 </em>
 </td>
@@ -82,9 +83,6 @@ string
 </em>
 </td>
 <td>
-<p>Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-&lsquo;foo_storage_container&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -95,7 +93,6 @@ string
 </em>
 </td>
 <td>
-<p>ConditionVersion: Version of the condition. Currently accepted value is &lsquo;2.0&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -106,7 +103,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource</p>
 </td>
 </tr>
 <tr>
@@ -117,18 +113,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: Description of role assignment</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -154,20 +138,30 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>principalIdFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 <tr>
 <td>
 <code>principalType</code><br/>
 <em>
-<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesPrincipalType">
-RoleAssignmentPropertiesPrincipalType
+<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_PrincipalType">
+RoleAssignmentProperties_PrincipalType
 </a>
 </em>
 </td>
 <td>
-<p>PrincipalType: The principal type of the assigned principal ID.</p>
 </td>
 </tr>
 <tr>
@@ -180,18 +174,6 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>RoleDefinitionReference: The role definition ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </table>
@@ -201,8 +183,8 @@ map[string]string
 <td>
 <code>status</code><br/>
 <em>
-<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment_Status">
-RoleAssignment_Status
+<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment_STATUS">
+RoleAssignment_STATUS
 </a>
 </em>
 </td>
@@ -211,13 +193,13 @@ RoleAssignment_Status
 </tr>
 </tbody>
 </table>
-<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesARM">RoleAssignmentPropertiesARM
+<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_ARM">RoleAssignmentProperties_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignments_SpecARM">RoleAssignments_SpecARM</a>)
+(<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment_Spec_ARM">RoleAssignment_Spec_ARM</a>)
 </p>
 <div>
-<p>Generated from: <a href="https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/definitions/RoleAssignmentProperties">https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/definitions/RoleAssignmentProperties</a></p>
+<p>Deprecated version of RoleAssignmentProperties. Use v1api20200801preview.RoleAssignmentProperties instead</p>
 </div>
 <table>
 <thead>
@@ -235,9 +217,6 @@ string
 </em>
 </td>
 <td>
-<p>Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-&lsquo;foo_storage_container&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -248,7 +227,6 @@ string
 </em>
 </td>
 <td>
-<p>ConditionVersion: Version of the condition. Currently accepted value is &lsquo;2.0&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -259,7 +237,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource</p>
 </td>
 </tr>
 <tr>
@@ -270,7 +247,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: Description of role assignment</p>
 </td>
 </tr>
 <tr>
@@ -281,20 +257,18 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>principalType</code><br/>
 <em>
-<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesPrincipalType">
-RoleAssignmentPropertiesPrincipalType
+<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_PrincipalType">
+RoleAssignmentProperties_PrincipalType
 </a>
 </em>
 </td>
 <td>
-<p>PrincipalType: The principal type of the assigned principal ID.</p>
 </td>
 </tr>
 <tr>
@@ -309,12 +283,14 @@ string
 </tr>
 </tbody>
 </table>
-<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesPrincipalType">RoleAssignmentPropertiesPrincipalType
+<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_PrincipalType">RoleAssignmentProperties_PrincipalType
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesARM">RoleAssignmentPropertiesARM</a>, <a href="#authorization.azure.com/v1beta20200801preview.RoleAssignments_Spec">RoleAssignments_Spec</a>)
+(<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_ARM">RoleAssignmentProperties_ARM</a>, <a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment_Spec">RoleAssignment_Spec</a>)
 </p>
 <div>
+<p>Deprecated version of RoleAssignmentProperties_PrincipalType. Use
+v1api20200801preview.RoleAssignmentProperties_PrincipalType instead</p>
 </div>
 <table>
 <thead>
@@ -333,12 +309,14 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesStatusPrincipalType">RoleAssignmentPropertiesStatusPrincipalType
+<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_PrincipalType_STATUS">RoleAssignmentProperties_PrincipalType_STATUS
 (<code>string</code> alias)</h3>
 <p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_StatusARM">RoleAssignmentProperties_StatusARM</a>, <a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment_Status">RoleAssignment_Status</a>)
+(<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_STATUS_ARM">RoleAssignmentProperties_STATUS_ARM</a>, <a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment_STATUS">RoleAssignment_STATUS</a>)
 </p>
 <div>
+<p>Deprecated version of RoleAssignmentProperties_PrincipalType_STATUS. Use
+v1api20200801preview.RoleAssignmentProperties_PrincipalType_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -357,12 +335,13 @@ string
 <td></td>
 </tr></tbody>
 </table>
-<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_StatusARM">RoleAssignmentProperties_StatusARM
+<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_STATUS_ARM">RoleAssignmentProperties_STATUS_ARM
 </h3>
 <p>
-(<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment_StatusARM">RoleAssignment_StatusARM</a>)
+(<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment_STATUS_ARM">RoleAssignment_STATUS_ARM</a>)
 </p>
 <div>
+<p>Deprecated version of RoleAssignmentProperties_STATUS. Use v1api20200801preview.RoleAssignmentProperties_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -380,9 +359,6 @@ string
 </em>
 </td>
 <td>
-<p>Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-&lsquo;foo_storage_container&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -393,7 +369,6 @@ string
 </em>
 </td>
 <td>
-<p>ConditionVersion: Version of the condition. Currently accepted value is &lsquo;2.0&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -404,7 +379,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: Id of the user who created the assignment</p>
 </td>
 </tr>
 <tr>
@@ -415,7 +389,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedOn: Time it was created</p>
 </td>
 </tr>
 <tr>
@@ -426,7 +399,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource</p>
 </td>
 </tr>
 <tr>
@@ -437,7 +409,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: Description of role assignment</p>
 </td>
 </tr>
 <tr>
@@ -448,20 +419,18 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>principalType</code><br/>
 <em>
-<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesStatusPrincipalType">
-RoleAssignmentPropertiesStatusPrincipalType
+<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_PrincipalType_STATUS">
+RoleAssignmentProperties_PrincipalType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>PrincipalType: The principal type of the assigned principal ID.</p>
 </td>
 </tr>
 <tr>
@@ -472,7 +441,6 @@ string
 </em>
 </td>
 <td>
-<p>RoleDefinitionId: The role definition ID.</p>
 </td>
 </tr>
 <tr>
@@ -483,7 +451,6 @@ string
 </em>
 </td>
 <td>
-<p>Scope: The role assignment scope.</p>
 </td>
 </tr>
 <tr>
@@ -494,7 +461,6 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedBy: Id of the user who updated the assignment</p>
 </td>
 </tr>
 <tr>
@@ -505,17 +471,17 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedOn: Time it was updated</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignment_Status">RoleAssignment_Status
+<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignment_STATUS">RoleAssignment_STATUS
 </h3>
 <p>
 (<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment">RoleAssignment</a>)
 </p>
 <div>
+<p>Deprecated version of RoleAssignment_STATUS. Use v1api20200801preview.RoleAssignment_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -533,9 +499,6 @@ string
 </em>
 </td>
 <td>
-<p>Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-&lsquo;foo_storage_container&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -546,7 +509,6 @@ string
 </em>
 </td>
 <td>
-<p>ConditionVersion: Version of the condition. Currently accepted value is &lsquo;2.0&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -570,7 +532,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedBy: Id of the user who created the assignment</p>
 </td>
 </tr>
 <tr>
@@ -581,7 +542,6 @@ string
 </em>
 </td>
 <td>
-<p>CreatedOn: Time it was created</p>
 </td>
 </tr>
 <tr>
@@ -592,7 +552,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource</p>
 </td>
 </tr>
 <tr>
@@ -603,7 +562,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: Description of role assignment</p>
 </td>
 </tr>
 <tr>
@@ -614,7 +572,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The role assignment ID.</p>
 </td>
 </tr>
 <tr>
@@ -625,7 +582,6 @@ string
 </em>
 </td>
 <td>
-<p>Name: The role assignment name.</p>
 </td>
 </tr>
 <tr>
@@ -636,20 +592,18 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>principalType</code><br/>
 <em>
-<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesStatusPrincipalType">
-RoleAssignmentPropertiesStatusPrincipalType
+<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_PrincipalType_STATUS">
+RoleAssignmentProperties_PrincipalType_STATUS
 </a>
 </em>
 </td>
 <td>
-<p>PrincipalType: The principal type of the assigned principal ID.</p>
 </td>
 </tr>
 <tr>
@@ -660,7 +614,6 @@ string
 </em>
 </td>
 <td>
-<p>RoleDefinitionId: The role definition ID.</p>
 </td>
 </tr>
 <tr>
@@ -671,7 +624,6 @@ string
 </em>
 </td>
 <td>
-<p>Scope: The role assignment scope.</p>
 </td>
 </tr>
 <tr>
@@ -682,7 +634,6 @@ string
 </em>
 </td>
 <td>
-<p>Type: The role assignment type.</p>
 </td>
 </tr>
 <tr>
@@ -693,7 +644,6 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedBy: Id of the user who updated the assignment</p>
 </td>
 </tr>
 <tr>
@@ -704,14 +654,14 @@ string
 </em>
 </td>
 <td>
-<p>UpdatedOn: Time it was updated</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignment_StatusARM">RoleAssignment_StatusARM
+<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignment_STATUS_ARM">RoleAssignment_STATUS_ARM
 </h3>
 <div>
+<p>Deprecated version of RoleAssignment_STATUS. Use v1api20200801preview.RoleAssignment_STATUS instead</p>
 </div>
 <table>
 <thead>
@@ -729,7 +679,6 @@ string
 </em>
 </td>
 <td>
-<p>Id: The role assignment ID.</p>
 </td>
 </tr>
 <tr>
@@ -740,20 +689,18 @@ string
 </em>
 </td>
 <td>
-<p>Name: The role assignment name.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_StatusARM">
-RoleAssignmentProperties_StatusARM
+<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_STATUS_ARM">
+RoleAssignmentProperties_STATUS_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Properties: Role assignment properties.</p>
 </td>
 </tr>
 <tr>
@@ -764,12 +711,11 @@ string
 </em>
 </td>
 <td>
-<p>Type: The role assignment type.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignments_Spec">RoleAssignments_Spec
+<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignment_Spec">RoleAssignment_Spec
 </h3>
 <p>
 (<em>Appears on:</em><a href="#authorization.azure.com/v1beta20200801preview.RoleAssignment">RoleAssignment</a>)
@@ -804,9 +750,6 @@ string
 </em>
 </td>
 <td>
-<p>Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
-@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase
-&lsquo;foo_storage_container&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -817,7 +760,6 @@ string
 </em>
 </td>
 <td>
-<p>ConditionVersion: Version of the condition. Currently accepted value is &lsquo;2.0&rsquo;</p>
 </td>
 </tr>
 <tr>
@@ -828,7 +770,6 @@ string
 </em>
 </td>
 <td>
-<p>DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource</p>
 </td>
 </tr>
 <tr>
@@ -839,18 +780,6 @@ string
 </em>
 </td>
 <td>
-<p>Description: Description of role assignment</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
 </td>
 </tr>
 <tr>
@@ -876,20 +805,30 @@ string
 </em>
 </td>
 <td>
-<p>PrincipalId: The principal ID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>principalIdFromConfig</code><br/>
+<em>
+<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">
+genruntime.ConfigMapReference
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 <tr>
 <td>
 <code>principalType</code><br/>
 <em>
-<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesPrincipalType">
-RoleAssignmentPropertiesPrincipalType
+<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_PrincipalType">
+RoleAssignmentProperties_PrincipalType
 </a>
 </em>
 </td>
 <td>
-<p>PrincipalType: The principal type of the assigned principal ID.</p>
 </td>
 </tr>
 <tr>
@@ -902,25 +841,14 @@ genruntime.ResourceReference
 </em>
 </td>
 <td>
-<p>RoleDefinitionReference: The role definition ID.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
 </table>
-<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignments_SpecARM">RoleAssignments_SpecARM
+<h3 id="authorization.azure.com/v1beta20200801preview.RoleAssignment_Spec_ARM">RoleAssignment_Spec_ARM
 </h3>
 <div>
+<p>Deprecated version of RoleAssignment_Spec. Use v1api20200801preview.RoleAssignment_Spec instead</p>
 </div>
 <table>
 <thead>
@@ -932,48 +860,24 @@ map[string]string
 <tbody>
 <tr>
 <td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>Location: Location to deploy resource to</p>
-</td>
-</tr>
-<tr>
-<td>
 <code>name</code><br/>
 <em>
 string
 </em>
 </td>
 <td>
-<p>Name: The name of the role assignment. It can be any valid GUID.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>properties</code><br/>
 <em>
-<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentPropertiesARM">
-RoleAssignmentPropertiesARM
+<a href="#authorization.azure.com/v1beta20200801preview.RoleAssignmentProperties_ARM">
+RoleAssignmentProperties_ARM
 </a>
 </em>
 </td>
 <td>
-<p>Properties: Role assignment properties.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-<p>Tags: Name-value pairs to add to the resource</p>
 </td>
 </tr>
 </tbody>
