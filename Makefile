@@ -402,7 +402,7 @@ generate-operator-bundle: manifests
 	# the bundle.
 	rm bundle/manifests/azureoperator-webhook-service_v1_service.yaml
 	# Inject the container reference into the bundle.
-	scripts/inject-container-reference.sh "$(PUBLIC_REPO):$(LATEST_TAG)"
+	scripts/inject-container-reference.sh "$(PUBLIC_REPO):$(LATEST_TAG)" "bundle/manifests/azure-service-operator.clusterserviceversion.yaml"
 	# Update webhooks to use operator namespace and remove
 	# cert-manager annotations.
 	scripts/update-webhook-references-in-operator-bundle.sh

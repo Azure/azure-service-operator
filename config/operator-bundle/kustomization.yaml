@@ -5,4 +5,3 @@ resources:
 patches:
   - patches/serviceaccountname_in_deployment.yaml
   - patches/serviceaccountname_in_rolebindings.yaml
-  - patches/admissionreviewversions_in_webhook.yaml

@@ -1,0 +1,109 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    capabilities: Deep Insights
+    categories: Cloud Provider
+    certified: "false"
+    description: The Azure Service Operator helps you provision Azure resources and connect your applications to them from within Kubernetes.
+    displayName: Azure Service Operator V2
+    repository: https://github.com/Azure/azure-service-operator
+    support: https://github.com/Azure/azure-service-operator/issues
+  name: azure-service-operator.X.Y.Z
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions: {}
+  description: |
+    ## Overview
+
+    The Azure Service Operator comprises of:
+
+    - The Custom Resource Definitions (CRDs) for each of the Azure services a Kubernetes user can provision.
+    - The Kubernetes controller that watches for requests to create Custom Resources for each of these CRDs and creates them.
+
+    The project was built using [Kubebuilder](https://book.kubebuilder.io/).
+
+    ## Supported Azure Resources
+
+    Supported Azure Resources can be found on our official documentation for [Supported Resources](https://azure.github.io/azure-service-operator/reference/)
+
+    ## Instructions - Please read before installing
+
+    Before you begin, read our documentation on authentication and multiple types of multitenancy ASOv2 supports [here](https://azure.github.io/azure-service-operator/guide/authentication/)
+    
+    ## About the project
+
+    This project maintains [releases of the Azure Service Operator](https://github.com/Azure/azure-service-operator/releases).
+
+    Please see the [FAQ](https://azure.github.io/azure-service-operator/guide/frequently-asked-questions/) for answers to commonly asked questions about the Azure Service Operator.
+
+    Have more questions? Feel free to consult our documentation [here](https://github.com/Azure/azure-service-operator/blob/main/docs/v1/howto/contents.md).
+
+    ## Contributing
+
+    The [contribution guide](https://azure.github.io/azure-service-operator/contributing/) covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide](https://github.com/Azure/azure-service-operator/blob/main/docs/v1/howto/contents.md#developing-azure-service-operator) will help you onboard as a developer.
+
+    ## Support
+
+    Azure Service Operator is an open source project that is **not** covered by the [Microsoft Azure support policy](https://support.microsoft.com/en-us/help/2941892/support-for-linux-and-open-source-technology-in-azure). Please search open issues [here](https://github.com/Azure/azure-service-operator/issues). If your issue isn't already represented, please [open a new one](https://github.com/Azure/azure-service-operator/issues/new/choose). The Azure Service Operator project maintainers will respond to the best of their abilities.
+
+    ## Code of conduct
+
+    This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+
+  displayName: Azure Service Operator
+  icon:
+  - base64data: 'iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAIAAAAP3aGbAAAACXBIWXMAAAsSAAALEgHS3X78AAAFg0lEQVR4nO3bsU0DQRBA0VvkFIkeqAVyYppxM8TkuBZ6QKKAoQMTWfK/e6+C3R3pa5JdM7MBFDyYElAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGaejjer37fkOTrFDj5/f1y91vqyjv9ENnF9md3e6xoYFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQIZgARmCBWQIFpCxZsa0gAQbFpAhWECGYAEZggVkCBaQIVhAhmABGYIFZAgWkCFYQMbpaKNaHz93cIodmvenfy71tY7+RrfweqyvdTYsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBjzYxpAQk2LCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECMgQLyBAsIEOwgAzBAjIEC8gQLCBDsIAMwQIyBAvIECwgQ7CADMECGrZt+wNsYxcZUVWjkAAAAABJRU5ErkJggg== '
+    mediatype: image/png
+  install:
+    spec:
+      clusterPermissions:
+      - rules: null
+        serviceAccountName: azure-service-operator-default
+      deployments: []
+      permissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps/status
+          verbs:
+          - get
+          - update
+          - patch
+        serviceAccountName: azure-service-operator-default
+    strategy: deployment
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - azure, microsoft, cloud service broker
+  links:
+  - name: Azure Service Operator
+    url: https://github.com/Azure/azure-service-operator
+  maintainers:
+  - email: harshdsingh@microsoft.com
+    name: Harshdeep Singh
+  maturity: stable
+  provider:
+    name: Microsoft
+  version: 0.0.0

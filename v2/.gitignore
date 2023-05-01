@@ -1,4 +1,5 @@
 config/crd/generated
 config/webhook/manifests.yaml
 config/rbac/role.yaml
+config/samples
 out/
