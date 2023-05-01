@@ -101,8 +101,8 @@ spec:
   - name: Azure Service Operator
     url: https://github.com/Azure/azure-service-operator
   maintainers:
-  - email: harshdsingh@microsoft.com
-    name: Harshdeep Singh
+  - email: asoteam@microsoft.com
+    name: ASO team
   maturity: stable
   provider:
     name: Microsoft
