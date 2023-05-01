@@ -9,7 +9,7 @@ on:
     - cron: "35 17 * * 0"
 
 jobs:
-  generate:
+  gen-crd-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
