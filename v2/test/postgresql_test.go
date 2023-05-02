@@ -25,7 +25,11 @@ import (
 
 func Test_PostgreSQL_Combined(t *testing.T) {
 	t.Parallel()
+
+	t.Skip("Skipping until PostgreSQL solves their Delete ResourceGroup outage")
+
 	tc := globalTestContext.ForTest(t)
+
 	// Force this test to run in a region that is not capacity constrained.
 	// location := tc.AzureRegion TODO: Uncomment this line when West US 2 is no longer constrained
 	tc.AzureRegion = to.Ptr("australiaeast")
@@ -297,6 +301,8 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 func Test_PostgreSQL_User(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
+	t.Skip("Skipping this too")
+
 	tc.AzureRegion = to.Ptr("australiaeast")
 	rg := tc.CreateTestResourceGroupAndWait()
 
