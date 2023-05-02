@@ -194,16 +194,16 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 	groups := set.AsSortedSlice(report.groups)
 
 	errs := make([]error, 0, len(groups)) // Preallocate maximum size
-	for _, svc := range groups {
-		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
+	for _, grp := range groups {
+		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(grp)))
 
 		// Include a fragment for this group if we have one
-		if fragment, ok := report.findFragment(svc); ok {
+		if fragment, ok := report.findFragment(grp); ok {
 			buffer.WriteString(fragment)
 			buffer.WriteString("\n\n")
 		}
 
-		kinds := report.kinds[svc]
+		kinds := report.kinds[grp]
 		summary := report.createSummary(kinds)
 
 		buffer.WriteString(summary)
