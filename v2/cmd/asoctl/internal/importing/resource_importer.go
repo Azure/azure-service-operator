@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
@@ -25,15 +26,16 @@ import (
 // ResourceImporter is the entry point for importing resources.
 // Factory methods here provide ways to instantiate importers for different kinds of resources.
 type ResourceImporter struct {
-	scheme    *runtime.Scheme                 // a reference to the scheme used by asoctl
-	client    *genericarmclient.GenericClient // Client to use when talking to ARM
-	pending   map[string]ImportableResource   // A set of importers that are pending import
-	completed map[string]ImportableResource   // A set of importers that have been successfully imported
-	queue     []string                        // Queue of names of resources to import (so we do things in a reasonable order)
-	lock      sync.Mutex                      // Lock to protect the above maps
-	log       logr.Logger                     // Logger to use for logging
-	progress  *mpb.Progress                   // Progress bar to use for showing progress
-	report    *resourceImportReport           // Report to summarise the import
+	scheme   *runtime.Scheme                 // a reference to the scheme used by asoctl
+	client   *genericarmclient.GenericClient // Client to use when talking to ARM
+	pending  map[string]ImportableResource   // A set of importers that are pending import
+	imported map[string]ImportableResource   // A set of importers that have been successfully imported
+	unique   set.Set[string]                 // A set used to ensure we don't process the same resource twice
+	queue    []string                        // Queue of names of resources to import (so we do things in a reasonable order)
+	lock     sync.Mutex                      // Lock to protect the above maps
+	log      logr.Logger                     // Logger to use for logging
+	progress *mpb.Progress                   // Progress bar to use for showing progress
+	report   *resourceImportReport           // Report to summarise the import
 }
 
 // NewResourceImporter creates a new factory with the scheme baked in
@@ -43,13 +45,14 @@ func NewResourceImporter(
 	log logr.Logger,
 	progress *mpb.Progress) *ResourceImporter {
 	return &ResourceImporter{
-		scheme:    scheme,
-		client:    client,
-		pending:   make(map[string]ImportableResource),
-		completed: make(map[string]ImportableResource),
-		log:       log,
-		progress:  progress,
-		report:    newResourceImportReport(),
+		scheme:   scheme,
+		client:   client,
+		pending:  make(map[string]ImportableResource),
+		imported: make(map[string]ImportableResource),
+		unique:   set.Make[string](),
+		log:      log,
+		progress: progress,
+		report:   newResourceImportReport(),
 	}
 }
 
@@ -76,19 +79,18 @@ func (ri *ResourceImporter) AddARMID(armID string) error {
 // addImpl is the internal implementation of Add that assumes the lock is already held
 // This allows us to call it from other methods that already have the lock
 func (ri *ResourceImporter) addImpl(importer ImportableResource) {
-	// If we've already handled this resource, skip it
-	if _, ok := ri.completed[importer.Name()]; ok {
-		return
-	}
-
-	// If we're already pending import of this resource, skip it
-	if _, ok := ri.pending[importer.Name()]; ok {
+	// If we've already seen this resource, skip it
+	// This happens frequently with extension resources as they can be inherited onto many regular resources
+	// and we don't want to attempt to import them more than once.
+	// It can also happen with regular resources if they are referenced by multiple other resources.
+	if ri.unique.Contains(importer.Name()) {
 		return
 	}
 
 	// Add it to our map and our queue
 	ri.queue = append(ri.queue, importer.Name())
 	ri.pending[importer.Name()] = importer
+	ri.unique.Add(importer.Name())
 }
 
 // Import imports all the resources that have been added to the importer.
@@ -153,8 +155,8 @@ func (ri *ResourceImporter) Import(
 
 	// Now we've imported everything, return the resources
 	// We do this even if there's an error so that we can return partial results
-	resources := make([]genruntime.MetaObject, 0, len(ri.completed))
-	for _, importer := range ri.completed {
+	resources := make([]genruntime.MetaObject, 0, len(ri.imported))
+	for _, importer := range ri.imported {
 		resources = append(resources, importer.Resource())
 	}
 
@@ -244,7 +246,7 @@ func (ri *ResourceImporter) Complete(importer ImportableResource, pending []Impo
 	defer ri.lock.Unlock()
 
 	// Add it to our map and our queue
-	ri.completed[importer.Name()] = importer
+	ri.imported[importer.Name()] = importer
 	for _, p := range pending {
 		ri.addImpl(p)
 	}

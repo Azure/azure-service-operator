@@ -41,7 +41,8 @@ type importableARMResource struct {
 var _ ImportableResource = &importableARMResource{}
 
 // NewImportableARMResource creates a new importable ARM resource
-// ARMID is the ARM ID of the resource to import.
+// id is the ARM ID of the resource to import.
+// owner is the resource that owns this resource (if any).
 // client is the client to use to talk to ARM.
 // scheme is the scheme to use to create the resource.
 func NewImportableARMResource(
@@ -50,7 +51,7 @@ func NewImportableARMResource(
 	client *genericarmclient.GenericClient,
 	scheme *runtime.Scheme,
 ) (ImportableResource, error) {
-	// Parse ARMID into a more useful form
+	// Parse id into a more useful form
 	armID, err := arm.ParseResourceID(id)
 	if err != nil {
 		return nil, err // arm.ParseResourceID already returns a good error, no need to wrap
@@ -98,10 +99,18 @@ func (i *importableARMResource) Import(ctx context.Context, bar *mpb.Bar) ([]Imp
 	var result []ImportableResource
 
 	// Find all child types that require this resource as a parent
-	childTypes := FindChildResourcesForResourceType(i.armID.ResourceType.String())
+	rsrcType := i.armID.ResourceType.String()
+	childTypes := FindChildResourcesForResourceType(rsrcType)
 
-	// Include extension types as they can be parented by any resource
-	childTypes = append(childTypes, FindExtensionTypes()...)
+	// If we're not already looking at an extension type, look for any extensions as they can be parented by any resource
+	if !IsExtensionType(rsrcType) {
+		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeExtension)...)
+	}
+
+	// if we're looking at a ResourceGroup, we need to look for any resources that are parented by a ResourceGroup
+	if IsResourceGroupType(rsrcType) {
+		childTypes = append(childTypes, FindResourceTypesByScope(genruntime.ResourceScopeResourceGroup)...)
+	}
 
 	total := int64(len(childTypes) + 1)
 	bar.SetTotal(total, false)
@@ -140,7 +149,7 @@ func (i *importableARMResource) importResource(
 		return genruntime.ResourceReference{}, err
 	}
 
-	if because, skpped := result.Skipped(); skpped {
+	if because, skipped := result.Skipped(); skipped {
 		gk := importable.GetObjectKind().GroupVersionKind().GroupKind()
 		return genruntime.ResourceReference{}, NewImportSkippedError(gk, id.Name, because)
 	}
@@ -441,7 +450,7 @@ func (i *importableARMResource) groupKindFromID(id *arm.ResourceID) (schema.Grou
 	return gk, nil
 }
 
-// createContainerURI creates the URI for a subcontainer of a resource
+// createContainerURI creates the URI for a sub-container of a resource
 // id is the ARM ID of the parent resource
 // subType is the type of the subresource, e.g. "Microsoft.Network/virtualNetworks/subnets"
 func (i *importableARMResource) createContainerURI(id *arm.ResourceID, subType string) string {
@@ -460,7 +469,7 @@ func (i *importableARMResource) SetName(
 	name string,
 	owner genruntime.ResourceReference,
 ) {
-	// Kubernetes names are prefixed with the owner name to avoid collisions
+	// Kubernetes' names are prefixed with the owner name to avoid collisions
 	n := name
 	if owner.Name != "" {
 		n = fmt.Sprintf("%s-%s", owner.Name, name)
@@ -541,4 +550,8 @@ func (i *importableARMResource) GetResourceExtension(gvk schema.GroupVersionKind
 	}
 
 	return imp, true
+}
+
+func IsResourceGroupType(rsrcType string) bool {
+	return strings.EqualFold(rsrcType, "Microsoft.Resources/resourceGroups")
 }
