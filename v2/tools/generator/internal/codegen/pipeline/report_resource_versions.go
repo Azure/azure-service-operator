@@ -209,7 +209,7 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 		buffer.WriteString(summary)
 		buffer.WriteString("\n\n")
 
-		table, err := report.createTable(kinds)
+		table, err := report.createTable(grp, kinds)
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -255,6 +255,7 @@ func (report *ResourceVersionsReport) createSummary(
 }
 
 func (report *ResourceVersionsReport) createTable(
+	group string,
 	resources astmodel.TypeDefinitionSet,
 ) (*reporting.MarkdownTable, error) {
 	const (
@@ -284,33 +285,9 @@ func (report *ResourceVersionsReport) createTable(
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
-	sampleLinks := make(map[string]string)
-	if report.rootUrl != "" {
-		parsedRootURL, err := url.Parse(report.rootUrl)
-		if err != nil {
-			return nil, errors.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
-		}
-		err = filepath.WalkDir(report.samplesPath, func(filePath string, d fs.DirEntry, err error) error {
-			// We don't include 'refs' directory here, as it contains dependency references for the group and is purely for
-			// samples testing.
-			if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
-				filePath, err = filepath.Rel(filepath.Dir(report.samplesPath), filePath)
-				if err != nil {
-					return errors.Wrapf(err, "getting relative path for %s", filePath)
-				}
-
-				filePath = filepath.ToSlash(filePath)
-				filePathURL := url.URL{Path: filePath}
-				sampleLink := parsedRootURL.ResolveReference(&filePathURL).String()
-				sampleFile := filepath.Base(filePath)
-				sampleLinks[sampleFile] = sampleLink
-			}
-
-			return nil
-		})
-		if err != nil {
-			return nil, errors.Wrapf(err, "walking through samples directory %s", report.samplesPath)
-		}
+	sampleLinks, err := report.FindSampleLinks(group)
+	if err != nil {
+		return nil, err
 	}
 
 	errs := make([]error, 0, len(toIterate))
@@ -336,12 +313,49 @@ func (report *ResourceVersionsReport) createTable(
 			sample)
 	}
 
-	err := kerrors.NewAggregate(errs)
+	err = kerrors.NewAggregate(errs)
 	if err != nil {
 		return nil, errors.Wrap(err, "generating versions report")
 	}
 
 	return result, nil
+}
+
+func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]string, error) {
+	sampleLinks := make(map[string]string)
+	if report.rootUrl != "" {
+		parsedRootURL, err := url.Parse(report.rootUrl)
+		if err != nil {
+			return nil, errors.Wrapf(err, "parsing rootUrl %s", report.rootUrl)
+		}
+
+		// We look for samples within only the subfolder for this group - this avoids getting sample links wrong
+		// if there are identically named resources in different groups
+		basePath := filepath.Join(report.samplesPath, group)
+		err = filepath.WalkDir(basePath, func(filePath string, d fs.DirEntry, err error) error {
+			// We don't include 'refs' directory here, as it contains dependency references for the group and is purely for
+			// samples testing.
+			if !d.IsDir() && filepath.Base(filepath.Dir(filePath)) != "refs" {
+				filePath, err = filepath.Rel(filepath.Dir(report.samplesPath), filePath)
+				if err != nil {
+					return errors.Wrapf(err, "getting relative path for %s", filePath)
+				}
+
+				filePath = filepath.ToSlash(filePath)
+				filePathURL := url.URL{Path: filePath}
+				sampleLink := parsedRootURL.ResolveReference(&filePathURL).String()
+				sampleFile := filepath.Base(filePath)
+				sampleLinks[sampleFile] = sampleLink
+			}
+
+			return nil
+		})
+		if err != nil {
+			return nil, errors.Wrapf(err, "walking through samples directory %s", report.samplesPath)
+		}
+	}
+
+	return sampleLinks, nil
 }
 
 // generateApiLink returns a link to the API definition for the given resource
