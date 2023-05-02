@@ -1161,7 +1161,7 @@ Identity_Type
 <code>userAssignedIdentities</code><br/>
 <em>
 <a href="#servicebus.azure.com/v1beta20210101preview.UserAssignedIdentityDetails_ARM">
-map[string]github/azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.UserAssignedIdentityDetails_ARM
+map[string]./api/servicebus/v1beta20210101preview.UserAssignedIdentityDetails_ARM
 </a>
 </em>
 </td>
@@ -1223,7 +1223,7 @@ Identity_Type_STATUS
 <code>userAssignedIdentities</code><br/>
 <em>
 <a href="#servicebus.azure.com/v1beta20210101preview.DictionaryValue_STATUS">
-map[string]github/azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.DictionaryValue_STATUS
+map[string]./api/servicebus/v1beta20210101preview.DictionaryValue_STATUS
 </a>
 </em>
 </td>
@@ -1285,7 +1285,7 @@ Identity_Type_STATUS
 <code>userAssignedIdentities</code><br/>
 <em>
 <a href="#servicebus.azure.com/v1beta20210101preview.DictionaryValue_STATUS_ARM">
-map[string]github/azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.DictionaryValue_STATUS_ARM
+map[string]./api/servicebus/v1beta20210101preview.DictionaryValue_STATUS_ARM
 </a>
 </em>
 </td>
