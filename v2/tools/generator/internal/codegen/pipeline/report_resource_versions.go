@@ -322,7 +322,7 @@ func (report *ResourceVersionsReport) createTable(
 }
 
 func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]string, error) {
-	sampleLinks := make(map[string]string)
+	result := make(map[string]string)
 	if report.rootUrl != "" {
 		parsedRootURL, err := url.Parse(report.rootUrl)
 		if err != nil {
@@ -332,6 +332,11 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 		// We look for samples within only the subfolder for this group - this avoids getting sample links wrong
 		// if there are identically named resources in different groups
 		basePath := filepath.Join(report.samplesPath, group)
+		if _, err := os.Stat(basePath); os.IsNotExist(err) {
+			// No samples for this group
+			return result, nil
+		}
+
 		err = filepath.WalkDir(basePath, func(filePath string, d fs.DirEntry, err error) error {
 			// We don't include 'refs' directory here, as it contains dependency references for the group and is purely for
 			// samples testing.
@@ -345,7 +350,7 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 				filePathURL := url.URL{Path: filePath}
 				sampleLink := parsedRootURL.ResolveReference(&filePathURL).String()
 				sampleFile := filepath.Base(filePath)
-				sampleLinks[sampleFile] = sampleLink
+				result[sampleFile] = sampleLink
 			}
 
 			return nil
@@ -355,7 +360,7 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 		}
 	}
 
-	return sampleLinks, nil
+	return result, nil
 }
 
 // generateApiLink returns a link to the API definition for the given resource
