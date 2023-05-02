@@ -13,9 +13,9 @@ To illustrate, assume you have a Person object with a Name and a list of Address
 * If you PUT a Person object with a new Name and _no addresses_, the new name will be persisted, but the addresses will remain _unchanged_.
 * If you PUT a Person object with a new Name and an _empty list_ of addresses, the new name will be persisted, and the addresses collection will be cleared.
 
-This is a problem for ASO because we use `omitempty` on slice/map properties, which means that if you remove the last item from a slice/map, the property will be entirely omitted from the JSON payload.
+This is a problem for ASO because we use `omitempty` on all properties, resulting in them being omitted from the ARM payload if they aren't explicitly set. For array and map properties, removing the last item means the property will be entirely omitted from the JSON payload.
 
-In principle, an ASO custom resource (CR) should be the goal-state for the resource and should be a complete definition of the desired state. Whether the collection is empty or missing entirely should not matter, we should interpret that as "clear the collection".
+In principle, an ASO custom resource (CR) should be the entire goal-state for the resource and should be a *complete* definition of the desired state. Whether properties are specified explicitly or not shouldn't change that. Equally, whether an array or map is empty or missing entirely should not matter, we should interpret that as "clear the collection".
 
 ### Option 1: Optional Properties
 
@@ -35,25 +35,42 @@ MyProperty *[]Type 'json:"myProperty,omitempty"'
 
 * PRO: Behaves exactly like we want from a serialization perspective.
 * CON: Horrible to use in code because you must dereference the property to range over it (or really do much of anything with it).
+
 * CON: Breaking change for any consumers of our object model.
 * CON: Modifies our Spec and Status object definitions for an issue that is specific to ARM
 
-### Option 2: Remove `omitempty` 
+### Option 2: Remove `omitempty` from collections only
 
-Remove omitempty from slice/map properties across all generated types.
+Remove `omitempty` from array and map properties across all generated types.
 
 ``` go
 MyProperty []Type 'json:"myProperty"'. 
 ```
 
-This means that the slice or map will always be serialized, even if empty.
+This means that each array or map will always be serialized, even if empty.
 
 * PRO: Behaves exactly like we want from a serialization perspective.
 * PRO: Not a breaking change for consumers of our object model.
+  
 * CON: Empty collections will always be present when an ASO CR is read from the cluster, even if the user did not specify them at all.
-* CON: If we extend this to all properties, all properties will be present when an ASO CR is read from the cluster, even if the user did not specify them at all.
 * CON: Modifies our Spec and Status object definitions for an issue that is specific to ARM
+  
 * QUERY: It is possible that some Azure services treat `myProperty: null` as different than omitting the property entirely, although we do not actually know of any cases where that is true.
+
+
+### Option 2a: Remove `omitempty` from all properties
+
+Remove `omitempty` from all properties across all generated types.
+
+``` go
+Name string `json:"name"`
+```
+
+This means that all properties will always be serialized, even if empty.
+
+Pros & Cons are as for Option 2, above, with the addition of:
+
+* CON: All properties will be present when an ASO CR is read from the cluster, even if the user did not specify them at all.
 
 ### Option 3: Custom JSON Serialization
 
@@ -61,25 +78,41 @@ Use a custom JSON serialization library that supports an `omitnil` equivalent, s
 
 * PRO: Behaves exactly like we want from a serialization perspective.
 * PRO: Not a breaking change for consumers of our object model.
-* CON: Breaks CRD YAML deserialization for the ASO controller (as the [sigs.k8s.io/yaml]( https://github.com/kubernetes-sigs/yaml) library we use works with standard JSON serialization attributes)
-* CON: Also breaks YAML serialization for `asoctl` (for the same reason)
+
+* CON: Breaks CRD YAML deserialization for the ASO controller (as the [sigs.k8s.io/yaml]( https://github.com/kubernetes-sigs/yaml) library we use works with standard JSON serialization attributes).
+* CON: Also breaks YAML serialization for `asoctl` (for the same reason).
 * CON: Modifies our Spec and Status object definitions for an issue that is specific to ARM
+* CON: Requires modifying all our generated types to use the new serialization attributes.
 
-### Option 4: Remove `omitempty` for selected ARM types only
+* QUERY: Does this solve the problem for non-collection properties? It may not. If we want to adopt this approach, we'll need to prioritize answering this question.
 
-As for Option 2, above, we apply the change only selected ARM Spec types, leaving the core ASO Spec and Status types unmodified.
+### Option 4: Remove `omitempty` for collections on selected ARM types only
 
-Selection occurs through our existing `ObjectModelConfiguration` allowing us to explicitly target collections (and other properties) that we know are problematic.
+As for Option 2, above, but we apply the change only selected ARM Spec types, leaving the core ASO Spec and Status types unmodified.
+
+Selection occurs through our existing `ObjectModelConfiguration` allowing us to explicitly target resources we know are problematic. We might take a coarse-grained approach, selecting entire resources, or a fine-grained one selecting only affected properties.
 
 * PRO: Behaves exactly like we want from a serialization perspective.
 * PRO: Limits the scope of the change to only ARM types. These are not directly used by consumers of our object model.
-* PRO: Limits the scope of the change to only properties that we know are problematic, reducing any potential for unintended consequences.
+* PRO: Limits the scope of the change to only collections that we know are problematic, reducing any potential for unintended consequences.
 * PRO: No change to the YAML serialization for ASO Spec and Status types, so no visible change to our users.
-* CON: We can only configure properties we know have this problem. We may miss some, requiring a new release to fix affected users.
+
+* CON: We can only configure resources (or properties) we know have this problem. We may miss some, requiring a new release to fix affected users.
+* CON: Configuration at the individual property level runs the risk that we might miss some properties that are problematic.
+* CON: Configuration at the entire resource level makes our payload larger than it strictly needs to be.
+
+### Option 4a: Remove `omitempty` for all properties on selected ARM types only
+
+As for Option 4, above, but we apply the change to all properties on the selected ARM types.
+
+Pros & Cons are as for Option 4, above, with the addition of:
+
+* PRO: We'll be explicit for all properties, removing any ambiguity about what the payload means
+* CON: ARM Payload will be larger
 
 ## Decision
 
-Adopt Option 4, as it is a minimal change that addresses the issue without impacting on current users.
+Adopt Option 4a, as it is a minimal change that fully addresses the issue without impacting on current users.
 
 ## Status
 
