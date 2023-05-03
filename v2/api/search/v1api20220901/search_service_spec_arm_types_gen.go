@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1api20220901
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type SearchService_Spec_ARM struct {
 	// Identity: The identity of the resource.
@@ -52,10 +49,6 @@ type Identity_ARM struct {
 
 // Properties of the search service.
 type SearchServiceProperties_ARM struct {
-	// AuthOptions: Defines the options for how the data plane API of a search service authenticates requests. This cannot be
-	// set if 'disableLocalAuth' is set to true.
-	AuthOptions *DataPlaneAuthOptions_ARM `json:"authOptions,omitempty"`
-
 	// DisableLocalAuth: When set to true, calls to the search service will not be permitted to utilize API keys for
 	// authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
@@ -98,17 +91,6 @@ type Sku_ARM struct {
 	Name *Sku_Name `json:"name,omitempty"`
 }
 
-// Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if
-// 'disableLocalAuth' is set to true.
-type DataPlaneAuthOptions_ARM struct {
-	// AadOrApiKey: Indicates that either the API key or an access token from Azure Active Directory can be used for
-	// authentication.
-	AadOrApiKey *DataPlaneAadOrApiKeyAuthOption_ARM `json:"aadOrApiKey,omitempty"`
-
-	// ApiKeyOnly: Indicates that only the API key needs to be used for authentication.
-	ApiKeyOnly map[string]v1.JSON `json:"apiKeyOnly,omitempty"`
-}
-
 // Describes a policy that determines how resources within the search service are to be encrypted with Customer Managed
 // Keys.
 type EncryptionWithCmk_ARM struct {
@@ -145,13 +127,6 @@ const (
 	Sku_Name_Storage_Optimized_L1 = Sku_Name("storage_optimized_l1")
 	Sku_Name_Storage_Optimized_L2 = Sku_Name("storage_optimized_l2")
 )
-
-// Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
-type DataPlaneAadOrApiKeyAuthOption_ARM struct {
-	// AadAuthFailureMode: Describes what response the data plane API of a Search service would send for requests that failed
-	// authentication.
-	AadAuthFailureMode *DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode `json:"aadAuthFailureMode,omitempty"`
-}
 
 // The IP restriction rule of the Azure Cognitive Search service.
 type IpRule_ARM struct {

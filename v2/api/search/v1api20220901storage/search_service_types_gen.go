@@ -142,8 +142,6 @@ const APIVersion_Value = APIVersion("2022-09-01")
 
 // Storage version of v1api20220901.SearchService_Spec
 type SearchService_Spec struct {
-	AuthOptions *DataPlaneAuthOptions `json:"authOptions,omitempty"`
-
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName         string             `json:"azureName,omitempty"`
@@ -235,15 +233,6 @@ func (service *SearchService_STATUS) ConvertStatusTo(destination genruntime.Conv
 	return destination.ConvertStatusFrom(service)
 }
 
-// Storage version of v1api20220901.DataPlaneAuthOptions
-// Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if
-// 'disableLocalAuth' is set to true.
-type DataPlaneAuthOptions struct {
-	AadOrApiKey *DataPlaneAadOrApiKeyAuthOption `json:"aadOrApiKey,omitempty"`
-	ApiKeyOnly  map[string]v1.JSON              `json:"apiKeyOnly,omitempty"`
-	PropertyBag genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1api20220901.DataPlaneAuthOptions_STATUS
 // Defines the options for how the data plane API of a Search service authenticates requests. This cannot be set if
 // 'disableLocalAuth' is set to true.
@@ -326,13 +315,6 @@ type Sku struct {
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20220901.DataPlaneAadOrApiKeyAuthOption
-// Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
-type DataPlaneAadOrApiKeyAuthOption struct {
-	AadAuthFailureMode *string                `json:"aadAuthFailureMode,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220901.DataPlaneAadOrApiKeyAuthOption_STATUS

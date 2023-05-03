@@ -4,13 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/search/v1api20220901storage
 │   └── "2022-09-01"
 └── SearchService: Resource
     ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-    ├── Spec: Object (16 properties)
-    │   ├── AuthOptions: *Object (3 properties)
-    │   │   ├── AadOrApiKey: *Object (2 properties)
-    │   │   │   ├── AadAuthFailureMode: *string
-    │   │   │   └── PropertyBag: genruntime.PropertyBag
-    │   │   ├── ApiKeyOnly: map[string]v1.JSON
-    │   │   └── PropertyBag: genruntime.PropertyBag
+    ├── Spec: Object (15 properties)
     │   ├── AzureName: string
     │   ├── DisableLocalAuth: *bool
     │   ├── EncryptionWithCmk: *Object (2 properties)

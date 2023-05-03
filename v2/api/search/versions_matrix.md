@@ -1,11 +1,8 @@
 | Type Definitions in package "search"                     | v1api20220901 |
 |----------------------------------------------------------|---------------|
 | APIVersion                                               | v1api20220901 |
-| DataPlaneAadOrApiKeyAuthOption                           | v1api20220901 |
-| DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode        | v1api20220901 |
 | DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS | v1api20220901 |
 | DataPlaneAadOrApiKeyAuthOption_STATUS                    | v1api20220901 |
-| DataPlaneAuthOptions                                     | v1api20220901 |
 | DataPlaneAuthOptions_STATUS                              | v1api20220901 |
 | EncryptionWithCmk                                        | v1api20220901 |
 | EncryptionWithCmk_EncryptionComplianceStatus_STATUS      | v1api20220901 |
