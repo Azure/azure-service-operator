@@ -6,8 +6,9 @@ package azuresqlvnetrule
 import (
 	"context"
 
-	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 )
 
@@ -20,13 +21,20 @@ func NewAzureSqlVNetRuleManager(creds config.Credentials) *AzureSqlVNetRuleManag
 }
 
 // GetSQLVNetRule returns a VNet rule
-func (m *AzureSqlVNetRuleManager) GetSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (result sql.VirtualNetworkRule, err error) {
-	VNetRulesClient, err := azuresqlshared.GetGoVNetRulesClient(m.creds)
+func (m *AzureSqlVNetRuleManager) GetSQLVNetRule(
+	ctx context.Context,
+	subscriptionID string,
+	resourceGroupName string,
+	serverName string,
+	ruleName string,
+) (result sql.VirtualNetworkRule, err error) {
+
+	vnetRulesClient, err := azuresqlshared.GetGoVNetRulesClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return sql.VirtualNetworkRule{}, err
 	}
 
-	return VNetRulesClient.Get(
+	return vnetRulesClient.Get(
 		ctx,
 		resourceGroupName,
 		serverName,
@@ -35,20 +43,20 @@ func (m *AzureSqlVNetRuleManager) GetSQLVNetRule(ctx context.Context, resourceGr
 }
 
 // DeleteSQLVNetRule deletes a VNet rule
-func (m *AzureSqlVNetRuleManager) DeleteSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error) {
+func (m *AzureSqlVNetRuleManager) DeleteSQLVNetRule(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string, ruleName string) (err error) {
 
 	// check to see if the rule exists, if it doesn't then short-circuit
-	_, err = m.GetSQLVNetRule(ctx, resourceGroupName, serverName, ruleName)
+	_, err = m.GetSQLVNetRule(ctx, subscriptionID, resourceGroupName, serverName, ruleName)
 	if err != nil {
 		return nil
 	}
 
-	VNetRulesClient, err := azuresqlshared.GetGoVNetRulesClient(m.creds)
+	vnetRulesClient, err := azuresqlshared.GetGoVNetRulesClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return err
 	}
 
-	_, err = VNetRulesClient.Delete(
+	_, err = vnetRulesClient.Delete(
 		ctx,
 		resourceGroupName,
 		serverName,
@@ -60,9 +68,20 @@ func (m *AzureSqlVNetRuleManager) DeleteSQLVNetRule(ctx context.Context, resourc
 
 // CreateOrUpdateSQLVNetRule creates or updates a VNet rule
 // based on code from: https://godoc.org/github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql#VirtualNetworkRulesClient.CreateOrUpdate
-func (m *AzureSqlVNetRuleManager) CreateOrUpdateSQLVNetRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, VNetRG string, VNetName string, SubnetName string, subscription string, IgnoreServiceEndpoint bool) (vnr sql.VirtualNetworkRule, err error) {
+func (m *AzureSqlVNetRuleManager) CreateOrUpdateSQLVNetRule(
+	ctx context.Context,
+	resourceGroupName string,
+	serverName string,
+	ruleName string,
+	VNetRG string,
+	VNetName string,
+	SubnetName string,
+	subscription string,
+	IgnoreServiceEndpoint bool,
+) (vnr sql.VirtualNetworkRule, err error) {
 
-	VNetRulesClient, err := azuresqlshared.GetGoVNetRulesClient(m.creds)
+	creds := azuresqlshared.GetSubscriptionCredentials(m.creds, subscription)
+	VNetRulesClient, err := azuresqlshared.GetGoVNetRulesClient(creds)
 	if err != nil {
 		return sql.VirtualNetworkRule{}, err
 	}
@@ -71,7 +90,7 @@ func (m *AzureSqlVNetRuleManager) CreateOrUpdateSQLVNetRule(ctx context.Context,
 	if subscription == "" {
 		subscription = m.creds.SubscriptionID()
 	}
-	SubnetClient, err := azuresqlshared.GetGoNetworkSubnetClient(m.creds, subscription)
+	SubnetClient, err := azuresqlshared.GetGoNetworkSubnetClient(creds)
 	if err != nil {
 		return sql.VirtualNetworkRule{}, err
 	}

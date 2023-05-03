@@ -7,12 +7,12 @@ import (
 	"context"
 	"net/http"
 
-	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	"github.com/Azure/go-autorest/autorest"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1beta1"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
 )
@@ -32,8 +32,8 @@ func NewAzureSqlFailoverGroupManager(creds config.Credentials, secretClient secr
 }
 
 // GetServer returns a SQL server
-func (m *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient(m.Creds)
+func (m *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(azuresqlshared.GetSubscriptionCredentials(m.Creds, subscriptionID))
 	if err != nil {
 		return sql.Server{}, err
 	}
@@ -46,8 +46,14 @@ func (m *AzureSqlFailoverGroupManager) GetServer(ctx context.Context, resourceGr
 }
 
 // GetDB retrieves a database
-func (m *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient(m.Creds)
+func (m *AzureSqlFailoverGroupManager) GetDB(
+	ctx context.Context,
+	subscriptionID string,
+	resourceGroupName string,
+	serverName string,
+	databaseName string,
+) (sql.Database, error) {
+	dbClient, err := azuresqlshared.GetGoDbClient(azuresqlshared.GetSubscriptionCredentials(m.Creds, subscriptionID))
 	if err != nil {
 		return sql.Database{}, err
 	}
@@ -62,8 +68,14 @@ func (m *AzureSqlFailoverGroupManager) GetDB(ctx context.Context, resourceGroupN
 
 // TODO: Delete this?
 // GetFailoverGroup retrieves a failover group
-func (m *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failovergroupname string) (sql.FailoverGroup, error) {
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(m.Creds)
+func (m *AzureSqlFailoverGroupManager) GetFailoverGroup(
+	ctx context.Context,
+	subscriptionID string,
+	resourceGroupName string,
+	serverName string,
+	failovergroupname string,
+) (sql.FailoverGroup, error) {
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(azuresqlshared.GetSubscriptionCredentials(m.Creds, subscriptionID))
 	if err != nil {
 		return sql.FailoverGroup{}, err
 	}
@@ -77,7 +89,14 @@ func (m *AzureSqlFailoverGroupManager) GetFailoverGroup(ctx context.Context, res
 }
 
 // DeleteFailoverGroup deletes a failover group
-func (m *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, resourceGroupName string, serverName string, failoverGroupName string) (result autorest.Response, err error) {
+func (m *AzureSqlFailoverGroupManager) DeleteFailoverGroup(
+	ctx context.Context,
+	subscriptionID string,
+	resourceGroupName string,
+	serverName string,
+	failoverGroupName string,
+) (result autorest.Response, err error) {
+
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
@@ -85,12 +104,12 @@ func (m *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, 
 	}
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	_, err = m.GetServer(ctx, resourceGroupName, serverName)
+	_, err = m.GetServer(ctx, subscriptionID, resourceGroupName, serverName)
 	if err != nil {
 		return result, nil
 	}
 
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(m.Creds)
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(azuresqlshared.GetSubscriptionCredentials(m.Creds, subscriptionID))
 	if err != nil {
 		return result, err
 	}
@@ -117,7 +136,7 @@ func (m *AzureSqlFailoverGroupManager) DeleteFailoverGroup(ctx context.Context, 
 // TransformToSQLFailoverGroup translates the Kubernetes shaped v1beta1.AzureSqlFailoverGroup into the Azure SDK sql.FailoverGroup.
 // This function makes a number of remote calls and so should be called sparingly.
 func (m *AzureSqlFailoverGroupManager) TransformToSQLFailoverGroup(ctx context.Context, instance *v1beta1.AzureSqlFailoverGroup) (sql.FailoverGroup, error) {
-	secondaryServer, err := m.GetServer(ctx, instance.Spec.SecondaryServerResourceGroup, instance.Spec.SecondaryServer)
+	secondaryServer, err := m.GetServer(ctx, instance.Spec.SecondaryServerSubscriptionID, instance.Spec.SecondaryServerResourceGroup, instance.Spec.SecondaryServer)
 	if err != nil {
 		return sql.FailoverGroup{}, err
 	}
@@ -134,7 +153,7 @@ func (m *AzureSqlFailoverGroupManager) TransformToSQLFailoverGroup(ctx context.C
 
 	// Parse the Databases in the Databaselist and form array of Resource IDs
 	for _, each := range instance.Spec.DatabaseList {
-		database, err := m.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, each)
+		database, err := m.GetDB(ctx, instance.Spec.SubscriptionID, instance.Spec.ResourceGroup, instance.Spec.Server, each)
 		if err != nil {
 			return sql.FailoverGroup{}, err
 		}
@@ -172,12 +191,13 @@ func (m *AzureSqlFailoverGroupManager) TransformToSQLFailoverGroup(ctx context.C
 // CreateOrUpdateFailoverGroup creates a failover group
 func (m *AzureSqlFailoverGroupManager) CreateOrUpdateFailoverGroup(
 	ctx context.Context,
+	subscriptionID string,
 	resourceGroup string,
 	server string,
 	failoverGroupName string,
 	failoverGroupProperties sql.FailoverGroup) (sql.FailoverGroupsCreateOrUpdateFuture, error) {
 
-	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(m.Creds)
+	failoverGroupsClient, err := azuresqlshared.GetGoFailoverGroupsClient(azuresqlshared.GetSubscriptionCredentials(m.Creds, subscriptionID))
 	if err != nil {
 		return sql.FailoverGroupsCreateOrUpdateFuture{}, err
 	}

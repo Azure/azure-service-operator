@@ -74,7 +74,7 @@ func (c *PostgreSQLVNetRuleClient) DeletePostgreSQLVNetRule(ctx context.Context,
 	return err
 }
 
-//  creates or updates a VNet rule
+// creates or updates a VNet rule
 func (c *PostgreSQLVNetRuleClient) CreateOrUpdatePostgreSQLVNetRule(
 	ctx context.Context,
 	resourceGroupName string,

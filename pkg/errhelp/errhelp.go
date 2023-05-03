@@ -49,6 +49,7 @@ func StripErrorTimes(err string) string {
 //   - Unrecoverable errors are fatal. When returned to the async_reconciler reconciliation is stopped until
 //     a new modification is made to the resource in question. This is useful for things like client errors that
 //     no amount of reconciliation will fix.
+//
 // If an error is not in the allowed list and also not in the unrecoverable list, it is classified as nonfatal,
 // but an error is returned. When returned to the async_reconciler, reconciliation will continue but an error will
 // be logged.

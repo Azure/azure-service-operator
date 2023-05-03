@@ -7,13 +7,14 @@ import (
 	"context"
 	"fmt"
 
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 // Ensure creates a sqlfirewallrule
@@ -23,13 +24,14 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		return false, err
 	}
 
+	subscriptionID := instance.Spec.SubscriptionID
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
 	startIP := instance.Spec.StartIPAddress
 	endIP := instance.Spec.EndIPAddress
 
-	fwr, err := fw.GetSQLFirewallRule(ctx, groupName, server, ruleName)
+	fwr, err := fw.GetSQLFirewallRule(ctx, subscriptionID, groupName, server, ruleName)
 	if err == nil {
 		instance.Status.Provisioning = false
 		instance.Status.Provisioned = true
@@ -48,7 +50,7 @@ func (fw *AzureSqlFirewallRuleManager) Ensure(ctx context.Context, obj runtime.O
 		return false, nil
 	}
 
-	_, err = fw.CreateOrUpdateSQLFirewallRule(ctx, groupName, server, ruleName, startIP, endIP)
+	_, err = fw.CreateOrUpdateSQLFirewallRule(ctx, subscriptionID, groupName, server, ruleName, startIP, endIP)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		catch := []string{
@@ -74,11 +76,12 @@ func (fw *AzureSqlFirewallRuleManager) Delete(ctx context.Context, obj runtime.O
 		return false, err
 	}
 
+	subscriptionID := instance.Spec.SubscriptionID
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
 
-	err = fw.DeleteSQLFirewallRule(ctx, groupName, server, ruleName)
+	err = fw.DeleteSQLFirewallRule(ctx, subscriptionID, groupName, server, ruleName)
 	if err != nil {
 		catch := []string{
 			errhelp.AsyncOpIncompleteError,

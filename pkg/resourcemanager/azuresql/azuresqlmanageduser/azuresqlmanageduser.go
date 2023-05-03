@@ -11,7 +11,7 @@ import (
 
 	azuresql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	mssql "github.com/denisenkom/go-mssqldb"
-	uuid "github.com/gofrs/uuid"
+	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 
@@ -37,8 +37,8 @@ func NewAzureSqlManagedUserManager(creds config.Credentials, secretClient secret
 }
 
 // GetDB retrieves a database
-func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (azuresql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient(s.Creds)
+func (s *AzureSqlManagedUserManager) GetDB(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string, databaseName string) (azuresql.Database, error) {
+	dbClient, err := azuresqlshared.GetGoDbClient(azuresqlshared.GetSubscriptionCredentials(s.Creds, subscriptionID))
 	if err != nil {
 		return azuresql.Database{}, err
 	}

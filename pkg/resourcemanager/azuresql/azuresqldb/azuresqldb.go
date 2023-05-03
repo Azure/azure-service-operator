@@ -13,7 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	"github.com/Azure/go-autorest/autorest/to"
@@ -31,8 +31,8 @@ func NewAzureSqlDbManager(creds config.Credentials) *AzureSqlDbManager {
 }
 
 // GetServer returns a SQL server
-func (m *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient(m.creds)
+func (m *AzureSqlDbManager) GetServer(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return sql.Server{}, err
 	}
@@ -45,8 +45,8 @@ func (m *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName str
 }
 
 // GetDB retrieves a database
-func (m *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
-	dbClient, err := azuresqlshared.GetGoDbClient(m.creds)
+func (m *AzureSqlDbManager) GetDB(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
+	dbClient, err := azuresqlshared.GetGoDbClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return sql.Database{}, err
 	}
@@ -62,18 +62,19 @@ func (m *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string,
 // DeleteDB deletes a DB
 func (m *AzureSqlDbManager) DeleteDB(
 	ctx context.Context,
+	subscriptionID string,
 	resourceGroupName string,
 	serverName string,
 	databaseName string) (future *sql.DatabasesDeleteFuture, err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := m.GetServer(ctx, resourceGroupName, serverName)
+	server, err := m.GetServer(ctx, subscriptionID, resourceGroupName, serverName)
 	if err != nil || *server.State != "Ready" {
 		return nil, ignoreNotFound(err)
 	}
 
 	// check to see if the db exists, if it doesn't then short-circuit
-	db, err := m.GetDB(ctx, resourceGroupName, serverName, databaseName)
+	db, err := m.GetDB(ctx, subscriptionID, resourceGroupName, serverName, databaseName)
 	if err != nil {
 		return nil, ignoreNotFound(err)
 	}
@@ -82,7 +83,7 @@ func (m *AzureSqlDbManager) DeleteDB(
 		return nil, nil
 	}
 
-	dbClient, err := azuresqlshared.GetGoDbClient(m.creds)
+	dbClient, err := azuresqlshared.GetGoDbClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return nil, err
 	}
@@ -104,13 +105,14 @@ func (m *AzureSqlDbManager) DeleteDB(
 // CreateOrUpdateDB creates or updates a DB in Azure
 func (m *AzureSqlDbManager) CreateOrUpdateDB(
 	ctx context.Context,
+	subscriptionID string,
 	resourceGroupName string,
 	location string,
 	serverName string,
 	tags map[string]*string,
 	properties azuresqlshared.SQLDatabaseProperties) (string, *sql.Database, error) {
 
-	dbClient, err := azuresqlshared.GetGoDbClient(m.creds)
+	dbClient, err := azuresqlshared.GetGoDbClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return "", nil, err
 	}
@@ -142,12 +144,13 @@ func (m *AzureSqlDbManager) CreateOrUpdateDB(
 // AddLongTermRetention enables / disables long term retention
 func (m *AzureSqlDbManager) AddLongTermRetention(
 	ctx context.Context,
+	subscriptionID string,
 	resourceGroupName string,
 	serverName string,
 	databaseName string,
 	policy azuresqlshared.SQLDatabaseBackupLongTermRetentionPolicy) (*sql.BackupLongTermRetentionPoliciesCreateOrUpdateFuture, error) {
 
-	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient(m.creds)
+	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return nil, err
 	}
@@ -202,12 +205,13 @@ func (m *AzureSqlDbManager) AddLongTermRetention(
 
 func (m *AzureSqlDbManager) AddShortTermRetention(
 	ctx context.Context,
+	subscriptionID string,
 	resourceGroupName string,
 	serverName string,
 	databaseName string,
 	policy *v1beta1.SQLDatabaseShortTermRetentionPolicy) (*sql.BackupShortTermRetentionPoliciesCreateOrUpdateFuture, error) {
 
-	client, err := azuresqlshared.GetBackupShortTermRetentionPoliciesClient(m.creds)
+	client, err := azuresqlshared.GetBackupShortTermRetentionPoliciesClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return nil, errors.Wrapf(err, "couldn't create BackupShortTermRetentionPoliciesClient")
 	}

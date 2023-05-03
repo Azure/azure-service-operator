@@ -21,7 +21,10 @@ type AzureSqlServerSpec struct {
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
-	ResourceGroup          string `json:"resourceGroup"`
+	ResourceGroup string `json:"resourceGroup"`
+
+	SubscriptionID string `json:"subscriptionId,omitempty"`
+
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 

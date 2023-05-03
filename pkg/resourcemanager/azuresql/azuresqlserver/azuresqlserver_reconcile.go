@@ -66,7 +66,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 		}
 		if *checkNameResult.Available != true {
 			instance.Status.Provisioning = false
-			if _, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err != nil {
+			if _, err := s.GetServer(ctx, instance.Spec.SubscriptionID, instance.Spec.ResourceGroup, instance.Name); err != nil {
 				instance.Status.Message = "SQL server already exists somewhere else"
 				return true, nil
 			}
@@ -122,7 +122,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 	if instance.Status.Provisioning ||
 		(!specHashWasEmpty && instance.Status.SpecHash == hash) {
 
-		serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name)
+		serv, err := s.GetServer(ctx, instance.Spec.SubscriptionID, instance.Spec.ResourceGroup, instance.Name)
 		if err != nil {
 			azerr := errhelp.NewAzureError(err)
 
@@ -173,8 +173,17 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 
 	// create the sql server
 	instance.Status.Provisioning = true
-	if pollURL, _, err := s.CreateOrUpdateSQLServer(ctx, instance.Spec.ResourceGroup, instance.Spec.Location, instance.Name, tags, azureSQLServerProperties, false); err != nil {
+	pollURL, _, err := s.CreateOrUpdateSQLServer(
+		ctx,
+		instance.Spec.SubscriptionID,
+		instance.Spec.ResourceGroup,
+		instance.Spec.Location,
+		instance.Name,
+		tags,
+		azureSQLServerProperties,
+		false)
 
+	if err != nil {
 		instance.Status.Message = err.Error()
 
 		// check for our known errors
@@ -191,7 +200,7 @@ func (s *AzureSqlServerManager) Ensure(ctx context.Context, obj runtime.Object, 
 			// SQL Server names are globally unique so if a server with this name exists we
 			// need to see if it meets our criteria (ie. same rg/sub)
 			// see if server exists in correct rg
-			if serv, err := s.GetServer(ctx, instance.Spec.ResourceGroup, instance.Name); err == nil {
+			if serv, err := s.GetServer(ctx, instance.Spec.SubscriptionID, instance.Spec.ResourceGroup, instance.Name); err == nil {
 				// mismatched location
 				if *serv.Location != instance.Spec.Location {
 					instance.Status.Provisioned = false
@@ -263,6 +272,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, err
 	}
 
+	subscriptionID := instance.Spec.SubscriptionID
 	name := instance.ObjectMeta.Name
 	groupName := instance.Spec.ResourceGroup
 	secretKey := secrets.SecretKey{Name: instance.Name, Namespace: instance.Namespace, Kind: instance.TypeMeta.Kind}
@@ -273,7 +283,7 @@ func (s *AzureSqlServerManager) Delete(ctx context.Context, obj runtime.Object, 
 		return false, nil
 	}
 
-	_, err = s.DeleteSQLServer(ctx, groupName, name)
+	_, err = s.DeleteSQLServer(ctx, subscriptionID, groupName, name)
 	if err != nil {
 		instance.Status.Message = err.Error()
 		azerr := errhelp.NewAzureError(err)

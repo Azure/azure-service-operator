@@ -33,14 +33,14 @@ const PSecretUsernameKey = "username"
 // PSecretPasswordKey is the password key in secret
 const PSecretPasswordKey = "password"
 
-//PostgreSqlUserManager for psqluser manager
+// PostgreSqlUserManager for psqluser manager
 type PostgreSqlUserManager struct {
 	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
 }
 
-//NewPostgreSqlUserManager creates a new PostgreSqlUserManager
+// NewPostgreSqlUserManager creates a new PostgreSqlUserManager
 func NewPostgreSqlUserManager(creds config.Credentials, secretClient secrets.SecretClient, scheme *runtime.Scheme) *PostgreSqlUserManager {
 	return &PostgreSqlUserManager{
 		Creds:        creds,
