@@ -290,7 +290,6 @@ func (report *ResourceVersionsReport) createTable(
 		return nil, err
 	}
 
-	errs := make([]error, 0, len(toIterate))
 	for _, rsrc := range toIterate {
 		resourceType := astmodel.MustBeResourceType(rsrc.Type())
 
@@ -302,8 +301,7 @@ func (report *ResourceVersionsReport) createTable(
 
 		api := report.generateApiLink(rsrc)
 		sample := report.generateSampleLink(rsrc, sampleLinks)
-		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
-		errs = append(errs, err)
+		supportedFrom := report.generateSupportedFrom(rsrc.Name())
 
 		result.AddRow(
 			api,
@@ -311,11 +309,6 @@ func (report *ResourceVersionsReport) createTable(
 			crdVersion,
 			supportedFrom,
 			sample)
-	}
-
-	err = kerrors.NewAggregate(errs)
-	if err != nil {
-		return nil, errors.Wrap(err, "generating versions report")
 	}
 
 	return result, nil
@@ -332,7 +325,7 @@ func (report *ResourceVersionsReport) FindSampleLinks(group string) (map[string]
 		// We look for samples within only the subfolder for this group - this avoids getting sample links wrong
 		// if there are identically named resources in different groups
 		basePath := filepath.Join(report.samplesPath, group)
-		if _, err := os.Stat(basePath); os.IsNotExist(err) {
+		if _, err = os.Stat(basePath); os.IsNotExist(err) {
 			// No samples for this group
 			return result, nil
 		}
@@ -415,10 +408,10 @@ func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefin
 	return "-"
 }
 
-func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.TypeName) (string, error) {
+func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.TypeName) string {
 	supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(typeName)
 	if err != nil {
-		return "", err
+		return "" // Leave it blank
 	}
 
 	_, ver := typeName.PackageReference.GroupVersion()
@@ -426,16 +419,16 @@ func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.Ty
 	// Special case for resources that existed prior to beta.0
 	// the `v1beta` versions of those resources are only available from "beta.0"
 	if strings.Contains(ver, v1betaVersionPrefix) && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
-		return "v2.0.0-beta.0", nil
+		return "v2.0.0-beta.0"
 	}
 
 	// Special case for resources that existed prior to GA
 	// the `v1api` versions of those resources are only available from "v2.0.0"
 	if strings.Contains(ver, v1VersionPrefix) && strings.HasPrefix(supportedFrom, "v2.0.0-") {
-		return "v2.0.0", nil
+		return "v2.0.0"
 	}
 
-	return supportedFrom, nil
+	return supportedFrom
 }
 
 // Read in any front matter present in our output file, so we preserve it when writing out the new file.
