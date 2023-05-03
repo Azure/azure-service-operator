@@ -32,15 +32,19 @@ type AzureSqlFailoverGroupSpec struct {
 	ResourceGroup string `json:"resourceGroup"`
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
-	Server         string                          `json:"server"`
+	Server string `json:"server"`
+
+	SubscriptionID string `json:"subscriptionId,omitempty"`
+
 	FailoverPolicy ReadWriteEndpointFailoverPolicy `json:"failoverPolicy"`
 	// TODO: This field should be a ptr as it must not be specified if the failover policy is Manual,
 	// TODO: but is required when the policy is Automatic
-	FailoverGracePeriod          int32    `json:"failoverGracePeriod"`
-	SecondaryServer              string   `json:"secondaryServer"`
-	SecondaryServerResourceGroup string   `json:"secondaryServerResourceGroup"`
-	DatabaseList                 []string `json:"databaseList"`
-	KeyVaultToStoreSecrets       string   `json:"keyVaultToStoreSecrets,omitempty"`
+	FailoverGracePeriod           int32    `json:"failoverGracePeriod"`
+	SecondaryServer               string   `json:"secondaryServer"`
+	SecondaryServerResourceGroup  string   `json:"secondaryServerResourceGroup"`
+	SecondaryServerSubscriptionID string   `json:"SecondaryServerSubscriptionId,omitempty"`
+	DatabaseList                  []string `json:"databaseList"`
+	KeyVaultToStoreSecrets        string   `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
 // +kubebuilder:object:root=true

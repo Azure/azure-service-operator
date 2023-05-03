@@ -19,6 +19,7 @@ type AzureSQLVNetRuleSpec struct {
 	// +kubebuilder:validation:MinLength=1
 	// +kubebuilder:validation:Required
 	Server                       string `json:"server"`
+	ServerSubscriptionID         string `json:"serverSubscriptionID,omitempty"`
 	VNetResourceGroup            string `json:"vNetResourceGroup"`
 	VNetName                     string `json:"vNetName"`
 	SubnetName                   string `json:"subnetName"`

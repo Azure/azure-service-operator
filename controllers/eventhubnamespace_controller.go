@@ -19,12 +19,12 @@ type EventhubNamespaceReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=eventhubnamespaces,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={eventhubnamespaces/status,eventhubnamespaces/finalizers},verbs=get;update;patch
 
-//Reconcile reconciler for eventhubnamespace
+// Reconcile reconciler for eventhubnamespace
 func (r *EventhubNamespaceReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.EventhubNamespace{})
 }
 
-//SetupWithManager sets up the functions for the controller
+// SetupWithManager sets up the functions for the controller
 func (r *EventhubNamespaceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&azurev1alpha1.EventhubNamespace{}).

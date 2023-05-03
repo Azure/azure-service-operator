@@ -19,7 +19,7 @@ type ConsumerGroupReconciler struct {
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources=consumergroups,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=azure.microsoft.com,resources={consumergroups/status,consumergroups/finalizers},verbs=get;update;patch
 
-//Reconcile reconciler for consumergroup
+// Reconcile reconciler for consumergroup
 func (r *ConsumerGroupReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	return r.Reconciler.Reconcile(ctx, req, &azurev1alpha1.ConsumerGroup{})
 }

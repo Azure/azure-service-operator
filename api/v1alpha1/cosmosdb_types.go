@@ -104,7 +104,7 @@ type CosmosDBList struct {
 	Items           []CosmosDB `json:"items"`
 }
 
-//CosmosDBVirtualNetworkRule virtual Network ACL Rule object
+// CosmosDBVirtualNetworkRule virtual Network ACL Rule object
 type CosmosDBVirtualNetworkRule struct {
 	// ID - Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
 	SubnetID *string `json:"subnetID,omitempty"`

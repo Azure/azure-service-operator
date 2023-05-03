@@ -12,17 +12,17 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 )
 
-//MySQLDatabaseClient struct
+// MySQLDatabaseClient struct
 type MySQLDatabaseClient struct {
 	creds config.Credentials
 }
 
-//NewMySQLDatabaseClient create a new MySQLDatabaseClient
+// NewMySQLDatabaseClient create a new MySQLDatabaseClient
 func NewMySQLDatabaseClient(creds config.Credentials) *MySQLDatabaseClient {
 	return &MySQLDatabaseClient{creds: creds}
 }
 
-//GetMySQLDatabasesClient return the mysqldatabaseclient
+// GetMySQLDatabasesClient return the mysqldatabaseclient
 func GetMySQLDatabasesClient(creds config.Credentials) mysql.DatabasesClient {
 	databasesClient := mysql.NewDatabasesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
 	a, _ := iam.GetResourceManagementAuthorizer(creds)

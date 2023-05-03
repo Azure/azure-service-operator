@@ -28,7 +28,7 @@ type EventhubSpec struct {
 	KeyVaultToStoreSecrets string `json:"keyVaultToStoreSecrets,omitempty"`
 }
 
-//EventhubAuthorizationRule defines the name and rights of the access policy
+// EventhubAuthorizationRule defines the name and rights of the access policy
 type EventhubAuthorizationRule struct {
 	// Name - Name of AuthorizationRule for eventhub
 	Name string `json:"name,omitempty"`
@@ -36,7 +36,7 @@ type EventhubAuthorizationRule struct {
 	Rights []string `json:"rights,omitempty"`
 }
 
-//EventHubStorageAccount contains details of the eventhub storage account
+// EventHubStorageAccount contains details of the eventhub storage account
 type EventHubStorageAccount struct {
 	// ResourceGroup - Name of the storage account resource group
 	// +kubebuilder:validation:Pattern=^[-\w\._\(\)]+$
@@ -49,7 +49,7 @@ type EventHubStorageAccount struct {
 	AccountName string `json:"accountName,omitempty"`
 }
 
-//Destination for capture (blob storage etc)
+// Destination for capture (blob storage etc)
 type Destination struct {
 	// ArchiveNameFormat - Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order
 	ArchiveNameFormat string `json:"archiveNameFormat,omitempty"`
@@ -62,7 +62,7 @@ type Destination struct {
 	StorageAccount EventHubStorageAccount `json:"storageAccount,omitempty"`
 }
 
-//CaptureDescription defines the properties required for eventhub capture
+// CaptureDescription defines the properties required for eventhub capture
 type CaptureDescription struct {
 	// Destination - Resource id of the storage account to be used to create the blobs
 	Destination Destination `json:"destination,omitempty"`
@@ -78,7 +78,7 @@ type CaptureDescription struct {
 	IntervalInSeconds int32 `json:"intervalInSeconds,omitempty"`
 }
 
-//EventhubProperties defines the namespace properties
+// EventhubProperties defines the namespace properties
 type EventhubProperties struct {
 	// +kubebuilder:validation:Maximum=7
 	// +kubebuilder:validation:Minimum=1

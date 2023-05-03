@@ -54,7 +54,7 @@ func CreateKeyVaultSoftDeleteEnabled(ctx context.Context, creds config.Credentia
 	return future.WaitForCompletionRef(ctx, vaultsClient.Client)
 }
 
-//CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user - used in test
+// CreateVaultWithAccessPolicies creates a new key vault and provides access policies to the specified user - used in test
 func CreateVaultWithAccessPolicies(ctx context.Context, creds config.Credentials, groupName string, vaultName string, location string, objectID *string) error {
 	vaultsClient, err := kvhelper.GetKeyVaultClient(creds)
 	if err != nil {

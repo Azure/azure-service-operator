@@ -36,7 +36,7 @@ func (m *AzureRedisManager) GetRedisCacheClient() (redis.Client, error) {
 	return redisClient, nil
 }
 
-//ListKeys lists the keys for redis cache
+// ListKeys lists the keys for redis cache
 func (m *AzureRedisManager) ListKeys(ctx context.Context, resourceGroupName string, redisCacheName string) (result redis.AccessKeys, err error) {
 	redisClient, err := m.GetRedisCacheClient()
 	if err != nil {

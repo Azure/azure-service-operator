@@ -4,9 +4,10 @@
 package v1beta1
 
 import (
-	helpers "github.com/Azure/azure-service-operator/pkg/helpers"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
 )
 
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
@@ -66,6 +67,7 @@ type AzureSqlDatabaseSpec struct {
 	Server string `json:"server"`
 
 	// +kubebuilder:validation:Optional
+	SubscriptionID           string                               `json:"subscriptionId,omitempty"`
 	Edition                  DBEdition                            `json:"edition"`       // TODO: Remove this in v1beta2
 	Sku                      *SqlDatabaseSku                      `json:"sku,omitempty"` // TODO: make this required in v1beta2
 	MaxSize                  *resource.Quantity                   `json:"maxSize,omitempty"`

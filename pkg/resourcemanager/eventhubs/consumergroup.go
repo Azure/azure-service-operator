@@ -92,7 +92,7 @@ func (m *azureConsumerGroupManager) DeleteConsumerGroup(ctx context.Context, res
 	)
 }
 
-//GetConsumerGroup gets consumer group description for the specified Consumer Group.
+// GetConsumerGroup gets consumer group description for the specified Consumer Group.
 func (m *azureConsumerGroupManager) GetConsumerGroup(ctx context.Context, resourceGroupName string, namespaceName string, eventHubName string, consumerGroupName string) (eventhub.ConsumerGroup, error) {
 	consumerGroupClient, err := getConsumerGroupsClient(m.creds)
 	if err != nil {
