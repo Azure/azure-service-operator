@@ -221,6 +221,54 @@ typeTransformers:
     because: it is supposed to be marked ReadOnly in Swagger
   - group: network
     version: "*"
+    name: DnsZones_AAAA_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: DnsZones_CAA_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: DnsZones_CNAME_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: DnsZones_MX_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: DnsZones_NS_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: DnsZones_PTR_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: DnsZones_SRV_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: DnsZones_TXT_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
     name: Delegation
     property: Id
     # TODO[donotmerge]: We should do something more clean than this

@@ -84,7 +84,6 @@ func DnsZones_MX_Spec_ARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDnsZones_MX_Spec_ARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDnsZones_MX_Spec_ARM(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 }
 

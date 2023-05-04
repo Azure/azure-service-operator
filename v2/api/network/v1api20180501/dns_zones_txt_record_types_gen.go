@@ -349,9 +349,6 @@ type DnsZones_TXT_Spec struct {
 	// CaaRecords: The list of CAA records in the record set.
 	CaaRecords []CaaRecord `json:"caaRecords,omitempty"`
 
-	// Etag: The etag of the record set.
-	Etag *string `json:"etag,omitempty"`
-
 	// MXRecords: The list of MX records in the record set.
 	MXRecords []MxRecord `json:"MXRecords,omitempty"`
 
@@ -394,12 +391,6 @@ func (zonesTXT *DnsZones_TXT_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		return nil, nil
 	}
 	result := &DnsZones_TXT_Spec_ARM{}
-
-	// Set property ‘Etag’:
-	if zonesTXT.Etag != nil {
-		etag := *zonesTXT.Etag
-		result.Etag = &etag
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -579,12 +570,6 @@ func (zonesTXT *DnsZones_TXT_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			}
 			zonesTXT.CaaRecords = append(zonesTXT.CaaRecords, item1)
 		}
-	}
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		zonesTXT.Etag = &etag
 	}
 
 	// Set property ‘MXRecords’:
@@ -829,9 +814,6 @@ func (zonesTXT *DnsZones_TXT_Spec) AssignProperties_From_DnsZones_TXT_Spec(sourc
 		zonesTXT.CaaRecords = nil
 	}
 
-	// Etag
-	zonesTXT.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// MXRecords
 	if source.MXRecords != nil {
 		mxRecordList := make([]MxRecord, len(source.MXRecords))
@@ -1037,9 +1019,6 @@ func (zonesTXT *DnsZones_TXT_Spec) AssignProperties_To_DnsZones_TXT_Spec(destina
 	} else {
 		destination.CaaRecords = nil
 	}
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(zonesTXT.Etag)
 
 	// MXRecords
 	if zonesTXT.MXRecords != nil {
@@ -1251,9 +1230,6 @@ func (zonesTXT *DnsZones_TXT_Spec) Initialize_From_DnsZones_TXT_STATUS(source *D
 	} else {
 		zonesTXT.CaaRecords = nil
 	}
-
-	// Etag
-	zonesTXT.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// MXRecords
 	if source.MXRecords != nil {

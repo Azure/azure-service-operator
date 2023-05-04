@@ -147,7 +147,6 @@ func DnsZones_CNAME_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDnsZones_CNAME_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDnsZones_CNAME_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["TTL"] = gen.PtrOf(gen.Int())

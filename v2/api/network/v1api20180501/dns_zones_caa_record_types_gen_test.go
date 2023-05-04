@@ -273,7 +273,6 @@ func DnsZones_CAA_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDnsZones_CAA_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDnsZones_CAA_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["TTL"] = gen.PtrOf(gen.Int())
 }

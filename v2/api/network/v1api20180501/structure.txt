@@ -68,7 +68,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   └── Tags: map[string]string
 ├── DnsZonesAAAARecord: Resource
 │   ├── Owner: DnsZone
-│   ├── Spec: Object (16 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AAAARecords: Object (1 property)[]
 │   │   │   └── Ipv6Address: *string
 │   │   ├── ARecords: Object (1 property)[]
@@ -80,7 +80,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   │   ├── Flags: *int
 │   │   │   ├── Tag: *string
 │   │   │   └── Value: *string
-│   │   ├── Etag: *string
 │   │   ├── MXRecords: Object (2 properties)[]
 │   │   │   ├── Exchange: *string
 │   │   │   └── Preference: *int
@@ -240,7 +239,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │       └── Type: *string
 ├── DnsZonesCAARecord: Resource
 │   ├── Owner: DnsZone
-│   ├── Spec: Object (16 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AAAARecords: Object (1 property)[]
 │   │   │   └── Ipv6Address: *string
 │   │   ├── ARecords: Object (1 property)[]
@@ -252,7 +251,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   │   ├── Flags: *int
 │   │   │   ├── Tag: *string
 │   │   │   └── Value: *string
-│   │   ├── Etag: *string
 │   │   ├── MXRecords: Object (2 properties)[]
 │   │   │   ├── Exchange: *string
 │   │   │   └── Preference: *int
@@ -326,7 +324,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │       └── Type: *string
 ├── DnsZonesCNAMERecord: Resource
 │   ├── Owner: DnsZone
-│   ├── Spec: Object (16 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AAAARecords: Object (1 property)[]
 │   │   │   └── Ipv6Address: *string
 │   │   ├── ARecords: Object (1 property)[]
@@ -338,7 +336,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   │   ├── Flags: *int
 │   │   │   ├── Tag: *string
 │   │   │   └── Value: *string
-│   │   ├── Etag: *string
 │   │   ├── MXRecords: Object (2 properties)[]
 │   │   │   ├── Exchange: *string
 │   │   │   └── Preference: *int
@@ -412,7 +409,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │       └── Type: *string
 ├── DnsZonesMXRecord: Resource
 │   ├── Owner: DnsZone
-│   ├── Spec: Object (16 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AAAARecords: Object (1 property)[]
 │   │   │   └── Ipv6Address: *string
 │   │   ├── ARecords: Object (1 property)[]
@@ -424,7 +421,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   │   ├── Flags: *int
 │   │   │   ├── Tag: *string
 │   │   │   └── Value: *string
-│   │   ├── Etag: *string
 │   │   ├── MXRecords: Object (2 properties)[]
 │   │   │   ├── Exchange: *string
 │   │   │   └── Preference: *int
@@ -498,7 +494,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │       └── Type: *string
 ├── DnsZonesNSRecord: Resource
 │   ├── Owner: DnsZone
-│   ├── Spec: Object (16 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AAAARecords: Object (1 property)[]
 │   │   │   └── Ipv6Address: *string
 │   │   ├── ARecords: Object (1 property)[]
@@ -510,7 +506,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   │   ├── Flags: *int
 │   │   │   ├── Tag: *string
 │   │   │   └── Value: *string
-│   │   ├── Etag: *string
 │   │   ├── MXRecords: Object (2 properties)[]
 │   │   │   ├── Exchange: *string
 │   │   │   └── Preference: *int
@@ -584,7 +579,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │       └── Type: *string
 ├── DnsZonesPTRRecord: Resource
 │   ├── Owner: DnsZone
-│   ├── Spec: Object (16 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AAAARecords: Object (1 property)[]
 │   │   │   └── Ipv6Address: *string
 │   │   ├── ARecords: Object (1 property)[]
@@ -596,7 +591,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   │   ├── Flags: *int
 │   │   │   ├── Tag: *string
 │   │   │   └── Value: *string
-│   │   ├── Etag: *string
 │   │   ├── MXRecords: Object (2 properties)[]
 │   │   │   ├── Exchange: *string
 │   │   │   └── Preference: *int
@@ -670,7 +664,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │       └── Type: *string
 ├── DnsZonesSRVRecord: Resource
 │   ├── Owner: DnsZone
-│   ├── Spec: Object (16 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AAAARecords: Object (1 property)[]
 │   │   │   └── Ipv6Address: *string
 │   │   ├── ARecords: Object (1 property)[]
@@ -682,7 +676,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   │   ├── Flags: *int
 │   │   │   ├── Tag: *string
 │   │   │   └── Value: *string
-│   │   ├── Etag: *string
 │   │   ├── MXRecords: Object (2 properties)[]
 │   │   │   ├── Exchange: *string
 │   │   │   └── Preference: *int
@@ -756,7 +749,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │       └── Type: *string
 ├── DnsZonesTXTRecord: Resource
 │   ├── Owner: DnsZone
-│   ├── Spec: Object (16 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AAAARecords: Object (1 property)[]
 │   │   │   └── Ipv6Address: *string
 │   │   ├── ARecords: Object (1 property)[]
@@ -768,7 +761,6 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   │   ├── Flags: *int
 │   │   │   ├── Tag: *string
 │   │   │   └── Value: *string
-│   │   ├── Etag: *string
 │   │   ├── MXRecords: Object (2 properties)[]
 │   │   │   ├── Exchange: *string
 │   │   │   └── Preference: *int
@@ -884,8 +876,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   └── TargetResource: *Object (1 property)
 │   │       └── Id: *string
 │   └── Type: *string
-├── DnsZones_AAAA_Spec_ARM: Object (3 properties)
-│   ├── Etag: *string
+├── DnsZones_AAAA_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: *Object (13 properties)
 │       ├── AAAARecords: Object (1 property)[]
@@ -1052,8 +1043,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   └── TargetResource: *Object (1 property)
 │   │       └── Id: *string
 │   └── Type: *string
-├── DnsZones_CAA_Spec_ARM: Object (3 properties)
-│   ├── Etag: *string
+├── DnsZones_CAA_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: *Object (13 properties)
 │       ├── AAAARecords: Object (1 property)[]
@@ -1136,8 +1126,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   └── TargetResource: *Object (1 property)
 │   │       └── Id: *string
 │   └── Type: *string
-├── DnsZones_CNAME_Spec_ARM: Object (3 properties)
-│   ├── Etag: *string
+├── DnsZones_CNAME_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: *Object (13 properties)
 │       ├── AAAARecords: Object (1 property)[]
@@ -1220,8 +1209,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   └── TargetResource: *Object (1 property)
 │   │       └── Id: *string
 │   └── Type: *string
-├── DnsZones_MX_Spec_ARM: Object (3 properties)
-│   ├── Etag: *string
+├── DnsZones_MX_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: *Object (13 properties)
 │       ├── AAAARecords: Object (1 property)[]
@@ -1304,8 +1292,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   └── TargetResource: *Object (1 property)
 │   │       └── Id: *string
 │   └── Type: *string
-├── DnsZones_NS_Spec_ARM: Object (3 properties)
-│   ├── Etag: *string
+├── DnsZones_NS_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: *Object (13 properties)
 │       ├── AAAARecords: Object (1 property)[]
@@ -1388,8 +1375,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   └── TargetResource: *Object (1 property)
 │   │       └── Id: *string
 │   └── Type: *string
-├── DnsZones_PTR_Spec_ARM: Object (3 properties)
-│   ├── Etag: *string
+├── DnsZones_PTR_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: *Object (13 properties)
 │       ├── AAAARecords: Object (1 property)[]
@@ -1472,8 +1458,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   └── TargetResource: *Object (1 property)
 │   │       └── Id: *string
 │   └── Type: *string
-├── DnsZones_SRV_Spec_ARM: Object (3 properties)
-│   ├── Etag: *string
+├── DnsZones_SRV_Spec_ARM: Object (2 properties)
 │   ├── Name: string
 │   └── Properties: *Object (13 properties)
 │       ├── AAAARecords: Object (1 property)[]
@@ -1556,8 +1541,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20180501
 │   │   └── TargetResource: *Object (1 property)
 │   │       └── Id: *string
 │   └── Type: *string
-└── DnsZones_TXT_Spec_ARM: Object (3 properties)
-    ├── Etag: *string
+└── DnsZones_TXT_Spec_ARM: Object (2 properties)
     ├── Name: string
     └── Properties: *Object (13 properties)
         ├── AAAARecords: Object (1 property)[]

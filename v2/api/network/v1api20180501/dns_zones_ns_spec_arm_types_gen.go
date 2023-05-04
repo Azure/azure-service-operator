@@ -6,9 +6,7 @@ package v1api20180501
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DnsZones_NS_Spec_ARM struct {
-	// Etag: The etag of the record set.
-	Etag *string `json:"etag,omitempty"`
-	Name string  `json:"name,omitempty"`
+	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of the record set.
 	Properties *RecordSetProperties_ARM `json:"properties,omitempty"`

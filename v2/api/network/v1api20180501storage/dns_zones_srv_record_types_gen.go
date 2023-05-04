@@ -143,7 +143,6 @@ type DnsZones_SRV_Spec struct {
 	AzureName       string            `json:"azureName,omitempty"`
 	CNAMERecord     *CnameRecord      `json:"CNAMERecord,omitempty"`
 	CaaRecords      []CaaRecord       `json:"caaRecords,omitempty"`
-	Etag            *string           `json:"etag,omitempty"`
 	MXRecords       []MxRecord        `json:"MXRecords,omitempty"`
 	Metadata        map[string]string `json:"metadata,omitempty"`
 	NSRecords       []NsRecord        `json:"NSRecords,omitempty"`
