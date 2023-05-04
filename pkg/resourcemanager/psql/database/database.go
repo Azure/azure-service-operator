@@ -20,7 +20,7 @@ func NewPSQLDatabaseClient(creds config.Credentials) *PSQLDatabaseClient {
 	return &PSQLDatabaseClient{creds: creds}
 }
 
-//GetPSQLDatabasesClient retrieves the psqldabase
+// GetPSQLDatabasesClient retrieves the psqldabase
 func GetPSQLDatabasesClient(creds config.Credentials) (psql.DatabasesClient, error) {
 	databasesClient := psql.NewDatabasesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
 	a, err := iam.GetResourceManagementAuthorizer(creds)

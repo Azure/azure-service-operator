@@ -55,14 +55,14 @@ type EventhubNamespaceSku struct {
 	Capacity int32  `json:"capacity,omitempty"` //allowedValues 1, 2, 4
 }
 
-//EventhubNamespaceProperties defines the namespace properties
+// EventhubNamespaceProperties defines the namespace properties
 type EventhubNamespaceProperties struct {
 	IsAutoInflateEnabled   bool  `json:"isAutoInflateEnabled,omitempty"`
 	MaximumThroughputUnits int32 `json:"maximumThroughputUnits,omitempty"`
 	KafkaEnabled           bool  `json:"kafkaEnabled,omitempty"`
 }
 
-//EventhubNamespaceNetworkRule defines the namespace network rule
+// EventhubNamespaceNetworkRule defines the namespace network rule
 type EventhubNamespaceNetworkRule struct {
 	DefaultAction DefaultAction `json:"defaultAction,omitempty"`
 	// VirtualNetworkRules - List VirtualNetwork Rules

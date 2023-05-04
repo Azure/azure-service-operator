@@ -6,8 +6,9 @@ package azuresqlfirewallrule
 import (
 	"context"
 
-	sql "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 
 	"github.com/Azure/go-autorest/autorest/to"
@@ -22,8 +23,8 @@ func NewAzureSqlFirewallRuleManager(creds config.Credentials) *AzureSqlFirewallR
 }
 
 // GetServer returns a SQL server
-func (m *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient(m.creds)
+func (m *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return sql.Server{}, err
 	}
@@ -36,8 +37,8 @@ func (m *AzureSqlFirewallRuleManager) GetServer(ctx context.Context, resourceGro
 }
 
 // GetSQLFirewallRule returns a firewall rule
-func (m *AzureSqlFirewallRuleManager) GetSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (result sql.FirewallRule, err error) {
-	firewallClient, err := azuresqlshared.GetGoFirewallClient(m.creds)
+func (m *AzureSqlFirewallRuleManager) GetSQLFirewallRule(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string, ruleName string) (result sql.FirewallRule, err error) {
+	firewallClient, err := azuresqlshared.GetGoFirewallClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return sql.FirewallRule{}, err
 	}
@@ -51,21 +52,21 @@ func (m *AzureSqlFirewallRuleManager) GetSQLFirewallRule(ctx context.Context, re
 }
 
 // DeleteSQLFirewallRule deletes a firewall rule
-func (m *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string) (err error) {
+func (m *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string, ruleName string) (err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := m.GetServer(ctx, resourceGroupName, serverName)
+	server, err := m.GetServer(ctx, subscriptionID, resourceGroupName, serverName)
 	if err != nil || *server.State != "Ready" {
 		return nil
 	}
 
 	// check to see if the rule exists, if it doesn't then short-circuit
-	_, err = m.GetSQLFirewallRule(ctx, resourceGroupName, serverName, ruleName)
+	_, err = m.GetSQLFirewallRule(ctx, subscriptionID, resourceGroupName, serverName, ruleName)
 	if err != nil {
 		return nil
 	}
 
-	firewallClient, err := azuresqlshared.GetGoFirewallClient(m.creds)
+	firewallClient, err := azuresqlshared.GetGoFirewallClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return err
 	}
@@ -83,15 +84,23 @@ func (m *AzureSqlFirewallRuleManager) DeleteSQLFirewallRule(ctx context.Context,
 // CreateOrUpdateSQLFirewallRule creates or updates a firewall rule
 // based on code from: https://github.com/Azure-Samples/azure-m-for-go-samples/blob/master/sql/sql.go#L111
 // to allow allow Azure services to connect example: https://docs.microsoft.com/en-us/azure/sql-database/sql-database-firewall-configure#manage-firewall-rules-using-azure-cli
-func (m *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(ctx context.Context, resourceGroupName string, serverName string, ruleName string, startIP string, endIP string) (result bool, err error) {
+func (m *AzureSqlFirewallRuleManager) CreateOrUpdateSQLFirewallRule(
+	ctx context.Context,
+	subscriptionID string,
+	resourceGroupName string,
+	serverName string,
+	ruleName string,
+	startIP string,
+	endIP string,
+) (result bool, err error) {
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	server, err := m.GetServer(ctx, resourceGroupName, serverName)
+	server, err := m.GetServer(ctx, subscriptionID, resourceGroupName, serverName)
 	if err != nil || *server.State != "Ready" {
 		return false, err
 	}
 
-	firewallClient, err := azuresqlshared.GetGoFirewallClient(m.creds)
+	firewallClient, err := azuresqlshared.GetGoFirewallClient(azuresqlshared.GetSubscriptionCredentials(m.creds, subscriptionID))
 	if err != nil {
 		return false, err
 	}

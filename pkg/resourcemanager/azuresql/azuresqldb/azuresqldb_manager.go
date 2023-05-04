@@ -15,6 +15,7 @@ import (
 // SqlDbManager is the client for the resource manager for SQL databases
 type SqlDbManager interface {
 	CreateOrUpdateDB(ctx context.Context,
+		subscriptionID string,
 		resourceGroupName string,
 		location string,
 		serverName string,
@@ -22,19 +23,23 @@ type SqlDbManager interface {
 		properties azuresqlshared.SQLDatabaseProperties) (pollingUrl string, db *sql.Database, err error)
 
 	DeleteDB(ctx context.Context,
+		subscriptionID string,
 		resourceGroupName string,
 		serverName string,
 		databaseName string) (future *sql.DatabasesDeleteFuture, err error)
 
 	GetDB(ctx context.Context,
+		subscriptionID string,
 		resourceGroupName string,
 		serverName string, databaseName string) (sql.Database, error)
 
 	GetServer(ctx context.Context,
+		subscriptionID string,
 		resourceGroupName string,
 		serverName string) (result sql.Server, err error)
 
 	AddLongTermRetention(ctx context.Context,
+		subscriptionID string,
 		resourceGroupName string,
 		serverName string,
 		databaseName string,

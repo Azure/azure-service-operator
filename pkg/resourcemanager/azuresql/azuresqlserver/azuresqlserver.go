@@ -35,7 +35,7 @@ func NewAzureSqlServerManager(creds config.Credentials, secretClient secrets.Sec
 }
 
 // DeleteSQLServer deletes a SQL server
-func (m *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceGroupName string, serverName string) (result autorest.Response, err error) {
+func (m *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string) (result autorest.Response, err error) {
 	result = autorest.Response{
 		Response: &http.Response{
 			StatusCode: 200,
@@ -43,12 +43,12 @@ func (m *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceGro
 	}
 
 	// check to see if the server exists, if it doesn't then short-circuit
-	_, err = m.GetServer(ctx, resourceGroupName, serverName)
+	_, err = m.GetServer(ctx, subscriptionID, resourceGroupName, serverName)
 	if err != nil {
 		return result, nil
 	}
 
-	serversClient, err := azuresqlshared.GetGoServersClient(m.Creds)
+	serversClient, err := azuresqlshared.GetGoServersClient(azuresqlshared.GetSubscriptionCredentials(m.Creds, subscriptionID))
 	if err != nil {
 		return result, err
 	}
@@ -66,8 +66,8 @@ func (m *AzureSqlServerManager) DeleteSQLServer(ctx context.Context, resourceGro
 }
 
 // GetServer returns a SQL server
-func (m *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName string, serverName string) (result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient(m.Creds)
+func (m *AzureSqlServerManager) GetServer(ctx context.Context, subscriptionID string, resourceGroupName string, serverName string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClient(azuresqlshared.GetSubscriptionCredentials(m.Creds, subscriptionID))
 	if err != nil {
 		return sql.Server{}, err
 	}
@@ -80,8 +80,20 @@ func (m *AzureSqlServerManager) GetServer(ctx context.Context, resourceGroupName
 }
 
 // CreateOrUpdateSQLServer creates a SQL server in Azure
-func (m *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLServerProperties, forceUpdate bool) (pollingURL string, result sql.Server, err error) {
-	serversClient, err := azuresqlshared.GetGoServersClient(m.Creds)
+func (m *AzureSqlServerManager) CreateOrUpdateSQLServer(
+	ctx context.Context,
+	subscriptionID string,
+	resourceGroupName string,
+	location string,
+	serverName string,
+	tags map[string]*string,
+	properties azuresqlshared.SQLServerProperties,
+	forceUpdate bool,
+) (pollingURL string, result sql.Server, err error) {
+
+	creds := azuresqlshared.GetSubscriptionCredentials(m.Creds, subscriptionID)
+
+	serversClient, err := azuresqlshared.GetGoServersClient(creds)
 	if err != nil {
 		return "", sql.Server{}, err
 	}
@@ -89,7 +101,7 @@ func (m *AzureSqlServerManager) CreateOrUpdateSQLServer(ctx context.Context, res
 	serverProp := azuresqlshared.SQLServerPropertiesToServer(properties)
 
 	if forceUpdate == false {
-		checkNameResult, _ := CheckNameAvailability(ctx, m.Creds, serverName)
+		checkNameResult, _ := CheckNameAvailability(ctx, creds, serverName)
 		if checkNameResult.Reason == sql.AlreadyExists {
 			err = errors.New("AlreadyExists")
 			return

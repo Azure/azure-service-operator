@@ -20,6 +20,7 @@ type AzureSqlActionSpec struct {
 	ResourceGroup         string `json:"resourceGroup"`
 	ActionName            string `json:"actionName"`
 	ServerName            string `json:"serverName"`
+	SubscriptionID        string `json:"subscriptionId,omitempty"`
 	ServerAdminSecretName string `json:"serverAdminSecretName,omitempty"`
 	ServerSecretKeyVault  string `json:"serverSecretKeyVault,omitempty"`
 	UserSecretKeyVault    string `json:"userSecretKeyVault,omitempty"`

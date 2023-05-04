@@ -17,7 +17,7 @@ type AzureSubnetManager struct {
 	creds config.Credentials
 }
 
-//NewAzureSubnetManager returns a new client for subnets
+// NewAzureSubnetManager returns a new client for subnets
 func NewAzureSubnetManager(creds config.Credentials) *AzureSubnetManager {
 	return &AzureSubnetManager{creds: creds}
 }
@@ -45,7 +45,7 @@ func (m *AzureSubnetManager) Get(ctx context.Context, resourceGroup, vnet, subne
 	return client.Get(ctx, resourceGroup, vnet, subnet, "")
 }
 
-//SubnetID models the parts of a subnet resource id
+// SubnetID models the parts of a subnet resource id
 type SubnetID struct {
 	Name          string
 	VNet          string
@@ -54,7 +54,7 @@ type SubnetID struct {
 	Subscription  string
 }
 
-//ParseSubnetID takes a resource id for a subnet and parses it into its parts
+// ParseSubnetID takes a resource id for a subnet and parses it into its parts
 func ParseSubnetID(sid string) SubnetID {
 	parts := strings.Split(sid, "/")
 	subid := SubnetID{}

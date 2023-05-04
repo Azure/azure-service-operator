@@ -8,13 +8,15 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/pkg/helpers"
+
+	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	"k8s.io/apimachinery/pkg/runtime"
 
 	_ "github.com/denisenkom/go-mssqldb"
 	"k8s.io/apimachinery/pkg/types"
@@ -42,7 +44,8 @@ func (s *AzureSqlManagedUserManager) Ensure(ctx context.Context, obj runtime.Obj
 		secretClient = options.SecretClient
 	}
 
-	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	subscriptionID := instance.Spec.SubscriptionID
+	_, err = s.GetDB(ctx, subscriptionID, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 
@@ -155,7 +158,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 	}
 
 	// short circuit connection if database doesn't exist
-	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	_, err = s.GetDB(ctx, instance.Spec.SubscriptionID, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
 	if err != nil {
 		instance.Status.Message = err.Error()
 
