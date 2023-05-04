@@ -471,16 +471,12 @@ tasks:
   controller:test-integration-kind-ci:
     desc: Run live integration tests in kind and deletes the kind cluster afterwards.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-helm-podidentity]
+    deps: [controller:kind-create-helm-workload-identity]
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
-      # TODO: Below pattern was taken from https://github.com/go-task/task/pull/474 to ensure cleanup runs after the test.
-      - |
-        (go test -timeout 40m -run '{{default ".*" .TEST_FILTER}}' ./test); # Run the tests in a subshell
-        TEST_EXIT=$?;
-        kind delete cluster --name=asov2
-        exit $TEST_EXIT
+      - defer: { task: controller:kind-delete }
+      - go test -timeout 40m -run '{{default ".*" .TEST_FILTER}}' ./test
 
   # Note that this target isn't used in CI and is intended for use when running locally on a kind cluster
   # that you don't want to delete (in contrast to test-integration-kind-ci which will delete the kind cluster
@@ -488,7 +484,7 @@ tasks:
   controller:test-integration-kind:
     desc: Run live integration tests in kind.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:kind-create-helm-podidentity]
+    deps: [controller:kind-create-helm-workload-identity]
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
@@ -502,14 +498,8 @@ tasks:
       # This timeout is purposefully low - if we find that this job is
       # taking a long time we may need to think of other ways to keep
       # CI fast
-      # TODO: Below pattern was taken from
-      # https://github.com/go-task/task/pull/474 to ensure cleanup
-      # runs after the test.
-      - |
-        (go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test/multitenant); # Run the tests in a subshell.
-        TEST_EXIT=$?;
-        kind delete cluster --name=asov2
-        exit $TEST_EXIT
+      - defer: { task: controller:kind-delete }
+      - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test/multitenant
 
   # Note that this target isn't used in CI and is intended for use
   # when running locally on a kind cluster that you don't want to
@@ -642,6 +632,22 @@ tasks:
       aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
     - task: controller:wait-for-operator-ready
 
+  controller:install-helm-wi:
+    desc: Generate and install helm chart on cluster using workload identity
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - "helm upgrade --install --set azureSubscriptionID=$AZURE_SUBSCRIPTION_ID \
+      --set azureTenantID=$AZURE_TENANT_ID \
+      --set azureClientID={{.AZURE_MI_CLIENT_ID}} \
+      --set useWorkloadIdentityAuth=true \
+      --set image.repository={{.LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE}} \
+      aso2 -n {{.ASO_NAMESPACE}} --create-namespace ./charts/azure-service-operator/"
+      - task: controller:wait-for-operator-ready
+    vars:
+      # Override the AZURE_CLIENT_ID env variable here
+      AZURE_MI_CLIENT_ID:
+        sh: "cat v2/out/workload-identity/azure/miclientid.txt"
+
   controller:delete-helm:
     desc: Delete helm release
     cmds:
@@ -652,6 +658,8 @@ tasks:
     run: always
     cmds:
       - "kind delete cluster --name=asov2"
+      - "{{.SCRIPTS_ROOT}}/delete-kind-wi-storage.sh -d v2/out/workload-identity"
+      - "kind delete cluster --name=asov2-wi"
 
   controller:kind-create:
     desc: Creates a kind cluster and local Docker registry. Images in the local registry can be pulled in the kind cluster
@@ -660,6 +668,38 @@ tasks:
       - "export KIND_CLUSTER_NAME=asov2 && {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
     status:
       - "kind get clusters | grep \"^asov2$\""
+
+  controller:kind-create-wi:
+    desc: Creates a kind cluster and local Docker registry with OIDC + workload identity enabled. Images in the local registry can be pulled in the kind cluster.
+    run: always
+    dir: "v2/"
+    deps: [az-login]
+    cmds:
+      - "rm -rf out/workload-identity"
+      - "mkdir -p out/workload-identity"
+      - "{{.SCRIPTS_ROOT}}/create-kind-wi-storage.sh -d out/workload-identity -p {{.TEST_LIVE_RESOURCE_PREFIX}}"
+      - "export KIND_CLUSTER_NAME=asov2-wi && \
+            export SERVICE_ACCOUNT_ISSUER=$(cat out/workload-identity/azure/saissuer.txt) && \
+            {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
+    status:
+      - "kind get clusters | grep \"^asov2-wi$\""
+    env:
+      SERVICE_ACCOUNT_KEY_FILE:
+        sh: "echo ${HOSTROOT:-$PWD}/v2/out/workload-identity/sa.pub" # Have to use HOSTROOT here for mounting files when in docker-in-docker as paths are relative to host
+      SERVICE_ACCOUNT_SIGNING_KEY_FILE:
+        sh: "echo ${HOSTROOT:-$PWD}/v2/out/workload-identity/sa.key"
+
+  controller:create-mi-for-workload-identity:
+    desc: Creates a managed identity and federated identity credential for user in a kind cluster
+    dir: "v2/"
+    deps: [az-login]
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/make-mi-fic.sh -g {{.RESOURCE_GROUP}} -i {{.ISSUER}} -d ./out/workload-identity"
+    vars:
+      RESOURCE_GROUP:
+        sh: "cat ./out/workload-identity/azure/rg.txt"
+      ISSUER:
+        sh: "cat ./out/workload-identity/azure/saissuer.txt"
 
   controller:scan-image:
     desc: Builds a local image and scans the image using trivy
@@ -699,27 +739,19 @@ tasks:
     status:
       - "kubectl get namespace cert-manager"
 
-  controller:install-aad-pod-identity-local:
-    desc: Installs 'aad-pod-identity' in managed mode
-    cmds:
-      - "kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/managed-mode-deployment.yaml"
-      - "kubectl wait --for=condition=Ready --timeout=2m pods --all --namespace kube-system"
-      # Also wait for the CRDs to be established, because we have seen situations where for some reason creating resources of that type fails
-      # shortly after installation. Error looks like this:
-      # [controller:make-aadpodidentity-secret] unable to recognize "STDIN": no matches for kind "AzureIdentity" in version "aadpodidentity.k8s.io/v1"
-      # [controller:make-aadpodidentity-secret] unable to recognize "STDIN": no matches for kind "AzureIdentityBinding" in version "aadpodidentity.k8s.io/v1"
-      - "kubectl wait --for condition=established --timeout=2m crd/azureidentities.aadpodidentity.k8s.io"
-      - "kubectl wait --for condition=established --timeout=2m crd/azureidentitybindings.aadpodidentity.k8s.io"
-
   controller:make-sp-secret:
     desc: Creates a service principal aso-controller-settings secret for testing purposes
     cmds:
       - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh sp"
 
-  controller:make-aadpodidentity-secret:
-    desc: Creates an aad-pod-identity secret for testing purposes
+  controller:make-workload-identity-secret:
+    desc: Creates a workload identity secret for testing purposes
     cmds:
-      - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh aadpodidentity"
+      - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh workloadidentity"
+    env:
+      # Override the AZURE_CLIENT_ID env variable here
+      AZURE_MI_CLIENT_ID:  # TODO: Ideally would override AZURE_CLIENT_ID here but we can't because of https://github.com/go-task/task/issues/1038
+        sh: "cat v2/out/workload-identity/azure/miclientid.txt"
 
   controller:wait-for-operator-ready:
     desc: Waits for the operator and associated CRDs to be ready
@@ -739,17 +771,17 @@ tasks:
       - task: controller:make-sp-secret
       - task: controller:wait-for-operator-ready
 
-  controller:kind-create-with-podidentity:
-    desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO.
+  controller:kind-create-with-workload-identity:
+    desc: Creates a local kind cluster in workload identity mode with ASO using a managed identity.
     cmds:
-      - task: controller:kind-create
+      - task: controller:kind-create-wi
+      - task: controller:create-mi-for-workload-identity
       - task: controller:install-cert-manager
       - task: controller:docker-push-local
       # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
       - "cmctl check api --wait=2m"
       - task: controller:install
-      - task: controller:install-aad-pod-identity-local
-      - task: controller:make-aadpodidentity-secret
+      - task: controller:make-workload-identity-secret
       - task: controller:wait-for-operator-ready
 
   controller:kind-create-multitenant-cluster:
@@ -817,13 +849,17 @@ tasks:
       - "cmctl check api --wait=2m"
       - task: controller:install-helm
 
-  controller:kind-create-helm-podidentity:
-    desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO helm chart.
-    deps: [controller:kind-create-helm]
+  controller:kind-create-helm-workload-identity:
+    desc: Creates a local kind cluster with Workload identity installed alongside ASO helm chart using UMI auth.
     cmds:
-      - task: controller:install-aad-pod-identity-local
-      - task: controller:make-aadpodidentity-secret
-      - task: controller:wait-for-operator-ready
+      - task: controller:kind-create-wi
+      - task: controller:create-mi-for-workload-identity
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      - task: controller:gen-helm-manifest
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      - task: controller:install-helm-wi
 
   controller:gen-crd-docs:
     desc: Generates API docs for CRDs
@@ -908,7 +944,7 @@ tasks:
   az-login:
     desc: Runs AZ login
     cmds:
-      - az login --service-principal -u {{.AZURE_CLIENT_ID}} -p {{.AZURE_CLIENT_SECRET}} --tenant {{.AZURE_TENANT_ID}}
+      - az login --service-principal -u {{.AZURE_CLIENT_ID}} -p {{.AZURE_CLIENT_SECRET}} --tenant {{.AZURE_TENANT_ID}} > /dev/null
       - az account set --subscription {{.AZURE_SUBSCRIPTION_ID}}
 
   header-check:
