@@ -553,6 +553,7 @@ func (report *ResourceVersionsReport) defaultGroupResourcesFrontMatter(group str
 	var buffer strings.Builder
 	buffer.WriteString("---\n")
 	buffer.WriteString(fmt.Sprintf("title: %s Supported Resources\n", report.titleCase.String(group)))
+	buffer.WriteString(fmt.Sprintf("linktitle: %s\n", group))
 	buffer.WriteString("---\n\n")
 	return buffer.String()
 }
