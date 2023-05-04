@@ -16,6 +16,8 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
@@ -73,6 +75,7 @@ type ResourceVersionsReport struct {
 	kinds                    map[string]astmodel.TypeDefinitionSet                   // For each group, the set of all available resources
 	lists                    map[astmodel.PackageReference][]astmodel.TypeDefinition // A separate list of resources for each package
 	typoAdvisor              *config.TypoAdvisor                                     // Advisor used to troubleshoot unused fragments
+	titleCase                cases.Caser
 }
 
 func NewResourceVersionsReport(
@@ -89,6 +92,7 @@ func NewResourceVersionsReport(
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 		typoAdvisor:              config.NewTypoAdvisor(),
+		titleCase:                cases.Title(language.English),
 	}
 
 	err := result.loadFragments()
@@ -233,7 +237,7 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 
 	errs := make([]error, 0, len(groups)) // Preallocate maximum size
 	for _, grp := range groups {
-		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(grp)))
+		buffer.WriteString(fmt.Sprintf("## %s\n\n", report.titleCase.String(grp)))
 
 		// Include a fragment for this group if we have one
 		if fragment, ok := report.findFragment(grp); ok {
@@ -289,7 +293,7 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 		buffer.WriteString("\n\n")
 	}
 
-	buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(group)))
+	buffer.WriteString(fmt.Sprintf("## %s\n\n", report.titleCase.String(group)))
 
 	// Include a fragment for this group if we have one
 	if fragment, ok := report.findFragment(group); ok {
@@ -556,7 +560,7 @@ func (report *ResourceVersionsReport) defaultAllResourcesFrontMatter() string {
 func (report *ResourceVersionsReport) defaultGroupResourcesFrontMatter(group string) string {
 	var buffer strings.Builder
 	buffer.WriteString("---\n")
-	buffer.WriteString(fmt.Sprintf("title: %s Supported Resources\n", group))
+	buffer.WriteString(fmt.Sprintf("title: %s Supported Resources\n", report.titleCase.String(group)))
 	buffer.WriteString("---\n\n")
 	return buffer.String()
 }
