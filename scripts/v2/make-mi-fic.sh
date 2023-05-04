@@ -18,8 +18,12 @@ function retry_create_role_assignment() {
 }
 
 print_usage() {
-  echo "Usage: make-mi-fic-kind-wi-storage.sh -g <RESOURCE_GROUP> -i <ISSUER> -d <DIR>"
+  echo "Usage: make-mi-fic.sh -g <RESOURCE_GROUP> -i <ISSUER> -d <DIR>"
 }
+
+RESOURCE_GROUP=
+ISSUER=
+DIR=
 
 while getopts 'g:i:d:' flag; do
   case "${flag}" in

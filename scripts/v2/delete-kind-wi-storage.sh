@@ -12,6 +12,8 @@ print_usage() {
   echo "Usage: delete-kind-wi-storage.sh -d <DIRECTORY>"
 }
 
+DIR=
+
 while getopts 'd:' flag; do
   case "${flag}" in
     d) DIR="${OPTARG}" ;;

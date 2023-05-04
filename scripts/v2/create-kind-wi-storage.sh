@@ -12,6 +12,9 @@ print_usage() {
   echo "Usage: create-kind-wi-storage.sh -d <DIRECTORY> -p <PREFIX>"
 }
 
+DIR=
+PREFIX=
+
 while getopts 'd:p:' flag; do
   case "${flag}" in
     d) DIR="${OPTARG}" ;;
