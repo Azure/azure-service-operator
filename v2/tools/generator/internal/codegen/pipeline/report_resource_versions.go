@@ -237,7 +237,10 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 
 	errs := make([]error, 0, len(groups)) // Preallocate maximum size
 	for _, grp := range groups {
-		buffer.WriteString(fmt.Sprintf("## %s\n\n", report.titleCase.String(grp)))
+		kinds := report.kinds[grp]
+
+		title := report.groupTitle(grp, kinds)
+		buffer.WriteString(fmt.Sprintf("## %s\n\n", title))
 
 		// Include a fragment for this group if we have one
 		if fragment, ok := report.findFragment(grp); ok {
@@ -245,7 +248,6 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 			buffer.WriteString("\n\n")
 		}
 
-		kinds := report.kinds[grp]
 		summary := report.createSummary(kinds)
 
 		buffer.WriteString(summary)
@@ -280,11 +282,14 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 	frontMatter string,
 	buffer *strings.Builder,
 ) error {
+	kinds := report.kinds[group]
+	title := report.groupTitle(group, kinds)
 
+	// Reuse existing front-matter if available, else generate a default one
 	if frontMatter != "" {
 		buffer.WriteString(frontMatter)
 	} else {
-		buffer.WriteString(report.defaultGroupResourcesFrontMatter(group))
+		buffer.WriteString(report.defaultGroupResourcesFrontMatter(title))
 	}
 
 	// Include a fragment for this group if we have one
@@ -293,7 +298,6 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 		buffer.WriteString("\n\n")
 	}
 
-	kinds := report.kinds[group]
 	summary := report.createSummary(kinds)
 
 	buffer.WriteString(summary)
@@ -549,11 +553,12 @@ func (report *ResourceVersionsReport) defaultAllResourcesFrontMatter() string {
 
 // defaultGroupResourcesFrontMatter returns the default front-matter for the report if no existing file is present,
 // or if it has no front-matter present.
-func (report *ResourceVersionsReport) defaultGroupResourcesFrontMatter(group string) string {
+func (report *ResourceVersionsReport) defaultGroupResourcesFrontMatter(title string) string {
 	var buffer strings.Builder
 	buffer.WriteString("---\n")
-	buffer.WriteString(fmt.Sprintf("title: %s Supported Resources\n", report.titleCase.String(group)))
-	buffer.WriteString(fmt.Sprintf("linktitle: %s\n", group))
+	buffer.WriteString(fmt.Sprintf("title: %s Supported Resources\n", title))
+	buffer.WriteString(fmt.Sprintf("linktitle: %s\n", title))
+	buffer.WriteString("no_list: true\n")
 	buffer.WriteString("---\n\n")
 	return buffer.String()
 }
@@ -564,4 +569,30 @@ func (report *ResourceVersionsReport) findFragment(name string) (string, bool) {
 
 	fragment, ok := report.availableFragments[name]
 	return fragment, ok
+}
+
+// groupTitle returns the title to use for the given group, based on the first resource found in that group
+func (report *ResourceVersionsReport) groupTitle(group string, kinds astmodel.TypeDefinitionSet) string {
+	for _, rsrc := range kinds {
+		// Look for a resource definition
+		rsrc, ok := astmodel.AsResourceType(rsrc.Type())
+		if !ok {
+			// Didn't find a resource, keep looking
+			continue
+		}
+
+		// Slice off the part before the first "/" to get the Provider name
+		parts := strings.Split(rsrc.ARMType(), "/")
+		if len(parts) == 0 {
+			// String doesn't look like a resource type, keep looking
+			continue
+		}
+
+		// Remove the "Microsoft." prefix
+		result := strings.TrimPrefix(parts[0], "Microsoft.")
+
+		return result
+	}
+
+	return report.titleCase.String(group)
 }
