@@ -45,6 +45,19 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 				return nil, err
 			}
 
+			var errs []error
+			for grp := range report.groups {
+				outputFile := configuration.SupportedResourcesReport.GroupFullOutputPath(grp)
+				err := report.SaveGroupResourcesReportTo(grp, outputFile)
+				if err != nil {
+					errs = append(errs, errors.Wrapf(err, "writing versions report to %s for group %s", outputFile, grp))
+				}
+			}
+
+			if len(errs) > 0 {
+				return nil, kerrors.NewAggregate(errs)
+			}
+
 			err = configuration.ObjectModelConfiguration.VerifySupportedFromConsumed()
 			return state, err
 		})
@@ -163,7 +176,31 @@ func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string
 		return errors.Wrapf(err, "writing versions report to %s", outputFile)
 	}
 
-	if _, err := os.Stat(outputFile); os.IsNotExist(err) {
+	outputFolder := filepath.Dir(outputFile)
+	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
+		err = os.MkdirAll(outputFolder, 0o700)
+		if err != nil {
+			return errors.Wrapf(err, "Unable to create directory %q", outputFile)
+		}
+	}
+
+	return os.WriteFile(outputFile, []byte(buffer.String()), 0o600)
+}
+
+// SaveGroupResourcesReportTo creates a file containing the generated report
+func (report *ResourceVersionsReport) SaveGroupResourcesReportTo(group string, outputFile string) error {
+
+	klog.V(1).Infof("Writing report to %s for group ", outputFile, group)
+	frontMatter := report.readFrontMatter(outputFile)
+
+	var buffer strings.Builder
+	err := report.WriteGroupResourcesReportToBuffer(group, frontMatter, &buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing versions report to %s for group %s", outputFile, group)
+	}
+
+	outputFolder := filepath.Dir(outputFile)
+	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
 		err = os.MkdirAll(outputFile, 0o700)
 		if err != nil {
 			return errors.Wrapf(err, "Unable to create directory %q", outputFile)
@@ -231,6 +268,50 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 	}
 
 	return kerrors.NewAggregate(errs)
+}
+
+// WriteGroupResourcesReportToBuffer creates the report in the provided buffer
+func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
+	group string,
+	frontMatter string,
+	buffer *strings.Builder,
+) error {
+
+	if frontMatter != "" {
+		buffer.WriteString(frontMatter)
+	} else {
+		buffer.WriteString(report.defaultGroupResourcesFrontMatter(group))
+	}
+
+	// Include file header if found
+	if fragment, ok := report.findFragment("header"); ok {
+		buffer.WriteString(fragment)
+		buffer.WriteString("\n\n")
+	}
+
+	buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(group)))
+
+	// Include a fragment for this group if we have one
+	if fragment, ok := report.findFragment(group); ok {
+		buffer.WriteString(fragment)
+		buffer.WriteString("\n\n")
+	}
+
+	kinds := report.kinds[group]
+	summary := report.createSummary(kinds)
+
+	buffer.WriteString(summary)
+	buffer.WriteString("\n\n")
+
+	table, err := report.createTable(group, kinds)
+	if err != nil {
+		return errors.Wrapf(err, "creating table for group %s", group)
+	}
+
+	table.WriteTo(buffer)
+	buffer.WriteString("\n")
+
+	return nil
 }
 
 func (report *ResourceVersionsReport) createSummary(
@@ -466,6 +547,16 @@ func (report *ResourceVersionsReport) defaultAllResourcesFrontMatter() string {
 	var buffer strings.Builder
 	buffer.WriteString("---\n")
 	buffer.WriteString("title: Supported Resources\n")
+	buffer.WriteString("---\n\n")
+	return buffer.String()
+}
+
+// defaultGroupResourcesFrontMatter returns the default front-matter for the report if no existing file is present,
+// or if it has no front-matter present.
+func (report *ResourceVersionsReport) defaultGroupResourcesFrontMatter(group string) string {
+	var buffer strings.Builder
+	buffer.WriteString("---\n")
+	buffer.WriteString(fmt.Sprintf("title: %s Supported Resources\n", group))
 	buffer.WriteString("---\n\n")
 	return buffer.String()
 }
