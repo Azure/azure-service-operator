@@ -55,7 +55,6 @@ type ResourceVersionsReport struct {
 	objectModelConfiguration *config.ObjectModelConfiguration
 	rootUrl                  string
 	samplesPath              string
-	frontMatter              string                                                  // Front matter to be inserted at the top of the report
 	availableFragments       map[string]string                                       // A collection of the fragments to use in the report
 	groups                   set.Set[string]                                         // A set of all our groups
 	kinds                    map[string]astmodel.TypeDefinitionSet                   // For each group, the set of all available resources
@@ -156,10 +155,10 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string) error {
 
 	klog.V(1).Infof("Writing report to %s", outputFile)
-	report.frontMatter = report.readFrontMatter(outputFile)
+	frontMatter := report.readFrontMatter(outputFile)
 
 	var buffer strings.Builder
-	err := report.WriteAllResourcesReportToBuffer(&buffer)
+	err := report.WriteAllResourcesReportToBuffer(frontMatter, &buffer)
 	if err != nil {
 		return errors.Wrapf(err, "writing versions report to %s", outputFile)
 	}
@@ -175,10 +174,13 @@ func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string
 }
 
 // WriteAllResourcesReportToBuffer creates the report in the provided buffer
-func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(buffer *strings.Builder) error {
+func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
+	frontMatter string,
+	buffer *strings.Builder,
+) error {
 
-	if report.frontMatter != "" {
-		buffer.WriteString(report.frontMatter)
+	if frontMatter != "" {
+		buffer.WriteString(frontMatter)
 	} else {
 		buffer.WriteString(report.defaultAllResourcesFrontMatter())
 	}

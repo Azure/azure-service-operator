@@ -89,6 +89,7 @@ func TestGolden_ReportAllResourceVersions(t *testing.T) {
 
 	var buffer strings.Builder
 	g.Expect(report.WriteAllResourcesReportToBuffer(
+		"", // No Frontmatter
 		&buffer)).
 		To(Succeed())
 
