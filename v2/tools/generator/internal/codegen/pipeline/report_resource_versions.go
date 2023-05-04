@@ -181,7 +181,7 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(buffer *st
 	if report.frontMatter != "" {
 		buffer.WriteString(report.frontMatter)
 	} else {
-		buffer.WriteString(report.defaultFrontMatter())
+		buffer.WriteString(report.defaultAllResourcesFrontMatter())
 	}
 
 	// Include file header if found
@@ -459,9 +459,9 @@ func (report *ResourceVersionsReport) readFrontMatter(outputPath string) string 
 	return buffer.String()
 }
 
-// defaultFrontMatter returns the default front-matter for the report if no existing file is present,
+// defaultAllResourcesFrontMatter returns the default front-matter for the report if no existing file is present,
 // or if it has no front-matter present.
-func (report *ResourceVersionsReport) defaultFrontMatter() string {
+func (report *ResourceVersionsReport) defaultAllResourcesFrontMatter() string {
 	var buffer strings.Builder
 	buffer.WriteString("---\n")
 	buffer.WriteString("title: Supported Resources\n")
