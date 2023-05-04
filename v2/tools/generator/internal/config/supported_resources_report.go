@@ -12,8 +12,8 @@ import (
 // SupportedResourcesReport is configuration for the report that lists all the supported resources.
 type SupportedResourcesReport struct {
 	cfg *Configuration // Back reference to global configuration
-	// OutputPath is the destination filepath for the report, relative to DestinationGoModuleFile
-	OutputPath string `yaml:"outputPath,omitempty"`
+	// OutputFolder is the destination folder for the report, relative to DestinationGoModuleFile
+	OutputFolder string `yaml:"outputFolder,omitempty"`
 	// FragmentPath is a folder path for markdown fragments to inject into the file
 	FragmentPath string `yaml:"fragmentPath,omitempty"`
 	// ResourceUrlTemplate is a template for URL to the API docs for a resource
@@ -35,7 +35,17 @@ func NewSupportedResourcesReport(cfg *Configuration) *SupportedResourcesReport {
 func (srr *SupportedResourcesReport) FullOutputPath() string {
 	return filepath.Join(
 		filepath.Dir(srr.cfg.DestinationGoModuleFile),
-		srr.OutputPath)
+		srr.OutputFolder,
+		"_index.md")
+}
+
+// FullOutputPath returns the fully qualified path to the output file for a given group
+func (srr *SupportedResourcesReport) GroupFullOutputPath(group string) string {
+	return filepath.Join(
+		filepath.Dir(srr.cfg.DestinationGoModuleFile),
+		srr.OutputFolder,
+		group,
+		"_index.md")
 }
 
 // FullFragmentFolderPath returns the fully qualified path to our fragment folder
