@@ -19,6 +19,7 @@ function retry_create_role_assignment() {
 
 print_usage() {
   echo "Usage: make-mi-fic.sh -g <RESOURCE_GROUP> -i <ISSUER> -d <DIR>"
+  echo "    To bring your own identity, set the AZURE_IDENTITY_NAME and AZURE_IDENTITY_RG env variables"
 }
 
 RESOURCE_GROUP=
@@ -48,10 +49,21 @@ if [[ ! -z "$IDENTITIES" ]]; then
   exit 0
 fi
 
-IDENTITY_NAME="mi$(openssl rand -hex 6)"
+EXISTING_IDENTITY=false
+if [[ ! -z "${AZURE_IDENTITY_NAME:-}" ]]; then
+  IDENTITY_NAME="$AZURE_IDENTITY_NAME"
+  RESOURCE_GROUP="$AZURE_IDENTITY_RG"
+  EXISTING_IDENTITY=true
+else
+  IDENTITY_NAME="mi$(openssl rand -hex 6)"
+fi
+
 SUBJECT="system:serviceaccount:azureserviceoperator-system:azureserviceoperator-default"
 
-az identity create --name ${IDENTITY_NAME} --resource-group ${RESOURCE_GROUP}
+if [ "$EXISTING_IDENTITY" = false ]; then
+  az identity create --name ${IDENTITY_NAME} --resource-group ${RESOURCE_GROUP}
+fi
+
 az identity federated-credential create \
   --identity-name ${IDENTITY_NAME} \
   --name fic \
@@ -63,8 +75,14 @@ az identity federated-credential create \
 export USER_ASSIGNED_CLIENT_ID="$(az identity show --resource-group "${RESOURCE_GROUP}" --name "${IDENTITY_NAME}" --query 'clientId' -otsv)"
 export USER_ASSIGNED_OBJECT_ID="$(az identity show --resource-group "${RESOURCE_GROUP}" --name "${IDENTITY_NAME}" --query 'principalId' -otsv)"
 
-export -f create_role_assignment
-export -f retry_create_role_assignment
-timeout 1m bash -c retry_create_role_assignment
+# Assumption is if the user brought their own identity that it already has the permisisons it needs
+if [ "$EXISTING_IDENTITY" = false ]; then
+  export -f create_role_assignment
+  export -f retry_create_role_assignment
+  timeout 1m bash -c retry_create_role_assignment
+fi
 
 echo ${USER_ASSIGNED_CLIENT_ID} > "${DIR}/azure/miclientid.txt"
+if [ "$EXISTING_IDENTITY" = true ]; then
+  echo "fic" > "${DIR}/azure/fic.txt"
+fi
