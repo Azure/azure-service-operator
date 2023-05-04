@@ -20,7 +20,7 @@ vars:
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT:
-    sh: 'realpath scripts'
+    sh: 'realpath scripts/v2'
 
   HEADER_FILE:
     sh: 'realpath v2/boilerplate.go.txt'
@@ -30,7 +30,7 @@ vars:
 
   VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
-    sh: "{{.SCRIPTS_ROOT}}/build-version.py v2"
+    sh: "{{.SCRIPTS_ROOT}}/build_version.py v2"
 
   LATEST_VERSION_TAG: $(git describe --tags $(git rev-list --tags=v2* --max-count=1))
 
@@ -742,12 +742,12 @@ tasks:
   controller:make-sp-secret:
     desc: Creates a service principal aso-controller-settings secret for testing purposes
     cmds:
-      - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh sp"
+      - "{{.SCRIPTS_ROOT}}/deploy-testing-secret.sh sp"
 
   controller:make-workload-identity-secret:
     desc: Creates a workload identity secret for testing purposes
     cmds:
-      - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh workloadidentity"
+      - "{{.SCRIPTS_ROOT}}/deploy-testing-secret.sh workloadidentity"
     env:
       # Override the AZURE_CLIENT_ID env variable here
       AZURE_MI_CLIENT_ID:  # TODO: Ideally would override AZURE_CLIENT_ID here but we can't because of https://github.com/go-task/task/issues/1038
@@ -800,7 +800,7 @@ tasks:
       # Install tenant yaml - with same image switch
       - "cat v2/bin/multitenant-tenant_{{.VERSION}}.yaml | sed -e 's|image: mcr.microsoft.com/k8s/azureserviceoperator:.*|image: localhost:5000/azureserviceoperator:latest|' | kubectl apply --server-side=true -f -"
       # Make sp secret for tenant watching some target namespaces.
-      - "{{.SCRIPTS_ROOT}}/deploy_multitenant_testing_secret.sh"
+      - "{{.SCRIPTS_ROOT}}/deploy-multitenant-testing-secret.sh"
       # Create the namespaces that the tenant is watching.
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
