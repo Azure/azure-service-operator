@@ -9,7 +9,6 @@ import (
 	"context"
 	"fmt"
 	"io/fs"
-	"io/ioutil"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -106,7 +105,7 @@ func (report *ResourceVersionsReport) loadFragments() error {
 			}
 
 			// Load the file contents
-			content, err := ioutil.ReadFile(path)
+			content, err := os.ReadFile(path)
 			if err != nil {
 				return errors.Wrapf(err, "Unable to read fragment file %q", info.Name())
 			}
@@ -172,7 +171,7 @@ func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string
 		}
 	}
 
-	return ioutil.WriteFile(outputFile, []byte(buffer.String()), 0o600)
+	return os.WriteFile(outputFile, []byte(buffer.String()), 0o600)
 }
 
 // WriteAllResourcesReportToBuffer creates the report in the provided buffer
@@ -440,7 +439,7 @@ func (report *ResourceVersionsReport) readFrontMatter(outputPath string) string 
 	}
 
 	klog.V(2).Infof("Reading front matter from %s", outputPath)
-	data, err := ioutil.ReadFile(outputPath)
+	data, err := os.ReadFile(outputPath)
 	if err != nil {
 		return ""
 	}
