@@ -1,3 +1,16 @@
 ---
-title: machinelearningservices
+title: MachineLearningServices Supported Resources
+linktitle: MachineLearningServices
+no_list: true
 ---
+Supporting 3 resources: Workspace, WorkspacesCompute, WorkspacesConnection
+
+| Resource                                                                                                                                                                                       | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                               |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Workspace](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20210701/#machinelearningservices.azure.com/v1api20210701.Workspace)                         | 2021-07-01  | v1api20210701  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api/v1api20210701_workspace.yaml)              |
+| [Workspace](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.Workspace)                       | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspace.yaml)            |
+| [WorkspacesCompute](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20210701/#machinelearningservices.azure.com/v1api20210701.WorkspacesCompute)         | 2021-07-01  | v1api20210701  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api/v1api20210701_workspacescompute.yaml)      |
+| [WorkspacesCompute](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.WorkspacesCompute)       | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspacescompute.yaml)    |
+| [WorkspacesConnection](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20210701/#machinelearningservices.azure.com/v1api20210701.WorkspacesConnection)   | 2021-07-01  | v1api20210701  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api/v1api20210701_workspacesconnection.yaml)   |
+| [WorkspacesConnection](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.WorkspacesConnection) | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspacesconnection.yaml) |
+
