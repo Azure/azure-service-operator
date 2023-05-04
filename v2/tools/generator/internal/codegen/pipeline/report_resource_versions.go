@@ -287,14 +287,6 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 		buffer.WriteString(report.defaultGroupResourcesFrontMatter(group))
 	}
 
-	// Include file header if found
-	if fragment, ok := report.findFragment("header"); ok {
-		buffer.WriteString(fragment)
-		buffer.WriteString("\n\n")
-	}
-
-	buffer.WriteString(fmt.Sprintf("## %s\n\n", report.titleCase.String(group)))
-
 	// Include a fragment for this group if we have one
 	if fragment, ok := report.findFragment(group); ok {
 		buffer.WriteString(fragment)
