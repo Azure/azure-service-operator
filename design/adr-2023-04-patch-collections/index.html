@@ -18,38 +18,34 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>insights.azure.com/v1beta20180501preview | Azure Service Operator</title>
-<meta name="description" content="insights.azure.com/v1beta20180501preview  Package v1beta20180501preview contains API Schema definitions for the insights v1beta20180501preview API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20180501preview.APIVersion instead
-    Value Description   &amp;#34;2018-05-01-preview&amp;#34;
-    HeaderField   (Appears on:WebTestProperties_Request)  Deprecated version of HeaderField. Use v1api20180501preview.HeaderField instead
-    Field Description      key  string        value  string        HeaderField_ARM   (Appears on:WebTestProperties_Request_ARM)  Deprecated version of HeaderField.">
-<meta property="og:title" content="insights.azure.com/v1beta20180501preview" />
-<meta property="og:description" content="insights.azure.com/v1beta20180501preview  Package v1beta20180501preview contains API Schema definitions for the insights v1beta20180501preview API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20180501preview.APIVersion instead
-    Value Description   &#34;2018-05-01-preview&#34;
-    HeaderField   (Appears on:WebTestProperties_Request)  Deprecated version of HeaderField. Use v1api20180501preview.HeaderField instead
-    Field Description      key  string        value  string        HeaderField_ARM   (Appears on:WebTestProperties_Request_ARM)  Deprecated version of HeaderField." />
+<title>2023-04: Preventing Resource Drift | Azure Service Operator</title>
+<meta name="description" content="Context Some Azure Resource Providers do not quite have full replace semantics for a PUT.
+Instead, they have PATCH-like behavior on PUT which effectively boils down to: They will replace sub-objects/sub-collections if the object/collection is in the JSON payload, but they will leave untouched omitted properties or collections.
+To illustrate, assume you have a Person object with a Name and a list of Addresses.
+ If you PUT a Person object with a new Name and no addresses, the new name will be persisted, but the addresses will remain unchanged.">
+<meta property="og:title" content="2023-04: Preventing Resource Drift" />
+<meta property="og:description" content="Context Some Azure Resource Providers do not quite have full replace semantics for a PUT.
+Instead, they have PATCH-like behavior on PUT which effectively boils down to: They will replace sub-objects/sub-collections if the object/collection is in the JSON payload, but they will leave untouched omitted properties or collections.
+To illustrate, assume you have a Person object with a Name and a list of Addresses.
+ If you PUT a Person object with a new Name and no addresses, the new name will be persisted, but the addresses will remain unchanged." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1beta20180501preview/" /><meta property="article:section" content="reference" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2023-04-patch-collections/" /><meta property="article:section" content="design" />
 
 
 
-<meta itemprop="name" content="insights.azure.com/v1beta20180501preview">
-<meta itemprop="description" content="insights.azure.com/v1beta20180501preview  Package v1beta20180501preview contains API Schema definitions for the insights v1beta20180501preview API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20180501preview.APIVersion instead
-    Value Description   &#34;2018-05-01-preview&#34;
-    HeaderField   (Appears on:WebTestProperties_Request)  Deprecated version of HeaderField. Use v1api20180501preview.HeaderField instead
-    Field Description      key  string        value  string        HeaderField_ARM   (Appears on:WebTestProperties_Request_ARM)  Deprecated version of HeaderField.">
+<meta itemprop="name" content="2023-04: Preventing Resource Drift">
+<meta itemprop="description" content="Context Some Azure Resource Providers do not quite have full replace semantics for a PUT.
+Instead, they have PATCH-like behavior on PUT which effectively boils down to: They will replace sub-objects/sub-collections if the object/collection is in the JSON payload, but they will leave untouched omitted properties or collections.
+To illustrate, assume you have a Person object with a Name and a list of Addresses.
+ If you PUT a Person object with a new Name and no addresses, the new name will be persisted, but the addresses will remain unchanged.">
 
-<meta itemprop="wordCount" content="914">
+<meta itemprop="wordCount" content="1199">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="insights.azure.com/v1beta20180501preview"/>
-<meta name="twitter:description" content="insights.azure.com/v1beta20180501preview  Package v1beta20180501preview contains API Schema definitions for the insights v1beta20180501preview API group
- Resource Types:  APIVersion (string alias)  Deprecated version of APIVersion. Use v1api20180501preview.APIVersion instead
-    Value Description   &#34;2018-05-01-preview&#34;
-    HeaderField   (Appears on:WebTestProperties_Request)  Deprecated version of HeaderField. Use v1api20180501preview.HeaderField instead
-    Field Description      key  string        value  string        HeaderField_ARM   (Appears on:WebTestProperties_Request_ARM)  Deprecated version of HeaderField."/>
+<meta name="twitter:title" content="2023-04: Preventing Resource Drift"/>
+<meta name="twitter:description" content="Context Some Azure Resource Providers do not quite have full replace semantics for a PUT.
+Instead, they have PATCH-like behavior on PUT which effectively boils down to: They will replace sub-objects/sub-collections if the object/collection is in the JSON payload, but they will leave untouched omitted properties or collections.
+To illustrate, assume you have a Person object with a Name and a list of Addresses.
+ If you PUT a Person object with a new Name and no addresses, the new name will be persisted, but the addresses will remain unchanged."/>
 
 
 
@@ -79,13 +75,13 @@
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link active" href="/azure-service-operator/reference/"><span class="active">Supported Resources</span></a>
+        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
       </li>
       <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="/azure-service-operator/design/"><span>Design</span></a>
+        <a class="nav-link active" href="/azure-service-operator/design/"><span class="active">Design</span></a>
       </li>
       </ul>
   </div>
@@ -184,10 +180,10 @@
   <a href="/azure-service-operator/tools/generator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">appconfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
@@ -196,7 +192,7 @@
   <a href="/azure-service-operator/reference/appconfiguration/v1beta20220501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv1beta20220501"><span class="">appconfiguration.azure.com/v1beta20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -205,7 +201,7 @@
   <a href="/azure-service-operator/reference/authorization/v1beta20200801preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1beta20200801preview"><span class="">authorization.azure.com/v1beta20200801preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
@@ -214,7 +210,7 @@
   <a href="/azure-service-operator/reference/batch/v1beta20210101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv1beta20210101"><span class="">batch.azure.com/v1beta20210101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -227,7 +223,7 @@
   <a href="/azure-service-operator/reference/cache/v1beta20210301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1beta20210301"><span class="">cache.azure.com/v1beta20210301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -236,7 +232,7 @@
   <a href="/azure-service-operator/reference/cdn/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1beta20210601"><span class="">cdn.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -257,7 +253,7 @@
   <a href="/azure-service-operator/reference/compute/v1beta20220301/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1beta20220301"><span class="">compute.azure.com/v1beta20220301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">containerinstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
@@ -266,7 +262,7 @@
   <a href="/azure-service-operator/reference/containerinstance/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1beta20211001"><span class="">containerinstance.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">containerregistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
@@ -275,7 +271,7 @@
   <a href="/azure-service-operator/reference/containerregistry/v1beta20210901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1beta20210901"><span class="">containerregistry.azure.com/v1beta20210901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">containerservice</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20210501-li">
@@ -288,14 +284,14 @@
   <a href="/azure-service-operator/reference/containerservice/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1beta20210501"><span class="">containerservice.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">datafactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
   <a href="/azure-service-operator/reference/datafactory/v1api20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">datafactory.azure.com/v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">dbformariadb</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
@@ -304,7 +300,7 @@
   <a href="/azure-service-operator/reference/dbformariadb/v1beta20180601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1beta20180601"><span class="">dbformariadb.azure.com/v1beta20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">dbformysql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -317,7 +313,7 @@
   <a href="/azure-service-operator/reference/dbformysql/v1beta20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta20210501"><span class="">dbformysql.azure.com/v1beta20210501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">dbforpostgresql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -332,7 +328,7 @@
   <a href="/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv1beta20220120preview"><span class="">dbforpostgresql.azure.com/v1beta20220120preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">documentdb</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
@@ -341,7 +337,7 @@
   <a href="/azure-service-operator/reference/documentdb/v1beta20210515/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1beta20210515"><span class="">documentdb.azure.com/v1beta20210515</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">eventgrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
@@ -350,7 +346,7 @@
   <a href="/azure-service-operator/reference/eventgrid/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1beta20200601"><span class="">eventgrid.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">eventhub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
@@ -359,20 +355,20 @@
   <a href="/azure-service-operator/reference/eventhub/v1beta20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1beta20211101"><span class="">eventhub.azure.com/v1beta20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">insights</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20180501preview-li">
   <a href="/azure-service-operator/reference/insights/v1api20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20180501preview"><span class="">insights.azure.com/v1api20180501preview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20200202-li">
   <a href="/azure-service-operator/reference/insights/v1api20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20200202"><span class="">insights.azure.com/v1api20200202</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview-li">
-  <a href="/azure-service-operator/reference/insights/v1beta20180501preview/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview"><span class="td-sidebar-nav-active-item">insights.azure.com/v1beta20180501preview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceinsightsv1beta20200202-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview-li">
+  <a href="/azure-service-operator/reference/insights/v1beta20180501preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20180501preview"><span class="">insights.azure.com/v1beta20180501preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1beta20200202-li">
   <a href="/azure-service-operator/reference/insights/v1beta20200202/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1beta20200202"><span class="">insights.azure.com/v1beta20200202</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">keyvault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -381,7 +377,7 @@
   <a href="/azure-service-operator/reference/keyvault/v1beta20210401preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1beta20210401preview"><span class="">keyvault.azure.com/v1beta20210401preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">machinelearningservices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -390,7 +386,7 @@
   <a href="/azure-service-operator/reference/machinelearningservices/v1beta20210701/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1beta20210701"><span class="">machinelearningservices.azure.com/v1beta20210701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">managedidentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -403,7 +399,7 @@
   <a href="/azure-service-operator/reference/managedidentity/v1beta20220131preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1beta20220131preview"><span class="">managedidentity.azure.com/v1beta20220131preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
@@ -420,7 +416,7 @@
   <a href="/azure-service-operator/reference/network/v1beta20201101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1beta20201101"><span class="">network.azure.com/v1beta20201101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">operationalinsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
@@ -429,7 +425,7 @@
   <a href="/azure-service-operator/reference/operationalinsights/v1beta20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv1beta20210601"><span class="">operationalinsights.azure.com/v1beta20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
@@ -438,7 +434,7 @@
   <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">servicebus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -447,7 +443,7 @@
   <a href="/azure-service-operator/reference/servicebus/v1beta20210101preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1beta20210101preview"><span class="">servicebus.azure.com/v1beta20210101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">signalrservice</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
@@ -456,14 +452,14 @@
   <a href="/azure-service-operator/reference/signalrservice/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1beta20211001"><span class="">signalrservice.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1api20211101-li">
   <a href="/azure-service-operator/reference/sql/v1api20211101/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">sql.azure.com/v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -472,7 +468,7 @@
   <a href="/azure-service-operator/reference/storage/v1beta20210401/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev1beta20210401"><span class="">storage.azure.com/v1beta20210401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
@@ -481,14 +477,14 @@
   <a href="/azure-service-operator/reference/subscription/v1beta20211001/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1beta20211001"><span class="">subscription.azure.com/v1beta20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">synapse.azure.com/v1api20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -510,62 +506,62 @@
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
   <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
   <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
   <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
   <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
   <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
   <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator-li">
   <a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-08-evil-discriminator"><span class="">2022-08 Evil Discriminator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources-li">
   <a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-reading-status-properties-of-resources"><span class="">2022-09: Reading Status properties from other ASO resources</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator-li">
   <a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-09-multiple-credential-operator"><span class="">2022-09: Support For Multiple Credentials Under Global Operator</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-resource-import-li">
   <a href="/azure-service-operator/design/adr-2022-11-resource-import/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-resource-import"><span class="">2022-11: ASO v1 Migration and Resource Import</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-11-change-detection-li">
   <a href="/azure-service-operator/design/adr-2022-11-change-detection/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-11-change-detection"><span class="">2022-11: Change Detection</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation-li">
   <a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-01-conversion-augmentation"><span class="">2022-12: Conversion Augmentation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions-li">
   <a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-12-reconciliation-extensions"><span class="">2022-12: Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations-li">
   <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-helm-chart-size-limitations"><span class="">2023-01: Helm Chart Size Limitations and Workarounds</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-02-adoption-policy-li">
   <a href="/azure-service-operator/design/adr-2023-02-adoption-policy/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-02-adoption-policy"><span class="">2023-02: Adoption Policy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension-li">
   <a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-03-post-reconciliation-extension"><span class="">2023-03: Post Reconciliation Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2023-04-deprecation-li">
   <a href="/azure-service-operator/design/adr-2023-04-deprecation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-deprecation"><span class="">2023-04: Azure Resource Deprecation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
-  <a href="/azure-service-operator/design/adr-2023-04-patch-collections/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-patch-collections"><span class="">2023-04: Preventing Resource Drift</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2023-04-patch-collections-li">
+  <a href="/azure-service-operator/design/adr-2023-04-patch-collections/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2023-04-patch-collections"><span class="td-sidebar-nav-active-item">2023-04: Preventing Resource Drift</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -581,7 +577,7 @@
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
 </li>
   </ul>
@@ -599,7 +595,28 @@
 
 </div>
 
-            
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#context">Context</a>
+      <ul>
+        <li><a href="#option-1-optional-properties">Option 1: Optional Properties</a></li>
+        <li><a href="#option-2-remove-omitempty-from-collections-only">Option 2: Remove <code>omitempty</code> from collections only</a></li>
+        <li><a href="#option-2a-remove-omitempty-from-all-properties">Option 2a: Remove <code>omitempty</code> from all properties</a></li>
+        <li><a href="#option-3-custom-json-serialization">Option 3: Custom JSON Serialization</a></li>
+        <li><a href="#option-4-remove-omitempty-for-collections-on-selected-arm-types-only">Option 4: Remove <code>omitempty</code> for collections on selected ARM types only</a></li>
+        <li><a href="#option-4a-remove-omitempty-for-all-properties-on-selected-arm-types-only">Option 4a: Remove <code>omitempty</code> for all properties on selected ARM types only</a></li>
+      </ul>
+    </li>
+    <li><a href="#decision">Decision</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+      </div>
+    
             
 
 	
@@ -628,19 +645,16 @@
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/">Supported Resources</a>
-  </li>
-  <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/reference/insights/">insights</a>
+    <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/reference/insights/v1beta20180501preview/" aria-disabled="true" class="btn-link disabled">insights.azure.com/v1beta20180501preview</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2023-04-patch-collections/" aria-disabled="true" class="btn-link disabled">2023-04: Preventing Resource Drift</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>insights.azure.com/v1beta20180501preview</h1>
+	<h1>2023-04: Preventing Resource Drift</h1>
 	
 	<header class="article-meta">
 		
@@ -657,2336 +671,146 @@
 
 		
 	</header>    
-	<h2 id="insights.azure.com/v1beta20180501preview">insights.azure.com/v1beta20180501preview</h2>
-<div>
-<p>Package v1beta20180501preview contains API Schema definitions for the insights v1beta20180501preview API group</p>
-</div>
-Resource Types:
-<ul></ul>
-<h3 id="insights.azure.com/v1beta20180501preview.APIVersion">APIVersion
-(<code>string</code> alias)</h3>
-<div>
-<p>Deprecated version of APIVersion. Use v1api20180501preview.APIVersion instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;2018-05-01-preview&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.HeaderField">HeaderField
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Request">WebTestProperties_Request</a>)
-</p>
-<div>
-<p>Deprecated version of HeaderField. Use v1api20180501preview.HeaderField instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>key</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.HeaderField_ARM">HeaderField_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Request_ARM">WebTestProperties_Request_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of HeaderField. Use v1api20180501preview.HeaderField instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>key</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.HeaderField_STATUS">HeaderField_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Request_STATUS">WebTestProperties_Request_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of HeaderField_STATUS. Use v1api20180501preview.HeaderField_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>key</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.HeaderField_STATUS_ARM">HeaderField_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Request_STATUS_ARM">WebTestProperties_Request_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of HeaderField_STATUS. Use v1api20180501preview.HeaderField_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>key</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>value</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestGeolocation">WebTestGeolocation
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_Spec">Webtest_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestGeolocation. Use v1api20180501preview.WebTestGeolocation instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestGeolocation_ARM">WebTestGeolocation_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ARM">WebTestProperties_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestGeolocation. Use v1api20180501preview.WebTestGeolocation instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestGeolocation_STATUS">WebTestGeolocation_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_STATUS">Webtest_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestGeolocation_STATUS. Use v1api20180501preview.WebTestGeolocation_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestGeolocation_STATUS_ARM">WebTestGeolocation_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestGeolocation_STATUS. Use v1api20180501preview.WebTestGeolocation_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_ARM">WebTestProperties_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_Spec_ARM">Webtest_Spec_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties. Use v1api20180501preview.WebTestProperties instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Configuration</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Configuration_ARM">
-WebTestProperties_Configuration_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Frequency</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Kind</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Kind">
-WebTestProperties_Kind
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Locations</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestGeolocation_ARM">
-[]WebTestGeolocation_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Request</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Request_ARM">
-WebTestProperties_Request_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RetryEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SyntheticMonitorId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Timeout</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ValidationRules</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ARM">
-WebTestProperties_ValidationRules_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Configuration">WebTestProperties_Configuration
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_Spec">Webtest_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Configuration. Use v1api20180501preview.WebTestProperties_Configuration instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>WebTest</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Configuration_ARM">WebTestProperties_Configuration_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ARM">WebTestProperties_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Configuration. Use v1api20180501preview.WebTestProperties_Configuration instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>WebTest</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Configuration_STATUS">WebTestProperties_Configuration_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_STATUS">Webtest_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Configuration_STATUS. Use v1api20180501preview.WebTestProperties_Configuration_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>WebTest</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Configuration_STATUS_ARM">WebTestProperties_Configuration_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Configuration_STATUS. Use v1api20180501preview.WebTestProperties_Configuration_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>WebTest</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Kind">WebTestProperties_Kind
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ARM">WebTestProperties_ARM</a>, <a href="#insights.azure.com/v1beta20180501preview.Webtest_Spec">Webtest_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Kind. Use v1api20180501preview.WebTestProperties_Kind instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;multistep&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ping&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Kind_STATUS">WebTestProperties_Kind_STATUS
-(<code>string</code> alias)</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>, <a href="#insights.azure.com/v1beta20180501preview.Webtest_STATUS">Webtest_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Kind_STATUS. Use v1api20180501preview.WebTestProperties_Kind_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr><td><p>&#34;basic&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;multistep&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;ping&#34;</p></td>
-<td></td>
-</tr><tr><td><p>&#34;standard&#34;</p></td>
-<td></td>
-</tr></tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Request">WebTestProperties_Request
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_Spec">Webtest_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Request. Use v1api20180501preview.WebTestProperties_Request instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>FollowRedirects</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Headers</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.HeaderField">
-[]HeaderField
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>HttpVerb</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ParseDependentRequests</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestBody</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Request_ARM">WebTestProperties_Request_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ARM">WebTestProperties_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Request. Use v1api20180501preview.WebTestProperties_Request instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>FollowRedirects</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Headers</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.HeaderField_ARM">
-[]HeaderField_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>HttpVerb</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ParseDependentRequests</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestBody</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Request_STATUS">WebTestProperties_Request_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_STATUS">Webtest_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Request_STATUS. Use v1api20180501preview.WebTestProperties_Request_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>FollowRedirects</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Headers</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.HeaderField_STATUS">
-[]HeaderField_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>HttpVerb</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ParseDependentRequests</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestBody</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_Request_STATUS_ARM">WebTestProperties_Request_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_Request_STATUS. Use v1api20180501preview.WebTestProperties_Request_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>FollowRedirects</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Headers</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.HeaderField_STATUS_ARM">
-[]HeaderField_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>HttpVerb</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ParseDependentRequests</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestBody</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RequestUrl</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_STATUS_ARM">Webtest_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_STATUS. Use v1api20180501preview.WebTestProperties_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>Configuration</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Configuration_STATUS_ARM">
-WebTestProperties_Configuration_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Frequency</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Kind</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Kind_STATUS">
-WebTestProperties_Kind_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Locations</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestGeolocation_STATUS_ARM">
-[]WebTestGeolocation_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Request</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Request_STATUS_ARM">
-WebTestProperties_Request_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RetryEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SyntheticMonitorId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Timeout</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ValidationRules</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_STATUS_ARM">
-WebTestProperties_ValidationRules_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules">WebTestProperties_ValidationRules
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_Spec">Webtest_Spec</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_ValidationRules. Use v1api20180501preview.WebTestProperties_ValidationRules instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentValidation</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation">
-WebTestProperties_ValidationRules_ContentValidation
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ExpectedHttpStatusCode</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreHttpsStatusCode</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCertRemainingLifetimeCheck</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCheck</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ARM">WebTestProperties_ValidationRules_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ARM">WebTestProperties_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_ValidationRules. Use v1api20180501preview.WebTestProperties_ValidationRules instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentValidation</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation_ARM">
-WebTestProperties_ValidationRules_ContentValidation_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ExpectedHttpStatusCode</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreHttpsStatusCode</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCertRemainingLifetimeCheck</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCheck</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation">WebTestProperties_ValidationRules_ContentValidation
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules">WebTestProperties_ValidationRules</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_ValidationRules_ContentValidation. Use v1api20180501preview.WebTestProperties_ValidationRules_ContentValidation instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentMatch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreCase</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>PassIfTextFound</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation_ARM">WebTestProperties_ValidationRules_ContentValidation_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ARM">WebTestProperties_ValidationRules_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_ValidationRules_ContentValidation. Use v1api20180501preview.WebTestProperties_ValidationRules_ContentValidation instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentMatch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreCase</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>PassIfTextFound</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation_STATUS">WebTestProperties_ValidationRules_ContentValidation_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_STATUS">WebTestProperties_ValidationRules_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_ValidationRules_ContentValidation_STATUS. Use v1api20180501preview.WebTestProperties_ValidationRules_ContentValidation_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentMatch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreCase</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>PassIfTextFound</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM">WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_STATUS_ARM">WebTestProperties_ValidationRules_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_ValidationRules_ContentValidation_STATUS. Use v1api20180501preview.WebTestProperties_ValidationRules_ContentValidation_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentMatch</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreCase</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>PassIfTextFound</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_STATUS">WebTestProperties_ValidationRules_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest_STATUS">Webtest_STATUS</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_ValidationRules_STATUS. Use v1api20180501preview.WebTestProperties_ValidationRules_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentValidation</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation_STATUS">
-WebTestProperties_ValidationRules_ContentValidation_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ExpectedHttpStatusCode</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreHttpsStatusCode</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCertRemainingLifetimeCheck</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCheck</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_STATUS_ARM">WebTestProperties_ValidationRules_STATUS_ARM
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_STATUS_ARM">WebTestProperties_STATUS_ARM</a>)
-</p>
-<div>
-<p>Deprecated version of WebTestProperties_ValidationRules_STATUS. Use v1api20180501preview.WebTestProperties_ValidationRules_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>ContentValidation</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM">
-WebTestProperties_ValidationRules_ContentValidation_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ExpectedHttpStatusCode</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>IgnoreHttpsStatusCode</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCertRemainingLifetimeCheck</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SSLCheck</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.Webtest">Webtest
-</h3>
-<div>
-<p>Deprecated version of Webtest. Use v1api20180501preview.Webtest instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>metadata</code><br/>
-<em>
-<a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
-</a>
-</em>
-</td>
-<td>
-Refer to the Kubernetes API documentation for the fields of the
-<code>metadata</code> field.
-</td>
-</tr>
-<tr>
-<td>
-<code>spec</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.Webtest_Spec">
-Webtest_Spec
-</a>
-</em>
-</td>
-<td>
-<br/>
-<br/>
-<table>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Configuration</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Configuration">
-WebTestProperties_Configuration
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Frequency</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Kind</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Kind">
-WebTestProperties_Kind
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Locations</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestGeolocation">
-[]WebTestGeolocation
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Request</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Request">
-WebTestProperties_Request
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RetryEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SyntheticMonitorId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Timeout</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ValidationRules</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules">
-WebTestProperties_ValidationRules
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-<tr>
-<td>
-<code>status</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.Webtest_STATUS">
-Webtest_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.Webtest_STATUS">Webtest_STATUS
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest">Webtest</a>)
-</p>
-<div>
-<p>Deprecated version of Webtest_STATUS. Use v1api20180501preview.Webtest_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>conditions</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition">
-[]genruntime/conditions.Condition
-</a>
-</em>
-</td>
-<td>
-<p>Conditions: The observed state of the resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Configuration</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Configuration_STATUS">
-WebTestProperties_Configuration_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Frequency</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Kind</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Kind_STATUS">
-WebTestProperties_Kind_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Locations</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestGeolocation_STATUS">
-[]WebTestGeolocation_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties_name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>provisioningState</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Request</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Request_STATUS">
-WebTestProperties_Request_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RetryEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SyntheticMonitorId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Timeout</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ValidationRules</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules_STATUS">
-WebTestProperties_ValidationRules_STATUS
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.Webtest_STATUS_ARM">Webtest_STATUS_ARM
-</h3>
-<div>
-<p>Deprecated version of Webtest_STATUS. Use v1api20180501preview.Webtest_STATUS instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>id</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_STATUS_ARM">
-WebTestProperties_STATUS_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>type</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.Webtest_Spec">Webtest_Spec
-</h3>
-<p>
-(<em>Appears on:</em><a href="#insights.azure.com/v1beta20180501preview.Webtest">Webtest</a>)
-</p>
-<div>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>azureName</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-<p>AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-doesn&rsquo;t have to be.</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Configuration</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Configuration">
-WebTestProperties_Configuration
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Description</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Enabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Frequency</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Kind</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Kind">
-WebTestProperties_Kind
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Locations</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestGeolocation">
-[]WebTestGeolocation
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>owner</code><br/>
-<em>
-<a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">
-genruntime.KnownResourceReference
-</a>
-</em>
-</td>
-<td>
-<p>Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-reference to a resources.azure.com/ResourceGroup resource</p>
-</td>
-</tr>
-<tr>
-<td>
-<code>Request</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_Request">
-WebTestProperties_Request
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>RetryEnabled</code><br/>
-<em>
-bool
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>SyntheticMonitorId</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>Timeout</code><br/>
-<em>
-int
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>ValidationRules</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ValidationRules">
-WebTestProperties_ValidationRules
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<h3 id="insights.azure.com/v1beta20180501preview.Webtest_Spec_ARM">Webtest_Spec_ARM
-</h3>
-<div>
-<p>Deprecated version of Webtest_Spec. Use v1api20180501preview.Webtest_Spec instead</p>
-</div>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<code>location</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>name</code><br/>
-<em>
-string
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>properties</code><br/>
-<em>
-<a href="#insights.azure.com/v1beta20180501preview.WebTestProperties_ARM">
-WebTestProperties_ARM
-</a>
-</em>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td>
-<code>tags</code><br/>
-<em>
-map[string]string
-</em>
-</td>
-<td>
-</td>
-</tr>
-</tbody>
-</table>
-<hr/>
+	<h2 id="context">Context</h2>
+<p>Some Azure Resource Providers do not quite have full replace semantics for a PUT.</p>
+<p>Instead, they have PATCH-like behavior on PUT which effectively boils down to: They will replace sub-objects/sub-collections if the object/collection is in the JSON payload, but they will leave untouched omitted properties or collections.</p>
+<p>To illustrate, assume you have a Person object with a Name and a list of Addresses.</p>
+<ul>
+<li>If you PUT a Person object with a new Name and <em>no addresses</em>, the new name will be persisted, but the addresses will remain <em>unchanged</em>.</li>
+<li>If you PUT a Person object with a new Name and an <em>empty list</em> of addresses, the new name will be persisted, and the addresses collection will be cleared.</li>
+</ul>
+<p>This is a problem for ASO because we use <code>omitempty</code> on all properties, resulting in them being omitted from the ARM payload if they aren&rsquo;t explicitly set. For array and map properties, removing the last item means the property will be entirely omitted from the JSON payload.</p>
+<p>In principle, an ASO custom resource (CR) should be the entire goal-state for the resource and should be a <em>complete</em> definition of the desired state. Whether properties are specified explicitly or not shouldn&rsquo;t change that. Equally, whether an array or map is empty or missing entirely should not matter, we should interpret that as &ldquo;clear the collection&rdquo;.</p>
+<h3 id="option-1-optional-properties">Option 1: Optional Properties</h3>
+<p>Tack an extra pointer onto every slice/map property across all generated types.</p>
+<p>Instead of:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">MyProperty</span> []<span style="color:#a6e22e">Type</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">json</span>:<span style="color:#e6db74">&#34;myProperty,omitempty&#34;</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</code></pre></div><p>we would generate:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">MyProperty</span> <span style="color:#f92672">*</span>[]<span style="color:#a6e22e">Type</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">json</span>:<span style="color:#e6db74">&#34;myProperty,omitempty&#34;</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+</code></pre></div><ul>
+<li>
+<p>PRO: Behaves exactly like we want from a serialization perspective.</p>
+</li>
+<li>
+<p>CON: Horrible to use in code because you must dereference the property to range over it (or really do much of anything with it).</p>
+</li>
+<li>
+<p>CON: Breaking change for any consumers of our object model.</p>
+</li>
+<li>
+<p>CON: Modifies our Spec and Status object definitions for an issue that is specific to ARM</p>
+</li>
+</ul>
+<h3 id="option-2-remove-omitempty-from-collections-only">Option 2: Remove <code>omitempty</code> from collections only</h3>
+<p>Remove <code>omitempty</code> from array and map properties across all generated types.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">MyProperty</span> []<span style="color:#a6e22e">Type</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">json</span>:<span style="color:#e6db74">&#34;myProperty&#34;</span><span style="color:#960050;background-color:#1e0010">&#39;</span>. 
+</code></pre></div><p>This means that each array or map will always be serialized, even if empty.</p>
+<ul>
+<li>
+<p>PRO: Behaves exactly like we want from a serialization perspective.</p>
+</li>
+<li>
+<p>PRO: Not a breaking change for consumers of our object model.</p>
+</li>
+<li>
+<p>CON: Empty collections will always be present when an ASO CR is read from the cluster, even if the user did not specify them at all.</p>
+</li>
+<li>
+<p>CON: Modifies our Spec and Status object definitions for an issue that is specific to ARM</p>
+</li>
+<li>
+<p>QUERY: It is possible that some Azure services treat <code>myProperty: null</code> as different than omitting the property entirely, although we do not actually know of any cases where that is true.</p>
+</li>
+</ul>
+<h3 id="option-2a-remove-omitempty-from-all-properties">Option 2a: Remove <code>omitempty</code> from all properties</h3>
+<p>Remove <code>omitempty</code> from all properties across all generated types.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+</code></pre></div><p>This means that all properties will always be serialized, even if empty.</p>
+<p>Pros &amp; Cons are as for Option 2, above, with the addition of:</p>
+<ul>
+<li>CON: All properties will be present when an ASO CR is read from the cluster, even if the user did not specify them at all.</li>
+</ul>
+<h3 id="option-3-custom-json-serialization">Option 3: Custom JSON Serialization</h3>
+<p>Use a custom JSON serialization library that supports an <code>omitnil</code> equivalent, such as <a href="https://github.com/wI2L/jettison">jettison</a>.</p>
+<ul>
+<li>
+<p>PRO: Behaves exactly like we want from a serialization perspective.</p>
+</li>
+<li>
+<p>PRO: Not a breaking change for consumers of our object model.</p>
+</li>
+<li>
+<p>CON: Breaks CRD YAML deserialization for the ASO controller (as the <a href="https://github.com/kubernetes-sigs/yaml">sigs.k8s.io/yaml</a> library we use works with standard JSON serialization attributes).</p>
+</li>
+<li>
+<p>CON: Also breaks YAML serialization for <code>asoctl</code> (for the same reason).</p>
+</li>
+<li>
+<p>CON: Modifies our Spec and Status object definitions for an issue that is specific to ARM</p>
+</li>
+<li>
+<p>CON: Requires modifying all our generated types to use the new serialization attributes.</p>
+</li>
+<li>
+<p>QUERY: Does this solve the problem for non-collection properties? It may not. If we want to adopt this approach, we&rsquo;ll need to prioritize answering this question.</p>
+</li>
+</ul>
+<h3 id="option-4-remove-omitempty-for-collections-on-selected-arm-types-only">Option 4: Remove <code>omitempty</code> for collections on selected ARM types only</h3>
+<p>As for Option 2, above, but we apply the change only selected ARM Spec types, leaving the core ASO Spec and Status types unmodified.</p>
+<p>Selection occurs through our existing <code>ObjectModelConfiguration</code> allowing us to explicitly target resources we know are problematic. We might take a coarse-grained approach, selecting entire resources, or a fine-grained one selecting only affected properties.</p>
+<ul>
+<li>
+<p>PRO: Behaves exactly like we want from a serialization perspective.</p>
+</li>
+<li>
+<p>PRO: Limits the scope of the change to only ARM types. These are not directly used by consumers of our object model.</p>
+</li>
+<li>
+<p>PRO: Limits the scope of the change to only collections that we know are problematic, reducing any potential for unintended consequences.</p>
+</li>
+<li>
+<p>PRO: No change to the YAML serialization for ASO Spec and Status types, so no visible change to our users.</p>
+</li>
+<li>
+<p>CON: We can only configure resources (or properties) we know have this problem. We may miss some, requiring a new release to fix affected users.</p>
+</li>
+<li>
+<p>CON: Configuration at the individual property level runs the risk that we might miss some properties that are problematic.</p>
+</li>
+<li>
+<p>CON: Configuration at the entire resource level makes our payload larger than it strictly needs to be.</p>
+</li>
+</ul>
+<h3 id="option-4a-remove-omitempty-for-all-properties-on-selected-arm-types-only">Option 4a: Remove <code>omitempty</code> for all properties on selected ARM types only</h3>
+<p>As for Option 4, above, but we apply the change to all properties on the selected ARM types.</p>
+<p>Pros &amp; Cons are as for Option 4, above, with the addition of:</p>
+<ul>
+<li>PRO: We&rsquo;ll be explicit for all properties, removing any ambiguity about what the payload means</li>
+<li>CON: ARM Payload will be larger</li>
+</ul>
+<h2 id="decision">Decision</h2>
+<p>Adopt Option 4a, as it is a minimal change that fully addresses the issue without impacting on current users.</p>
+<h2 id="status">Status</h2>
+<p>Proposed.</p>
+<h2 id="consequences">Consequences</h2>
+<p>TBC</p>
+<h2 id="experience-report">Experience Report</h2>
+<p>TBC</p>
+<h2 id="references">References</h2>
+<p>One of our users encountered this problem with the <code>virtualNetworkRules</code> and <code>ipRules</code> properties on Azure Storage accounts and reported it in issue <a href="https://github.com/Azure/azure-service-operator/issues/2914">#2914</a>.</p>
+<p>@Matthchr&rsquo;s response was:</p>
+<blockquote>
+<p>Azure Storage accounts don&rsquo;t quite have PUT == full replace semantics. They have a PATCH-like behavior on PUT which effectively boils down to: They will replace sub-objects/sub-collections if the collection is in the JSON payload, but they will leave untouched properties which were omitted.</p>
+<p>When you remove virtualNetworkRules or ipRules, what actually happens on the backend is those properties are nil and don&rsquo;t get serialized. This falls afoul of item 1 above because since those properties were not included in the JSON payload storage handles them with PATCH semantics and doesn&rsquo;t clear/remove the contents of the collection.</p>
+<p>You can see some evidence of this behavior in the az storage account network-rule remove implementation, where if you read closely, removing the last item from the list of rules will serialize an empty collection to storage.</p>
+</blockquote>
+<blockquote>
+<p>It&rsquo;s this empty collection which is the key to tell storage: &ldquo;I really want you to clear this property please&rdquo;. I&rsquo;ve confirmed this by contacting the Storage team as well.</p>
+</blockquote>
+<blockquote>
+<p>It would be nice (if not ideal) if you could just specify an empty collection ([]) for the virtualNetworkRules property to work around this issue&hellip; but you can&rsquo;t right now because ASO tacks Go&rsquo;s omitempty onto properties, and unfortunately doing that means that it&rsquo;s impossible for Go to serialize [] to the JSON payload. It will omit the property entirely if the collection is nil or [].</p>
+</blockquote>
+<p>Credit where it is due; I&rsquo;ve liberally reused Matt&rsquo;s wording while writing this ADR.</p>
 
 	
 	

@@ -68,6 +68,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/adr-2023-04-deprecation/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2023-04-patch-collections/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/annotations/</loc>
