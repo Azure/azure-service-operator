@@ -41,7 +41,7 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 				return nil, err
 			}
 
-			err = report.WriteTo(configuration.SupportedResourcesReport.FullOutputPath())
+			err = report.SaveAllResourcesReportTo(configuration.SupportedResourcesReport.FullOutputPath())
 			if err != nil {
 				return nil, err
 			}
@@ -153,14 +153,14 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 	}
 }
 
-// WriteTo creates a file containing the generated report
-func (report *ResourceVersionsReport) WriteTo(outputFile string) error {
+// SaveAllResourcesReportTo creates a file containing the generated report
+func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string) error {
 
 	klog.V(1).Infof("Writing report to %s", outputFile)
 	report.frontMatter = report.readFrontMatter(outputFile)
 
 	var buffer strings.Builder
-	err := report.WriteToBuffer(&buffer)
+	err := report.WriteAllResourcesReportToBuffer(&buffer)
 	if err != nil {
 		return errors.Wrapf(err, "writing versions report to %s", outputFile)
 	}
@@ -175,8 +175,8 @@ func (report *ResourceVersionsReport) WriteTo(outputFile string) error {
 	return ioutil.WriteFile(outputFile, []byte(buffer.String()), 0o600)
 }
 
-// WriteToBuffer creates the report in the provided buffer
-func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) error {
+// WriteAllResourcesReportToBuffer creates the report in the provided buffer
+func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(buffer *strings.Builder) error {
 
 	if report.frontMatter != "" {
 		buffer.WriteString(report.frontMatter)
