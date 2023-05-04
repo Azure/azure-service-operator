@@ -1171,11 +1171,6 @@ func (in *DnsZones_AAAA_Spec) DeepCopyInto(out *DnsZones_AAAA_Spec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.Etag != nil {
-		in, out := &in.Etag, &out.Etag
-		*out = new(string)
-		**out = **in
-	}
 	if in.MXRecords != nil {
 		in, out := &in.MXRecords, &out.MXRecords
 		*out = make([]MxRecord, len(*in))
@@ -1685,11 +1680,6 @@ func (in *DnsZones_CAA_Spec) DeepCopyInto(out *DnsZones_CAA_Spec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.Etag != nil {
-		in, out := &in.Etag, &out.Etag
-		*out = new(string)
-		**out = **in
-	}
 	if in.MXRecords != nil {
 		in, out := &in.MXRecords, &out.MXRecords
 		*out = make([]MxRecord, len(*in))
@@ -1941,11 +1931,6 @@ func (in *DnsZones_CNAME_Spec) DeepCopyInto(out *DnsZones_CNAME_Spec) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.Etag != nil {
-		in, out := &in.Etag, &out.Etag
-		*out = new(string)
-		**out = **in
 	}
 	if in.MXRecords != nil {
 		in, out := &in.MXRecords, &out.MXRecords
@@ -2199,11 +2184,6 @@ func (in *DnsZones_MX_Spec) DeepCopyInto(out *DnsZones_MX_Spec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.Etag != nil {
-		in, out := &in.Etag, &out.Etag
-		*out = new(string)
-		**out = **in
-	}
 	if in.MXRecords != nil {
 		in, out := &in.MXRecords, &out.MXRecords
 		*out = make([]MxRecord, len(*in))
@@ -2455,11 +2435,6 @@ func (in *DnsZones_NS_Spec) DeepCopyInto(out *DnsZones_NS_Spec) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.Etag != nil {
-		in, out := &in.Etag, &out.Etag
-		*out = new(string)
-		**out = **in
 	}
 	if in.MXRecords != nil {
 		in, out := &in.MXRecords, &out.MXRecords
@@ -2713,11 +2688,6 @@ func (in *DnsZones_PTR_Spec) DeepCopyInto(out *DnsZones_PTR_Spec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.Etag != nil {
-		in, out := &in.Etag, &out.Etag
-		*out = new(string)
-		**out = **in
-	}
 	if in.MXRecords != nil {
 		in, out := &in.MXRecords, &out.MXRecords
 		*out = make([]MxRecord, len(*in))
@@ -2970,11 +2940,6 @@ func (in *DnsZones_SRV_Spec) DeepCopyInto(out *DnsZones_SRV_Spec) {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
-	if in.Etag != nil {
-		in, out := &in.Etag, &out.Etag
-		*out = new(string)
-		**out = **in
-	}
 	if in.MXRecords != nil {
 		in, out := &in.MXRecords, &out.MXRecords
 		*out = make([]MxRecord, len(*in))
@@ -3226,11 +3191,6 @@ func (in *DnsZones_TXT_Spec) DeepCopyInto(out *DnsZones_TXT_Spec) {
 		for i := range *in {
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
-	}
-	if in.Etag != nil {
-		in, out := &in.Etag, &out.Etag
-		*out = new(string)
-		**out = **in
 	}
 	if in.MXRecords != nil {
 		in, out := &in.MXRecords, &out.MXRecords
