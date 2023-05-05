@@ -700,7 +700,7 @@
 … image will be created …
 
 $ # After that you can start a terminal in the development container with:
-$ docker run --env-file ~/work/envs.env -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock --network=host  -it asodev:latest /bin/bash
+$ docker run --env-file ~/work/envs.env --env HOSTROOT=$(git rev-parse --show-toplevel) -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock --network=host  -it asodev:latest /bin/bash
 </code></pre><p>It is not recommended to mount the source like this on Windows (WSL2) as the cross-VM file operations are very slow.</p>
 <h3 id="option-2-devsh">Option 2: ./dev.sh</h3>
 <p>If you are using Linux, instead of using VS Code you can run the <code>dev.sh</code> script in the root of the repository. This will install all required tooling into the <code>hack/tools</code> directory and then start a new shell with the <code>PATH</code> updated to use it.</p>
