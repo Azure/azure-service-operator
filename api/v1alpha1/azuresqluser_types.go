@@ -32,6 +32,7 @@ type AzureSQLUserSpec struct {
 	Roles []string `json:"roles"`
 
 	// optional
+	SubscriptionID         string   `json:"subscriptionId,omitempty"`
 	AdminSecret            string   `json:"adminSecret,omitempty"`
 	AdminSecretKeyVault    string   `json:"adminSecretKeyVault,omitempty"`
 	Username               string   `json:"username,omitempty"`

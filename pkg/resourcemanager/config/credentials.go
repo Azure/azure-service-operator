@@ -13,6 +13,8 @@ type Credentials interface {
 	SubscriptionID() string
 	UseManagedIdentity() bool
 	OperatorKeyvault() string
+
+	WithSubscriptionID(subscriptionID string) Credentials
 }
 
 type credentials struct {
@@ -55,4 +57,12 @@ func (c credentials) UseManagedIdentity() bool {
 // OperatorKeyvault() specifies the keyvault the operator should use to store secrets
 func (c credentials) OperatorKeyvault() string {
 	return c.operatorKeyvault
+}
+
+// WithSubscriptionID returns the credentials object with a different subscription ID.
+// The original credentials object is not modified
+func (c credentials) WithSubscriptionID(subscriptionID string) Credentials {
+	c.subscriptionID = subscriptionID
+
+	return c
 }

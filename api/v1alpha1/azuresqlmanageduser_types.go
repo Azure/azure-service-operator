@@ -31,6 +31,8 @@ type AzureSQLManagedUserSpec struct {
 	// +kubebuilder:validation:Required
 	Roles []string `json:"roles"`
 
+	SubscriptionID string `json:"subscriptionId,omitempty"`
+
 	ManagedIdentityName     string `json:"managedIdentityName,omitempty"`
 	ManagedIdentityClientId string `json:"managedIdentityClientId"`
 	KeyVaultSecretPrefix    string `json:"keyVaultSecretPrefix,omitempty"`

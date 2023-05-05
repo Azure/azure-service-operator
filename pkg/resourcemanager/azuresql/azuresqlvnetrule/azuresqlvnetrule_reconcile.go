@@ -9,12 +9,13 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 )
 
 // Ensure creates a sqlvnetrule
@@ -31,9 +32,10 @@ func (vr *AzureSqlVNetRuleManager) Ensure(ctx context.Context, obj runtime.Objec
 	virtualnetworkname := instance.Spec.VNetName
 	subnetName := instance.Spec.SubnetName
 	virtualNetworkSubscription := instance.Spec.VNetSubscriptionID
+	serverSubscriptionID := instance.Spec.ServerSubscriptionID
 	ignoreendpoint := instance.Spec.IgnoreMissingServiceEndpoint
 
-	vnetrule, err := vr.GetSQLVNetRule(ctx, groupName, server, ruleName)
+	vnetrule, err := vr.GetSQLVNetRule(ctx, serverSubscriptionID, groupName, server, ruleName)
 	if err == nil {
 		if vnetrule.VirtualNetworkRuleProperties != nil && vnetrule.VirtualNetworkRuleProperties.State == sql.VirtualNetworkRuleStateReady {
 			instance.Status.Provisioning = false
@@ -100,8 +102,9 @@ func (vr *AzureSqlVNetRuleManager) Delete(ctx context.Context, obj runtime.Objec
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	ruleName := instance.ObjectMeta.Name
+	subscriptionID := instance.Spec.ServerSubscriptionID
 
-	err = vr.DeleteSQLVNetRule(ctx, groupName, server, ruleName)
+	err = vr.DeleteSQLVNetRule(ctx, subscriptionID, groupName, server, ruleName)
 	if err != nil {
 		instance.Status.Message = err.Error()
 

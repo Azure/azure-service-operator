@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
-	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
+	"github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/pollclient"
 )
 
@@ -37,6 +37,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 		return true, nil
 	}
 
+	subscriptionID := instance.Spec.SubscriptionID
 	location := instance.Spec.Location
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
@@ -109,10 +110,12 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 	// No point in checking the status of the DB if our spec hashes don't match,
 	// just seek to new target and check later
 	if hash == instance.Status.SpecHash {
-		dbGet, err := db.GetDB(ctx, groupName, server, dbName)
+		dbGet, err := db.GetDB(ctx, subscriptionID, groupName, server, dbName)
 		if err == nil {
 			// optionally set the long term retention policy
-			_, err = db.AddLongTermRetention(ctx,
+			_, err = db.AddLongTermRetention(
+				ctx,
+				subscriptionID,
 				groupName,
 				server,
 				dbName,
@@ -139,6 +142,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 
 			_, err = db.AddShortTermRetention(
 				ctx,
+				subscriptionID,
 				groupName,
 				server,
 				dbName,
@@ -177,7 +181,7 @@ func (db *AzureSqlDbManager) Ensure(ctx context.Context, obj runtime.Object, opt
 			}
 		}
 	}
-	pollingUrl, _, err := db.CreateOrUpdateDB(ctx, groupName, location, server, labels, azureSQLDatabaseProperties)
+	pollingUrl, _, err := db.CreateOrUpdateDB(ctx, subscriptionID, groupName, location, server, labels, azureSQLDatabaseProperties)
 
 	if err != nil {
 		instance.Status.Message = err.Error()
@@ -237,11 +241,12 @@ func (db *AzureSqlDbManager) Delete(ctx context.Context, obj runtime.Object, opt
 		return false, err
 	}
 
+	subscriptionID := instance.Spec.SubscriptionID
 	groupName := instance.Spec.ResourceGroup
 	server := instance.Spec.Server
 	dbName := instance.ObjectMeta.Name
 
-	_, err = db.DeleteDB(ctx, groupName, server, dbName)
+	_, err = db.DeleteDB(ctx, subscriptionID, groupName, server, dbName)
 	if err != nil {
 		azerr := errhelp.NewAzureError(err)
 		if isIncompleteOp(azerr) {
