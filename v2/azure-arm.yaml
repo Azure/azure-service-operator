@@ -221,49 +221,7 @@ typeTransformers:
     because: it is supposed to be marked ReadOnly in Swagger
   - group: network
     version: "*"
-    name: DnsZones_AAAA_Spec
-    property: Etag
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZones_CAA_Spec
-    property: Etag
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZones_CNAME_Spec
-    property: Etag
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZones_MX_Spec
-    property: Etag
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZones_NS_Spec
-    property: Etag
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZones_PTR_Spec
-    property: Etag
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZones_SRV_Spec
-    property: Etag
-    remove: true
-    because: it is supposed to be marked ReadOnly in Swagger
-  - group: network
-    version: "*"
-    name: DnsZones_TXT_Spec
+    name: DnsZones_AAAA_Spec;DnsZones_CAA_Spec;DnsZones_CNAME_Spec;DnsZones_MX_Spec;DnsZones_NS_Spec;DnsZones_PTR_Spec;DnsZones_SRV_Spec;DnsZones_TXT_Spec
     property: Etag
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
