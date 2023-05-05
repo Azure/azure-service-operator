@@ -57,9 +57,6 @@ func classifyCloudError(err *genericarmclient.CloudError) core.ErrorClassificati
 		"MissingSubscriptionRegistration",
 		"NoRegisteredProviderFound",
 		"NotFound",
-		// It sounds weird to retry on "OperationNotAllowed" but according to the docs
-		// it's a quota issue, so we can in theory retry through it
-		"OperationNotAllowed",
 		"ParentResourceNotFound",
 		"PrincipalNotFound",
 		"ResourceGroupNotFound",
