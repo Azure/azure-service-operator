@@ -1,0 +1,14 @@
+apiVersion: network.azure.com/v1api20180501
+kind: DnsZonesSRVRecord
+metadata:
+  name: aso-sample-record-srv
+  namespace: default
+spec:
+  SRVRecords:
+  - target: target.asosample.com
+    port: 80
+    weight: 50
+    priority: 0
+  owner:
+    name: aso-sample-dz.com
+  TTL: 3600

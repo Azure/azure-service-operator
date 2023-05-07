@@ -1,0 +1,13 @@
+apiVersion: network.azure.com/v1api20180501
+kind: DnsZonesCAARecord
+metadata:
+  name: aso-sample-record-caa
+  namespace: default
+spec:
+  caaRecords:
+  - flags: 0
+    tag: aso
+    value: test
+  owner:
+    name: aso-sample-dz.com
+  TTL: 3600

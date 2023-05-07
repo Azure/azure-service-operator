@@ -1,0 +1,11 @@
+apiVersion: network.azure.com/v1api20180501
+kind: DnsZonesAAAARecord
+metadata:
+  name: aso-sample-record-aaaa
+  namespace: default
+spec:
+  AAAARecords:
+  - ipv6Address: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+  owner:
+    name: aso-sample-dz.com
+  TTL: 3600
