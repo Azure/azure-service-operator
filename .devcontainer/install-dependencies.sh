@@ -208,6 +208,13 @@ if should-install "$TOOL_DEST/cmctl"; then
     curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
 fi
 
+# Install azwi
+write-verbose "Checking for $TOOL_DEST/azwi"
+if should-install "$TOOL_DEST/azwi"; then
+    write-info "Installing azwi…"
+    curl -sL "https://github.com/Azure/azure-workload-identity/releases/download/v1.0.0/azwi-v1.0.0-${os}-${arch}.tar.gz" | tar xz -C "$TOOL_DEST" azwi
+fi
+
 # Ensure tooling for Hugo is available
 write-verbose "Checking for /usr/bin/postcss"
 if should-install "/usr/bin/postcss"; then 
