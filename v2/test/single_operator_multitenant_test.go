@@ -20,8 +20,8 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -41,7 +41,7 @@ func Test_Multitenant_SingleOperator_CertificateAuth(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	secret, err := newClientCertificateCredential(tc.AzureSubscription, tc.AzureTenant, arm.NamespacedSecretName, tc.Namespace)
+	secret, err := newClientCertificateCredential(tc.AzureSubscription, tc.AzureTenant, identity.NamespacedSecretName, tc.Namespace)
 	tc.Expect(err).To(BeNil())
 
 	tc.CreateResource(secret)
@@ -64,7 +64,7 @@ func Test_Multitenant_SingleOperator_NamespacedCredential(t *testing.T) {
 
 	tc := globalTestContext.ForTest(t)
 
-	secret, err := newClientSecretCredential(tc.AzureSubscription, tc.AzureTenant, arm.NamespacedSecretName, tc.Namespace)
+	secret, err := newClientSecretCredential(tc.AzureSubscription, tc.AzureTenant, identity.NamespacedSecretName, tc.Namespace)
 	tc.Expect(err).To(BeNil())
 
 	tc.CreateResource(secret)
