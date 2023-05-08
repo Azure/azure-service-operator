@@ -371,6 +371,14 @@ Supporting 1 resource: ResourceGroup
 | [ResourceGroup](https://azure.github.io/azure-service-operator/reference/resources/v1api20200601/#resources.azure.com/v1api20200601.ResourceGroup)   | 2020-06-01  | v1api20200601  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1api/v1api20200601_resourcegroup.yaml)   |
 | [ResourceGroup](https://azure.github.io/azure-service-operator/reference/resources/v1beta20200601/#resources.azure.com/v1beta20200601.ResourceGroup) | 2020-06-01  | v1beta20200601 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/resources/v1beta/v1beta20200601_resourcegroup.yaml) |
 
+## Search
+
+Supporting 1 resource: SearchService
+
+| Resource      | ARM Version | CRD Version   | Supported From | Sample                                                                                                                     |
+|---------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------|
+| SearchService | 2022-09-01  | v1api20220901 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api/v1api20220901_searchservice.yaml) |
+
 ## Servicebus
 
 Supporting 5 resources: Namespace, NamespacesQueue, NamespacesTopic, NamespacesTopicsSubscription, NamespacesTopicsSubscriptionsRule

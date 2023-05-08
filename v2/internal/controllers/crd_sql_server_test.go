@@ -169,7 +169,6 @@ func SQL_Server_AdvancedThreatProtection_CRUD(tc *testcommon.KubePerTestContext,
 		},
 	}
 
-	tc.ExportAsSample(policy)
 	tc.CreateResourceAndWait(policy)
 
 	tc.Expect(policy.Status.Id).ToNot(BeNil())
