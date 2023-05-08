@@ -1,0 +1,12 @@
+apiVersion: network.azure.com/v1api20180501
+kind: DnsZonesTXTRecord
+metadata:
+  name: aso-sample-record-txt
+  namespace: default
+spec:
+  TXTRecords:
+  - value:
+    - "ASO sample value"
+  owner:
+    name: aso-sample-dz.com
+  TTL: 3600

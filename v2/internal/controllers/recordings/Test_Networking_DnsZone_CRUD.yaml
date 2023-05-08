@@ -1,0 +1,502 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"location":"westus2","name":"asotest-rg-pajdtx","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx","name":"asotest-rg-pajdtx","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx","name":"asotest-rg-pajdtx","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"global","name":"asotest-dz-bfxlev.com"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "52"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com?api-version=2018-05-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-pajdtx\/providers\/Microsoft.Network\/dnszones\/asotest-dz-bfxlev.com","name":"asotest-dz-bfxlev.com","type":"Microsoft.Network\/dnszones","etag":"fb1da9fe-724a-4312-a12f-2926d06d9b31","location":"global","tags":{},"properties":{"maxNumberOfRecordSets":10000,"maxNumberOfRecordsPerRecordSet":null,"nameServers":["ns1-07.azure-dns.com.","ns2-07.azure-dns.net.","ns3-07.azure-dns.org.","ns4-07.azure-dns.info."],"numberOfRecordSets":2,"zoneType":"Public"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "543"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - fb1da9fe-724a-4312-a12f-2926d06d9b31
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com?api-version=2018-05-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-pajdtx\/providers\/Microsoft.Network\/dnszones\/asotest-dz-bfxlev.com","name":"asotest-dz-bfxlev.com","type":"Microsoft.Network\/dnszones","etag":"fb1da9fe-724a-4312-a12f-2926d06d9b31","location":"global","tags":{},"properties":{"maxNumberOfRecordSets":10000,"maxNumberOfRecordsPerRecordSet":null,"nameServers":["ns1-07.azure-dns.com.","ns2-07.azure-dns.net.","ns3-07.azure-dns.org.","ns4-07.azure-dns.info."],"numberOfRecordSets":2,"zoneType":"Public"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - fb1da9fe-724a-4312-a12f-2926d06d9b31
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com?api-version=2018-05-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-pajdtx\/providers\/Microsoft.Network\/dnszones\/asotest-dz-bfxlev.com","name":"asotest-dz-bfxlev.com","type":"Microsoft.Network\/dnszones","etag":"fb1da9fe-724a-4312-a12f-2926d06d9b31","location":"global","tags":{},"properties":{"maxNumberOfRecordSets":10000,"maxNumberOfRecordsPerRecordSet":null,"nameServers":["ns1-07.azure-dns.com.","ns2-07.azure-dns.net.","ns3-07.azure-dns.org.","ns4-07.azure-dns.info."],"numberOfRecordSets":2,"zoneType":"Public"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - fb1da9fe-724a-4312-a12f-2926d06d9b31
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"record","properties":{"CNAMERecord":{"cname":"asotest.com"},"TTL":3600}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "81"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com/CNAME/record?api-version=2018-05-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-pajdtx\/providers\/Microsoft.Network\/dnszones\/asotest-dz-bfxlev.com\/CNAME\/record","name":"record","type":"Microsoft.Network\/dnszones\/CNAME","etag":"634ac537-bc42-43f7-aadd-8f59b738d3ad","properties":{"fqdn":"record.asotest-dz-bfxlev.com.","TTL":3600,"CNAMERecord":{"cname":"asotest.com"},"targetResource":{},"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "436"
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 634ac537-bc42-43f7-aadd-8f59b738d3ad
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com/CNAME/record?api-version=2018-05-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-pajdtx\/providers\/Microsoft.Network\/dnszones\/asotest-dz-bfxlev.com\/CNAME\/record","name":"record","type":"Microsoft.Network\/dnszones\/CNAME","etag":"634ac537-bc42-43f7-aadd-8f59b738d3ad","properties":{"fqdn":"record.asotest-dz-bfxlev.com.","TTL":3600,"CNAMERecord":{"cname":"asotest.com"},"targetResource":{},"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 634ac537-bc42-43f7-aadd-8f59b738d3ad
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"record","properties":{"CNAMERecord":{"cname":"asotest.com"},"metadata":{"foo":"bar"},"TTL":3600}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "106"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com/CNAME/record?api-version=2018-05-01
+    method: PUT
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-pajdtx\/providers\/Microsoft.Network\/dnszones\/asotest-dz-bfxlev.com\/CNAME\/record","name":"record","type":"Microsoft.Network\/dnszones\/CNAME","etag":"2a5a7d6a-c90b-482c-90a5-1e372aca020a","properties":{"metadata":{"foo":"bar"},"fqdn":"record.asotest-dz-bfxlev.com.","TTL":3600,"CNAMERecord":{"cname":"asotest.com"},"targetResource":{},"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 2a5a7d6a-c90b-482c-90a5-1e372aca020a
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11998"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com/CNAME/record?api-version=2018-05-01
+    method: GET
+  response:
+    body: '{"id":"\/subscriptions\/00000000-0000-0000-0000-000000000000\/resourceGroups\/asotest-rg-pajdtx\/providers\/Microsoft.Network\/dnszones\/asotest-dz-bfxlev.com\/CNAME\/record","name":"record","type":"Microsoft.Network\/dnszones\/CNAME","etag":"2a5a7d6a-c90b-482c-90a5-1e372aca020a","properties":{"metadata":{"foo":"bar"},"fqdn":"record.asotest-dz-bfxlev.com.","TTL":3600,"CNAMERecord":{"cname":"asotest.com"},"targetResource":{},"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - 2a5a7d6a-c90b-482c-90a5-1e372aca020a
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "498"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com/CNAME/record?api-version=2018-05-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "0"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com?api-version=2018-05-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsOperationStatuses/bdw|73|00000000-0000-0000-0000-000000000007;189597;asotest-dz-bfxlev.com;Regulardelzone63817892376722289178d00b9d?api-version=2018-05-01
+      Cache-Control:
+      - private
+      Content-Length:
+      - "0"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsOperationResults/bdw%7C73%7C00000000-0000-0000-0000-000000000007;189597;asotest-dz-bfxlev.com;Regulardelzone63817892376722289178d00b9d?api-version=2018-05-01
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "11999"
+      X-Powered-By:
+      - ASP.NET
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsOperationStatuses/bdw%7C73%7C00000000-0000-0000-0000-000000000007;189597;asotest-dz-bfxlev.com;Regulardelzone63817892376722289178d00b9d?api-version=2018-05-01
+    method: GET
+  response:
+    body: '{"status":"Succeeded"}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Type:
+      - application/json; charset=utf-8
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "499"
+      X-Powered-By:
+      - ASP.NET
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx/providers/Microsoft.Network/dnsZones/asotest-dz-bfxlev.com?api-version=2018-05-01
+    method: GET
+  response:
+    body: '{"code":"NotFound","message":"The zone ''asotest-dz-bfxlev.com'' does not
+      exist in resource group ''asotest-rg-pajdtx'' of subscription ''00000000-0000-0000-0000-000000000000''."}'
+    headers:
+      Cache-Control:
+      - private
+      Content-Length:
+      - "173"
+      Content-Type:
+      - application/json; charset=utf-8
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "497"
+      X-Powered-By:
+      - ASP.NET
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pajdtx?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRQQUpEVFgtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRQQUpEVFgtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""

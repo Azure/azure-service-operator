@@ -1,0 +1,11 @@
+apiVersion: network.azure.com/v1api20180501
+kind: DnsZonesCNAMERecord
+metadata:
+  name: aso-sample-record-cname
+  namespace: default
+spec:
+  CNAMERecord:
+    cname: asosample.com
+  owner:
+    name: aso-sample-dz.com
+  TTL: 3600

@@ -1,0 +1,11 @@
+apiVersion: network.azure.com/v1api20180501
+kind: DnsZonesNSRecord
+metadata:
+  name: aso-sample-record-ns
+  namespace: default
+spec:
+  NSRecords:
+  - nsdname: ns.asotest.com
+  owner:
+    name: aso-sample-dz.com
+  TTL: 3600
