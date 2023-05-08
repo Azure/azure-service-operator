@@ -9,49 +9,44 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/identity"
 )
 
 // armClient is a wrapper around generic client to keep a track of secretData used to create it and credentialFrom which
 // that secret was retrieved.
 type armClient struct {
-	genericClient  *genericarmclient.GenericClient
-	secretData     map[string][]byte
-	credentialFrom types.NamespacedName
-	subscriptionID string
+	genericClient *genericarmclient.GenericClient
+	credential    *identity.Credential
 }
 
 func newARMClient(
 	client *genericarmclient.GenericClient,
-	secretData map[string][]byte,
-	credentialFrom types.NamespacedName,
-	subscriptionID string) *armClient {
+	credential *identity.Credential,
+) *armClient {
 	return &armClient{
-		genericClient:  client,
-		secretData:     secretData,
-		credentialFrom: credentialFrom,
-		subscriptionID: subscriptionID,
+		genericClient: client,
+		credential:    credential,
 	}
 }
 
-func (c *armClient) GenericClient() *genericarmclient.GenericClient {
+func (c *armClient) Client() *genericarmclient.GenericClient {
 	return c.genericClient
 }
 
-func (c *armClient) CredentialFrom() string {
-	return c.credentialFrom.String()
+func (c *armClient) Credential() *identity.Credential {
+	return c.credential
 }
 
-// Connection describes a client + credentials set used to connect to Azure.
-type Connection struct {
-	Client         *genericarmclient.GenericClient
-	CredentialFrom types.NamespacedName
-	SubscriptionID string
+func (c *armClient) CredentialFrom() types.NamespacedName {
+	return c.credential.CredentialFrom()
 }
 
-func newConnection(client *armClient) *Connection {
-	return &Connection{
-		Client:         client.genericClient,
-		CredentialFrom: client.credentialFrom,
-		SubscriptionID: client.subscriptionID,
-	}
+func (c *armClient) SubscriptionID() string {
+	return c.credential.SubscriptionID()
+}
+
+type Connection interface {
+	Client() *genericarmclient.GenericClient
+	CredentialFrom() types.NamespacedName
+	SubscriptionID() string
 }
