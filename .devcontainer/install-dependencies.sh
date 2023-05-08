@@ -154,7 +154,8 @@ go-install htmltest github.com/wjdp/htmltest@v0.15.0
 
 # for api docs 
 # TODO: Replace this with the new release tag.
-go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-docs@v0.3.1-0.20220223025230-af7c5e0048a3
+# Currently pinned just after a couple of fixes from @theunrepentantgeek
+go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-docs@11fe95cbdcb91e9c25446fc99e6f2cdd8cbeb91a
 
 # Install envtest tooling - ideally version here should match that used in v2/go.mod, but only @latest works
 go-install setup-envtest sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
