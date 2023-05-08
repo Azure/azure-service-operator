@@ -21,7 +21,7 @@ import (
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
@@ -30,13 +30,23 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
-const (
-	fakeID = "00000000-0000-0000-0000-000000000000"
-)
+const testPodNamespace = "azureserviceoperator-system-test"
+const testSubscriptionID = "00000011-1111-0011-1100-110000000000" // Arbitrary GUID that isn't all 0s
+const fakeID = "00000000-0000-0000-0000-000000000000"
 
 func NewFakeKubeClient(s *runtime.Scheme) kubeclient.Client {
 	fakeClient := fake.NewClientBuilder().WithScheme(s).Build()
 	return kubeclient.NewClient(fakeClient)
+}
+
+func NewTestCredentialProvider(client kubeclient.Client) (identity.CredentialProvider, error) {
+	tokenCreds, err := azidentity.NewDefaultAzureCredential(nil)
+	if err != nil {
+		return nil, err
+	}
+
+	creds := identity.NewDefaultCredential(tokenCreds, testPodNamespace, testSubscriptionID)
+	return identity.NewCredentialProvider(creds, client), nil
 }
 
 func NewTestARMClientCache(client kubeclient.Client) (*ARMClientCache, error) {
@@ -45,18 +55,12 @@ func NewTestARMClientCache(client kubeclient.Client) (*ARMClientCache, error) {
 		return nil, err
 	}
 
-	creds, err := azidentity.NewDefaultAzureCredential(nil)
+	credentialProvider, err := NewTestCredentialProvider(client)
 	if err != nil {
 		return nil, err
 	}
 
-	options := &genericarmclient.GenericClientOptions{Metrics: metrics.NewARMClientMetrics()}
-	globalARMClient, err := genericarmclient.NewGenericClient(cfg.Cloud(), creds, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return NewARMClientCache(globalARMClient, cfg.SubscriptionID, cfg.PodNamespace, client, cfg.Cloud(), nil, metrics.NewARMClientMetrics()), nil
+	return NewARMClientCache(credentialProvider, client, cfg.Cloud(), nil, metrics.NewARMClientMetrics()), nil
 }
 
 type testResources struct {
@@ -99,13 +103,13 @@ func Test_DefaultCredential_NotSet_ReturnsErrorWhenTryToUseGlobalCredential(t *t
 	cfg, err := config.ReadFromEnvironment()
 	g.Expect(err).To(BeNil())
 
-	clientWithNoDefaultCred := NewARMClientCache(nil, "", cfg.PodNamespace, kubeClient, cfg.Cloud(), nil, metrics.NewARMClientMetrics())
+	providerWithNoDefaultCred := identity.NewCredentialProvider(nil, kubeClient)
+	clientWithNoDefaultCred := NewARMClientCache(providerWithNoDefaultCred, kubeClient, cfg.Cloud(), nil, metrics.NewARMClientMetrics())
 
 	rg := newResourceGroup("")
 
-	_, err = clientWithNoDefaultCred.GetClient(ctx, rg)
+	_, err = clientWithNoDefaultCred.GetConnection(ctx, rg)
 	g.Expect(err).ToNot(BeNil())
-
 }
 
 func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *testing.T) {
@@ -128,7 +132,7 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 
 	namespacedSecretName := types.NamespacedName{
 		Namespace: "test-namespace",
-		Name:      NamespacedSecretName,
+		Name:      identity.NamespacedSecretName,
 	}
 
 	secret := newSecret(namespacedSecretName)
@@ -142,13 +146,12 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClientOverNamespacedClient(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
-	details, err := res.ARMClientCache.GetClient(ctx, rg)
+	details, err := res.ARMClientCache.GetConnection(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(details.CredentialFrom).To(BeEquivalentTo(perResourceCredentialName))
+	g.Expect(details.CredentialFrom()).To(BeEquivalentTo(perResourceCredentialName))
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
-	g.Expect(details.SubscriptionID).To(BeEquivalentTo(fakeID))
-	g.Expect(details.Client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
+	g.Expect(details.SubscriptionID()).To(BeEquivalentTo(fakeID))
 }
 
 func Test_ARMClientCache_PerResourceSecretInDifferentNamespace_ReturnsError(t *testing.T) {
@@ -175,7 +178,7 @@ func Test_ARMClientCache_PerResourceSecretInDifferentNamespace_ReturnsError(t *t
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
-	_, err = res.ARMClientCache.GetClient(ctx, rg)
+	_, err = res.ARMClientCache.GetConnection(ctx, rg)
 	g.Expect(err).To(HaveOccurred())
 	var target *core.SecretNotFound
 	g.Expect(errors.As(err, &target)).To(BeTrue())
@@ -200,7 +203,7 @@ func Test_ARMClientCache_ReturnsError_IfSecretNotFound(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
-	details, err := res.ARMClientCache.GetClient(ctx, rg)
+	details, err := res.ARMClientCache.GetConnection(ctx, rg)
 
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
@@ -231,13 +234,12 @@ func Test_ARMClientCache_ReturnsPerResourceScopedClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
-	details, err := res.ARMClientCache.GetClient(ctx, rg)
+	details, err := res.ARMClientCache.GetConnection(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(details.CredentialFrom).To(BeEquivalentTo(credentialNamespacedName))
+	g.Expect(details.CredentialFrom()).To(BeEquivalentTo(credentialNamespacedName))
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
-	g.Expect(details.SubscriptionID).To(BeEquivalentTo(fakeID))
-	g.Expect(details.Client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
+	g.Expect(details.SubscriptionID()).To(BeEquivalentTo(fakeID))
 }
 
 func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
@@ -250,7 +252,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 
 	credentialNamespacedName := types.NamespacedName{
 		Namespace: "test-secret",
-		Name:      NamespacedSecretName,
+		Name:      identity.NamespacedSecretName,
 	}
 
 	secret := newSecret(credentialNamespacedName)
@@ -263,13 +265,12 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
-	details, err := res.ARMClientCache.GetClient(ctx, rg)
+	details, err := res.ARMClientCache.GetConnection(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
-	g.Expect(details.CredentialFrom).To(BeEquivalentTo(credentialNamespacedName))
-	g.Expect(details.SubscriptionID).To(BeEquivalentTo(fakeID))
-	g.Expect(details.Client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
+	g.Expect(details.CredentialFrom()).To(BeEquivalentTo(credentialNamespacedName))
+	g.Expect(details.SubscriptionID()).To(BeEquivalentTo(fakeID))
 }
 
 func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T) {
@@ -282,7 +283,7 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 
 	credentialNamespacedName := types.NamespacedName{
 		Namespace: "test-secret",
-		Name:      NamespacedSecretName,
+		Name:      identity.NamespacedSecretName,
 	}
 
 	secret := newSecret(credentialNamespacedName)
@@ -295,13 +296,12 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
-	oldDetails, err := res.ARMClientCache.GetClient(ctx, rg)
+	oldDetails, err := res.ARMClientCache.GetConnection(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
-	g.Expect(oldDetails.CredentialFrom).To(BeEquivalentTo(credentialNamespacedName))
-	g.Expect(oldDetails.SubscriptionID).To(BeEquivalentTo(fakeID))
-	g.Expect(oldDetails.Client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
+	g.Expect(oldDetails.CredentialFrom()).To(BeEquivalentTo(credentialNamespacedName))
+	g.Expect(oldDetails.SubscriptionID()).To(BeEquivalentTo(fakeID))
 
 	// change secret and check if we get a new client
 	old := secret
@@ -309,13 +309,12 @@ func Test_ARMClientCache_ReturnsNamespaceScopedClient_SecretChanged(t *testing.T
 	err = res.kubeClient.Patch(ctx, secret, MergeFrom(old))
 	g.Expect(err).ToNot(HaveOccurred())
 
-	newDetails, err := res.ARMClientCache.GetClient(ctx, rg)
+	newDetails, err := res.ARMClientCache.GetConnection(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
-	g.Expect(newDetails.CredentialFrom).To(BeEquivalentTo(credentialNamespacedName))
-	g.Expect(newDetails.SubscriptionID).To(BeEquivalentTo(fakeID))
-	g.Expect(newDetails.Client).To(Not(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient())))
+	g.Expect(newDetails.CredentialFrom()).To(BeEquivalentTo(credentialNamespacedName))
+	g.Expect(newDetails.SubscriptionID()).To(BeEquivalentTo(fakeID))
 }
 
 func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
@@ -331,12 +330,11 @@ func Test_ARMClientCache_ReturnsGlobalClient(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
-	details, err := res.ARMClientCache.GetClient(ctx, rg)
+	details, err := res.ARMClientCache.GetConnection(ctx, rg)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(0))
-	g.Expect(details.SubscriptionID).To(BeEquivalentTo(res.ARMClientCache.globalClient.subscriptionID))
-	g.Expect(details.Client).To(BeEquivalentTo(res.ARMClientCache.globalClient.GenericClient()))
+	g.Expect(len(res.ARMClientCache.clients)).To(BeEquivalentTo(1))
+	g.Expect(details.SubscriptionID()).To(BeEquivalentTo(testSubscriptionID))
 }
 
 func newSecret(namespacedName types.NamespacedName) *v1.Secret {

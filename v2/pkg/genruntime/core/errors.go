@@ -75,6 +75,9 @@ func (e *NotOwnedError) Error() string {
 type causer interface {
 	error
 	Cause() error
+
+	// Note that we use Cause() and not Unwrap here because we don't want these errors mistakenly classified as generic
+	// NotFound errors (which are ignored and retried).
 }
 
 type ReferenceNotFound struct {
