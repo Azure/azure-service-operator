@@ -252,6 +252,12 @@ typeTransformers:
     remove: true
     because: These properties should be marked readonly
 
+  - group: search
+    name: SearchServiceProperties
+    property: AuthOptions
+    remove: true
+    because: We need a better handling for JSON # Discussion: https://github.com/Azure/azure-service-operator/pull/2916/files/93b06daa9549a91ac626e3241c5987b23b4087ac#r1179803300
+
   ## Deal with properties that should have been marked readOnly but weren't
 
     # TODO: Unused or renamed?
@@ -1433,6 +1439,11 @@ objectModelConfiguration:
       ResourceGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+  search:
+    2022-09-01:
+      SearchService:
+        $export: true
+        $supportedFrom: v2.1.0
   servicebus:
     2021-01-01-preview:
       Namespace:

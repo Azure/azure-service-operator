@@ -1,0 +1,36 @@
+| Type Definitions in package "search"                     | v1api20220901 |
+|----------------------------------------------------------|---------------|
+| APIVersion                                               | v1api20220901 |
+| DataPlaneAadOrApiKeyAuthOption_AadAuthFailureMode_STATUS | v1api20220901 |
+| DataPlaneAadOrApiKeyAuthOption_STATUS                    | v1api20220901 |
+| DataPlaneAuthOptions_STATUS                              | v1api20220901 |
+| EncryptionWithCmk                                        | v1api20220901 |
+| EncryptionWithCmk_EncryptionComplianceStatus_STATUS      | v1api20220901 |
+| EncryptionWithCmk_Enforcement                            | v1api20220901 |
+| EncryptionWithCmk_Enforcement_STATUS                     | v1api20220901 |
+| EncryptionWithCmk_STATUS                                 | v1api20220901 |
+| Identity                                                 | v1api20220901 |
+| Identity_STATUS                                          | v1api20220901 |
+| Identity_Type                                            | v1api20220901 |
+| Identity_Type_STATUS                                     | v1api20220901 |
+| IpRule                                                   | v1api20220901 |
+| IpRule_STATUS                                            | v1api20220901 |
+| NetworkRuleSet                                           | v1api20220901 |
+| NetworkRuleSet_STATUS                                    | v1api20220901 |
+| PrivateEndpointConnection_STATUS                         | v1api20220901 |
+| SearchService                                            | v1api20220901 |
+| SearchServiceProperties                                  | v1api20220901 |
+| SearchServiceProperties_HostingMode                      | v1api20220901 |
+| SearchServiceProperties_HostingMode_STATUS               | v1api20220901 |
+| SearchServiceProperties_ProvisioningState_STATUS         | v1api20220901 |
+| SearchServiceProperties_PublicNetworkAccess              | v1api20220901 |
+| SearchServiceProperties_PublicNetworkAccess_STATUS       | v1api20220901 |
+| SearchServiceProperties_STATUS                           | v1api20220901 |
+| SearchServiceProperties_Status_STATUS                    | v1api20220901 |
+| SearchService_STATUS                                     | v1api20220901 |
+| SearchService_Spec                                       | v1api20220901 |
+| SharedPrivateLinkResource_STATUS                         | v1api20220901 |
+| Sku                                                      | v1api20220901 |
+| Sku_Name                                                 | v1api20220901 |
+| Sku_Name_STATUS                                          | v1api20220901 |
+| Sku_STATUS                                               | v1api20220901 |
