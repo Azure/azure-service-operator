@@ -31,6 +31,7 @@ import (
 	mysqlbeta "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta1"
 	postgresqlv1 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1"
 	networkstorage "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
+	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
@@ -47,13 +48,14 @@ import (
 
 func GetKnownStorageTypes(
 	mgr ctrl.Manager,
-	armClientFactory arm.ARMClientFactory,
+	armConnectionFactory arm.ARMConnectionFactory,
+	credentialProvider identity.CredentialProvider,
 	kubeClient kubeclient.Client,
 	positiveConditions *conditions.PositiveConditionBuilder,
 	options generic.Options) ([]*registration.StorageType, error) {
 
 	resourceResolver := resolver.NewResolver(kubeClient)
-	knownStorageTypes, err := getGeneratedStorageTypes(mgr, armClientFactory, kubeClient, resourceResolver, positiveConditions, options)
+	knownStorageTypes, err := getGeneratedStorageTypes(mgr, armConnectionFactory, kubeClient, resourceResolver, positiveConditions, options)
 	if err != nil {
 		return nil, err
 	}
@@ -120,7 +122,7 @@ func GetKnownStorageTypes(
 
 func getGeneratedStorageTypes(
 	mgr ctrl.Manager,
-	armClientFactory arm.ARMClientFactory,
+	armConnectionFactory arm.ARMConnectionFactory,
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
@@ -167,7 +169,7 @@ func getGeneratedStorageTypes(
 		extension := extensions[gvk]
 
 		augmentWithARMReconciler(
-			armClientFactory,
+			armConnectionFactory,
 			kubeClient,
 			resourceResolver,
 			positiveConditions,
@@ -180,7 +182,7 @@ func getGeneratedStorageTypes(
 }
 
 func augmentWithARMReconciler(
-	armClientFactory arm.ARMClientFactory,
+	armConnectionFactory arm.ARMConnectionFactory,
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
@@ -188,7 +190,7 @@ func augmentWithARMReconciler(
 	extension genruntime.ResourceExtension,
 	t *registration.StorageType) {
 	t.Reconciler = arm.NewAzureDeploymentReconciler(
-		armClientFactory,
+		armConnectionFactory,
 		kubeClient,
 		resourceResolver,
 		positiveConditions,

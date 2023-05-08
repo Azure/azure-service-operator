@@ -34,6 +34,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
@@ -154,16 +155,16 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	indexer := kubeclient.NewAndIndexer(mgr.GetFieldIndexer(), testIndexer)
 	kubeClient := kubeclient.NewClient(NewClient(mgr.GetClient(), testIndexer))
 
-	var clientFactory arm.ARMClientFactory = func(ctx context.Context, mo genruntime.ARMMetaObject) (*arm.Connection, error) {
+	credentialProviderWrapper := &credentialProviderWrapper{namespaceResources: namespaceResources}
+
+	var clientFactory arm.ARMConnectionFactory = func(ctx context.Context, mo genruntime.ARMMetaObject) (arm.Connection, error) {
 		result := namespaceResources.Lookup(mo.GetNamespace())
 		if result == nil {
 			panic(fmt.Sprintf("unable to locate ARM client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",
 				mo.GetNamespace()))
 		}
 
-		result.armClientCache.SetKubeClient(kubeClient)
-
-		return result.armClientCache.GetClient(ctx, mo)
+		return result.armClientCache.GetConnection(ctx, mo)
 	}
 
 	options := generic.Options{
@@ -197,6 +198,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 		objs, err = controllers.GetKnownStorageTypes(
 			mgr,
 			clientFactory,
+			credentialProviderWrapper,
 			kubeClient,
 			positiveConditions,
 			options)
@@ -270,6 +272,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	return &runningEnvTest{
 		KubeConfig: kubeConfig,
+		KubeClient: kubeClient,
 		Stop:       cancelFunc,
 		Cfg:        cfg,
 		Callers:    1,
@@ -378,6 +381,7 @@ func (set *sharedEnvTests) getEnvTestForConfig(ctx context.Context, cfg testConf
 
 type runningEnvTest struct {
 	KubeConfig *rest.Config
+	KubeClient kubeclient.Client
 	Stop       context.CancelFunc
 	Cfg        testConfig
 	Callers    int
@@ -387,8 +391,9 @@ type runningEnvTest struct {
 // in order for the controller to access the
 // right ARM client and logger we store them in here
 type perNamespace struct {
-	armClientCache *arm.ARMClientCache
-	logger         logr.Logger
+	armClientCache     *arm.ARMClientCache
+	credentialProvider identity.CredentialProvider
+	logger             logr.Logger
 }
 
 type namespaceResources struct {
@@ -436,20 +441,37 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 	}
 
 	create := func(perTestContext PerTestContext, cfg config.Values) (*KubeBaseTestContext, error) {
-		// register resources needed by controller for namespace
-		armClientCache := arm.NewARMClientCache(
-			perTestContext.AzureClient,
-			perTestContext.AzureSubscription,
-			cfg.PodNamespace,
-			nil,
-			cfg.Cloud(),
-			perTestContext.HttpClient,
-			metrics.NewARMClientMetrics())
+
+		replaying := perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying
+		testCfg := testConfig{
+			Values:             cfg,
+			Replaying:          replaying,
+			CountsTowardsLimit: perTestContext.CountsTowardsParallelLimits,
+		}
+		envtest, err := envTests.getEnvTestForConfig(perTestContext.Ctx, testCfg, perTestContext.logger)
+		if err != nil {
+			return nil, err
+		}
 
 		{
+			defaultCred := identity.NewDefaultCredential(
+				perTestContext.AzureClient.Creds(),
+				cfg.PodNamespace,
+				perTestContext.AzureSubscription)
+
+			credentialProvider := identity.NewCredentialProvider(defaultCred, envtest.KubeClient)
+			// register resources needed by controller for namespace
+			armClientCache := arm.NewARMClientCache(
+				credentialProvider,
+				envtest.KubeClient,
+				cfg.Cloud(),
+				perTestContext.HttpClient,
+				metrics.NewARMClientMetrics())
+
 			resources := &perNamespace{
-				armClientCache: armClientCache,
-				logger:         perTestContext.logger,
+				armClientCache:     armClientCache,
+				credentialProvider: credentialProvider,
+				logger:             perTestContext.logger,
 			}
 
 			namespace := perTestContext.Namespace
@@ -461,17 +483,6 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 				perNamespaceResources.Add(otherNs, resources)
 				perTestContext.T.Cleanup(func() { perNamespaceResources.Remove(otherNs) })
 			}
-		}
-
-		replaying := perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying
-		testCfg := testConfig{
-			Values:             cfg,
-			Replaying:          replaying,
-			CountsTowardsLimit: perTestContext.CountsTowardsParallelLimits,
-		}
-		envtest, err := envTests.getEnvTestForConfig(perTestContext.Ctx, testCfg, perTestContext.logger)
-		if err != nil {
-			return nil, err
 		}
 
 		if perTestContext.CountsTowardsParallelLimits {

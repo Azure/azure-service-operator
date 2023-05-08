@@ -11,4 +11,4 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type ARMClientFactory func(context.Context, genruntime.ARMMetaObject) (*Connection, error)
+type ARMConnectionFactory func(context.Context, genruntime.ARMMetaObject) (Connection, error)
