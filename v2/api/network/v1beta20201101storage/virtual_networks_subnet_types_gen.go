@@ -5,6 +5,7 @@ package v1beta20201101storage
 
 import (
 	"fmt"
+	v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
 	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -362,8 +363,13 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from IpAllocations")
 			}
+			var subResourceStashLocal v1api20180501s.SubResource
+			err = subResourceStashLocal.AssignProperties_From_SubResource(&subResourceStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash")
+			}
 			var ipAllocation SubResource
-			err = ipAllocation.AssignProperties_From_SubResource(&subResourceStash)
+			err = ipAllocation.AssignProperties_From_SubResource(&subResourceStashLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field IpAllocations from SubResourceStash")
 			}
@@ -381,8 +387,13 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_From_VirtualNetworks
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from NatGateway")
 		}
+		var subResourceStashLocal v1api20180501s.SubResource
+		err = subResourceStashLocal.AssignProperties_From_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash")
+		}
 		var natGateway SubResource
-		err = natGateway.AssignProperties_From_SubResource(&subResourceStash)
+		err = natGateway.AssignProperties_From_SubResource(&subResourceStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field NatGateway from SubResourceStash")
 		}
@@ -544,13 +555,18 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_S
 		for ipAllocationIndex, ipAllocationItem := range subnet.IpAllocations {
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
-			var subResourceStash v1api20200601s.SubResource
+			var subResourceStash v1api20180501s.SubResource
 			err := ipAllocationItem.AssignProperties_To_SubResource(&subResourceStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from IpAllocations")
 			}
+			var subResourceStashLocal v1api20200601s.SubResource
+			err = subResourceStash.AssignProperties_To_SubResource(&subResourceStashLocal)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash")
+			}
 			var ipAllocation v1api20201101s.SubResource
-			err = subResourceStash.AssignProperties_To_SubResource(&ipAllocation)
+			err = subResourceStashLocal.AssignProperties_To_SubResource(&ipAllocation)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field IpAllocations from SubResourceStash")
 			}
@@ -563,13 +579,18 @@ func (subnet *VirtualNetworks_Subnet_Spec) AssignProperties_To_VirtualNetworks_S
 
 	// NatGateway
 	if subnet.NatGateway != nil {
-		var subResourceStash v1api20200601s.SubResource
+		var subResourceStash v1api20180501s.SubResource
 		err := subnet.NatGateway.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from NatGateway")
 		}
+		var subResourceStashLocal v1api20200601s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&subResourceStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash")
+		}
 		var natGateway v1api20201101s.SubResource
-		err = subResourceStash.AssignProperties_To_SubResource(&natGateway)
+		err = subResourceStashLocal.AssignProperties_To_SubResource(&natGateway)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field NatGateway from SubResourceStash")
 		}
@@ -822,8 +843,13 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_From_VirtualNetwor
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from IpAllocations")
 			}
+			var subResourceSTATUSStashLocal v1api20180501s.SubResource_STATUS
+			err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var ipAllocation SubResource_STATUS
-			err = ipAllocation.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			err = ipAllocation.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field IpAllocations from SubResource_STATUSStash")
 			}
@@ -880,8 +906,13 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_From_VirtualNetwor
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from NatGateway")
 		}
+		var subResourceSTATUSStashLocal v1api20180501s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var natGateway SubResource_STATUS
-		err = natGateway.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = natGateway.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field NatGateway from SubResource_STATUSStash")
 		}
@@ -1101,13 +1132,18 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_To_VirtualNetworks
 		for ipAllocationIndex, ipAllocationItem := range subnet.IpAllocations {
 			// Shadow the loop variable to avoid aliasing
 			ipAllocationItem := ipAllocationItem
-			var subResourceSTATUSStash v1api20200601s.SubResource_STATUS
+			var subResourceSTATUSStash v1api20180501s.SubResource_STATUS
 			err := ipAllocationItem.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from IpAllocations")
 			}
+			var subResourceSTATUSStashLocal v1api20200601s.SubResource_STATUS
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var ipAllocation v1api20201101s.SubResource_STATUS
-			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&ipAllocation)
+			err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&ipAllocation)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field IpAllocations from SubResource_STATUSStash")
 			}
@@ -1159,13 +1195,18 @@ func (subnet *VirtualNetworks_Subnet_STATUS) AssignProperties_To_VirtualNetworks
 
 	// NatGateway
 	if subnet.NatGateway != nil {
-		var subResourceSTATUSStash v1api20200601s.SubResource_STATUS
+		var subResourceSTATUSStash v1api20180501s.SubResource_STATUS
 		err := subnet.NatGateway.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from NatGateway")
 		}
+		var subResourceSTATUSStashLocal v1api20200601s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var natGateway v1api20201101s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&natGateway)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&natGateway)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field NatGateway from SubResource_STATUSStash")
 		}

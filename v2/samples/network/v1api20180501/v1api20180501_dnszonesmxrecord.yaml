@@ -1,0 +1,12 @@
+apiVersion: network.azure.com/v1api20180501
+kind: DnsZonesMXRecord
+metadata:
+  name: aso-sample-record-mx
+  namespace: default
+spec:
+  MXRecords:
+  - exchange: mail.aso-sample.com
+    preference: 0
+  owner:
+    name: aso-sample-dz.com
+  TTL: 3600

@@ -50,7 +50,7 @@ $ docker build $(git rev-parse --show-toplevel)/.devcontainer -t asodev:latest
 … image will be created …
 
 $ # After that you can start a terminal in the development container with:
-$ docker run --env-file ~/work/envs.env -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock --network=host  -it asodev:latest /bin/bash
+$ docker run --env-file ~/work/envs.env --env HOSTROOT=$(git rev-parse --show-toplevel) -v $(git rev-parse --show-toplevel):/go/src -w /go/src -u $(id -u ${USER}):$(id -g ${USER}) --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock --network=host  -it asodev:latest /bin/bash
 ```
 
 It is not recommended to mount the source like this on Windows (WSL2) as the cross-VM file operations are very slow.

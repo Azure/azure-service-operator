@@ -5,6 +5,7 @@ package v1beta20201101storage
 
 import (
 	"fmt"
+	v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
 	v1api20200601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601storage"
 	v1api20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -383,8 +384,13 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_From
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from RemoteVirtualNetwork")
 		}
+		var subResourceStashLocal v1api20180501s.SubResource
+		err = subResourceStashLocal.AssignProperties_From_SubResource(&subResourceStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash")
+		}
 		var remoteVirtualNetwork SubResource
-		err = remoteVirtualNetwork.AssignProperties_From_SubResource(&subResourceStash)
+		err = remoteVirtualNetwork.AssignProperties_From_SubResource(&subResourceStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field RemoteVirtualNetwork from SubResourceStash")
 		}
@@ -501,13 +507,18 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_Spec) AssignProperties_To_V
 
 	// RemoteVirtualNetwork
 	if peering.RemoteVirtualNetwork != nil {
-		var subResourceStash v1api20200601s.SubResource
+		var subResourceStash v1api20180501s.SubResource
 		err := peering.RemoteVirtualNetwork.AssignProperties_To_SubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from RemoteVirtualNetwork")
 		}
+		var subResourceStashLocal v1api20200601s.SubResource
+		err = subResourceStash.AssignProperties_To_SubResource(&subResourceStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash")
+		}
 		var remoteVirtualNetwork v1api20201101s.SubResource
-		err = subResourceStash.AssignProperties_To_SubResource(&remoteVirtualNetwork)
+		err = subResourceStashLocal.AssignProperties_To_SubResource(&remoteVirtualNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field RemoteVirtualNetwork from SubResourceStash")
 		}
@@ -702,8 +713,13 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_Fr
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from RemoteVirtualNetwork")
 		}
+		var subResourceSTATUSStashLocal v1api20180501s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var remoteVirtualNetwork SubResource_STATUS
-		err = remoteVirtualNetwork.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = remoteVirtualNetwork.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field RemoteVirtualNetwork from SubResource_STATUSStash")
 		}
@@ -827,13 +843,18 @@ func (peering *VirtualNetworks_VirtualNetworkPeering_STATUS) AssignProperties_To
 
 	// RemoteVirtualNetwork
 	if peering.RemoteVirtualNetwork != nil {
-		var subResourceSTATUSStash v1api20200601s.SubResource_STATUS
+		var subResourceSTATUSStash v1api20180501s.SubResource_STATUS
 		err := peering.RemoteVirtualNetwork.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from RemoteVirtualNetwork")
 		}
+		var subResourceSTATUSStashLocal v1api20200601s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var remoteVirtualNetwork v1api20201101s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&remoteVirtualNetwork)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&remoteVirtualNetwork)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field RemoteVirtualNetwork from SubResource_STATUSStash")
 		}
