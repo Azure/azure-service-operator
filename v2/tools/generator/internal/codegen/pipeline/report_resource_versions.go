@@ -168,7 +168,8 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 	}
 }
 
-// SaveAllResourcesReportTo creates a file containing the generated report
+// SaveAllResourcesReportTo creates a file containing a report listing all supported resources
+// outputFile is the path to the file to create
 func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string) error {
 
 	klog.V(1).Infof("Writing report to %s", outputFile)
@@ -180,6 +181,15 @@ func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string
 		return errors.Wrapf(err, "writing versions report to %s", outputFile)
 	}
 
+	err = report.ensureFolderExists(outputFile)
+	if err != nil {
+		return errors.Wrapf(err, "writing versions report to %s", outputFile)
+	}
+
+	return os.WriteFile(outputFile, []byte(buffer.String()), 0o600)
+}
+
+func (report *ResourceVersionsReport) ensureFolderExists(outputFile string) error {
 	outputFolder := filepath.Dir(outputFile)
 	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
 		err = os.MkdirAll(outputFolder, 0o700)
@@ -188,10 +198,12 @@ func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string
 		}
 	}
 
-	return os.WriteFile(outputFile, []byte(buffer.String()), 0o600)
+	return nil
 }
 
-// SaveGroupResourcesReportTo creates a file containing the generated report
+// SaveGroupResourcesReportTo creates a file containing a report listing supported resources in the specified group.
+// group identifies the set of resources to include.
+// outputFile is the path to the file to create.
 func (report *ResourceVersionsReport) SaveGroupResourcesReportTo(group string, outputFile string) error {
 
 	klog.V(1).Infof("Writing report to %s for group ", outputFile, group)
@@ -203,12 +215,9 @@ func (report *ResourceVersionsReport) SaveGroupResourcesReportTo(group string, o
 		return errors.Wrapf(err, "writing versions report to %s for group %s", outputFile, group)
 	}
 
-	outputFolder := filepath.Dir(outputFile)
-	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
-		err = os.MkdirAll(outputFile, 0o700)
-		if err != nil {
-			return errors.Wrapf(err, "Unable to create directory %q", outputFile)
-		}
+	err = report.ensureFolderExists(outputFile)
+	if err != nil {
+		return errors.Wrapf(err, "writing versions report to %s", outputFile)
 	}
 
 	return os.WriteFile(outputFile, []byte(buffer.String()), 0o600)
