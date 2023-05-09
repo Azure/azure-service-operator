@@ -431,8 +431,9 @@ jobs:
         img="$IMAGE_NAME:$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
         echo $img
         sed -i -e 's@controller:latest@'${img}'@g' ./config/default/manager_image_patch.yaml
-        which kustomize
-        kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
+        which $GOPATH/bin/kustomize
+        $GOPATH/bin/kustomize version
+        $GOPATH/bin/kustomize build config/default > $(Build.ArtifactStagingDirectory)/setup.yaml
         set -x
         echo $img > $(Build.ArtifactStagingDirectory)/azure-service-operator.txt
         mkdir $(Build.ArtifactStagingDirectory)/scripts

@@ -135,6 +135,8 @@ import (
 	managedidentity_v20220131p "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131preview"
 	managedidentity_v20220131ps "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1beta20220131previewstorage"
 	network_customizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
+	network_v1api20180501 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501"
+	network_v1api20180501s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180501storage"
 	network_v1api20180901 "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901"
 	network_v1api20180901s "github.com/Azure/azure-service-operator/v2/api/network/v1api20180901storage"
 	network_v1api20200601 "github.com/Azure/azure-service-operator/v2/api/network/v1api20200601"
@@ -157,6 +159,9 @@ import (
 	resources_v1api20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601storage"
 	resources_v20200601 "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	resources_v20200601s "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601storage"
+	search_customizations "github.com/Azure/azure-service-operator/v2/api/search/customizations"
+	search_v1api20220901 "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901"
+	search_v1api20220901s "github.com/Azure/azure-service-operator/v2/api/search/v1api20220901storage"
 	servicebus_customizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
 	servicebus_v1api20210101p "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	servicebus_v1api20210101ps "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
@@ -455,6 +460,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(machinelearningservices_v1api20210701s.WorkspacesConnection)})
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v1api20181130s.UserAssignedIdentity)})
 	result = append(result, &registration.StorageType{Obj: new(managedidentity_v1api20220131ps.FederatedIdentityCredential)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZone)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesAAAARecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesARecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesCAARecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesCNAMERecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesMXRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesNSRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesPTRRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesSRVRecord)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20180501s.DnsZonesTXTRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20180901s.PrivateDnsZone)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20200601s.PrivateDnsZonesAAAARecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20200601s.PrivateDnsZonesARecord)})
@@ -483,6 +498,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20220701s.PublicIPPrefix)})
 	result = append(result, &registration.StorageType{Obj: new(operationalinsights_v1api20210601s.Workspace)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v1api20200601s.ResourceGroup)})
+	result = append(result, &registration.StorageType{Obj: new(search_v1api20220901s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesQueue)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v1api20210101ps.NamespacesTopic)})
@@ -1038,6 +1054,30 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(managedidentity_v20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20220131p.FederatedIdentityCredential))
 	result = append(result, new(managedidentity_v20220131ps.FederatedIdentityCredential))
+	result = append(
+		result,
+		new(network_v1api20180501.DnsZone),
+		new(network_v1api20180501.DnsZonesAAAARecord),
+		new(network_v1api20180501.DnsZonesARecord),
+		new(network_v1api20180501.DnsZonesCAARecord),
+		new(network_v1api20180501.DnsZonesCNAMERecord),
+		new(network_v1api20180501.DnsZonesMXRecord),
+		new(network_v1api20180501.DnsZonesNSRecord),
+		new(network_v1api20180501.DnsZonesPTRRecord),
+		new(network_v1api20180501.DnsZonesSRVRecord),
+		new(network_v1api20180501.DnsZonesTXTRecord))
+	result = append(
+		result,
+		new(network_v1api20180501s.DnsZone),
+		new(network_v1api20180501s.DnsZonesAAAARecord),
+		new(network_v1api20180501s.DnsZonesARecord),
+		new(network_v1api20180501s.DnsZonesCAARecord),
+		new(network_v1api20180501s.DnsZonesCNAMERecord),
+		new(network_v1api20180501s.DnsZonesMXRecord),
+		new(network_v1api20180501s.DnsZonesNSRecord),
+		new(network_v1api20180501s.DnsZonesPTRRecord),
+		new(network_v1api20180501s.DnsZonesSRVRecord),
+		new(network_v1api20180501s.DnsZonesTXTRecord))
 	result = append(result, new(network_v1api20180901.PrivateDnsZone))
 	result = append(result, new(network_v1api20180901s.PrivateDnsZone))
 	result = append(
@@ -1138,6 +1178,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(resources_v1api20200601s.ResourceGroup))
 	result = append(result, new(resources_v20200601.ResourceGroup))
 	result = append(result, new(resources_v20200601s.ResourceGroup))
+	result = append(result, new(search_v1api20220901.SearchService))
+	result = append(result, new(search_v1api20220901s.SearchService))
 	result = append(
 		result,
 		new(servicebus_v1api20210101p.Namespace),
@@ -1377,6 +1419,8 @@ func createScheme() *runtime.Scheme {
 	_ = managedidentity_v20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20220131p.AddToScheme(scheme)
 	_ = managedidentity_v20220131ps.AddToScheme(scheme)
+	_ = network_v1api20180501.AddToScheme(scheme)
+	_ = network_v1api20180501s.AddToScheme(scheme)
 	_ = network_v1api20180901.AddToScheme(scheme)
 	_ = network_v1api20180901s.AddToScheme(scheme)
 	_ = network_v1api20200601.AddToScheme(scheme)
@@ -1397,6 +1441,8 @@ func createScheme() *runtime.Scheme {
 	_ = resources_v1api20200601s.AddToScheme(scheme)
 	_ = resources_v20200601.AddToScheme(scheme)
 	_ = resources_v20200601s.AddToScheme(scheme)
+	_ = search_v1api20220901.AddToScheme(scheme)
+	_ = search_v1api20220901s.AddToScheme(scheme)
 	_ = servicebus_v1api20210101p.AddToScheme(scheme)
 	_ = servicebus_v1api20210101ps.AddToScheme(scheme)
 	_ = servicebus_v20210101p.AddToScheme(scheme)
@@ -1489,6 +1535,16 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &managedidentity_customizations.FederatedIdentityCredentialExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
+	result = append(result, &network_customizations.DnsZoneExtension{})
+	result = append(result, &network_customizations.DnsZonesAAAARecordExtension{})
+	result = append(result, &network_customizations.DnsZonesARecordExtension{})
+	result = append(result, &network_customizations.DnsZonesCAARecordExtension{})
+	result = append(result, &network_customizations.DnsZonesCNAMERecordExtension{})
+	result = append(result, &network_customizations.DnsZonesMXRecordExtension{})
+	result = append(result, &network_customizations.DnsZonesNSRecordExtension{})
+	result = append(result, &network_customizations.DnsZonesPTRRecordExtension{})
+	result = append(result, &network_customizations.DnsZonesSRVRecordExtension{})
+	result = append(result, &network_customizations.DnsZonesTXTRecordExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
 	result = append(result, &network_customizations.NatGatewayExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})
@@ -1516,6 +1572,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.VirtualNetworksVirtualNetworkPeeringExtension{})
 	result = append(result, &operationalinsights_customizations.WorkspaceExtension{})
 	result = append(result, &resources_customizations.ResourceGroupExtension{})
+	result = append(result, &search_customizations.SearchServiceExtension{})
 	result = append(result, &servicebus_customizations.NamespaceExtension{})
 	result = append(result, &servicebus_customizations.NamespacesQueueExtension{})
 	result = append(result, &servicebus_customizations.NamespacesTopicExtension{})

@@ -50,16 +50,16 @@ var _ genruntime.Reconciler = &AzureDeploymentReconciler{}
 
 type AzureDeploymentReconciler struct {
 	reconcilers.ARMOwnedResourceReconcilerCommon
-	ARMClientFactory   ARMClientFactory
-	KubeClient         kubeclient.Client
-	ResourceResolver   *resolver.Resolver
-	PositiveConditions *conditions.PositiveConditionBuilder
-	Config             config.Values
-	Extension          genruntime.ResourceExtension
+	ARMConnectionFactory ARMConnectionFactory
+	KubeClient           kubeclient.Client
+	ResourceResolver     *resolver.Resolver
+	PositiveConditions   *conditions.PositiveConditionBuilder
+	Config               config.Values
+	Extension            genruntime.ResourceExtension
 }
 
 func NewAzureDeploymentReconciler(
-	armClientFactory ARMClientFactory,
+	armConnectionFactory ARMConnectionFactory,
 	kubeClient kubeclient.Client,
 	resourceResolver *resolver.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
@@ -67,12 +67,12 @@ func NewAzureDeploymentReconciler(
 	extension genruntime.ResourceExtension) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
-		ARMClientFactory:   armClientFactory,
-		KubeClient:         kubeClient,
-		ResourceResolver:   resourceResolver,
-		PositiveConditions: positiveConditions,
-		Config:             cfg,
-		Extension:          extension,
+		ARMConnectionFactory: armConnectionFactory,
+		KubeClient:           kubeClient,
+		ResourceResolver:     resourceResolver,
+		PositiveConditions:   positiveConditions,
+		Config:               cfg,
+		Extension:            extension,
 		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
 			ResourceResolver: resourceResolver,
 			ReconcilerCommon: reconcilers.ReconcilerCommon{
@@ -105,12 +105,12 @@ func (r *AzureDeploymentReconciler) makeInstance(
 	// Augment Log with ARM specific stuff
 	log = log.WithValues("azureName", typedObj.AzureName())
 
-	clientDetails, err := r.ARMClientFactory(ctx, typedObj)
+	clientDetails, err := r.ARMConnectionFactory(ctx, typedObj)
 	if err != nil {
 		return nil, err
 	}
 
-	eventRecorder.Eventf(obj, v1.EventTypeNormal, "CredentialFrom", "Using credential from %q", clientDetails.CredentialFrom.String())
+	eventRecorder.Eventf(obj, v1.EventTypeNormal, "CredentialFrom", "Using credential from %q", clientDetails.CredentialFrom().String())
 
 	// TODO: The line between AzureDeploymentReconciler and azureDeploymentReconcilerInstance is still pretty blurry
 	return newAzureDeploymentReconcilerInstance(typedObj, log, eventRecorder, clientDetails, *r), nil

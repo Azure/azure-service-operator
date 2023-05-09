@@ -215,6 +215,18 @@ typeTransformers:
     because: it is supposed to be marked ReadOnly in Swagger
   - group: network
     version: "*"
+    name: DnsZone_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
+    name: DnsZones_AAAA_Spec;DnsZones_CAA_Spec;DnsZones_CNAME_Spec;DnsZones_MX_Spec;DnsZones_NS_Spec;DnsZones_PTR_Spec;DnsZones_SRV_Spec;DnsZones_TXT_Spec
+    property: Etag
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - group: network
+    version: "*"
     name: Delegation
     property: Id
     # TODO[donotmerge]: We should do something more clean than this
@@ -239,6 +251,12 @@ typeTransformers:
     property: Status
     remove: true
     because: These properties should be marked readonly
+
+  - group: search
+    name: SearchServiceProperties
+    property: AuthOptions
+    remove: true
+    because: We need a better handling for JSON # Discussion: https://github.com/Azure/azure-service-operator/pull/2916/files/93b06daa9549a91ac626e3241c5987b23b4087ac#r1179803300
 
   ## Deal with properties that should have been marked readOnly but weren't
 
@@ -1196,6 +1214,40 @@ objectModelConfiguration:
         $exportAs: WorkspacesConnection
         $supportedFrom: v2.0.0-beta.2
   network:
+    2018-05-01:
+      DnsZone:
+        $export: true
+        $supportedFrom: v2.1.0
+      DnsZones_A:
+        $exportAs: DnsZonesARecord
+        $supportedFrom: v2.1.0
+      DnsZones_AAAA:
+        $exportAs: DnsZonesAAAARecord
+        $supportedFrom: v2.1.0
+      DnsZones_CAA:
+        $exportAs: DnsZonesCAARecord
+        $supportedFrom: v2.1.0
+      DnsZones_CNAME:
+        $exportAs: DnsZonesCNAMERecord
+        $supportedFrom: v2.1.0
+      DnsZones_MX:
+        $exportAs: DnsZonesMXRecord
+        $supportedFrom: v2.1.0
+      DnsZones_NS:
+        $exportAs: DnsZonesNSRecord
+        $supportedFrom: v2.1.0
+      DnsZones_SRV:
+        $exportAs: DnsZonesSRVRecord
+        $supportedFrom: v2.1.0
+      DnsZones_PTR:
+        $exportAs: DnsZonesPTRRecord
+        $supportedFrom: v2.1.0
+      DnsZones_TXT:
+        $exportAs: DnsZonesTXTRecord
+        $supportedFrom: v2.1.0
+      SubResource:
+        Id:
+          $armReference: true
     2018-09-01:
       PrivateDnsZone:
         $export: true
@@ -1387,6 +1439,11 @@ objectModelConfiguration:
       ResourceGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+  search:
+    2022-09-01:
+      SearchService:
+        $export: true
+        $supportedFrom: v2.1.0
   servicebus:
     2021-01-01-preview:
       Namespace:

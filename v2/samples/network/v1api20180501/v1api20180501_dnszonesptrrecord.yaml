@@ -1,0 +1,11 @@
+apiVersion: network.azure.com/v1api20180501
+kind: DnsZonesPTRRecord
+metadata:
+  name: aso-sample-record-ptr
+  namespace: default
+spec:
+  PTRRecords:
+  - ptrdname: asosample.com
+  owner:
+    name: aso-sample-dz.com
+  TTL: 3600
