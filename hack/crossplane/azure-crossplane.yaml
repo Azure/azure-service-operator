@@ -5,7 +5,7 @@ typesOutputPath: apis
 
 supportedResourcesReport:
   # Path is relative to the module path, above
-  outputPath: apis/resources.md
+  outputFolder: apis/resources.md
   # Path to documentation fragments to inject into the report
   fragmentPath: ../../docs/v2/crossplane/supported-resources
 
