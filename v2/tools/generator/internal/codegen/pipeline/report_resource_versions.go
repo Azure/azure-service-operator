@@ -600,7 +600,9 @@ func (report *ResourceVersionsReport) groupTitle(group string, kinds astmodel.Ty
 		// Remove the "Microsoft." prefix
 		result := strings.TrimPrefix(parts[0], "Microsoft.")
 
-		return result
+		if len(result) > 0 {
+			return result
+		}
 	}
 
 	return report.titleCase.String(group)
