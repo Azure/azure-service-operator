@@ -50,7 +50,7 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 			var errs []error
 			for grp := range report.groups {
 				outputFile := configuration.SupportedResourcesReport.GroupFullOutputPath(grp)
-				err := report.SaveGroupResourcesReportTo(grp, outputFile)
+				err = report.SaveGroupResourcesReportTo(grp, outputFile)
 				if err != nil {
 					errs = append(errs, errors.Wrapf(err, "writing versions report to %s for group %s", outputFile, grp))
 				}
