@@ -1,0 +1,802 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"location":"westus2","name":"asotest-rg-zadzmw","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw","name":"asotest-rg-zadzmw","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw","name":"asotest-rg-zadzmw","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"asotest-search-htqllr","properties":{"encryptionWithCmk":{"enforcement":"Disabled"},"hostingMode":"default","partitionCount":1,"publicNetworkAccess":"disabled","replicaCount":1},"sku":{"name":"standard"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "271"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "861"
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "4091"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - f6362065-8cd8-4ce0-a510-8def84c5b603
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "240"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - a7b59af0-4bb7-457d-b22b-3ab55b5df217
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "214"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - e2eac3ea-6f10-48de-a0b1-46853aa7b7d8
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "156"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 91e07391-3954-4919-8aa4-1309156a0efe
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "176"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 360382aa-e6de-4e90-8497-534f45812adc
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "192"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 358112e6-570f-4771-bffe-2277017d079a
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "148"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - a7109be5-44e3-4552-b97f-f5a8545e0fc5
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "160"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 483f80b2-b565-43eb-be8e-c99fc7dd587b
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "141"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 5af9e5cc-64bc-4906-bcb0-f9325d221732
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "164"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - e6f1433d-229e-4123-a5f6-95501e6505d2
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "169"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 7ee2a403-0df3-4bfc-aea8-adfe4b43d587
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "303"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 0514bf3c-d752-4a09-9e54-2f0ba7caf39f
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"provisioning","statusDetails":"","provisioningState":"provisioning","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "278"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 99a5b12d-41b2-4d17-8eca-30a9e19b1ea0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "12"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "202"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 0d8c8c17-2fc2-424a-922f-70b3422520e9
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "139"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A40%3A37.1886571Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 467b847a-83a0-44c2-8cee-23aa184ff434
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westus2","name":"asotest-search-htqllr","properties":{"encryptionWithCmk":{"enforcement":"Disabled"},"hostingMode":"default","partitionCount":1,"publicNetworkAccess":"disabled","replicaCount":1},"sku":{"name":"standard"},"tags":{"foo":"bar"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "292"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","tags":{"foo":"bar"},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "325"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A49%3A04.3301487Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 53446d2f-f18d-4714-ba54-ce0413ba8ade
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "14"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr","name":"asotest-search-htqllr","type":"Microsoft.Search/searchServices","location":"West
+      US 2","tags":{"foo":"bar"},"properties":{"replicaCount":1,"partitionCount":1,"status":"running","statusDetails":"","provisioningState":"succeeded","hostingMode":"default","publicNetworkAccess":"Disabled","networkRuleSet":{"ipRules":[],"bypass":"None"},"privateEndpointConnections":[],"sharedPrivateLinkResources":[],"encryptionWithCmk":{"enforcement":"Disabled","encryptionComplianceStatus":"Compliant"},"disableLocalAuth":false,"authOptions":{"apiKeyOnly":{}}},"sku":{"name":"standard"},"identity":{"type":"SystemAssigned","principalId":"9a89a9d3-08d1-46f5-b6c8-dde4a2474e4f","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Elapsed-Time:
+      - "191"
+      Etag:
+      - W/"datetime'2023-04-27T00%3A49%3A04.3301487Z'"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 1c9d9212-158d-4a3b-8d85-af34faad6fc2
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Elapsed-Time:
+      - "3562"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Request-Id:
+      - 9376a559-8a4b-4e4f-ba99-2fd0a9802c52
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "15"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw/providers/Microsoft.Search/searchServices/asotest-search-htqllr?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Search/searchServices/asotest-search-htqllr''
+      under resource group ''asotest-rg-zadzmw'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "242"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-zadzmw?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaQURaTVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRaQURaTVctV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
