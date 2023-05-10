@@ -6,68 +6,88 @@
 package set
 
 import (
+	. "github.com/onsi/gomega"
 	"testing"
 )
 
-func TestSet(t *testing.T) {
-	// Test creating a set with multiple values
+func TestSet_WhenConstructedWithItems_HasExpectedSize(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
 	set := Make(1, 2, 3)
-	if len(set) != 3 {
-		t.Errorf("Expected set length 3, but got %v", len(set))
-	}
+	g.Expect(set).To(HaveLen(3))
+}
 
-	// Test adding a value to the set
+func TestSet_WhenAddingItem_AddsToSet(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	set := Make(1, 2, 3)
 	set.Add(4)
-	if !set.Contains(4) {
-		t.Errorf("Expected set to contain 4, but it didn't")
-	}
 
-	// Test adding all values from another set
+	g.Expect(set).To(HaveLen(4))
+}
+
+func TestSet_WhenAddingAllItemsFromAnotherSet_AddsOnlyNewItems(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	set := Make(1, 2, 3)
 	otherSet := Make(3, 4, 5)
 	set.AddAll(otherSet)
-	if len(set) != 5 {
-		t.Errorf("Expected set length 4, but got %v", len(set))
-	}
+	g.Expect(set).To(HaveLen(5))
+}
 
-	// Test removing a value from the set
-	set.Remove(4)
-	if set.Contains(4) {
-		t.Errorf("Expected set not to contain 4, but it did")
-	}
+func TestSet_WhenRemovingItem_RemovesFromSet(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
 
-	// Test copying the set
+	set := Make(1, 2, 3)
+	set.Remove(2)
+	g.Expect(set).To(HaveLen(2))
+}
+
+func TestSet_WhenCopying_ReturnsEqualSet(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	set := Make(1, 2, 3)
 	copySet := set.Copy()
-	if !AreEqual(set, copySet) {
-		t.Errorf("Expected copied set to be equal to original set, but they were different")
-	}
+	g.Expect(copySet).To(Equal(set))
+}
 
-	// Test clearing the set
+func TestSet_WhenCleared_IsEmpty(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	set := Make(1, 2, 3)
 	set.Clear()
-	if len(set) != 0 {
-		t.Errorf("Expected set length 0 after clear, but got %v", len(set))
-	}
+	g.Expect(set).To(BeEmpty())
+}
 
-	// Test checking if two sets are equal
+func TestSet_WhenCheckingEquality_ReturnsTrueForEqualSets(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
 	set1 := Make(1, 2, 3)
-	set2 := Make(1, 2, 3)
-	if !set1.Equals(set2) {
-		t.Errorf("Expected sets to be equal, but they were different")
-	}
+	set2 := Make(3, 1, 2)
+	g.Expect(set1).To(Equal(set2))
+}
 
-	// Test getting the values from the set
-	set3 := Make("foo", "bar", "baz")
-	values := set3.Values()
-	if len(values) != 3 {
-		t.Errorf("Expected values length 3, but got %v", len(values))
-	}
+func TestSet_WhenGettingValues_ReturnsAllValues(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
 
-	// Test getting sorted slice of values
-	set4 := Make(3, 1, 2)
-	sortedValues := AsSortedSlice(set4)
-	if len(sortedValues) != 3 {
-		t.Errorf("Expected sorted values length 3, but got %v", len(sortedValues))
-	}
-	if sortedValues[0] != 1 || sortedValues[1] != 2 || sortedValues[2] != 3 {
-		t.Errorf("Expected sorted values to be [1 2 3], but got %v", sortedValues)
-	}
+	set := Make("foo", "bar", "baz")
+	values := set.Values()
+	g.Expect(values).To(ConsistOf("foo", "bar", "baz"))
+}
+
+func TestSet_WhenGettingSortedSlice_ReturnsSortedValues(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	set := Make(3, 1, 2)
+	sortedValues := AsSortedSlice(set)
+	g.Expect(sortedValues).To(Equal([]int{1, 2, 3}))
 }
