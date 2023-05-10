@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/pkg/errors"
-	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	. "github.com/onsi/gomega"
@@ -105,18 +104,14 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 
 	tc.CreateResource(secret)
 
-	nsName := types.NamespacedName{
-		Namespace: secret.Namespace,
-		Name:      secret.Name,
-	}
-
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	acct := newStorageAccount(tc, rg)
-	acct.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: nsName.String()}
+	acct.Annotations = map[string]string{reconcilers.PerResourceSecretAnnotation: secret.Name}
 
 	// Creating new storage account in with restricted permissions per resource secret should fail.
 	tc.CreateResourceAndWaitForState(acct, metav1.ConditionFalse, conditions.ConditionSeverityWarning)
+	tc.Expect(acct.Status.Conditions[0].Message).To(ContainSubstring("does not have authorization to perform action"))
 
 	// Deleting the per-resource credential annotation would default to applying the global credential with all permissions
 	old := acct.DeepCopy()
@@ -127,6 +122,7 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 
 	objKey := client.ObjectKeyFromObject(acct)
 	tc.GetResource(objKey, acct)
+	tc.Expect(acct.Annotations).ToNot(HaveKey(reconcilers.PerResourceSecretAnnotation))
 
 	resID := genruntime.GetResourceIDOrDefault(acct)
 
