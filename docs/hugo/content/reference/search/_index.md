@@ -3,7 +3,6 @@ title: Search Supported Resources
 linktitle: Search
 no_list: true
 ---
-
 Supporting 1 resource: SearchService
 
 | Resource      | ARM Version | CRD Version   | Supported From | Sample                                                                                                                     |
