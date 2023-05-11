@@ -178,6 +178,8 @@ import (
 	storage_customizations "github.com/Azure/azure-service-operator/v2/api/storage/customizations"
 	storage_v1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	storage_v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
+	storage_v1api20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+	storage_v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	storage_v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	storage_v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
@@ -673,6 +675,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsManagementPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueService)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueServicesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsFileService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsFileServicesShare)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsTableService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v1api20211001s.Alias)})
 	result = append(result, &registration.StorageType{
 		Obj: new(synapse_v1api20210601s.Workspace),
@@ -1278,6 +1284,18 @@ func getKnownTypes() []client.Object {
 		new(storage_v1api20210401s.StorageAccountsQueueServicesQueue))
 	result = append(
 		result,
+		new(storage_v1api20220901.StorageAccountsFileService),
+		new(storage_v1api20220901.StorageAccountsFileServicesShare),
+		new(storage_v1api20220901.StorageAccountsTableService),
+		new(storage_v1api20220901.StorageAccountsTableServicesTable))
+	result = append(
+		result,
+		new(storage_v1api20220901s.StorageAccountsFileService),
+		new(storage_v1api20220901s.StorageAccountsFileServicesShare),
+		new(storage_v1api20220901s.StorageAccountsTableService),
+		new(storage_v1api20220901s.StorageAccountsTableServicesTable))
+	result = append(
+		result,
 		new(storage_v20210401.StorageAccount),
 		new(storage_v20210401.StorageAccountsBlobService),
 		new(storage_v20210401.StorageAccountsBlobServicesContainer),
@@ -1455,6 +1473,8 @@ func createScheme() *runtime.Scheme {
 	_ = sql_v1api20211101s.AddToScheme(scheme)
 	_ = storage_v1api20210401.AddToScheme(scheme)
 	_ = storage_v1api20210401s.AddToScheme(scheme)
+	_ = storage_v1api20220901.AddToScheme(scheme)
+	_ = storage_v1api20220901s.AddToScheme(scheme)
 	_ = storage_v20210401.AddToScheme(scheme)
 	_ = storage_v20210401s.AddToScheme(scheme)
 	_ = subscription_v1api20211001.AddToScheme(scheme)
@@ -1604,9 +1624,13 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &storage_customizations.StorageAccountExtension{})
 	result = append(result, &storage_customizations.StorageAccountsBlobServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsBlobServicesContainerExtension{})
+	result = append(result, &storage_customizations.StorageAccountsFileServiceExtension{})
+	result = append(result, &storage_customizations.StorageAccountsFileServicesShareExtension{})
 	result = append(result, &storage_customizations.StorageAccountsManagementPolicyExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServiceExtension{})
 	result = append(result, &storage_customizations.StorageAccountsQueueServicesQueueExtension{})
+	result = append(result, &storage_customizations.StorageAccountsTableServiceExtension{})
+	result = append(result, &storage_customizations.StorageAccountsTableServicesTableExtension{})
 	result = append(result, &subscription_customizations.AliasExtension{})
 	result = append(result, &synapse_customizations.WorkspaceExtension{})
 	result = append(result, &synapse_customizations.WorkspacesBigDataPoolExtension{})

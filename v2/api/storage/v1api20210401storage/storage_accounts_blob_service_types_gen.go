@@ -4,6 +4,7 @@
 package v1api20210401storage
 
 import (
+	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -236,11 +237,183 @@ type CorsRules struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_CorsRules populates our CorsRules from the provided source CorsRules
+func (rules *CorsRules) AssignProperties_From_CorsRules(source *v1api20220901s.CorsRules) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CorsRules
+	if source.CorsRules != nil {
+		corsRuleList := make([]CorsRule, len(source.CorsRules))
+		for corsRuleIndex, corsRuleItem := range source.CorsRules {
+			// Shadow the loop variable to avoid aliasing
+			corsRuleItem := corsRuleItem
+			var corsRule CorsRule
+			err := corsRule.AssignProperties_From_CorsRule(&corsRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_CorsRule() to populate field CorsRules")
+			}
+			corsRuleList[corsRuleIndex] = corsRule
+		}
+		rules.CorsRules = corsRuleList
+	} else {
+		rules.CorsRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rules.PropertyBag = propertyBag
+	} else {
+		rules.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCorsRules interface (if implemented) to customize the conversion
+	var rulesAsAny any = rules
+	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules); ok {
+		err := augmentedRules.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CorsRules populates the provided destination CorsRules from our CorsRules
+func (rules *CorsRules) AssignProperties_To_CorsRules(destination *v1api20220901s.CorsRules) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
+
+	// CorsRules
+	if rules.CorsRules != nil {
+		corsRuleList := make([]v1api20220901s.CorsRule, len(rules.CorsRules))
+		for corsRuleIndex, corsRuleItem := range rules.CorsRules {
+			// Shadow the loop variable to avoid aliasing
+			corsRuleItem := corsRuleItem
+			var corsRule v1api20220901s.CorsRule
+			err := corsRuleItem.AssignProperties_To_CorsRule(&corsRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_CorsRule() to populate field CorsRules")
+			}
+			corsRuleList[corsRuleIndex] = corsRule
+		}
+		destination.CorsRules = corsRuleList
+	} else {
+		destination.CorsRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCorsRules interface (if implemented) to customize the conversion
+	var rulesAsAny any = rules
+	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules); ok {
+		err := augmentedRules.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210401.CorsRules_STATUS
 // Sets the CORS rules. You can include up to five CorsRule elements in the request.
 type CorsRules_STATUS struct {
 	CorsRules   []CorsRule_STATUS      `json:"corsRules,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_CorsRules_STATUS populates our CorsRules_STATUS from the provided source CorsRules_STATUS
+func (rules *CorsRules_STATUS) AssignProperties_From_CorsRules_STATUS(source *v1api20220901s.CorsRules_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CorsRules
+	if source.CorsRules != nil {
+		corsRuleList := make([]CorsRule_STATUS, len(source.CorsRules))
+		for corsRuleIndex, corsRuleItem := range source.CorsRules {
+			// Shadow the loop variable to avoid aliasing
+			corsRuleItem := corsRuleItem
+			var corsRule CorsRule_STATUS
+			err := corsRule.AssignProperties_From_CorsRule_STATUS(&corsRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_From_CorsRule_STATUS() to populate field CorsRules")
+			}
+			corsRuleList[corsRuleIndex] = corsRule
+		}
+		rules.CorsRules = corsRuleList
+	} else {
+		rules.CorsRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rules.PropertyBag = propertyBag
+	} else {
+		rules.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCorsRules_STATUS interface (if implemented) to customize the conversion
+	var rulesAsAny any = rules
+	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules_STATUS); ok {
+		err := augmentedRules.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CorsRules_STATUS populates the provided destination CorsRules_STATUS from our CorsRules_STATUS
+func (rules *CorsRules_STATUS) AssignProperties_To_CorsRules_STATUS(destination *v1api20220901s.CorsRules_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rules.PropertyBag)
+
+	// CorsRules
+	if rules.CorsRules != nil {
+		corsRuleList := make([]v1api20220901s.CorsRule_STATUS, len(rules.CorsRules))
+		for corsRuleIndex, corsRuleItem := range rules.CorsRules {
+			// Shadow the loop variable to avoid aliasing
+			corsRuleItem := corsRuleItem
+			var corsRule v1api20220901s.CorsRule_STATUS
+			err := corsRuleItem.AssignProperties_To_CorsRule_STATUS(&corsRule)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignProperties_To_CorsRule_STATUS() to populate field CorsRules")
+			}
+			corsRuleList[corsRuleIndex] = corsRule
+		}
+		destination.CorsRules = corsRuleList
+	} else {
+		destination.CorsRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCorsRules_STATUS interface (if implemented) to customize the conversion
+	var rulesAsAny any = rules
+	if augmentedRules, ok := rulesAsAny.(augmentConversionForCorsRules_STATUS); ok {
+		err := augmentedRules.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210401.DeleteRetentionPolicy
@@ -251,12 +424,196 @@ type DeleteRetentionPolicy struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_DeleteRetentionPolicy populates our DeleteRetentionPolicy from the provided source DeleteRetentionPolicy
+func (policy *DeleteRetentionPolicy) AssignProperties_From_DeleteRetentionPolicy(source *v1api20220901s.DeleteRetentionPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowPermanentDelete
+	if source.AllowPermanentDelete != nil {
+		propertyBag.Add("AllowPermanentDelete", *source.AllowPermanentDelete)
+	} else {
+		propertyBag.Remove("AllowPermanentDelete")
+	}
+
+	// Days
+	policy.Days = genruntime.ClonePointerToInt(source.Days)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		policy.Enabled = &enabled
+	} else {
+		policy.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeleteRetentionPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeleteRetentionPolicy populates the provided destination DeleteRetentionPolicy from our DeleteRetentionPolicy
+func (policy *DeleteRetentionPolicy) AssignProperties_To_DeleteRetentionPolicy(destination *v1api20220901s.DeleteRetentionPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// AllowPermanentDelete
+	if propertyBag.Contains("AllowPermanentDelete") {
+		var allowPermanentDelete bool
+		err := propertyBag.Pull("AllowPermanentDelete", &allowPermanentDelete)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
+		}
+
+		destination.AllowPermanentDelete = &allowPermanentDelete
+	} else {
+		destination.AllowPermanentDelete = nil
+	}
+
+	// Days
+	destination.Days = genruntime.ClonePointerToInt(policy.Days)
+
+	// Enabled
+	if policy.Enabled != nil {
+		enabled := *policy.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeleteRetentionPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210401.DeleteRetentionPolicy_STATUS
 // The service properties for soft delete.
 type DeleteRetentionPolicy_STATUS struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_DeleteRetentionPolicy_STATUS populates our DeleteRetentionPolicy_STATUS from the provided source DeleteRetentionPolicy_STATUS
+func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_From_DeleteRetentionPolicy_STATUS(source *v1api20220901s.DeleteRetentionPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowPermanentDelete
+	if source.AllowPermanentDelete != nil {
+		propertyBag.Add("AllowPermanentDelete", *source.AllowPermanentDelete)
+	} else {
+		propertyBag.Remove("AllowPermanentDelete")
+	}
+
+	// Days
+	policy.Days = genruntime.ClonePointerToInt(source.Days)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		policy.Enabled = &enabled
+	} else {
+		policy.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeleteRetentionPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeleteRetentionPolicy_STATUS populates the provided destination DeleteRetentionPolicy_STATUS from our DeleteRetentionPolicy_STATUS
+func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_To_DeleteRetentionPolicy_STATUS(destination *v1api20220901s.DeleteRetentionPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// AllowPermanentDelete
+	if propertyBag.Contains("AllowPermanentDelete") {
+		var allowPermanentDelete bool
+		err := propertyBag.Pull("AllowPermanentDelete", &allowPermanentDelete)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
+		}
+
+		destination.AllowPermanentDelete = &allowPermanentDelete
+	} else {
+		destination.AllowPermanentDelete = nil
+	}
+
+	// Days
+	destination.Days = genruntime.ClonePointerToInt(policy.Days)
+
+	// Enabled
+	if policy.Enabled != nil {
+		enabled := *policy.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeleteRetentionPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForDeleteRetentionPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210401.LastAccessTimeTrackingPolicy
@@ -297,6 +654,26 @@ type RestorePolicyProperties_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+type augmentConversionForCorsRules interface {
+	AssignPropertiesFrom(src *v1api20220901s.CorsRules) error
+	AssignPropertiesTo(dst *v1api20220901s.CorsRules) error
+}
+
+type augmentConversionForCorsRules_STATUS interface {
+	AssignPropertiesFrom(src *v1api20220901s.CorsRules_STATUS) error
+	AssignPropertiesTo(dst *v1api20220901s.CorsRules_STATUS) error
+}
+
+type augmentConversionForDeleteRetentionPolicy interface {
+	AssignPropertiesFrom(src *v1api20220901s.DeleteRetentionPolicy) error
+	AssignPropertiesTo(dst *v1api20220901s.DeleteRetentionPolicy) error
+}
+
+type augmentConversionForDeleteRetentionPolicy_STATUS interface {
+	AssignPropertiesFrom(src *v1api20220901s.DeleteRetentionPolicy_STATUS) error
+	AssignPropertiesTo(dst *v1api20220901s.DeleteRetentionPolicy_STATUS) error
+}
+
 // Storage version of v1api20210401.CorsRule
 // Specifies a CORS rule for the Blob service.
 type CorsRule struct {
@@ -308,6 +685,86 @@ type CorsRule struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_CorsRule populates our CorsRule from the provided source CorsRule
+func (rule *CorsRule) AssignProperties_From_CorsRule(source *v1api20220901s.CorsRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowedHeaders
+	rule.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
+
+	// AllowedMethods
+	rule.AllowedMethods = genruntime.CloneSliceOfString(source.AllowedMethods)
+
+	// AllowedOrigins
+	rule.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
+
+	// ExposedHeaders
+	rule.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	rule.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCorsRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CorsRule populates the provided destination CorsRule from our CorsRule
+func (rule *CorsRule) AssignProperties_To_CorsRule(destination *v1api20220901s.CorsRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// AllowedHeaders
+	destination.AllowedHeaders = genruntime.CloneSliceOfString(rule.AllowedHeaders)
+
+	// AllowedMethods
+	destination.AllowedMethods = genruntime.CloneSliceOfString(rule.AllowedMethods)
+
+	// AllowedOrigins
+	destination.AllowedOrigins = genruntime.CloneSliceOfString(rule.AllowedOrigins)
+
+	// ExposedHeaders
+	destination.ExposedHeaders = genruntime.CloneSliceOfString(rule.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(rule.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCorsRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210401.CorsRule_STATUS
 // Specifies a CORS rule for the Blob service.
 type CorsRule_STATUS struct {
@@ -317,6 +774,96 @@ type CorsRule_STATUS struct {
 	ExposedHeaders  []string               `json:"exposedHeaders,omitempty"`
 	MaxAgeInSeconds *int                   `json:"maxAgeInSeconds,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_CorsRule_STATUS populates our CorsRule_STATUS from the provided source CorsRule_STATUS
+func (rule *CorsRule_STATUS) AssignProperties_From_CorsRule_STATUS(source *v1api20220901s.CorsRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AllowedHeaders
+	rule.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
+
+	// AllowedMethods
+	rule.AllowedMethods = genruntime.CloneSliceOfString(source.AllowedMethods)
+
+	// AllowedOrigins
+	rule.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
+
+	// ExposedHeaders
+	rule.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	rule.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCorsRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CorsRule_STATUS populates the provided destination CorsRule_STATUS from our CorsRule_STATUS
+func (rule *CorsRule_STATUS) AssignProperties_To_CorsRule_STATUS(destination *v1api20220901s.CorsRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// AllowedHeaders
+	destination.AllowedHeaders = genruntime.CloneSliceOfString(rule.AllowedHeaders)
+
+	// AllowedMethods
+	destination.AllowedMethods = genruntime.CloneSliceOfString(rule.AllowedMethods)
+
+	// AllowedOrigins
+	destination.AllowedOrigins = genruntime.CloneSliceOfString(rule.AllowedOrigins)
+
+	// ExposedHeaders
+	destination.ExposedHeaders = genruntime.CloneSliceOfString(rule.ExposedHeaders)
+
+	// MaxAgeInSeconds
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(rule.MaxAgeInSeconds)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCorsRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForCorsRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCorsRule interface {
+	AssignPropertiesFrom(src *v1api20220901s.CorsRule) error
+	AssignPropertiesTo(dst *v1api20220901s.CorsRule) error
+}
+
+type augmentConversionForCorsRule_STATUS interface {
+	AssignPropertiesFrom(src *v1api20220901s.CorsRule_STATUS) error
+	AssignPropertiesTo(dst *v1api20220901s.CorsRule_STATUS) error
 }
 
 func init() {

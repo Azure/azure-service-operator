@@ -633,21 +633,28 @@ github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage
 │       ├── Name: *string
 │       ├── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
-└── StorageAccountsQueueServicesQueue: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401.StorageAccountsQueueService
-    ├── Spec: Object (5 properties)
-    │   ├── AzureName: Validated<string> (2 rules)
-    │   │   ├── Rule 0: MaxLength: 63
-    │   │   └── Rule 1: MinLength: 3
-    │   ├── Metadata: map[string]string
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   └── PropertyBag: genruntime.PropertyBag
-    └── Status: Object (7 properties)
-        ├── ApproximateMessageCount: *int
-        ├── Conditions: conditions.Condition[]
-        ├── Id: *string
-        ├── Metadata: map[string]string
-        ├── Name: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        └── Type: *string
+├── StorageAccountsQueueServicesQueue: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401.StorageAccountsQueueService
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 63
+│   │   │   └── Rule 1: MinLength: 3
+│   │   ├── Metadata: map[string]string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── Status: Object (7 properties)
+│       ├── ApproximateMessageCount: *int
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Metadata: map[string]string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+├── augmentConversionForCorsRule: Interface
+├── augmentConversionForCorsRule_STATUS: Interface
+├── augmentConversionForCorsRules: Interface
+├── augmentConversionForCorsRules_STATUS: Interface
+├── augmentConversionForDeleteRetentionPolicy: Interface
+├── augmentConversionForDeleteRetentionPolicy_STATUS: Interface
+└── augmentConversionForSku_STATUS: Interface

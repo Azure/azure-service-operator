@@ -1588,6 +1588,25 @@ objectModelConfiguration:
 #        $exportAs: ServersDatabasesWorkloadGroupsWorkloadClassifier
 #        $supportedFrom: v2.0.0
   storage:
+    2022-09-01:
+      StorageAccounts_TableService:
+        $exportAs: StorageAccountsTableService
+        $supportedFrom: v2.1.0
+      StorageAccounts_TableServices_Table:
+        $exportAs: StorageAccountsTableServicesTable
+        $supportedFrom: v2.1.0
+      TableSignedIdentifier:
+        Id:
+          $armReference: true
+      StorageAccounts_FileService:
+        $exportAs: StorageAccountsFileService
+        $supportedFrom: v2.1.0
+      StorageAccounts_FileServices_Share:
+        $exportAs: StorageAccountsFileServicesShare
+        $supportedFrom: v2.1.0
+      SignedIdentifier:
+        Id:
+          $armReference: true
     2021-04-01:
       EncryptionIdentity:
         UserAssignedIdentity:
