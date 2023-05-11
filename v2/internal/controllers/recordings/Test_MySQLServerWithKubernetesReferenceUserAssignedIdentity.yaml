@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"location":"westus2","name":"asotest-rg-tdkpra","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"eastus","name":"asotest-rg-tdkpra","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -16,7 +16,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tdkpra?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tdkpra","name":"asotest-rg-tdkpra","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tdkpra","name":"asotest-rg-tdkpra","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -46,7 +46,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tdkpra?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tdkpra","name":"asotest-rg-tdkpra","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tdkpra","name":"asotest-rg-tdkpra","type":"Microsoft.Resources/resourceGroups","location":"eastus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-mi-anmdii"}'
+    body: '{"location":"eastus","name":"asotest-mi-anmdii"}'
     form: {}
     headers:
       Accept:
@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tdkpra/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-anmdii?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-tdkpra/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-anmdii","name":"asotest-mi-anmdii","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"0a3cc660-f1fb-4c42-82a5-7a15b1fd5836","clientId":"a8e17df0-9cb3-4e5d-92ce-31f9275a5bbb"}}'
+    body: '{"location":"eastus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-tdkpra/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-anmdii","name":"asotest-mi-anmdii","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"0a3cc660-f1fb-4c42-82a5-7a15b1fd5836","clientId":"a8e17df0-9cb3-4e5d-92ce-31f9275a5bbb"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -102,7 +102,7 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-mi-anmdii"}'
+    body: '{"location":"eastus","name":"asotest-mi-anmdii"}'
     form: {}
     headers:
       Accept:
@@ -116,7 +116,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tdkpra/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-anmdii?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"location":"westus2","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-tdkpra/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-anmdii","name":"asotest-mi-anmdii","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"0a3cc660-f1fb-4c42-82a5-7a15b1fd5836","clientId":"a8e17df0-9cb3-4e5d-92ce-31f9275a5bbb"}}'
+    body: '{"location":"eastus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-tdkpra/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-anmdii","name":"asotest-mi-anmdii","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"0a3cc660-f1fb-4c42-82a5-7a15b1fd5836","clientId":"a8e17df0-9cb3-4e5d-92ce-31f9275a5bbb"}}'
     headers:
       Cache-Control:
       - no-cache
