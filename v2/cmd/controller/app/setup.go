@@ -218,7 +218,11 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 	}
 
 	if cfg.UseWorkloadIdentityAuth {
-		credential, err := identity.NewWorkloadIdentityCredential(cfg.TenantID, cfg.ClientID)
+		credential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
+			ClientID:      cfg.ClientID,
+			TenantID:      cfg.TenantID,
+			TokenFilePath: config.FederatedTokenFilePath,
+		})
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to get workload identity credential")
 		}
