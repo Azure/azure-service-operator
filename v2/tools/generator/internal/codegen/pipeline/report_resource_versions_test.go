@@ -17,7 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestGolden_ReportResourceVersions(t *testing.T) {
+func TestGolden_ReportAllResourceVersions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	gold := goldie.New(t)
@@ -88,7 +88,8 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 
 	var buffer strings.Builder
-	g.Expect(report.WriteToBuffer(
+	g.Expect(report.WriteAllResourcesReportToBuffer(
+		"", // No Frontmatter
 		&buffer)).
 		To(Succeed())
 
