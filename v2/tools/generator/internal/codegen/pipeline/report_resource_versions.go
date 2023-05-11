@@ -9,7 +9,6 @@ import (
 	"context"
 	"fmt"
 	"io/fs"
-	"io/ioutil"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -17,6 +16,8 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
@@ -41,9 +42,22 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 				return nil, err
 			}
 
-			err = report.WriteTo(configuration.SupportedResourcesReport.FullOutputPath())
+			err = report.SaveAllResourcesReportTo(configuration.SupportedResourcesReport.FullOutputPath())
 			if err != nil {
 				return nil, err
+			}
+
+			var errs []error
+			for grp := range report.groups {
+				outputFile := configuration.SupportedResourcesReport.GroupFullOutputPath(grp)
+				err = report.SaveGroupResourcesReportTo(grp, outputFile)
+				if err != nil {
+					errs = append(errs, errors.Wrapf(err, "writing versions report to %s for group %s", outputFile, grp))
+				}
+			}
+
+			if len(errs) > 0 {
+				return nil, kerrors.NewAggregate(errs)
 			}
 
 			err = configuration.ObjectModelConfiguration.VerifySupportedFromConsumed()
@@ -56,12 +70,12 @@ type ResourceVersionsReport struct {
 	objectModelConfiguration *config.ObjectModelConfiguration
 	rootUrl                  string
 	samplesPath              string
-	frontMatter              string                                                  // Front matter to be inserted at the top of the report
 	availableFragments       map[string]string                                       // A collection of the fragments to use in the report
 	groups                   set.Set[string]                                         // A set of all our groups
 	kinds                    map[string]astmodel.TypeDefinitionSet                   // For each group, the set of all available resources
 	lists                    map[astmodel.PackageReference][]astmodel.TypeDefinition // A separate list of resources for each package
 	typoAdvisor              *config.TypoAdvisor                                     // Advisor used to troubleshoot unused fragments
+	titleCase                cases.Caser
 }
 
 func NewResourceVersionsReport(
@@ -78,6 +92,7 @@ func NewResourceVersionsReport(
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 		typoAdvisor:              config.NewTypoAdvisor(),
+		titleCase:                cases.Title(language.English),
 	}
 
 	err := result.loadFragments()
@@ -106,7 +121,7 @@ func (report *ResourceVersionsReport) loadFragments() error {
 			}
 
 			// Load the file contents
-			content, err := ioutil.ReadFile(path)
+			content, err := os.ReadFile(path)
 			if err != nil {
 				return errors.Wrapf(err, "Unable to read fragment file %q", info.Name())
 			}
@@ -153,35 +168,71 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 	}
 }
 
-// WriteTo creates a file containing the generated report
-func (report *ResourceVersionsReport) WriteTo(outputFile string) error {
+// SaveAllResourcesReportTo creates a file containing a report listing all supported resources
+// outputFile is the path to the file to create
+func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string) error {
 
 	klog.V(1).Infof("Writing report to %s", outputFile)
-	report.frontMatter = report.readFrontMatter(outputFile)
+	frontMatter := report.readFrontMatter(outputFile)
 
 	var buffer strings.Builder
-	err := report.WriteToBuffer(&buffer)
+	err := report.WriteAllResourcesReportToBuffer(frontMatter, &buffer)
 	if err != nil {
 		return errors.Wrapf(err, "writing versions report to %s", outputFile)
 	}
 
-	if _, err := os.Stat(outputFile); os.IsNotExist(err) {
-		err = os.MkdirAll(outputFile, 0o700)
+	err = report.ensureFolderExists(outputFile)
+	if err != nil {
+		return errors.Wrapf(err, "writing versions report to %s", outputFile)
+	}
+
+	return os.WriteFile(outputFile, []byte(buffer.String()), 0o600)
+}
+
+func (report *ResourceVersionsReport) ensureFolderExists(outputFile string) error {
+	outputFolder := filepath.Dir(outputFile)
+	if _, err := os.Stat(outputFolder); os.IsNotExist(err) {
+		err = os.MkdirAll(outputFolder, 0o700)
 		if err != nil {
 			return errors.Wrapf(err, "Unable to create directory %q", outputFile)
 		}
 	}
 
-	return ioutil.WriteFile(outputFile, []byte(buffer.String()), 0o600)
+	return nil
 }
 
-// WriteToBuffer creates the report in the provided buffer
-func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) error {
+// SaveGroupResourcesReportTo creates a file containing a report listing supported resources in the specified group.
+// group identifies the set of resources to include.
+// outputFile is the path to the file to create.
+func (report *ResourceVersionsReport) SaveGroupResourcesReportTo(group string, outputFile string) error {
 
-	if report.frontMatter != "" {
-		buffer.WriteString(report.frontMatter)
+	klog.V(1).Infof("Writing report to %s for group ", outputFile, group)
+	frontMatter := report.readFrontMatter(outputFile)
+
+	var buffer strings.Builder
+	err := report.WriteGroupResourcesReportToBuffer(group, frontMatter, &buffer)
+	if err != nil {
+		return errors.Wrapf(err, "writing versions report to %s for group %s", outputFile, group)
+	}
+
+	err = report.ensureFolderExists(outputFile)
+	if err != nil {
+		return errors.Wrapf(err, "writing versions report to %s", outputFile)
+	}
+
+	return os.WriteFile(outputFile, []byte(buffer.String()), 0o600)
+}
+
+// WriteAllResourcesReportToBuffer creates the report in the provided buffer
+func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
+	frontMatter string,
+	buffer *strings.Builder,
+) error {
+
+	if frontMatter != "" {
+		buffer.WriteString(frontMatter)
 	} else {
-		buffer.WriteString(report.defaultFrontMatter())
+		buffer.WriteString(report.defaultAllResourcesFrontMatter())
 	}
 
 	// Include file header if found
@@ -195,7 +246,10 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 
 	errs := make([]error, 0, len(groups)) // Preallocate maximum size
 	for _, grp := range groups {
-		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(grp)))
+		kinds := report.kinds[grp]
+
+		title := report.groupTitle(grp, kinds)
+		buffer.WriteString(fmt.Sprintf("## %s\n\n", title))
 
 		// Include a fragment for this group if we have one
 		if fragment, ok := report.findFragment(grp); ok {
@@ -203,7 +257,6 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 			buffer.WriteString("\n\n")
 		}
 
-		kinds := report.kinds[grp]
 		summary := report.createSummary(kinds)
 
 		buffer.WriteString(summary)
@@ -230,6 +283,44 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) err
 	}
 
 	return kerrors.NewAggregate(errs)
+}
+
+// WriteGroupResourcesReportToBuffer creates the report in the provided buffer
+func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
+	group string,
+	frontMatter string,
+	buffer *strings.Builder,
+) error {
+	kinds := report.kinds[group]
+	title := report.groupTitle(group, kinds)
+
+	// Reuse existing front-matter if available, else generate a default one
+	if frontMatter != "" {
+		buffer.WriteString(frontMatter)
+	} else {
+		buffer.WriteString(report.defaultGroupResourcesFrontMatter(title))
+	}
+
+	// Include a fragment for this group if we have one
+	if fragment, ok := report.findFragment(group); ok {
+		buffer.WriteString(fragment)
+		buffer.WriteString("\n\n")
+	}
+
+	summary := report.createSummary(kinds)
+
+	buffer.WriteString(summary)
+	buffer.WriteString("\n\n")
+
+	table, err := report.createTable(group, kinds)
+	if err != nil {
+		return errors.Wrapf(err, "creating table for group %s", group)
+	}
+
+	table.WriteTo(buffer)
+	buffer.WriteString("\n")
+
+	return nil
 }
 
 func (report *ResourceVersionsReport) createSummary(
@@ -440,7 +531,7 @@ func (report *ResourceVersionsReport) readFrontMatter(outputPath string) string 
 	}
 
 	klog.V(2).Infof("Reading front matter from %s", outputPath)
-	data, err := ioutil.ReadFile(outputPath)
+	data, err := os.ReadFile(outputPath)
 	if err != nil {
 		return ""
 	}
@@ -459,12 +550,24 @@ func (report *ResourceVersionsReport) readFrontMatter(outputPath string) string 
 	return buffer.String()
 }
 
-// defaultFrontMatter returns the default front-matter for the report if no existing file is present,
+// defaultAllResourcesFrontMatter returns the default front-matter for the report if no existing file is present,
 // or if it has no front-matter present.
-func (report *ResourceVersionsReport) defaultFrontMatter() string {
+func (report *ResourceVersionsReport) defaultAllResourcesFrontMatter() string {
 	var buffer strings.Builder
 	buffer.WriteString("---\n")
 	buffer.WriteString("title: Supported Resources\n")
+	buffer.WriteString("---\n\n")
+	return buffer.String()
+}
+
+// defaultGroupResourcesFrontMatter returns the default front-matter for the report if no existing file is present,
+// or if it has no front-matter present.
+func (report *ResourceVersionsReport) defaultGroupResourcesFrontMatter(title string) string {
+	var buffer strings.Builder
+	buffer.WriteString("---\n")
+	buffer.WriteString(fmt.Sprintf("title: %s Supported Resources\n", title))
+	buffer.WriteString(fmt.Sprintf("linktitle: %s\n", title))
+	buffer.WriteString("no_list: true\n")
 	buffer.WriteString("---\n\n")
 	return buffer.String()
 }
@@ -475,4 +578,32 @@ func (report *ResourceVersionsReport) findFragment(name string) (string, bool) {
 
 	fragment, ok := report.availableFragments[name]
 	return fragment, ok
+}
+
+// groupTitle returns the title to use for the given group, based on the first resource found in that group
+func (report *ResourceVersionsReport) groupTitle(group string, kinds astmodel.TypeDefinitionSet) string {
+	for _, rsrc := range kinds {
+		// Look for a resource definition
+		rsrc, ok := astmodel.AsResourceType(rsrc.Type())
+		if !ok {
+			// Didn't find a resource, keep looking
+			continue
+		}
+
+		// Slice off the part before the first "/" to get the Provider name
+		parts := strings.Split(rsrc.ARMType(), "/")
+		if len(parts) == 0 {
+			// String doesn't look like a resource type, keep looking
+			continue
+		}
+
+		// Remove the "Microsoft." prefix
+		result := strings.TrimPrefix(parts[0], "Microsoft.")
+
+		if len(result) > 0 {
+			return result
+		}
+	}
+
+	return report.titleCase.String(group)
 }

@@ -15,7 +15,7 @@ grouped by the originating ARM service.
 (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 
 
-## Appconfiguration
+## AppConfiguration
 
 Supporting 1 resource: ConfigurationStore
 
@@ -95,7 +95,7 @@ Supporting 5 resources: Disk, Image, Snapshot, VirtualMachine, VirtualMachineSca
 | [VirtualMachineScaleSet](https://azure.github.io/azure-service-operator/reference/compute/v1beta20220301/#compute.azure.com/v1beta20220301.VirtualMachineScaleSet) | 2022-03-01  | v1beta20220301 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20220301_virtualmachinescaleset.yaml) |
 | [VirtualMachineScaleSet](https://azure.github.io/azure-service-operator/reference/compute/v1beta20201201/#compute.azure.com/v1beta20201201.VirtualMachineScaleSet) | 2020-12-01  | v1beta20201201 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v1beta/v1beta20201201_virtualmachinescaleset.yaml) |
 
-## Containerinstance
+## ContainerInstance
 
 Supporting 1 resource: ContainerGroup
 
@@ -104,7 +104,7 @@ Supporting 1 resource: ContainerGroup
 | [ContainerGroup](https://azure.github.io/azure-service-operator/reference/containerinstance/v1api20211001/#containerinstance.azure.com/v1api20211001.ContainerGroup)   | 2021-10-01  | v1api20211001  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v1api/v1api20211001_containergroup.yaml)   |
 | [ContainerGroup](https://azure.github.io/azure-service-operator/reference/containerinstance/v1beta20211001/#containerinstance.azure.com/v1beta20211001.ContainerGroup) | 2021-10-01  | v1beta20211001 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v1beta/v1beta20211001_containergroup.yaml) |
 
-## Containerregistry
+## ContainerRegistry
 
 Supporting 1 resource: Registry
 
@@ -113,7 +113,7 @@ Supporting 1 resource: Registry
 | [Registry](https://azure.github.io/azure-service-operator/reference/containerregistry/v1api20210901/#containerregistry.azure.com/v1api20210901.Registry)   | 2021-09-01  | v1api20210901  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1api/v1api20210901_registry.yaml)   |
 | [Registry](https://azure.github.io/azure-service-operator/reference/containerregistry/v1beta20210901/#containerregistry.azure.com/v1beta20210901.Registry) | 2021-09-01  | v1beta20210901 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerregistry/v1beta/v1beta20210901_registry.yaml) |
 
-## Containerservice
+## ContainerService
 
 Supporting 2 resources: ManagedCluster, ManagedClustersAgentPool
 
@@ -128,7 +128,7 @@ Supporting 2 resources: ManagedCluster, ManagedClustersAgentPool
 | [ManagedClustersAgentPool](https://azure.github.io/azure-service-operator/reference/containerservice/v1api20210501/#containerservice.azure.com/v1api20210501.ManagedClustersAgentPool)               | 2021-05-01         | v1api20210501        | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1api20210501/v1api20210501_managedclustersagentpool.yaml)               |
 | [ManagedClustersAgentPool](https://azure.github.io/azure-service-operator/reference/containerservice/v1beta20210501/#containerservice.azure.com/v1beta20210501.ManagedClustersAgentPool)             | 2021-05-01         | v1beta20210501       | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerservice/v1beta20210501/v1beta20210501_managedclustersagentpool.yaml)             |
 
-## Datafactory
+## DataFactory
 
 Supporting 1 resource: Factory
 
@@ -136,7 +136,7 @@ Supporting 1 resource: Factory
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------|
 | [Factory](https://azure.github.io/azure-service-operator/reference/datafactory/v1api20180601/#datafactory.azure.com/v1api20180601.Factory) | 2018-06-01  | v1api20180601 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/datafactory/v1api/v1api20180601_factory.yaml) |
 
-## Dbformariadb
+## DBforMariaDB
 
 Supporting 3 resources: Configuration, Database, Server
 
@@ -149,7 +149,7 @@ Supporting 3 resources: Configuration, Database, Server
 | [Server](https://azure.github.io/azure-service-operator/reference/dbformariadb/v1api20180601/#dbformariadb.azure.com/v1api20180601.Server)                 | 2018-06-01  | v1api20180601  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformariadb/v1api/v1api20180601_server.yaml)          |
 | [Server](https://azure.github.io/azure-service-operator/reference/dbformariadb/v1beta20180601/#dbformariadb.azure.com/v1beta20180601.Server)               | 2018-06-01  | v1beta20180601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformariadb/v1beta/v1beta20180601_server.yaml)        |
 
-## Dbformysql
+## DBforMySQL
 
 Azure Database for MySQL - Single Server is on the retirement path and is [scheduled for retirement by September 16, 2024](https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server). We will not be supporting it in ASO v2.
 
@@ -166,7 +166,7 @@ Supporting 3 resources: FlexibleServer, FlexibleServersDatabase, FlexibleServers
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbformysql/v1api20210501/#dbformysql.azure.com/v1api20210501.FlexibleServersFirewallRule)   | 2021-05-01  | v1api20210501  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1api20210501_flexibleserversfirewallrule.yaml)   |
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbformysql/v1beta20210501/#dbformysql.azure.com/v1beta20210501.FlexibleServersFirewallRule) | 2021-05-01  | v1beta20210501 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1beta/v1beta20210501_flexibleserversfirewallrule.yaml) |
 
-## Dbforpostgresql
+## DBforPostgreSQL
 
 Supporting 4 resources: FlexibleServer, FlexibleServersConfiguration, FlexibleServersDatabase, FlexibleServersFirewallRule
 
@@ -189,7 +189,7 @@ Supporting 4 resources: FlexibleServer, FlexibleServersConfiguration, FlexibleSe
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersFirewallRule)   | 2022-01-20-preview | v1beta20220120preview | v2.0.0-beta.4  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20220120preview/v1beta20220120preview_flexibleserversfirewallrule.yaml)  |
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20210601/#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule)                 | 2021-06-01         | v1beta20210601        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserversfirewallrule.yaml)                |
 
-## Documentdb
+## DocumentDB
 
 Supporting 13 resources: DatabaseAccount, MongodbDatabase, MongodbDatabaseCollection, MongodbDatabaseCollectionThroughputSetting, MongodbDatabaseThroughputSetting, SqlDatabase, SqlDatabaseContainer, SqlDatabaseContainerStoredProcedure, SqlDatabaseContainerThroughputSetting, SqlDatabaseContainerTrigger, SqlDatabaseContainerUserDefinedFunction, SqlDatabaseThroughputSetting, SqlRoleAssignment
 
@@ -222,7 +222,7 @@ Supporting 13 resources: DatabaseAccount, MongodbDatabase, MongodbDatabaseCollec
 | [SqlRoleAssignment](https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.SqlRoleAssignment)                                                     | 2021-05-15  | v1api20210515  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1api/v1api20210515_sqlroleassignment.yaml)                         |
 | [SqlRoleAssignment](https://azure.github.io/azure-service-operator/reference/documentdb/v1beta20210515/#documentdb.azure.com/v1beta20210515.SqlRoleAssignment)                                                   | 2021-05-15  | v1beta20210515 | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/sqldatabase/v1beta/v1beta20210515_sqlroleassignment.yaml)                       |
 
-## Eventgrid
+## EventGrid
 
 Supporting 4 resources: Domain, DomainsTopic, EventSubscription, Topic
 
@@ -237,7 +237,7 @@ Supporting 4 resources: Domain, DomainsTopic, EventSubscription, Topic
 | [Topic](https://azure.github.io/azure-service-operator/reference/eventgrid/v1api20200601/#eventgrid.azure.com/v1api20200601.Topic)                           | 2020-06-01  | v1api20200601  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1api/v1api20200601_topic.yaml)               |
 | [Topic](https://azure.github.io/azure-service-operator/reference/eventgrid/v1beta20200601/#eventgrid.azure.com/v1beta20200601.Topic)                         | 2020-06-01  | v1beta20200601 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1beta/v1beta20200601_topic.yaml)             |
 
-## Eventhub
+## EventHub
 
 Supporting 5 resources: Namespace, NamespacesAuthorizationRule, NamespacesEventhub, NamespacesEventhubsAuthorizationRule, NamespacesEventhubsConsumerGroup
 
@@ -265,7 +265,7 @@ Supporting 2 resources: Component, Webtest
 | [Webtest](https://azure.github.io/azure-service-operator/reference/insights/v1api20180501preview/#insights.azure.com/v1api20180501preview.Webtest)   | 2018-05-01-preview | v1api20180501preview  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1api/v1api20180501preview_webtest.yaml)   |
 | [Webtest](https://azure.github.io/azure-service-operator/reference/insights/v1beta20180501preview/#insights.azure.com/v1beta20180501preview.Webtest) | 2018-05-01-preview | v1beta20180501preview | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/insights/v1beta/v1beta20180501preview_webtest.yaml) |
 
-## Keyvault
+## KeyVault
 
 Supporting 1 resource: Vault
 
@@ -274,7 +274,7 @@ Supporting 1 resource: Vault
 | [Vault](https://azure.github.io/azure-service-operator/reference/keyvault/v1api20210401preview/#keyvault.azure.com/v1api20210401preview.Vault)   | 2021-04-01-preview | v1api20210401preview  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api/v1api20210401preview_vault.yaml)   |
 | [Vault](https://azure.github.io/azure-service-operator/reference/keyvault/v1beta20210401preview/#keyvault.azure.com/v1beta20210401preview.Vault) | 2021-04-01-preview | v1beta20210401preview | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1beta/v1beta20210401preview_vault.yaml) |
 
-## Machinelearningservices
+## MachineLearningServices
 
 Supporting 3 resources: Workspace, WorkspacesCompute, WorkspacesConnection
 
@@ -287,7 +287,7 @@ Supporting 3 resources: Workspace, WorkspacesCompute, WorkspacesConnection
 | [WorkspacesConnection](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1api20210701/#machinelearningservices.azure.com/v1api20210701.WorkspacesConnection)   | 2021-07-01  | v1api20210701  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1api/v1api20210701_workspacesconnection.yaml)   |
 | [WorkspacesConnection](https://azure.github.io/azure-service-operator/reference/machinelearningservices/v1beta20210701/#machinelearningservices.azure.com/v1beta20210701.WorkspacesConnection) | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/machinelearningservices/v1beta/v1beta20210701_workspacesconnection.yaml) |
 
-## Managedidentity
+## ManagedIdentity
 
 Supporting 2 resources: FederatedIdentityCredential, UserAssignedIdentity
 
@@ -353,7 +353,7 @@ Supporting 36 resources: BastionHost, DnsZone, DnsZonesAAAARecord, DnsZonesAReco
 | [VirtualNetworksVirtualNetworkPeering](https://azure.github.io/azure-service-operator/reference/network/v1api20201101/#network.azure.com/v1api20201101.VirtualNetworksVirtualNetworkPeering)   | 2020-11-01  | v1api20201101  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20201101/v1api20201101_virtualnetworksvirtualnetworkpeering.yaml)   |
 | [VirtualNetworksVirtualNetworkPeering](https://azure.github.io/azure-service-operator/reference/network/v1beta20201101/#network.azure.com/v1beta20201101.VirtualNetworksVirtualNetworkPeering) | 2020-11-01  | v1beta20201101 | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1beta20201101/v1beta20201101_virtualnetworksvirtualnetworkpeering.yaml) |
 
-## Operationalinsights
+## OperationalInsights
 
 Supporting 1 resource: Workspace
 
@@ -379,7 +379,7 @@ Supporting 1 resource: SearchService
 |---------------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------------|
 | SearchService | 2022-09-01  | v1api20220901 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/search/v1api/v1api20220901_searchservice.yaml) |
 
-## Servicebus
+## ServiceBus
 
 Supporting 5 resources: Namespace, NamespacesQueue, NamespacesTopic, NamespacesTopicsSubscription, NamespacesTopicsSubscriptionsRule
 
@@ -396,7 +396,7 @@ Supporting 5 resources: Namespace, NamespacesQueue, NamespacesTopic, NamespacesT
 | [NamespacesTopicsSubscriptionsRule](https://azure.github.io/azure-service-operator/reference/servicebus/v1api20210101preview/#servicebus.azure.com/v1api20210101preview.NamespacesTopicsSubscriptionsRule)   | 2021-01-01-preview | v1api20210101preview  | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1api/v1api20210101preview_namespacestopicssubscriptionsrule.yaml)   |
 | [NamespacesTopicsSubscriptionsRule](https://azure.github.io/azure-service-operator/reference/servicebus/v1beta20210101preview/#servicebus.azure.com/v1beta20210101preview.NamespacesTopicsSubscriptionsRule) | 2021-01-01-preview | v1beta20210101preview | v2.0.0-beta.3  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/servicebus/v1beta/v1beta20210101preview_namespacestopicssubscriptionsrule.yaml) |
 
-## Signalrservice
+## SignalRService
 
 Supporting 1 resource: SignalR
 
