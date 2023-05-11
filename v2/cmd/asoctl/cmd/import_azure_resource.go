@@ -22,29 +22,37 @@ import (
 )
 
 func newImportAzureResourceCommand() *cobra.Command {
-	var outputPath *string
+	var options importAzureResourceOptions
 
 	cmd := &cobra.Command{
 		Use:   "azure-resource <ARM/ID/of/resource>",
 		Short: "Import ARM resources as Custom Resources",
-		Args:  cobra.ArbitraryArgs,
+		Args:  cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
-			return importAzureResource(ctx, args, outputPath)
+			return importAzureResource(ctx, args, options)
 		},
 	}
 
-	outputPath = cmd.Flags().StringP(
+	options.outputPath = cmd.Flags().StringP(
 		"output",
 		"o",
 		"",
-		"Write ARM resource CRD to a file")
+		"Write ARM resource CRDs to a single file")
+
+	options.outputFolder = cmd.Flags().StringP(
+		"output-folder",
+		"f",
+		"",
+		"Write ARM resource CRDs to individual files in a folder")
+
+	cmd.MarkFlagsMutuallyExclusive("output", "output-folder")
 
 	return cmd
 }
 
 // importAzureResource imports an ARM resource and writes the YAML to stdout or a file
-func importAzureResource(ctx context.Context, armIDs []string, outputPath *string) error {
+func importAzureResource(ctx context.Context, armIDs []string, options importAzureResourceOptions) error {
 
 	log, progress := CreateLoggerAndProgressBar()
 
@@ -55,11 +63,11 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 		return errors.Wrap(err, "unable to get default Azure credential")
 	}
 
-	options := &genericarmclient.GenericClientOptions{
+	clientOptions := &genericarmclient.GenericClientOptions{
 		UserAgent: "asoctl/" + version.BuildVersion,
 	}
 
-	client, err := genericarmclient.NewGenericClient(activeCloud, creds, options)
+	client, err := genericarmclient.NewGenericClient(activeCloud, creds, clientOptions)
 	if err != nil {
 		return errors.Wrapf(err, "failed to create ARM client")
 	}
@@ -97,4 +105,25 @@ func importAzureResource(ctx context.Context, armIDs []string, outputPath *strin
 	}
 
 	return nil
+}
+
+type importAzureResourceOptions struct {
+	outputPath   *string
+	outputFolder *string
+}
+
+func (option *importAzureResourceOptions) writeToFile() (string, bool) {
+	if option.outputPath != nil && *option.outputPath != "" {
+		return *option.outputPath, true
+	}
+
+	return "", false
+}
+
+func (option *importAzureResourceOptions) writeToFolder() (string, bool) {
+	if option.outputFolder != nil && *option.outputFolder != "" {
+		return *option.outputFolder, true
+	}
+
+	return "", false
 }
