@@ -24,6 +24,11 @@ type ResourceImportResult struct {
 	resources []genruntime.MetaObject
 }
 
+// Count returns the number of successfully imported resources.
+func (r *ResourceImportResult) Count() int {
+	return len(r.resources)
+}
+
 func (r *ResourceImportResult) SaveToWriter(destination io.Writer) error {
 	return r.writeTo(r.resources, destination)
 }
