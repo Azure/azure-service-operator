@@ -281,23 +281,15 @@ func (generator *CodeGenerator) Generate(
 
 	state := pipeline.NewState()
 	for i, stage := range generator.pipeline {
-		stageDescription := fmt.Sprintf("%d/%d: %s", i+1, len(generator.pipeline), stage.Description())
+		stageNumber := i + 1
+		stageDescription := fmt.Sprintf("%d/%d: %s", stageNumber, len(generator.pipeline), stage.Description())
 		log.Info(stageDescription)
 		start := time.Now()
 
-		newState, err := stage.Run(ctx, state)
+		newState, err := generator.executeStage(ctx, stageNumber, stage, state)
 		if err != nil {
-			return errors.Wrapf(err, "failed during pipeline stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
-		}
-
-		if ctx.Err() != nil {
-			// Cancelled
-			return errors.Wrapf(ctx.Err(), "pipeline cancelled during stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
-		}
-
-		// Fail fast if something goes awry
-		if len(newState.Definitions()) == 0 {
-			return errors.Errorf("all type definitions removed by stage %s", stage.Id())
+			log.Error(err, "failed to execute stage", "stage", stage.Description())
+			return errors.Wrapf(err, "failed to execute stage %d: %s", stageNumber, stage.Description())
 		}
 
 		duration := time.Since(start).Round(time.Millisecond)
@@ -323,13 +315,6 @@ func (generator *CodeGenerator) Generate(
 				"removed", len(defsRemoved))
 		}
 
-		if generator.debugReporter != nil {
-			err := generator.debugReporter.ReportStage(i, stage.Description(), newState)
-			if err != nil {
-				return errors.Wrapf(err, "failed to generate debug report for stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
-			}
-		}
-
 		state = newState
 	}
 
@@ -341,6 +326,57 @@ func (generator *CodeGenerator) Generate(
 	log.Info("Finished")
 
 	return nil
+}
+
+// executeStage runs the given stage against the given state, returning the new state.
+// Any error generated will be wrapped with details of the stage by our caller.
+// ctx is used to cancel the generation process.
+// stage is the stage to execute.
+// state is the state to execute the stage against.
+func (generator *CodeGenerator) executeStage(
+	ctx context.Context,
+	stageNumber int,
+	stage *pipeline.Stage,
+	state *pipeline.State,
+) (newState *pipeline.State, err error) {
+	// Catch any panics and turn them into errors, unless they already are
+	defer func() {
+		if r := recover(); r != nil {
+			if e, ok := r.(error); ok {
+				err = e
+			} else {
+				err = errors.Errorf("panic: %v", r)
+			}
+		}
+	}()
+
+	// Run the stage
+	newState, err = stage.Run(ctx, state)
+	if err != nil {
+		// Will be wrapped by our caller with details of the stage
+		return nil, err
+	}
+
+	if ctx.Err() != nil {
+		// Cancelled - will be wrapped by our caller
+		return nil, errors.New("pipeline cancelled")
+	}
+
+	// Fail fast if something goes awry
+	if len(newState.Definitions()) == 0 {
+		// Will be wrapped by our caller with details of the stage
+		return nil, errors.Errorf("all type definitions removed by stage")
+	}
+
+	if generator.debugReporter != nil {
+		err := generator.debugReporter.ReportStage(stageNumber, stage.Description(), newState)
+		if err != nil {
+			// Will be wrapped by our caller with details of the stage
+			return nil, errors.Wrapf(err, "failed to generate debug report for stage")
+		}
+	}
+
+	return
 }
 
 // RemoveStages will remove all stages from the pipeline with the given ids.
