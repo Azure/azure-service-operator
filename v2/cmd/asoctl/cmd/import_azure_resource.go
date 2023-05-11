@@ -83,7 +83,9 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 	result, err := importer.Import(ctx)
 
 	// Wait for progress bar to finish & flush
-	progress.Wait()
+	defer func() {
+		progress.Wait()
+	}()
 
 	if err != nil {
 		return errors.Wrap(err, "failed to import resources")
