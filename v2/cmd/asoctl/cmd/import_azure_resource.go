@@ -89,18 +89,31 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 		return errors.Wrap(err, "failed to import resources")
 	}
 
-	if outputPath == nil || *outputPath == "" {
+	if result.Count() == 0 {
+		log.Info("No resources found, nothing to save.")
+		return nil
+	}
+	
+	if file, ok := options.writeToFile(); ok {
+		log.Info(
+			"Writing to a single file",
+			"file", file)
+		err := result.SaveAllToFile(file)
+		if err != nil {
+			return errors.Wrapf(err, "failed to write to file %s", file)
+		}
+	} else if folder, ok := options.writeToFolder(); ok {
+		log.Info(
+			"Writing to individual files in folder",
+			"folder", folder)
+		err := result.SaveToFolder(folder)
+		if err != nil {
+			return errors.Wrapf(err, "failed to write into folder %s", folder)
+		}
+	} else {
 		err := result.SaveToWriter(os.Stdout)
 		if err != nil {
 			return errors.Wrapf(err, "failed to write to stdout")
-		}
-	} else {
-		log.Info(
-			"Writing to file",
-			"path", *outputPath)
-		err := result.SaveToFile(*outputPath)
-		if err != nil {
-			return errors.Wrapf(err, "failed to write to file %s", *outputPath)
 		}
 	}
 
