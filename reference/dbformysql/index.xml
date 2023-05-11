@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – dbformysql</title>
+    <title>Azure Service Operator – DBforMySQL Supported Resources</title>
     <link>https://azure.github.io/azure-service-operator/reference/dbformysql/</link>
-    <description>Recent content in dbformysql on Azure Service Operator</description>
+    <description>Recent content in DBforMySQL Supported Resources on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     

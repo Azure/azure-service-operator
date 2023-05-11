@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – documentdb</title>
+    <title>Azure Service Operator – DocumentDB Supported Resources</title>
     <link>https://azure.github.io/azure-service-operator/reference/documentdb/</link>
-    <description>Recent content in documentdb on Azure Service Operator</description>
+    <description>Recent content in DocumentDB Supported Resources on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     

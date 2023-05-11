@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – cache</title>
+    <title>Azure Service Operator – Cache Supported Resources</title>
     <link>https://azure.github.io/azure-service-operator/reference/cache/</link>
-    <description>Recent content in cache on Azure Service Operator</description>
+    <description>Recent content in Cache Supported Resources on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     

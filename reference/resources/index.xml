@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – resources</title>
+    <title>Azure Service Operator – Resources Supported Resources</title>
     <link>https://azure.github.io/azure-service-operator/reference/resources/</link>
-    <description>Recent content in resources on Azure Service Operator</description>
+    <description>Recent content in Resources Supported Resources on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     

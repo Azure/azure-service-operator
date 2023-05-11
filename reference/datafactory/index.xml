@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – datafactory</title>
+    <title>Azure Service Operator – DataFactory Supported Resources</title>
     <link>https://azure.github.io/azure-service-operator/reference/datafactory/</link>
-    <description>Recent content in datafactory on Azure Service Operator</description>
+    <description>Recent content in DataFactory Supported Resources on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     

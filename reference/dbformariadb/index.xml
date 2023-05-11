@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – dbformariadb</title>
+    <title>Azure Service Operator – DBforMariaDB Supported Resources</title>
     <link>https://azure.github.io/azure-service-operator/reference/dbformariadb/</link>
-    <description>Recent content in dbformariadb on Azure Service Operator</description>
+    <description>Recent content in DBforMariaDB Supported Resources on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     

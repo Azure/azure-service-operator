@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – machinelearningservices</title>
+    <title>Azure Service Operator – MachineLearningServices Supported Resources</title>
     <link>https://azure.github.io/azure-service-operator/reference/machinelearningservices/</link>
-    <description>Recent content in machinelearningservices on Azure Service Operator</description>
+    <description>Recent content in MachineLearningServices Supported Resources on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     

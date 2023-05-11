@@ -1,8 +1,8 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Azure Service Operator – synapse</title>
+    <title>Azure Service Operator – Synapse Supported Resources</title>
     <link>https://azure.github.io/azure-service-operator/reference/synapse/</link>
-    <description>Recent content in synapse on Azure Service Operator</description>
+    <description>Recent content in Synapse Supported Resources on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     

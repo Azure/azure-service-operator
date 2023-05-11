@@ -308,6 +308,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/search/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/servicebus/v1api20210101preview/</loc>
