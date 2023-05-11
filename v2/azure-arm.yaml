@@ -22,7 +22,7 @@ pipeline: azure
 
 supportedResourcesReport:
   # Path is relative to the module path, above
-  outputPath: ../docs/hugo/content/reference/_index.md
+  outputFolder: ../docs/hugo/content/reference/
   # Path to documentation fragments to inject into the report
   fragmentPath: ../docs/v2/azure/supported-resources
   # resourceUrlTemplate is the template for generating URLs to the API docs for our resources
