@@ -685,9 +685,9 @@ tasks:
       - "kind get clusters | grep \"^asov2-wi$\""
     env:
       SERVICE_ACCOUNT_KEY_FILE:
-        sh: "echo ${HOSTROOT:-$PWD}/v2/out/workload-identity/sa.pub" # Have to use HOSTROOT here for mounting files when in docker-in-docker as paths are relative to host
+        sh: "echo ${HOSTROOT:-$PWD}/out/workload-identity/sa.pub" # Have to use HOSTROOT here for mounting files when in docker-in-docker as paths are relative to host
       SERVICE_ACCOUNT_SIGNING_KEY_FILE:
-        sh: "echo ${HOSTROOT:-$PWD}/v2/out/workload-identity/sa.key"
+        sh: "echo ${HOSTROOT:-$PWD}/out/workload-identity/sa.key"
 
   controller:create-mi-for-workload-identity:
     desc: Creates a managed identity and federated identity credential for user in a kind cluster
