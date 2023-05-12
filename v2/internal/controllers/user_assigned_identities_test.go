@@ -67,6 +67,7 @@ func Test_MySQLServerWithKubernetesReferenceUserAssignedIdentity(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
+	tc.AzureRegion = to.Ptr("eastus")
 
 	// Create a resource group
 	rg := tc.CreateTestResourceGroupAndWait()
