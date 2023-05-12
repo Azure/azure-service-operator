@@ -17,3 +17,11 @@ spec:
     key: password
   storage:
     storageSizeGB: 128
+  # Use a user managed identity (UMI) as the identity - this is required for setting up an AAD Admin but can be omitted otherwise
+  identity:
+    type: UserAssigned
+    userAssignedIdentities:
+      - reference:
+          group: managedidentity.azure.com
+          kind: UserAssignedIdentity
+          name: adminidentity
