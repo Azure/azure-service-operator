@@ -184,7 +184,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 
 	addOneOfConversionFunctionIfNeeded := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		if isOneOf {
-			c.log.Info(
+			c.log.V(1).Info(
 				"Adding MarshalJSON and UnmarshalJSON to OneOf",
 				"type", def.Name())
 			marshal := functions.NewOneOfJSONMarshalFunction(t, c.idFactory)

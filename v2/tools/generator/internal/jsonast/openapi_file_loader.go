@@ -43,7 +43,9 @@ func NewCachingFileLoader(specs map[string]PackageAndSwagger) CachingFileLoader 
 		files[filepath.ToSlash(specPath)] = spec
 	}
 
-	return CachingFileLoader{files}
+	return CachingFileLoader{
+		files: files,
+	}
 }
 
 func (fileCache CachingFileLoader) knownFiles() []string {

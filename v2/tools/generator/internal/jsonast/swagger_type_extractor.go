@@ -8,6 +8,8 @@ package jsonast
 import (
 	"context"
 	"fmt"
+	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -162,9 +164,17 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 	armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 	if err != nil {
 		// Logging using Info() because this is common and Error() can't be suppressed
+		// Convert swaggerPath to a relative path for readability
+		dir := extractor.swaggerPath
+		if cwd, err := os.Getwd(); err == nil {
+			if d, err := filepath.Rel(cwd, extractor.swaggerPath); err == nil {
+				dir = d
+			}
+		}
+
 		extractor.log.V(1).Info(
 			"Error extracting resource name",
-			"swaggerPath", extractor.swaggerPath,
+			"swaggerPath", dir,
 			"error", err)
 		return nil
 	}
@@ -357,11 +367,11 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 
 	if foundSpec == nil {
 		if noBody {
-			extractor.log.V(2).Info(
+			extractor.log.V(1).Info(
 				"no body parameter found for PUT operation",
 				"operation", rawOperationPath)
 		} else {
-			extractor.log.Info(
+			extractor.log.V(1).Info(
 				"no schema found for PUT operation",
 				"operation", rawOperationPath,
 				"swagger", extractor.swaggerPath)
@@ -457,7 +467,7 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 		return &schema, isMarkedAsARMResource(schema)
 	}
 
-	extractor.log.Info(
+	extractor.log.V(1).Info(
 		"no schema found for response",
 		"operation", rawOperationPath,
 		"swagger", extractor.swaggerPath)
