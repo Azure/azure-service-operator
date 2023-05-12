@@ -9,7 +9,6 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -47,7 +46,7 @@ func makeDefaultTestConfig() GoldenTestConfig {
 func loadTestConfig(path string) (GoldenTestConfig, error) {
 	result := makeDefaultTestConfig()
 
-	fileBytes, err := ioutil.ReadFile(path)
+	fileBytes, err := os.ReadFile(path)
 	if err != nil {
 		// If the file doesn't exist we just use the default
 		if os.IsNotExist(err) {
@@ -228,7 +227,7 @@ func loadTestSchemaIntoTypes(
 		"loadTestSchema",
 		"Load and walk schema (test)",
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
-			inputFile, err := ioutil.ReadFile(path)
+			inputFile, err := os.ReadFile(path)
 			if err != nil {
 				return nil, errors.Wrapf(err, "cannot read golden test input file")
 			}

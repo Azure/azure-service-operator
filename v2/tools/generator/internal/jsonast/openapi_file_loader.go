@@ -7,7 +7,7 @@ package jsonast
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"github.com/go-openapi/spec"
@@ -70,7 +70,7 @@ func (fileCache CachingFileLoader) loadFile(absPath string) (PackageAndSwagger, 
 	// which indicates to the caller to reuse the existing package for definitions
 	result := PackageAndSwagger{}
 
-	fileContent, err := ioutil.ReadFile(absPath)
+	fileContent, err := os.ReadFile(absPath)
 	if err != nil {
 		return result, errors.Wrapf(err, "unable to read swagger file %q", absPath)
 	}

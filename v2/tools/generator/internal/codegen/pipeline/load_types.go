@@ -8,7 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -681,7 +680,7 @@ func loadAllSchemas(
 					"Loading OpenAPI spec",
 					"file", filePath)
 
-				fileContent, err := ioutil.ReadFile(filePath)
+				fileContent, err := os.ReadFile(filePath)
 				if err != nil {
 					return errors.Wrapf(err, "unable to read swagger file %q", filePath)
 				}

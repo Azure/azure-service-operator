@@ -7,7 +7,7 @@ package pipeline
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 	"unicode"
@@ -36,7 +36,7 @@ func NewPipelineDiagram(debugDir string) *PipelineDiagram {
 func (diagram *PipelineDiagram) WriteDiagram(stages []*Stage) error {
 	dotsrc := diagram.createDiagram(stages)
 	filename := filepath.Join(diagram.debugDir, "pipeline.dot")
-	err := ioutil.WriteFile(filename, dotsrc, 0600)
+	err := os.WriteFile(filename, dotsrc, 0600)
 	return errors.Wrapf(err, "failed to write diagram to %s", filename)
 }
 
