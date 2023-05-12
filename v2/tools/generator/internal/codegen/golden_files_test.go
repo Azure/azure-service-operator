@@ -122,7 +122,7 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 				t.Fatalf("failed to create code generator: %s", err)
 			}
 
-			err = codegen.Generate(ctx)
+			err = codegen.Generate(ctx, logr.Discard())
 			if err != nil {
 				t.Fatalf("codegen failed: %s", err)
 			}
@@ -146,7 +146,7 @@ func NewTestCodeGenerator(
 		return nil, err
 	}
 
-	codegen, err := NewTargetedCodeGeneratorFromConfig(cfg, idFactory, pipelineTarget)
+	codegen, err := NewTargetedCodeGeneratorFromConfig(cfg, idFactory, pipelineTarget, logr.Discard())
 	if err != nil {
 		return nil, err
 	}
@@ -344,7 +344,7 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 				return pipeline.ARMIDPropertyClassificationUnspecified
 			}
 
-			crossReferenceVisitor := pipeline.MakeARMIDPropertyTypeVisitor(isCrossResourceReference)
+			crossReferenceVisitor := pipeline.MakeARMIDPropertyTypeVisitor(isCrossResourceReference, logr.Discard())
 			resourceReferenceVisitor := pipeline.MakeARMIDToResourceReferenceTypeVisitor(idFactory)
 
 			for _, def := range state.Definitions() {

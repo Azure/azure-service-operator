@@ -44,7 +44,7 @@ func TestCreateFlattenedARMType_CreatesExpectedConversions(t *testing.T) {
 
 	idFactory := astmodel.NewIdentifierFactory()
 
-	createARMTypes := CreateARMTypes(idFactory)
+	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
 	flatten := FlattenProperties()
 	simplify := SimplifyDefinitions()
@@ -100,7 +100,7 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 
 	configToARMIDs := ApplyCrossResourceReferencesFromConfig(configuration, logr.Discard())
 	crossResourceRefs := TransformCrossResourceReferences(configuration, idFactory)
-	createARMTypes := CreateARMTypes(idFactory)
+	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
 	flatten := FlattenProperties()
 	simplify := SimplifyDefinitions()
@@ -167,7 +167,7 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 	configuration.ObjectModelConfiguration = omc
 
 	addConfigMaps := AddConfigMaps(configuration)
-	createARMTypes := CreateARMTypes(idFactory)
+	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
 	flatten := FlattenProperties()
 	simplify := SimplifyDefinitions()
@@ -243,7 +243,7 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 	configuration.ObjectModelConfiguration = omc
 
 	addConfigMaps := AddConfigMaps(configuration)
-	createARMTypes := CreateARMTypes(idFactory)
+	createARMTypes := CreateARMTypes(idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory)
 	simplify := SimplifyDefinitions()
 	strip := StripUnreferencedTypeDefinitions()
