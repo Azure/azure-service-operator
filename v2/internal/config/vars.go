@@ -31,6 +31,8 @@ const (
 	azureAuthorityHostVar        = "AZURE_AUTHORITY_HOST"
 	podNamespaceVar              = "POD_NAMESPACE"
 	useWorkloadIdentityAuth      = "USE_WORKLOAD_IDENTITY_AUTH"
+	// #nosec
+	FederatedTokenFilePath = "/var/run/secrets/tokens/azure-identity"
 )
 
 // These are hardcoded because the init function that initializes them in azcore isn't in /cloud it's in /arm which
