@@ -257,7 +257,11 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 	}
 
 	// Here we check for workload identity if client secret is not provided.
-	tokenCredential, err := NewWorkloadIdentityCredential(string(tenantID), string(clientID))
+	tokenCredential, err := azidentity.NewWorkloadIdentityCredential(&azidentity.WorkloadIdentityCredentialOptions{
+		ClientID:      string(clientID),
+		TenantID:      string(tenantID),
+		TokenFilePath: config.FederatedTokenFilePath,
+	})
 	if err != nil {
 		err = errors.Wrapf(
 			err,
@@ -265,7 +269,7 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			nsName,
 			config.ClientSecretVar,
 			string(clientID),
-			TokenFile)
+			config.FederatedTokenFilePath)
 		return nil, err
 	}
 
