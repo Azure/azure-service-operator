@@ -345,7 +345,7 @@ func (generator *CodeGenerator) executeStage(
 			if e, ok := r.(error); ok {
 				err = e
 			} else {
-				err = errors.Errorf("panic: %v", r)
+				err = errors.Errorf("panic: %s", r)
 			}
 		}
 	}()
