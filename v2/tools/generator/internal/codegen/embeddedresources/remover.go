@@ -11,7 +11,6 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -245,8 +244,6 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 			typedCtx.modifiedDefinitions.Add(updated)
 		}
 
-		klog.V(5).Infof("Updating %q to %q", original.Name(), updated.Name())
-
 		return updated, nil
 	}
 
@@ -270,7 +267,6 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 		// Sometimes these resource-like things are promoted to real resources in future APIs as in the case of Subnet in the 2017-06-01
 		// API version.
 		if isTypeResourceLookalike(def.Type()) {
-			klog.V(5).Infof("Type %q is a resource lookalike", def.Name())
 			return true, nil
 		}
 

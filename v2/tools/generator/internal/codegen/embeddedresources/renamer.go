@@ -9,7 +9,6 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -34,7 +33,6 @@ func (r renamer) simplifyEmbeddedNameToOriginalName(
 		return nil, nil
 	}
 
-	klog.V(4).Infof("There are no usages of %q. Collapsing %q into the original for simplicity.", original, associatedNames.Single())
 	renames := make(astmodel.TypeAssociation)
 	renames[associatedNames.Single()] = original
 
@@ -61,7 +59,6 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
 	embeddedName.context = ""
 	embeddedName.count = 0
 	renames[associated] = embeddedName.ToSimplifiedTypeName()
-	klog.V(4).Infof("There is only a single context %q is used in. Renaming it to %q for simplicity.", associated, renames[associated])
 
 	return renames, nil
 }

@@ -120,8 +120,6 @@ func LoadTypes(
 				}
 			}
 
-			klog.V(1).Infof("Input %d definitions, output %d definitions", len(definitions), len(defs))
-
 			return defs, nil
 		})
 }
@@ -344,15 +342,12 @@ func loadSwaggerData(
 }
 
 func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmodel.LocalPackageReference][]typesFromFile) (jsonast.SwaggerTypes, error) {
-	klog.V(3).Infof("Merging types for %d groups/versions", len(m))
-
 	result := jsonast.SwaggerTypes{
 		ResourceDefinitions: make(jsonast.ResourceDefinitionSet),
 		OtherDefinitions:    make(astmodel.TypeDefinitionSet),
 	}
 
 	for pkg, group := range m {
-		klog.V(3).Infof("Merging types for %s", pkg)
 		merged := mergeTypesForPackage(idFactory, group)
 		for rn, rt := range merged.ResourceDefinitions {
 			if _, ok := result.ResourceDefinitions[rn]; ok {
@@ -413,8 +408,6 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 			names[ix] = newName.Name()
 			renames[ttc.typesFromFileIx][name] = newName
 		}
-
-		klog.V(3).Infof("Conflicting definitions for %s, renaming to: %s", name, strings.Join(names, ", "))
 	}
 
 	for ix := range typesFromFiles {
@@ -732,14 +725,12 @@ func groupFromPath(filePath string, rootPath string, overrides []config.SchemaOv
 		if strings.HasPrefix(filePath, configSchemaPath) {
 			// a forced namespace: use it
 			if schemaOverride.Namespace != "" {
-				klog.V(1).Infof("Overriding namespace to %s for file %s", schemaOverride.Namespace, filePath)
 				return schemaOverride.Namespace
 			}
 
 			// found a suffix override: apply it
 			if schemaOverride.Suffix != "" {
 				group = group + "." + schemaOverride.Suffix
-				klog.V(1).Infof("Overriding namespace to %s for file %s", group, filePath)
 				return group
 			}
 		}

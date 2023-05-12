@@ -15,13 +15,11 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
-
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -171,8 +169,6 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 // SaveAllResourcesReportTo creates a file containing a report listing all supported resources
 // outputFile is the path to the file to create
 func (report *ResourceVersionsReport) SaveAllResourcesReportTo(outputFile string) error {
-
-	klog.V(1).Infof("Writing report to %s", outputFile)
 	frontMatter := report.readFrontMatter(outputFile)
 
 	var buffer strings.Builder
@@ -205,8 +201,6 @@ func (report *ResourceVersionsReport) ensureFolderExists(outputFile string) erro
 // group identifies the set of resources to include.
 // outputFile is the path to the file to create.
 func (report *ResourceVersionsReport) SaveGroupResourcesReportTo(group string, outputFile string) error {
-
-	klog.V(1).Infof("Writing report to %s for group ", outputFile, group)
 	frontMatter := report.readFrontMatter(outputFile)
 
 	var buffer strings.Builder
@@ -530,7 +524,6 @@ func (report *ResourceVersionsReport) readFrontMatter(outputPath string) string 
 		return ""
 	}
 
-	klog.V(2).Infof("Reading front matter from %s", outputPath)
 	data, err := os.ReadFile(outputPath)
 	if err != nil {
 		return ""

@@ -16,7 +16,6 @@ import (
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 )
 
 // PackageDefinition is the definition of a package
@@ -122,7 +121,6 @@ func (p *PackageDefinition) writeCodeFile(
 	ref := defs[0].Name().PackageReference
 	genFile := NewFileDefinition(ref, defs, packages)
 
-	klog.V(5).Infof("Writing code file %q\n", outputFile)
 	fileWriter := NewGoSourceFileWriter(genFile)
 	err := fileWriter.SaveToFile(outputFile)
 	if err != nil {
@@ -154,7 +152,6 @@ func (p *PackageDefinition) writeTestFile(
 	ref := defs[0].Name().PackageReference
 	genFile := NewTestFileDefinition(ref, defs, packages)
 
-	klog.V(5).Infof("Writing test case file %q\n", outputFile)
 	fileWriter := NewGoSourceFileWriter(genFile)
 	err := fileWriter.SaveToFile(outputFile)
 	if err != nil {

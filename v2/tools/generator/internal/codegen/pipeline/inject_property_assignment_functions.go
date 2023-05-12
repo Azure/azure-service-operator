@@ -10,7 +10,6 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -41,11 +40,8 @@ func InjectPropertyAssignmentFunctions(
 				_, ok := astmodel.AsFunctionContainer(def.Type())
 				if !ok {
 					// just skip it - not a resource nor an object
-					klog.V(4).Infof("Skipping %s as no conversion functions needed", name)
 					continue
 				}
-
-				klog.V(3).Infof("Injecting conversion functions into %s", name)
 
 				// Find the definition we want to convert to/from
 				nextName, err := state.ConversionGraph().FindNextType(name, state.Definitions())

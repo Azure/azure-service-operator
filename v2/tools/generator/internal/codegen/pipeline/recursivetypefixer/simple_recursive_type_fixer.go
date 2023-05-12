@@ -6,10 +6,9 @@
 package recursivetypefixer
 
 import (
-	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
-
 	"github.com/Azure/azure-service-operator/v2/internal/set"
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -102,7 +101,6 @@ func (s *SimpleRecursiveTypeFixer) unrollRecursiveReference(this *astmodel.TypeV
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 	}
 
-	klog.V(3).Infof("%q references itself, removing the self-reference by unrolling to %q", typedCtx.name, typedCtx.unrolledName)
 	return astmodel.IdentityVisitOfTypeName(this, typedCtx.unrolledName, typedCtx)
 }
 

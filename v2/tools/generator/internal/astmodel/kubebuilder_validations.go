@@ -13,7 +13,6 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -158,11 +157,7 @@ func MakeMaximumValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MaximumValidationName, value.RatString()}
 	} else {
-		floatValue, ok := value.Float64()
-		if !ok {
-			klog.Warningf("inexact maximum: %s ⇒ %g", value.String(), floatValue)
-		}
-
+		floatValue, _ := value.Float64()
 		return KubeBuilderValidation{MaximumValidationName, floatValue}
 	}
 }
@@ -171,11 +166,7 @@ func MaxMinimumValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MinimumValidationName, value.RatString()}
 	} else {
-		floatValue, ok := value.Float64()
-		if !ok {
-			klog.Warningf("inexact minimum: %s ⇒ %g", value.String(), floatValue)
-		}
-
+		floatValue, _ := value.Float64()
 		return KubeBuilderValidation{MinimumValidationName, floatValue}
 	}
 }
@@ -192,11 +183,7 @@ func MakeMultipleOfValidation(value *big.Rat) KubeBuilderValidation {
 	if value.IsInt() {
 		return KubeBuilderValidation{MultipleOfValidationName, value.RatString()}
 	} else {
-		floatValue, ok := value.Float64()
-		if !ok {
-			klog.Warningf("inexact multiple-of: %s ⇒ %g", value.String(), floatValue)
-		}
-
+		floatValue, _ := value.Float64()
 		return KubeBuilderValidation{MultipleOfValidationName, floatValue}
 	}
 }

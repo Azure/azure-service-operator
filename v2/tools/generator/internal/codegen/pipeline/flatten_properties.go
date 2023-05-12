@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -57,10 +56,6 @@ func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet) astmodel.TypeVisitor
 
 			// fix any colliding names:
 			newProps = fixCollisions(newProps)
-
-			if len(newProps) != it.Properties().Len() {
-				klog.V(4).Infof("Flattened properties in %s", name)
-			}
 
 			result := it.WithoutProperties().WithProperties(newProps...)
 
@@ -156,7 +151,6 @@ func collectAndFlattenProperties(
 
 		innerProps, err := flattenProperty(container, prop, defs)
 		if err != nil {
-			klog.Warningf("Skipping flatten of %s on %s: %s", prop.PropertyName(), container, err)
 			innerProps = []*astmodel.PropertyDefinition{
 				prop.SetFlatten(false),
 			}

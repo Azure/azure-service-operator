@@ -12,7 +12,6 @@ import (
 
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -70,8 +69,6 @@ func (fileCache CachingFileLoader) loadFile(absPath string) (PackageAndSwagger, 
 	// here the package will be unpopulated,
 	// which indicates to the caller to reuse the existing package for definitions
 	result := PackageAndSwagger{}
-
-	klog.V(3).Infof("Loading file into cache %q", absPath)
 
 	fileContent, err := ioutil.ReadFile(absPath)
 	if err != nil {

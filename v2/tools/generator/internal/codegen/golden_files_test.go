@@ -20,7 +20,6 @@ import (
 	"github.com/sebdah/goldie/v2"
 	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
@@ -229,8 +228,6 @@ func loadTestSchemaIntoTypes(
 		"loadTestSchema",
 		"Load and walk schema (test)",
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
-			klog.V(0).Infof("Loading test schema from %q", path)
-
 			inputFile, err := ioutil.ReadFile(path)
 			if err != nil {
 				return nil, errors.Wrapf(err, "cannot read golden test input file")
@@ -243,8 +240,6 @@ func loadTestSchemaIntoTypes(
 			}
 
 			scanner := jsonast.NewSchemaScanner(idFactory, configuration, logr.Discard())
-
-			klog.V(0).Infof("Walking deployment template")
 
 			schemaAbstraction := jsonast.MakeGoJSONSchema(schema.Root(), configuration.MakeLocalPackageReference, idFactory)
 			_, err = scanner.GenerateAllDefinitions(ctx, schemaAbstraction)

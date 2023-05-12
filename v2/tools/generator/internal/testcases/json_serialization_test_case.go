@@ -12,7 +12,6 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -76,7 +75,6 @@ func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *
 
 	if haveLargeObject {
 		simpleGenerators = nil
-		klog.V(3).Infof("Skipping tests for primitive properties on large object %s", name)
 	}
 
 	// Find all the complex generators (dependent on other generators we'll be generating elsewhere)
@@ -114,18 +112,6 @@ func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *
 
 	if len(relatedGenerators) > 0 {
 		result = append(result, o.createGeneratorsFactoryMethod(o.idOfRelatedGeneratorsFactoryMethod(), relatedGenerators, genContext))
-	}
-
-	if len(errs) > 0 {
-		i := "issues"
-		if len(errs) == 1 {
-			i = "issue"
-		}
-
-		klog.Warningf("Encountered %d %s creating JSON Serialisation test for %s", len(errs), i, name)
-		for _, err := range errs {
-			klog.Warning(err)
-		}
 	}
 
 	return result
