@@ -12,7 +12,6 @@ import (
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/klog/v2"
 )
 
 type ErroredType struct {
@@ -130,21 +129,25 @@ func (e *ErroredType) RequiredPackageReferences() *PackageReferenceSet {
 }
 
 func (e *ErroredType) handleWarningsAndErrors() {
-	for _, warning := range e.warnings {
-		klog.Warning(warning)
+	var errs []error
+
+	// Treating warnings as errors isn't quite right, but good enough for now
+	if len(e.warnings) > 0 {
+		for _, wrn := range e.warnings {
+			errs = append(errs, errors.New(wrn))
+		}
 	}
 
 	if len(e.errors) > 0 {
-		var errs []error
 		for _, err := range e.errors {
 			errs = append(errs, errors.New(err))
 		}
+	}
 
-		if len(errs) == 1 {
-			panic(errs[0])
-		} else {
-			panic(kerrors.NewAggregate(errs))
-		}
+	if len(errs) == 1 {
+		panic(errs[0])
+	} else {
+		panic(kerrors.NewAggregate(errs))
 	}
 }
 

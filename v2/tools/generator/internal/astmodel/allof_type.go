@@ -12,7 +12,6 @@ import (
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
 )
 
 // AllOfType represents something that is the union
@@ -82,9 +81,8 @@ func BuildAllOfType(types ...Type) Type {
 
 		return onlyOneOf.WithTypes(ts)
 	} else if len(oneOfs) > 1 {
-		// emit a warning if this ever comes up
-		// (it doesn't at the moment)
-		klog.Warningf("More than one oneOf inside allOf")
+		// panic if this ever comes up (it doesn't at the moment)
+		panic(errors.New("More than one oneOf inside allOf"))
 	}
 
 	// 0 oneOf (nothing to do) or >1 oneOf (too hard)
