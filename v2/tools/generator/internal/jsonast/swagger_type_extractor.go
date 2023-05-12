@@ -159,15 +159,15 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 	specSchema *Schema,
 	statusSchema *Schema,
 	nameParameterType astmodel.Type,
-	operationPath string) error {
-
+	operationPath string,
+) error {
 	armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 	if err != nil {
 		// Logging using Info() because this is common and Error() can't be suppressed
 		// Convert swaggerPath to a relative path for readability
 		dir := extractor.swaggerPath
-		if cwd, err := os.Getwd(); err == nil {
-			if d, err := filepath.Rel(cwd, extractor.swaggerPath); err == nil {
+		if cwd, osErr := os.Getwd(); osErr == nil {
+			if d, pathErr := filepath.Rel(cwd, extractor.swaggerPath); pathErr == nil {
 				dir = d
 			}
 		}
