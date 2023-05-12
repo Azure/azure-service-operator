@@ -95,7 +95,7 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 		log.Info("No resources found, nothing to save.")
 		return nil
 	}
-	
+
 	if file, ok := options.writeToFile(); ok {
 		log.Info(
 			"Writing to a single file",
