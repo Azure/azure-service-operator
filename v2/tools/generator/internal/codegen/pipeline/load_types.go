@@ -14,6 +14,7 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/go-logr/logr"
 	"github.com/go-openapi/spec"
@@ -318,7 +319,14 @@ func loadSwaggerData(
 	loader := jsonast.NewCachingFileLoader(schemas)
 
 	typesByGroup := make(map[astmodel.LocalPackageReference][]typesFromFile)
+	countLoaded := 0
 	for schemaPath, schema := range schemas {
+		logInfoSparse(
+			log,
+			"Loading Swagger files",
+			"loaded", countLoaded,
+			"total", len(schemas))
+		countLoaded++
 
 		extractor := jsonast.NewSwaggerTypeExtractor(
 			config,
@@ -337,7 +345,29 @@ func loadSwaggerData(
 		typesByGroup[*schema.Package] = append(typesByGroup[*schema.Package], typesFromFile{types, schemaPath})
 	}
 
+	log.Info(
+		"Loaded Swagger files",
+		"loaded", countLoaded,
+		"total", len(schemas))
+
 	return mergeSwaggerTypesByGroup(idFactory, typesByGroup)
+}
+
+var (
+	loadingLock sync.Mutex
+	lastLogTime *time.Time
+)
+
+func logInfoSparse(log logr.Logger, message string, keysAndValues ...interface{}) {
+	loadingLock.Lock()
+	defer loadingLock.Unlock()
+
+	shouldDisplay := lastLogTime == nil || time.Since(*lastLogTime) > 800*time.Millisecond
+	if shouldDisplay {
+		log.Info(message, keysAndValues...)
+		now := time.Now()
+		lastLogTime = &now
+	}
 }
 
 func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmodel.LocalPackageReference][]typesFromFile) (jsonast.SwaggerTypes, error) {
@@ -643,7 +673,11 @@ func loadAllSchemas(
 	var mutex sync.Mutex
 	schemas := make(map[string]jsonast.PackageAndSwagger)
 
+	log.Info("Loading schemas", "rootPath", rootPath)
 	var eg errgroup.Group
+	eg.SetLimit(10)
+
+	countFound := 0
 	err := filepath.Walk(rootPath, func(filePath string, fileInfo os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -673,6 +707,12 @@ func loadAllSchemas(
 				version)
 
 			// all files are loaded in parallel to speed this up
+			logInfoSparse(
+				log,
+				"Scanning for schemas",
+				"found", countFound)
+			countFound++
+
 			eg.Go(func() error {
 				var swagger spec.Swagger
 
@@ -702,6 +742,9 @@ func loadAllSchemas(
 	})
 
 	egErr := eg.Wait() // for files to finish loading
+	log.Info(
+		"Scanning for schemas",
+		"found", countFound)
 
 	if err != nil {
 		return nil, err
