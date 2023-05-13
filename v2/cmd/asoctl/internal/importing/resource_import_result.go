@@ -33,11 +33,11 @@ func (r *ResourceImportResult) SaveToWriter(destination io.Writer) error {
 	return r.writeTo(r.resources, destination)
 }
 
-func (r *ResourceImportResult) SaveAllToFile(filepath string) error {
+func (r *ResourceImportResult) SaveToSingleFile(filepath string) error {
 	return r.saveTo(r.resources, filepath)
 }
 
-func (r *ResourceImportResult) SaveToFolder(folder string) error {
+func (r *ResourceImportResult) SaveToIndividualFilesInFolder(folder string) error {
 	// We name the files after the resource type and name
 	// We allocate resources to files using a map, just in case we have a naming collision
 	// (If that happens, all the similarly named resources will be in the same file, which is not ideal,

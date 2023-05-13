@@ -100,7 +100,7 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 		log.Info(
 			"Writing to a single file",
 			"file", file)
-		err := result.SaveAllToFile(file)
+		err := result.SaveToSingleFile(file)
 		if err != nil {
 			return errors.Wrapf(err, "failed to write to file %s", file)
 		}
@@ -108,7 +108,7 @@ func importAzureResource(ctx context.Context, armIDs []string, options importAzu
 		log.Info(
 			"Writing to individual files in folder",
 			"folder", folder)
-		err := result.SaveToFolder(folder)
+		err := result.SaveToIndividualFilesInFolder(folder)
 		if err != nil {
 			return errors.Wrapf(err, "failed to write into folder %s", folder)
 		}
