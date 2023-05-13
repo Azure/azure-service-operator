@@ -22,7 +22,7 @@ pipeline: azure
 
 supportedResourcesReport:
   # Path is relative to the module path, above
-  outputPath: ../docs/hugo/content/reference/_index.md
+  outputFolder: ../docs/hugo/content/reference/
   # Path to documentation fragments to inject into the report
   fragmentPath: ../docs/v2/azure/supported-resources
   # resourceUrlTemplate is the template for generating URLs to the API docs for our resources
@@ -60,6 +60,11 @@ typeFilters:
   - action: include
     group: containerservice
     version: v*20230202preview
+    because: We want to export this particular preview version
+
+  - action: include
+    group: dbformysql
+    version: v*20211201preview
     because: We want to export this particular preview version
 
   - action: include
@@ -931,6 +936,17 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
+    2021-12-01-preview:
+      FlexibleServers_Administrator:
+        $exportAs: FlexibleServersAdministrator
+        $supportedFrom: v2.0.0
+      AdministratorProperties:
+        IdentityResourceId:
+          $armReference: true # TODO: Upstream to Swagger
+        Sid:
+          $importConfigMapMode: optional
+        TenantId:
+          $importConfigMapMode: optional
   dbforpostgresql:
     2021-06-01:
       FlexibleServer:
