@@ -148,6 +148,8 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 
 	oneOfTypeIs := NewOneOfType("x",BoolType,StringType)
 
+	allofTypeIs := NewAllOfType()
+
 	resource := NewResourceType(person, individual)
 
 	iface := NewInterfaceType(transform)
@@ -167,6 +169,7 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 		{"Interface type", iface},
 		{"Enum type", enum},
 		{"One of type", oneOfTypeIs},
+		{"All of Type",allofTypeIs},
 	}
 
 	for _, c := range cases {
@@ -309,6 +312,28 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"oneOf",
 		},
 		{
+			"AllOfTypeHandler",
+			NewAllOfType(),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitAllOfType = func(tv *TypeVisitor, ot *AllOfType, _ interface{}) (Type, error) {
+					return ot, errors.New(ot.String())
+				}
+			},
+			NewAllOfType(),
+			"allOf",
+		},
+		{
+			"AllOfTypeSimplified",
+			NewAllOfType(),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitAllOfType = func(mt *AllOfType) (Type, error) {
+					return mt, errors.New(mt.String())
+				}
+			},
+			NewAllOfType(),
+			"allOf",
+		},
+		{
 			"MapTypeHandler",
 			NewMapType(StringType, IntType),
 			func(builder *TypeVisitorBuilder) {
@@ -379,7 +404,6 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 	// TODO: Pending tests for
 	// visitTypeName:
 	// visitResourceType:
-	// visitAllOfType:
 	// visitValidatedType:
 	// visitErroredType:
 
