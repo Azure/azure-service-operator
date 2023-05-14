@@ -24,6 +24,12 @@ find "$OUTPUTDIR" -type f -name '[a-z]*.md'  -delete
 # Iterate through the directories
 for package in $(find "$APIROOT" -type d); 
 do
+    # Skip this directory if there are no .go files
+    if ! ls "$package"/*.go &> /dev/null
+    then
+        continue
+    fi
+
     PACKAGE_VERSION=$(basename "$package")
     GROUPNAME=$(basename $(dirname $package))
 
