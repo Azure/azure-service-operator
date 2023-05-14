@@ -1157,7 +1157,7 @@ DatabaseIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#sql.azure.com/v1api20211101.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/sql/v1api20211101.UserAssignedIdentityDetails_ARM
+map[string]./api/sql/v1api20211101.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1211,7 +1211,7 @@ DatabaseIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseUserIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/sql/v1api20211101.DatabaseUserIdentity_STATUS
+map[string]./api/sql/v1api20211101.DatabaseUserIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1266,7 +1266,7 @@ DatabaseIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#sql.azure.com/v1api20211101.DatabaseUserIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/sql/v1api20211101.DatabaseUserIdentity_STATUS_ARM
+map[string]./api/sql/v1api20211101.DatabaseUserIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4751,7 +4751,7 @@ Directory principal for the resource.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#sql.azure.com/v1api20211101.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/sql/v1api20211101.UserAssignedIdentityDetails_ARM
+map[string]./api/sql/v1api20211101.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4817,7 +4817,7 @@ Directory principal for the resource.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#sql.azure.com/v1api20211101.UserIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/sql/v1api20211101.UserIdentity_STATUS
+map[string]./api/sql/v1api20211101.UserIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4884,7 +4884,7 @@ Directory principal for the resource.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#sql.azure.com/v1api20211101.UserIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/sql/v1api20211101.UserIdentity_STATUS_ARM
+map[string]./api/sql/v1api20211101.UserIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

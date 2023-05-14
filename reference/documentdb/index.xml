@@ -10494,7 +10494,7 @@ created identity and a set of user assigned identities. The type &amp;lsquo;None
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#documentdb.azure.com/v1api20210515.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/documentdb/v1api20210515.UserAssignedIdentityDetails_ARM
+map[string]./api/documentdb/v1api20210515.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10562,7 +10562,7 @@ created identity and a set of user assigned identities. The type &amp;lsquo;None
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/documentdb/v1api20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS
+map[string]./api/documentdb/v1api20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10633,7 +10633,7 @@ created identity and a set of user assigned identities. The type &amp;lsquo;None
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#documentdb.azure.com/v1api20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/documentdb/v1api20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/documentdb/v1api20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -27214,7 +27214,7 @@ ManagedServiceIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#documentdb.azure.com/v1beta20210515.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/documentdb/v1beta20210515.UserAssignedIdentityDetails_ARM
+map[string]./api/documentdb/v1beta20210515.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -27276,7 +27276,7 @@ ManagedServiceIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#documentdb.azure.com/v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/documentdb/v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS
+map[string]./api/documentdb/v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -27338,7 +27338,7 @@ ManagedServiceIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#documentdb.azure.com/v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/documentdb/v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/documentdb/v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

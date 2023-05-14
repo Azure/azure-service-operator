@@ -404,7 +404,7 @@ ManagedIdentityType
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/signalrservice/v1api20211001.UserAssignedIdentityDetails_ARM
+map[string]./api/signalrservice/v1api20211001.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -471,7 +471,7 @@ ManagedIdentityType_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UserAssignedIdentityProperty_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/signalrservice/v1api20211001.UserAssignedIdentityProperty_STATUS
+map[string]./api/signalrservice/v1api20211001.UserAssignedIdentityProperty_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -539,7 +539,7 @@ ManagedIdentityType_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#signalrservice.azure.com/v1api20211001.UserAssignedIdentityProperty_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/signalrservice/v1api20211001.UserAssignedIdentityProperty_STATUS_ARM
+map[string]./api/signalrservice/v1api20211001.UserAssignedIdentityProperty_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5421,7 +5421,7 @@ ManagedIdentityType
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#signalrservice.azure.com/v1beta20211001.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/signalrservice/v1beta20211001.UserAssignedIdentityDetails_ARM
+map[string]./api/signalrservice/v1beta20211001.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5483,7 +5483,7 @@ ManagedIdentityType_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#signalrservice.azure.com/v1beta20211001.UserAssignedIdentityProperty_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/signalrservice/v1beta20211001.UserAssignedIdentityProperty_STATUS
+map[string]./api/signalrservice/v1beta20211001.UserAssignedIdentityProperty_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5545,7 +5545,7 @@ ManagedIdentityType_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#signalrservice.azure.com/v1beta20211001.UserAssignedIdentityProperty_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/signalrservice/v1beta20211001.UserAssignedIdentityProperty_STATUS_ARM
+map[string]./api/signalrservice/v1beta20211001.UserAssignedIdentityProperty_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

@@ -1034,7 +1034,7 @@ container group.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerinstance/v1api20211001.UserAssignedIdentityDetails_ARM
+map[string]./api/containerinstance/v1api20211001.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1103,7 +1103,7 @@ container group.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS
+map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1173,7 +1173,7 @@ container group.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerinstance.azure.com/v1api20211001.UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_ARM
+map[string]./api/containerinstance/v1api20211001.UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9685,7 +9685,7 @@ ContainerGroupIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerinstance.azure.com/v1beta20211001.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerinstance/v1beta20211001.UserAssignedIdentityDetails_ARM
+map[string]./api/containerinstance/v1beta20211001.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9747,7 +9747,7 @@ ContainerGroupIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerinstance.azure.com/v1beta20211001.UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerinstance/v1beta20211001.UserAssignedIdentities_STATUS
+map[string]./api/containerinstance/v1beta20211001.UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9809,7 +9809,7 @@ ContainerGroupIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerinstance.azure.com/v1beta20211001.UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerinstance/v1beta20211001.UserAssignedIdentities_STATUS_ARM
+map[string]./api/containerinstance/v1beta20211001.UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

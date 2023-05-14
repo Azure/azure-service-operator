@@ -1231,7 +1231,7 @@ Identity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#eventhub.azure.com/v1api20211101.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/eventhub/v1api20211101.UserAssignedIdentityDetails_ARM
+map[string]./api/eventhub/v1api20211101.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1296,7 +1296,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#eventhub.azure.com/v1api20211101.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/eventhub/v1api20211101.UserAssignedIdentity_STATUS
+map[string]./api/eventhub/v1api20211101.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1362,7 +1362,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#eventhub.azure.com/v1api20211101.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/eventhub/v1api20211101.UserAssignedIdentity_STATUS_ARM
+map[string]./api/eventhub/v1api20211101.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -6972,7 +6972,7 @@ Identity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#eventhub.azure.com/v1beta20211101.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/eventhub/v1beta20211101.UserAssignedIdentityDetails_ARM
+map[string]./api/eventhub/v1beta20211101.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7034,7 +7034,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#eventhub.azure.com/v1beta20211101.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/eventhub/v1beta20211101.UserAssignedIdentity_STATUS
+map[string]./api/eventhub/v1beta20211101.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7096,7 +7096,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#eventhub.azure.com/v1beta20211101.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/eventhub/v1beta20211101.UserAssignedIdentity_STATUS_ARM
+map[string]./api/eventhub/v1beta20211101.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

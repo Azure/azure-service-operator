@@ -303,6 +303,8 @@
   <a href="/azure-service-operator/reference/dbformysql/v1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1"><span class="">dbformysql.azure.com/v1</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20210501-li">
   <a href="/azure-service-operator/reference/dbformysql/v1api20210501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20210501"><span class="">dbformysql.azure.com/v1api20210501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1api20211201preview-li">
+  <a href="/azure-service-operator/reference/dbformysql/v1api20211201preview/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1api20211201preview"><span class="">dbformysql.azure.com/v1api20211201preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1beta1-li">
   <a href="/azure-service-operator/reference/dbformysql/v1beta1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv1beta1"><span class="">dbformysql.azure.com/v1beta1</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1beta20210501-li">
@@ -398,7 +400,9 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
+  <a href="/azure-service-operator/reference/network/v1api20180501/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180501"><span class="">network.azure.com/v1api20180501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
   <a href="/azure-service-operator/reference/network/v1api20180901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="">network.azure.com/v1api20180901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20200601-li">
   <a href="/azure-service-operator/reference/network/v1api20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20200601"><span class="">network.azure.com/v1api20200601</span></a>
@@ -430,8 +434,13 @@
   <a href="/azure-service-operator/reference/resources/v1beta20200601/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1beta20200601"><span class="">resources.azure.com/v1beta20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
+  <a href="/azure-service-operator/reference/search/v1api20220901/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20220901"><span class="">search.azure.com/v1api20220901</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
@@ -6002,7 +6011,7 @@ ManagedClusterAADProfile
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
 </a>
 </em>
 </td>
@@ -6244,7 +6253,7 @@ ManagedClusterIdentity
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity
 </a>
 </em>
 </td>
@@ -12159,7 +12168,7 @@ AKS</a>.</p>
 <code>userAssignedIdentities</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentityDetails_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentityDetails_ARM
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentityDetails_ARM
 </a>
 </em>
 </td>
@@ -12225,7 +12234,7 @@ AKS</a>.</p>
 <code>userAssignedIdentities</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS
 </a>
 </em>
 </td>
@@ -12293,7 +12302,7 @@ AKS</a>.</p>
 <code>userAssignedIdentities</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
 </a>
 </em>
 </td>
@@ -15590,7 +15599,7 @@ ManagedClusterAADProfile_ARM
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_ARM
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_ARM
 </a>
 </em>
 </td>
@@ -15790,7 +15799,7 @@ ManagedClusterHTTPProxyConfig_ARM
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity_ARM
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity_ARM
 </a>
 </em>
 </td>
@@ -17012,7 +17021,7 @@ ManagedClusterAADProfile_STATUS_ARM
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile_STATUS_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS_ARM
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS_ARM
 </a>
 </em>
 </td>
@@ -17249,7 +17258,7 @@ ManagedClusterHTTPProxyConfig_STATUS_ARM
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity_STATUS_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS_ARM
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS_ARM
 </a>
 </em>
 </td>
@@ -20879,7 +20888,7 @@ ManagedClusterAADProfile_STATUS
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile_STATUS">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS
 </a>
 </em>
 </td>
@@ -21167,7 +21176,7 @@ ManagedClusterIdentity_STATUS
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity_STATUS">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS
 </a>
 </em>
 </td>
@@ -21684,7 +21693,7 @@ ManagedClusterAADProfile
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
 </a>
 </em>
 </td>
@@ -21926,7 +21935,7 @@ ManagedClusterIdentity
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity
 </a>
 </em>
 </td>

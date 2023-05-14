@@ -1259,7 +1259,7 @@ Identity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#servicebus.azure.com/v1api20210101preview.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.UserAssignedIdentityDetails_ARM
+map[string]./api/servicebus/v1api20210101preview.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1324,7 +1324,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#servicebus.azure.com/v1api20210101preview.DictionaryValue_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.DictionaryValue_STATUS
+map[string]./api/servicebus/v1api20210101preview.DictionaryValue_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1390,7 +1390,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#servicebus.azure.com/v1api20210101preview.DictionaryValue_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.DictionaryValue_STATUS_ARM
+map[string]./api/servicebus/v1api20210101preview.DictionaryValue_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9040,7 +9040,7 @@ Identity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#servicebus.azure.com/v1beta20210101preview.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.UserAssignedIdentityDetails_ARM
+map[string]./api/servicebus/v1beta20210101preview.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9102,7 +9102,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#servicebus.azure.com/v1beta20210101preview.DictionaryValue_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.DictionaryValue_STATUS
+map[string]./api/servicebus/v1beta20210101preview.DictionaryValue_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9164,7 +9164,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#servicebus.azure.com/v1beta20210101preview.DictionaryValue_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/servicebus/v1beta20210101preview.DictionaryValue_STATUS_ARM
+map[string]./api/servicebus/v1beta20210101preview.DictionaryValue_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

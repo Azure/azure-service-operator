@@ -9475,7 +9475,7 @@ Identity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1api20210701.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701.UserAssignedIdentityDetails_ARM
+map[string]./api/machinelearningservices/v1api20210701.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9540,7 +9540,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1api20210701.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701.UserAssignedIdentity_STATUS
+map[string]./api/machinelearningservices/v1api20210701.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9606,7 +9606,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1api20210701.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701.UserAssignedIdentity_STATUS_ARM
+map[string]./api/machinelearningservices/v1api20210701.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10332,7 +10332,7 @@ string
 &lt;code&gt;instanceTypes&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1api20210701.InstanceTypeSchema&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701.InstanceTypeSchema
+map[string]./api/machinelearningservices/v1api20210701.InstanceTypeSchema
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10444,7 +10444,7 @@ string
 &lt;code&gt;instanceTypes&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1api20210701.InstanceTypeSchema_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701.InstanceTypeSchema_ARM
+map[string]./api/machinelearningservices/v1api20210701.InstanceTypeSchema_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10552,7 +10552,7 @@ string
 &lt;code&gt;instanceTypes&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1api20210701.InstanceTypeSchema_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701.InstanceTypeSchema_STATUS
+map[string]./api/machinelearningservices/v1api20210701.InstanceTypeSchema_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10638,7 +10638,7 @@ string
 &lt;code&gt;instanceTypes&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1api20210701.InstanceTypeSchema_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701.InstanceTypeSchema_STATUS_ARM
+map[string]./api/machinelearningservices/v1api20210701.InstanceTypeSchema_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -28966,7 +28966,7 @@ Identity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1beta20210701.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701.UserAssignedIdentityDetails_ARM
+map[string]./api/machinelearningservices/v1beta20210701.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -29028,7 +29028,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1beta20210701.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701.UserAssignedIdentity_STATUS
+map[string]./api/machinelearningservices/v1beta20210701.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -29090,7 +29090,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1beta20210701.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701.UserAssignedIdentity_STATUS_ARM
+map[string]./api/machinelearningservices/v1beta20210701.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -29788,7 +29788,7 @@ string
 &lt;code&gt;instanceTypes&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1beta20210701.InstanceTypeSchema&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701.InstanceTypeSchema
+map[string]./api/machinelearningservices/v1beta20210701.InstanceTypeSchema
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -29892,7 +29892,7 @@ string
 &lt;code&gt;instanceTypes&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1beta20210701.InstanceTypeSchema_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701.InstanceTypeSchema_ARM
+map[string]./api/machinelearningservices/v1beta20210701.InstanceTypeSchema_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -29992,7 +29992,7 @@ string
 &lt;code&gt;instanceTypes&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1beta20210701.InstanceTypeSchema_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701.InstanceTypeSchema_STATUS
+map[string]./api/machinelearningservices/v1beta20210701.InstanceTypeSchema_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -30072,7 +30072,7 @@ string
 &lt;code&gt;instanceTypes&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#machinelearningservices.azure.com/v1beta20210701.InstanceTypeSchema_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701.InstanceTypeSchema_STATUS_ARM
+map[string]./api/machinelearningservices/v1beta20210701.InstanceTypeSchema_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

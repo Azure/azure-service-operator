@@ -505,7 +505,7 @@ EncryptionConfiguration
 &lt;code&gt;globalParameters&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#datafactory.azure.com/v1api20180601.GlobalParameterSpecification&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/datafactory/v1api20180601.GlobalParameterSpecification
+map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1257,7 +1257,7 @@ FactoryIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#datafactory.azure.com/v1api20180601.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/datafactory/v1api20180601.UserAssignedIdentityDetails_ARM
+map[string]./api/datafactory/v1api20180601.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1476,7 +1476,7 @@ EncryptionConfiguration_ARM
 &lt;code&gt;globalParameters&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/datafactory/v1api20180601.GlobalParameterSpecification_ARM
+map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1610,7 +1610,7 @@ EncryptionConfiguration_STATUS_ARM
 &lt;code&gt;globalParameters&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/datafactory/v1api20180601.GlobalParameterSpecification_STATUS_ARM
+map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2442,7 +2442,7 @@ EncryptionConfiguration_STATUS
 &lt;code&gt;globalParameters&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#datafactory.azure.com/v1api20180601.GlobalParameterSpecification_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/datafactory/v1api20180601.GlobalParameterSpecification_STATUS
+map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2757,7 +2757,7 @@ EncryptionConfiguration
 &lt;code&gt;globalParameters&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#datafactory.azure.com/v1api20180601.GlobalParameterSpecification&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/datafactory/v1api20180601.GlobalParameterSpecification
+map[string]./api/datafactory/v1api20180601.GlobalParameterSpecification
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

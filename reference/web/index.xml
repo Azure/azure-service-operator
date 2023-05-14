@@ -4876,7 +4876,7 @@ ManagedServiceIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1api20220301.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1api20220301.UserAssignedIdentityDetails_ARM
+map[string]./api/web/v1api20220301.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4941,7 +4941,7 @@ ManagedServiceIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1api20220301.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1api20220301.UserAssignedIdentity_STATUS
+map[string]./api/web/v1api20220301.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5009,7 +5009,7 @@ ManagedServiceIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1api20220301.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1api20220301.UserAssignedIdentity_STATUS_ARM
+map[string]./api/web/v1api20220301.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -8615,7 +8615,7 @@ string
 &lt;code&gt;azureStorageAccounts&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1api20220301.AzureStorageInfoValue
+map[string]./api/web/v1api20220301.AzureStorageInfoValue
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9410,7 +9410,7 @@ string
 &lt;code&gt;azureStorageAccounts&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1api20220301.AzureStorageInfoValue_ARM
+map[string]./api/web/v1api20220301.AzureStorageInfoValue_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10389,7 +10389,7 @@ string
 &lt;code&gt;azureStorageAccounts&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1api20220301.AzureStorageInfoValue_STATUS
+map[string]./api/web/v1api20220301.AzureStorageInfoValue_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11197,7 +11197,7 @@ string
 &lt;code&gt;azureStorageAccounts&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1api20220301.AzureStorageInfoValue_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1api20220301.AzureStorageInfoValue_STATUS_ARM
+map[string]./api/web/v1api20220301.AzureStorageInfoValue_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -21340,7 +21340,7 @@ ManagedServiceIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1beta20220301.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1beta20220301.UserAssignedIdentityDetails_ARM
+map[string]./api/web/v1beta20220301.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -21402,7 +21402,7 @@ ManagedServiceIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1beta20220301.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1beta20220301.UserAssignedIdentity_STATUS
+map[string]./api/web/v1beta20220301.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -21464,7 +21464,7 @@ ManagedServiceIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1beta20220301.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1beta20220301.UserAssignedIdentity_STATUS_ARM
+map[string]./api/web/v1beta20220301.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -24742,7 +24742,7 @@ string
 &lt;code&gt;azureStorageAccounts&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1beta20220301.AzureStorageInfoValue&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1beta20220301.AzureStorageInfoValue
+map[string]./api/web/v1beta20220301.AzureStorageInfoValue
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -25460,7 +25460,7 @@ string
 &lt;code&gt;azureStorageAccounts&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1beta20220301.AzureStorageInfoValue_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1beta20220301.AzureStorageInfoValue_ARM
+map[string]./api/web/v1beta20220301.AzureStorageInfoValue_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -26371,7 +26371,7 @@ string
 &lt;code&gt;azureStorageAccounts&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1beta20220301.AzureStorageInfoValue_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1beta20220301.AzureStorageInfoValue_STATUS
+map[string]./api/web/v1beta20220301.AzureStorageInfoValue_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -27101,7 +27101,7 @@ string
 &lt;code&gt;azureStorageAccounts&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#web.azure.com/v1beta20220301.AzureStorageInfoValue_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/web/v1beta20220301.AzureStorageInfoValue_STATUS_ARM
+map[string]./api/web/v1beta20220301.AzureStorageInfoValue_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

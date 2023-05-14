@@ -4573,7 +4573,7 @@ Identity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#storage.azure.com/v1api20210401.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/storage/v1api20210401.UserAssignedIdentityDetails_ARM
+map[string]./api/storage/v1api20210401.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4638,7 +4638,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#storage.azure.com/v1api20210401.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/storage/v1api20210401.UserAssignedIdentity_STATUS
+map[string]./api/storage/v1api20210401.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4706,7 +4706,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#storage.azure.com/v1api20210401.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/storage/v1api20210401.UserAssignedIdentity_STATUS_ARM
+map[string]./api/storage/v1api20210401.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -20282,7 +20282,7 @@ Identity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#storage.azure.com/v1beta20210401.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/storage/v1beta20210401.UserAssignedIdentityDetails_ARM
+map[string]./api/storage/v1beta20210401.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -20344,7 +20344,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#storage.azure.com/v1beta20210401.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/storage/v1beta20210401.UserAssignedIdentity_STATUS
+map[string]./api/storage/v1beta20210401.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -20406,7 +20406,7 @@ Identity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#storage.azure.com/v1beta20210401.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/storage/v1beta20210401.UserAssignedIdentity_STATUS_ARM
+map[string]./api/storage/v1beta20210401.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

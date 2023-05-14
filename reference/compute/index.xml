@@ -19940,7 +19940,7 @@ virtual machine.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20201201.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20201201.UserAssignedIdentityDetails_ARM
+map[string]./api/compute/v1api20201201.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -20009,7 +20009,7 @@ virtual machine.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS
+map[string]./api/compute/v1api20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -20081,7 +20081,7 @@ virtual machine.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/compute/v1api20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -23921,7 +23921,7 @@ the virtual machine scale set.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20201201.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20201201.UserAssignedIdentityDetails_ARM
+map[string]./api/compute/v1api20201201.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -23990,7 +23990,7 @@ the virtual machine scale set.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
+map[string]./api/compute/v1api20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -24062,7 +24062,7 @@ the virtual machine scale set.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/compute/v1api20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -52945,7 +52945,7 @@ virtual machine.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20220301.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20220301.UserAssignedIdentityDetails_ARM
+map[string]./api/compute/v1api20220301.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -53014,7 +53014,7 @@ virtual machine.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS
+map[string]./api/compute/v1api20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -53086,7 +53086,7 @@ virtual machine.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/compute/v1api20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -59714,7 +59714,7 @@ the virtual machine scale set.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20220301.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20220301.UserAssignedIdentityDetails_ARM
+map[string]./api/compute/v1api20220301.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -59783,7 +59783,7 @@ the virtual machine scale set.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
+map[string]./api/compute/v1api20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -59855,7 +59855,7 @@ the virtual machine scale set.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1api20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1api20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/compute/v1api20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -86006,7 +86006,7 @@ VirtualMachineIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20201201.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20201201.UserAssignedIdentityDetails_ARM
+map[string]./api/compute/v1beta20201201.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -86068,7 +86068,7 @@ VirtualMachineIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS
+map[string]./api/compute/v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -86130,7 +86130,7 @@ VirtualMachineIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/compute/v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -89516,7 +89516,7 @@ VirtualMachineScaleSetIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20201201.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20201201.UserAssignedIdentityDetails_ARM
+map[string]./api/compute/v1beta20201201.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -89578,7 +89578,7 @@ VirtualMachineScaleSetIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
+map[string]./api/compute/v1beta20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -89640,7 +89640,7 @@ VirtualMachineScaleSetIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/compute/v1beta20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -115120,7 +115120,7 @@ VirtualMachineIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20220301.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20220301.UserAssignedIdentityDetails_ARM
+map[string]./api/compute/v1beta20220301.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -115182,7 +115182,7 @@ VirtualMachineIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS
+map[string]./api/compute/v1beta20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -115244,7 +115244,7 @@ VirtualMachineIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/compute/v1beta20220301.VirtualMachineIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -121216,7 +121216,7 @@ VirtualMachineScaleSetIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20220301.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20220301.UserAssignedIdentityDetails_ARM
+map[string]./api/compute/v1beta20220301.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -121278,7 +121278,7 @@ VirtualMachineScaleSetIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
+map[string]./api/compute/v1beta20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -121340,7 +121340,7 @@ VirtualMachineScaleSetIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#compute.azure.com/v1beta20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/compute/v1beta20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/compute/v1beta20220301.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

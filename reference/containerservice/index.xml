@@ -2675,7 +2675,7 @@ ManagedClusterAADProfile
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.ManagedClusterAddonProfile&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20210501.ManagedClusterAddonProfile
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2863,7 +2863,7 @@ ManagedClusterIdentity
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.UserAssignedIdentity&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.UserAssignedIdentity
+map[string]./api/containerservice/v1api20210501.UserAssignedIdentity
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7135,7 +7135,7 @@ AKS&lt;/a&gt;.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.UserAssignedIdentityDetails_ARM
+map[string]./api/containerservice/v1api20210501.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7201,7 +7201,7 @@ AKS&lt;/a&gt;.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+map[string]./api/containerservice/v1api20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -7269,7 +7269,7 @@ AKS&lt;/a&gt;.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/containerservice/v1api20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9412,7 +9412,7 @@ ManagedClusterAADProfile_ARM
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.ManagedClusterAddonProfile_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.ManagedClusterAddonProfile_ARM
+map[string]./api/containerservice/v1api20210501.ManagedClusterAddonProfile_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -9558,7 +9558,7 @@ ManagedClusterHTTPProxyConfig_ARM
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.UserAssignedIdentity_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.UserAssignedIdentity_ARM
+map[string]./api/containerservice/v1api20210501.UserAssignedIdentity_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10619,7 +10619,7 @@ ManagedClusterAADProfile_STATUS_ARM
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.ManagedClusterAddonProfile_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.ManagedClusterAddonProfile_STATUS_ARM
+map[string]./api/containerservice/v1api20210501.ManagedClusterAddonProfile_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -10791,7 +10791,7 @@ ManagedClusterHTTPProxyConfig_STATUS_ARM
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.UserAssignedIdentity_STATUS_ARM
+map[string]./api/containerservice/v1api20210501.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11766,7 +11766,7 @@ ManagedClusterAADProfile_STATUS
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.ManagedClusterAddonProfile_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.ManagedClusterAddonProfile_STATUS
+map[string]./api/containerservice/v1api20210501.ManagedClusterAddonProfile_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -11988,7 +11988,7 @@ ManagedClusterIdentity_STATUS
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.UserAssignedIdentity_STATUS
+map[string]./api/containerservice/v1api20210501.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12361,7 +12361,7 @@ ManagedClusterAADProfile
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.ManagedClusterAddonProfile&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20210501.ManagedClusterAddonProfile
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -12549,7 +12549,7 @@ ManagedClusterIdentity
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20210501.UserAssignedIdentity&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20210501.UserAssignedIdentity
+map[string]./api/containerservice/v1api20210501.UserAssignedIdentity
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -20226,7 +20226,7 @@ ManagedClusterAADProfile
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.ManagedClusterAddonProfile&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20230201.ManagedClusterAddonProfile
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -20428,7 +20428,7 @@ ManagedClusterIdentity
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.UserAssignedIdentity&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.UserAssignedIdentity
+map[string]./api/containerservice/v1api20230201.UserAssignedIdentity
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -25744,7 +25744,7 @@ AKS&lt;/a&gt;.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.UserAssignedIdentityDetails_ARM
+map[string]./api/containerservice/v1api20230201.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -25810,7 +25810,7 @@ AKS&lt;/a&gt;.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.ManagedClusterIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+map[string]./api/containerservice/v1api20230201.ManagedClusterIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -25878,7 +25878,7 @@ AKS&lt;/a&gt;.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/containerservice/v1api20230201.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -28599,7 +28599,7 @@ ManagedClusterAADProfile_ARM
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.ManagedClusterAddonProfile_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.ManagedClusterAddonProfile_ARM
+map[string]./api/containerservice/v1api20230201.ManagedClusterAddonProfile_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -28759,7 +28759,7 @@ ManagedClusterHTTPProxyConfig_ARM
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.UserAssignedIdentity_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.UserAssignedIdentity_ARM
+map[string]./api/containerservice/v1api20230201.UserAssignedIdentity_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -29928,7 +29928,7 @@ ManagedClusterAADProfile_STATUS_ARM
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.ManagedClusterAddonProfile_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.ManagedClusterAddonProfile_STATUS_ARM
+map[string]./api/containerservice/v1api20230201.ManagedClusterAddonProfile_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -30127,7 +30127,7 @@ ManagedClusterHTTPProxyConfig_STATUS_ARM
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.UserAssignedIdentity_STATUS_ARM
+map[string]./api/containerservice/v1api20230201.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -33065,7 +33065,7 @@ ManagedClusterAADProfile_STATUS
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.ManagedClusterAddonProfile_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.ManagedClusterAddonProfile_STATUS
+map[string]./api/containerservice/v1api20230201.ManagedClusterAddonProfile_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -33315,7 +33315,7 @@ ManagedClusterIdentity_STATUS
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.UserAssignedIdentity_STATUS
+map[string]./api/containerservice/v1api20230201.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -33783,7 +33783,7 @@ ManagedClusterAADProfile
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.ManagedClusterAddonProfile&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20230201.ManagedClusterAddonProfile
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -33985,7 +33985,7 @@ ManagedClusterIdentity
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230201.UserAssignedIdentity&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230201.UserAssignedIdentity
+map[string]./api/containerservice/v1api20230201.UserAssignedIdentity
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -44390,7 +44390,7 @@ ManagedClusterAADProfile
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -44632,7 +44632,7 @@ ManagedClusterIdentity
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -50547,7 +50547,7 @@ AKS&lt;/a&gt;.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentityDetails_ARM
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -50613,7 +50613,7 @@ AKS&lt;/a&gt;.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -50681,7 +50681,7 @@ AKS&lt;/a&gt;.&lt;/p&gt;
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -53978,7 +53978,7 @@ ManagedClusterAADProfile_ARM
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_ARM
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -54178,7 +54178,7 @@ ManagedClusterHTTPProxyConfig_ARM
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity_ARM
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -55400,7 +55400,7 @@ ManagedClusterAADProfile_STATUS_ARM
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS_ARM
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -55637,7 +55637,7 @@ ManagedClusterHTTPProxyConfig_STATUS_ARM
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS_ARM
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -59267,7 +59267,7 @@ ManagedClusterAADProfile_STATUS
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -59555,7 +59555,7 @@ ManagedClusterIdentity_STATUS
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -60072,7 +60072,7 @@ ManagedClusterAADProfile
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -60314,7 +60314,7 @@ ManagedClusterIdentity
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -68941,7 +68941,7 @@ ManagedClusterAADProfile
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.ManagedClusterAddonProfile&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1beta20210501.ManagedClusterAddonProfile
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -69111,7 +69111,7 @@ ManagedClusterIdentity
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.UserAssignedIdentity&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.UserAssignedIdentity
+map[string]./api/containerservice/v1beta20210501.UserAssignedIdentity
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -72911,7 +72911,7 @@ ManagedClusterIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.UserAssignedIdentityDetails_ARM
+map[string]./api/containerservice/v1beta20210501.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -72973,7 +72973,7 @@ ManagedClusterIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+map[string]./api/containerservice/v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -73035,7 +73035,7 @@ ManagedClusterIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/containerservice/v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -75061,7 +75061,7 @@ ManagedClusterAADProfile_ARM
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.ManagedClusterAddonProfile_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.ManagedClusterAddonProfile_ARM
+map[string]./api/containerservice/v1beta20210501.ManagedClusterAddonProfile_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -75193,7 +75193,7 @@ ManagedClusterHTTPProxyConfig_ARM
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.UserAssignedIdentity_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.UserAssignedIdentity_ARM
+map[string]./api/containerservice/v1beta20210501.UserAssignedIdentity_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -76139,7 +76139,7 @@ ManagedClusterAADProfile_STATUS_ARM
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.ManagedClusterAddonProfile_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.ManagedClusterAddonProfile_STATUS_ARM
+map[string]./api/containerservice/v1beta20210501.ManagedClusterAddonProfile_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -76291,7 +76291,7 @@ ManagedClusterHTTPProxyConfig_STATUS_ARM
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.UserAssignedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.UserAssignedIdentity_STATUS_ARM
+map[string]./api/containerservice/v1beta20210501.UserAssignedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -77151,7 +77151,7 @@ ManagedClusterAADProfile_STATUS
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.ManagedClusterAddonProfile_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.ManagedClusterAddonProfile_STATUS
+map[string]./api/containerservice/v1beta20210501.ManagedClusterAddonProfile_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -77350,7 +77350,7 @@ ManagedClusterIdentity_STATUS
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.UserAssignedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.UserAssignedIdentity_STATUS
+map[string]./api/containerservice/v1beta20210501.UserAssignedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -77690,7 +77690,7 @@ ManagedClusterAADProfile
 &lt;code&gt;addonProfiles&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.ManagedClusterAddonProfile&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1beta20210501.ManagedClusterAddonProfile
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -77860,7 +77860,7 @@ ManagedClusterIdentity
 &lt;code&gt;identityProfile&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerservice.azure.com/v1beta20210501.UserAssignedIdentity&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1beta20210501.UserAssignedIdentity
+map[string]./api/containerservice/v1beta20210501.UserAssignedIdentity
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

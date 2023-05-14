@@ -2638,7 +2638,7 @@ ManagedIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#synapse.azure.com/v1api20210601.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/synapse/v1api20210601.UserAssignedIdentityDetails_ARM
+map[string]./api/synapse/v1api20210601.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2703,7 +2703,7 @@ ManagedIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#synapse.azure.com/v1api20210601.UserAssignedManagedIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/synapse/v1api20210601.UserAssignedManagedIdentity_STATUS
+map[string]./api/synapse/v1api20210601.UserAssignedManagedIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2769,7 +2769,7 @@ ManagedIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#synapse.azure.com/v1api20210601.UserAssignedManagedIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/synapse/v1api20210601.UserAssignedManagedIdentity_STATUS_ARM
+map[string]./api/synapse/v1api20210601.UserAssignedManagedIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

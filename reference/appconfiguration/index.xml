@@ -1923,7 +1923,7 @@ identity and a set of user-assigned identities. The type &amp;lsquo;None&amp;rsq
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/appconfiguration/v1api20220501.UserAssignedIdentityDetails_ARM
+map[string]./api/appconfiguration/v1api20220501.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -1990,7 +1990,7 @@ identity and a set of user-assigned identities. The type &amp;lsquo;None&amp;rsq
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.UserIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/appconfiguration/v1api20220501.UserIdentity_STATUS
+map[string]./api/appconfiguration/v1api20220501.UserIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -2060,7 +2060,7 @@ identity and a set of user-assigned identities. The type &amp;lsquo;None&amp;rsq
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#appconfiguration.azure.com/v1api20220501.UserIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/appconfiguration/v1api20220501.UserIdentity_STATUS_ARM
+map[string]./api/appconfiguration/v1api20220501.UserIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4620,7 +4620,7 @@ ResourceIdentity_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#appconfiguration.azure.com/v1beta20220501.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501.UserAssignedIdentityDetails_ARM
+map[string]./api/appconfiguration/v1beta20220501.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4682,7 +4682,7 @@ ResourceIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#appconfiguration.azure.com/v1beta20220501.UserIdentity_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501.UserIdentity_STATUS
+map[string]./api/appconfiguration/v1beta20220501.UserIdentity_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -4744,7 +4744,7 @@ ResourceIdentity_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#appconfiguration.azure.com/v1beta20220501.UserIdentity_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/appconfiguration/v1beta20220501.UserIdentity_STATUS_ARM
+map[string]./api/appconfiguration/v1beta20220501.UserIdentity_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;

@@ -749,7 +749,7 @@ IdentityProperties_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerregistry.azure.com/v1api20210901.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerregistry/v1api20210901.UserAssignedIdentityDetails_ARM
+map[string]./api/containerregistry/v1api20210901.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -814,7 +814,7 @@ IdentityProperties_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerregistry.azure.com/v1api20210901.UserIdentityProperties_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerregistry/v1api20210901.UserIdentityProperties_STATUS
+map[string]./api/containerregistry/v1api20210901.UserIdentityProperties_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -883,7 +883,7 @@ IdentityProperties_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerregistry.azure.com/v1api20210901.UserIdentityProperties_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerregistry/v1api20210901.UserIdentityProperties_STATUS_ARM
+map[string]./api/containerregistry/v1api20210901.UserIdentityProperties_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5139,7 +5139,7 @@ IdentityProperties_Type
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerregistry.azure.com/v1beta20210901.UserAssignedIdentityDetails_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerregistry/v1beta20210901.UserAssignedIdentityDetails_ARM
+map[string]./api/containerregistry/v1beta20210901.UserAssignedIdentityDetails_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5201,7 +5201,7 @@ IdentityProperties_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerregistry.azure.com/v1beta20210901.UserIdentityProperties_STATUS&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerregistry/v1beta20210901.UserIdentityProperties_STATUS
+map[string]./api/containerregistry/v1beta20210901.UserIdentityProperties_STATUS
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
@@ -5263,7 +5263,7 @@ IdentityProperties_Type_STATUS
 &lt;code&gt;userAssignedIdentities&lt;/code&gt;&lt;br/&gt;
 &lt;em&gt;
 &lt;a href=&#34;#containerregistry.azure.com/v1beta20210901.UserIdentityProperties_STATUS_ARM&#34;&gt;
-map[string]github/azure/azure-service-operator/v2/api/containerregistry/v1beta20210901.UserIdentityProperties_STATUS_ARM
+map[string]./api/containerregistry/v1beta20210901.UserIdentityProperties_STATUS_ARM
 &lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
