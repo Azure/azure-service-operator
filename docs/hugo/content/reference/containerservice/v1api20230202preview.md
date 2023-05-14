@@ -5352,7 +5352,7 @@ ManagedClusterAADProfile
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
 </a>
 </em>
 </td>
@@ -5594,7 +5594,7 @@ ManagedClusterIdentity
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity
 </a>
 </em>
 </td>
@@ -11509,7 +11509,7 @@ AKS</a>.</p>
 <code>userAssignedIdentities</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentityDetails_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentityDetails_ARM
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentityDetails_ARM
 </a>
 </em>
 </td>
@@ -11575,7 +11575,7 @@ AKS</a>.</p>
 <code>userAssignedIdentities</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS
 </a>
 </em>
 </td>
@@ -11643,7 +11643,7 @@ AKS</a>.</p>
 <code>userAssignedIdentities</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterIdentity_UserAssignedIdentities_STATUS_ARM
 </a>
 </em>
 </td>
@@ -14940,7 +14940,7 @@ ManagedClusterAADProfile_ARM
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_ARM
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_ARM
 </a>
 </em>
 </td>
@@ -15140,7 +15140,7 @@ ManagedClusterHTTPProxyConfig_ARM
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity_ARM
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity_ARM
 </a>
 </em>
 </td>
@@ -16362,7 +16362,7 @@ ManagedClusterAADProfile_STATUS_ARM
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile_STATUS_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS_ARM
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS_ARM
 </a>
 </em>
 </td>
@@ -16599,7 +16599,7 @@ ManagedClusterHTTPProxyConfig_STATUS_ARM
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity_STATUS_ARM">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS_ARM
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS_ARM
 </a>
 </em>
 </td>
@@ -20229,7 +20229,7 @@ ManagedClusterAADProfile_STATUS
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile_STATUS">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile_STATUS
 </a>
 </em>
 </td>
@@ -20517,7 +20517,7 @@ ManagedClusterIdentity_STATUS
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity_STATUS">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity_STATUS
 </a>
 </em>
 </td>
@@ -21034,7 +21034,7 @@ ManagedClusterAADProfile
 <code>addonProfiles</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.ManagedClusterAddonProfile">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
+map[string]./api/containerservice/v1api20230202preview.ManagedClusterAddonProfile
 </a>
 </em>
 </td>
@@ -21276,7 +21276,7 @@ ManagedClusterIdentity
 <code>identityProfile</code><br/>
 <em>
 <a href="#containerservice.azure.com/v1api20230202preview.UserAssignedIdentity">
-map[string]github/azure/azure-service-operator/v2/api/containerservice/v1api20230202preview.UserAssignedIdentity
+map[string]./api/containerservice/v1api20230202preview.UserAssignedIdentity
 </a>
 </em>
 </td>
