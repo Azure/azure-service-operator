@@ -133,12 +133,6 @@ type StorageAccountsFileServiceList struct {
 	Items           []StorageAccountsFileService `json:"items"`
 }
 
-// Storage version of v1api20220901.APIVersion
-// +kubebuilder:validation:Enum={"2022-09-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2022-09-01")
-
 // Storage version of v1api20220901.StorageAccounts_FileService_Spec
 type StorageAccounts_FileService_Spec struct {
 	Cors            *CorsRules `json:"cors,omitempty"`
@@ -207,38 +201,6 @@ func (service *StorageAccounts_FileService_STATUS) ConvertStatusTo(destination g
 	return destination.ConvertStatusFrom(service)
 }
 
-// Storage version of v1api20220901.CorsRules
-// Sets the CORS rules. You can include up to five CorsRule elements in the request.
-type CorsRules struct {
-	CorsRules   []CorsRule             `json:"corsRules,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20220901.CorsRules_STATUS
-// Sets the CORS rules. You can include up to five CorsRule elements in the request.
-type CorsRules_STATUS struct {
-	CorsRules   []CorsRule_STATUS      `json:"corsRules,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20220901.DeleteRetentionPolicy
-// The service properties for soft delete.
-type DeleteRetentionPolicy struct {
-	AllowPermanentDelete *bool                  `json:"allowPermanentDelete,omitempty"`
-	Days                 *int                   `json:"days,omitempty"`
-	Enabled              *bool                  `json:"enabled,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20220901.DeleteRetentionPolicy_STATUS
-// The service properties for soft delete.
-type DeleteRetentionPolicy_STATUS struct {
-	AllowPermanentDelete *bool                  `json:"allowPermanentDelete,omitempty"`
-	Days                 *int                   `json:"days,omitempty"`
-	Enabled              *bool                  `json:"enabled,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1api20220901.ProtocolSettings
 // Protocol settings for file service
 type ProtocolSettings struct {
@@ -251,36 +213,6 @@ type ProtocolSettings struct {
 type ProtocolSettings_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Smb         *SmbSetting_STATUS     `json:"smb,omitempty"`
-}
-
-// Storage version of v1api20220901.Sku_STATUS
-// The SKU of the storage account.
-type Sku_STATUS struct {
-	Name        *string                `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
-}
-
-// Storage version of v1api20220901.CorsRule
-// Specifies a CORS rule for the Blob service.
-type CorsRule struct {
-	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
-	AllowedMethods  []string               `json:"allowedMethods,omitempty"`
-	AllowedOrigins  []string               `json:"allowedOrigins,omitempty"`
-	ExposedHeaders  []string               `json:"exposedHeaders,omitempty"`
-	MaxAgeInSeconds *int                   `json:"maxAgeInSeconds,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1api20220901.CorsRule_STATUS
-// Specifies a CORS rule for the Blob service.
-type CorsRule_STATUS struct {
-	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
-	AllowedMethods  []string               `json:"allowedMethods,omitempty"`
-	AllowedOrigins  []string               `json:"allowedOrigins,omitempty"`
-	ExposedHeaders  []string               `json:"exposedHeaders,omitempty"`
-	MaxAgeInSeconds *int                   `json:"maxAgeInSeconds,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220901.SmbSetting

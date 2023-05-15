@@ -50,22 +50,36 @@ var _ conversion.Convertible = &StorageAccountsManagementPolicy{}
 
 // ConvertFrom populates our StorageAccountsManagementPolicy from the provided hub StorageAccountsManagementPolicy
 func (policy *StorageAccountsManagementPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210401s.StorageAccountsManagementPolicy)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1api20210401s.StorageAccountsManagementPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_StorageAccountsManagementPolicy(source)
+	err = policy.AssignProperties_From_StorageAccountsManagementPolicy(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsManagementPolicy from our StorageAccountsManagementPolicy
 func (policy *StorageAccountsManagementPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210401s.StorageAccountsManagementPolicy)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsManagementPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1api20210401s.StorageAccountsManagementPolicy
+	err := policy.AssignProperties_To_StorageAccountsManagementPolicy(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_StorageAccountsManagementPolicy(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1api20210401-storageaccountsmanagementpolicy,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsmanagementpolicies,verbs=create;update,versions=v1api20210401,name=default.v1api20210401.storageaccountsmanagementpolicies.storage.azure.com,admissionReviewVersions=v1
@@ -83,17 +97,6 @@ func (policy *StorageAccountsManagementPolicy) Default() {
 
 // defaultImpl applies the code generated defaults to the StorageAccountsManagementPolicy resource
 func (policy *StorageAccountsManagementPolicy) defaultImpl() {}
-
-var _ genruntime.ImportableResource = &StorageAccountsManagementPolicy{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (policy *StorageAccountsManagementPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccounts_ManagementPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_StorageAccounts_ManagementPolicy_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type StorageAccounts_ManagementPolicy_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
 
@@ -514,25 +517,6 @@ func (policy *StorageAccounts_ManagementPolicy_Spec) AssignProperties_To_Storage
 	return nil
 }
 
-// Initialize_From_StorageAccounts_ManagementPolicy_STATUS populates our StorageAccounts_ManagementPolicy_Spec from the provided source StorageAccounts_ManagementPolicy_STATUS
-func (policy *StorageAccounts_ManagementPolicy_Spec) Initialize_From_StorageAccounts_ManagementPolicy_STATUS(source *StorageAccounts_ManagementPolicy_STATUS) error {
-
-	// Policy
-	if source.Policy != nil {
-		var policyLocal ManagementPolicySchema
-		err := policyLocal.Initialize_From_ManagementPolicySchema_STATUS(source.Policy)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicySchema_STATUS() to populate field Policy")
-		}
-		policy.Policy = &policyLocal
-	} else {
-		policy.Policy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (policy *StorageAccounts_ManagementPolicy_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -862,31 +846,6 @@ func (schema *ManagementPolicySchema) AssignProperties_To_ManagementPolicySchema
 	return nil
 }
 
-// Initialize_From_ManagementPolicySchema_STATUS populates our ManagementPolicySchema from the provided source ManagementPolicySchema_STATUS
-func (schema *ManagementPolicySchema) Initialize_From_ManagementPolicySchema_STATUS(source *ManagementPolicySchema_STATUS) error {
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]ManagementPolicyRule, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			// Shadow the loop variable to avoid aliasing
-			ruleItem := ruleItem
-			var rule ManagementPolicyRule
-			err := rule.Initialize_From_ManagementPolicyRule_STATUS(&ruleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_ManagementPolicyRule_STATUS() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		schema.Rules = ruleList
-	} else {
-		schema.Rules = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The Storage Account ManagementPolicies Rules. See more details in:
 // https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 type ManagementPolicySchema_STATUS struct {
@@ -1164,44 +1123,6 @@ func (rule *ManagementPolicyRule) AssignProperties_To_ManagementPolicyRule(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagementPolicyRule_STATUS populates our ManagementPolicyRule from the provided source ManagementPolicyRule_STATUS
-func (rule *ManagementPolicyRule) Initialize_From_ManagementPolicyRule_STATUS(source *ManagementPolicyRule_STATUS) error {
-
-	// Definition
-	if source.Definition != nil {
-		var definition ManagementPolicyDefinition
-		err := definition.Initialize_From_ManagementPolicyDefinition_STATUS(source.Definition)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyDefinition_STATUS() to populate field Definition")
-		}
-		rule.Definition = &definition
-	} else {
-		rule.Definition = nil
-	}
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		rule.Enabled = &enabled
-	} else {
-		rule.Enabled = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := ManagementPolicyRule_Type(*source.Type)
-		rule.Type = &typeVar
-	} else {
-		rule.Type = nil
 	}
 
 	// No error
@@ -1500,37 +1421,6 @@ func (definition *ManagementPolicyDefinition) AssignProperties_To_ManagementPoli
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagementPolicyDefinition_STATUS populates our ManagementPolicyDefinition from the provided source ManagementPolicyDefinition_STATUS
-func (definition *ManagementPolicyDefinition) Initialize_From_ManagementPolicyDefinition_STATUS(source *ManagementPolicyDefinition_STATUS) error {
-
-	// Actions
-	if source.Actions != nil {
-		var action ManagementPolicyAction
-		err := action.Initialize_From_ManagementPolicyAction_STATUS(source.Actions)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyAction_STATUS() to populate field Actions")
-		}
-		definition.Actions = &action
-	} else {
-		definition.Actions = nil
-	}
-
-	// Filters
-	if source.Filters != nil {
-		var filter ManagementPolicyFilter
-		err := filter.Initialize_From_ManagementPolicyFilter_STATUS(source.Filters)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyFilter_STATUS() to populate field Filters")
-		}
-		definition.Filters = &filter
-	} else {
-		definition.Filters = nil
 	}
 
 	// No error
@@ -1863,49 +1753,6 @@ func (action *ManagementPolicyAction) AssignProperties_To_ManagementPolicyAction
 	return nil
 }
 
-// Initialize_From_ManagementPolicyAction_STATUS populates our ManagementPolicyAction from the provided source ManagementPolicyAction_STATUS
-func (action *ManagementPolicyAction) Initialize_From_ManagementPolicyAction_STATUS(source *ManagementPolicyAction_STATUS) error {
-
-	// BaseBlob
-	if source.BaseBlob != nil {
-		var baseBlob ManagementPolicyBaseBlob
-		err := baseBlob.Initialize_From_ManagementPolicyBaseBlob_STATUS(source.BaseBlob)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyBaseBlob_STATUS() to populate field BaseBlob")
-		}
-		action.BaseBlob = &baseBlob
-	} else {
-		action.BaseBlob = nil
-	}
-
-	// Snapshot
-	if source.Snapshot != nil {
-		var snapshot ManagementPolicySnapShot
-		err := snapshot.Initialize_From_ManagementPolicySnapShot_STATUS(source.Snapshot)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicySnapShot_STATUS() to populate field Snapshot")
-		}
-		action.Snapshot = &snapshot
-	} else {
-		action.Snapshot = nil
-	}
-
-	// Version
-	if source.Version != nil {
-		var version ManagementPolicyVersion
-		err := version.Initialize_From_ManagementPolicyVersion_STATUS(source.Version)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_ManagementPolicyVersion_STATUS() to populate field Version")
-		}
-		action.Version = &version
-	} else {
-		action.Version = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Actions are applied to the filtered blobs when the execution condition is met.
 type ManagementPolicyAction_STATUS struct {
 	// BaseBlob: The management policy action for base blob
@@ -2211,37 +2058,6 @@ func (filter *ManagementPolicyFilter) AssignProperties_To_ManagementPolicyFilter
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagementPolicyFilter_STATUS populates our ManagementPolicyFilter from the provided source ManagementPolicyFilter_STATUS
-func (filter *ManagementPolicyFilter) Initialize_From_ManagementPolicyFilter_STATUS(source *ManagementPolicyFilter_STATUS) error {
-
-	// BlobIndexMatch
-	if source.BlobIndexMatch != nil {
-		blobIndexMatchList := make([]TagFilter, len(source.BlobIndexMatch))
-		for blobIndexMatchIndex, blobIndexMatchItem := range source.BlobIndexMatch {
-			// Shadow the loop variable to avoid aliasing
-			blobIndexMatchItem := blobIndexMatchItem
-			var blobIndexMatch TagFilter
-			err := blobIndexMatch.Initialize_From_TagFilter_STATUS(&blobIndexMatchItem)
-			if err != nil {
-				return errors.Wrap(err, "calling Initialize_From_TagFilter_STATUS() to populate field BlobIndexMatch")
-			}
-			blobIndexMatchList[blobIndexMatchIndex] = blobIndexMatch
-		}
-		filter.BlobIndexMatch = blobIndexMatchList
-	} else {
-		filter.BlobIndexMatch = nil
-	}
-
-	// BlobTypes
-	filter.BlobTypes = genruntime.CloneSliceOfString(source.BlobTypes)
-
-	// PrefixMatch
-	filter.PrefixMatch = genruntime.CloneSliceOfString(source.PrefixMatch)
 
 	// No error
 	return nil
@@ -2593,57 +2409,6 @@ func (blob *ManagementPolicyBaseBlob) AssignProperties_To_ManagementPolicyBaseBl
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagementPolicyBaseBlob_STATUS populates our ManagementPolicyBaseBlob from the provided source ManagementPolicyBaseBlob_STATUS
-func (blob *ManagementPolicyBaseBlob) Initialize_From_ManagementPolicyBaseBlob_STATUS(source *ManagementPolicyBaseBlob_STATUS) error {
-
-	// Delete
-	if source.Delete != nil {
-		var delete DateAfterModification
-		err := delete.Initialize_From_DateAfterModification_STATUS(source.Delete)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterModification_STATUS() to populate field Delete")
-		}
-		blob.Delete = &delete
-	} else {
-		blob.Delete = nil
-	}
-
-	// EnableAutoTierToHotFromCool
-	if source.EnableAutoTierToHotFromCool != nil {
-		enableAutoTierToHotFromCool := *source.EnableAutoTierToHotFromCool
-		blob.EnableAutoTierToHotFromCool = &enableAutoTierToHotFromCool
-	} else {
-		blob.EnableAutoTierToHotFromCool = nil
-	}
-
-	// TierToArchive
-	if source.TierToArchive != nil {
-		var tierToArchive DateAfterModification
-		err := tierToArchive.Initialize_From_DateAfterModification_STATUS(source.TierToArchive)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterModification_STATUS() to populate field TierToArchive")
-		}
-		blob.TierToArchive = &tierToArchive
-	} else {
-		blob.TierToArchive = nil
-	}
-
-	// TierToCool
-	if source.TierToCool != nil {
-		var tierToCool DateAfterModification
-		err := tierToCool.Initialize_From_DateAfterModification_STATUS(source.TierToCool)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterModification_STATUS() to populate field TierToCool")
-		}
-		blob.TierToCool = &tierToCool
-	} else {
-		blob.TierToCool = nil
 	}
 
 	// No error
@@ -3031,49 +2796,6 @@ func (shot *ManagementPolicySnapShot) AssignProperties_To_ManagementPolicySnapSh
 	return nil
 }
 
-// Initialize_From_ManagementPolicySnapShot_STATUS populates our ManagementPolicySnapShot from the provided source ManagementPolicySnapShot_STATUS
-func (shot *ManagementPolicySnapShot) Initialize_From_ManagementPolicySnapShot_STATUS(source *ManagementPolicySnapShot_STATUS) error {
-
-	// Delete
-	if source.Delete != nil {
-		var delete DateAfterCreation
-		err := delete.Initialize_From_DateAfterCreation_STATUS(source.Delete)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field Delete")
-		}
-		shot.Delete = &delete
-	} else {
-		shot.Delete = nil
-	}
-
-	// TierToArchive
-	if source.TierToArchive != nil {
-		var tierToArchive DateAfterCreation
-		err := tierToArchive.Initialize_From_DateAfterCreation_STATUS(source.TierToArchive)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field TierToArchive")
-		}
-		shot.TierToArchive = &tierToArchive
-	} else {
-		shot.TierToArchive = nil
-	}
-
-	// TierToCool
-	if source.TierToCool != nil {
-		var tierToCool DateAfterCreation
-		err := tierToCool.Initialize_From_DateAfterCreation_STATUS(source.TierToCool)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field TierToCool")
-		}
-		shot.TierToCool = &tierToCool
-	} else {
-		shot.TierToCool = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Management policy action for snapshot.
 type ManagementPolicySnapShot_STATUS struct {
 	// Delete: The function to delete the blob snapshot
@@ -3429,49 +3151,6 @@ func (version *ManagementPolicyVersion) AssignProperties_To_ManagementPolicyVers
 	return nil
 }
 
-// Initialize_From_ManagementPolicyVersion_STATUS populates our ManagementPolicyVersion from the provided source ManagementPolicyVersion_STATUS
-func (version *ManagementPolicyVersion) Initialize_From_ManagementPolicyVersion_STATUS(source *ManagementPolicyVersion_STATUS) error {
-
-	// Delete
-	if source.Delete != nil {
-		var delete DateAfterCreation
-		err := delete.Initialize_From_DateAfterCreation_STATUS(source.Delete)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field Delete")
-		}
-		version.Delete = &delete
-	} else {
-		version.Delete = nil
-	}
-
-	// TierToArchive
-	if source.TierToArchive != nil {
-		var tierToArchive DateAfterCreation
-		err := tierToArchive.Initialize_From_DateAfterCreation_STATUS(source.TierToArchive)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field TierToArchive")
-		}
-		version.TierToArchive = &tierToArchive
-	} else {
-		version.TierToArchive = nil
-	}
-
-	// TierToCool
-	if source.TierToCool != nil {
-		var tierToCool DateAfterCreation
-		err := tierToCool.Initialize_From_DateAfterCreation_STATUS(source.TierToCool)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_DateAfterCreation_STATUS() to populate field TierToCool")
-		}
-		version.TierToCool = &tierToCool
-	} else {
-		version.TierToCool = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Management policy action for blob version.
 type ManagementPolicyVersion_STATUS struct {
 	// Delete: The function to delete the blob version
@@ -3774,32 +3453,6 @@ func (filter *TagFilter) AssignProperties_To_TagFilter(destination *v1api2021040
 	return nil
 }
 
-// Initialize_From_TagFilter_STATUS populates our TagFilter from the provided source TagFilter_STATUS
-func (filter *TagFilter) Initialize_From_TagFilter_STATUS(source *TagFilter_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := *source.Name
-		filter.Name = &name
-	} else {
-		filter.Name = nil
-	}
-
-	// Op
-	filter.Op = genruntime.ClonePointerToString(source.Op)
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		filter.Value = &value
-	} else {
-		filter.Value = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Blob index tag based filtering for blob objects
 type TagFilter_STATUS struct {
 	// Name: This is the filter tag name, it can have 1 - 128 characters
@@ -3971,21 +3624,6 @@ func (creation *DateAfterCreation) AssignProperties_To_DateAfterCreation(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DateAfterCreation_STATUS populates our DateAfterCreation from the provided source DateAfterCreation_STATUS
-func (creation *DateAfterCreation) Initialize_From_DateAfterCreation_STATUS(source *DateAfterCreation_STATUS) error {
-
-	// DaysAfterCreationGreaterThan
-	if source.DaysAfterCreationGreaterThan != nil {
-		daysAfterCreationGreaterThan := genruntime.GetIntFromFloat(*source.DaysAfterCreationGreaterThan)
-		creation.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
-	} else {
-		creation.DaysAfterCreationGreaterThan = nil
 	}
 
 	// No error
@@ -4176,29 +3814,6 @@ func (modification *DateAfterModification) AssignProperties_To_DateAfterModifica
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DateAfterModification_STATUS populates our DateAfterModification from the provided source DateAfterModification_STATUS
-func (modification *DateAfterModification) Initialize_From_DateAfterModification_STATUS(source *DateAfterModification_STATUS) error {
-
-	// DaysAfterLastAccessTimeGreaterThan
-	if source.DaysAfterLastAccessTimeGreaterThan != nil {
-		daysAfterLastAccessTimeGreaterThan := genruntime.GetIntFromFloat(*source.DaysAfterLastAccessTimeGreaterThan)
-		modification.DaysAfterLastAccessTimeGreaterThan = &daysAfterLastAccessTimeGreaterThan
-	} else {
-		modification.DaysAfterLastAccessTimeGreaterThan = nil
-	}
-
-	// DaysAfterModificationGreaterThan
-	if source.DaysAfterModificationGreaterThan != nil {
-		daysAfterModificationGreaterThan := genruntime.GetIntFromFloat(*source.DaysAfterModificationGreaterThan)
-		modification.DaysAfterModificationGreaterThan = &daysAfterModificationGreaterThan
-	} else {
-		modification.DaysAfterModificationGreaterThan = nil
 	}
 
 	// No error

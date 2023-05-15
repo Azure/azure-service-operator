@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"location":"westus2","name":"asotest-rg-vekjqn","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"location":"westus2","name":"asotest-rg-ecylaa","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,10 +13,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn","name":"asotest-rg-vekjqn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa","name":"asotest-rg-ecylaa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -43,10 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn","name":"asotest-rg-vekjqn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa","name":"asotest-rg-ecylaa","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"StorageV2","location":"westcentralus","name":"asotestdnalnj","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"}}'
+    body: '{"kind":"StorageV2","location":"westcentralus","name":"asotestmmvput","properties":{"accessTier":"Hot"},"sku":{"name":"Standard_LRS"}}'
     form: {}
     headers:
       Accept:
@@ -77,7 +77,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput?api-version=2022-09-01
     method: PUT
   response:
     body: ""
@@ -91,7 +91,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/195df72f-1e3f-4124-82f6-c91a310b6b0e?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/a83fdf54-c7d0-489a-81e7-04eabdc6fd8a?monitor=true&api-version=2022-09-01
       Pragma:
       - no-cache
       Retry-After:
@@ -111,7 +111,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/195df72f-1e3f-4124-82f6-c91a310b6b0e?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/a83fdf54-c7d0-489a-81e7-04eabdc6fd8a?monitor=true&api-version=2022-09-01
     method: GET
   response:
     body: ""
@@ -125,7 +125,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/195df72f-1e3f-4124-82f6-c91a310b6b0e?monitor=true&api-version=2021-04-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/a83fdf54-c7d0-489a-81e7-04eabdc6fd8a?monitor=true&api-version=2022-09-01
       Pragma:
       - no-cache
       Retry-After:
@@ -145,10 +145,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/195df72f-1e3f-4124-82f6-c91a310b6b0e?monitor=true&api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/westcentralus/asyncoperations/a83fdf54-c7d0-489a-81e7-04eabdc6fd8a?monitor=true&api-version=2022-09-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj","name":"asotestdnalnj","type":"Microsoft.Storage/storageAccounts","location":"westcentralus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestdnalnj.dfs.core.windows.net/","web":"https://asotestdnalnj.z4.web.core.windows.net/","blob":"https://asotestdnalnj.blob.core.windows.net/","queue":"https://asotestdnalnj.queue.core.windows.net/","table":"https://asotestdnalnj.table.core.windows.net/","file":"https://asotestdnalnj.file.core.windows.net/"},"primaryLocation":"westcentralus","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput","name":"asotestmmvput","type":"Microsoft.Storage/storageAccounts","location":"westcentralus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"minimumTlsVersion":"TLS1_0","allowBlobPublicAccess":true,"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestmmvput.dfs.core.windows.net/","web":"https://asotestmmvput.z4.web.core.windows.net/","blob":"https://asotestmmvput.blob.core.windows.net/","queue":"https://asotestmmvput.queue.core.windows.net/","table":"https://asotestmmvput.table.core.windows.net/","file":"https://asotestmmvput.file.core.windows.net/"},"primaryLocation":"westcentralus","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -177,10 +177,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput?api-version=2022-09-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj","name":"asotestdnalnj","type":"Microsoft.Storage/storageAccounts","location":"westcentralus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestdnalnj.dfs.core.windows.net/","web":"https://asotestdnalnj.z4.web.core.windows.net/","blob":"https://asotestdnalnj.blob.core.windows.net/","queue":"https://asotestdnalnj.queue.core.windows.net/","table":"https://asotestdnalnj.table.core.windows.net/","file":"https://asotestdnalnj.file.core.windows.net/"},"primaryLocation":"westcentralus","statusOfPrimary":"available"}}'
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput","name":"asotestmmvput","type":"Microsoft.Storage/storageAccounts","location":"westcentralus","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"privateEndpointConnections":[],"minimumTlsVersion":"TLS1_0","allowBlobPublicAccess":true,"networkAcls":{"bypass":"AzureServices","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestmmvput.dfs.core.windows.net/","web":"https://asotestmmvput.z4.web.core.windows.net/","blob":"https://asotestmmvput.blob.core.windows.net/","queue":"https://asotestmmvput.queue.core.windows.net/","table":"https://asotestmmvput.table.core.windows.net/","file":"https://asotestmmvput.file.core.windows.net/"},"primaryLocation":"westcentralus","statusOfPrimary":"available"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -213,7 +213,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/queueServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/queueServices/default?api-version=2022-09-01
     method: PUT
   response:
     body: '{"name":"default"}'
@@ -249,43 +249,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/tableServices/default?api-version=2022-09-01
-    method: PUT
-  response:
-    body: '{"name":"default"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"default"}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "18"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/tableServices/default?api-version=2022-09-01
     method: PUT
   response:
     body: '{"name":"default"}'
@@ -321,138 +285,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/managementPolicies/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/managementPolicies/default?api-version=2022-09-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/managementPolicies/default","name":"DefaultManagementPolicy","type":"Microsoft.Storage/storageAccounts/managementPolicies","properties":{"policy":{"rules":[{"enabled":true,"name":"test-rule","type":"Lifecycle","definition":{"actions":{"version":{"delete":{"daysAfterCreationGreaterThan":30.0}}},"filters":{"blobTypes":["blockBlob"],"prefixMatch":["sample-container/blob1"]}}}]},"lastModifiedTime":"2001-02-03T04:05:06Z"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/queueServices/default?api-version=2021-04-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/queueServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/queueServices","properties":{"cors":{"corsRules":[]}}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/tableServices/default?api-version=2022-09-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/tableServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/tableServices","properties":{"cors":{"corsRules":[]}}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/managementPolicies/default?api-version=2021-04-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/managementPolicies/default","name":"DefaultManagementPolicy","type":"Microsoft.Storage/storageAccounts/managementPolicies","properties":{"policy":{"rules":[{"enabled":true,"name":"test-rule","type":"Lifecycle","definition":{"actions":{"version":{"delete":{"daysAfterCreationGreaterThan":30.0}}},"filters":{"blobTypes":["blockBlob"],"prefixMatch":["sample-container/blob1"]}}}]},"lastModifiedTime":"2001-02-03T04:05:06Z"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default?api-version=2021-04-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/blobServices","properties":{"cors":{"corsRules":[]},"deleteRetentionPolicy":{"allowPermanentDelete":false,"enabled":false}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/managementPolicies/default","name":"DefaultManagementPolicy","type":"Microsoft.Storage/storageAccounts/managementPolicies","properties":{"policy":{"rules":[{"enabled":true,"name":"test-rule","type":"Lifecycle","definition":{"actions":{"version":{"delete":{"daysAfterCreationGreaterThan":30.0}}},"filters":{"blobTypes":["blockBlob"],"prefixMatch":["sample-container/blob1"]}}}]},"lastModifiedTime":"2001-02-03T04:05:06Z"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -485,7 +321,43 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default?api-version=2022-09-01
+    method: PUT
+  response:
+    body: '{"name":"default"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"default"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "18"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default?api-version=2022-09-01
     method: PUT
   response:
     body: '{"name":"default"}'
@@ -517,10 +389,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/queueServices/default?api-version=2022-09-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/fileServices","properties":{"protocolSettings":{"smb":{}},"cors":{"corsRules":[]},"shareDeleteRetentionPolicy":{"enabled":true,"days":7}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/queueServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/queueServices","properties":{"logging":{"version":"1.0","delete":false,"read":false,"write":false,"retentionPolicy":{"enabled":false}},"cors":{"corsRules":[]}}}'
     headers:
       Cache-Control:
       - no-cache
@@ -542,21 +414,17 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotestiaacmi"}'
+    body: ""
     form: {}
     headers:
       Accept:
       - application/json
-      Content-Length:
-      - "24"
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/queueServices/default/queues/asotestiaacmi?api-version=2021-04-01
-    method: PUT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/tableServices/default?api-version=2022-09-01
+    method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/queueServices/default/queues/asotestiaacmi","name":"asotestiaacmi","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{}}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/tableServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/tableServices","properties":{"cors":{"corsRules":[]}}}'
     headers:
       Cache-Control:
       - no-cache
@@ -578,21 +446,17 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotestjzzznm"}'
+    body: ""
     form: {}
     headers:
       Accept:
       - application/json
-      Content-Length:
-      - "24"
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/tableServices/default/tables/asotestjzzznm?api-version=2022-09-01
-    method: PUT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/managementPolicies/default?api-version=2022-09-01
+    method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/tableServices/default/tables/asotestjzzznm","name":"asotestjzzznm","type":"Microsoft.Storage/storageAccounts/tableServices/tables","properties":{"tableName":"asotestjzzznm"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/managementPolicies/default","name":"DefaultManagementPolicy","type":"Microsoft.Storage/storageAccounts/managementPolicies","properties":{"policy":{"rules":[{"enabled":true,"name":"test-rule","type":"Lifecycle","definition":{"actions":{"version":{"delete":{"daysAfterCreationGreaterThan":30.0}}},"filters":{"blobTypes":["blockBlob"],"prefixMatch":["sample-container/blob1"]}}}]},"lastModifiedTime":"2001-02-03T04:05:06Z"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -614,7 +478,71 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotesturonji"}'
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/blobServices","properties":{"cors":{"corsRules":[]},"deleteRetentionPolicy":{"allowPermanentDelete":false,"enabled":false}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/fileServices","properties":{"protocolSettings":{"smb":{}},"cors":{"corsRules":[]},"shareDeleteRetentionPolicy":{"enabled":true,"days":7}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotesthgxjwu"}'
     form: {}
     headers:
       Accept:
@@ -625,10 +553,46 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default/containers/asotesturonji?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/queueServices/default/queues/asotesthgxjwu?api-version=2022-09-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default/containers/asotesturonji","name":"asotesturonji","type":"Microsoft.Storage/storageAccounts/blobServices/containers"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/queueServices/default/queues/asotesthgxjwu","name":"asotesthgxjwu","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{}}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotestvmcyob"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "24"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default/containers/asotestvmcyob?api-version=2022-09-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default/containers/asotestvmcyob","name":"asotestvmcyob","type":"Microsoft.Storage/storageAccounts/blobServices/containers"}'
     headers:
       Cache-Control:
       - no-cache
@@ -637,7 +601,7 @@ interactions:
       Content-Type:
       - application/json
       Etag:
-      - '"0x8DB51B4E665774F"'
+      - '"0x8DB550A7CAE8D8E"'
       Expires:
       - "-1"
       Pragma:
@@ -652,7 +616,7 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: '{"name":"asotestapahft"}'
+    body: '{"name":"asotesthazyey"}'
     form: {}
     headers:
       Accept:
@@ -663,10 +627,46 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default/shares/asotestapahft?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/tableServices/default/tables/asotesthazyey?api-version=2022-09-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default/shares/asotestapahft","name":"asotestapahft","type":"Microsoft.Storage/storageAccounts/fileServices/shares"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/tableServices/default/tables/asotesthazyey","name":"asotesthazyey","type":"Microsoft.Storage/storageAccounts/tableServices/tables","properties":{"tableName":"asotesthazyey"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotesteasidf"}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "24"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default/shares/asotesteasidf?api-version=2022-09-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default/shares/asotesteasidf","name":"asotesteasidf","type":"Microsoft.Storage/storageAccounts/fileServices/shares"}'
     headers:
       Cache-Control:
       - no-cache
@@ -675,7 +675,7 @@ interactions:
       Content-Type:
       - application/json
       Etag:
-      - '"0x8DB51B4E66FF136"'
+      - '"0x8DB550A7CC38DF1"'
       Expires:
       - "-1"
       Pragma:
@@ -697,10 +697,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/queueServices/default/queues/asotestiaacmi?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/queueServices/default/queues/asotesthgxjwu?api-version=2022-09-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/queueServices/default/queues/asotestiaacmi","name":"asotestiaacmi","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{},"approximateMessageCount":0}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/queueServices/default/queues/asotesthgxjwu","name":"asotesthgxjwu","type":"Microsoft.Storage/storageAccounts/queueServices/queues","properties":{"metadata":{},"approximateMessageCount":0}}'
     headers:
       Cache-Control:
       - no-cache
@@ -729,10 +729,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/tableServices/default/tables/asotestjzzznm?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/tableServices/default/tables/asotesthazyey?api-version=2022-09-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/tableServices/default/tables/asotestjzzznm","name":"asotestjzzznm","type":"Microsoft.Storage/storageAccounts/tableServices/tables","properties":{"signedIdentifiers":[],"tableName":"asotestjzzznm"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/tableServices/default/tables/asotesthazyey","name":"asotesthazyey","type":"Microsoft.Storage/storageAccounts/tableServices/tables","properties":{"signedIdentifiers":[],"tableName":"asotesthazyey"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -759,17 +759,17 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default/containers/asotesturonji?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default/containers/asotestvmcyob?api-version=2022-09-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default/containers/asotesturonji","name":"asotesturonji","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB51B4E665774F\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default/containers/asotestvmcyob","name":"asotestvmcyob","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB550A7CAE8D8E\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json
       Etag:
-      - '"0x8DB51B4E665774F"'
+      - '"0x8DB550A7CAE8D8E"'
       Expires:
       - "-1"
       Pragma:
@@ -791,51 +791,17 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default/shares/asotestapahft?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default/shares/asotesteasidf?api-version=2022-09-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default/shares/asotestapahft","name":"asotestapahft","type":"Microsoft.Storage/storageAccounts/fileServices/shares","etag":"\"0x8DB51B4E66FF136\"","properties":{"leaseStatus":"unlocked","leaseState":"available","signedIdentifiers":[],"accessTier":"TransactionOptimized","accessTierChangeTime":"2001-02-03T04:05:06Z","lastModifiedTime":"2001-02-03T04:05:06Z","shareQuota":5120}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default/shares/asotesteasidf","name":"asotesteasidf","type":"Microsoft.Storage/storageAccounts/fileServices/shares","etag":"\"0x8DB550A7CC38DF1\"","properties":{"leaseStatus":"unlocked","leaseState":"available","signedIdentifiers":[],"accessTier":"TransactionOptimized","accessTierChangeTime":"2001-02-03T04:05:06Z","lastModifiedTime":"2001-02-03T04:05:06Z","shareQuota":5120}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json
       Etag:
-      - '"0x8DB51B4E66FF136"'
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default/containers/asotesturonji?api-version=2021-04-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default/containers/asotesturonji","name":"asotesturonji","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB51B4E665774F\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json
-      Etag:
-      - '"0x8DB51B4E665774F"'
+      - '"0x8DB550A7CC38DF1"'
       Expires:
       - "-1"
       Pragma:
@@ -859,17 +825,51 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default/shares/asotestapahft?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default/containers/asotestvmcyob?api-version=2022-09-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default/shares/asotestapahft","name":"asotestapahft","type":"Microsoft.Storage/storageAccounts/fileServices/shares","etag":"\"0x8DB51B4E66FF136\"","properties":{"leaseStatus":"unlocked","leaseState":"available","signedIdentifiers":[],"accessTier":"TransactionOptimized","accessTierChangeTime":"2001-02-03T04:05:06Z","lastModifiedTime":"2001-02-03T04:05:06Z","shareQuota":5120}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default/containers/asotestvmcyob","name":"asotestvmcyob","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DB550A7CAE8D8E\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json
       Etag:
-      - '"0x8DB51B4E66FF136"'
+      - '"0x8DB550A7CAE8D8E"'
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-Azure-Storage-Resource-Provider/1.0,Microsoft-HTTPAPI/2.0 Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default/shares/asotesteasidf?api-version=2022-09-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default/shares/asotesteasidf","name":"asotesteasidf","type":"Microsoft.Storage/storageAccounts/fileServices/shares","etag":"\"0x8DB550A7CC38DF1\"","properties":{"leaseStatus":"unlocked","leaseState":"available","signedIdentifiers":[],"accessTier":"TransactionOptimized","accessTierChangeTime":"2001-02-03T04:05:06Z","lastModifiedTime":"2001-02-03T04:05:06Z","shareQuota":5120}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Etag:
+      - '"0x8DB550A7CC38DF1"'
       Expires:
       - "-1"
       Pragma:
@@ -893,7 +893,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -905,7 +905,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -923,7 +923,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
@@ -935,7 +935,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -953,7 +953,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
@@ -965,7 +965,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -983,7 +983,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
@@ -995,7 +995,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1013,7 +1013,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
@@ -1025,7 +1025,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1043,7 +1043,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRWRUtKUU4tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFQ1lMQUEtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
     body: ""
@@ -1071,10 +1071,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput?api-version=2022-09-01
     method: DELETE
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-vekjqn''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-ecylaa''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -1104,11 +1104,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default?api-version=2022-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestdnalnj'' not found."}}'
+      operation on nested resource. Parent resource ''asotestmmvput'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1137,11 +1137,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/queueServices/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/tableServices/default?api-version=2022-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestdnalnj'' not found."}}'
+      operation on nested resource. Parent resource ''asotestmmvput'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1170,11 +1170,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/managementPolicies/default?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/managementPolicies/default?api-version=2022-09-01
     method: DELETE
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Storage/storageAccounts/asotestdnalnj''
-      under resource group ''asotest-rg-vekjqn'' was not found. For more details please
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Storage/storageAccounts/asotestmmvput''
+      under resource group ''asotest-rg-ecylaa'' was not found. For more details please
       go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
@@ -1204,11 +1204,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/queueServices/default?api-version=2022-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestdnalnj'' not found."}}'
+      operation on nested resource. Parent resource ''asotestmmvput'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1237,11 +1237,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/tableServices/default?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default?api-version=2022-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestdnalnj'' not found."}}'
+      operation on nested resource. Parent resource ''asotestmmvput'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1270,11 +1270,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/tableServices/default/tables/asotestjzzznm?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/fileServices/default/shares/asotesteasidf?api-version=2022-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestdnalnj'' not found."}}'
+      operation on nested resource. Parent resource ''asotestmmvput'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1303,11 +1303,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/fileServices/default/shares/asotestapahft?api-version=2022-09-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/queueServices/default/queues/asotesthgxjwu?api-version=2022-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestdnalnj'' not found."}}'
+      operation on nested resource. Parent resource ''asotestmmvput'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1336,11 +1336,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/queueServices/default/queues/asotestiaacmi?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/blobServices/default/containers/asotestvmcyob?api-version=2022-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestdnalnj'' not found."}}'
+      operation on nested resource. Parent resource ''asotestmmvput'' not found."}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1369,11 +1369,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-vekjqn/providers/Microsoft.Storage/storageAccounts/asotestdnalnj/blobServices/default/containers/asotesturonji?api-version=2021-04-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ecylaa/providers/Microsoft.Storage/storageAccounts/asotestmmvput/tableServices/default/tables/asotesthazyey?api-version=2022-09-01
     method: DELETE
   response:
     body: '{"error":{"code":"ParentResourceNotFound","message":"Can not perform requested
-      operation on nested resource. Parent resource ''asotestdnalnj'' not found."}}'
+      operation on nested resource. Parent resource ''asotestmmvput'' not found."}}'
     headers:
       Cache-Control:
       - no-cache

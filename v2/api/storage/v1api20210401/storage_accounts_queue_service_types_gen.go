@@ -50,22 +50,36 @@ var _ conversion.Convertible = &StorageAccountsQueueService{}
 
 // ConvertFrom populates our StorageAccountsQueueService from the provided hub StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210401s.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1api20210401s.StorageAccountsQueueService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsQueueService(source)
+	err = service.AssignProperties_From_StorageAccountsQueueService(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsQueueService from our StorageAccountsQueueService
 func (service *StorageAccountsQueueService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210401s.StorageAccountsQueueService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsQueueService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1api20210401s.StorageAccountsQueueService
+	err := service.AssignProperties_To_StorageAccountsQueueService(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsQueueService(destination)
+	return nil
 }
 
 // +kubebuilder:webhook:path=/mutate-storage-azure-com-v1api20210401-storageaccountsqueueservice,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsqueueservices,verbs=create;update,versions=v1api20210401,name=default.v1api20210401.storageaccountsqueueservices.storage.azure.com,admissionReviewVersions=v1
@@ -83,17 +97,6 @@ func (service *StorageAccountsQueueService) Default() {
 
 // defaultImpl applies the code generated defaults to the StorageAccountsQueueService resource
 func (service *StorageAccountsQueueService) defaultImpl() {}
-
-var _ genruntime.ImportableResource = &StorageAccountsQueueService{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (service *StorageAccountsQueueService) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*StorageAccounts_QueueService_STATUS); ok {
-		return service.Spec.Initialize_From_StorageAccounts_QueueService_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type StorageAccounts_QueueService_STATUS but received %T instead", status)
-}
 
 var _ genruntime.KubernetesResource = &StorageAccountsQueueService{}
 
@@ -508,25 +511,6 @@ func (service *StorageAccounts_QueueService_Spec) AssignProperties_To_StorageAcc
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_StorageAccounts_QueueService_STATUS populates our StorageAccounts_QueueService_Spec from the provided source StorageAccounts_QueueService_STATUS
-func (service *StorageAccounts_QueueService_Spec) Initialize_From_StorageAccounts_QueueService_STATUS(source *StorageAccounts_QueueService_STATUS) error {
-
-	// Cors
-	if source.Cors != nil {
-		var cor CorsRules
-		err := cor.Initialize_From_CorsRules_STATUS(source.Cors)
-		if err != nil {
-			return errors.Wrap(err, "calling Initialize_From_CorsRules_STATUS() to populate field Cors")
-		}
-		service.Cors = &cor
-	} else {
-		service.Cors = nil
 	}
 
 	// No error

@@ -42,53 +42,10 @@ type StorageAccounts_FileService_Properties_Spec_ARM struct {
 	ShareDeleteRetentionPolicy *DeleteRetentionPolicy_ARM `json:"shareDeleteRetentionPolicy,omitempty"`
 }
 
-// Sets the CORS rules. You can include up to five CorsRule elements in the request.
-type CorsRules_ARM struct {
-	// CorsRules: The List of CORS rules. You can include up to five CorsRule elements in the request.
-	CorsRules []CorsRule_ARM `json:"corsRules,omitempty"`
-}
-
-// The service properties for soft delete.
-type DeleteRetentionPolicy_ARM struct {
-	// AllowPermanentDelete: This property when set to true allows deletion of the soft deleted blob versions and snapshots.
-	// This property cannot be used blob restore policy. This property only applies to blob service and does not apply to
-	// containers or file share.
-	AllowPermanentDelete *bool `json:"allowPermanentDelete,omitempty"`
-
-	// Days: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and
-	// the maximum value can be 365.
-	Days *int `json:"days,omitempty"`
-
-	// Enabled: Indicates whether DeleteRetentionPolicy is enabled.
-	Enabled *bool `json:"enabled,omitempty"`
-}
-
 // Protocol settings for file service
 type ProtocolSettings_ARM struct {
 	// Smb: Setting for SMB protocol
 	Smb *SmbSetting_ARM `json:"smb,omitempty"`
-}
-
-// Specifies a CORS rule for the Blob service.
-type CorsRule_ARM struct {
-	// AllowedHeaders: Required if CorsRule element is present. A list of headers allowed to be part of the cross-origin
-	// request.
-	AllowedHeaders []string `json:"allowedHeaders,omitempty"`
-
-	// AllowedMethods: Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the
-	// origin.
-	AllowedMethods []CorsRule_AllowedMethods `json:"allowedMethods,omitempty"`
-
-	// AllowedOrigins: Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*"
-	// to allow all domains
-	AllowedOrigins []string `json:"allowedOrigins,omitempty"`
-
-	// ExposedHeaders: Required if CorsRule element is present. A list of response headers to expose to CORS clients.
-	ExposedHeaders []string `json:"exposedHeaders,omitempty"`
-
-	// MaxAgeInSeconds: Required if CorsRule element is present. The number of seconds that the client/browser should cache a
-	// preflight response.
-	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
 // Setting for SMB protocol

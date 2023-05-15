@@ -669,14 +669,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccount)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsBlobService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsBlobServicesContainer)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsManagementPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueService)})
-	result = append(result, &registration.StorageType{Obj: new(storage_v1api20210401s.StorageAccountsQueueServicesQueue)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccount)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsBlobService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsBlobServicesContainer)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsFileService)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsFileServicesShare)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsManagementPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsQueueService)})
+	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsQueueServicesQueue)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsTableService)})
 	result = append(result, &registration.StorageType{Obj: new(storage_v1api20220901s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.StorageType{Obj: new(subscription_v1api20211001s.Alias)})
@@ -1284,14 +1284,26 @@ func getKnownTypes() []client.Object {
 		new(storage_v1api20210401s.StorageAccountsQueueServicesQueue))
 	result = append(
 		result,
+		new(storage_v1api20220901.StorageAccount),
+		new(storage_v1api20220901.StorageAccountsBlobService),
+		new(storage_v1api20220901.StorageAccountsBlobServicesContainer),
 		new(storage_v1api20220901.StorageAccountsFileService),
 		new(storage_v1api20220901.StorageAccountsFileServicesShare),
+		new(storage_v1api20220901.StorageAccountsManagementPolicy),
+		new(storage_v1api20220901.StorageAccountsQueueService),
+		new(storage_v1api20220901.StorageAccountsQueueServicesQueue),
 		new(storage_v1api20220901.StorageAccountsTableService),
 		new(storage_v1api20220901.StorageAccountsTableServicesTable))
 	result = append(
 		result,
+		new(storage_v1api20220901s.StorageAccount),
+		new(storage_v1api20220901s.StorageAccountsBlobService),
+		new(storage_v1api20220901s.StorageAccountsBlobServicesContainer),
 		new(storage_v1api20220901s.StorageAccountsFileService),
 		new(storage_v1api20220901s.StorageAccountsFileServicesShare),
+		new(storage_v1api20220901s.StorageAccountsManagementPolicy),
+		new(storage_v1api20220901s.StorageAccountsQueueService),
+		new(storage_v1api20220901s.StorageAccountsQueueServicesQueue),
 		new(storage_v1api20220901s.StorageAccountsTableService),
 		new(storage_v1api20220901s.StorageAccountsTableServicesTable))
 	result = append(
