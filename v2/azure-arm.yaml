@@ -1310,6 +1310,9 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
       FrontendIPConfiguration_STATUS:
         $resourceEmbeddedInParent: LoadBalancer
+      LoadBalancers_InboundNatRule:
+        $exportAs: LoadBalancersInboundNatRule
+        $supportedFrom: v2.1.0
       InboundNatRule:
         # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
         # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat

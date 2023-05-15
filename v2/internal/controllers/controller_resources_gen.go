@@ -501,6 +501,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20200601s.PrivateDnsZonesTXTRecord)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20200601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.LoadBalancer)})
+	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.LoadBalancersInboundNatRule)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.NetworkInterface)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.NetworkSecurityGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v1api20201101s.NetworkSecurityGroupsSecurityRule)})
@@ -1126,6 +1127,7 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(network_v1api20201101.LoadBalancer),
+		new(network_v1api20201101.LoadBalancersInboundNatRule),
 		new(network_v1api20201101.NetworkInterface),
 		new(network_v1api20201101.NetworkSecurityGroup),
 		new(network_v1api20201101.NetworkSecurityGroupsSecurityRule),
@@ -1139,6 +1141,7 @@ func getKnownTypes() []client.Object {
 	result = append(
 		result,
 		new(network_v1api20201101s.LoadBalancer),
+		new(network_v1api20201101s.LoadBalancersInboundNatRule),
 		new(network_v1api20201101s.NetworkInterface),
 		new(network_v1api20201101s.NetworkSecurityGroup),
 		new(network_v1api20201101s.NetworkSecurityGroupsSecurityRule),
@@ -1572,6 +1575,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.DnsZonesSRVRecordExtension{})
 	result = append(result, &network_customizations.DnsZonesTXTRecordExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
+	result = append(result, &network_customizations.LoadBalancersInboundNatRuleExtension{})
 	result = append(result, &network_customizations.NatGatewayExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})

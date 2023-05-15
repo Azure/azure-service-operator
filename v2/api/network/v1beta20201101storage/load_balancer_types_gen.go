@@ -240,7 +240,6 @@ type LoadBalancer_Spec struct {
 	ExtendedLocation         *ExtendedLocation                                          `json:"extendedLocation,omitempty"`
 	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
 	InboundNatPools          []InboundNatPool                                           `json:"inboundNatPools,omitempty"`
-	InboundNatRules          []InboundNatRule_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
 	LoadBalancingRules       []LoadBalancingRule                                        `json:"loadBalancingRules,omitempty"`
 	Location                 *string                                                    `json:"location,omitempty"`
 	OriginalVersion          string                                                     `json:"originalVersion,omitempty"`
@@ -379,24 +378,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_From_LoadBalancer_Spec(sourc
 		balancer.InboundNatPools = inboundNatPoolList
 	} else {
 		balancer.InboundNatPools = nil
-	}
-
-	// InboundNatRules
-	if source.InboundNatRules != nil {
-		inboundNatRuleList := make([]InboundNatRule_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
-		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
-			var inboundNatRule InboundNatRule_LoadBalancer_SubResourceEmbedded
-			err := inboundNatRule.AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded(&inboundNatRuleItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded() to populate field InboundNatRules")
-			}
-			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
-		}
-		balancer.InboundNatRules = inboundNatRuleList
-	} else {
-		balancer.InboundNatRules = nil
 	}
 
 	// LoadBalancingRules
@@ -574,24 +555,6 @@ func (balancer *LoadBalancer_Spec) AssignProperties_To_LoadBalancer_Spec(destina
 		destination.InboundNatPools = inboundNatPoolList
 	} else {
 		destination.InboundNatPools = nil
-	}
-
-	// InboundNatRules
-	if balancer.InboundNatRules != nil {
-		inboundNatRuleList := make([]v1api20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded, len(balancer.InboundNatRules))
-		for inboundNatRuleIndex, inboundNatRuleItem := range balancer.InboundNatRules {
-			// Shadow the loop variable to avoid aliasing
-			inboundNatRuleItem := inboundNatRuleItem
-			var inboundNatRule v1api20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded
-			err := inboundNatRuleItem.AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded(&inboundNatRule)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded() to populate field InboundNatRules")
-			}
-			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
-		}
-		destination.InboundNatRules = inboundNatRuleList
-	} else {
-		destination.InboundNatRules = nil
 	}
 
 	// LoadBalancingRules
@@ -2759,193 +2722,11 @@ func (pool *InboundNatPool_STATUS) AssignProperties_To_InboundNatPool_STATUS(des
 	return nil
 }
 
-// Storage version of v1beta20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded
-// Deprecated version of InboundNatRule_LoadBalancer_SubResourceEmbedded. Use v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded instead
-type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
-	BackendPort             *int                   `json:"backendPort,omitempty"`
-	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset          *bool                  `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource           `json:"frontendIPConfiguration,omitempty"`
-	FrontendPort            *int                   `json:"frontendPort,omitempty"`
-	IdleTimeoutInMinutes    *int                   `json:"idleTimeoutInMinutes,omitempty"`
-	Name                    *string                `json:"name,omitempty"`
-	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Protocol                *string                `json:"protocol,omitempty"`
-}
-
-// AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded populates our InboundNatRule_LoadBalancer_SubResourceEmbedded from the provided source InboundNatRule_LoadBalancer_SubResourceEmbedded
-func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded(source *v1api20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// BackendPort
-	embedded.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
-
-	// EnableFloatingIP
-	if source.EnableFloatingIP != nil {
-		enableFloatingIP := *source.EnableFloatingIP
-		embedded.EnableFloatingIP = &enableFloatingIP
-	} else {
-		embedded.EnableFloatingIP = nil
-	}
-
-	// EnableTcpReset
-	if source.EnableTcpReset != nil {
-		enableTcpReset := *source.EnableTcpReset
-		embedded.EnableTcpReset = &enableTcpReset
-	} else {
-		embedded.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfiguration
-	if source.FrontendIPConfiguration != nil {
-		var subResourceStash v1api20200601s.SubResource
-		err := subResourceStash.AssignProperties_From_SubResource(source.FrontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash from FrontendIPConfiguration")
-		}
-		var subResourceStashLocal v1api20180501s.SubResource
-		err = subResourceStashLocal.AssignProperties_From_SubResource(&subResourceStash)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field SubResourceStash")
-		}
-		var frontendIPConfiguration SubResource
-		err = frontendIPConfiguration.AssignProperties_From_SubResource(&subResourceStashLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource() to populate field FrontendIPConfiguration from SubResourceStash")
-		}
-		embedded.FrontendIPConfiguration = &frontendIPConfiguration
-	} else {
-		embedded.FrontendIPConfiguration = nil
-	}
-
-	// FrontendPort
-	embedded.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
-
-	// IdleTimeoutInMinutes
-	embedded.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
-
-	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Protocol
-	embedded.Protocol = genruntime.ClonePointerToString(source.Protocol)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
-	} else {
-		embedded.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForInboundNatRule_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
-	var embeddedAsAny any = embedded
-	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_LoadBalancer_SubResourceEmbedded); ok {
-		err := augmentedEmbedded.AssignPropertiesFrom(source)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded populates the provided destination InboundNatRule_LoadBalancer_SubResourceEmbedded from our InboundNatRule_LoadBalancer_SubResourceEmbedded
-func (embedded *InboundNatRule_LoadBalancer_SubResourceEmbedded) AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded(destination *v1api20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// BackendPort
-	destination.BackendPort = genruntime.ClonePointerToInt(embedded.BackendPort)
-
-	// EnableFloatingIP
-	if embedded.EnableFloatingIP != nil {
-		enableFloatingIP := *embedded.EnableFloatingIP
-		destination.EnableFloatingIP = &enableFloatingIP
-	} else {
-		destination.EnableFloatingIP = nil
-	}
-
-	// EnableTcpReset
-	if embedded.EnableTcpReset != nil {
-		enableTcpReset := *embedded.EnableTcpReset
-		destination.EnableTcpReset = &enableTcpReset
-	} else {
-		destination.EnableTcpReset = nil
-	}
-
-	// FrontendIPConfiguration
-	if embedded.FrontendIPConfiguration != nil {
-		var subResourceStash v1api20180501s.SubResource
-		err := embedded.FrontendIPConfiguration.AssignProperties_To_SubResource(&subResourceStash)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash from FrontendIPConfiguration")
-		}
-		var subResourceStashLocal v1api20200601s.SubResource
-		err = subResourceStash.AssignProperties_To_SubResource(&subResourceStashLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field SubResourceStash")
-		}
-		var frontendIPConfiguration v1api20201101s.SubResource
-		err = subResourceStashLocal.AssignProperties_To_SubResource(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource() to populate field FrontendIPConfiguration from SubResourceStash")
-		}
-		destination.FrontendIPConfiguration = &frontendIPConfiguration
-	} else {
-		destination.FrontendIPConfiguration = nil
-	}
-
-	// FrontendPort
-	destination.FrontendPort = genruntime.ClonePointerToInt(embedded.FrontendPort)
-
-	// IdleTimeoutInMinutes
-	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(embedded.IdleTimeoutInMinutes)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
-
-	// Protocol
-	destination.Protocol = genruntime.ClonePointerToString(embedded.Protocol)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForInboundNatRule_LoadBalancer_SubResourceEmbedded interface (if implemented) to customize the conversion
-	var embeddedAsAny any = embedded
-	if augmentedEmbedded, ok := embeddedAsAny.(augmentConversionForInboundNatRule_LoadBalancer_SubResourceEmbedded); ok {
-		err := augmentedEmbedded.AssignPropertiesTo(destination)
-		if err != nil {
-			return errors.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1beta20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 // Deprecated version of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded. Use v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instead
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	BackendIPConfiguration  *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfiguration,omitempty"`
-	BackendPort             *int                                                                     `json:"backendPort,omitempty"`
-	EnableFloatingIP        *bool                                                                    `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset          *bool                                                                    `json:"enableTcpReset,omitempty"`
-	Etag                    *string                                                                  `json:"etag,omitempty"`
-	FrontendIPConfiguration *SubResource_STATUS                                                      `json:"frontendIPConfiguration,omitempty"`
-	FrontendPort            *int                                                                     `json:"frontendPort,omitempty"`
-	Id                      *string                                                                  `json:"id,omitempty"`
-	IdleTimeoutInMinutes    *int                                                                     `json:"idleTimeoutInMinutes,omitempty"`
-	Name                    *string                                                                  `json:"name,omitempty"`
-	PropertyBag             genruntime.PropertyBag                                                   `json:"$propertyBag,omitempty"`
-	Protocol                *string                                                                  `json:"protocol,omitempty"`
-	ProvisioningState       *string                                                                  `json:"provisioningState,omitempty"`
-	Type                    *string                                                                  `json:"type,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignProperties_From_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded populates our InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded from the provided source InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
@@ -2953,82 +2734,8 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// BackendIPConfiguration
-	if source.BackendIPConfiguration != nil {
-		var backendIPConfiguration NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
-		err := backendIPConfiguration.AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(source.BackendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendIPConfiguration")
-		}
-		embedded.BackendIPConfiguration = &backendIPConfiguration
-	} else {
-		embedded.BackendIPConfiguration = nil
-	}
-
-	// BackendPort
-	embedded.BackendPort = genruntime.ClonePointerToInt(source.BackendPort)
-
-	// EnableFloatingIP
-	if source.EnableFloatingIP != nil {
-		enableFloatingIP := *source.EnableFloatingIP
-		embedded.EnableFloatingIP = &enableFloatingIP
-	} else {
-		embedded.EnableFloatingIP = nil
-	}
-
-	// EnableTcpReset
-	if source.EnableTcpReset != nil {
-		enableTcpReset := *source.EnableTcpReset
-		embedded.EnableTcpReset = &enableTcpReset
-	} else {
-		embedded.EnableTcpReset = nil
-	}
-
-	// Etag
-	embedded.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// FrontendIPConfiguration
-	if source.FrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v1api20200601s.SubResource_STATUS
-		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.FrontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfiguration")
-		}
-		var subResourceSTATUSStashLocal v1api20180501s.SubResource_STATUS
-		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
-		}
-		var frontendIPConfiguration SubResource_STATUS
-		err = frontendIPConfiguration.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field FrontendIPConfiguration from SubResource_STATUSStash")
-		}
-		embedded.FrontendIPConfiguration = &frontendIPConfiguration
-	} else {
-		embedded.FrontendIPConfiguration = nil
-	}
-
-	// FrontendPort
-	embedded.FrontendPort = genruntime.ClonePointerToInt(source.FrontendPort)
-
 	// Id
 	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// IdleTimeoutInMinutes
-	embedded.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
-
-	// Name
-	embedded.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Protocol
-	embedded.Protocol = genruntime.ClonePointerToString(source.Protocol)
-
-	// ProvisioningState
-	embedded.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Type
-	embedded.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3055,82 +2762,8 @@ func (embedded *InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded) AssignPr
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
-	// BackendIPConfiguration
-	if embedded.BackendIPConfiguration != nil {
-		var backendIPConfiguration v1api20201101s.NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded
-		err := embedded.BackendIPConfiguration.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded(&backendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded() to populate field BackendIPConfiguration")
-		}
-		destination.BackendIPConfiguration = &backendIPConfiguration
-	} else {
-		destination.BackendIPConfiguration = nil
-	}
-
-	// BackendPort
-	destination.BackendPort = genruntime.ClonePointerToInt(embedded.BackendPort)
-
-	// EnableFloatingIP
-	if embedded.EnableFloatingIP != nil {
-		enableFloatingIP := *embedded.EnableFloatingIP
-		destination.EnableFloatingIP = &enableFloatingIP
-	} else {
-		destination.EnableFloatingIP = nil
-	}
-
-	// EnableTcpReset
-	if embedded.EnableTcpReset != nil {
-		enableTcpReset := *embedded.EnableTcpReset
-		destination.EnableTcpReset = &enableTcpReset
-	} else {
-		destination.EnableTcpReset = nil
-	}
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(embedded.Etag)
-
-	// FrontendIPConfiguration
-	if embedded.FrontendIPConfiguration != nil {
-		var subResourceSTATUSStash v1api20180501s.SubResource_STATUS
-		err := embedded.FrontendIPConfiguration.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStash)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from FrontendIPConfiguration")
-		}
-		var subResourceSTATUSStashLocal v1api20200601s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
-		}
-		var frontendIPConfiguration v1api20201101s.SubResource_STATUS
-		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field FrontendIPConfiguration from SubResource_STATUSStash")
-		}
-		destination.FrontendIPConfiguration = &frontendIPConfiguration
-	} else {
-		destination.FrontendIPConfiguration = nil
-	}
-
-	// FrontendPort
-	destination.FrontendPort = genruntime.ClonePointerToInt(embedded.FrontendPort)
-
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// IdleTimeoutInMinutes
-	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(embedded.IdleTimeoutInMinutes)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(embedded.Name)
-
-	// Protocol
-	destination.Protocol = genruntime.ClonePointerToString(embedded.Protocol)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(embedded.ProvisioningState)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(embedded.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4641,11 +4274,6 @@ type augmentConversionForInboundNatPool interface {
 type augmentConversionForInboundNatPool_STATUS interface {
 	AssignPropertiesFrom(src *v1api20201101s.InboundNatPool_STATUS) error
 	AssignPropertiesTo(dst *v1api20201101s.InboundNatPool_STATUS) error
-}
-
-type augmentConversionForInboundNatRule_LoadBalancer_SubResourceEmbedded interface {
-	AssignPropertiesFrom(src *v1api20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded) error
-	AssignPropertiesTo(dst *v1api20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded) error
 }
 
 type augmentConversionForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded interface {

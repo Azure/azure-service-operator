@@ -76,11 +76,7 @@ type InboundNatPool_STATUS_ARM struct {
 
 // Deprecated version of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded. Use v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instead
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
-	Etag       *string                                                                     `json:"etag,omitempty"`
-	Id         *string                                                                     `json:"id,omitempty"`
-	Name       *string                                                                     `json:"name,omitempty"`
-	Properties *InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM `json:"properties,omitempty"`
-	Type       *string                                                                     `json:"type,omitempty"`
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of LoadBalancerSku_Name_STATUS. Use v1api20201101.LoadBalancerSku_Name_STATUS instead
@@ -162,19 +158,6 @@ type InboundNatPoolPropertiesFormat_STATUS_ARM struct {
 	IdleTimeoutInMinutes    *int                      `json:"idleTimeoutInMinutes,omitempty"`
 	Protocol                *TransportProtocol_STATUS `json:"protocol,omitempty"`
 	ProvisioningState       *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-}
-
-// Deprecated version of InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded. Use v1api20201101.InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded instead
-type InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded_ARM struct {
-	BackendIPConfiguration  *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded_ARM `json:"backendIPConfiguration,omitempty"`
-	BackendPort             *int                                                                         `json:"backendPort,omitempty"`
-	EnableFloatingIP        *bool                                                                        `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset          *bool                                                                        `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource_STATUS_ARM                                                      `json:"frontendIPConfiguration,omitempty"`
-	FrontendPort            *int                                                                         `json:"frontendPort,omitempty"`
-	IdleTimeoutInMinutes    *int                                                                         `json:"idleTimeoutInMinutes,omitempty"`
-	Protocol                *TransportProtocol_STATUS                                                    `json:"protocol,omitempty"`
-	ProvisioningState       *ProvisioningState_STATUS                                                    `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of LoadBalancingRulePropertiesFormat_STATUS. Use v1api20201101.LoadBalancingRulePropertiesFormat_STATUS instead

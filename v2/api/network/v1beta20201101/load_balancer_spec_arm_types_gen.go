@@ -43,7 +43,6 @@ type LoadBalancerPropertiesFormat_ARM struct {
 	BackendAddressPools      []BackendAddressPool_LoadBalancer_SubResourceEmbedded_ARM      `json:"backendAddressPools,omitempty"`
 	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM `json:"frontendIPConfigurations,omitempty"`
 	InboundNatPools          []InboundNatPool_ARM                                           `json:"inboundNatPools,omitempty"`
-	InboundNatRules          []InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM          `json:"inboundNatRules,omitempty"`
 	LoadBalancingRules       []LoadBalancingRule_ARM                                        `json:"loadBalancingRules,omitempty"`
 	OutboundRules            []OutboundRule_ARM                                             `json:"outboundRules,omitempty"`
 	Probes                   []Probe_ARM                                                    `json:"probes,omitempty"`
@@ -78,12 +77,6 @@ type FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded_ARM struct {
 type InboundNatPool_ARM struct {
 	Name       *string                             `json:"name,omitempty"`
 	Properties *InboundNatPoolPropertiesFormat_ARM `json:"properties,omitempty"`
-}
-
-// Deprecated version of InboundNatRule_LoadBalancer_SubResourceEmbedded. Use v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded instead
-type InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM struct {
-	Name       *string                             `json:"name,omitempty"`
-	Properties *InboundNatRulePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of LoadBalancerSku_Name. Use v1api20201101.LoadBalancerSku_Name instead
@@ -145,17 +138,6 @@ type InboundNatPoolPropertiesFormat_ARM struct {
 	FrontendIPConfiguration *SubResource_ARM   `json:"frontendIPConfiguration,omitempty"`
 	FrontendPortRangeEnd    *int               `json:"frontendPortRangeEnd,omitempty"`
 	FrontendPortRangeStart  *int               `json:"frontendPortRangeStart,omitempty"`
-	IdleTimeoutInMinutes    *int               `json:"idleTimeoutInMinutes,omitempty"`
-	Protocol                *TransportProtocol `json:"protocol,omitempty"`
-}
-
-// Deprecated version of InboundNatRulePropertiesFormat. Use v1api20201101.InboundNatRulePropertiesFormat instead
-type InboundNatRulePropertiesFormat_ARM struct {
-	BackendPort             *int               `json:"backendPort,omitempty"`
-	EnableFloatingIP        *bool              `json:"enableFloatingIP,omitempty"`
-	EnableTcpReset          *bool              `json:"enableTcpReset,omitempty"`
-	FrontendIPConfiguration *SubResource_ARM   `json:"frontendIPConfiguration,omitempty"`
-	FrontendPort            *int               `json:"frontendPort,omitempty"`
 	IdleTimeoutInMinutes    *int               `json:"idleTimeoutInMinutes,omitempty"`
 	Protocol                *TransportProtocol `json:"protocol,omitempty"`
 }

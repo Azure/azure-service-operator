@@ -64,12 +64,6 @@ type LoadBalancerPropertiesFormat_ARM struct {
 	// virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
 	InboundNatPools []InboundNatPool_ARM `json:"inboundNatPools,omitempty"`
 
-	// InboundNatRules: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load
-	// balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine
-	// scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to
-	// reference individual inbound NAT rules.
-	InboundNatRules []InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM `json:"inboundNatRules,omitempty"`
-
 	// LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.
 	LoadBalancingRules []LoadBalancingRule_ARM `json:"loadBalancingRules,omitempty"`
 
@@ -126,16 +120,6 @@ type InboundNatPool_ARM struct {
 
 	// Properties: Properties of load balancer inbound nat pool.
 	Properties *InboundNatPoolPropertiesFormat_ARM `json:"properties,omitempty"`
-}
-
-// Inbound NAT rule of the load balancer.
-type InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM struct {
-	// Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
-	// can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of load balancer inbound nat rule.
-	Properties *InboundNatRulePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}
@@ -241,35 +225,6 @@ type InboundNatPoolPropertiesFormat_ARM struct {
 	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
 	// Protocol: The reference to the transport protocol used by the inbound NAT pool.
-	Protocol *TransportProtocol `json:"protocol,omitempty"`
-}
-
-// Properties of the inbound NAT rule.
-type InboundNatRulePropertiesFormat_ARM struct {
-	// BackendPort: The port used for the internal endpoint. Acceptable values range from 1 to 65535.
-	BackendPort *int `json:"backendPort,omitempty"`
-
-	// EnableFloatingIP: Configures a virtual machine's endpoint for the floating IP capability required to configure a SQL
-	// AlwaysOn Availability Group. This setting is required when using the SQL AlwaysOn Availability Groups in SQL server.
-	// This setting can't be changed after you create the endpoint.
-	EnableFloatingIP *bool `json:"enableFloatingIP,omitempty"`
-
-	// EnableTcpReset: Receive bidirectional TCP Reset on TCP flow idle timeout or unexpected connection termination. This
-	// element is only used when the protocol is set to TCP.
-	EnableTcpReset *bool `json:"enableTcpReset,omitempty"`
-
-	// FrontendIPConfiguration: A reference to frontend IP addresses.
-	FrontendIPConfiguration *SubResource_ARM `json:"frontendIPConfiguration,omitempty"`
-
-	// FrontendPort: The port for the external endpoint. Port numbers for each rule must be unique within the Load Balancer.
-	// Acceptable values range from 1 to 65534.
-	FrontendPort *int `json:"frontendPort,omitempty"`
-
-	// IdleTimeoutInMinutes: The timeout for the TCP idle connection. The value can be set between 4 and 30 minutes. The
-	// default value is 4 minutes. This element is only used when the protocol is set to TCP.
-	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
-
-	// Protocol: The reference to the transport protocol used by the load balancing rule.
 	Protocol *TransportProtocol `json:"protocol,omitempty"`
 }
 
