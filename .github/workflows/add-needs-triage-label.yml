@@ -1,4 +1,4 @@
-name: Add 'needs-triage' label to new issuesZ
+name: Add 'needs-triage' label to new issues
 
 on:
   issues:
