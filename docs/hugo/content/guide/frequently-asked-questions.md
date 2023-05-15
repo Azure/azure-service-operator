@@ -112,3 +112,37 @@ You can estimate the maximum number of resources ASO can support based on the co
 We don't take a position on whether it's universally better to deploy ASO using a user-assigned or system-assigned managed identity because the correct choice for you depends on your own context.
 
 If you haven't already read it, Azure has a good [best practices for managed identity guide](https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/managed-identity-best-practice-recommendations) that may be useful.
+
+### When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?
+
+The [workload identity documentation](https://azure.github.io/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html#service-account)
+suggests that you need to set the `azure.workload.identity/client-id` annotation on the ServiceAccount. 
+This is not actually required! Setting that annotation instructs the Workload Identity webhook to inject the `AZURE_CLIENT_ID`
+environment variable into the pods on which the ServiceAccount is used.
+
+If you've created your user managed identity with ASO, it's easier to just do that injection yourself by using the 
+`operatorSpec.configMaps` feature of the identity:
+
+Identity:
+```yaml
+operatorSpec:
+  configMaps:
+    tenantId:
+      name: identity-details
+      key: tenantId
+    clientId:
+      name: identity-details
+      key: clientId
+```
+
+and
+
+Pod:
+```yaml
+env:
+  - name: AZURE_CLIENT_ID
+    valueFrom:
+      configMapKeyRef:
+        key: clientId
+        name: identity-details
+```
