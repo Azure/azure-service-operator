@@ -1,18 +1,23 @@
-name: Add 'needs-triage' label to new issues
+name: Add 'needs-triage' label to new issuesZ
 
 on:
   issues:
     types:
       - reopened
       - opened
-      
+
 jobs:
   label_issues:
     runs-on: ubuntu-latest
     permissions:
       issues: write
     steps:
-      - name: Label issues
-        uses: andymckay/labeler@1825c391d68ade591efa053af2472e5b0e2e2d9e # this is v1.0.3
+      - uses: actions/github-script@v6
         with:
-          add-labels: "needs-triage :mag:"
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ["needs-triage :mag:"]
+            })
