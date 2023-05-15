@@ -33,7 +33,7 @@ What is the support model? Azure Service Operator is an officially supported Mic
 <meta itemprop="description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
 What is the support model? Azure Service Operator is an officially supported Microsoft OSS product.">
 
-<meta itemprop="wordCount" content="1146">
+<meta itemprop="wordCount" content="1260">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="FAQ"/>
 <meta name="twitter:description" content="Frequently Asked Questions What is the release cadence? We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen more quickly than that. If there haven&rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a release may happen more slowly.
@@ -615,6 +615,7 @@ What is the support model? Azure Service Operator is an officially supported Mic
         <li><a href="#can-i-configure-how-often-aso-re-syncs-to-azure-when-there-have-been-no-changes">Can I configure how often ASO re-syncs to Azure when there have been no changes?</a></li>
         <li><a href="#im-seeing-subscription-throttling-what-can-i-do">I&rsquo;m seeing Subscription throttling, what can I do?</a></li>
         <li><a href="#should-i-use-user-assigned-or-system-assigned-identity">Should I use user-assigned or system-assigned identity?</a></li>
+        <li><a href="#when-using-workload-identity-how-can-i-easily-inject-the-aso-created-user-managed-identity-details-onto-the-service-account">When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?</a></li>
       </ul>
     </li>
   </ul>
@@ -772,7 +773,31 @@ see <a href="https://github.com/Azure/azure-service-operator/issues/1491">#1491<
 <h3 id="should-i-use-user-assigned-or-system-assigned-identity">Should I use user-assigned or system-assigned identity?</h3>
 <p>We don&rsquo;t take a position on whether it&rsquo;s universally better to deploy ASO using a user-assigned or system-assigned managed identity because the correct choice for you depends on your own context.</p>
 <p>If you haven&rsquo;t already read it, Azure has a good <a href="https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/managed-identity-best-practice-recommendations">best practices for managed identity guide</a> that may be useful.</p>
-
+<h3 id="when-using-workload-identity-how-can-i-easily-inject-the-aso-created-user-managed-identity-details-onto-the-service-account">When using Workload Identity, how can I easily inject the ASO created User Managed Identity details onto the service account?</h3>
+<p>The <a href="https://azure.github.io/azure-workload-identity/docs/topics/service-account-labels-and-annotations.html#service-account">workload identity documentation</a>
+suggests that you need to set the <code>azure.workload.identity/client-id</code> annotation on the ServiceAccount.
+This is not actually required! Setting that annotation instructs the Workload Identity webhook to inject the <code>AZURE_CLIENT_ID</code>
+environment variable into the pods on which the ServiceAccount is used.</p>
+<p>If you&rsquo;ve created your user managed identity with ASO, it&rsquo;s easier to just do that injection yourself by using the
+<code>operatorSpec.configMaps</code> feature of the identity:</p>
+<p>Identity:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">operatorSpec</span>:
+  <span style="color:#f92672">configMaps</span>:
+    <span style="color:#f92672">tenantId</span>:
+      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-details</span>
+      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">tenantId</span>
+    <span style="color:#f92672">clientId</span>:
+      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-details</span>
+      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">clientId</span>
+</code></pre></div><p>and</p>
+<p>Pod:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">env</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">AZURE_CLIENT_ID</span>
+    <span style="color:#f92672">valueFrom</span>:
+      <span style="color:#f92672">configMapKeyRef</span>:
+        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">clientId</span>
+        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-details</span>
+</code></pre></div>
 	
 	
 	
