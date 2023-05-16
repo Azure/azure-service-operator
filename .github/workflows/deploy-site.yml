@@ -58,7 +58,7 @@ jobs:
           docker exec "$container_id" task build-docs-site
 
       - name: Publish to gh-pages branch
-        uses: JamesIves/github-pages-deploy-action@0f24da7de3e7e135102609a4c9633b025be8411b # this is 4.1.5
+        uses: JamesIves/github-pages-deploy-action@v4.4.1 # pinned version
         with:
           branch: gh-pages
           token: ${{ secrets.GH_PAT }}
