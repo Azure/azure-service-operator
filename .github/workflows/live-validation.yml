@@ -1,20 +1,20 @@
-name: Validate with live Azure resources
+name: Live Azure Validation
 on:
   schedule:
-  # 13:00 UTC is a time when both US and NZ are asleep (or headed in that direction)
-    - cron: '0 13 * * *'
+    # 13:00 UTC is a time when both US and NZ are asleep (or headed in that direction)
+    - cron: "0 13 * * *"
   workflow_dispatch:
 
 jobs:
   test-generator:
-    concurrency: live-resources # only permit one run at a time 
+    concurrency: live-resources # only permit one run at a time
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # required to access tags
-          submodules: 'true'
+          submodules: "true"
 
       - name: Build & run devcontainer image
         # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
