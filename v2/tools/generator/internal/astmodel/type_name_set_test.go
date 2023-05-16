@@ -28,6 +28,7 @@ func Test_TypeNameSet_WhenEmpty_HasLengthZero(t *testing.T) {
 }
 
 func Test_TypeNameSet_RemoveFromEmptySet_SetUnchanged(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	emptySet := NewTypeNameSet()
 	emptySet.Remove(oneTypeName)
