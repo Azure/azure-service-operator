@@ -195,8 +195,7 @@ func (t *SamplesTester) setOwnershipAndReferences(samples map[string]genruntime.
 			continue
 		}
 
-		// Here if we set the owner's name for resources. We only set the owner name if,
-		// Owner.Kind is ResourceGroup(as we have random rg names) or if we're using random names for resources.
+		// We only set the owner name if Owner.Kind is ResourceGroup(as we have random rg names) or if we're using random names for resources.
 		// Otherwise, we let it be the same as on samples.
 		var ownersName string
 		if sample.Owner().Kind == resolver.ResourceGroupKind {
