@@ -211,12 +211,13 @@ func (t *SamplesTester) setOwnershipAndReferences(samples map[string]genruntime.
 		}
 
 		if ownersName != "" {
-			var err error
 			sample = setOwnersName(sample, ownersName)
-			sample, err = t.updateARMReferencesForTest(sample)
-			if err != nil {
-				return err
-			}
+		}
+
+		var err error
+		sample, err = t.updateARMReferencesForTest(sample)
+		if err != nil {
+			return err
 		}
 	}
 	return nil
@@ -273,18 +274,20 @@ func (t *SamplesTester) setARMReference(this *reflecthelpers.ReflectVisitor, it 
 
 	if it.CanInterface() {
 		reference := it.Interface().(genruntime.ResourceReference)
-		if reference.ARMID != "" {
-			armIDField := it.FieldByName("ARMID")
-			if !armIDField.CanSet() {
-				return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
-			}
-
-			armIDString := armIDField.String()
-			armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
-			armIDString = subRegex.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
-
-			armIDField.SetString(armIDString)
+		if reference.ARMID == "" {
+			return nil
 		}
+
+		armIDField := it.FieldByName("ARMID")
+		if !armIDField.CanSet() {
+			return errors.New("cannot set 'ARMID' field of 'genruntime.ResourceReference'")
+		}
+
+		armIDString := armIDField.String()
+		armIDString = strings.ReplaceAll(armIDString, defaultResourceGroup, t.rgName)
+		armIDString = subRegex.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription, "/"))
+
+		armIDField.SetString(armIDString)
 	} else {
 		// This should be impossible given how the visitor works
 		panic(fmt.Sprintf("genruntime.ResourceReference field was unexpectedly nil"))
