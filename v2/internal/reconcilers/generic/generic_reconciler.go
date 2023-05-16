@@ -32,8 +32,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-const GenericReconcilerFinalizer = "serviceoperator.azure.com/finalizer"
-
 // NamespaceAnnotation defines the annotation name to use when marking
 // a resource with the namespace of the managing operator.
 const NamespaceAnnotation = "serviceoperator.azure.com/operator-namespace"
@@ -182,7 +180,7 @@ func (gr *GenericReconciler) claimResource(ctx context.Context, log logr.Logger,
 	// we issue a PUT to Azure but the commit of the resource into etcd fails, causing us to have an unset
 	// finalizer and have started resource creation in Azure.
 	log.V(Info).Info("adding finalizer")
-	controllerutil.AddFinalizer(metaObj, GenericReconcilerFinalizer)
+	controllerutil.AddFinalizer(metaObj, genruntime.ReconcilerFinalizer)
 
 	err = gr.KubeClient.CommitObject(ctx, metaObj)
 	if err != nil {
@@ -194,7 +192,7 @@ func (gr *GenericReconciler) claimResource(ctx context.Context, log logr.Logger,
 }
 
 func (gr *GenericReconciler) needToAddFinalizer(metaObj genruntime.MetaObject) bool {
-	unsetFinalizer := !controllerutil.ContainsFinalizer(metaObj, GenericReconcilerFinalizer)
+	unsetFinalizer := !controllerutil.ContainsFinalizer(metaObj, genruntime.ReconcilerFinalizer)
 	return unsetFinalizer
 }
 
@@ -221,13 +219,13 @@ func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaOb
 	reconcilePolicy := reconcilers.GetReconcilePolicy(metaObj, log)
 	if !reconcilePolicy.AllowsDelete() {
 		log.V(Info).Info("Bypassing delete of resource due to policy", "policy", reconcilePolicy)
-		controllerutil.RemoveFinalizer(metaObj, GenericReconcilerFinalizer)
+		controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)
 		log.V(Status).Info("Deleted resource")
 		return ctrl.Result{}, nil
 	}
 
 	// Check if we actually need to issue a delete
-	hasFinalizer := controllerutil.ContainsFinalizer(metaObj, GenericReconcilerFinalizer)
+	hasFinalizer := controllerutil.ContainsFinalizer(metaObj, genruntime.ReconcilerFinalizer)
 	if !hasFinalizer {
 		log.Info("Deleted resource")
 		return ctrl.Result{}, nil
@@ -238,7 +236,7 @@ func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaOb
 	// the finalizer
 	if (result == ctrl.Result{} && err == nil) {
 		log.V(Info).Info("Delete succeeded, removing finalizer")
-		controllerutil.RemoveFinalizer(metaObj, GenericReconcilerFinalizer)
+		controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)
 	}
 
 	// TODO: can't set this before the delete call right now due to how ARM resources determine if they need to issue a first delete.
