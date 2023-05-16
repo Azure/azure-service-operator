@@ -1,4 +1,4 @@
-name: Publish API docs
+name: Generate CRD docs
 on:
   workflow_dispatch:
   # no content, allows manual triggering
