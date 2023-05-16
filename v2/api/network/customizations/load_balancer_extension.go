@@ -21,7 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-// Attention: A lot of code in this file is very similar to the logic in route_table_extensions.go.
+// Attention: A lot of code in this file is very similar to the logic in route_table_extensions.go and virtual_network_extensions.go.
 // The two should be kept in sync as much as possible.
 
 var _ extensions.ARMResourceModifier = &LoadBalancerExtension{}
@@ -49,7 +49,7 @@ func (extension *LoadBalancerExtension) ModifyARMResource(
 	matchingFields := client.MatchingFields{".metadata.ownerReferences[0]": string(obj.GetUID())}
 	err := kubeClient.List(ctx, inboundNatRules, matchingFields)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed listing InboundNatRules owned by LoabBalancer %s/%s", obj.GetNamespace(), obj.GetName())
+		return nil, errors.Wrapf(err, "failed listing InboundNatRules owned by LoadBalancer %s/%s", obj.GetNamespace(), obj.GetName())
 	}
 
 	armInboundNatRules := make([]genruntime.ARMResourceSpec, 0, len(inboundNatRules.Items))
@@ -81,8 +81,6 @@ func getInboundNatRuleGVK(lb genruntime.ARMMetaObject) schema.GroupVersionKind {
 	return gvk
 }
 
-// TODO: When we move to Swagger as the source of truth, the type for vnet.properties.subnets and subnet.properties
-// TODO: may be the same, so we can do away with the JSON serialization part of this assignment.
 // fuzzySetSubnets assigns a collection of subnets to the subnets property of the loadBalancer. Since there are
 // many possible ARM API versions and we don't know which one we're using, we cannot do this statically.
 // To make matters even more horrible, the type used in the loadBalancer.properties.inboundNatRule property is not the same
@@ -142,8 +140,8 @@ func fuzzySetInboundNatRules(lb genruntime.ARMResourceSpec, inboundNatRules []ge
 		inboundNatRuleSlice = reflect.Append(inboundNatRuleSlice, reflect.Indirect(embeddedInboundNatRule))
 	}
 
-	// Now do the assignment
-	inboundNatRulesField.Set(inboundNatRuleSlice)
+	// Now do the assignment. We do it differently here, as we need to make sure to retain current/updated/deleted InboundNatRules present on the LoadBalancer.
+	inboundNatRulesField.Set(reflect.AppendSlice(inboundNatRulesField, inboundNatRuleSlice))
 
 	return nil
 }

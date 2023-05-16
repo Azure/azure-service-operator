@@ -149,6 +149,7 @@ type LoadBalancer_Spec struct {
 	ExtendedLocation         *ExtendedLocation                                          `json:"extendedLocation,omitempty"`
 	FrontendIPConfigurations []FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded `json:"frontendIPConfigurations,omitempty"`
 	InboundNatPools          []InboundNatPool                                           `json:"inboundNatPools,omitempty"`
+	InboundNatRules          []InboundNatRule_LoadBalancer_SubResourceEmbedded          `json:"inboundNatRules,omitempty"`
 	LoadBalancingRules       []LoadBalancingRule                                        `json:"loadBalancingRules,omitempty"`
 	Location                 *string                                                    `json:"location,omitempty"`
 	OriginalVersion          string                                                     `json:"originalVersion,omitempty"`
@@ -463,11 +464,37 @@ type InboundNatPool_STATUS struct {
 	Type                    *string                `json:"type,omitempty"`
 }
 
+// Storage version of v1api20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded
+// Inbound NAT rule of the load balancer.
+type InboundNatRule_LoadBalancer_SubResourceEmbedded struct {
+	BackendPort             *int                   `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool                  `json:"enableTcpReset,omitempty"`
+	FrontendIPConfiguration *SubResource           `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int                   `json:"frontendPort,omitempty"`
+	IdleTimeoutInMinutes    *int                   `json:"idleTimeoutInMinutes,omitempty"`
+	Name                    *string                `json:"name,omitempty"`
+	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Protocol                *string                `json:"protocol,omitempty"`
+}
+
 // Storage version of v1api20201101.InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded
 // Inbound NAT rule of the load balancer.
 type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	BackendIPConfiguration  *NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded `json:"backendIPConfiguration,omitempty"`
+	BackendPort             *int                                                                     `json:"backendPort,omitempty"`
+	EnableFloatingIP        *bool                                                                    `json:"enableFloatingIP,omitempty"`
+	EnableTcpReset          *bool                                                                    `json:"enableTcpReset,omitempty"`
+	Etag                    *string                                                                  `json:"etag,omitempty"`
+	FrontendIPConfiguration *SubResource_STATUS                                                      `json:"frontendIPConfiguration,omitempty"`
+	FrontendPort            *int                                                                     `json:"frontendPort,omitempty"`
+	Id                      *string                                                                  `json:"id,omitempty"`
+	IdleTimeoutInMinutes    *int                                                                     `json:"idleTimeoutInMinutes,omitempty"`
+	Name                    *string                                                                  `json:"name,omitempty"`
+	PropertyBag             genruntime.PropertyBag                                                   `json:"$propertyBag,omitempty"`
+	Protocol                *string                                                                  `json:"protocol,omitempty"`
+	ProvisioningState       *string                                                                  `json:"provisioningState,omitempty"`
+	Type                    *string                                                                  `json:"type,omitempty"`
 }
 
 // Storage version of v1api20201101.LoadBalancerSku

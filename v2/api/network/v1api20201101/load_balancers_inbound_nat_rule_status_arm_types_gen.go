@@ -15,14 +15,14 @@ type LoadBalancers_InboundNatRule_STATUS_ARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of load balancer inbound nat rule.
-	Properties *InboundNatRulePropertiesFormat_STATUS_ARM `json:"properties,omitempty"`
+	Properties *InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM `json:"properties,omitempty"`
 
 	// Type: Type of the resource.
 	Type *string `json:"type,omitempty"`
 }
 
 // Properties of the inbound NAT rule.
-type InboundNatRulePropertiesFormat_STATUS_ARM struct {
+type InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM struct {
 	// BackendIPConfiguration: A reference to a private IP address defined on a network interface of a VM. Traffic sent to the
 	// frontend port of each of the frontend IP configurations is forwarded to the backend IP.
 	BackendIPConfiguration *NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM `json:"backendIPConfiguration,omitempty"`

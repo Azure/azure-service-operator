@@ -283,6 +283,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancer_Spec(gens map[string]gopter.Gen
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["FrontendIPConfigurations"] = gen.SliceOf(FrontendIPConfiguration_LoadBalancer_SubResourceEmbeddedGenerator())
 	gens["InboundNatPools"] = gen.SliceOf(InboundNatPoolGenerator())
+	gens["InboundNatRules"] = gen.SliceOf(InboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator())
 	gens["LoadBalancingRules"] = gen.SliceOf(LoadBalancingRuleGenerator())
 	gens["OutboundRules"] = gen.SliceOf(OutboundRuleGenerator())
 	gens["Probes"] = gen.SliceOf(ProbeGenerator())
@@ -1391,6 +1392,129 @@ func AddRelatedPropertyGeneratorsForInboundNatPool_STATUS(gens map[string]gopter
 	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
+func Test_InboundNatRule_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from InboundNatRule_LoadBalancer_SubResourceEmbedded to InboundNatRule_LoadBalancer_SubResourceEmbedded via AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded & AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForInboundNatRule_LoadBalancer_SubResourceEmbedded, InboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForInboundNatRule_LoadBalancer_SubResourceEmbedded tests if a specific instance of InboundNatRule_LoadBalancer_SubResourceEmbedded can be assigned to v1api20201101storage and back losslessly
+func RunPropertyAssignmentTestForInboundNatRule_LoadBalancer_SubResourceEmbedded(subject InboundNatRule_LoadBalancer_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1api20201101s.InboundNatRule_LoadBalancer_SubResourceEmbedded
+	err := copied.AssignProperties_To_InboundNatRule_LoadBalancer_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual InboundNatRule_LoadBalancer_SubResourceEmbedded
+	err = actual.AssignProperties_From_InboundNatRule_LoadBalancer_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_InboundNatRule_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of InboundNatRule_LoadBalancer_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInboundNatRule_LoadBalancer_SubResourceEmbedded, InboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForInboundNatRule_LoadBalancer_SubResourceEmbedded runs a test to see if a specific instance of InboundNatRule_LoadBalancer_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForInboundNatRule_LoadBalancer_SubResourceEmbedded(subject InboundNatRule_LoadBalancer_SubResourceEmbedded) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual InboundNatRule_LoadBalancer_SubResourceEmbedded
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of InboundNatRule_LoadBalancer_SubResourceEmbedded instances for property testing - lazily instantiated by
+// InboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator()
+var inboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator gopter.Gen
+
+// InboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator returns a generator of InboundNatRule_LoadBalancer_SubResourceEmbedded instances for property testing.
+// We first initialize inboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func InboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator() gopter.Gen {
+	if inboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator != nil {
+		return inboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInboundNatRule_LoadBalancer_SubResourceEmbedded(generators)
+	inboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(InboundNatRule_LoadBalancer_SubResourceEmbedded{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInboundNatRule_LoadBalancer_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForInboundNatRule_LoadBalancer_SubResourceEmbedded(generators)
+	inboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(InboundNatRule_LoadBalancer_SubResourceEmbedded{}), generators)
+
+	return inboundNatRule_LoadBalancer_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForInboundNatRule_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInboundNatRule_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["BackendPort"] = gen.PtrOf(gen.Int())
+	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
+	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
+	gens["FrontendPort"] = gen.PtrOf(gen.Int())
+	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_All, TransportProtocol_Tcp, TransportProtocol_Udp))
+}
+
+// AddRelatedPropertyGeneratorsForInboundNatRule_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInboundNatRule_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResourceGenerator())
+}
+
 func Test_InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1477,6 +1601,9 @@ func RunJSONSerializationTestForInboundNatRule_STATUS_LoadBalancer_SubResourceEm
 var inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator gopter.Gen
 
 // InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator returns a generator of InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded instances for property testing.
+// We first initialize inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator() gopter.Gen {
 	if inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator != nil {
 		return inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
@@ -1486,12 +1613,38 @@ func InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator() gopter.Ge
 	AddIndependentPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(generators)
 	inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(generators)
+	inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded{}), generators)
+
 	return inboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedGenerator
 }
 
 // AddIndependentPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["BackendPort"] = gen.PtrOf(gen.Int())
+	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
+	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_STATUS_All, TransportProtocol_STATUS_Tcp, TransportProtocol_STATUS_Udp))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_STATUS_Deleting,
+		ProvisioningState_STATUS_Failed,
+		ProvisioningState_STATUS_Succeeded,
+		ProvisioningState_STATUS_Updating))
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["BackendIPConfiguration"] = gen.PtrOf(NetworkInterfaceIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedGenerator())
+	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
 func Test_LoadBalancerSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

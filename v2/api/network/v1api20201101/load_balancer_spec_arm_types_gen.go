@@ -64,6 +64,12 @@ type LoadBalancerPropertiesFormat_ARM struct {
 	// virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules.
 	InboundNatPools []InboundNatPool_ARM `json:"inboundNatPools,omitempty"`
 
+	// InboundNatRules: Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load
+	// balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine
+	// scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to
+	// reference individual inbound NAT rules.
+	InboundNatRules []InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM `json:"inboundNatRules,omitempty"`
+
 	// LoadBalancingRules: Object collection representing the load balancing rules Gets the provisioning.
 	LoadBalancingRules []LoadBalancingRule_ARM `json:"loadBalancingRules,omitempty"`
 
@@ -120,6 +126,16 @@ type InboundNatPool_ARM struct {
 
 	// Properties: Properties of load balancer inbound nat pool.
 	Properties *InboundNatPoolPropertiesFormat_ARM `json:"properties,omitempty"`
+}
+
+// Inbound NAT rule of the load balancer.
+type InboundNatRule_LoadBalancer_SubResourceEmbedded_ARM struct {
+	// Name: The name of the resource that is unique within the set of inbound NAT rules used by the load balancer. This name
+	// can be used to access the resource.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of load balancer inbound nat rule.
+	Properties *InboundNatRulePropertiesFormat_ARM `json:"properties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Basic","Standard"}

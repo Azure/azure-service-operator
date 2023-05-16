@@ -112,8 +112,10 @@
 | InboundNatPoolPropertiesFormat                                                          |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | InboundNatPoolPropertiesFormat_STATUS                                                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | InboundNatPool_STATUS                                                                   |               |               |               | v1api20201101 |               |                | v1beta20201101 |
-| InboundNatRulePropertiesFormat                                                          |               |               |               | v1api20201101 |               |                |                |
-| InboundNatRulePropertiesFormat_STATUS                                                   |               |               |               | v1api20201101 |               |                |                |
+| InboundNatRulePropertiesFormat                                                          |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| InboundNatRulePropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded                  |               |               |               | v1api20201101 |               |                | v1beta20201101 |
+| InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded  |               |               |               | v1api20201101 |               |                |                |
+| InboundNatRule_LoadBalancer_SubResourceEmbedded                                         |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | InboundNatRule_NetworkInterface_SubResourceEmbedded                                     |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded                                  |               |               |               | v1api20201101 |               |                | v1beta20201101 |
 | InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded                              |               |               |               | v1api20201101 |               |                | v1beta20201101 |

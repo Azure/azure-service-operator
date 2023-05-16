@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage
 │   └── "2020-11-01"
 ├── LoadBalancer: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/resources/v1apiv20191001.ResourceGroup
-│   ├── Spec: Object (14 properties)
+│   ├── Spec: Object (15 properties)
 │   │   ├── AzureName: string
 │   │   ├── BackendAddressPools: Object (3 properties)[]
 │   │   │   ├── LoadBalancerBackendAddresses: Object (6 properties)[]
@@ -51,6 +51,18 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage
 │   │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   │   ├── FrontendPortRangeEnd: *int
 │   │   │   ├── FrontendPortRangeStart: *int
+│   │   │   ├── IdleTimeoutInMinutes: *int
+│   │   │   ├── Name: *string
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Protocol: *string
+│   │   ├── InboundNatRules: Object (9 properties)[]
+│   │   │   ├── BackendPort: *int
+│   │   │   ├── EnableFloatingIP: *bool
+│   │   │   ├── EnableTcpReset: *bool
+│   │   │   ├── FrontendIPConfiguration: *Object (2 properties)
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   ├── FrontendPort: *int
 │   │   │   ├── IdleTimeoutInMinutes: *int
 │   │   │   ├── Name: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -197,9 +209,25 @@ github.com/Azure/azure-service-operator/v2/api/network/v1api20201101storage
 │       │   ├── Protocol: *string
 │       │   ├── ProvisioningState: *string
 │       │   └── Type: *string
-│       ├── InboundNatRules: Object (2 properties)[]
+│       ├── InboundNatRules: Object (14 properties)[]
+│       │   ├── BackendIPConfiguration: *Object (2 properties)
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── BackendPort: *int
+│       │   ├── EnableFloatingIP: *bool
+│       │   ├── EnableTcpReset: *bool
+│       │   ├── Etag: *string
+│       │   ├── FrontendIPConfiguration: *Object (2 properties)
+│       │   │   ├── Id: *string
+│       │   │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── FrontendPort: *int
 │       │   ├── Id: *string
-│       │   └── PropertyBag: genruntime.PropertyBag
+│       │   ├── IdleTimeoutInMinutes: *int
+│       │   ├── Name: *string
+│       │   ├── PropertyBag: genruntime.PropertyBag
+│       │   ├── Protocol: *string
+│       │   ├── ProvisioningState: *string
+│       │   └── Type: *string
 │       ├── LoadBalancingRules: Object (17 properties)[]
 │       │   ├── BackendAddressPool: *Object (2 properties)
 │       │   │   ├── Id: *string

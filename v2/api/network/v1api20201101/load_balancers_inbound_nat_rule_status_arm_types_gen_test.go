@@ -92,23 +92,23 @@ func AddIndependentPropertyGeneratorsForLoadBalancers_InboundNatRule_STATUS_ARM(
 
 // AddRelatedPropertyGeneratorsForLoadBalancers_InboundNatRule_STATUS_ARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForLoadBalancers_InboundNatRule_STATUS_ARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(InboundNatRulePropertiesFormat_STATUS_ARMGenerator())
+	gens["Properties"] = gen.PtrOf(InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator())
 }
 
-func Test_InboundNatRulePropertiesFormat_STATUS_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of InboundNatRulePropertiesFormat_STATUS_ARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForInboundNatRulePropertiesFormat_STATUS_ARM, InboundNatRulePropertiesFormat_STATUS_ARMGenerator()))
+		"Round trip of InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM, InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForInboundNatRulePropertiesFormat_STATUS_ARM runs a test to see if a specific instance of InboundNatRulePropertiesFormat_STATUS_ARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForInboundNatRulePropertiesFormat_STATUS_ARM(subject InboundNatRulePropertiesFormat_STATUS_ARM) string {
+// RunJSONSerializationTestForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM runs a test to see if a specific instance of InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM(subject InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -116,7 +116,7 @@ func RunJSONSerializationTestForInboundNatRulePropertiesFormat_STATUS_ARM(subjec
 	}
 
 	// Deserialize back into memory
-	var actual InboundNatRulePropertiesFormat_STATUS_ARM
+	var actual InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -134,34 +134,35 @@ func RunJSONSerializationTestForInboundNatRulePropertiesFormat_STATUS_ARM(subjec
 	return ""
 }
 
-// Generator of InboundNatRulePropertiesFormat_STATUS_ARM instances for property testing - lazily instantiated by
-// InboundNatRulePropertiesFormat_STATUS_ARMGenerator()
-var inboundNatRulePropertiesFormat_STATUS_ARMGenerator gopter.Gen
+// Generator of InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM instances for
+// property testing - lazily instantiated by
+// InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator()
+var inboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator gopter.Gen
 
-// InboundNatRulePropertiesFormat_STATUS_ARMGenerator returns a generator of InboundNatRulePropertiesFormat_STATUS_ARM instances for property testing.
-// We first initialize inboundNatRulePropertiesFormat_STATUS_ARMGenerator with a simplified generator based on the
+// InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator returns a generator of InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM instances for property testing.
+// We first initialize inboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func InboundNatRulePropertiesFormat_STATUS_ARMGenerator() gopter.Gen {
-	if inboundNatRulePropertiesFormat_STATUS_ARMGenerator != nil {
-		return inboundNatRulePropertiesFormat_STATUS_ARMGenerator
+func InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator() gopter.Gen {
+	if inboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator != nil {
+		return inboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_ARM(generators)
-	inboundNatRulePropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(InboundNatRulePropertiesFormat_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM(generators)
+	inboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_ARM(generators)
-	AddRelatedPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_ARM(generators)
-	inboundNatRulePropertiesFormat_STATUS_ARMGenerator = gen.Struct(reflect.TypeOf(InboundNatRulePropertiesFormat_STATUS_ARM{}), generators)
+	AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM(generators)
+	AddRelatedPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM(generators)
+	inboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator = gen.Struct(reflect.TypeOf(InboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM{}), generators)
 
-	return inboundNatRulePropertiesFormat_STATUS_ARMGenerator
+	return inboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["BackendPort"] = gen.PtrOf(gen.Int())
 	gens["EnableFloatingIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
@@ -175,8 +176,8 @@ func AddIndependentPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_AR
 		ProvisioningState_STATUS_Updating))
 }
 
-// AddRelatedPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_ARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_ARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForInboundNatRulePropertiesFormat_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARM(gens map[string]gopter.Gen) {
 	gens["BackendIPConfiguration"] = gen.PtrOf(NetworkInterfaceIPConfiguration_STATUS_LoadBalancers_InboundNatRule_SubResourceEmbedded_ARMGenerator())
 	gens["FrontendIPConfiguration"] = gen.PtrOf(SubResource_STATUS_ARMGenerator())
 }

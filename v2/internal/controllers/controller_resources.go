@@ -131,9 +131,17 @@ func getGeneratedStorageTypes(
 
 	// Verify we're using the hub version of VirtualNetworksSubnet in the loop below
 	var _ ctrlconversion.Hub = &networkstorage.VirtualNetworksSubnet{}
+	var _ ctrlconversion.Hub = &networkstorage.LoadBalancersInboundNatRule{}
+	var _ ctrlconversion.Hub = &networkstorage.RouteTablesRoute{}
 
 	// TODO: Modifying this list would be easier if it were a map
 	for _, t := range knownStorageTypes {
+		if _, ok := t.Obj.(*networkstorage.LoadBalancersInboundNatRule); ok {
+			t.Indexes = append(t.Indexes, registration.Index{
+				Key:  ".metadata.ownerReferences[0]",
+				Func: indexOwner,
+			})
+		}
 		if _, ok := t.Obj.(*networkstorage.VirtualNetworksSubnet); ok {
 			t.Indexes = append(t.Indexes, registration.Index{
 				Key:  ".metadata.ownerReferences[0]",
