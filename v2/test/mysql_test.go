@@ -277,7 +277,49 @@ func MySQL_User_CRUD(tc *testcommon.KubePerTestContext, server *mysql.FlexibleSe
 		2*time.Minute, // We expect this to pass pretty quickly
 	).Should(Succeed())
 
+	originalUser := user.DeepCopy()
+
+	// Confirm that we cannot change the user owner
+	old = user.DeepCopy()
+	user.Spec.Owner.Name = "adifferentowner"
+	err = tc.PatchAndExpectError(old, user)
+	tc.Expect(err).To(HaveOccurred())
+	tc.Expect(err.Error()).To(ContainSubstring("updating 'Owner.Name' is not allowed"))
+
+	// Confirm that we cannot change the user AzureName
+	user = originalUser.DeepCopy()
+	old = user.DeepCopy()
+	user.Spec.AzureName = "adifferentname"
+	err = tc.PatchAndExpectError(old, user)
+	tc.Expect(err).To(HaveOccurred())
+	tc.Expect(err.Error()).To(ContainSubstring("updating 'AzureName' is not allowed"))
+
+	// Confirm that we cannot change the user type from local to AAD
+	user = originalUser.DeepCopy()
+	old = user.DeepCopy()
+	user.Spec.LocalUser = nil
+	user.Spec.AADUser = &mysqlv1.AADUserSpec{
+		ServerAdminUsername: "someadminuser",
+	}
+	err = tc.PatchAndExpectError(old, user)
+	tc.Expect(err).To(HaveOccurred())
+	tc.Expect(err.Error()).To(ContainSubstring("cannot change from local user to AAD user"))
+
+	user = originalUser.DeepCopy()
 	tc.DeleteResourceAndWait(user)
+
+	conn, err = mysqlutil.ConnectToDB(
+		ctx,
+		fqdn,
+		mysqlutil.SystemDatabase,
+		mysqlutil.ServerPort,
+		to.Value(server.Spec.AdministratorLogin),
+		adminPassword)
+	tc.Expect(err).ToNot(HaveOccurred())
+
+	exists, err := mysqlutil.DoesUserExist(ctx, conn, user.Name)
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
 }
 
 //func Test_MySQL_Helpers(t *testing.T) {

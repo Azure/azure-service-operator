@@ -78,6 +78,7 @@ func GetKnownStorageTypes(
 				kubeClient,
 				resourceResolver,
 				positiveConditions,
+				credentialProvider,
 				options.Config),
 			Predicate: makeStandardPredicate(),
 			Indexes: []registration.Index{
