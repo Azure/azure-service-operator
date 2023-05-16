@@ -146,7 +146,7 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 
 	stringEnum := NewEnumType(StringType)
 
-	oneOfType := NewOneOfType("x",BoolType,StringType)
+	oneOfType := NewOneOfType("x", BoolType, StringType)
 
 	allofType := NewAllOfType()
 
@@ -169,7 +169,7 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 		{"Interface type", iface},
 		{"Enum type", stringEnum},
 		{"One of type", oneOfType},
-		{"All of Type",allofType},
+		{"All of Type", allofType},
 	}
 
 	for _, c := range cases {
@@ -291,24 +291,24 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 		},
 		{
 			"OneOfTypeHandler",
-			NewOneOfType("x",BoolType,StringType),
+			NewOneOfType("x", BoolType, StringType),
 			func(builder *TypeVisitorBuilder) {
 				builder.VisitOneOfType = func(tv *TypeVisitor, ot *OneOfType, _ interface{}) (Type, error) {
 					return ot, errors.New(ot.String())
 				}
 			},
-			NewOneOfType("x",BoolType,StringType),
+			NewOneOfType("x", BoolType, StringType),
 			"oneOf",
 		},
 		{
 			"OneOfTypeSimplified",
-			NewOneOfType("x",BoolType,StringType),
+			NewOneOfType("x", BoolType, StringType),
 			func(builder *TypeVisitorBuilder) {
 				builder.VisitOneOfType = func(ot *OneOfType) (Type, error) {
 					return ot, errors.New(ot.String())
 				}
 			},
-			NewOneOfType("x",BoolType,StringType),
+			NewOneOfType("x", BoolType, StringType),
 			"oneOf",
 		},
 		{
