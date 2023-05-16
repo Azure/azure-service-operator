@@ -56,7 +56,6 @@ func Test_Storage_StorageAccount_20210401_CRUD(t *testing.T) {
 				StorageAccount_ManagementPolicy_20210401_CRUD(tc, acct)
 			},
 		},
-
 	)
 
 	tc.DeleteResourceAndWait(acct)
