@@ -4,7 +4,6 @@
 package v1beta20210401storage
 
 import (
-	"fmt"
 	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,22 +44,36 @@ var _ conversion.Convertible = &StorageAccountsQueueServicesQueue{}
 
 // ConvertFrom populates our StorageAccountsQueueServicesQueue from the provided hub StorageAccountsQueueServicesQueue
 func (queue *StorageAccountsQueueServicesQueue) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210401s.StorageAccountsQueueServicesQueue)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsQueueServicesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1api20210401s.StorageAccountsQueueServicesQueue
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return queue.AssignProperties_From_StorageAccountsQueueServicesQueue(source)
+	err = queue.AssignProperties_From_StorageAccountsQueueServicesQueue(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to queue")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsQueueServicesQueue from our StorageAccountsQueueServicesQueue
 func (queue *StorageAccountsQueueServicesQueue) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210401s.StorageAccountsQueueServicesQueue)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsQueueServicesQueue but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1api20210401s.StorageAccountsQueueServicesQueue
+	err := queue.AssignProperties_To_StorageAccountsQueueServicesQueue(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from queue")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return queue.AssignProperties_To_StorageAccountsQueueServicesQueue(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsQueueServicesQueue{}

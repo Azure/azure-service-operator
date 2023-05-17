@@ -5,7 +5,6 @@ package v1beta20210401storage
 
 import (
 	"context"
-	"fmt"
 	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &StorageAccount{}
 
 // ConvertFrom populates our StorageAccount from the provided hub StorageAccount
 func (account *StorageAccount) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210401s.StorageAccount)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1api20210401s.StorageAccount
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return account.AssignProperties_From_StorageAccount(source)
+	err = account.AssignProperties_From_StorageAccount(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to account")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccount from our StorageAccount
 func (account *StorageAccount) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210401s.StorageAccount)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccount but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1api20210401s.StorageAccount
+	err := account.AssignProperties_To_StorageAccount(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from account")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return account.AssignProperties_To_StorageAccount(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesExporter = &StorageAccount{}
