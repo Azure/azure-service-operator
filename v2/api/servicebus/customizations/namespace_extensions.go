@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
@@ -41,7 +41,7 @@ func (ext *NamespaceExtension) ExportKubernetesResources(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = typedObj
 
-	hasEndpoints := secretsSpecified(typedObj)
+	hasEndpoints := namespaceSecretsSpecified(typedObj)
 	if !hasEndpoints {
 		log.V(Debug).Info("No secrets retrieval to perform as operatorSpec is empty")
 		return nil, nil
@@ -58,7 +58,7 @@ func (ext *NamespaceExtension) ExportKubernetesResources(
 	return secrets.SliceToClientObjectSlice(secretSlice), nil
 }
 
-func secretsSpecified(obj *servicebus.Namespace) bool {
+func namespaceSecretsSpecified(obj *servicebus.Namespace) bool {
 	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
 		return false
 	}
