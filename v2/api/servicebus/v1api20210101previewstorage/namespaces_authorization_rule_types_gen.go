@@ -139,8 +139,9 @@ type Namespaces_AuthorizationRule_Spec struct {
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string `json:"azureName,omitempty"`
-	OriginalVersion string `json:"originalVersion,omitempty"`
+	AzureName       string                                   `json:"azureName,omitempty"`
+	OperatorSpec    *NamespacesAuthorizationRuleOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                                   `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -200,6 +201,22 @@ func (rule *Namespaces_AuthorizationRule_STATUS) ConvertStatusTo(destination gen
 	}
 
 	return destination.ConvertStatusFrom(rule)
+}
+
+// Storage version of v1api20210101preview.NamespacesAuthorizationRuleOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type NamespacesAuthorizationRuleOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+	Secrets     *NamespacesAuthorizationRuleOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// Storage version of v1api20210101preview.NamespacesAuthorizationRuleOperatorSecrets
+type NamespacesAuthorizationRuleOperatorSecrets struct {
+	PrimaryConnectionString   *genruntime.SecretDestination `json:"primaryConnectionString,omitempty"`
+	PrimaryKey                *genruntime.SecretDestination `json:"primaryKey,omitempty"`
+	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryConnectionString *genruntime.SecretDestination `json:"secondaryConnectionString,omitempty"`
+	SecondaryKey              *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 func init() {
