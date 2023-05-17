@@ -78,6 +78,7 @@ func classifyCloudError(err *genericarmclient.CloudError) core.ErrorClassificati
 		"InvalidGatewaySkuProvidedForGatewayVpnType",
 		"InvalidGatewaySize",
 		"LocationRequired",
+		"MethodNotAllowed",
 		"MissingRequiredParameter",
 		"PasswordTooLong",
 		"PrivateIPAddressInReservedRange",
