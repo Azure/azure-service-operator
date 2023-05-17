@@ -14,6 +14,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
@@ -62,6 +63,48 @@ func NewServiceBusNamespace(tc *testcommon.KubePerTestContext, rg *resources.Res
 		},
 	}
 	return namespace
+}
+
+func ServiceBus_AuthorizationRule_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
+	authSecret := "authsecret"
+
+	rule := &servicebus.NamespacesAuthorizationRule{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("rule")),
+		Spec: servicebus.Namespaces_AuthorizationRule_Spec{
+			Owner: testcommon.AsOwner(sbNamespace),
+			Rights: []servicebus.Namespaces_AuthorizationRule_Properties_Rights_Spec{
+				servicebus.Namespaces_AuthorizationRule_Properties_Rights_Spec_Listen,
+				servicebus.Namespaces_AuthorizationRule_Properties_Rights_Spec_Send,
+			},
+			OperatorSpec: &servicebus.NamespacesAuthorizationRuleOperatorSpec{
+				Secrets: &servicebus.NamespacesAuthorizationRuleOperatorSecrets{
+					PrimaryKey: &genruntime.SecretDestination{
+						Name: authSecret,
+						Key:  "PrimaryKey",
+					},
+					PrimaryConnectionString: &genruntime.SecretDestination{
+						Name: authSecret,
+						Key:  "PrimaryConnectionString",
+					},
+					SecondaryKey: &genruntime.SecretDestination{
+						Name: authSecret,
+						Key:  "SecondaryKey",
+					},
+					SecondaryConnectionString: &genruntime.SecretDestination{
+						Name: authSecret,
+						Key:  "SecondaryConnectionString",
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(rule)
+	defer tc.DeleteResourceAndWait(rule)
+
+	tc.Expect(rule.Status.Rights).To(HaveLen(2))
+
+	tc.ExpectSecretHasKeys(authSecret, "PrimaryKey", "PrimaryConnectionString", "SecondaryKey", "SecondaryConnectionString")
 }
 
 // Topics can only be created in Standard or Premium SKUs
