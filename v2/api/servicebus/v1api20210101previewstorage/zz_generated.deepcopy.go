@@ -624,12 +624,32 @@ func (in *NamespaceOperatorSecrets) DeepCopyInto(out *NamespaceOperatorSecrets) 
 		*out = new(genruntime.SecretDestination)
 		**out = **in
 	}
+	if in.PrimaryConnectionString != nil {
+		in, out := &in.PrimaryConnectionString, &out.PrimaryConnectionString
+		*out = new(genruntime.SecretDestination)
+		**out = **in
+	}
+	if in.PrimaryKey != nil {
+		in, out := &in.PrimaryKey, &out.PrimaryKey
+		*out = new(genruntime.SecretDestination)
+		**out = **in
+	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val
 		}
+	}
+	if in.SecondaryConnectionString != nil {
+		in, out := &in.SecondaryConnectionString, &out.SecondaryConnectionString
+		*out = new(genruntime.SecretDestination)
+		**out = **in
+	}
+	if in.SecondaryKey != nil {
+		in, out := &in.SecondaryKey, &out.SecondaryKey
+		*out = new(genruntime.SecretDestination)
+		**out = **in
 	}
 }
 
