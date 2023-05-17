@@ -1470,6 +1470,11 @@ objectModelConfiguration:
       Namespaces_AuthorizationRule:
         $exportAs: NamespacesAuthorizationRule
         $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - PrimaryConnectionString
+          - SecondaryKey
+          - SecondaryConnectionString
       Namespaces_Queue:
         $exportAs: NamespacesQueue
         $supportedFrom: v2.0.0-alpha.1
