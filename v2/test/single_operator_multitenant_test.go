@@ -172,6 +172,14 @@ func newClientCertificateCredential(subscriptionID, tenantID, name, namespace st
 	return secret, nil
 }
 
+func newManagedIdentityCredential(subscriptionID, tenantID, clientID, name, namespace string) *v1.Secret {
+	secret := newCredentialSecret(subscriptionID, tenantID, name, namespace)
+
+	secret.Data[config.ClientIDVar] = []byte(clientID)
+
+	return secret
+}
+
 func newCredentialSecret(subscriptionID, tenantID, name, namespace string) *v1.Secret {
 	secretData := make(map[string][]byte)
 

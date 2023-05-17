@@ -3,9 +3,11 @@
 package v1
 
 import (
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 
@@ -140,7 +142,7 @@ func (user *User) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (user *User) createValidations() []func() error {
-	return nil
+	return []func() error{user.validateIsLocalOrAAD}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -150,6 +152,116 @@ func (user *User) deleteValidations() []func() error {
 
 // updateValidations validates the update of the resource
 func (user *User) updateValidations() []func(old runtime.Object) error {
+	return []func(old runtime.Object) error{
+		func(old runtime.Object) error {
+			return user.validateIsLocalOrAAD()
+		},
+		user.validateUserTypeNotChanged,
+		user.validateWriteOncePropertiesNotChanged,
+		user.validateUserAADAliasNotChanged,
+	}
+}
+
+// validateWriteOncePropertiesNotChanged function validates the update on WriteOnce properties.
+// TODO: Note this should be kept in sync with admissions.ValidateWriteOnceProperties
+func (user *User) validateWriteOncePropertiesNotChanged(oldObj runtime.Object) error {
+	var errs []error
+
+	oldUser, ok := oldObj.(*User)
+	if !ok {
+		// This shouldn't happen, but if it does, don't block things
+		return nil
+	}
+
+	// If we don't have a finalizer yet, it's OK to change things
+	hasFinalizer := controllerutil.ContainsFinalizer(oldUser, genruntime.ReconcilerFinalizer)
+	if !hasFinalizer {
+		return nil
+	}
+
+	if oldUser.Spec.AzureName != user.Spec.AzureName {
+		err := errors.Errorf(
+			"updating 'AzureName' is not allowed for '%s : %s",
+			oldObj.GetObjectKind().GroupVersionKind(),
+			oldUser.GetName())
+		errs = append(errs, err)
+	}
+
+	// Ensure that owner has not been changed
+	oldOwner := oldUser.Owner()
+	newOwner := user.Owner()
+
+	bothHaveOwner := oldOwner != nil && newOwner != nil
+	ownerAdded := oldOwner == nil && newOwner != nil
+	ownerRemoved := oldOwner != nil && newOwner == nil
+
+	if (bothHaveOwner && oldOwner.Name != newOwner.Name) || ownerAdded {
+		err := errors.Errorf(
+			"updating 'Owner.Name' is not allowed for '%s : %s",
+			oldObj.GetObjectKind().GroupVersionKind(),
+			oldUser.GetName())
+		errs = append(errs, err)
+	} else if ownerRemoved {
+		err := errors.Errorf(
+			"removing 'Owner' is not allowed for '%s : %s",
+			oldObj.GetObjectKind().GroupVersionKind(),
+			oldUser.GetName())
+		errs = append(errs, err)
+	}
+
+	return kerrors.NewAggregate(errs)
+}
+
+func (user *User) validateUserAADAliasNotChanged(oldObj runtime.Object) error {
+	oldUser, ok := oldObj.(*User)
+	if !ok {
+		// This shouldn't happen, but if it does don't block things
+		return nil
+	}
+
+	if oldUser.Spec.AADUser == nil || user.Spec.AADUser == nil {
+		return nil
+	}
+
+	oldAlias := oldUser.Spec.AADUser.Alias
+	newAlias := user.Spec.AADUser.Alias
+
+	if oldAlias != newAlias {
+		return errors.Errorf("cannot change AAD user 'alias' from %q to %q", oldAlias, newAlias)
+	}
+
+	return nil
+}
+
+func (user *User) validateUserTypeNotChanged(oldObj runtime.Object) error {
+	oldUser, ok := oldObj.(*User)
+	if !ok {
+		// This shouldn't happen, but if it does don't block things
+		return nil
+	}
+
+	// Prevent change from AAD -> Local
+	if oldUser.Spec.AADUser != nil && user.Spec.AADUser == nil {
+		return errors.Errorf("cannot change from AAD User to local user")
+	}
+
+	// Prevent change from Local -> AAD
+	if oldUser.Spec.LocalUser != nil && user.Spec.LocalUser == nil {
+		return errors.Errorf("cannot change from local user to AAD user")
+	}
+
+	return nil
+}
+
+func (user *User) validateIsLocalOrAAD() error {
+	if user.Spec.LocalUser == nil && user.Spec.AADUser == nil {
+		return errors.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
+	}
+
+	if user.Spec.LocalUser != nil && user.Spec.AADUser != nil {
+		return errors.Errorf("exactly one of spec.localuser or spec.aadUser must be set")
+	}
+
 	return nil
 }
 
@@ -166,14 +278,20 @@ type UserList struct {
 }
 
 type UserSpec struct {
-	//AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
-	//doesn't have to be.
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	// If not specified, the default is the name of the Kubernetes object.
+	// When creating a local user, this will be the name of the user created.
+	// When creating an AAD user, this must have a specific format depending on the type of AAD user being created.
+	// For managed identity: "my-managed-identity-name"
+	// For standard AAD user: "myuser@mydomain.onmicrosoft.com"
+	// For AAD group: "my-group"
 	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
-	//Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	//controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	//reference to a dbformysql.azure.com/FlexibleServer resource
+	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a dbformysql.azure.com/FlexibleServer resource
 	Owner *genruntime.KnownResourceReference `group:"dbformysql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
 
 	// Hostname is the host the user will connect from. If omitted, the default is to allow connection from any hostname.
@@ -191,10 +309,11 @@ type UserSpec struct {
 	// VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER
 	DatabasePrivileges map[string][]string `json:"databasePrivileges,omitempty"`
 
-	// TODO: Note this is required right now but will move to be optional in the future when we have AAD support
-	// +kubebuilder:validation:Required
 	// LocalUser contains details for creating a standard (non-aad) MySQL User
 	LocalUser *LocalUserSpec `json:"localUser,omitempty"`
+
+	// AADUser contains details for creating an AAD user.
+	AADUser *AADUserSpec `json:"aadUser,omitempty"`
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -227,16 +346,42 @@ func (userSpec *UserSpec) SetAzureName(azureName string) { userSpec.AzureName = 
 
 type LocalUserSpec struct {
 	// +kubebuilder:validation:Required
-	// ServerAdminUsername is the user name of the Server administrator
+	// ServerAdminUsername is the username of the Server administrator. If the
+	// administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the
+	// identity to log in with. For example if the administrator group is "admin-group" and identity "my-identity" is
+	// a member of that group, the ServerAdminUsername should be "admin-group".
 	ServerAdminUsername string `json:"serverAdminUsername,omitempty"`
 
-	// +kubebuilder:validation:Required
-	// ServerAdminPassword is a reference to a secret containing the servers administrator password
+	// ServerAdminPassword is a reference to a secret containing the servers administrator password.
+	// If specified, the operator uses the ServerAdminUsername and ServerAdminPassword to log into the server
+	// as a local administrator.
+	// If NOT specified, the operator uses its identity to log into the server. The operator can only successfully
+	// log into the server if its identity is the administrator of the server or if its identity is a member of a
+	// group which is the administrator of the server. If the
+	// administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the
+	// identity to log in with. For example if the administrator group is "admin-group" and identity "my-identity" is
+	// a member of that group, the ServerAdminUsername should be "admin-group"
 	ServerAdminPassword *genruntime.SecretReference `json:"serverAdminPassword,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Password is the password to use for the user
 	Password *genruntime.SecretReference `json:"password,omitempty"`
+}
+
+type AADUserSpec struct {
+	// Alias is the short name associated with the user. This is required if the AzureName is longer than 32 characters.
+	// Note that Alias denotes the name used to manage the SQL user in MySQL, NOT the name used to log in to the SQL server.
+	// When logging in to the SQL server and prompted to provider the username, supply the AzureName.
+	// +kubebuilder:validation:MaxLength=32
+	Alias string `json:"alias,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// ServerAdminUsername is the username of the Server administrator. If your server admin was configured with
+	// Azure Service Operator, this should match the value of the Administrator's $.spec.login field. If the
+	// administrator is a group, the ServerAdminUsername should be the group name, not the actual username of the
+	// identity to log in with. For example if the administrator group is "admin-group" and identity "my-identity" is
+	// a member of that group, the ServerAdminUsername should be "admin-group"
+	ServerAdminUsername string `json:"serverAdminUsername,omitempty"`
 }
 
 type UserStatus struct {

@@ -144,6 +144,12 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 		WithFunction(transmogrify).
 		WithFunction(skew)
 
+	stringEnum := NewEnumType(StringType)
+
+	oneOfType := NewOneOfType("x", BoolType, StringType)
+
+	allofType := NewAllOfType()
+
 	resource := NewResourceType(person, individual)
 
 	iface := NewInterfaceType(transform)
@@ -161,6 +167,9 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 		{"Object type with functions", individual},
 		{"Resource type", resource},
 		{"Interface type", iface},
+		{"Enum type", stringEnum},
+		{"One of type", oneOfType},
+		{"All of Type", allofType},
 	}
 
 	for _, c := range cases {
@@ -237,6 +246,94 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"optional",
 		},
 		{
+			"EnumTypeHandler",
+			NewEnumType(StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitEnumType = func(tv *TypeVisitor, et *EnumType, _ interface{}) (Type, error) {
+					return et, errors.New(et.String())
+				}
+			},
+			NewEnumType(StringType),
+			"enum",
+		},
+		{
+			"EnumTypeSimplified",
+			NewEnumType(StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitEnumType = func(et *EnumType) (Type, error) {
+					return et, errors.New(et.String())
+				}
+			},
+			NewEnumType(StringType),
+			"enum",
+		},
+		{
+			"ObjectTypeHandler",
+			NewObjectType(),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitObjectType = func(tv *TypeVisitor, ot *ObjectType, _ interface{}) (Type, error) {
+					return ot, errors.New(ot.String())
+				}
+			},
+			NewObjectType(),
+			"object",
+		},
+		{
+			"ObjectTypeSimplified",
+			NewObjectType(),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitObjectType = func(ot *ObjectType) (Type, error) {
+					return ot, errors.New(ot.String())
+				}
+			},
+			NewObjectType(),
+			"object",
+		},
+		{
+			"OneOfTypeHandler",
+			NewOneOfType("x", BoolType, StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitOneOfType = func(tv *TypeVisitor, ot *OneOfType, _ interface{}) (Type, error) {
+					return ot, errors.New(ot.String())
+				}
+			},
+			NewOneOfType("x", BoolType, StringType),
+			"oneOf",
+		},
+		{
+			"OneOfTypeSimplified",
+			NewOneOfType("x", BoolType, StringType),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitOneOfType = func(ot *OneOfType) (Type, error) {
+					return ot, errors.New(ot.String())
+				}
+			},
+			NewOneOfType("x", BoolType, StringType),
+			"oneOf",
+		},
+		{
+			"AllOfTypeHandler",
+			NewAllOfType(),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitAllOfType = func(tv *TypeVisitor, at *AllOfType, _ interface{}) (Type, error) {
+					return at, errors.New(at.String())
+				}
+			},
+			NewAllOfType(),
+			"allOf",
+		},
+		{
+			"AllOfTypeSimplified",
+			NewAllOfType(),
+			func(builder *TypeVisitorBuilder) {
+				builder.VisitAllOfType = func(at *AllOfType) (Type, error) {
+					return at, errors.New(at.String())
+				}
+			},
+			NewAllOfType(),
+			"allOf",
+		},
+		{
 			"MapTypeHandler",
 			NewMapType(StringType, IntType),
 			func(builder *TypeVisitorBuilder) {
@@ -306,11 +403,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 
 	// TODO: Pending tests for
 	// visitTypeName:
-	// visitObjectType:
-	// visitEnumType:
 	// visitResourceType:
-	// visitOneOfType:
-	// visitAllOfType:
 	// visitValidatedType:
 	// visitErroredType:
 
