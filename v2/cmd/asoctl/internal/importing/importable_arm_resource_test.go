@@ -104,7 +104,7 @@ func Test_ARMResourceImporter_GroupVersionKindFromARMID(t *testing.T) {
 			armId:           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-rg/providers/Microsoft.Storage/storageAccounts/aso-storage",
 			expectedGroup:   "storage.azure.com",
 			expectedKind:    "StorageAccount",
-			expectedVersion: "v1api20210401",
+			expectedVersion: "v1api20220901",
 		},
 		{
 			name:            "managed cluster",

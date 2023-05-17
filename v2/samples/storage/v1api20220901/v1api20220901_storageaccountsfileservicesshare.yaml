@@ -1,0 +1,8 @@
+apiVersion: storage.azure.com/v1api20220901
+kind: StorageAccountsFileServicesShare
+metadata:
+  name: sampleshare
+  namespace: default
+spec:
+  owner:
+    name: samplekubestoragefile
