@@ -92,6 +92,31 @@ github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewst
 │       ├── Type: *string
 │       ├── UpdatedAt: *string
 │       └── ZoneRedundant: *bool
+├── NamespacesAuthorizationRule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.Namespace
+│   ├── Spec: Object (5 properties)
+│   │   ├── AzureName: Validated<string> (2 rules)
+│   │   │   ├── Rule 0: MaxLength: 50
+│   │   │   └── Rule 1: MinLength: 1
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Rights: string[]
+│   └── Status: Object (7 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── Rights: string[]
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
 ├── NamespacesQueue: Resource
 │   ├── Owner: github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101preview.Namespace
 │   ├── Spec: Object (18 properties)
