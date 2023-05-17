@@ -41,6 +41,10 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 			Name: "Topic CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace) },
 		},
+		testcommon.Subtest{
+			Name: "AuthorizationRule CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_AuthorizationRule_CRUD(tc, namespace) },
+		},
 	)
 
 	tc.DeleteResourceAndWait(namespace)
