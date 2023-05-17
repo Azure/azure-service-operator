@@ -7,19 +7,19 @@ package config
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
 
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // TypeMatcher contains basic functionality for a filter
 type TypeMatcher struct {
-	Group   FieldMatcher `yaml:",omitempty"` // Filter matching types by group
-	Version FieldMatcher `yaml:",omitempty"` // Filter matching types by version
-	Name    FieldMatcher `yaml:",omitempty"` // Filter matching types by name
+	Group   match.FieldMatcher `yaml:",omitempty"` // Filter matching types by group
+	Version match.FieldMatcher `yaml:",omitempty"` // Filter matching types by version
+	Name    match.FieldMatcher `yaml:",omitempty"` // Filter matching types by name
 	// Because is used to articulate why the filter applied to a type (used to generate explanatory logs in debug mode)
 	Because string
 	// MatchRequired indicates if an error will be raised if this TypeMatcher doesn't match at least one type.
@@ -128,28 +128,4 @@ func (t *TypeMatcher) String() string {
 	}
 
 	return result.String()
-}
-
-// createGlobbingRegex creates a regex that does globbing of names
-// * and ? have their usual (DOS style) meanings as wildcards
-// Multiple wildcards can be separated with semicolons
-func createGlobbingRegex(globbing string) *regexp.Regexp {
-	if globbing == "" {
-		// nil here as "" is fast-tracked elsewhere
-		return nil
-	}
-
-	globs := strings.Split(globbing, ";")
-	regexes := make([]string, 0, len(globs))
-	for _, glob := range globs {
-		g := regexp.QuoteMeta(glob)
-		g = strings.ReplaceAll(g, "\\*", ".*")
-		g = strings.ReplaceAll(g, "\\?", ".")
-		g = "(^" + g + "$)"
-		regexes = append(regexes, g)
-	}
-
-	// (?i) forces case-insensitive matches
-	regex := "(?i)" + strings.Join(regexes, "|")
-	return regexp.MustCompile(regex)
 }

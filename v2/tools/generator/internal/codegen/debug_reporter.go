@@ -13,6 +13,7 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -22,7 +23,7 @@ import (
 // debugReporter is a helper for generating debug logs during the code generation process.
 type debugReporter struct {
 	outputFolder  string
-	groupSelector config.StringMatcher
+	groupSelector match.StringMatcher
 }
 
 // newDebugReporter creates a new debugReporter.

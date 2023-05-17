@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package config
+package match
 
 import (
 	"testing"
@@ -60,7 +60,8 @@ func TestMultiMatcher_GivenDefinition_MatchesExpectedStrings(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			m := newMultiMatcher(c.definition)
+			m, err := newMultiMatcher(c.definition)
+			g.Expect(err).ToNot(HaveOccurred())
 			for _, e := range c.expected {
 				g.Expect(m.Matches(e.value)).To(Equal(e.match))
 			}
@@ -96,14 +97,16 @@ func TestMultiMatcher_DoesNotShortCircuit(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			m := newMultiMatcher(c.definition)
+			m, err := newMultiMatcher(c.definition)
+			g.Expect(err).ToNot(HaveOccurred())
+
 			g.Expect(m.Matches(c.probe)).To(BeTrue())
-			for _, nested := range m.matchers {
+			castMatches := m.(*multiMatcher)
+			for _, nested := range castMatches.matchers {
 				g.Expect(nested.WasMatched()).To(BeNil())
 			}
 		})
 	}
-
 }
 
 func TestMultiMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
@@ -126,7 +129,9 @@ func TestMultiMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 			func(t *testing.T) {
 				t.Parallel()
 				g := NewGomegaWithT(t)
-				matcher := newMultiMatcher(c.matcher)
+				matcher, err := newMultiMatcher(c.matcher)
+				g.Expect(err).ToNot(HaveOccurred())
+
 				g.Expect(matcher.IsRestrictive()).To(Equal(c.restrictive))
 			})
 	}

@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package config
+package match
 
 import (
 	"testing"

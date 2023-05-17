@@ -11,15 +11,16 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // A TransformTarget represents the target of a transformation
 type TransformTarget struct {
-	Group        FieldMatcher `yaml:",omitempty"`
-	Version      FieldMatcher `yaml:"version,omitempty"`
-	Name         FieldMatcher `yaml:",omitempty"`
-	Optional     bool         `yaml:",omitempty"`
+	Group        match.FieldMatcher `yaml:",omitempty"`
+	Version      match.FieldMatcher `yaml:"version,omitempty"`
+	Name         match.FieldMatcher `yaml:",omitempty"`
+	Optional     bool               `yaml:",omitempty"`
 	Map          *MapType
 	actualType   astmodel.Type
 	appliesCache map[astmodel.Type]bool // cache for the results of AppliesToType()
@@ -35,7 +36,7 @@ type TypeTransformer struct {
 	TypeMatcher `yaml:",inline"`
 
 	// Property is a wildcard matching specific properties on the types selected by this filter
-	Property FieldMatcher `yaml:",omitempty"`
+	Property match.FieldMatcher `yaml:",omitempty"`
 
 	// IfType only performs the transform if the original type matches (only usable with Property at the moment)
 	IfType *TransformTarget `yaml:"ifType,omitempty"`

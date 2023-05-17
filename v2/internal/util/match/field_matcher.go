@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package config
+package match
 
 import (
 	"github.com/pkg/errors"
@@ -17,10 +17,15 @@ type FieldMatcher struct {
 
 var _ StringMatcher = &FieldMatcher{}
 
-func NewFieldMatcher(field string) FieldMatcher {
-	return FieldMatcher{
-		actual: NewStringMatcher(field),
+func NewFieldMatcher(field string) (FieldMatcher, error) {
+	matcher, err := NewStringMultiMatcher(field)
+	if err != nil {
+		return FieldMatcher{}, err
 	}
+
+	return FieldMatcher{
+		actual: matcher,
+	}, nil
 }
 
 func (dm *FieldMatcher) String() string {
@@ -62,6 +67,11 @@ func (dm *FieldMatcher) UnmarshalYAML(value *yaml.Node) error {
 		return errors.New("expected scalar value")
 	}
 
-	dm.actual = NewStringMatcher(value.Value)
+	actual, err := NewStringMultiMatcher(value.Value)
+	if err != nil {
+		return err
+	}
+
+	dm.actual = actual
 	return nil
 }

@@ -3,26 +3,28 @@
  * Licensed under the MIT license.
  */
 
-package config
+package match
 
 import (
 	"strings"
+
+	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 )
 
 // literalMatcher is a StringMatcher that provides a case-insensitive match against a given string
 type literalMatcher struct {
 	literal string
 	matched bool
-	advisor *TypoAdvisor
+	advisor *typo.Advisor
 }
 
 var _ StringMatcher = &literalMatcher{}
 
 // newLiteralMatcher returns a new literalMatcher for the given string
-func newLiteralMatcher(literal string) *literalMatcher {
+func newLiteralMatcher(literal string) StringMatcher {
 	return &literalMatcher{
 		literal: strings.TrimSpace(literal),
-		advisor: NewTypoAdvisor(),
+		advisor: typo.NewAdvisor(),
 	}
 }
 

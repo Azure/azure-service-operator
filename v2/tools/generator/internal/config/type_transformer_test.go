@@ -8,6 +8,7 @@ package config_test
 import (
 	"testing"
 
+	"github.com/Azure/azure-service-operator/v2/internal/util/match"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
@@ -22,10 +23,10 @@ func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Group: config.NewFieldMatcher("role"),
+			Group: newFieldMatcher("role"),
 		},
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("int"),
+			Name: newFieldMatcher("int"),
 		},
 	}
 	err := transformer.Initialize(test.MakeLocalPackageReference)
@@ -46,10 +47,10 @@ func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Version: config.NewFieldMatcher("v2019*"),
+			Version: newFieldMatcher("v2019*"),
 		},
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("int"),
+			Name: newFieldMatcher("int"),
 		},
 	}
 	err := transformer.Initialize(test.MakeLocalPackageReference)
@@ -70,10 +71,10 @@ func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("p*"),
+			Name: newFieldMatcher("p*"),
 		},
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("int"),
+			Name: newFieldMatcher("int"),
 		},
 	}
 	err := transformer.Initialize(test.MakeLocalPackageReference)
@@ -94,12 +95,12 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("tutor"),
+			Name: newFieldMatcher("tutor"),
 		},
 		Target: &config.TransformTarget{
-			Group:   config.NewFieldMatcher("role"),
-			Version: config.NewFieldMatcher("2019-01-01"),
-			Name:    config.NewFieldMatcher("student"),
+			Group:   newFieldMatcher("role"),
+			Version: newFieldMatcher("2019-01-01"),
+			Name:    newFieldMatcher("student"),
 		},
 	}
 	err := transformer.Initialize(test.MakeLocalPackageReference)
@@ -115,20 +116,20 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("tutor"),
+			Name: newFieldMatcher("tutor"),
 		},
 		Target: &config.TransformTarget{
 			Map: &config.MapType{
 				Key: config.TransformTarget{
-					Name: config.NewFieldMatcher("string"),
+					Name: newFieldMatcher("string"),
 				},
 				Value: config.TransformTarget{
 					Map: &config.MapType{
 						Key: config.TransformTarget{
-							Name: config.NewFieldMatcher("int"),
+							Name: newFieldMatcher("int"),
 						},
 						Value: config.TransformTarget{
-							Name: config.NewFieldMatcher("float"),
+							Name: newFieldMatcher("float"),
 						},
 					},
 				},
@@ -153,17 +154,17 @@ func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("tutor"),
+			Name: newFieldMatcher("tutor"),
 		},
 		Target: &config.TransformTarget{
 			Map: &config.MapType{
 				Key: config.TransformTarget{
-					Name: config.NewFieldMatcher("string"),
+					Name: newFieldMatcher("string"),
 				},
 				Value: config.TransformTarget{
 					Map: &config.MapType{
 						Value: config.TransformTarget{
-							Name: config.NewFieldMatcher("int"),
+							Name: newFieldMatcher("int"),
 						},
 					},
 				},
@@ -181,7 +182,7 @@ func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("tutor"),
+			Name: newFieldMatcher("tutor"),
 		},
 	}
 
@@ -208,9 +209,9 @@ func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		Property: config.NewFieldMatcher("hat"),
+		Property: newFieldMatcher("hat"),
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("int"),
+			Name: newFieldMatcher("int"),
 		},
 		Remove: true,
 	}
@@ -226,16 +227,16 @@ func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("tutor"),
+			Name: newFieldMatcher("tutor"),
 		},
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("int"),
+			Name: newFieldMatcher("int"),
 			Map: &config.MapType{
 				Key: config.TransformTarget{
-					Name: config.NewFieldMatcher("string"),
+					Name: newFieldMatcher("string"),
 				},
 				Value: config.TransformTarget{
-					Name: config.NewFieldMatcher("string"),
+					Name: newFieldMatcher("string"),
 				},
 			},
 		},
@@ -252,10 +253,10 @@ func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("tutor"),
+			Name: newFieldMatcher("tutor"),
 		},
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("nemo"),
+			Name: newFieldMatcher("nemo"),
 		},
 	}
 
@@ -270,13 +271,13 @@ func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("tutor"),
+			Name: newFieldMatcher("tutor"),
 		},
 		IfType: &config.TransformTarget{
-			Name: config.NewFieldMatcher("from"),
+			Name: newFieldMatcher("from"),
 		},
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("to"),
+			Name: newFieldMatcher("to"),
 		},
 	}
 
@@ -291,11 +292,11 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("*"),
+			Name: newFieldMatcher("*"),
 		},
-		Property: config.NewFieldMatcher("foo"),
+		Property: newFieldMatcher("foo"),
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("string"),
+			Name: newFieldMatcher("string"),
 		},
 	}
 
@@ -320,11 +321,11 @@ func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("*"),
+			Name: newFieldMatcher("*"),
 		},
-		Property: config.NewFieldMatcher("foo*"),
+		Property: newFieldMatcher("foo*"),
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("string"),
+			Name: newFieldMatcher("string"),
 		},
 	}
 
@@ -361,14 +362,14 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 
 	transformer := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("*"),
+			Name: newFieldMatcher("*"),
 		},
 		IfType: &config.TransformTarget{
-			Name: config.NewFieldMatcher("string"),
+			Name: newFieldMatcher("string"),
 		},
-		Property: config.NewFieldMatcher("foo"),
+		Property: newFieldMatcher("foo"),
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("int"),
+			Name: newFieldMatcher("int"),
 		},
 	}
 
@@ -388,28 +389,28 @@ func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 
 	transformIntToString := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("*"),
+			Name: newFieldMatcher("*"),
 		},
 		IfType: &config.TransformTarget{
-			Name: config.NewFieldMatcher("int"),
+			Name: newFieldMatcher("int"),
 		},
-		Property: config.NewFieldMatcher("foo"),
+		Property: newFieldMatcher("foo"),
 		Target: &config.TransformTarget{
-			Name: config.NewFieldMatcher("string"),
+			Name: newFieldMatcher("string"),
 		},
 	}
 
 	transformOptionalIntToOptionalString := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("*"),
+			Name: newFieldMatcher("*"),
 		},
 		IfType: &config.TransformTarget{
-			Name:     config.NewFieldMatcher("int"),
+			Name:     newFieldMatcher("int"),
 			Optional: true,
 		},
-		Property: config.NewFieldMatcher("foo"),
+		Property: newFieldMatcher("foo"),
 		Target: &config.TransformTarget{
-			Name:     config.NewFieldMatcher("string"),
+			Name:     newFieldMatcher("string"),
 			Optional: true,
 		},
 	}
@@ -469,12 +470,12 @@ func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 
 	removeIntProperty := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("*"),
+			Name: newFieldMatcher("*"),
 		},
 		IfType: &config.TransformTarget{
-			Name: config.NewFieldMatcher("int"),
+			Name: newFieldMatcher("int"),
 		},
-		Property: config.NewFieldMatcher("foo"),
+		Property: newFieldMatcher("foo"),
 		Remove:   true,
 	}
 
@@ -483,15 +484,15 @@ func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 
 	removeCopyProperty := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
-			Name: config.NewFieldMatcher("*"),
+			Name: newFieldMatcher("*"),
 		},
 		IfType: &config.TransformTarget{
-			Group:    config.NewFieldMatcher("deploymenttemplate"),
-			Version:  config.NewFieldMatcher("2019-04-01"),
-			Name:     config.NewFieldMatcher("ResourceCopy"),
+			Group:    newFieldMatcher("deploymenttemplate"),
+			Version:  newFieldMatcher("2019-04-01"),
+			Name:     newFieldMatcher("ResourceCopy"),
 			Optional: true,
 		},
-		Property: config.NewFieldMatcher("Copy"),
+		Property: newFieldMatcher("Copy"),
 		Remove:   true,
 	}
 
@@ -571,10 +572,10 @@ func TestTypeTarget_AppliesToType_ReturnsExpectedResult(t *testing.T) {
 	mapTarget := &config.TransformTarget{
 		Map: &config.MapType{
 			Key: config.TransformTarget{
-				Name: config.NewFieldMatcher("string"),
+				Name: newFieldMatcher("string"),
 			},
 			Value: config.TransformTarget{
-				Name: config.NewFieldMatcher("any"),
+				Name: newFieldMatcher("any"),
 			},
 		},
 	}
@@ -582,16 +583,16 @@ func TestTypeTarget_AppliesToType_ReturnsExpectedResult(t *testing.T) {
 	mapType := astmodel.NewMapType(astmodel.StringType, astmodel.AnyType)
 
 	nameTarget := &config.TransformTarget{
-		Group:    config.NewFieldMatcher("definitions"),
-		Version:  config.NewFieldMatcher("v1"),
-		Name:     config.NewFieldMatcher("ResourceCopy"),
+		Group:    newFieldMatcher("definitions"),
+		Version:  newFieldMatcher("v1"),
+		Name:     newFieldMatcher("ResourceCopy"),
 		Optional: true,
 	}
 
 	nameTargetWithWildcardVersion := &config.TransformTarget{
-		Group:    config.NewFieldMatcher("definitions"),
-		Version:  config.NewFieldMatcher("*"),
-		Name:     config.NewFieldMatcher("ResourceCopy"),
+		Group:    newFieldMatcher("definitions"),
+		Version:  newFieldMatcher("*"),
+		Name:     newFieldMatcher("ResourceCopy"),
 		Optional: true,
 	}
 
@@ -622,4 +623,13 @@ func TestTypeTarget_AppliesToType_ReturnsExpectedResult(t *testing.T) {
 				g.Expect(c.target.AppliesToType(c.subject)).To(Equal(c.expectation))
 			})
 	}
+}
+
+func newFieldMatcher(field string) match.FieldMatcher {
+	matcher, err := match.NewFieldMatcher(field)
+	if err != nil {
+		panic(err)
+	}
+
+	return matcher
 }
