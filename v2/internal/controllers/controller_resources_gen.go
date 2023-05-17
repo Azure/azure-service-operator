@@ -80,8 +80,8 @@ import (
 	dbformysql_customizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
 	dbformysql_v1api20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
 	dbformysql_v1api20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage"
-	dbformysql_v1api20211201p "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20211201preview"
-	dbformysql_v1api20211201ps "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20211201previewstorage"
+	dbformysql_v1api20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
+	dbformysql_v1api20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101storage"
 	dbformysql_v20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	dbformysql_v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501storage"
 	dbforpostgresql_customizations "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations"
@@ -333,7 +333,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(dbformysql_v1api20210501s.FlexibleServersDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(dbformysql_v1api20210501s.FlexibleServersFirewallRule)})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbformysql_v1api20211201ps.FlexibleServersAdministrator),
+		Obj: new(dbformysql_v1api20220101s.FlexibleServersAdministrator),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.sidFromConfig",
@@ -347,10 +347,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.ConfigMap{}},
-				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v1api20211201ps.FlexibleServersAdministratorList{}),
+				MakeEventHandler: watchConfigMapsFactory([]string{".spec.sidFromConfig", ".spec.tenantIdFromConfig"}, &dbformysql_v1api20220101s.FlexibleServersAdministratorList{}),
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v1api20220101s.FlexibleServersConfiguration)})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbforpostgresql_v1api20210601s.FlexibleServer),
 		Indexes: []registration.Index{
@@ -871,8 +872,8 @@ func getKnownTypes() []client.Object {
 		new(dbformysql_v1api20210501s.FlexibleServer),
 		new(dbformysql_v1api20210501s.FlexibleServersDatabase),
 		new(dbformysql_v1api20210501s.FlexibleServersFirewallRule))
-	result = append(result, new(dbformysql_v1api20211201p.FlexibleServersAdministrator))
-	result = append(result, new(dbformysql_v1api20211201ps.FlexibleServersAdministrator))
+	result = append(result, new(dbformysql_v1api20220101.FlexibleServersAdministrator), new(dbformysql_v1api20220101.FlexibleServersConfiguration))
+	result = append(result, new(dbformysql_v1api20220101s.FlexibleServersAdministrator), new(dbformysql_v1api20220101s.FlexibleServersConfiguration))
 	result = append(
 		result,
 		new(dbformysql_v20210501.FlexibleServer),
@@ -1426,8 +1427,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbformariadb_v20180601s.AddToScheme(scheme)
 	_ = dbformysql_v1api20210501.AddToScheme(scheme)
 	_ = dbformysql_v1api20210501s.AddToScheme(scheme)
-	_ = dbformysql_v1api20211201p.AddToScheme(scheme)
-	_ = dbformysql_v1api20211201ps.AddToScheme(scheme)
+	_ = dbformysql_v1api20220101.AddToScheme(scheme)
+	_ = dbformysql_v1api20220101s.AddToScheme(scheme)
 	_ = dbformysql_v20210501.AddToScheme(scheme)
 	_ = dbformysql_v20210501s.AddToScheme(scheme)
 	_ = dbforpostgresql_v1api20210601.AddToScheme(scheme)
@@ -1556,6 +1557,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbformariadb_customizations.ServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersAdministratorExtension{})
+	result = append(result, &dbformysql_customizations.FlexibleServersConfigurationExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersFirewallRuleExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServerExtension{})
@@ -1822,9 +1824,9 @@ func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Objec
 	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v1api20211201ps.FlexibleServersAdministrator .spec.sidFromConfig
+// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v1api20220101s.FlexibleServersAdministrator .spec.sidFromConfig
 func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v1api20211201ps.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v1api20220101s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}
@@ -1834,9 +1836,9 @@ func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Obje
 	return obj.Spec.SidFromConfig.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v1api20211201ps.FlexibleServersAdministrator .spec.tenantIdFromConfig
+// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v1api20220101s.FlexibleServersAdministrator .spec.tenantIdFromConfig
 func indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v1api20211201ps.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v1api20220101s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}

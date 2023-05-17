@@ -1,4 +1,4 @@
-apiVersion: dbformysql.azure.com/v1api20211201preview
+apiVersion: dbformysql.azure.com/v1api20220101
 kind: FlexibleServersAdministrator
 metadata:
   name: myadmin

@@ -1,0 +1,11 @@
+apiVersion: dbformysql.azure.com/v1api20220101
+kind: FlexibleServersConfiguration
+metadata:
+  name: maxconnections
+  namespace: default
+spec:
+  owner:
+    name: samplemysql
+  azureName: max_connections
+  source: user-override
+  value: "20"

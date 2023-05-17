@@ -2581,7 +2581,6 @@ const (
 	SearchServiceProperties_Status_STATUS_Error        = SearchServiceProperties_Status_STATUS("error")
 	SearchServiceProperties_Status_STATUS_Provisioning = SearchServiceProperties_Status_STATUS("provisioning")
 	SearchServiceProperties_Status_STATUS_Running      = SearchServiceProperties_Status_STATUS("running")
-	SearchServiceProperties_Status_STATUS_Stopped      = SearchServiceProperties_Status_STATUS("stopped")
 )
 
 // Describes a Shared Private Link Resource managed by the Azure Cognitive Search service.
