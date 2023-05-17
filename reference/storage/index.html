@@ -645,7 +645,7 @@
 
 		
 	</header>
-	<p>Supporting 6 resources: StorageAccount, StorageAccountsBlobService, StorageAccountsBlobServicesContainer, StorageAccountsManagementPolicy, StorageAccountsQueueService, StorageAccountsQueueServicesQueue</p>
+	<p>Supporting 10 resources: StorageAccount, StorageAccountsBlobService, StorageAccountsBlobServicesContainer, StorageAccountsFileService, StorageAccountsFileServicesShare, StorageAccountsManagementPolicy, StorageAccountsQueueService, StorageAccountsQueueServicesQueue, StorageAccountsTableService, StorageAccountsTableServicesTable</p>
 <table>
 <thead>
 <tr>
@@ -658,88 +658,158 @@
 </thead>
 <tbody>
 <tr>
+<td>StorageAccount</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccount.yaml">View</a></td>
+</tr>
+<tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20210401/#storage.azure.com/v1api20210401.StorageAccount">StorageAccount</a></td>
 <td>2021-04-01</td>
 <td>v1api20210401</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1api/v1api20210401_storageaccount.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccount.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccount">StorageAccount</a></td>
 <td>2021-04-01</td>
 <td>v1beta20210401</td>
 <td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1beta/v1beta20210401_storageaccount.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1beta/v1beta20210401_storageaccount.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsBlobService</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountsblobservice.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20210401/#storage.azure.com/v1api20210401.StorageAccountsBlobService">StorageAccountsBlobService</a></td>
 <td>2021-04-01</td>
 <td>v1api20210401</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1api/v1api20210401_storageaccountsblobservice.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsblobservice.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsBlobService">StorageAccountsBlobService</a></td>
 <td>2021-04-01</td>
 <td>v1beta20210401</td>
 <td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1beta/v1beta20210401_storageaccountsblobservice.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1beta/v1beta20210401_storageaccountsblobservice.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsBlobServicesContainer</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountsblobservicescontainer.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20210401/#storage.azure.com/v1api20210401.StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer</a></td>
 <td>2021-04-01</td>
 <td>v1api20210401</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1api/v1api20210401_storageaccountsblobservicescontainer.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsblobservicescontainer.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsBlobServicesContainer">StorageAccountsBlobServicesContainer</a></td>
 <td>2021-04-01</td>
 <td>v1beta20210401</td>
 <td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1beta/v1beta20210401_storageaccountsblobservicescontainer.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1beta/v1beta20210401_storageaccountsblobservicescontainer.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsFileService</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountsfileservice.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsFileServicesShare</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountsfileservicesshare.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsManagementPolicy</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountsmanagementpolicy.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20210401/#storage.azure.com/v1api20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a></td>
 <td>2021-04-01</td>
 <td>v1api20210401</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1api/v1api20210401_storageaccountsmanagementpolicy.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsmanagementpolicy.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsManagementPolicy">StorageAccountsManagementPolicy</a></td>
 <td>2021-04-01</td>
 <td>v1beta20210401</td>
 <td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/blobservice/v1beta/v1beta20210401_storageaccountsmanagementpolicy.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1beta/v1beta20210401_storageaccountsmanagementpolicy.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsQueueService</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountsqueueservice.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20210401/#storage.azure.com/v1api20210401.StorageAccountsQueueService">StorageAccountsQueueService</a></td>
 <td>2021-04-01</td>
 <td>v1api20210401</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1api/v1api20210401_storageaccountsqueueservice.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsqueueservice.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsQueueService">StorageAccountsQueueService</a></td>
 <td>2021-04-01</td>
 <td>v1beta20210401</td>
 <td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1beta/v1beta20210401_storageaccountsqueueservice.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1beta/v1beta20210401_storageaccountsqueueservice.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsQueueServicesQueue</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountsqueueservicesqueue.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1api20210401/#storage.azure.com/v1api20210401.StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue</a></td>
 <td>2021-04-01</td>
 <td>v1api20210401</td>
 <td>v2.0.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1api/v1api20210401_storageaccountsqueueservicesqueue.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20210401/v1api20210401_storageaccountsqueueservicesqueue.yaml">View</a></td>
 </tr>
 <tr>
 <td><a href="https://azure.github.io/azure-service-operator/reference/storage/v1beta20210401/#storage.azure.com/v1beta20210401.StorageAccountsQueueServicesQueue">StorageAccountsQueueServicesQueue</a></td>
 <td>2021-04-01</td>
 <td>v1beta20210401</td>
 <td>v2.0.0-beta.0</td>
-<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/queueservice/v1beta/v1beta20210401_storageaccountsqueueservicesqueue.yaml">View</a></td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1beta/v1beta20210401_storageaccountsqueueservicesqueue.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsTableService</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountstableservice.yaml">View</a></td>
+</tr>
+<tr>
+<td>StorageAccountsTableServicesTable</td>
+<td>2022-09-01</td>
+<td>v1api20220901</td>
+<td>v2.1.0</td>
+<td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/storage/v1api20220901/v1api20220901_storageaccountstableservicestable.yaml">View</a></td>
 </tr>
 </tbody>
 </table>
