@@ -240,8 +240,7 @@ func AddIndependentPropertyGeneratorsForSearchServiceProperties_STATUS_ARM(gens 
 		SearchServiceProperties_Status_STATUS_Disabled,
 		SearchServiceProperties_Status_STATUS_Error,
 		SearchServiceProperties_Status_STATUS_Provisioning,
-		SearchServiceProperties_Status_STATUS_Running,
-		SearchServiceProperties_Status_STATUS_Stopped))
+		SearchServiceProperties_Status_STATUS_Running))
 	gens["StatusDetails"] = gen.PtrOf(gen.AlphaString())
 }
 

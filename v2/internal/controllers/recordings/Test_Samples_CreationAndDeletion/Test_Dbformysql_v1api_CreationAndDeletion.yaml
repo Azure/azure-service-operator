@@ -80,7 +80,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"location":"eastus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity","name":"adminidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"4c6c2a12-9205-4c4d-9c1c-8d5aa640339d","clientId":"02b5f7b2-1278-404e-8631-27edcf69f93b"}}'
+    body: '{"location":"eastus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity","name":"adminidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"82c92628-80be-4955-b16e-5b472340f13c","clientId":"c1b02d3e-fa64-4377-b8cf-20f20777e0aa"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -116,7 +116,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"location":"eastus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity","name":"adminidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"4c6c2a12-9205-4c4d-9c1c-8d5aa640339d","clientId":"02b5f7b2-1278-404e-8631-27edcf69f93b"}}'
+    body: '{"location":"eastus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity","name":"adminidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"82c92628-80be-4955-b16e-5b472340f13c","clientId":"c1b02d3e-fa64-4377-b8cf-20f20777e0aa"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -146,7 +146,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity?api-version=2018-11-30
     method: GET
   response:
-    body: '{"location":"eastus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity","name":"adminidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"4c6c2a12-9205-4c4d-9c1c-8d5aa640339d","clientId":"02b5f7b2-1278-404e-8631-27edcf69f93b"}}'
+    body: '{"location":"eastus","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity","name":"adminidentity","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"82c92628-80be-4955-b16e-5b472340f13c","clientId":"c1b02d3e-fa64-4377-b8cf-20f20777e0aa"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -183,7 +183,7 @@ interactions:
     body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/895ee20f-34d6-40c7-a1e9-26fb164f03c8?api-version=2021-05-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/fc017f51-2607-48d8-b64e-abd9230bdbcf?api-version=2021-05-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -193,7 +193,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/895ee20f-34d6-40c7-a1e9-26fb164f03c8?api-version=2021-05-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/fc017f51-2607-48d8-b64e-abd9230bdbcf?api-version=2021-05-01
       Pragma:
       - no-cache
       Retry-After:
@@ -213,10 +213,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/895ee20f-34d6-40c7-a1e9-26fb164f03c8?api-version=2021-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/fc017f51-2607-48d8-b64e-abd9230bdbcf?api-version=2021-05-01
     method: GET
   response:
-    body: '{"name":"895ee20f-34d6-40c7-a1e9-26fb164f03c8","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"fc017f51-2607-48d8-b64e-abd9230bdbcf","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -245,10 +245,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/895ee20f-34d6-40c7-a1e9-26fb164f03c8?api-version=2021-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/fc017f51-2607-48d8-b64e-abd9230bdbcf?api-version=2021-05-01
     method: GET
   response:
-    body: '{"name":"895ee20f-34d6-40c7-a1e9-26fb164f03c8","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"fc017f51-2607-48d8-b64e-abd9230bdbcf","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -277,10 +277,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/895ee20f-34d6-40c7-a1e9-26fb164f03c8?api-version=2021-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/fc017f51-2607-48d8-b64e-abd9230bdbcf?api-version=2021-05-01
     method: GET
   response:
-    body: '{"name":"895ee20f-34d6-40c7-a1e9-26fb164f03c8","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"fc017f51-2607-48d8-b64e-abd9230bdbcf","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -309,10 +309,42 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/895ee20f-34d6-40c7-a1e9-26fb164f03c8?api-version=2021-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/fc017f51-2607-48d8-b64e-abd9230bdbcf?api-version=2021-05-01
     method: GET
   response:
-    body: '{"name":"895ee20f-34d6-40c7-a1e9-26fb164f03c8","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"fc017f51-2607-48d8-b64e-abd9230bdbcf","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "60"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/fc017f51-2607-48d8-b64e-abd9230bdbcf?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"fc017f51-2607-48d8-b64e-abd9230bdbcf","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -344,7 +376,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem?api-version=2021-05-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"identity":{"userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity":{"principalId":"4c6c2a12-9205-4c4d-9c1c-8d5aa640339d","tenantId":"00000000-0000-0000-0000-000000000000"}},"principalId":"00000000-0000-0000-0000-000000000000","type":"UserAssigned","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myAdmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","storageSku":"Premium_LRS"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotestmljpem.mysql.database.azure.com","availabilityZone":"1","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-05-01T21:51:31.2045351+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""}},"location":"East
+    body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"identity":{"userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity":{"principalId":"82c92628-80be-4955-b16e-5b472340f13c","tenantId":"00000000-0000-0000-0000-000000000000"}},"principalId":"00000000-0000-0000-0000-000000000000","type":"UserAssigned","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myAdmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","storageSku":"Premium_LRS"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotestmljpem.mysql.database.azure.com","availabilityZone":"2","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-05-15T23:49:15.3453236+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""}},"location":"East
       US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem","name":"asotestmljpem","type":"Microsoft.DBforMySQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -377,7 +409,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem?api-version=2021-05-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"identity":{"userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity":{"principalId":"4c6c2a12-9205-4c4d-9c1c-8d5aa640339d","tenantId":"00000000-0000-0000-0000-000000000000"}},"principalId":"00000000-0000-0000-0000-000000000000","type":"UserAssigned","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myAdmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","storageSku":"Premium_LRS"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotestmljpem.mysql.database.azure.com","availabilityZone":"1","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-05-01T21:51:31.2045351+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""}},"location":"East
+    body: '{"sku":{"name":"Standard_D4ds_v4","tier":"GeneralPurpose"},"identity":{"userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity":{"principalId":"82c92628-80be-4955-b16e-5b472340f13c","tenantId":"00000000-0000-0000-0000-000000000000"}},"principalId":"00000000-0000-0000-0000-000000000000","type":"UserAssigned","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"administratorLogin":"myAdmin","storage":{"storageSizeGB":128,"iops":684,"autoGrow":"Enabled","storageSku":"Premium_LRS"},"version":"8.0.21","state":"Ready","fullyQualifiedDomainName":"asotestmljpem.mysql.database.azure.com","availabilityZone":"2","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-05-15T23:49:15.3453236+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""}},"location":"East
       US","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem","name":"asotestmljpem","type":"Microsoft.DBforMySQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -398,48 +430,6 @@ interactions:
       - nosniff
     status: 200 OK
     code: 200
-    duration: ""
-- request:
-    body: '{"name":"asotesthkinjo","properties":{"charset":"utf8mb4"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "59"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/databases/asotesthkinjo?api-version=2021-05-01
-    method: PUT
-  response:
-    body: '{"operation":"UpsertServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/e346a464-b3df-478d-ad14-0055a3f968c8?api-version=2021-05-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "94"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/e346a464-b3df-478d-ad14-0055a3f968c8?api-version=2021-05-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
     duration: ""
 - request:
     body: '{"name":"asotestqmmqdf","properties":{"endIpAddress":"1.2.3.4","startIpAddress":"1.2.3.4"}}'
@@ -459,7 +449,7 @@ interactions:
     body: '{"operation":"UpsertServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/910ad23f-2547-45a4-a6e4-00701294f0f8?api-version=2021-05-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/9ca6fcb7-b325-4b8f-93f9-1e09a088ee3b?api-version=2021-05-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -469,7 +459,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/910ad23f-2547-45a4-a6e4-00701294f0f8?api-version=2021-05-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/9ca6fcb7-b325-4b8f-93f9-1e09a088ee3b?api-version=2021-05-01
       Pragma:
       - no-cache
       Retry-After:
@@ -484,7 +474,7 @@ interactions:
     code: 202
     duration: ""
 - request:
-    body: '{"name":"ActiveDirectory","properties":{"administratorType":"ActiveDirectory","identityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity","login":"adminidentity","sid":"02b5f7b2-1278-404e-8631-27edcf69f93b","tenantId":"00000000-0000-0000-0000-000000000000"}}'
+    body: '{"name":"ActiveDirectory","properties":{"administratorType":"ActiveDirectory","identityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity","login":"adminidentity","sid":"c1b02d3e-fa64-4377-b8cf-20f20777e0aa","tenantId":"00000000-0000-0000-0000-000000000000"}}'
     form: {}
     headers:
       Accept:
@@ -495,13 +485,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory?api-version=2021-12-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory?api-version=2022-01-01
     method: PUT
   response:
     body: '{"operation":"UpsertActiveDirectoryAdministratorManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/3b614f8f-276f-42b8-b6e6-022d62a7ea29?api-version=2021-12-01-preview
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/b3785a50-509c-42ed-af43-9f256deb5b75?api-version=2022-01-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -511,11 +501,95 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/3b614f8f-276f-42b8-b6e6-022d62a7ea29?api-version=2021-12-01-preview
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/b3785a50-509c-42ed-af43-9f256deb5b75?api-version=2022-01-01
       Pragma:
       - no-cache
       Retry-After:
       - "60"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"name":"asotesthkinjo","properties":{"charset":"utf8mb4"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "59"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/databases/asotesthkinjo?api-version=2021-05-01
+    method: PUT
+  response:
+    body: '{"operation":"UpsertServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"name":"max_connections","properties":{"source":"user-override","value":"20"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "79"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/configurations/max_connections?api-version=2022-01-01
+    method: PUT
+  response:
+    body: '{"operation":"UpdateServerParameterManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "97"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -531,10 +605,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/910ad23f-2547-45a4-a6e4-00701294f0f8?api-version=2021-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/9ca6fcb7-b325-4b8f-93f9-1e09a088ee3b?api-version=2021-05-01
     method: GET
   response:
-    body: '{"name":"910ad23f-2547-45a4-a6e4-00701294f0f8","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"9ca6fcb7-b325-4b8f-93f9-1e09a088ee3b","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -563,10 +637,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/3b614f8f-276f-42b8-b6e6-022d62a7ea29?api-version=2021-12-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/b3785a50-509c-42ed-af43-9f256deb5b75?api-version=2022-01-01
     method: GET
   response:
-    body: '{"name":"3b614f8f-276f-42b8-b6e6-022d62a7ea29","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"b3785a50-509c-42ed-af43-9f256deb5b75","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -595,10 +669,774 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/e346a464-b3df-478d-ad14-0055a3f968c8?api-version=2021-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
     method: GET
   response:
-    body: '{"name":"e346a464-b3df-478d-ad14-0055a3f968c8","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"15503561-1a19-4434-bec8-7a430f178011","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"15503561-1a19-4434-bec8-7a430f178011","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"15503561-1a19-4434-bec8-7a430f178011","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"15503561-1a19-4434-bec8-7a430f178011","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/9ca6fcb7-b325-4b8f-93f9-1e09a088ee3b?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"9ca6fcb7-b325-4b8f-93f9-1e09a088ee3b","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "60"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/b3785a50-509c-42ed-af43-9f256deb5b75?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"b3785a50-509c-42ed-af43-9f256deb5b75","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "60"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf","name":"asotestqmmqdf","type":"Microsoft.DBforMySQL/flexibleServers/firewallRules"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf","name":"asotestqmmqdf","type":"Microsoft.DBforMySQL/flexibleServers/firewallRules"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"15503561-1a19-4434-bec8-7a430f178011","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"15503561-1a19-4434-bec8-7a430f178011","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"15503561-1a19-4434-bec8-7a430f178011","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"15503561-1a19-4434-bec8-7a430f178011","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/b3785a50-509c-42ed-af43-9f256deb5b75?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"b3785a50-509c-42ed-af43-9f256deb5b75","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "60"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"properties":{"administratorType":"ActiveDirectory","login":"adminidentity","sid":"c1b02d3e-fa64-4377-b8cf-20f20777e0aa","tenantId":"00000000-0000-0000-0000-000000000000","identityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory","name":"ActiveDirectory","type":"Microsoft.DBforMySQL/flexibleServers/administrators"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"properties":{"administratorType":"ActiveDirectory","login":"adminidentity","sid":"c1b02d3e-fa64-4377-b8cf-20f20777e0aa","tenantId":"00000000-0000-0000-0000-000000000000","identityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory","name":"ActiveDirectory","type":"Microsoft.DBforMySQL/flexibleServers/administrators"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
+    method: GET
+  response:
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/15503561-1a19-4434-bec8-7a430f178011?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"name":"15503561-1a19-4434-bec8-7a430f178011","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -688,11 +1526,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/3b614f8f-276f-42b8-b6e6-022d62a7ea29?api-version=2021-12-01-preview
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
     method: GET
   response:
-    body: '{"name":"3b614f8f-276f-42b8-b6e6-022d62a7ea29","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -703,7 +1541,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "60"
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -720,11 +1558,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/910ad23f-2547-45a4-a6e4-00701294f0f8?api-version=2021-05-01
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
     method: GET
   response:
-    body: '{"name":"910ad23f-2547-45a4-a6e4-00701294f0f8","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -735,7 +1573,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "60"
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -752,11 +1590,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/910ad23f-2547-45a4-a6e4-00701294f0f8?api-version=2021-05-01
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
     method: GET
   response:
-    body: '{"name":"910ad23f-2547-45a4-a6e4-00701294f0f8","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -767,7 +1605,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "60"
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -784,11 +1622,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/3b614f8f-276f-42b8-b6e6-022d62a7ea29?api-version=2021-12-01-preview
+      - "12"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/492784c8-3dd1-412d-8e45-d21e47662c13?api-version=2022-01-01
     method: GET
   response:
-    body: '{"name":"3b614f8f-276f-42b8-b6e6-022d62a7ea29","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"492784c8-3dd1-412d-8e45-d21e47662c13","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -799,7 +1637,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "60"
+      - "15"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -817,10 +1655,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf?api-version=2021-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/configurations/max_connections?api-version=2022-01-01
     method: GET
   response:
-    body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf","name":"asotestqmmqdf","type":"Microsoft.DBforMySQL/flexibleServers/firewallRules"}'
+    body: '{"properties":{"value":"20","currentValue":"20","description":"The maximum
+      permitted number of simultaneous client connections.","defaultValue":"1365","dataType":"Integer","allowedValues":"10-2731","source":"user-override","isConfigPendingRestart":"False","isDynamicConfig":"True","isReadOnly":"False","documentationLink":"https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_connections"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/configurations/max_connections","name":"max_connections","type":"Microsoft.DBforMySQL/flexibleServers/configurations"}'
     headers:
       Cache-Control:
       - no-cache
@@ -849,104 +1688,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf?api-version=2021-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/configurations/max_connections?api-version=2022-01-01
     method: GET
   response:
-    body: '{"properties":{"startIpAddress":"1.2.3.4","endIpAddress":"1.2.3.4"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf","name":"asotestqmmqdf","type":"Microsoft.DBforMySQL/flexibleServers/firewallRules"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/3b614f8f-276f-42b8-b6e6-022d62a7ea29?api-version=2021-12-01-preview
-    method: GET
-  response:
-    body: '{"name":"3b614f8f-276f-42b8-b6e6-022d62a7ea29","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "60"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory?api-version=2021-12-01-preview
-    method: GET
-  response:
-    body: '{"properties":{"administratorType":"ActiveDirectory","login":"adminidentity","sid":"02b5f7b2-1278-404e-8631-27edcf69f93b","tenantId":"00000000-0000-0000-0000-000000000000","identityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory","name":"ActiveDirectory","type":"Microsoft.DBforMySQL/flexibleServers/administrators"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory?api-version=2021-12-01-preview
-    method: GET
-  response:
-    body: '{"properties":{"administratorType":"ActiveDirectory","login":"adminidentity","sid":"02b5f7b2-1278-404e-8631-27edcf69f93b","tenantId":"00000000-0000-0000-0000-000000000000","identityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-ihkvec/providers/Microsoft.ManagedIdentity/userAssignedIdentities/adminidentity"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory","name":"ActiveDirectory","type":"Microsoft.DBforMySQL/flexibleServers/administrators"}'
+    body: '{"properties":{"value":"20","currentValue":"20","description":"The maximum
+      permitted number of simultaneous client connections.","defaultValue":"1365","dataType":"Integer","allowedValues":"10-2731","source":"user-override","isConfigPendingRestart":"False","isDynamicConfig":"True","isReadOnly":"False","documentationLink":"https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_max_connections"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/configurations/max_connections","name":"max_connections","type":"Microsoft.DBforMySQL/flexibleServers/configurations"}'
     headers:
       Cache-Control:
       - no-cache
@@ -1219,7 +1965,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory?api-version=2021-12-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf?api-version=2021-05-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforMySQL/flexibleServers/asotestmljpem''
@@ -1253,7 +1999,41 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/firewallRules/asotestqmmqdf?api-version=2021-05-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/administrators/ActiveDirectory?api-version=2022-01-01
+    method: DELETE
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforMySQL/flexibleServers/asotestmljpem''
+      under resource group ''asotest-rg-ihkvec'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "239"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ihkvec/providers/Microsoft.DBforMySQL/flexibleServers/asotestmljpem/configurations/max_connections?api-version=2022-01-01
     method: DELETE
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DBforMySQL/flexibleServers/asotestmljpem''

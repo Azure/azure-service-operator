@@ -97,14 +97,13 @@ github.com/Azure/azure-service-operator/v2/api/search/v1api20220901
 │       │       ├── "standard3"
 │       │       ├── "storage_optimized_l1"
 │       │       └── "storage_optimized_l2"
-│       ├── Status: *Enum (7 values)
+│       ├── Status: *Enum (6 values)
 │       │   ├── "degraded"
 │       │   ├── "deleting"
 │       │   ├── "disabled"
 │       │   ├── "error"
 │       │   ├── "provisioning"
-│       │   ├── "running"
-│       │   └── "stopped"
+│       │   └── "running"
 │       ├── StatusDetails: *string
 │       ├── Tags: map[string]string
 │       └── Type: *string
@@ -153,14 +152,13 @@ github.com/Azure/azure-service-operator/v2/api/search/v1api20220901
 │   │   ├── ReplicaCount: *int
 │   │   ├── SharedPrivateLinkResources: Object (1 property)[]
 │   │   │   └── Id: *string
-│   │   ├── Status: *Enum (7 values)
+│   │   ├── Status: *Enum (6 values)
 │   │   │   ├── "degraded"
 │   │   │   ├── "deleting"
 │   │   │   ├── "disabled"
 │   │   │   ├── "error"
 │   │   │   ├── "provisioning"
-│   │   │   ├── "running"
-│   │   │   └── "stopped"
+│   │   │   └── "running"
 │   │   └── StatusDetails: *string
 │   ├── Sku: *Object (1 property)
 │   │   └── Name: *Enum (7 values)
