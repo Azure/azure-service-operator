@@ -6,6 +6,8 @@ package customizations
 import (
 	v1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
+	v1api20220901 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901"
+	v1api20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901storage"
 	v20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -19,6 +21,8 @@ func (extension *StorageAccountsManagementPolicyExtension) GetExtendedResources(
 	return []genruntime.KubernetesResource{
 		&v1api20210401.StorageAccountsManagementPolicy{},
 		&v1api20210401s.StorageAccountsManagementPolicy{},
+		&v1api20220901.StorageAccountsManagementPolicy{},
+		&v1api20220901s.StorageAccountsManagementPolicy{},
 		&v20210401.StorageAccountsManagementPolicy{},
 		&v20210401s.StorageAccountsManagementPolicy{}}
 }
