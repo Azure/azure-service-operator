@@ -4,7 +4,6 @@
 package v1beta20210401storage
 
 import (
-	"fmt"
 	v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -45,22 +44,36 @@ var _ conversion.Convertible = &StorageAccountsBlobService{}
 
 // ConvertFrom populates our StorageAccountsBlobService from the provided hub StorageAccountsBlobService
 func (service *StorageAccountsBlobService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v1api20210401s.StorageAccountsBlobService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsBlobService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v1api20210401s.StorageAccountsBlobService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_StorageAccountsBlobService(source)
+	err = service.AssignProperties_From_StorageAccountsBlobService(&source)
+	if err != nil {
+		return errors.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub StorageAccountsBlobService from our StorageAccountsBlobService
 func (service *StorageAccountsBlobService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v1api20210401s.StorageAccountsBlobService)
-	if !ok {
-		return fmt.Errorf("expected storage/v1api20210401storage/StorageAccountsBlobService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v1api20210401s.StorageAccountsBlobService
+	err := service.AssignProperties_To_StorageAccountsBlobService(&destination)
+	if err != nil {
+		return errors.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return errors.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_StorageAccountsBlobService(destination)
+	return nil
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
