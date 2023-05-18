@@ -45,6 +45,10 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 			Name: "AuthorizationRule CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_AuthorizationRule_CRUD(tc, namespace) },
 		},
+		testcommon.Subtest{
+			Name: "NamespaceSecrets CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Namespace_Secrets(tc, namespace) },
+		},
 	)
 
 	tc.DeleteResourceAndWait(namespace)
@@ -70,7 +74,7 @@ func NewServiceBusNamespace(tc *testcommon.KubePerTestContext, rg *resources.Res
 }
 
 func ServiceBus_AuthorizationRule_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
-	authSecret := "authsecret"
+	secretName := "rule-secrets"
 
 	rule := &servicebus.NamespacesAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("rule")),
@@ -83,19 +87,19 @@ func ServiceBus_AuthorizationRule_CRUD(tc *testcommon.KubePerTestContext, sbName
 			OperatorSpec: &servicebus.NamespacesAuthorizationRuleOperatorSpec{
 				Secrets: &servicebus.NamespacesAuthorizationRuleOperatorSecrets{
 					PrimaryKey: &genruntime.SecretDestination{
-						Name: authSecret,
+						Name: secretName,
 						Key:  "PrimaryKey",
 					},
 					PrimaryConnectionString: &genruntime.SecretDestination{
-						Name: authSecret,
+						Name: secretName,
 						Key:  "PrimaryConnectionString",
 					},
 					SecondaryKey: &genruntime.SecretDestination{
-						Name: authSecret,
+						Name: secretName,
 						Key:  "SecondaryKey",
 					},
 					SecondaryConnectionString: &genruntime.SecretDestination{
-						Name: authSecret,
+						Name: secretName,
 						Key:  "SecondaryConnectionString",
 					},
 				},
@@ -108,7 +112,7 @@ func ServiceBus_AuthorizationRule_CRUD(tc *testcommon.KubePerTestContext, sbName
 
 	tc.Expect(rule.Status.Rights).To(HaveLen(2))
 
-	tc.ExpectSecretHasKeys(authSecret, "PrimaryKey", "PrimaryConnectionString", "SecondaryKey", "SecondaryConnectionString")
+	tc.ExpectSecretHasKeys(secretName, "PrimaryKey", "PrimaryConnectionString", "SecondaryKey", "SecondaryConnectionString")
 }
 
 // Topics can only be created in Standard or Premium SKUs
