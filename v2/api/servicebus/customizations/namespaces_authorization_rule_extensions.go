@@ -113,13 +113,13 @@ func authorizationRuleSecretsToWrite(
 			rule.Name)
 	}
 
-	ruleSecrets := rule.Spec.OperatorSpec.Secrets
+	specSecrets := rule.Spec.OperatorSpec.Secrets
 
 	collector := secrets.NewCollector(rule.Namespace)
-	collector.AddValue(ruleSecrets.PrimaryKey, *response.PrimaryKey)
-	collector.AddValue(ruleSecrets.PrimaryConnectionString, *response.PrimaryConnectionString)
-	collector.AddValue(ruleSecrets.SecondaryKey, *response.SecondaryKey)
-	collector.AddValue(ruleSecrets.SecondaryConnectionString, *response.SecondaryConnectionString)
+	collector.AddValue(specSecrets.PrimaryKey, *response.PrimaryKey)
+	collector.AddValue(specSecrets.PrimaryConnectionString, *response.PrimaryConnectionString)
+	collector.AddValue(specSecrets.SecondaryKey, *response.SecondaryKey)
+	collector.AddValue(specSecrets.SecondaryConnectionString, *response.SecondaryConnectionString)
 
 	return collector.Values()
 }
