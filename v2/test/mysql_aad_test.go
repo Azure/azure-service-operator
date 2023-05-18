@@ -16,7 +16,7 @@ import (
 
 	mysqlv1 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1"
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
-	mysqlpreview "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20211201preview"
+	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -85,11 +85,11 @@ func Test_MySQL_AADUser(t *testing.T) {
 		},
 	}
 
-	admin := &mysqlpreview.FlexibleServersAdministrator{
+	admin := &mysql20220101.FlexibleServersAdministrator{
 		ObjectMeta: tc.MakeObjectMeta("aadadmin"),
-		Spec: mysqlpreview.FlexibleServers_Administrator_Spec{
+		Spec: mysql20220101.FlexibleServers_Administrator_Spec{
 			Owner:             testcommon.AsOwner(server),
-			AdministratorType: to.Ptr(mysqlpreview.AdministratorProperties_AdministratorType_ActiveDirectory),
+			AdministratorType: to.Ptr(mysql20220101.AdministratorProperties_AdministratorType_ActiveDirectory),
 			Login:             to.Ptr(identityName),
 			TenantId:          to.Ptr(tc.AzureTenant),
 			Sid:               to.Ptr(identityClientID),
@@ -132,7 +132,7 @@ func MySQL_AADUser_CRUD(
 	tc *testcommon.KubePerTestContext,
 	server *mysql.FlexibleServer,
 	rg *resources.ResourceGroup,
-	admin *mysqlpreview.FlexibleServersAdministrator,
+	admin *mysql20220101.FlexibleServersAdministrator,
 	standardAdminPassword string) {
 
 	configMapName := "my-configmap"
@@ -259,7 +259,7 @@ func MySQL_AADUser_CRUD(
 func MySQL_LocalUser_AADAdmin_CRUD(
 	tc *testcommon.KubePerTestContext,
 	server *mysql.FlexibleServer,
-	admin *mysqlpreview.FlexibleServersAdministrator,
+	admin *mysql20220101.FlexibleServersAdministrator,
 	standardAdminPassword string) {
 
 	passwordKey := "password"
@@ -334,7 +334,7 @@ func MySQL_LocalUser_AADAdmin_CRUD(
 func MySQL_AADUserAndGroup_CRUD(
 	tc *testcommon.KubePerTestContext,
 	server *mysql.FlexibleServer,
-	admin *mysqlpreview.FlexibleServersAdministrator,
+	admin *mysql20220101.FlexibleServersAdministrator,
 	standardAdminPassword string) {
 
 	// Note: when logging in to the DB you still log in with the actual username not the alias.

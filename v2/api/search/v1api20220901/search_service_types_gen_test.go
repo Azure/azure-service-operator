@@ -414,8 +414,7 @@ func AddIndependentPropertyGeneratorsForSearchService_STATUS(gens map[string]gop
 		SearchServiceProperties_Status_STATUS_Disabled,
 		SearchServiceProperties_Status_STATUS_Error,
 		SearchServiceProperties_Status_STATUS_Provisioning,
-		SearchServiceProperties_Status_STATUS_Running,
-		SearchServiceProperties_Status_STATUS_Stopped))
+		SearchServiceProperties_Status_STATUS_Running))
 	gens["StatusDetails"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())

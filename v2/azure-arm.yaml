@@ -63,11 +63,6 @@ typeFilters:
     because: We want to export this particular preview version
 
   - action: include
-    group: dbformysql
-    version: v*20211201preview
-    because: We want to export this particular preview version
-
-  - action: include
     group: insights
     version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
@@ -936,10 +931,10 @@ objectModelConfiguration:
       FlexibleServers_FirewallRule:
         $exportAs: FlexibleServersFirewallRule
         $supportedFrom: v2.0.0-alpha.2
-    2021-12-01-preview:
+    2022-01-01:
       FlexibleServers_Administrator:
         $exportAs: FlexibleServersAdministrator
-        $supportedFrom: v2.0.0
+        $supportedFrom: v2.1.0
       AdministratorProperties:
         IdentityResourceId:
           $armReference: true # TODO: Upstream to Swagger
@@ -947,6 +942,9 @@ objectModelConfiguration:
           $importConfigMapMode: optional
         TenantId:
           $importConfigMapMode: optional
+      FlexibleServers_Configuration:
+        $exportAs: FlexibleServersConfiguration
+        $supportedFrom: v2.1.0
   dbforpostgresql:
     2021-06-01:
       FlexibleServer:
