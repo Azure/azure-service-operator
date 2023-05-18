@@ -106,7 +106,7 @@ jobs:
           AZURE_CLIENT_SECRET_CERT_AUTH: ${{ secrets.AZURE_CLIENT_SECRET_CERT_AUTH }}
 
       # Update check run called "integration-fork"
-      - uses: actions/github-script@v1
+      - uses: actions/github-script@v2
         id: update-check-run
         if: ${{ always() }}
         env:
