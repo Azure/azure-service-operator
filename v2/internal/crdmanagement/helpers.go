@@ -4,6 +4,8 @@
 package crdmanagement
 
 import (
+	"fmt"
+
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 
@@ -31,9 +33,9 @@ func GetNonReadyCRDs(
 		equalityCheck = SpecEqualIgnoreConversionWebhook
 	}
 
-	readyResources := crdManager.FindNonMatchingCRDs(existingCRDs, goalCRDs, equalityCheck)
+	nonReadyResources := crdManager.FindNonMatchingCRDs(existingCRDs, goalCRDs, equalityCheck)
 
-	return readyResources
+	return nonReadyResources
 }
 
 func FilterStorageTypesByReadyCRDs(
@@ -58,7 +60,7 @@ func FilterStorageTypesByReadyCRDs(
 		}
 
 		if skipKinds.Contains(gvk.GroupKind()) {
-			logger.V(0).Info("Skipping reconciliation of resource because CRD needs update", "groupKind", gvk.GroupKind().String())
+			logger.V(0).Info("Skipping reconciliation of resource because CRD was not installed", "groupKind", gvk.GroupKind().String())
 			continue
 		}
 
@@ -88,7 +90,7 @@ func FilterKnownTypesByReadyCRDs(
 			return nil, errors.Wrapf(err, "creating GVK for obj %T", knownType)
 		}
 		if skipKinds.Contains(gvk.GroupKind()) {
-			logger.V(0).Info("Skipping webhooks of resource because CRD needs update", "groupKind", gvk.GroupKind().String())
+			logger.V(0).Info("Skipping webhooks of resource because CRD was not installed", "groupKind", gvk.GroupKind().String())
 			continue
 		}
 
@@ -96,4 +98,12 @@ func FilterKnownTypesByReadyCRDs(
 	}
 
 	return result, nil
+}
+
+func makeMatchString(crd apiextensions.CustomResourceDefinition) string {
+	group := crd.Spec.Group
+	kind := crd.Spec.Names.Kind
+
+	// matchString should be "group/kind"
+	return fmt.Sprintf("%s/%s", group, kind)
 }

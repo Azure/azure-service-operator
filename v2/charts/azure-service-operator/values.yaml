@@ -92,6 +92,25 @@ metrics:
 # the operator will only reconcile that subset if those are the only CRDs it finds when the pod starts.
 installCRDs: true
 
+# crdPattern is a semicolon delimited string containing the CRD patterns for the operator to install.
+# Setting this has no effect if installCRDs is false.
+# This defines what new CRDs will be installed by ASO. Will always upgrade any existing CRDs even if no
+# crdPattern is defined. Leaving this field unspecified for a fresh install of ASO will result in the operator pod
+# exiting with an error saying no CRDs are configured. Leaving this field unspecified during an upgrade of ASO preserves
+# the existing set of CRDs already in the cluster. The existing CRDs will be upgraded to the latest version but no
+# new CRDs will be installed.
+# Values can be globs utilizing * or ?. The pattern is compared against the "{group}/{kind}" string of each CRD.
+# Patterns are case-insensitive.
+# Example: "resources.azure.com/*" would match the "resources.azure.com/ResourceGroup" resource.
+# Example: "compute.azure.com/*" would match all compute CRDs
+# Example: "resources.azure.com/*;compute.azure.com/*" would match all resources.azure.com resources as well as all
+# compute resources.
+# We strongly recommend including entire groups such as "dbformysql.azure.com/*". Individual CRDs such as
+# "dbformysql.azure.com/FlexibleServer" can be listed, but there are often other resources in the group which pair
+# together to enable other scenarios, such as dbformysql.azure.com/FlexibleServersFirewallRules, and it's generally
+# easier to just include the whole group.
+crdPattern: ''
+
 # podAnnotations contain the pod annotations for Azure Service Operator
 podAnnotations: {}
 
