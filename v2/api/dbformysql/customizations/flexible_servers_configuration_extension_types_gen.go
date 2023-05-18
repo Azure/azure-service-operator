@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type FlexibleServersAdministratorExtension struct {
+type FlexibleServersConfigurationExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *FlexibleServersAdministratorExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *FlexibleServersConfigurationExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1api20220101.FlexibleServersAdministrator{},
-		&v1api20220101s.FlexibleServersAdministrator{}}
+		&v1api20220101.FlexibleServersConfiguration{},
+		&v1api20220101s.FlexibleServersConfiguration{}}
 }
