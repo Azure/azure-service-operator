@@ -1,23 +1,12 @@
 apiVersion: servicebus.azure.com/v1api20210101preview
-kind: Namespace
-metadata:
-  name: aso-namespace
-  namespace: default
-spec:
-  location: westcentralus
-  owner:
-    name: aso-sample-rg
-  sku:
-    name: Standard
-  zoneRedundant: false
----
-apiVersion: servicebus.azure.com/v1api20210101preview
 kind: NamespaceAuthorizationRule
 metadata:
   name: aso-namespace-rule
   namespace: default
 spec:
-  rights: [Listen, Send]
+  rights:
+    - Listen
+    - Send
   operatorSpec:
     secrets:
       primaryKey:
