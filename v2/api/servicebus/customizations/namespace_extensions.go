@@ -10,14 +10,17 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	v1 "k8s.io/api/core/v1"
+	"k8s.io/api/core/v1"
+
+	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
+
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
-	servicebus "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20210101previewstorage"
+
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
-	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
