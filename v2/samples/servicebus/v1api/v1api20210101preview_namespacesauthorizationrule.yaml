@@ -4,6 +4,8 @@ metadata:
   name: aso-namespace-rule
   namespace: default
 spec:
+owner:
+  name: aso-namespace
   rights:
     - Listen
     - Send
@@ -21,5 +23,3 @@ spec:
       secondaryConnectionString:
         name: authsecret
         key: secondaryConnectionString
----
-
