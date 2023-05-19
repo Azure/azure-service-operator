@@ -159,28 +159,29 @@ github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501storage
 │       │   ├── LastModifiedByType: *string
 │       │   └── PropertyBag: genruntime.PropertyBag
 │       └── Type: *string
-└── FlexibleServersFirewallRule: Resource
-    ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501.FlexibleServer
-    ├── Spec: Object (6 properties)
-    │   ├── AzureName: string
-    │   ├── EndIpAddress: *string
-    │   ├── OriginalVersion: string
-    │   ├── Owner: *genruntime.KnownResourceReference
-    │   ├── PropertyBag: genruntime.PropertyBag
-    │   └── StartIpAddress: *string
-    └── Status: Object (8 properties)
-        ├── Conditions: conditions.Condition[]
-        ├── EndIpAddress: *string
-        ├── Id: *string
-        ├── Name: *string
-        ├── PropertyBag: genruntime.PropertyBag
-        ├── StartIpAddress: *string
-        ├── SystemData: *Object (7 properties)
-        │   ├── CreatedAt: *string
-        │   ├── CreatedBy: *string
-        │   ├── CreatedByType: *string
-        │   ├── LastModifiedAt: *string
-        │   ├── LastModifiedBy: *string
-        │   ├── LastModifiedByType: *string
-        │   └── PropertyBag: genruntime.PropertyBag
-        └── Type: *string
+├── FlexibleServersFirewallRule: Resource
+│   ├── Owner: github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501.FlexibleServer
+│   ├── Spec: Object (6 properties)
+│   │   ├── AzureName: string
+│   │   ├── EndIpAddress: *string
+│   │   ├── OriginalVersion: string
+│   │   ├── Owner: *genruntime.KnownResourceReference
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── StartIpAddress: *string
+│   └── Status: Object (8 properties)
+│       ├── Conditions: conditions.Condition[]
+│       ├── EndIpAddress: *string
+│       ├── Id: *string
+│       ├── Name: *string
+│       ├── PropertyBag: genruntime.PropertyBag
+│       ├── StartIpAddress: *string
+│       ├── SystemData: *Object (7 properties)
+│       │   ├── CreatedAt: *string
+│       │   ├── CreatedBy: *string
+│       │   ├── CreatedByType: *string
+│       │   ├── LastModifiedAt: *string
+│       │   ├── LastModifiedBy: *string
+│       │   ├── LastModifiedByType: *string
+│       │   └── PropertyBag: genruntime.PropertyBag
+│       └── Type: *string
+└── augmentConversionForSystemData_STATUS: Interface
