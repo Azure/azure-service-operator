@@ -4,8 +4,8 @@ metadata:
   name: aso-namespace-rule
   namespace: default
 spec:
-owner:
-  name: aso-namespace
+  owner:
+    name: aso-namespace
   rights:
     - Listen
     - Send
