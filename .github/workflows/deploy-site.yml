@@ -2,7 +2,7 @@ name: Publish docs site
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   deploy-site:
@@ -15,10 +15,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0 # required to access tags
-          submodules: 'true'
+          submodules: "true"
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v2.1.0 # pinned version
         with:
           registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
           username: ${{ github.actor }}
@@ -52,13 +52,13 @@ jobs:
           echo "container_id=$container_id" >> $GITHUB_ENV
 
       - name: Build & validate docs site
-        run: | 
+        run: |
           container_id=${{ env.container_id }}
           docker exec "$container_id" task check-docs-site-links
           docker exec "$container_id" task build-docs-site
 
       - name: Publish to gh-pages branch
-        uses: JamesIves/github-pages-deploy-action@0f24da7de3e7e135102609a4c9633b025be8411b # this is 4.1.5
+        uses: JamesIves/github-pages-deploy-action@v4.4.1 # pinned version
         with:
           branch: gh-pages
           token: ${{ secrets.GH_PAT }}
