@@ -1,0 +1,44 @@
+apiVersion: devices.azure.com/v1api20210702
+kind: IotHub
+metadata:
+  name: aso-sample-iothub
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  sku:
+    capacity: 5
+    name: B1
+  operatorSpec:
+    secrets:
+      devicePrimaryKey:
+        key: devicePrimaryKey
+        name: iothubkeyssecret
+      deviceSecondaryKey:
+        key: deviceSecondaryKey
+        name: iothubkeyssecret
+      iotHubOwnerPrimaryKey:
+        key: iotHubOwnerPrimaryKey
+        name: iothubkeyssecret
+      iotHubOwnerSecondaryKey:
+        key: iotHubOwnerSecondaryKey
+        name: iothubkeyssecret
+      registryReadPrimaryKey:
+        key: registryReadPrimaryKey
+        name: iothubkeyssecret
+      registryReadSecondaryKey:
+        key: registryReadSecondaryKey
+        name: iothubkeyssecret
+      registryReadWritePrimaryKey:
+        key: registryReadWritePrimaryKey
+        name: iothubkeyssecret
+      registryReadWriteSecondaryKey:
+        key: registryReadWriteSecondaryKey
+        name: iothubkeyssecret
+      servicePrimaryKey:
+        key: servicePrimaryKey
+        name: iothubkeyssecret
+      serviceSecondaryKey:
+        key: serviceSecondaryKey
+        name: iothubkeyssecret

@@ -93,6 +93,9 @@ import (
 	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601storage"
 	dbforpostgresql_v20220120p "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120preview"
 	dbforpostgresql_v20220120ps "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20220120previewstorage"
+	devices_customizations "github.com/Azure/azure-service-operator/v2/api/devices/customizations"
+	devices_v1api20210702 "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702"
+	devices_v1api20210702s "github.com/Azure/azure-service-operator/v2/api/devices/v1api20210702storage"
 	documentdb_customizations "github.com/Azure/azure-service-operator/v2/api/documentdb/customizations"
 	documentdb_v1api20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515"
 	documentdb_v1api20210515s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20210515storage"
@@ -370,6 +373,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersConfiguration)})
 	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(dbforpostgresql_v1api20210601s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(devices_v1api20210702s.IotHub)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v1api20210515s.DatabaseAccount)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v1api20210515s.MongodbDatabase)})
 	result = append(result, &registration.StorageType{Obj: new(documentdb_v1api20210515s.MongodbDatabaseCollection)})
@@ -932,6 +936,8 @@ func getKnownTypes() []client.Object {
 		new(dbforpostgresql_v20220120ps.FlexibleServersConfiguration),
 		new(dbforpostgresql_v20220120ps.FlexibleServersDatabase),
 		new(dbforpostgresql_v20220120ps.FlexibleServersFirewallRule))
+	result = append(result, new(devices_v1api20210702.IotHub))
+	result = append(result, new(devices_v1api20210702s.IotHub))
 	result = append(
 		result,
 		new(documentdb_v1api20210515.DatabaseAccount),
@@ -1439,6 +1445,8 @@ func createScheme() *runtime.Scheme {
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120ps.AddToScheme(scheme)
+	_ = devices_v1api20210702.AddToScheme(scheme)
+	_ = devices_v1api20210702s.AddToScheme(scheme)
 	_ = documentdb_v1api20210515.AddToScheme(scheme)
 	_ = documentdb_v1api20210515s.AddToScheme(scheme)
 	_ = documentdb_v20210515.AddToScheme(scheme)
@@ -1564,6 +1572,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersConfigurationExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersFirewallRuleExtension{})
+	result = append(result, &devices_customizations.IotHubExtension{})
 	result = append(result, &documentdb_customizations.DatabaseAccountExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseCollectionExtension{})
 	result = append(result, &documentdb_customizations.MongodbDatabaseCollectionThroughputSettingExtension{})
