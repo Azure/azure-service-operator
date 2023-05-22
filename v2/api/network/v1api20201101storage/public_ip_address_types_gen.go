@@ -458,6 +458,15 @@ type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// Storage version of v1api20201101.SubResource
+// Reference to another subresource.
+type SubResource struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
 type augmentConversionForIpTag interface {
 	AssignPropertiesFrom(src *v1api20220701s.IpTag) error
 	AssignPropertiesTo(dst *v1api20220701s.IpTag) error

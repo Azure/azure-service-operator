@@ -335,6 +335,13 @@ type PrivateLinkServiceSpec struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// Storage version of v1api20201101.SubResource_STATUS
+// Reference to another subresource.
+type SubResource_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1api20201101.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
 // Backend Address Pool of an application gateway.
 type ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded struct {

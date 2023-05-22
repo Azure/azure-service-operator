@@ -8530,6 +8530,25 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties
 	return nil
 }
 
+// The transport protocol for the endpoint.
+// +kubebuilder:validation:Enum={"All","Tcp","Udp"}
+type TransportProtocol string
+
+const (
+	TransportProtocol_All = TransportProtocol("All")
+	TransportProtocol_Tcp = TransportProtocol("Tcp")
+	TransportProtocol_Udp = TransportProtocol("Udp")
+)
+
+// The transport protocol for the endpoint.
+type TransportProtocol_STATUS string
+
+const (
+	TransportProtocol_STATUS_All = TransportProtocol_STATUS("All")
+	TransportProtocol_STATUS_Tcp = TransportProtocol_STATUS("Tcp")
+	TransportProtocol_STATUS_Udp = TransportProtocol_STATUS("Udp")
+)
+
 func init() {
 	SchemeBuilder.Register(&LoadBalancer{}, &LoadBalancerList{})
 }
