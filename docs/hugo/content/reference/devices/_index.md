@@ -3,7 +3,6 @@ title: Devices Supported Resources
 linktitle: Devices
 no_list: true
 ---
-
 Supporting 1 resource: IotHub
 
 | Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                               |
