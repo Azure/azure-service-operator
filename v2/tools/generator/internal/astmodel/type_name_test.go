@@ -109,7 +109,7 @@ func TestSortTypeName(t *testing.T) {
 		{
 			left:     MakeTypeName(pkgv3, "TypeA"),
 			right:    MakeTypeName(pkgv2, "TypeB"),
-			expected: true,
+			expected: false,
 		},
 		{
 			left:     MakeTypeName(pkgv2, "TypeA"),
@@ -119,12 +119,12 @@ func TestSortTypeName(t *testing.T) {
 		{
 			left:     MakeTypeName(pkgv2, "TypeB"),
 			right:    MakeTypeName(pkgv2, "TypeB"),
-			expected: true,
+			expected: false,
 		},
 		{
 			left:     MakeTypeName(pkgv2, "TypeA"),
 			right:    MakeTypeName(pkgv2, "TypeA"),
-			expected: true,
+			expected: false,
 		},
 	}
 
