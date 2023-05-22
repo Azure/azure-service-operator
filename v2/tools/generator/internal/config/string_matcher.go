@@ -14,7 +14,7 @@ import (
 // o If the string contains '*' or '?' a globbing wildcard matcher
 // o Otherwise a case-insensitive literal string matcher
 func NewStringMatcher(matcher string) match.StringMatcher {
-	m, err := match.NewStringMultiMatcher(matcher)
+	m, err := match.NewStringMatcher(matcher)
 	if err != nil {
 		panic(err)
 	}

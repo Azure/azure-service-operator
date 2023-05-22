@@ -23,25 +23,17 @@ type StringMatcher interface {
 
 // NewStringMatcher returns a matcher for the specified string
 // Different strings may return different implementations:
+// o If the string contains ';', a multi-matcher of sub-matches, one for each item in the string separated by ';'
 // o If the string contains '*' or '?' a globbing wildcard matcher
 // o Otherwise a case-insensitive literal string matcher
 func NewStringMatcher(matcher string) (StringMatcher, error) {
+	if HasMultipleMatchers(matcher) {
+		return newMultiMatcher(matcher)
+	}
+
 	if HasWildCards(matcher) {
 		return newGlobMatcher(matcher)
 	}
 
 	return newLiteralMatcher(matcher), nil
-}
-
-// NewStringMultiMatcher returns a matcher for the specified string
-// Different strings may return different implementations:
-// o If the string contains ';', a multi-matcher of sub-matches, one for each item in the string separated by ';'
-// o If the string contains '*' or '?' a globbing wildcard matcher
-// o Otherwise a case-insensitive literal string matcher
-func NewStringMultiMatcher(matcher string) (StringMatcher, error) {
-	if HasMultipleMatchers(matcher) {
-		return newMultiMatcher(matcher)
-	}
-
-	return NewStringMatcher(matcher)
 }

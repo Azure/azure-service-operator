@@ -18,7 +18,7 @@ type FieldMatcher struct {
 var _ StringMatcher = &FieldMatcher{}
 
 func NewFieldMatcher(field string) (FieldMatcher, error) {
-	matcher, err := NewStringMultiMatcher(field)
+	matcher, err := NewStringMatcher(field)
 	if err != nil {
 		return FieldMatcher{}, err
 	}
@@ -67,7 +67,7 @@ func (dm *FieldMatcher) UnmarshalYAML(value *yaml.Node) error {
 		return errors.New("expected scalar value")
 	}
 
-	actual, err := NewStringMultiMatcher(value.Value)
+	actual, err := NewStringMatcher(value.Value)
 	if err != nil {
 		return err
 	}
