@@ -22,7 +22,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
-// Attention: A lot of code in this file is very similar to the logic in load_balancer_extensions.go and route_table_extensions.go.
+// Attention: A lot of code in this file is very similar to the logic in virtual_network_extensions.go.
 // The two should be kept in sync as much as possible.
 
 var _ extensions.ARMResourceModifier = &VirtualNetworkExtension{}
