@@ -2,3 +2,4 @@ public/*
 !public/.nojekyll
 resources/_gen/
 tmp/
+node_modules
