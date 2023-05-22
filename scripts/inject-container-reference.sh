@@ -2,8 +2,8 @@
 set -euo pipefail
 
 container_reference="$1"
-now="$(date --rfc-3339=seconds)"
-cluster_version_file="bundle/manifests/azure-service-operator.clusterserviceversion.yaml"
+cluster_version_file=$2
+now="$(date -u)"
 
 # Replace the controller:latest reference in the deployment (embedded
 # in the CSV) with the SHA one.

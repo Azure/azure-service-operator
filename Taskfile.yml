@@ -990,3 +990,27 @@ tasks:
     dir: v2/tools/mangle-test-json
     cmds:
     - go build
+
+  generate-operator-bundle:
+    desc: Generates an operator bundle for ASOv2
+    deps: [ controller:generate-kustomize ]
+    cmds:
+      - ./scripts/gen-operatorbundle-samples-manifest.sh ./v2/samples ./v2/config/samples
+      - rm -rf "bundle/manifests"
+      - kustomize build "{{.CONTROLLER_OUTPUT}}/operator-bundle" | operator-sdk generate bundle --version "{{.VERSION_TAG}}" --channels stable --default-channel stable --overwrite --kustomize-dir "{{.CONTROLLER_OUTPUT}}/operator-bundle"
+        # Remove the webhook service - OLM will create one when installing
+        # the bundle.
+      - rm bundle/manifests/azureserviceoperator-webhook-service_v1_service.yaml
+        # Inject the container reference into the bundle.
+      - scripts/inject-container-reference.sh "{{.PUBLIC_REGISTRY}}:{{.CONTROLLER_DOCKER_IMAGE}}" "bundle/manifests/azure-service-operator.clusterserviceversion.yaml"
+        # Update webhooks to use operator namespace and remove
+        # cert-manager annotations.
+      - scripts/update-webhook-references-in-operator-bundle.sh
+        # Include the replaces field with the old version. TODO: Un-comment this once we're building 2.1.0 operator
+#      - yq eval -i ".spec.replaces = \"azure-service-operator.{{.PREVIOUS_VERSION}}\"" bundle/manifests/azure-service-operator.clusterserviceversion.yaml
+        # Rename the csv to simplify adding to the community-operators repo for a PR
+      - yq eval -i '(.metadata.labels[] | select(. == "${VERSION}")) = "{{.LATEST_VERSION_TAG}}"' ./bundle/manifests/*
+      - mv bundle/manifests/azure-service-operator.clusterserviceversion.yaml bundle/manifests/azure-service-operator.{{.VERSION_TAG}}.clusterserviceversion.yaml
+    vars:
+      VERSION_TAG:
+        sh: echo {{.LATEST_VERSION_TAG}} | sed 's/^.//' # opertator-sdk does not allow the version tag to be in a v2.0.0 format, so we have to trim it here to be in a 2.0.0 format.
