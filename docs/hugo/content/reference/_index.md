@@ -191,6 +191,14 @@ Supporting 4 resources: FlexibleServer, FlexibleServersConfiguration, FlexibleSe
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20220120preview/#dbforpostgresql.azure.com/v1beta20220120preview.FlexibleServersFirewallRule)   | 2022-01-20-preview | v1beta20220120preview | v2.0.0-beta.4  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20220120preview/v1beta20220120preview_flexibleserversfirewallrule.yaml)  |
 | [FlexibleServersFirewallRule](https://azure.github.io/azure-service-operator/reference/dbforpostgresql/v1beta20210601/#dbforpostgresql.azure.com/v1beta20210601.FlexibleServersFirewallRule)                 | 2021-06-01         | v1beta20210601        | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbforpostgresql/v1beta20210601/v1beta20210601_flexibleserversfirewallrule.yaml)                |
 
+## Devices
+
+Supporting 1 resource: IotHub
+
+| Resource | ARM Version | CRD Version   | Supported From | Sample                                                                                                               |
+|----------|-------------|---------------|----------------|----------------------------------------------------------------------------------------------------------------------|
+| IotHub   | 2021-07-02  | v1api20210702 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/devices/v1api/v1api20210702_iothub.yaml) |
+
 ## DocumentDB
 
 Supporting 13 resources: DatabaseAccount, MongodbDatabase, MongodbDatabaseCollection, MongodbDatabaseCollectionThroughputSetting, MongodbDatabaseThroughputSetting, SqlDatabase, SqlDatabaseContainer, SqlDatabaseContainerStoredProcedure, SqlDatabaseContainerThroughputSetting, SqlDatabaseContainerTrigger, SqlDatabaseContainerUserDefinedFunction, SqlDatabaseThroughputSetting, SqlRoleAssignment
