@@ -986,6 +986,34 @@ objectModelConfiguration:
           $armReference: true
         PrivateDnsZoneArmResourceId:
           $armReference: true
+  devices:
+    2021-07-02:
+      IotHub:
+        $export: true
+        $supportedFrom: v2.1.0
+        $azureGeneratedSecrets:
+          - ServicePrimaryKey
+          - ServiceSecondaryKey
+          - IotHubOwnerPrimaryKey
+          - IotHubOwnerSecondaryKey
+          - DevicePrimaryKey
+          - DeviceSecondaryKey
+          - RegistryReadPrimaryKey
+          - RegistryReadSecondaryKey
+          - RegistryReadWritePrimaryKey
+          - RegistryReadWriteSecondaryKey
+      RoutingServiceBusQueueEndpointProperties:
+        Id:
+          $armReference: true
+      RoutingEventHubProperties:
+        Id:
+          $armReference: true
+      RoutingServiceBusTopicEndpointProperties:
+        Id:
+          $armReference: true
+      RoutingStorageContainerProperties:
+        Id:
+          $armReference: true
   documentdb:
     2021-05-15:
       DatabaseAccount:
