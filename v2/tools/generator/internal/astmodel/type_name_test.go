@@ -88,52 +88,12 @@ func TestTypeName_IsEmpty(t *testing.T) {
 	g.Expect(name.IsEmpty()).To(BeFalse())
 }
 
-type mockPackageReference struct {
-	packagePath string
-}
-
-func (m mockPackageReference) PackageName() string {
-	// Implement PackageName method as needed
-	return ""
-}
-
-func (m mockPackageReference) PackagePath() string {
-	return m.packagePath
-}
-
-func (m mockPackageReference) Equals(ref PackageReference) bool {
-	// Implement Equals method as needed
-	return m.packagePath == ref.PackagePath()
-}
-
-func (m mockPackageReference) String() string {
-	// Implement String method as needed
-	return ""
-}
-
-func (m mockPackageReference) IsPreview() bool {
-	// Implement IsPreview method as needed
-	return false
-}
-
-func (m mockPackageReference) TryGroupVersion() (string, string, bool) {
-	// Implement TryGroupVersion method as needed
-	return "", "", false
-}
-
-func (m mockPackageReference) GroupVersion() (string, string) {
-	// Implement GroupVersion method as needed
-	return "", ""
-}
-
 func TestSortTypeName(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	// Helper function to create PackageReference
-	makePackageReference := func(packagePath string) PackageReference {
-		return mockPackageReference{packagePath: packagePath}
-	}
+	pkgv2 := makeTestLocalPackageReference("crm", "v2")
+	pkgv3 := makeTestLocalPackageReference("crm", "v3")
 
 	// Test cases
 	testCases := []struct {
@@ -142,59 +102,29 @@ func TestSortTypeName(t *testing.T) {
 		expected bool
 	}{
 		{
-			left: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v2"),
-				name:             "TypeA",
-			},
-			right: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v3"),
-				name:             "TypeB",
-			},
+			left:     MakeTypeName(pkgv2, "TypeA"),
+			right:    MakeTypeName(pkgv3, "TypeB"),
 			expected: true,
 		},
 		{
-			left: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v3"),
-				name:             "TypeA",
-			},
-			right: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v2"),
-				name:             "TypeB",
-			},
-			expected: false,
-		},
-		{
-			left: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v2"),
-				name:             "TypeA",
-			},
-			right: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v2"),
-				name:             "TypeB",
-			},
+			left:     MakeTypeName(pkgv3, "TypeA"),
+			right:    MakeTypeName(pkgv2, "TypeB"),
 			expected: true,
 		},
 		{
-			left: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v2"),
-				name:             "TypeB",
-			},
-			right: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v2"),
-				name:             "TypeA",
-			},
-			expected: false,
+			left:     MakeTypeName(pkgv2, "TypeA"),
+			right:    MakeTypeName(pkgv2, "TypeB"),
+			expected: true,
 		},
 		{
-			left: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v2"),
-				name:             "TypeA",
-			},
-			right: TypeName{
-				PackageReference: makePackageReference("github.com/Azure/azure-service-operator/v2"),
-				name:             "TypeA",
-			},
-			expected: false,
+			left:     MakeTypeName(pkgv2, "TypeB"),
+			right:    MakeTypeName(pkgv2, "TypeB"),
+			expected: true,
+		},
+		{
+			left:     MakeTypeName(pkgv2, "TypeA"),
+			right:    MakeTypeName(pkgv2, "TypeA"),
+			expected: true,
 		},
 	}
 
