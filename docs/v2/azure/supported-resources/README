@@ -1,3 +1,11 @@
-This folder contains documentation fragments for injection into the report listing the versions of supported resources.
+This folder contains documentation fragments for injection into reports listing the versions of supported resources.
 
-Each file should be named for the *group* of the resources, and will be injected after the heading for the group, and before the list of resources.
+File names must match one of the following conventions. Extra files will result in an error from the generator.
+
+`<group>.md` - Additional information to show for the entire group. This will be injected after the heading for the group, and before the list of resources.
+
+`<group>-prerelease.md` - Shown before the list of unreleased resources for that group. If not found, `prerelease.md` will be used instead.
+
+`<group>-released.md` - Shown before the list of released resources for that group. If not found, `released.md` will be used instead.
+
+`<group>-deprecated.md` - Shown before the list of deprecated resources for that group. If not found, `deprecated.md` will be used instead.
