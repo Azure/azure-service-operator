@@ -21,6 +21,10 @@ spec:
       - SELECT
   localUser:
     serverAdminUsername: admin
+    # serverAdminPassword is optional. If NOT specified, the operator uses its identity to log into the server.
+    # The operator can only successfully log into the server if its identity is the administrator of the server or
+    # if its identity is a member of a group which is the administrator of the server or if its identity is a member of a
+    # group which is the administrator of the server.
     serverAdminPassword:
       name: server-admin-pw
       key: password

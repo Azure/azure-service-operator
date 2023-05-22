@@ -4,7 +4,6 @@ metadata:
   name: samplemysql-fwrule
   namespace: default
 spec:
-  location: eastus
   owner:
     name: samplemysql
   startIpAddress: 1.2.3.4

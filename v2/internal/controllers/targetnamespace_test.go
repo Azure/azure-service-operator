@@ -20,9 +20,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/generic"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-const finalizerName = generic.GenericReconcilerFinalizer
+const finalizerName = genruntime.ReconcilerFinalizer
 
 func TestTargetNamespaces(t *testing.T) {
 	t.Parallel()

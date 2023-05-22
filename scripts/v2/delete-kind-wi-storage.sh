@@ -42,11 +42,18 @@ if [[ -z "$EXISTS" ]]; then
   exit 0
 fi
 
+if [ -f "$DIR/azure/fic.txt" ]; then
+  # Need to manually delete the identity FIC
+  FIC=$(cat $DIR/azure/fic.txt)
+  if [[ ! -z "${AZURE_IDENTITY_NAME:-}" ]]; then
+    az identity federated-credential delete --resource-group "${AZURE_IDENTITY_RG}" --identity-name ${AZURE_IDENTITY_NAME} --name ${FIC} -y
+  fi
+fi
+
 if [ $(az group exists --name ${RESOURCE_GROUP}) = true ]; then
   echo "Deleting resourceGroup: ${RESOURCE_GROUP}"
   az group delete --name ${RESOURCE_GROUP} -y
   echo "Done deleting resourceGroup: ${RESOURCE_GROUP}"
-
-  rm -rf "${DIR}/azure"
 fi
 
+rm -rf "${DIR}/azure"
