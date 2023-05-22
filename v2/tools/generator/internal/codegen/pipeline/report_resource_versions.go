@@ -257,19 +257,10 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 			buffer.WriteString("\n\n")
 		}
 
-		summary := report.createSummary(kinds)
-
-		buffer.WriteString(summary)
-		buffer.WriteString("\n\n")
-
-		table, err := report.createTable(grp, kinds)
+		err := report.writeGroupSections(grp, kinds, buffer)
 		if err != nil {
-			errs = append(errs, err)
-			continue
+			errs = append(errs, err) // Don't need to wrap, will already specify the group
 		}
-
-		table.WriteTo(buffer)
-		buffer.WriteString("\n")
 	}
 
 	// Check to see whether all fragments were used
@@ -307,10 +298,105 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 		buffer.WriteString("\n\n")
 	}
 
-	summary := report.createSummary(kinds)
+	return report.writeGroupSections(group, kinds, buffer)
+}
 
-	buffer.WriteString(summary)
+func (report *ResourceVersionsReport) writeGroupSections(
+	group string,
+	kinds astmodel.TypeDefinitionSet,
+	buffer *strings.Builder,
+) error {
+	// By default, we treat everything as released
+	releasedResources := kinds
+
+	// Pull out any deprecated resources
+	deprecatedResources := releasedResources.Where(report.isDeprecatedResource)
+	releasedResources = releasedResources.Except(deprecatedResources)
+
+	// Pull out any prerelease resources
+	prereleaseResources := releasedResources.Where(report.isUnreleasedResource)
+	releasedResources = releasedResources.Except(prereleaseResources)
+
+	// First list prerelease reources, if any
+	if len(prereleaseResources) > 0 {
+		err := report.writeSection(
+			group,
+			"prerelease",
+			"### Next Release",
+			prereleaseResources,
+			buffer)
+		if err != nil {
+			return errors.Wrapf(err, "writing prerelease resources for group %s", group)
+		}
+	}
+
+	if len(releasedResources) > 0 {
+		err := report.writeSection(
+			group,
+			"released",
+			"### Released",
+			releasedResources,
+			buffer)
+		if err != nil {
+			return errors.Wrapf(err, "writing released resources for group %s", group)
+		}
+	}
+
+	if len(deprecatedResources) > 0 {
+		err := report.writeSection(
+			group,
+			"deprecated",
+			"### Deprecated",
+			deprecatedResources,
+			buffer)
+		if err != nil {
+			return errors.Wrapf(err, "writing deprecated resources for group %s", group)
+		}
+	}
+
+	return nil
+}
+
+// isUnreleasedResource returns true if the type definition is for an unreleased resource
+func (report *ResourceVersionsReport) isUnreleasedResource(def astmodel.TypeDefinition) bool {
+	supportedFrom := report.supportedFrom(def.Name())
+	latestRelease := report.reportConfiguration.LatestRelease
+
+	if supportedFrom == latestRelease {
+		return false
+	}
+
+	result := astmodel.ComparePathAndVersion(supportedFrom, latestRelease)
+	return !result
+}
+
+// isDeprecatedResource returns true if the type definition is for a deprecated resource
+func (report *ResourceVersionsReport) isDeprecatedResource(def astmodel.TypeDefinition) bool {
+	_, ver := def.Name().PackageReference.GroupVersion()
+	result := !strings.HasPrefix(ver, astmodel.GeneratorVersion)
+	return result
+}
+
+// writeSection writes a section to the buffer, consisting of a header, description, and a table listing resources.
+func (report *ResourceVersionsReport) writeSection(
+	group string,
+	id string,
+	heading string,
+	kinds astmodel.TypeDefinitionSet,
+	buffer *strings.Builder,
+) error {
+	buffer.WriteString(heading)
 	buffer.WriteString("\n\n")
+
+	// Find description, using a group-specific one if available
+	description, ok := report.findFragment(fmt.Sprintf("%s-%s", group, id))
+	if !ok {
+		description, ok = report.findFragment(id)
+	}
+	if ok {
+		buffer.WriteString(description)
+		buffer.WriteString("\n\n")
+	}
 
 	table, err := report.createTable(group, kinds)
 	if err != nil {
@@ -321,28 +407,6 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 	buffer.WriteString("\n")
 
 	return nil
-}
-
-func (report *ResourceVersionsReport) createSummary(
-	resources astmodel.TypeDefinitionSet,
-) string {
-	// names is a set of the distinct resources
-	names := set.Make[string]()
-
-	for _, rsrc := range resources {
-		name := rsrc.Name()
-		names.Add(name.Name())
-	}
-
-	countDescription := fmt.Sprintf("Supporting %d resources", len(names))
-	if len(names) == 1 {
-		countDescription = "Supporting 1 resource"
-	}
-
-	return fmt.Sprintf(
-		"%s: %s",
-		countDescription,
-		strings.Join(set.AsSortedSlice(names), ", "))
 }
 
 func (report *ResourceVersionsReport) createTable(
@@ -392,7 +456,7 @@ func (report *ResourceVersionsReport) createTable(
 
 		api := report.generateApiLink(rsrc)
 		sample := report.generateSampleLink(rsrc, sampleLinks)
-		supportedFrom := report.generateSupportedFrom(rsrc.Name())
+		supportedFrom := report.supportedFrom(rsrc.Name())
 
 		result.AddRow(
 			api,
@@ -499,7 +563,7 @@ func (report *ResourceVersionsReport) generateSampleLink(rsrc astmodel.TypeDefin
 	return "-"
 }
 
-func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.TypeName) string {
+func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.TypeName) string {
 	supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(typeName)
 	if err != nil {
 		return "" // Leave it blank
