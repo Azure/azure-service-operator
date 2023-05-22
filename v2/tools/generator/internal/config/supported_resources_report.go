@@ -22,6 +22,8 @@ type SupportedResourcesReport struct {
 	// ResourcePathTemplate is a template used for generating a file path for checking whether docs for a resource have been generated
 	// specified relative to the directory of outputPath
 	ResourcePathTemplate string `yaml:"resourcePathTemplate"`
+	// LatestRelease is the version of the current release. Newer resources will be shown in a separate section.
+	LatestRelease string `yaml:"latestRelease"`
 }
 
 // NewSupportedResourcesReport creates a new SupportedResourcesReport.
