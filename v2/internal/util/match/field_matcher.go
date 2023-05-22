@@ -38,12 +38,17 @@ func (dm *FieldMatcher) String() string {
 }
 
 func (dm *FieldMatcher) Matches(value string) bool {
+	matches, _ := dm.MatchesDetailed(value)
+	return matches
+}
+
+func (dm *FieldMatcher) MatchesDetailed(value string) (bool, string) {
 	if dm.actual == nil {
 		// No nested matcher
-		return true
+		return true, ""
 	}
 
-	return dm.actual.Matches(value)
+	return dm.actual.MatchesDetailed(value)
 }
 
 func (dm *FieldMatcher) WasMatched() error {

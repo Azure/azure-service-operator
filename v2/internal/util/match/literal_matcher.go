@@ -28,8 +28,15 @@ func newLiteralMatcher(literal string) StringMatcher {
 	}
 }
 
-// Matches returns true if the passed value is a case-insensitive match with our configured literal
 func (lm *literalMatcher) Matches(value string) bool {
+	matches, _ := lm.MatchesDetailed(value)
+	return matches
+}
+
+// MatchesDetailed returns true if the provided value is matched by the matcher
+// If there was a match, the second return value contains the pattern that matched.
+// If there was not a match, the second return value contains ""
+func (lm *literalMatcher) MatchesDetailed(value string) (bool, string) {
 	if strings.EqualFold(lm.literal, strings.TrimSpace(value)) {
 		if !lm.matched {
 			// First time we match, clear out our advisory as we won't be using it
@@ -37,7 +44,7 @@ func (lm *literalMatcher) Matches(value string) bool {
 			lm.advisor.ClearTerms()
 		}
 
-		return true
+		return true, lm.literal
 	}
 
 	if !lm.matched {
@@ -45,7 +52,7 @@ func (lm *literalMatcher) Matches(value string) bool {
 		lm.advisor.AddTerm(value)
 	}
 
-	return false
+	return false, ""
 }
 
 // WasMatched returns an error if we didn't match anything, nil otherwise

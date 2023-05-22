@@ -15,8 +15,9 @@ func TestMultiMatcher_GivenDefinition_MatchesExpectedStrings(t *testing.T) {
 	t.Parallel()
 
 	type expectation struct {
-		value string
-		match bool
+		value          string
+		match          bool
+		expectedDetail string
 	}
 
 	cases := []struct {
@@ -28,28 +29,28 @@ func TestMultiMatcher_GivenDefinition_MatchesExpectedStrings(t *testing.T) {
 			"Literal matches match all literals",
 			"foo;bar;baz",
 			[]expectation{
-				{"foo", true},
-				{"bar", true},
-				{"baz", true},
-				{"zoo", false},
-				{"Foo", true},
-				{"Bar", true},
-				{"Baz", true},
-				{"Zoo", false},
+				{"foo", true, "foo"},
+				{"bar", true, "bar"},
+				{"baz", true, "baz"},
+				{"zoo", false, ""},
+				{"Foo", true, "foo"},
+				{"Bar", true, "bar"},
+				{"Baz", true, "baz"},
+				{"Zoo", false, ""},
 			},
 		},
 		{
 			"Wildcard matches match different things",
 			"f*;Ba*",
 			[]expectation{
-				{"foo", true},
-				{"bar", true},
-				{"baz", true},
-				{"zoo", false},
-				{"Foo", true},
-				{"Bar", true},
-				{"Baz", true},
-				{"Zoo", false},
+				{"foo", true, "f*"},
+				{"bar", true, "Ba*"},
+				{"baz", true, "Ba*"},
+				{"zoo", false, ""},
+				{"Foo", true, "f*"},
+				{"Bar", true, "Ba*"},
+				{"Baz", true, "Ba*"},
+				{"Zoo", false, ""},
 			},
 		},
 	}
@@ -63,7 +64,9 @@ func TestMultiMatcher_GivenDefinition_MatchesExpectedStrings(t *testing.T) {
 			m, err := newMultiMatcher(c.definition)
 			g.Expect(err).ToNot(HaveOccurred())
 			for _, e := range c.expected {
-				g.Expect(m.Matches(e.value)).To(Equal(e.match))
+				matches, detail := m.MatchesDetailed(e.value)
+				g.Expect(matches).To(Equal(e.match))
+				g.Expect(detail).To(Equal(e.expectedDetail))
 			}
 		})
 	}
@@ -82,13 +85,14 @@ func TestMultiMatcher_DoesNotShortCircuit(t *testing.T) {
 	 */
 
 	cases := []struct {
-		name       string
-		definition string
-		probe      string
+		name          string
+		definition    string
+		probe         string
+		expectedMatch string
 	}{
-		{"Similar literals", "foo;Foo", "foo"},
-		{"Similar globs", "T*;*T", "that"},
-		{"Mixed types", "B*;Ba?;baz", "baz"},
+		{"Similar literals", "foo;Foo", "foo", "foo"},
+		{"Similar globs", "T*;*T", "that", "T*"},
+		{"Mixed types", "B*;Ba?;baz", "baz", "B*"},
 	}
 
 	for _, c := range cases {
@@ -100,7 +104,10 @@ func TestMultiMatcher_DoesNotShortCircuit(t *testing.T) {
 			m, err := newMultiMatcher(c.definition)
 			g.Expect(err).ToNot(HaveOccurred())
 
-			g.Expect(m.Matches(c.probe)).To(BeTrue())
+			matches, detail := m.MatchesDetailed(c.probe)
+			g.Expect(matches).To(BeTrue())
+			g.Expect(detail).To(Equal(c.expectedMatch))
+
 			castMatches := m.(*multiMatcher)
 			for _, nested := range castMatches.matchers {
 				g.Expect(nested.WasMatched()).To(BeNil())

@@ -44,7 +44,12 @@ func newGlobMatcher(glob string) (StringMatcher, error) {
 	}, nil
 }
 
-func (gm *globMatcher) Matches(term string) bool {
+func (gm *globMatcher) Matches(value string) bool {
+	matches, _ := gm.MatchesDetailed(value)
+	return matches
+}
+
+func (gm *globMatcher) MatchesDetailed(term string) (bool, string) {
 	if gm.regex.MatchString(term) {
 		if !gm.matched {
 			// First time we match, clear out our candidates as we won't be needing them
@@ -52,7 +57,7 @@ func (gm *globMatcher) Matches(term string) bool {
 			gm.candidates.Clear()
 		}
 
-		return true
+		return true, gm.glob
 	}
 
 	if !gm.matched {
@@ -60,7 +65,7 @@ func (gm *globMatcher) Matches(term string) bool {
 		gm.candidates.Add(term)
 	}
 
-	return false
+	return false, ""
 }
 
 func (gm *globMatcher) WasMatched() error {

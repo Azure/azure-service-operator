@@ -15,6 +15,10 @@ type StringMatcher interface {
 
 	// Matches returns true if the provided value is matched by the matcher
 	Matches(value string) bool
+	// MatchesDetailed returns true if the provided value is matched by the matcher
+	// If there was a match, the second return value contains the pattern that matched.
+	// If there was not a match, the second return value contains ""
+	MatchesDetailed(value string) (bool, string)
 	// WasMatched returns nil if the matcher had a match, otherwise returning a diagnostic error
 	WasMatched() error
 	// IsRestrictive returns true if the matcher is populated and will restrict matches
